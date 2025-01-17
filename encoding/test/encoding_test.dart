@@ -156,4 +156,12 @@ void main() {
       expect(hexToAscii(hexString), equals(expected));
     });
   });
+
+  group("base64StringToBase64UrlEncodedString", () {
+    test('Converts base64 to base64 URL-safe format', () {
+      final input = 'aGVsbG8rYmFzZTY0/==';
+      final output = base64StringToBase64UrlEncodedString(input);
+      expect(output, equals('aGVsbG8rYmFzZTY0_'));
+    });
+  });
 }

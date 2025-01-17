@@ -114,3 +114,16 @@ String hexToAscii(String hexString) {
 
   return buffer.toString();
 }
+
+/// Converts a base64-encoded string to a base64 URL-encoded string.
+///
+/// This function replaces `+` with `-`, `/` with `_`, and removes `=` characters
+/// from the input string, converting it to a base64 URL-safe format.
+///
+/// - [input]: The input base64 string to convert.
+/// 
+/// Returns a `String` representing the base64 URL-encoded version of the input.
+String base64StringToBase64UrlEncodedString(String input) {
+  return input.replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+}
+
