@@ -1,7 +1,10 @@
 
 import 'dart:typed_data';
+import 'helper.dart';
 import 'math.dart';
 import 'package:encoding/encoding.dart';
+import 'package:pointycastle/export.dart';
+
 
 
 /**
@@ -50,4 +53,49 @@ Uint8List uncompressRawPublicKey(Uint8List rawPublicKey) {
 
   final uncompressedHexString = "04" + bigIntToHex(x, 64) + bigIntToHex(y, 64);
   return uint8ArrayFromHexString(uncompressedHexString);
+}
+
+// Encrypts data using AES-GCM.
+/// 
+/// - [plainTextData]: The plaintext data to encrypt.
+/// - [key]: The encryption key (16, 24, or 32 bytes).
+/// - [iv]: The 12-byte initialization vector for AES-GCM.
+/// - [aad]: Additional authenticated data (optional).
+///
+/// Returns the ciphertext + 16-byte tag as a single Uint8List.
+Uint8List aesGcmEncrypt(
+  Uint8List plainTextData,
+  Uint8List key,
+  Uint8List iv, [
+  Uint8List? aad,
+]) {
+  final cipher = GCMBlockCipher(AESEngine());
+  final aeadParams = AEADParameters(
+    KeyParameter(key),
+    128, //TODO: check what we use in javascript (@noble/ciphers/aes default value)
+    iv,
+    aad ?? Uint8List(0),
+  );
+
+  cipher.init(true, aeadParams);
+  return cipher.process(plainTextData);
+}
+
+/// Perform HKDF extract and expand operations.
+///
+/// - [sharedSecret]: The shared secret used as the salt for the extract phase.
+/// - [ikm]: Input key material.
+/// - [info]: Context and application-specific information.
+/// - [len]: The desired output length in bytes.
+///
+/// Returns a `Uint8List` containing the derived key of the specified length.
+Uint8List extractAndExpand(
+  Uint8List sharedSecret,
+  Uint8List ikm,
+  Uint8List info,
+  int len,
+) {
+  final prk = hkdfExtract(ikm, sharedSecret);
+  final okm = hkdfExpand(prk, info, len);
+  return okm;
 }

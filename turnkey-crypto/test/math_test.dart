@@ -18,7 +18,7 @@ void main() {
       final sqrtX = modSqrt(x, p);
 
       expect((sqrtX * sqrtX) % p, equals(x));
-      // Usually returns 3, but 4 is also valid in modular arithmetic.
+      // Usually returns 3, but 4 is also valid in modular arithmetic
       expect(sqrtX == BigInt.from(3) || sqrtX == BigInt.from(4), isTrue);
     });
 
@@ -46,7 +46,7 @@ void main() {
 
     test('x < 0 => still interpreted mod p but might be non-residue', () {
       final p = BigInt.from(7);
-      // -1 mod 7 = 6, which is a known non-residue.
+      // -1 mod 7 = 6, which is a known non-residue
       expect(() => modSqrt(BigInt.from(-1), p), throwsArgumentError);
     });
   });
