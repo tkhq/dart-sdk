@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:test/test.dart';
 import 'package:turnkey_crypto/src/constant.dart';
 import 'package:turnkey_crypto/src/crypto_base.dart';
@@ -245,5 +244,75 @@ void main() {
       expect(context.length, 128);
     });
   });
+
+  group('deriveSS tests (generated)', () {
+  test('Valid ephemeral + recipient private => known shared secret', () {
+    final ephemeralPubCompressed = fromHex(
+        '042429bc20c6ef6d8bed8eff26f62b10457e6dbb0fe743c95aea929cfb20955e20a8b69ba9d98dc8eac7ef99b0ee94ff4a1bbe2f730e5940db1fc9daa48490f2a6');
+    final recipientPrivHex =
+        '62ee85b30bd2605ca3b6dc4ec541fdb0ff89ce50745eaf888ee14d5ec2cd372e';
+
+    final expectedSharedHex =
+        '70a8c462e00bbf0a6a25ee63adfe4d5dc968b9f94424af21473bb852191efe96';
+    final expectedShared = fromHex(expectedSharedHex);
+
+    final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
+    expect(got, equals(expectedShared));
+  });
+
+  test('Another valid ephemeral + recipient private => known shared secret', () {
+    final ephemeralPubCompressed = fromHex(
+        '045434d861d587351c84b531cb7006d9aa80e62b6789f628159504cf966cdb13ca9669eabdf99faede322359779a4e72d235c6f9d728dff19f2b98631a4d475c3f');
+    final recipientPrivHex =
+        '4fd172c0ae1a32f3f4b2a2a1f531178cfb7cfd96f85a98051b08ab4fe09b749a';
+
+    final expectedSharedHex =
+        'a82c0eec81f8f59f96adfc56d558ff652199dae905585861ccc6160a5c0d8d33';
+    final expectedShared = fromHex(expectedSharedHex);
+
+    final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
+    expect(got, equals(expectedShared));
+  });
+
+  test('Invalid ephemeral public key => throws ArgumentError', () {
+    final invalidPub = fromHex('03'); // Invalid compressed public key
+    final priv = '01'; // Small private is fine for testing
+    expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
+  });
+
+  test('Corrupted ephemeral public key => bad prefix => throws ArgumentError', () {
+    final invalidPub = Uint8List(33); // Corrupted public key
+    invalidPub[0] = 0x07; // Invalid prefix
+    final priv = '01';
+    expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
+  });
+
+  test('Uncompressed ephemeral => known 65-byte input => correct derived length', () {
+    final ephemeralPubUncomp = fromHex(
+        '044bf0ee44fed86067171d327958bfa5da6260533b81f4a5a431a112164f1b396a9bf22ce0190bf90382fa2f88db4f1fa304cc1651dc7ed3d2fbb17ec44a76ada4');
+    final recipientPrivHex =
+        'abcb1042ef9dff49908d90d721ae3d5325dbfb26bcf0878e88f87cb608bc9048';
+
+    final expectedSharedHex =
+        '281d3a091d25b0990f2d9cb13af2a48afc0f95ae78f540eb1035a9bd5c3ef48c';
+    final expectedShared = fromHex(expectedSharedHex);
+
+    final got = deriveSS(ephemeralPubUncomp, recipientPrivHex);
+    expect(got, equals(expectedShared));
+  });
+
+  test('Very small private key => throws ArgumentError', () {
+  final ephemeralPubCompressed = fromHex(
+      '0472f15632f7a654032950ca563a70cda11c3a92b43a2a7a35e372c3d68df54b04a7ec89abf4a8fe3bee092c05a66521eb3dabfd18e66b2b83dbfffb2ab4ab8abf');
+  final smallPrivHex = '01'; 
+
+  expect(() => deriveSS(ephemeralPubCompressed, smallPrivHex),
+      throwsArgumentError);
+  });
+
+
+});
+
+
 
 }

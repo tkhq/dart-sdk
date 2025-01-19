@@ -8,6 +8,7 @@ import 'package:pointycastle/export.dart';
 
 
 
+
 /**
  * Convert a BigInt to a hexadecimal string of a specific length.
  */
@@ -176,3 +177,49 @@ Uint8List getKemContext(Uint8List encappedKeyBuf, String publicKey) {
 
   return kemContext;
 }
+
+
+/// Derive the Diffie-Hellman shared secret (ECDH) using the P-256 curve.
+///
+/// - [encappedKeyBuf]: The ephemeral public key as a `Uint8List` (compressed or uncompressed).
+/// - [priv]: The private key as a 32-byte hexadecimal string.
+///
+/// Returns the shared secret as a `Uint8List` (32 bytes X-coordinate).
+Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
+  
+  // Validate that the private key is exactly 32 bytes (64 hex characters)
+  // We do this to be consistent with the javascript implementation
+  if (priv.length != 64) {
+    throw ArgumentError('Private key must be exactly 32 bytes.');
+  }
+
+  final domain = ECDomainParameters('secp256r1');
+  final privateKeyValue = BigInt.parse(priv, radix: 16);
+
+  if (privateKeyValue <= BigInt.zero || privateKeyValue >= domain.n) {
+    throw ArgumentError('Private key is invalid or out of range for the curve.');
+  }
+
+  final privateKey = ECPrivateKey(privateKeyValue, domain);
+
+  final pubPoint = domain.curve.decodePoint(encappedKeyBuf);
+  if (pubPoint == null) {
+    throw ArgumentError('Invalid public key bytes.');
+  }
+
+  final sharedPoint = pubPoint * privateKey.d!;
+  if (sharedPoint == null || sharedPoint.x == null) {
+    throw ArgumentError('Failed to compute the shared point.');
+  }
+
+  final xBytes = bigIntToFixedLength(sharedPoint.x!.toBigInteger()!, 32);
+
+  if (xBytes.length != 32) {
+    throw StateError('Invalid shared secret length.');
+  }
+
+  // Return only the X-coordinate as the shared secret
+  // TODO: check if we need to return the full point (javascript implementation only does x, is that intentional?)
+  return Uint8List.fromList(xBytes);
+}
+

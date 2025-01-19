@@ -2,6 +2,7 @@
 import 'dart:typed_data';
 import 'package:pointycastle/export.dart';
 
+// Convert a hex string to a Uint8List.
 Uint8List fromHex(String hex) {
   final result = Uint8List(hex.length ~/ 2);
   for (var i = 0; i < hex.length; i += 2) {
@@ -49,4 +50,14 @@ Uint8List hkdfExpand(Uint8List prk, [Uint8List? info, int length = 32]) {
     okm.setAll(i * hashLen, tBlock);
   }
   return okm.sublist(0, length);
+}
+
+/// Convert a BigInt to a fixed-length Uint8List.
+Uint8List bigIntToFixedLength(BigInt value, int length) {
+  final bytes = value.toUnsigned(8 * length).toRadixString(16).padLeft(length * 2, '0');
+  final result = Uint8List(length);
+  for (int i = 0; i < length; i++) {
+    result[i] = int.parse(bytes.substring(i * 2, i * 2 + 2), radix: 16);
+  }
+  return result;
 }
