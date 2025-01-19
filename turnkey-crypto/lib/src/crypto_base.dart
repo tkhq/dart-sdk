@@ -1,5 +1,6 @@
 
 import 'dart:typed_data';
+import 'constant.dart';
 import 'helper.dart';
 import 'math.dart';
 import 'package:encoding/encoding.dart';
@@ -98,4 +99,80 @@ Uint8List extractAndExpand(
   final prk = hkdfExtract(ikm, sharedSecret);
   final okm = hkdfExpand(prk, info, len);
   return okm;
+}
+
+/// Build labeled info for HKDF operations.
+///
+/// - [label]: The label to use as a `Uint8List`.
+/// - [info]: Additional information as a `Uint8List`.
+/// - [suiteId]: The suite identifier as a `Uint8List`.
+/// - [len]: The output length.
+/// 
+/// Returns a `Uint8List` containing the labeled info.
+Uint8List buildLabeledInfo(
+  Uint8List label,
+  Uint8List info,
+  Uint8List suiteId,
+  int len,
+) {
+  const suiteIdStartIndex = 9; // first two are reserved for length bytes (unused in this case), the next 7 are for the HPKE_VERSION, then the suiteId starts at 9
+  final result = Uint8List(suiteIdStartIndex + suiteId.length + label.length + info.length);
+
+  // this isn’t an error, we’re starting at index 2 because the first two bytes should be 0. See <https://github.com/dajiaji/hpke-js/blob/1e7fb1372fbcdb6d06bf2f4fa27ff676329d633e/src/kdfs/hkdf.ts#L41> for reference.
+  result[0] = 0;
+  result[1] = len;
+
+  result.setRange(2, suiteIdStartIndex, HPKE_VERSION);
+
+  result.setRange(suiteIdStartIndex, suiteIdStartIndex + suiteId.length, suiteId);
+
+  final labelStartIndex = suiteIdStartIndex + suiteId.length;
+  result.setRange(labelStartIndex, labelStartIndex + label.length, label);
+
+  final infoStartIndex = labelStartIndex + label.length;
+  result.setRange(infoStartIndex, infoStartIndex + info.length, info);
+
+  return result;
+}
+
+/// Build labeled Initial Key Material (IKM).
+///
+/// - [label]: The label to use.
+/// - [ikm]: The input key material.
+/// - [suiteId]: The suite identifier.
+/// 
+/// Returns a `Uint8List` representing the labeled IKM.
+Uint8List buildLabeledIkm(Uint8List label, Uint8List ikm, Uint8List suiteId) {
+  final combinedLength = HPKE_VERSION.length + suiteId.length + label.length + ikm.length;
+  final ret = Uint8List(combinedLength);
+  var offset = 0;
+
+  ret.setRange(offset, offset + HPKE_VERSION.length, HPKE_VERSION);
+  offset += HPKE_VERSION.length;
+
+  ret.setRange(offset, offset + suiteId.length, suiteId);
+  offset += suiteId.length;
+
+  ret.setRange(offset, offset + label.length, label);
+  offset += label.length;
+
+  ret.setRange(offset, offset + ikm.length, ikm);
+
+  return ret;
+}
+
+/// Generate a Key Encapsulation Mechanism (KEM) context.
+///
+/// - [encappedKeyBuf]: The encapsulated key buffer as a `Uint8List`.
+/// - [publicKey]: The public key as a hexadecimal string.
+/// 
+/// Returns a `Uint8List` representing the KEM context.
+Uint8List getKemContext(Uint8List encappedKeyBuf, String publicKey) {
+  final publicKeyArray = uint8ArrayFromHexString(publicKey);
+
+  final kemContext = Uint8List(encappedKeyBuf.length + publicKeyArray.length);
+  kemContext.setRange(0, encappedKeyBuf.length, encappedKeyBuf);
+  kemContext.setRange(encappedKeyBuf.length, kemContext.length, publicKeyArray);
+
+  return kemContext;
 }

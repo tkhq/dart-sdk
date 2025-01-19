@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:test/test.dart';
+import 'package:turnkey_crypto/src/constant.dart';
 import 'package:turnkey_crypto/src/crypto_base.dart';
 import 'package:turnkey_crypto/src/helper.dart';
 
@@ -138,4 +139,111 @@ void main() {
       expect(okm, equals(expectedOkm));
     });
   });
+
+  group('buildLabeledInfo tests', () {
+    test('All zero-length fields, len=0 => minimal output of 9 bytes', () {
+      final label = Uint8List(0);
+      final info = Uint8List(0);
+      final suiteId = Uint8List(0);
+      final len = 0;
+
+      final output = buildLabeledInfo(label, info, suiteId, len);
+      expect(output.length, 9);
+      expect(output[0], 0);
+      expect(output[1], 0);
+    });
+
+    test('Non-empty label, info, suiteId => lengths add up', () {
+      final label = Uint8List.fromList([1, 2]);
+      final info = Uint8List.fromList([3, 4, 5]);
+      final suiteId = Uint8List.fromList([9]);
+      final len = 16;
+
+      final output = buildLabeledInfo(label, info, suiteId, len);
+
+      // total length = 9 (overhead) + 1 (suiteId) + 2 (label) + 3 (info) = 15
+      expect(output.length, 15);
+      expect(output[1], 16, reason: 'Byte 1 should contain len=16');
+      // check that suiteId, label, and info are in the right spots
+      final suiteIdIndex = 9;
+      expect(output[suiteIdIndex], 9);
+      final labelIndex = suiteIdIndex + suiteId.length; 
+      expect(output.sublist(labelIndex, labelIndex + 2), [1, 2]);
+      final infoIndex = labelIndex + 2;
+      expect(output.sublist(infoIndex, infoIndex + 3), [3, 4, 5]);
+    });
+  });
+
+  group('buildLabeledIkm tests', () {
+    test('All zero-length fields => minimal output', () {
+      final label = Uint8List(0);
+      final ikm = Uint8List(0);
+      final suiteId = Uint8List(0);
+
+      final output = buildLabeledIkm(label, ikm, suiteId);
+
+      // minimal output is just HPKE_VERSION
+      expect(output.length, HPKE_VERSION.length);
+      expect(output, equals(Uint8List.fromList(HPKE_VERSION)));
+    });
+
+    test('Non-empty label, ikm, suiteId => lengths add up', () {
+      final label = Uint8List.fromList([1, 2]);
+      final ikm = Uint8List.fromList([3, 4, 5]);
+      final suiteId = Uint8List.fromList([9]);
+
+      final output = buildLabeledIkm(label, ikm, suiteId);
+
+      final expectedLength =
+          HPKE_VERSION.length + suiteId.length + label.length + ikm.length;
+      expect(output.length, expectedLength);
+
+      final suiteIdIndex = HPKE_VERSION.length;
+      final labelIndex = suiteIdIndex + suiteId.length;
+      final ikmIndex = labelIndex + label.length;
+
+      expect(output.sublist(0, HPKE_VERSION.length),
+          equals(Uint8List.fromList(HPKE_VERSION)));
+      expect(output.sublist(suiteIdIndex, labelIndex), equals(suiteId));
+      expect(output.sublist(labelIndex, ikmIndex), equals(label));
+      expect(output.sublist(ikmIndex), equals(ikm));
+    });
+  });
+
+  group('getKemContext tests', () {
+    test('Both buffers non-empty, merges correctly', () {
+      final encappedKeyBuf = Uint8List.fromList([1, 2, 3]);
+      final pubKeyHex = '04050607';
+      final context = getKemContext(encappedKeyBuf, pubKeyHex);
+
+      expect(context.length, 7);
+      expect(context, equals([1, 2, 3, 4, 5, 6, 7]));
+    });
+
+    test('Empty encappedKeyBuf, non-empty publicKey', () {
+      final encappedKeyBuf = Uint8List(0);
+      final pubKeyHex = 'aa55';
+      final context = getKemContext(encappedKeyBuf, pubKeyHex);
+
+      expect(context.length, 2);
+      expect(context, equals([0xaa, 0x55]));
+    });
+
+    test('Non-empty encappedKeyBuf, empty publicKey', () {
+      final encappedKeyBuf = Uint8List.fromList([10, 20, 30]);
+      final pubKeyHex = '';
+
+      // expect an error since an empty public key hex is invalid
+      expect(() => getKemContext(encappedKeyBuf, pubKeyHex), throwsArgumentError);
+    });
+
+    test('Large inputs, verify final length only', () {
+      final encappedKeyBuf = Uint8List.fromList(List.generate(64, (i) => i));
+      final pubKeyHex = List.generate(64, (i) => i.toRadixString(16).padLeft(2, '0')).join('');
+      final context = getKemContext(encappedKeyBuf, pubKeyHex);
+
+      expect(context.length, 128);
+    });
+  });
+
 }
