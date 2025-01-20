@@ -21,6 +21,38 @@ String bigIntToHex(BigInt num, int length) {
   return hexString.padLeft(length, '0');
 }
 
+/// Accepts a public key `Uint8List` and returns a `Uint8List` with the compressed version of the public key.
+///
+/// - [rawPublicKey]: The uncompressed public key as a `Uint8List` in the form `0x04 || x || y`.
+///
+/// Returns:
+/// - The compressed public key as a `Uint8List` in the form `0x02/0x03 || x`.
+Uint8List compressRawPublicKey(Uint8List rawPublicKey) {
+  if (rawPublicKey.isEmpty || rawPublicKey[0] != 0x04) {
+    throw ArgumentError('Invalid uncompressed public key format.');
+  }
+
+  final len = rawPublicKey.length;
+
+  // Drop the y-coordinate
+  // Uncompressed key is in the form 0x04 || x || y
+  // `(len + 1) ~/ 2` calculates the length of the compressed key (x-coordinate only)
+  final xBytes = rawPublicKey.sublist(1, (len + 1) ~/ 2);
+
+  // Encode the parity of `y` in the first byte
+  // `rawPublicKey[len - 1] & 0x01` tests for the parity of the y-coordinate
+  // It returns 0x00 for even or 0x01 for odd
+  // Then `0x02 | <parity test result>` results in either 0x02 (even) or 0x03 (odd)
+  final yParity = rawPublicKey[len - 1] & 0x01;
+
+  final compressedKey = Uint8List(xBytes.length + 1);
+  compressedKey[0] = 0x02 | yParity; 
+  compressedKey.setAll(1, xBytes);
+
+  return compressedKey;
+}
+
+
 
 /**
  * Uncompress a raw public key.
@@ -81,6 +113,38 @@ Uint8List aesGcmEncrypt(
 
   cipher.init(true, aeadParams);
   return cipher.process(plainTextData);
+}
+
+/// Decrypts data using AES-GCM.
+///
+/// - [encryptedData]: The ciphertext + 16-byte tag as a single Uint8List.
+/// - [key]: The encryption key (16, 24, or 32 bytes).
+/// - [iv]: The 12-byte initialization vector for AES-GCM.
+/// - [aad]: Additional authenticated data (optional).
+///
+/// Returns:
+/// - The decrypted plaintext as a `Uint8List`.
+Uint8List aesGcmDecrypt(
+  Uint8List encryptedData,
+  Uint8List key,
+  Uint8List iv, [
+  Uint8List? aad,
+]) {
+  final cipher = GCMBlockCipher(AESEngine());
+  final aeadParams = AEADParameters(
+    KeyParameter(key),
+    128, //TODO: check what we use in javascript (@noble/ciphers/aes default value)
+    iv,
+    aad ?? Uint8List(0),
+  );
+
+  cipher.init(false, aeadParams);
+
+  try {
+    return cipher.process(encryptedData);
+  } catch (e) {
+    throw Exception('AES-GCM decryption failed: $e');
+  }
 }
 
 /// Perform HKDF extract and expand operations.
@@ -186,7 +250,7 @@ Uint8List getKemContext(Uint8List encappedKeyBuf, String publicKey) {
 ///
 /// Returns the shared secret as a `Uint8List` (32 bytes X-coordinate).
 Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
-  
+
   // Validate that the private key is exactly 32 bytes (64 hex characters)
   // We do this to be consistent with the javascript implementation
   if (priv.length != 64) {
@@ -222,4 +286,111 @@ Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
   // TODO: check if we need to return the full point (javascript implementation only does x, is that intentional?)
   return Uint8List.fromList(xBytes);
 }
+
+/// Creates additional associated data (AAD) for AES-GCM decryption.
+///
+/// - [senderPubBuf]: A `Uint8List` representing the sender's public key.
+/// - [receiverPubBuf]: A `Uint8List` representing the receiver's public key.
+///
+/// Returns:
+/// - A `Uint8List` containing the concatenation of the sender and receiver public keys.
+Uint8List buildAdditionalAssociatedData(Uint8List senderPubBuf, Uint8List receiverPubBuf) {
+  return Uint8List.fromList([...senderPubBuf, ...receiverPubBuf]);
+}
+
+/// Derives the public key from a private key using the P-256 curve.
+///
+/// - [privateKey]: The private key as a `Uint8List` or a hexadecimal string.
+/// - [isCompressed]: Specifies whether to return a compressed or uncompressed public key. Defaults to true.
+///
+/// Returns:
+/// - The public key as a `Uint8List` in the specified format.
+/// TODO: In javascript we actually say this function returns an Uint8Array or hexstring private key when it just returns a Uint8Array, we should fix that
+Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
+
+  Uint8List privKeyBytes;
+  if (privateKey is String) {
+    if (privateKey.length != 64) {
+      throw ArgumentError('Private key must be a 32-byte hexadecimal string.');
+    }
+    privKeyBytes = Uint8List.fromList(
+        List<int>.generate(privateKey.length ~/ 2, (i) => int.parse(privateKey.substring(i * 2, i * 2 + 2), radix: 16)));
+  } else if (privateKey is Uint8List) {
+    if (privateKey.length != 32) {
+      throw ArgumentError('Private key must be exactly 32 bytes.');
+    }
+    privKeyBytes = privateKey;
+  } else {
+    throw ArgumentError('Private key must be a Uint8List or a hexadecimal string.');
+  }
+
+  final domain = ECDomainParameters('secp256r1');
+
+  final privateKeyValue = BigInt.parse(privKeyBytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(), radix: 16);
+  final privateKeyParam = ECPrivateKey(privateKeyValue, domain);
+  final publicKeyPoint = domain.G * privateKeyParam.d;
+
+  if (publicKeyPoint == null) {
+    throw StateError('Failed to compute public key.');
+  }
+
+  if (isCompressed) {
+    return Uint8List.fromList(publicKeyPoint.getEncoded(true));
+  } else {
+    return Uint8List.fromList(publicKeyPoint.getEncoded(false));
+  }
+}
+
+/// HPKE Decrypt Function
+/// Decrypts data using the Hybrid Public Key Encryption (HPKE) standard (RFC 9180).
+///
+/// - [ciphertextBuf]: The ciphertext as a `Uint8List`.
+/// - [encappedKeyBuf]: The encapsulated key as a `Uint8List`.
+/// - [receiverPriv]: The receiver's private key as a hexadecimal string.
+///
+/// Returns:
+/// - The decrypted data as a `Uint8List`.
+Uint8List hpkeDecrypt({
+  required Uint8List ciphertextBuf,
+  required Uint8List encappedKeyBuf,
+  required String receiverPriv,
+}) {
+  try {
+
+    final receiverPubBuf = getPublicKey(
+      fromHex(receiverPriv),
+      isCompressed: false,
+    );
+
+    final aad = buildAdditionalAssociatedData(encappedKeyBuf, receiverPubBuf); // Eventually we want users to be able to pass in aad as optional
+
+    // Step 1: Generate the Shared Secret
+    final ss = deriveSS(encappedKeyBuf, receiverPriv);
+
+    // Step 2: Generate the KEM context
+    final kemContext = getKemContext(
+      encappedKeyBuf,
+      receiverPubBuf.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(),
+    );
+
+    // Step 3: Build the HKDF inputs for key derivation
+    final ikmEaePrk = buildLabeledIkm(LABEL_EAE_PRK, ss, SUITE_ID_1);
+    final infoSharedSecret = buildLabeledInfo(LABEL_SHARED_SECRET, kemContext, SUITE_ID_1, 32);
+    final sharedSecret = extractAndExpand(Uint8List(0), ikmEaePrk, infoSharedSecret, 32);
+
+    // Step 4: Derive the AES key
+    final ikmSecret = buildLabeledIkm(LABEL_SECRET, Uint8List(0), SUITE_ID_2);
+    final key = extractAndExpand(sharedSecret, ikmSecret, AES_KEY_INFO, 32);
+
+    // Step 5: Derive the initialization vector
+    final iv = extractAndExpand(sharedSecret, ikmSecret, IV_INFO, 12);
+
+    // Step 6: Decrypt the data using AES-GCM
+    final decryptedData = aesGcmDecrypt(ciphertextBuf, key, iv, aad);
+    return decryptedData;
+  } catch (error) {
+    throw Exception('Unable to perform hpkeDecrypt: $error');
+  }
+}
+
 

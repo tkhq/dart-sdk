@@ -28,9 +28,58 @@ void main() {
     });
   });
 
-  const gX = '6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296';
+ group('compressRawPublicKey tests', () {
+  test('Valid uncompressed key => compressed key with prefix=03 (y is odd)', () {
+    final uncompressed = fromHex(
+        '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef');
+    final expectedCompressed =
+        fromHex('03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210');
+
+    final compressed = compressRawPublicKey(uncompressed);
+
+    expect(compressed, equals(expectedCompressed));
+  });
+
+  test('Valid uncompressed key => compressed key with prefix=02 (y is even)', () {
+    final uncompressed = fromHex(
+        '048c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc7e2e07a9b3a51e709da1d727b1ef20c0115fc2fdc6c9e05bb6cba0d9b1e9c7af');
+    final expectedCompressed =
+        fromHex('038c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc');
+
+    final compressed = compressRawPublicKey(uncompressed);
+
+    expect(compressed, equals(expectedCompressed));
+  });
+
+  test('Invalid uncompressed public key format => throws ArgumentError', () {
+    final invalidKey = fromHex(
+        '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210');
+
+    expect(() => compressRawPublicKey(invalidKey), throwsArgumentError);
+  });
+
+  test('Empty uncompressed public key => throws ArgumentError', () {
+    final emptyKey = Uint8List(0);
+
+    expect(() => compressRawPublicKey(emptyKey), throwsArgumentError);
+  });
+
+  test('Compress and decompress round trip', () {
+    final uncompressed = fromHex(
+        '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef');
+    final compressed = compressRawPublicKey(uncompressed);
+    final decompressed = uncompressRawPublicKey(compressed);
+
+    expect(decompressed, equals(uncompressed));
+  });
+});
+
+
+
 
   group('uncompressRawPublicKey tests', () {
+      const gX = '6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296';
+
     test('Valid prefix=03 (y is odd) for G => uncompressed is 65 bytes', () {
       // Compressed form of the P-256 base point G with prefix=0x03.
       final compressed = fromHex('03$gX');
@@ -71,8 +120,8 @@ void main() {
   group('aesGcmEncrypt tests', () {
     test('Basic encryption (128-bit key, no AAD)', () {
       final plainText = Uint8List.fromList([1, 2, 3, 4]);
-      final key = Uint8List(16); // 128-bit key (all zero)
-      final iv = Uint8List(12);  // 12-byte IV (all zero)
+      final key = Uint8List(16); 
+      final iv = Uint8List(12); 
 
       final result = aesGcmEncrypt(plainText, key, iv);
       // Expect ciphertext + 16-byte tag => total length = plaintext + 16
@@ -103,6 +152,59 @@ void main() {
       final iv = Uint8List(12);
 
       expect(() => aesGcmEncrypt(plainText, key, iv), throwsA(isA<ArgumentError>()));
+    });
+  });
+
+  group('aesGcmDecrypt tests', () {
+    test('Basic round-trip (128-bit key, no AAD)', () {
+      final plainText = Uint8List.fromList([1, 2, 3, 4]);
+      final key = Uint8List(16);
+      final iv = Uint8List(12); 
+
+      final encrypted = aesGcmEncrypt(plainText, key, iv);
+      final decrypted = aesGcmDecrypt(encrypted, key, iv);
+
+      expect(decrypted, equals(plainText));
+    });
+
+    test('With AAD => must match original plaintext', () {
+      final plainText = Uint8List.fromList([10, 20, 30]);
+      final key = Uint8List(16);
+      final iv = Uint8List(12);
+      final aad = Uint8List.fromList([99, 100]);
+
+      final encrypted = aesGcmEncrypt(plainText, key, iv, aad);
+      final decrypted = aesGcmDecrypt(encrypted, key, iv, aad);
+      expect(decrypted, equals(plainText));
+    });
+
+    test('Tampered ciphertext => throws Exception on decrypt', () {
+      final plainText = Uint8List.fromList([5, 6, 7, 8]);
+      final key = Uint8List(16);
+      final iv = Uint8List(12);
+
+      final encrypted = aesGcmEncrypt(plainText, key, iv);
+
+      encrypted[0] ^= 0xFF; 
+      expect(() => aesGcmDecrypt(encrypted, key, iv), throwsException);
+    });
+
+    test('Tampered tag => throws Exception', () {
+      final plainText = Uint8List.fromList([5, 6, 7, 8]);
+      final key = Uint8List(16);
+      final iv = Uint8List(12);
+
+      final encrypted = aesGcmEncrypt(plainText, key, iv);
+
+      encrypted[encrypted.length - 1] ^= 0xFF;
+      expect(() => aesGcmDecrypt(encrypted, key, iv), throwsException);
+    });
+
+    test('Invalid key length => throws ArgumentError', () {
+      final encrypted = Uint8List(16); // dummy
+      final key = Uint8List(17); // invalid
+      final iv = Uint8List(12);
+      expect(() => aesGcmDecrypt(encrypted, key, iv), throwsArgumentError);
     });
   });
 
@@ -232,7 +334,6 @@ void main() {
       final encappedKeyBuf = Uint8List.fromList([10, 20, 30]);
       final pubKeyHex = '';
 
-      // expect an error since an empty public key hex is invalid
       expect(() => getKemContext(encappedKeyBuf, pubKeyHex), throwsArgumentError);
     });
 
@@ -276,7 +377,7 @@ void main() {
 
   test('Invalid ephemeral public key => throws ArgumentError', () {
     final invalidPub = fromHex('03'); // Invalid compressed public key
-    final priv = '01'; // Small private is fine for testing
+    final priv = '01';
     expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
   });
 
@@ -312,6 +413,108 @@ void main() {
 
 
 });
+
+group('buildAdditionalAssociatedData tests', () {
+    test('Concatenates non-empty sender and receiver public buffers', () {
+      final senderPubBuf = Uint8List.fromList([1, 2, 3, 4]);
+      final receiverPubBuf = Uint8List.fromList([5, 6, 7, 8]);
+
+      final expected = Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8]);
+      final result = buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+
+    test('Handles empty sender public buffer', () {
+      final senderPubBuf = Uint8List.fromList([]);
+      final receiverPubBuf = Uint8List.fromList([9, 10, 11, 12]);
+
+      final expected = Uint8List.fromList([9, 10, 11, 12]);
+      final result = buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+
+    test('Handles empty receiver public buffer', () {
+      final senderPubBuf = Uint8List.fromList([13, 14, 15, 16]);
+      final receiverPubBuf = Uint8List.fromList([]);
+
+      final expected = Uint8List.fromList([13, 14, 15, 16]);
+      final result = buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+
+    test('Handles both sender and receiver buffers being empty', () {
+      final senderPubBuf = Uint8List.fromList([]);
+      final receiverPubBuf = Uint8List.fromList([]);
+
+      final expected = Uint8List.fromList([]);
+      final result = buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+  });
+
+  group('getPublicKey tests', () {
+  test('Valid 32-byte hex => compressed public key', () {
+    final privHex =
+        'd10d5ab30f9ec176728a2e996058b925a0edf14e4df0876c1005293b889b5e83';
+    final pubCompressed = getPublicKey(privHex, isCompressed: true);
+    final expectedCompressedHex =
+        '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210';
+
+    expect(pubCompressed.length, 33);
+    expect(pubCompressed, fromHex(expectedCompressedHex));
+  });
+
+  test('Valid 32-byte hex => uncompressed public key', () {
+    final privHex =
+        'd10d5ab30f9ec176728a2e996058b925a0edf14e4df0876c1005293b889b5e83';
+    final pubUncompressed = getPublicKey(privHex, isCompressed: false);
+    final expectedUncompressedHex =
+        '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef';
+
+    expect(pubUncompressed.length, 65);
+    expect(pubUncompressed, fromHex(expectedUncompressedHex));
+  });
+
+  test('Valid 32-byte Uint8List => compressed public key', () {
+    final privBytes = fromHex(
+        'b9517a3082352ac11004c2ad2f0e725b04075cfe8c94fa8764f1455808b1de5e');
+    final pubCompressed = getPublicKey(privBytes, isCompressed: true);
+    final expectedCompressedHex =
+        '028c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc';
+
+    expect(pubCompressed.length, 33);
+    expect(pubCompressed, fromHex(expectedCompressedHex));
+  });
+
+  test('Invalid hex length => throws ArgumentError', () {
+    final shortHex = 'aabbcc'; 
+
+    expect(() => getPublicKey(shortHex), throwsArgumentError);
+  });
+
+  test('Invalid Uint8List length => throws ArgumentError', () {
+    final invalidBytes = Uint8List(31);
+
+    expect(() => getPublicKey(invalidBytes), throwsArgumentError);
+  });
+
+  test('Compare with known ephemeral private key => uncompressed match', () {
+    final ephemeralPrivHex =
+        '99a7734ccc510e4a69519714950023d17e203a636606fb8e8eb74acbacadbe77';
+    final expectedPubHex =
+        '0490d6737d301376272cfe66e567482ec0c24ab4855f77b1d9409d503ec48bdb72c41332defbac1dae7415bc4d637c8d1e11ee7522c02ce861c1cd79c0be88a5b8';
+
+    final gotPub = getPublicKey(ephemeralPrivHex, isCompressed: false);
+    final expectedPub = fromHex(expectedPubHex);
+
+    expect(gotPub, equals(expectedPub));
+  });
+});
+
 
 
 

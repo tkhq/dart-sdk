@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:pointycastle/export.dart';
 
 // Convert a hex string to a Uint8List.
+// Note: This function will throw an ArgumentError if the input string is odd
 Uint8List fromHex(String hex) {
   final result = Uint8List(hex.length ~/ 2);
   for (var i = 0; i < hex.length; i += 2) {
