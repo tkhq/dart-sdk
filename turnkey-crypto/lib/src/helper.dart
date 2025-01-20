@@ -1,16 +1,9 @@
-// Convert a hex string to Uint8List, used for running tests 
+// Convert a hex string to Uint8List, used for running tests
+import 'dart:convert';
 import 'dart:typed_data';
+import 'package:encoding/encoding.dart';
 import 'package:pointycastle/export.dart';
-
-// Convert a hex string to a Uint8List.
-// Note: This function will throw an ArgumentError if the input string is odd
-Uint8List fromHex(String hex) {
-  final result = Uint8List(hex.length ~/ 2);
-  for (var i = 0; i < hex.length; i += 2) {
-    result[i ~/ 2] = int.parse(hex.substring(i, i + 2), radix: 16);
-  }
-  return result;
-}
+import 'crypto_base.dart';
 
 /// Simple HMAC-SHA256 function.
 Uint8List hmacSha256(Uint8List key, Uint8List data) {
@@ -55,10 +48,33 @@ Uint8List hkdfExpand(Uint8List prk, [Uint8List? info, int length = 32]) {
 
 /// Convert a BigInt to a fixed-length Uint8List.
 Uint8List bigIntToFixedLength(BigInt value, int length) {
-  final bytes = value.toUnsigned(8 * length).toRadixString(16).padLeft(length * 2, '0');
+  final bytes =
+      value.toUnsigned(8 * length).toRadixString(16).padLeft(length * 2, '0');
   final result = Uint8List(length);
   for (int i = 0; i < length; i++) {
     result[i] = int.parse(bytes.substring(i * 2, i * 2 + 2), radix: 16);
   }
   return result;
+}
+
+/// Formats an HPKE buffer into a JSON string with the encapsulated public key and ciphertext.
+///
+/// - [encryptedBuf]: The result of `hpkeAuthEncrypt` or `hpkeEncrypt` as a `Uint8List`.
+///
+/// Returns:
+/// - A JSON string with "encappedPublic" and "ciphertext".
+String formatHpkeBuf(Uint8List encryptedBuf) {
+  final compressedSenderBuf = encryptedBuf.sublist(0, 33);
+  final encryptedData = encryptedBuf.sublist(33);
+
+  final encappedKeyBufHex = uint8ArrayToHexString(
+    uncompressRawPublicKey(compressedSenderBuf),
+  );
+
+  final ciphertextHex = uint8ArrayToHexString(encryptedData);
+
+  return jsonEncode({
+    'encappedPublic': encappedKeyBufHex,
+    'ciphertext': ciphertextHex,
+  });
 }

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 /// Converts a `Uint8List` to a hexadecimal string.
 ///
 /// - [input]: The input `Uint8List` to convert.
-/// 
+///
 /// Returns a `String` representing the hexadecimal value of the byte array.
 String uint8ArrayToHexString(Uint8List input) {
   return input.map((x) => x.toRadixString(16).padLeft(2, '0')).join('');
@@ -41,8 +41,7 @@ Uint8List uint8ArrayFromHexString(String hexString, [int? length]) {
   }
 
   if (hexString.length ~/ 2 > length) {
-    throw ArgumentError(
-        'Hex value cannot fit in a buffer of $length byte(s)');
+    throw ArgumentError('Hex value cannot fit in a buffer of $length byte(s)');
   }
 
   // If a length is specified, pad the buffer
@@ -87,7 +86,8 @@ Uint8List normalizePadding(Uint8List byteArray, int targetLength) {
         'Invalid number of starting zeroes. Expected $expectedZeroCount, found $zeroCount.',
       );
     }
-    return Uint8List.sublistView(byteArray, expectedZeroCount, expectedZeroCount + targetLength);
+    return Uint8List.sublistView(
+        byteArray, expectedZeroCount, expectedZeroCount + targetLength);
   }
 
   return byteArray;
@@ -121,9 +121,8 @@ String hexToAscii(String hexString) {
 /// from the input string, converting it to a base64 URL-safe format.
 ///
 /// - [input]: The input base64 string to convert.
-/// 
+///
 /// Returns a `String` representing the base64 URL-encoded version of the input.
 String base64StringToBase64UrlEncodedString(String input) {
   return input.replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
 }
-

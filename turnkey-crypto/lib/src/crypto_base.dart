@@ -1,13 +1,11 @@
-
+import 'dart:math';
 import 'dart:typed_data';
 import 'constant.dart';
 import 'helper.dart';
 import 'math.dart';
 import 'package:encoding/encoding.dart';
 import 'package:pointycastle/export.dart';
-
-
-
+import 'type.dart';
 
 /**
  * Convert a BigInt to a hexadecimal string of a specific length.
@@ -46,13 +44,11 @@ Uint8List compressRawPublicKey(Uint8List rawPublicKey) {
   final yParity = rawPublicKey[len - 1] & 0x01;
 
   final compressedKey = Uint8List(xBytes.length + 1);
-  compressedKey[0] = 0x02 | yParity; 
+  compressedKey[0] = 0x02 | yParity;
   compressedKey.setAll(1, xBytes);
 
   return compressedKey;
 }
-
-
 
 /**
  * Uncompress a raw public key.
@@ -61,7 +57,8 @@ Uint8List uncompressRawPublicKey(Uint8List rawPublicKey) {
   // point[0] must be 2 (false) or 3 (true).
   // this maps to the initial "02" or "03" prefix
   final lsb = rawPublicKey[0] == 3;
-  final x = BigInt.parse(uint8ArrayToHexString(rawPublicKey.sublist(1)), radix: 16);
+  final x =
+      BigInt.parse(uint8ArrayToHexString(rawPublicKey.sublist(1)), radix: 16);
 
   // https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf (Appendix D).
   final p = BigInt.parse(
@@ -90,7 +87,7 @@ Uint8List uncompressRawPublicKey(Uint8List rawPublicKey) {
 }
 
 // Encrypts data using AES-GCM.
-/// 
+///
 /// - [plainTextData]: The plaintext data to encrypt.
 /// - [key]: The encryption key (16, 24, or 32 bytes).
 /// - [iv]: The 12-byte initialization vector for AES-GCM.
@@ -172,7 +169,7 @@ Uint8List extractAndExpand(
 /// - [info]: Additional information as a `Uint8List`.
 /// - [suiteId]: The suite identifier as a `Uint8List`.
 /// - [len]: The output length.
-/// 
+///
 /// Returns a `Uint8List` containing the labeled info.
 Uint8List buildLabeledInfo(
   Uint8List label,
@@ -180,8 +177,10 @@ Uint8List buildLabeledInfo(
   Uint8List suiteId,
   int len,
 ) {
-  const suiteIdStartIndex = 9; // first two are reserved for length bytes (unused in this case), the next 7 are for the HPKE_VERSION, then the suiteId starts at 9
-  final result = Uint8List(suiteIdStartIndex + suiteId.length + label.length + info.length);
+  const suiteIdStartIndex =
+      9; // first two are reserved for length bytes (unused in this case), the next 7 are for the HPKE_VERSION, then the suiteId starts at 9
+  final result = Uint8List(
+      suiteIdStartIndex + suiteId.length + label.length + info.length);
 
   // this isn’t an error, we’re starting at index 2 because the first two bytes should be 0. See <https://github.com/dajiaji/hpke-js/blob/1e7fb1372fbcdb6d06bf2f4fa27ff676329d633e/src/kdfs/hkdf.ts#L41> for reference.
   result[0] = 0;
@@ -189,7 +188,8 @@ Uint8List buildLabeledInfo(
 
   result.setRange(2, suiteIdStartIndex, HPKE_VERSION);
 
-  result.setRange(suiteIdStartIndex, suiteIdStartIndex + suiteId.length, suiteId);
+  result.setRange(
+      suiteIdStartIndex, suiteIdStartIndex + suiteId.length, suiteId);
 
   final labelStartIndex = suiteIdStartIndex + suiteId.length;
   result.setRange(labelStartIndex, labelStartIndex + label.length, label);
@@ -205,10 +205,11 @@ Uint8List buildLabeledInfo(
 /// - [label]: The label to use.
 /// - [ikm]: The input key material.
 /// - [suiteId]: The suite identifier.
-/// 
+///
 /// Returns a `Uint8List` representing the labeled IKM.
 Uint8List buildLabeledIkm(Uint8List label, Uint8List ikm, Uint8List suiteId) {
-  final combinedLength = HPKE_VERSION.length + suiteId.length + label.length + ikm.length;
+  final combinedLength =
+      HPKE_VERSION.length + suiteId.length + label.length + ikm.length;
   final ret = Uint8List(combinedLength);
   var offset = 0;
 
@@ -230,7 +231,7 @@ Uint8List buildLabeledIkm(Uint8List label, Uint8List ikm, Uint8List suiteId) {
 ///
 /// - [encappedKeyBuf]: The encapsulated key buffer as a `Uint8List`.
 /// - [publicKey]: The public key as a hexadecimal string.
-/// 
+///
 /// Returns a `Uint8List` representing the KEM context.
 Uint8List getKemContext(Uint8List encappedKeyBuf, String publicKey) {
   final publicKeyArray = uint8ArrayFromHexString(publicKey);
@@ -242,7 +243,6 @@ Uint8List getKemContext(Uint8List encappedKeyBuf, String publicKey) {
   return kemContext;
 }
 
-
 /// Derive the Diffie-Hellman shared secret (ECDH) using the P-256 curve.
 ///
 /// - [encappedKeyBuf]: The ephemeral public key as a `Uint8List` (compressed or uncompressed).
@@ -250,7 +250,6 @@ Uint8List getKemContext(Uint8List encappedKeyBuf, String publicKey) {
 ///
 /// Returns the shared secret as a `Uint8List` (32 bytes X-coordinate).
 Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
-
   // Validate that the private key is exactly 32 bytes (64 hex characters)
   // We do this to be consistent with the javascript implementation
   if (priv.length != 64) {
@@ -261,7 +260,8 @@ Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
   final privateKeyValue = BigInt.parse(priv, radix: 16);
 
   if (privateKeyValue <= BigInt.zero || privateKeyValue >= domain.n) {
-    throw ArgumentError('Private key is invalid or out of range for the curve.');
+    throw ArgumentError(
+        'Private key is invalid or out of range for the curve.');
   }
 
   final privateKey = ECPrivateKey(privateKeyValue, domain);
@@ -294,7 +294,8 @@ Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
 ///
 /// Returns:
 /// - A `Uint8List` containing the concatenation of the sender and receiver public keys.
-Uint8List buildAdditionalAssociatedData(Uint8List senderPubBuf, Uint8List receiverPubBuf) {
+Uint8List buildAdditionalAssociatedData(
+    Uint8List senderPubBuf, Uint8List receiverPubBuf) {
   return Uint8List.fromList([...senderPubBuf, ...receiverPubBuf]);
 }
 
@@ -307,26 +308,28 @@ Uint8List buildAdditionalAssociatedData(Uint8List senderPubBuf, Uint8List receiv
 /// - The public key as a `Uint8List` in the specified format.
 /// TODO: In javascript we actually say this function returns an Uint8Array or hexstring private key when it just returns a Uint8Array, we should fix that
 Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
-
   Uint8List privKeyBytes;
   if (privateKey is String) {
     if (privateKey.length != 64) {
       throw ArgumentError('Private key must be a 32-byte hexadecimal string.');
     }
-    privKeyBytes = Uint8List.fromList(
-        List<int>.generate(privateKey.length ~/ 2, (i) => int.parse(privateKey.substring(i * 2, i * 2 + 2), radix: 16)));
+    privKeyBytes = Uint8List.fromList(List<int>.generate(privateKey.length ~/ 2,
+        (i) => int.parse(privateKey.substring(i * 2, i * 2 + 2), radix: 16)));
   } else if (privateKey is Uint8List) {
     if (privateKey.length != 32) {
       throw ArgumentError('Private key must be exactly 32 bytes.');
     }
     privKeyBytes = privateKey;
   } else {
-    throw ArgumentError('Private key must be a Uint8List or a hexadecimal string.');
+    throw ArgumentError(
+        'Private key must be a Uint8List or a hexadecimal string.');
   }
 
   final domain = ECDomainParameters('secp256r1');
 
-  final privateKeyValue = BigInt.parse(privKeyBytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(), radix: 16);
+  final privateKeyValue = BigInt.parse(
+      privKeyBytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(),
+      radix: 16);
   final privateKeyParam = ECPrivateKey(privateKeyValue, domain);
   final publicKeyPoint = domain.G * privateKeyParam.d;
 
@@ -341,56 +344,24 @@ Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
   }
 }
 
-/// HPKE Decrypt Function
-/// Decrypts data using the Hybrid Public Key Encryption (HPKE) standard (RFC 9180).
-///
-/// - [ciphertextBuf]: The ciphertext as a `Uint8List`.
-/// - [encappedKeyBuf]: The encapsulated key as a `Uint8List`.
-/// - [receiverPriv]: The receiver's private key as a hexadecimal string.
+/// Generates a P-256 key pair.
 ///
 /// Returns:
-/// - The decrypted data as a `Uint8List`.
-Uint8List hpkeDecrypt({
-  required Uint8List ciphertextBuf,
-  required Uint8List encappedKeyBuf,
-  required String receiverPriv,
-}) {
-  try {
-
-    final receiverPubBuf = getPublicKey(
-      fromHex(receiverPriv),
-      isCompressed: false,
-    );
-
-    final aad = buildAdditionalAssociatedData(encappedKeyBuf, receiverPubBuf); // Eventually we want users to be able to pass in aad as optional
-
-    // Step 1: Generate the Shared Secret
-    final ss = deriveSS(encappedKeyBuf, receiverPriv);
-
-    // Step 2: Generate the KEM context
-    final kemContext = getKemContext(
-      encappedKeyBuf,
-      receiverPubBuf.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(),
-    );
-
-    // Step 3: Build the HKDF inputs for key derivation
-    final ikmEaePrk = buildLabeledIkm(LABEL_EAE_PRK, ss, SUITE_ID_1);
-    final infoSharedSecret = buildLabeledInfo(LABEL_SHARED_SECRET, kemContext, SUITE_ID_1, 32);
-    final sharedSecret = extractAndExpand(Uint8List(0), ikmEaePrk, infoSharedSecret, 32);
-
-    // Step 4: Derive the AES key
-    final ikmSecret = buildLabeledIkm(LABEL_SECRET, Uint8List(0), SUITE_ID_2);
-    final key = extractAndExpand(sharedSecret, ikmSecret, AES_KEY_INFO, 32);
-
-    // Step 5: Derive the initialization vector
-    final iv = extractAndExpand(sharedSecret, ikmSecret, IV_INFO, 12);
-
-    // Step 6: Decrypt the data using AES-GCM
-    final decryptedData = aesGcmDecrypt(ciphertextBuf, key, iv, aad);
-    return decryptedData;
-  } catch (error) {
-    throw Exception('Unable to perform hpkeDecrypt: $error');
+/// - A `KeyPair` object containing the private key, compressed public key, and uncompressed public key as hex strings.
+KeyPair generateP256KeyPair() {
+  final random = Random.secure();
+  final privateKey = Uint8List(32);
+  for (int i = 0; i < 32; i++) {
+    privateKey[i] = random.nextInt(256);
   }
+
+  final publicKey = getPublicKey(privateKey, isCompressed: true);
+  final publicKeyUncompressed =
+      uint8ArrayToHexString(uncompressRawPublicKey(publicKey));
+
+  return KeyPair(
+    privateKey: uint8ArrayToHexString(privateKey),
+    publicKey: uint8ArrayToHexString(publicKey),
+    publicKeyUncompressed: publicKeyUncompressed,
+  );
 }
-
-
