@@ -2,9 +2,11 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'constant.dart';
 import 'helper.dart';
+import 'hpke.dart';
 import 'math.dart';
 import 'package:encoding/encoding.dart';
 import 'package:pointycastle/export.dart';
+import 'package:base58check/base58check.dart';
 import 'type.dart';
 
 /**
@@ -365,3 +367,51 @@ KeyPair generateP256KeyPair() {
     publicKeyUncompressed: publicKeyUncompressed,
   );
 }
+
+/// Decrypts an encrypted email auth/recovery or OAuth credential bundle.
+///
+/// - [credentialBundle]: The encrypted credential bundle as a Base58Check encoded string.
+/// - [embeddedKey]: The private key for decryption as a hexadecimal string.
+///
+/// Returns:
+/// - The decrypted data as a hexadecimal string.
+///
+/// Throws:
+/// - [ArgumentError] if the credential bundle is invalid or too small.
+/// - [Exception] if decryption fails.
+String decryptCredentialBundle({
+  required String credentialBundle,
+  required String embeddedKey,
+}) {
+  try {
+    // TODO: check if bitcoin is the right codec here, in javascript we use https://github.com/bitcoinjs/bs58check
+    final bundleBytes = Base58CheckCodec.bitcoin().decode(credentialBundle);
+
+    // Base58CheckCodec strips the version byte, so we need to add it back 
+    final versionByte = Uint8List.fromList([bundleBytes.version]); // Add the version byte
+    final bundleBytesPayload = Uint8List.fromList(versionByte + bundleBytes.payload);
+
+
+    if (bundleBytesPayload.length <= 33) {
+      throw ArgumentError(
+        'Bundle size ${bundleBytesPayload.length} is too low. Expecting a compressed public key (33 bytes) and an encrypted credential.',
+      );
+    }
+
+    final compressedEncappedKeyBuf = Uint8List.fromList(bundleBytesPayload.sublist(0, 33));
+    final ciphertextBuf = Uint8List.fromList(bundleBytesPayload.sublist(33));
+    final encappedKeyBuf = uncompressRawPublicKey(compressedEncappedKeyBuf);
+
+    final decryptedData = hpkeDecrypt(
+      ciphertextBuf: ciphertextBuf,
+      encappedKeyBuf: encappedKeyBuf,
+      receiverPriv: embeddedKey,
+    );
+
+    return uint8ArrayToHexString(decryptedData);
+  } catch (error) {
+    throw Exception('Error decrypting bundle: $error');
+  }
+}
+
+

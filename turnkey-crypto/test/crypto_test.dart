@@ -583,4 +583,50 @@ void main() {
       expect(gotPub, equals(expectedPub));
     });
   });
+  group('decryptCredentialBundle Tests', () {
+    const mockSenderPrivateKey =
+        "67ee05fc3bdf4161bc70701c221d8d77180294cefcfcea64ba83c4d4c732fcb9";
+    const mockPrivateKey =
+        "20fa65df11f24833790ae283fc9a0c215eecbbc589549767977994dc69d05a56";
+    const mockCredentialBundle =
+        "w99a5xV6A75TfoAUkZn869fVyDYvgVsKrawMALZXmrauZd8hEv66EkPU1Z42CUaHESQjcA5bqd8dynTGBMLWB9ewtXWPEVbZvocB4Tw2K1vQVp7uwjf";
+
+    test('decryptCredentialBundle successfully decrypts a valid bundle', () {
+      
+        final decryptedData = decryptCredentialBundle(
+          credentialBundle: mockCredentialBundle,
+          embeddedKey: mockPrivateKey,
+        );
+
+        expect(
+          decryptedData, mockSenderPrivateKey
+        );
+      
+    });
+
+    test('decryptCredentialBundle throws an error for invalid bundle', () {
+      const invalidBundle = "invalidBase58CheckData";
+
+      expect(
+        () => decryptCredentialBundle(
+          credentialBundle: invalidBundle,
+          embeddedKey: mockPrivateKey,
+        ),
+        throwsException,
+      );
+    });
+
+    test('decryptCredentialBundle throws an error for incorrect private key', () {
+      const incorrectPrivateKey =
+          "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+
+      expect(
+        () => decryptCredentialBundle(
+          credentialBundle: mockCredentialBundle,
+          embeddedKey: incorrectPrivateKey,
+        ),
+        throwsException,
+      );
+    });
+  });
 }
