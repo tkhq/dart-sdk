@@ -6,9 +6,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  elliptic: ^0.3.11
-  crypto: ^3.0.6
-  ecdsa: ^0.1.2
+  elliptic: 0.3.11
+  crypto: 3.0.6
+  ecdsa: 0.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
