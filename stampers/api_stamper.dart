@@ -3,6 +3,21 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
+import 'package:fluttter_test/sdk_files/stampers/types.dart';
+import 'package:fluttter_test/sdk_files/stampers/utils.dart';
+
+
+ class ApiStamperConfig {
+  final String apiPublicKey;
+
+  final String apiPrivateKey;
+
+  ApiStamperConfig({
+    required this.apiPublicKey,
+    required this.apiPrivateKey,
+  });
+}
+
 
 String signWithApiKey(String publicKey, String privateKey, String content) {
   
@@ -31,5 +46,29 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
   sig.S = sBigInt;
 
   return(sig.toDERHex());
+
+}
+
+class ApiStamper {
+  final String apiPublicKey;
+  final String apiPrivateKey;
+
+  ApiStamper(ApiStamperConfig config): apiPublicKey = config.apiPublicKey, apiPrivateKey = config.apiPrivateKey;
+
+  StampReturnType stamp(String content) {
+    var signature = signWithApiKey(apiPublicKey, apiPrivateKey, content);
+
+    var stamp = {
+      "publicKey": apiPublicKey,
+      "scheme": "SIGNATURE_SCHEME_TK_API_P256",
+      "signature": signature,
+    };
+
+    return StampReturnType(
+      stampHeaderName: stampHeaderName,
+      stampHeaderValue: jsonEncode(stamp),
+    );
+  }
+
 
 }

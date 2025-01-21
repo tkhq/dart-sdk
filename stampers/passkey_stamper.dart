@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
-import 'dart:typed_data';
+import 'package:fluttter_test/sdk_files/stampers/types.dart';
+import 'package:fluttter_test/sdk_files/stampers/utils.dart';
 import 'package:passkeys/authenticator.dart';
-import 'package:passkeys/exceptions.dart';
 import 'package:passkeys/types.dart';
+
 
 /// Enum for authenticator transport types
 enum AuthenticatorTransport {
@@ -15,18 +15,20 @@ enum AuthenticatorTransport {
   internal,
 }
 
-/// Descriptor for allowed credentials
-class PublicKeyCredentialDescriptor {
-  final String type;
-  final String id;
-  final List<AuthenticatorTransport>? transports;
+class Stamp {
+  final String authenticatorData;
+  final String clientDataJson;
+  final String credentialId;
+  final String signature;
 
-  PublicKeyCredentialDescriptor({
-    required this.type,
-    required this.id,
-    this.transports,
+  Stamp({
+    required this.authenticatorData,
+    required this.clientDataJson,
+    required this.credentialId,
+    required this.signature,
   });
 }
+
 
 class PasskeyRegistrationConfig {
   final Map<String, String> rp; // Relying party details: {name, id}
@@ -51,6 +53,36 @@ class PasskeyRegistrationConfig {
 }
 
 
+ class PasskeyStamperConfig {
+  // The RPID ("Relying Party ID") for your app.
+  // See https://github.com/f-23/react-native-passkey?tab=readme-ov-file#configuration to set this up.
+  final String rpId;
+
+  // Optional timeout value in milliseconds. Defaults to 5 minutes.
+  final int? timeout;
+
+  final String? userVerification;
+
+  // Optional list of credentials to pass. Defaults to empty.
+  final List<CredentialType>? allowCredentials;
+
+  // Option to force security passkeys on native platforms
+  final bool? withSecurityKey;
+
+  // Option to force platform passkeys on native platforms
+  final bool? withPlatformKey;
+
+  // Optional extensions. Defaults to empty.
+  final Map<String, dynamic>? extensions;
+
+  final MediationType? mediation;
+
+  final bool? preferImmediatelyAvailableCredentials;
+
+  PasskeyStamperConfig({required this.rpId, this.timeout, this.userVerification, this.allowCredentials, this.withSecurityKey, this.withPlatformKey, this.mediation, this.preferImmediatelyAvailableCredentials, this.extensions});
+
+}
+
 String base64StringToBase64UrlEncodedString(String input) { // TODO: replace with function from encoding library
   return input
       .replaceAll('+', '-')  // Replace '+' with '-'
@@ -59,18 +91,11 @@ String base64StringToBase64UrlEncodedString(String input) { // TODO: replace wit
 }
 
 
-String generateChallenge() {
-  final random = Random.secure();
-  final Uint8List bytes = Uint8List.fromList(
-    List<int>.generate(32, (_) => random.nextInt(256)),  // 32 random bytes
-  );
-  return base64Url.encode(bytes).replaceAll('=', '');  // Base64URL without padding
-}
 
 /// Function to create a passkey
 Future<Map<String, dynamic>> createPasskey(
   PasskeyRegistrationConfig config,
-  {bool withSecurityKey = false, bool withPlatformKey = false}
+  {bool withSecurityKey = false, bool withPlatformKey = false}  // TODO: Support for security key and platform key
 ) async {
   final String challenge = config.challenge ?? generateChallenge();
 
@@ -88,9 +113,9 @@ final String userId = base64Url.encode(utf8.encode(config.user['id']!)).replaceA
     attestation: config.attestation ?? 'none',
     authSelectionType: config.authenticatorSelection ?? AuthenticatorSelectionType(
       requireResidentKey: true,
-      authenticatorAttachment: 'platform',
+      authenticatorAttachment: "platform",
       residentKey: "required",
-      userVerification: "preferred",
+      userVerification: "preferred"
     ),
   );
 
@@ -108,23 +133,64 @@ final String userId = base64Url.encode(utf8.encode(config.user['id']!)).replaceA
   };
 }
 
-// /// Passkey Stamper class
-// class PasskeyStamper {
-//   final String rpId;
-//   final int timeout;
-//   final String userVerification;
-//   final List<PublicKeyCredentialDescriptor> allowCredentials;
-//   final bool forcePlatformKey;
-//   final bool forceSecurityKey;
-//   final Map<String, dynamic> extensions;
 
-//   PasskeyStamper(TPasskeyStamperConfig config)
-//       : rpId = config.rpId,
-//         timeout = config.timeout ?? 300000,
-//         userVerification = config.userVerification ?? 'preferred',
-//         allowCredentials = config.allowCredentials ?? [],
-//         forcePlatformKey = config.withPlatformKey ?? false,
-//         forceSecurityKey = config.withSecurityKey ?? false,
-//         extensions = config.extensions ?? {};
 
-// }
+/// Passkey Stamper class
+class PasskeyStamper {
+  final String rpId;
+  final int timeout;
+  final String userVerification;
+  final List<CredentialType> allowCredentials;
+  final bool forcePlatformKey;
+  final bool forceSecurityKey;
+  final MediationType mediation;
+  final bool preferImmediatelyAvailableCredentials;
+  final Map<String, dynamic> extensions;
+  
+
+  PasskeyStamper(PasskeyStamperConfig config)
+      : rpId = config.rpId,
+        timeout = config.timeout ?? 300000,
+        userVerification = config.userVerification ?? 'preferred',
+        allowCredentials = config.allowCredentials ?? [],
+        forcePlatformKey = config.withPlatformKey ?? false, //TODO: Allow for platform key
+        forceSecurityKey = config.withSecurityKey ?? false, //TODO: Allow for security key
+        mediation = config.mediation ?? MediationType.Silent,
+        preferImmediatelyAvailableCredentials = config.preferImmediatelyAvailableCredentials ?? true,
+        extensions = config.extensions ?? {};
+
+
+  Future<StampReturnType> stamp(String payload) async {
+    final challenge = getChallengeFromPayload(payload);
+
+    final authenticator = PasskeyAuthenticator(); //TODO: Is it ok to create another authenticator object here?
+
+    final signingOptions = AuthenticateRequestType(
+      challenge: challenge,
+      mediation: mediation,
+      relyingPartyId: rpId,
+      timeout: timeout,
+      allowCredentials: allowCredentials,
+      userVerification: userVerification, 
+      preferImmediatelyAvailableCredentials: preferImmediatelyAvailableCredentials,
+    );
+
+    var authenticationResult = await authenticator.authenticate(signingOptions);
+
+    var stamp = {
+      "authenticatorData": base64StringToBase64UrlEncodedString(
+        authenticationResult.authenticatorData
+      ),
+      "clientDataJson": base64StringToBase64UrlEncodedString(
+        authenticationResult.clientDataJSON
+      ),
+      "credentialId": base64StringToBase64UrlEncodedString(authenticationResult.id),
+      "signature": base64StringToBase64UrlEncodedString(authenticationResult.signature),
+    };
+
+    return StampReturnType(
+      stampHeaderName: stampHeaderName,
+      stampHeaderValue: jsonEncode(stamp),
+    );
+  }
+}
