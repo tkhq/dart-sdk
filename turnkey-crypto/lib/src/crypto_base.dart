@@ -630,3 +630,175 @@ Future<String> decryptExportBundle({
     throw Exception('Error decrypting bundle: $error');
   }
 }
+
+/// Decodes a private key based on the specified format.
+///
+/// Parameters:
+/// - [privateKey]: The private key to decode.
+/// - [keyFormat]: The format of the private key (e.g., "SOLANA", "HEXADECIMAL").
+///
+/// Returns:
+/// - A [Uint8List] representing the decoded private key.
+///
+/// Throws:
+/// - [Exception]: If the key length is invalid for the "SOLANA" format.
+Uint8List decodeKey(String privateKey, String keyFormat) {
+  switch (keyFormat) {
+    case "SOLANA":
+      final decodedKeyBytes = base58.decode(privateKey);
+      if (decodedKeyBytes.length != 64) {
+        throw Exception(
+            'Invalid key length. Expected 64 bytes. Got ${decodedKeyBytes.length}.');
+      }
+      return Uint8List.fromList(decodedKeyBytes.sublist(0, 32));
+    case "HEXADECIMAL":
+      if (privateKey.startsWith("0x")) {
+        return uint8ArrayFromHexString(privateKey.substring(2));
+      }
+      return uint8ArrayFromHexString(privateKey);
+    default:
+      print(
+          'Invalid key format: $keyFormat. Defaulting to HEXADECIMAL.');
+      if (privateKey.startsWith("0x")) {
+        return uint8ArrayFromHexString(privateKey.substring(2));
+      }
+      return uint8ArrayFromHexString(privateKey);
+  }
+}
+
+/// Encrypts a mnemonic wallet bundle using HPKE and verifies the enclave signature.
+///
+/// Parameters:
+/// - [mnemonic]: The mnemonic phrase to encrypt.
+/// - [importBundle]: The JSON string representing the import bundle.
+/// - [userId]: The user ID associated with the bundle.
+/// - [organizationId]: The organization ID associated with the bundle.
+/// - [dangerouslyOverrideSignerPublicKey]: Optionally override the default signer public key (for testing purposes).
+///
+/// Returns:
+/// - A [String] representing the encrypted wallet bundle in JSON format.
+///
+/// Throws:
+/// - [Exception]: If enclave signature verification or validation fails.
+Future<String> encryptWalletToBundle({
+  required String mnemonic,
+  required String importBundle,
+  required String userId,
+  required String organizationId,
+  String? dangerouslyOverrideSignerPublicKey,
+}) async {
+  final Map<String, dynamic> parsedImportBundle = jsonDecode(importBundle);
+  final Uint8List plainTextBuf = Uint8List.fromList(utf8.encode(mnemonic));
+  final bool verified = await verifyEnclaveSignature(
+    enclaveQuorumPublic: parsedImportBundle['enclaveQuorumPublic'],
+    publicSignature: parsedImportBundle['dataSignature'],
+    signedData: parsedImportBundle['data'],
+    dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
+  );
+
+  if (!verified) {
+    throw Exception('Failed to verify enclave signature: $importBundle');
+  }
+
+  final Uint8List dataBytes = uint8ArrayFromHexString(parsedImportBundle['data']);
+  final String signedDataJson = utf8.decode(dataBytes);
+  final Map<String, dynamic> signedData = jsonDecode(signedDataJson);
+
+  if (signedData['organizationId'] == null ||
+      signedData['organizationId'] != organizationId) {
+    throw Exception(
+      'Organization ID does not match expected value. '
+      'Expected: $organizationId. Found: ${signedData["organizationId"]}.',
+    );
+  }
+
+  if (signedData['userId'] == null || signedData['userId'] != userId) {
+    throw Exception(
+      'User ID does not match expected value. '
+      'Expected: $userId. Found: ${signedData["userId"]}.',
+    );
+  }
+
+  if (signedData['targetPublic'] == null) {
+    throw Exception('Missing "targetPublic" in bundle signed data.');
+  }
+
+  // Load target public key generated from enclave and set in local storage
+  // TODO: this is a comment in the javascript implementation, but I don't think this makes sense
+  final Uint8List targetKeyBuf = uint8ArrayFromHexString(signedData['targetPublic']);
+  final Uint8List privateKeyBundle = hpkeEncrypt(
+    plainTextBuf: plainTextBuf,
+    targetKeyBuf: targetKeyBuf,
+  );
+  return formatHpkeBuf(privateKeyBundle);
+}
+
+/// Encrypts a private key bundle using HPKE and verifies the enclave signature.
+///
+/// Parameters:
+/// - [privateKey]: The private key to encrypt.
+/// - [keyFormat]: The format of the private key (e.g., "SOLANA", "HEXADECIMAL").
+/// - [importBundle]: The JSON string representing the import bundle.
+/// - [userId]: The user ID associated with the bundle.
+/// - [organizationId]: The organization ID associated with the bundle.
+/// - [dangerouslyOverrideSignerPublicKey]: Optionally override the default signer public key (for testing purposes).
+///
+/// Returns:
+/// - A [String] representing the encrypted bundle in JSON format.
+///
+/// Throws:
+/// - [Exception]: If enclave signature verification or validation fails.
+Future<String> encryptPrivateKeyToBundle({
+  required String privateKey,
+  required String keyFormat,
+  required String importBundle,
+  required String userId,
+  required String organizationId,
+  String? dangerouslyOverrideSignerPublicKey,
+}) async {
+  final Map<String, dynamic> parsedImportBundle = jsonDecode(importBundle);
+  final Uint8List plainTextBuf = decodeKey(privateKey, keyFormat);
+  final bool verified = await verifyEnclaveSignature(
+    enclaveQuorumPublic: parsedImportBundle['enclaveQuorumPublic'],
+    publicSignature: parsedImportBundle['dataSignature'],
+    signedData: parsedImportBundle['data'],
+    dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
+  );
+
+  if (!verified) {
+    throw Exception('Failed to verify enclave signature: $importBundle');
+  }
+
+  final Uint8List dataBytes = uint8ArrayFromHexString(parsedImportBundle['data']);
+  final String signedDataJson = utf8.decode(dataBytes);
+  final Map<String, dynamic> signedData = jsonDecode(signedDataJson);
+
+  if (signedData['organizationId'] == null ||
+      signedData['organizationId'] != organizationId) {
+    throw Exception(
+      'Organization ID does not match expected value. '
+      'Expected: $organizationId. Found: ${signedData["organizationId"]}.',
+    );
+  }
+
+  if (signedData['userId'] == null || signedData['userId'] != userId) {
+    throw Exception(
+      'User ID does not match expected value. '
+      'Expected: $userId. Found: ${signedData["userId"]}.',
+    );
+  }
+
+  if (signedData['targetPublic'] == null) {
+    throw Exception('Missing "targetPublic" in bundle signed data.');
+  }
+
+  // Load target public key generated from enclave and set in local storage
+  // TODO: this is a comment in the javascript implementation, but I don't think this makes sense
+  final Uint8List targetKeyBuf = uint8ArrayFromHexString(signedData['targetPublic']);
+  final Uint8List privateKeyBundle = hpkeEncrypt(
+    plainTextBuf: plainTextBuf,
+    targetKeyBuf: targetKeyBuf,
+  );
+  return formatHpkeBuf(privateKeyBundle);
+}
+
