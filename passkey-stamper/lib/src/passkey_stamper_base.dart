@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:fluttter_test/sdk_files/stampers/types.dart';
-import 'package:fluttter_test/sdk_files/stampers/utils.dart';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/types.dart';
+
+import 'types.dart';
+import 'utils.dart';
 
 
 /// Enum for authenticator transport types
@@ -158,6 +159,8 @@ class PasskeyStamper {
         mediation = config.mediation ?? MediationType.Silent,
         preferImmediatelyAvailableCredentials = config.preferImmediatelyAvailableCredentials ?? true,
         extensions = config.extensions ?? {};
+
+  final stampHeaderName = "X-Stamp";
 
 
   Future<StampReturnType> stamp(String payload) async {

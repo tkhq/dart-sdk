@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 
-final stampHeaderName = "X-Stamp";
 
 String getChallengeFromPayload(String payload) {
   final bytes = utf8.encode(payload);

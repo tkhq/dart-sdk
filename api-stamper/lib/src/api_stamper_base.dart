@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
-import 'package:fluttter_test/sdk_files/stampers/types.dart';
-import 'package:fluttter_test/sdk_files/stampers/utils.dart';
+
+import 'types.dart';
 
 
  class ApiStamperConfig {
@@ -52,6 +52,8 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
 class ApiStamper {
   final String apiPublicKey;
   final String apiPrivateKey;
+
+  var stampHeaderName = "X-Stamp";
 
   ApiStamper(ApiStamperConfig config): apiPublicKey = config.apiPublicKey, apiPrivateKey = config.apiPrivateKey;
 
