@@ -5,6 +5,7 @@ import 'package:encoding/encoding.dart';
 import 'package:pointycastle/export.dart';
 import 'crypto_base.dart';
 
+
 /// Simple HMAC-SHA256 function.
 Uint8List hmacSha256(Uint8List key, Uint8List data) {
   final hmac = HMac(SHA256Digest(), 64);

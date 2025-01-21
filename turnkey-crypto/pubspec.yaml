@@ -12,6 +12,9 @@ dependencies:
     path: ../encoding
   pointycastle: ^3.9.0
   base58check: ^2.0.0
+  bs58: ^1.0.2
+  cryptography: ^2.7.0
+
 
 dev_dependencies:
   lints: ^5.0.0

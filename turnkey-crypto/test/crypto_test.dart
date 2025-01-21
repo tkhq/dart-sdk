@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:encoding/encoding.dart';
+import 'package:pointycastle/pointycastle.dart';
 import 'package:test/test.dart';
 import 'package:turnkey_crypto/src/constant.dart';
 import 'package:turnkey_crypto/src/crypto_base.dart';
@@ -592,16 +593,12 @@ void main() {
         "w99a5xV6A75TfoAUkZn869fVyDYvgVsKrawMALZXmrauZd8hEv66EkPU1Z42CUaHESQjcA5bqd8dynTGBMLWB9ewtXWPEVbZvocB4Tw2K1vQVp7uwjf";
 
     test('decryptCredentialBundle successfully decrypts a valid bundle', () {
-      
-        final decryptedData = decryptCredentialBundle(
-          credentialBundle: mockCredentialBundle,
-          embeddedKey: mockPrivateKey,
-        );
+      final decryptedData = decryptCredentialBundle(
+        credentialBundle: mockCredentialBundle,
+        embeddedKey: mockPrivateKey,
+      );
 
-        expect(
-          decryptedData, mockSenderPrivateKey
-        );
-      
+      expect(decryptedData, mockSenderPrivateKey);
     });
 
     test('decryptCredentialBundle throws an error for invalid bundle', () {
@@ -616,7 +613,8 @@ void main() {
       );
     });
 
-    test('decryptCredentialBundle throws an error for incorrect private key', () {
+    test('decryptCredentialBundle throws an error for incorrect private key',
+        () {
       const incorrectPrivateKey =
           "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
@@ -629,4 +627,493 @@ void main() {
       );
     });
   });
+
+  group('loadPublicKey Tests', () {
+    test('Valid public key bytes => returns ECPublicKey', () {
+      final validPublicKeyBytes = Uint8List.fromList([
+        4,
+        215,
+        60,
+        217,
+        225,
+        182,
+        41,
+        101,
+        31,
+        193,
+        217,
+        78,
+        252,
+        159,
+        81,
+        223,
+        31,
+        29,
+        32,
+        232,
+        110,
+        161,
+        8,
+        23,
+        68,
+        229,
+        214,
+        110,
+        229,
+        64,
+        81,
+        98,
+        16,
+        68,
+        17,
+        77,
+        220,
+        87,
+        238,
+        82,
+        134,
+        106,
+        131,
+        216,
+        21,
+        108,
+        213,
+        9,
+        250,
+        104,
+        162,
+        145,
+        100,
+        102,
+        216,
+        18,
+        67,
+        23,
+        129,
+        38,
+        45,
+        227,
+        120,
+        85,
+        239
+      ]);
+      final publicKey = loadPublicKey(validPublicKeyBytes);
+
+      expect(publicKey, isA<ECPublicKey>());
+      expect(publicKey.Q!.x, isNotNull);
+      expect(publicKey.Q!.y, isNotNull);
+    });
+
+    test('Invalid public key bytes => throws ArgumentError', () {
+      final invalidPublicKeyBytes = Uint8List.fromList([0x02, 0x01, 0x02]);
+
+      expect(() => loadPublicKey(invalidPublicKeyBytes), throwsArgumentError);
+    });
+
+    test('Empty public key bytes => throws ArgumentError', () {
+      final emptyPublicKeyBytes = Uint8List(0);
+
+      expect(() => loadPublicKey(emptyPublicKeyBytes), throwsArgumentError);
+    });
+
+    test('Compressed public key bytes => throws ArgumentError', () {
+      final compressedPublicKeyBytes = Uint8List.fromList([
+        2,
+        215,
+        60,
+        217,
+        225,
+        182,
+        41,
+        101,
+        31,
+        193,
+        217,
+        78,
+        252,
+        159,
+        81,
+        223,
+        31,
+        29,
+        32,
+        232,
+        110,
+        161,
+        8,
+        23,
+        68,
+        229,
+        214,
+        110,
+        229,
+        64,
+        81,
+        98
+      ]);
+
+      expect(
+          () => loadPublicKey(compressedPublicKeyBytes), throwsArgumentError);
+    });
+  });
+
+  group('fromDerSignature Tests', () {
+    test('Valid DER signature => normalized r and s components', () {
+      final derSignature =
+          '304402201a8bc9bf9ae2745b6db1f3b073b8cf36c9c3f792e5d2ec182d96f86e26eaf0420220609d4b5145d4e9b1d745eb57c1532a98f541f5c72b6b7ad8c0a2e8471d96f5c5';
+      final expectedResult = Uint8List.fromList([
+        26,
+        139,
+        201,
+        191,
+        154,
+        226,
+        116,
+        91,
+        109,
+        177,
+        243,
+        176,
+        115,
+        184,
+        207,
+        54,
+        201,
+        195,
+        247,
+        146,
+        229,
+        210,
+        236,
+        24,
+        45,
+        150,
+        248,
+        110,
+        38,
+        234,
+        240,
+        66,
+        96,
+        157,
+        75,
+        81,
+        69,
+        212,
+        233,
+        177,
+        215,
+        69,
+        235,
+        87,
+        193,
+        83,
+        42,
+        152,
+        245,
+        65,
+        245,
+        199,
+        43,
+        107,
+        122,
+        216,
+        192,
+        162,
+        232,
+        71,
+        29,
+        150,
+        245,
+        197
+      ]);
+      final result = fromDerSignature(derSignature);
+
+      expect(result, equals(expectedResult));
+    });
+
+    test(
+        'Invalid DER signature - invalid r tag => normalized r and s components',
+        () {
+      final invalidDerSignature =
+          '304402201a8bc9bf9ae2745b6db1f3b073b8cf36c9c3f792e5d2ec182d96f86e26eaf0020220609d4b5145d4e9b1d745eb57c1532a98f541f5c72b6b7ad8c0a2e8471d96f5c5';
+      final expectedResult = Uint8List.fromList([
+        26,
+        139,
+        201,
+        191,
+        154,
+        226,
+        116,
+        91,
+        109,
+        177,
+        243,
+        176,
+        115,
+        184,
+        207,
+        54,
+        201,
+        195,
+        247,
+        146,
+        229,
+        210,
+        236,
+        24,
+        45,
+        150,
+        248,
+        110,
+        38,
+        234,
+        240,
+        2,
+        96,
+        157,
+        75,
+        81,
+        69,
+        212,
+        233,
+        177,
+        215,
+        69,
+        235,
+        87,
+        193,
+        83,
+        42,
+        152,
+        245,
+        65,
+        245,
+        199,
+        43,
+        107,
+        122,
+        216,
+        192,
+        162,
+        232,
+        71,
+        29,
+        150,
+        245,
+        197
+      ]);
+      final result = fromDerSignature(invalidDerSignature);
+
+      expect(result, equals(expectedResult));
+    });
+
+    test('Invalid DER signature - invalid s tag => throws ArgumentError', () {
+      final invalidDerSignature =
+          '304402201a8bc9bf9ae2745b6db1f3b073b8cf36c9c3f792e5d2ec182d96f86e26eaf0420230609d4b5145d4e9b1d745eb57c1532a98f541f5c72b6b7ad8c0a2e8471d96f5c5';
+
+      expect(() => fromDerSignature(invalidDerSignature), throwsArgumentError);
+    });
+
+    test('Short DER signature => throws ArgumentError', () {
+      final shortDerSignature = '30440220';
+
+      expect(() => fromDerSignature(shortDerSignature), throwsArgumentError);
+    });
+
+    test('Valid DER signature with short r or s => correctly padded', () {
+      final derSignature = '3022020100020100';
+      final expectedResult = Uint8List.fromList([
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]);
+      final result = fromDerSignature(derSignature);
+
+      expect(result, equals(expectedResult));
+    });
+  });
+
+  group('verifyEnclaveSignature Tests', () {
+    const validEnclaveQuorumPublic =
+        '04595ed0c8b500e3ce5c7ad1c904a5cde7f29e53ef253e8949182d9806a06d89fe0bf17d0da776b4031e2a90a2ff9710efd082d623b97b2856ca9f5a11c3b7ef43';
+    const validPublicSignature =
+        '30440220257e9689b54d355709f93876219bc95133eb62ea8c6013492a42dc9889fc2d5902203e2a8772dce41ea457790de0e32f6e56379290e3e39ca7cdd6a16a772a0e0388';
+    const validSignedData =
+        '86a3c2c1b359cd89bdb707f221bc0c93eab9d10bc16cc301e91ecbb700fbcf71';
+
+    const invalidEnclaveQuorumPublic =
+        '048eef6caa4e098cc1c3dcb9ad6a7b5b69b1e734a08c19fd326f7485a8e45c03d7b460de7a1bf314f2a550a23f3e02a1d4dc124f29395e2c7ed9c5c91a76077157';
+    const invalidPublicSignature =
+        '3045022100b2f5c3b83914c837ff5a8e7d5f3f2c6317b59a23768e2a4df8e0f73d47f3e97a0220049d5dbff61985d43480ac31304eeb1cd98cde7f539e9fbb640f7807eaa7e64a';
+
+    test('Valid signature with matching public key', () {
+      final result = verifyEnclaveSignature(
+        enclaveQuorumPublic: validEnclaveQuorumPublic,
+        publicSignature: validPublicSignature,
+        signedData: validSignedData,
+        dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
+      );
+      expect(result, isTrue);
+    });
+
+    test('Invalid signature with mismatched public key => throws ArgumentError',
+        () {
+      expect(
+        () => verifyEnclaveSignature(
+          enclaveQuorumPublic: invalidEnclaveQuorumPublic,
+          publicSignature: validPublicSignature,
+          signedData: validSignedData,
+          dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+
+    test('Valid signature but incorrect signed data => returns false', () {
+      const incorrectSignedData =
+          'e1a24f1cb1e2f96d6b1cf7f63e2816d6c89e49e576b1618c5db4f19e23909c7a';
+
+      final result = verifyEnclaveSignature(
+        enclaveQuorumPublic: validEnclaveQuorumPublic,
+        publicSignature: validPublicSignature,
+        signedData: incorrectSignedData,
+        dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
+      );
+      expect(result, isFalse);
+    });
+
+    // I'm not sure if this makes sense. The signature is invalid, should it return false or throw an error?
+    // TODO: Investigate what the javascript implementation does
+    test('Invalid signature format => returns false', () {
+      final result = verifyEnclaveSignature(
+        enclaveQuorumPublic: validEnclaveQuorumPublic,
+        publicSignature: invalidPublicSignature,
+        signedData: validSignedData,
+        dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
+      );
+
+      expect(result, isFalse);
+    });
+  });
+
+  // TODO: Add tests for other cases
+  group('decryptExportBundle Tests', () {
+  test('decryptExportBundle successfully decrypts a valid bundle - mnemonic ', () async {
+    const exportBundle = '''
+      {
+        "version": "v1.0.0",
+        "data": "7b22656e6361707065645075626c6963223a2230343434313065633837653566653266666461313561313866613337376132316133633431633334373666383631333362343238306164373631303266343064356462326463353362343730303763636139336166666330613535316464353134333937643039373931636664393233306663613330343862313731663364363738222c2263697068657274657874223a22656662303538626633666634626534653232323330326266326636303738363062343237346232623031616339343536643362613638646135613235363236303030613839383262313465306261663061306465323966353434353461333739613362653664633364386339343938376131353638633764393566396663346239316265663232316165356562383432333361323833323131346431373962646664636631643066376164656231353766343131613439383430222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437227d",
+        "dataSignature": "304502203a7dc258590a637e76f6be6ed1a2080eed5614175060b9073f5e36592bdaf610022100ab9955b603df6cf45408067f652da48551652451b91967bf37dd094d13a7bdd4",
+        "enclaveQuorumPublic": "04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"
+      }
+    ''';
+
+    const privateKey =
+        'ffc6090f14bcf260e5dfe63f45412e60a477bb905956d7cc90195b71c2a544b3';
+
+    const expectedMnemonic =
+        'leaf lady until indicate praise final route toast cake minimum insect unknown';
+
+    final result = await decryptExportBundle(
+      exportBundle: exportBundle,
+      embeddedKey: privateKey,
+      organizationId: 'f9a31c64-d604-42e4-9bef-a773096afad7',
+      keyFormat: 'HEXADECIMAL',
+      returnMnemonic: true,
+    );
+
+    expect(result, expectedMnemonic);
+  });
+});
+
+test('decryptExportBundle successfully decrypts a valid bundle - non-mnemonic', () async {
+    const exportBundle = '''
+      {
+        "version": "v1.0.0",
+        "data": "7b22656e6361707065645075626c6963223a2230343434313065633837653566653266666461313561313866613337376132316133633431633334373666383631333362343238306164373631303266343064356462326463353362343730303763636139336166666330613535316464353134333937643039373931636664393233306663613330343862313731663364363738222c2263697068657274657874223a22656662303538626633666634626534653232323330326266326636303738363062343237346232623031616339343536643362613638646135613235363236303030613839383262313465306261663061306465323966353434353461333739613362653664633364386339343938376131353638633764393566396663346239316265663232316165356562383432333361323833323131346431373962646664636631643066376164656231353766343131613439383430222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437227d",
+        "dataSignature": "304502203a7dc258590a637e76f6be6ed1a2080eed5614175060b9073f5e36592bdaf610022100ab9955b603df6cf45408067f652da48551652451b91967bf37dd094d13a7bdd4",
+        "enclaveQuorumPublic": "04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"
+      }
+    ''';
+
+    const privateKey =
+        'ffc6090f14bcf260e5dfe63f45412e60a477bb905956d7cc90195b71c2a544b3';
+
+    const expectedNonMnemonic =
+        '6c656166206c61647920756e74696c20696e646963617465207072616973652066696e616c20726f75746520746f6173742063616b65206d696e696d756d20696e7365637420756e6b6e6f776e';
+
+    final result = await decryptExportBundle(
+      exportBundle: exportBundle,
+      embeddedKey: privateKey,
+      organizationId: 'f9a31c64-d604-42e4-9bef-a773096afad7',
+      keyFormat: 'HEXADECIMAL',
+      returnMnemonic: false,
+    );
+
+    expect(result, expectedNonMnemonic);
+  });
+
+
 }

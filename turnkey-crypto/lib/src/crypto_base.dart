@@ -1,13 +1,16 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:base58check/base58check.dart';
+import 'package:cryptography/cryptography.dart' as crypto;
 import 'constant.dart';
 import 'helper.dart';
 import 'hpke.dart';
 import 'math.dart';
 import 'package:encoding/encoding.dart';
 import 'package:pointycastle/export.dart';
-import 'package:base58check/base58check.dart';
 import 'type.dart';
+import 'package:bs58/bs58.dart';
 
 /**
  * Convert a BigInt to a hexadecimal string of a specific length.
@@ -346,6 +349,24 @@ Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
   }
 }
 
+/// Loads an ECDSA public key from a raw format for signature verification.
+///
+/// - [publicKeyBytes]: The raw public key bytes as a `Uint8List`.
+///
+/// Returns:
+/// - An `ECPublicKey` object representing the decoded public key on the P-256 curve.
+///
+/// Throws:
+/// - [ArgumentError] if the provided public key bytes are invalid.
+ECPublicKey loadPublicKey(Uint8List publicKeyBytes) {
+  final domain = ECDomainParameters('prime256v1');
+  final ecPoint = domain.curve.decodePoint(publicKeyBytes);
+  if (ecPoint == null) {
+    throw ArgumentError('Invalid public key bytes.');
+  }
+  return ECPublicKey(ecPoint, domain);
+}
+
 /// Generates a P-256 key pair.
 ///
 /// Returns:
@@ -414,4 +435,198 @@ String decryptCredentialBundle({
   }
 }
 
+/// Converts a DER-encoded ECDSA signature into a normalized `Uint8List` format
+/// with 32-byte r and s components concatenated.
+///
+/// - [derSignature]: The DER-encoded ECDSA signature as a hexadecimal string.
+///
+/// Returns:
+/// - A `Uint8List` containing the normalized 32-byte r and s components concatenated.
+///
+/// Throws:
+/// - [ArgumentError] if the DER signature format is invalid or improperly tagged.
+Uint8List fromDerSignature(String derSignature) {
+  final derSignatureBuf = uint8ArrayFromHexString(derSignature);
 
+  // Check and skip the sequence tag (0x30)
+  int index = 2;
+
+  // Parse 'r' and check for integer tag (0x02)
+  if (derSignatureBuf[index] != 0x02) {
+    throw ArgumentError('Invalid tag for r');
+  }
+  index++; // Move past the INTEGER tag
+  final rLength = derSignatureBuf[index];
+  index++; // Move past the length byte
+  final r = derSignatureBuf.sublist(index, index + rLength);
+  index += rLength;  // Move to the start of s
+
+  // Parse 's' and check for integer tag (0x02)
+  if (derSignatureBuf[index] != 0x02) {
+    throw ArgumentError('Invalid tag for s');
+  }
+  index++; // Move past the INTEGER tag
+  final sLength = derSignatureBuf[index];
+  index++; // Move past the length byte
+  final s = derSignatureBuf.sublist(index, index + sLength);
+
+  // Normalize 'r' and 's' to 32 bytes each
+  final rPadded = normalizePadding(r, 32);
+  final sPadded = normalizePadding(s, 32);
+
+  return Uint8List.fromList([...rPadded, ...sPadded]);
+}
+
+/// Verifies a signature from a Turnkey enclave using ECDSA and SHA-256.
+///
+/// - [enclaveQuorumPublic]: The public key of the enclave signer as a hexadecimal string.
+/// - [publicSignature]: The ECDSA signature in DER format as a hexadecimal string.
+/// - [signedData]: The data that was signed as a hexadecimal string.
+/// - [dangerouslyOverrideSignerPublicKey]: (Optional) The public key to verify against, overriding the default signer enclave key.
+///
+/// Returns:
+/// - `true` if the signature is valid; otherwise, throws an error.
+///
+/// Throws:
+/// - [ArgumentError] if the public key does not match the expected signer public key.
+/// - [Exception] if the signature verification fails.
+bool verifyEnclaveSignature({
+  required String enclaveQuorumPublic,
+  required String publicSignature,
+  required String signedData,
+  String? dangerouslyOverrideSignerPublicKey,
+}) {
+  final expectedSignerPublicKey =
+      dangerouslyOverrideSignerPublicKey ?? PRODUCTION_SIGNER_PUBLIC_KEY;
+
+  if (enclaveQuorumPublic != expectedSignerPublicKey) {
+    throw ArgumentError(
+      'Expected signer key ${dangerouslyOverrideSignerPublicKey ?? PRODUCTION_SIGNER_PUBLIC_KEY} '
+      'does not match signer key from bundle: $enclaveQuorumPublic',
+    );
+  }
+
+  final encryptionQuorumPublicBuf =
+      uint8ArrayFromHexString(enclaveQuorumPublic);
+  final quorumKey = loadPublicKey(encryptionQuorumPublicBuf);
+
+  // The ECDSA signature is ASN.1 DER encoded but WebCrypto uses raw format
+  final publicSignatureBuf = fromDerSignature(publicSignature);
+  final signedDataBuf = uint8ArrayFromHexString(signedData);
+  final verifier = Signer('SHA-256/ECDSA')
+    ..init(false, PublicKeyParameter<ECPublicKey>(quorumKey));
+
+  final signature = ECSignature(
+    BigInt.parse(
+      publicSignatureBuf.sublist(0, 32).map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+      radix: 16,
+    ),
+    BigInt.parse(
+      publicSignatureBuf.sublist(32).map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+      radix: 16,
+    ),
+  );
+
+  return verifier.verifySignature(signedDataBuf, signature);
+}
+
+
+/// Decrypts an encrypted export bundle (such as a private key or wallet account bundle).
+///
+/// This function verifies the enclave signature to ensure the authenticity of the encrypted data.
+/// It uses HPKE (Hybrid Public Key Encryption) to decrypt the contents of the bundle and returns
+/// either the decrypted mnemonic or the decrypted data in hexadecimal format, based on the
+/// `returnMnemonic` flag.
+///
+/// Parameters:
+/// - [exportBundle]: The encrypted export bundle in JSON format.
+/// - [organizationId]: The expected organization ID to verify against the signed data.
+/// - [embeddedKey]: The private key used for decrypting the data, provided as a hex string (32 bytes).
+/// - [dangerouslyOverrideSignerPublicKey]: (Optional) Override the default signer public key used for
+///   verifying the signature. This should only be done for testing purposes.
+/// - [keyFormat]: Format of the key (default is `HEXADECIMAL`).
+/// - [returnMnemonic]: If true, returns the decrypted data as a mnemonic string; otherwise, returns it
+///   in hexadecimal format (default is `false`).
+///
+/// Returns:
+/// - A [Future<String>] that resolves to the decrypted mnemonic or the decrypted hexadecimal data.
+///
+/// Throws:
+/// - [Exception]: If decryption or signature verification fails, an error with details is thrown.
+
+Future<String> decryptExportBundle({
+  required String exportBundle,
+  required String embeddedKey,
+  required String organizationId,
+  String? dangerouslyOverrideSignerPublicKey,
+  String keyFormat = 'HEXADECIMAL',
+  bool returnMnemonic = false,
+}) async {
+  try {
+    final parsedExportBundle = jsonDecode(exportBundle);
+
+    final verified = await verifyEnclaveSignature(
+      enclaveQuorumPublic: parsedExportBundle['enclaveQuorumPublic'],
+      publicSignature: parsedExportBundle['dataSignature'],
+      signedData: parsedExportBundle['data'],
+      dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
+    );
+    if (!verified) {
+      throw Exception('failed to verify enclave signature');
+    }
+
+    final dataBytes = uint8ArrayFromHexString(parsedExportBundle['data']);
+    final signedDataJson = utf8.decode(dataBytes);
+    final signedData = jsonDecode(signedDataJson);
+
+    if (signedData['organizationId'] == null ||
+        signedData['organizationId'] != organizationId) {
+      throw Exception(
+        'organization id does not match. Expected: $organizationId. Found: ${signedData["organizationId"]}.',
+      );
+    }
+
+    if (signedData['encappedPublic'] == null) {
+      throw Exception('missing "encappedPublic" in bundle signed data');
+    }
+    final encappedKeyBuf = uint8ArrayFromHexString(signedData['encappedPublic']);
+
+    final ciphertextBuf = uint8ArrayFromHexString(signedData['ciphertext']);
+
+    final decryptedData = hpkeDecrypt(
+      ciphertextBuf: ciphertextBuf,
+      encappedKeyBuf: encappedKeyBuf,
+      receiverPriv: embeddedKey,
+    );
+
+    if (keyFormat == 'SOLANA' && !returnMnemonic) {
+      if (decryptedData.length != 32) {
+        throw Exception(
+            'invalid private key length. Expected 32 bytes, got ${decryptedData.length}');
+      }
+
+      final algorithm = crypto.Ed25519();
+      final keyPair = await algorithm.newKeyPairFromSeed(decryptedData);
+      final publicKey = await keyPair.extractPublicKey();
+      final publicKeyBytes = publicKey.bytes; // should be 32 bytes
+
+      if (publicKeyBytes.length != 32) {
+        throw Exception(
+            'invalid public key length. Expected 32 bytes. Got ${publicKeyBytes.length}');
+      }
+
+      final concatenatedBytes = Uint8List(64);
+      concatenatedBytes.setAll(0, decryptedData);
+      concatenatedBytes.setAll(32, publicKeyBytes);
+
+        return base58.encode(concatenatedBytes);
+    }
+
+    final decryptedDataHex = uint8ArrayToHexString(decryptedData);
+    return returnMnemonic
+        ? hexToAscii(decryptedDataHex)
+        : decryptedDataHex;
+  } catch (error) {
+    throw Exception('Error decrypting bundle: $error');
+  }
+}
