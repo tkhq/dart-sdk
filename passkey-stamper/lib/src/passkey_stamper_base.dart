@@ -5,17 +5,6 @@ import 'package:passkeys/types.dart';
 import 'types.dart';
 import 'utils.dart';
 
-
-/// Enum for authenticator transport types
-enum AuthenticatorTransport {
-  usb,
-  nfc,
-  ble,
-  smartCard,
-  hybrid,
-  internal,
-}
-
 class Stamp {
   final String authenticatorData;
   final String clientDataJson;
@@ -56,7 +45,6 @@ class PasskeyRegistrationConfig {
 
  class PasskeyStamperConfig {
   // The RPID ("Relying Party ID") for your app.
-  // See https://github.com/f-23/react-native-passkey?tab=readme-ov-file#configuration to set this up.
   final String rpId;
 
   // Optional timeout value in milliseconds. Defaults to 5 minutes.
@@ -73,11 +61,13 @@ class PasskeyRegistrationConfig {
   // Option to force platform passkeys on native platforms
   final bool? withPlatformKey;
 
-  // Optional extensions. Defaults to empty.
+  // Optional extensions. Defaults to empty. TODO: Do we need to pass extensions?
   final Map<String, dynamic>? extensions;
 
+  // Optional mediation type. Defaults to silent.
   final MediationType? mediation;
 
+  // Optional flag to prefer immediately available credentials. Defaults to true.
   final bool? preferImmediatelyAvailableCredentials;
 
   PasskeyStamperConfig({required this.rpId, this.timeout, this.userVerification, this.allowCredentials, this.withSecurityKey, this.withPlatformKey, this.mediation, this.preferImmediatelyAvailableCredentials, this.extensions});
@@ -86,21 +76,19 @@ class PasskeyRegistrationConfig {
 
 String base64StringToBase64UrlEncodedString(String input) { // TODO: replace with function from encoding library
   return input
-      .replaceAll('+', '-')  // Replace '+' with '-'
-      .replaceAll('/', '_')  // Replace '/' with '_'
-      .replaceAll('=', '');  // Remove '=' padding
+      .replaceAll('+', '-') 
+      .replaceAll('/', '_')
+      .replaceAll('=', '');
 }
 
-
-
-/// Function to create a passkey
+// Function to create a passkey
 Future<Map<String, dynamic>> createPasskey(
   PasskeyRegistrationConfig config,
   {bool withSecurityKey = false, bool withPlatformKey = false}  // TODO: Support for security key and platform key
 ) async {
   final String challenge = config.challenge ?? generateChallenge();
 
-final String userId = base64Url.encode(utf8.encode(config.user['id']!)).replaceAll('=', '');
+  final String userId = base64Url.encode(utf8.encode(config.user['id']!)).replaceAll('=', '');
 
   final authenticator = PasskeyAuthenticator();
   
@@ -136,7 +124,7 @@ final String userId = base64Url.encode(utf8.encode(config.user['id']!)).replaceA
 
 
 
-/// Passkey Stamper class
+// Passkey Stamper class
 class PasskeyStamper {
   final String rpId;
   final int timeout;
@@ -158,7 +146,7 @@ class PasskeyStamper {
         forceSecurityKey = config.withSecurityKey ?? false, //TODO: Allow for security key
         mediation = config.mediation ?? MediationType.Silent,
         preferImmediatelyAvailableCredentials = config.preferImmediatelyAvailableCredentials ?? true,
-        extensions = config.extensions ?? {};
+        extensions = config.extensions ?? {}; //TODO: Do we need to pass extensions?
 
   final stampHeaderName = "X-Stamp";
 

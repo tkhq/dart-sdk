@@ -38,7 +38,7 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
 
   var sig = deterministicSign(ecPrivateKey, hash.bytes);
 
-  // Enforce low S value
+  // Enforce low S value. Parity with the JS implementation.
   var curveOrder = ec.n;
   var sBigInt = sig.S;
 

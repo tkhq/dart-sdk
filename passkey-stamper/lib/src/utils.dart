@@ -16,7 +16,7 @@ String getChallengeFromPayload(String payload) {
 String generateChallenge() {
   final random = Random.secure();
   final Uint8List bytes = Uint8List.fromList(
-    List<int>.generate(32, (_) => random.nextInt(256)),  // 32 random bytes
+    List<int>.generate(32, (_) => random.nextInt(256)),
   );
-  return base64Url.encode(bytes).replaceAll('=', '');  // Base64URL without padding
+  return base64Url.encode(bytes).replaceAll('=', '');
 }
