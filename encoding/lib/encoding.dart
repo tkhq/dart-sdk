@@ -1,7 +1,6 @@
-/// This is the main entry point for the `encoding` library.
 library;
 
-export 'src/encoding_base.dart'
+export 'src/encoding.dart'
     show
         uint8ArrayToHexString,
         uint8ArrayFromHexString,

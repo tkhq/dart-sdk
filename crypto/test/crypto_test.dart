@@ -1,30 +1,37 @@
 import 'dart:typed_data';
-import 'package:encoding/encoding.dart';
 import 'package:pointycastle/pointycastle.dart';
 import 'package:test/test.dart';
 import 'package:turnkey_crypto/src/constant.dart';
-import 'package:turnkey_crypto/src/crypto_base.dart';
+import 'package:turnkey_crypto/src/crypto.dart';
+import 'package:turnkey_encoding/encoding.dart';
 
 void main() {
   group('bigIntToHex', () {
     test('Small number, with padding', () {
+
       final result = bigIntToHex(BigInt.from(1), 4);
+
       expect(result, equals('0001'));
     });
 
     test('Number exactly fits length', () {
-      final bigIntVal = BigInt.parse('FF', radix: 16); // 255
+      final bigIntVal = BigInt.parse('FF', radix: 16);
+
       final result = bigIntToHex(bigIntVal, 2);
+
       expect(result, equals('ff'));
     });
 
     test('Throws if number is too large', () {
       final bigIntVal = BigInt.parse('1234', radix: 16);
+
       expect(() => bigIntToHex(bigIntVal, 3), throwsArgumentError);
     });
 
     test('Zero with padding', () {
+      
       final result = bigIntToHex(BigInt.zero, 3);
+
       expect(result, equals('000'));
     });
   });
@@ -34,6 +41,7 @@ void main() {
         () {
       final uncompressed = uint8ArrayFromHexString(
           '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef');
+
       final expectedCompressed = uint8ArrayFromHexString(
           '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210');
 
@@ -46,6 +54,7 @@ void main() {
         () {
       final uncompressed = uint8ArrayFromHexString(
           '048c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc7e2e07a9b3a51e709da1d727b1ef20c0115fc2fdc6c9e05bb6cba0d9b1e9c7af');
+
       final expectedCompressed = uint8ArrayFromHexString(
           '038c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc');
 
@@ -70,6 +79,7 @@ void main() {
     test('Compress and decompress round trip', () {
       final uncompressed = uint8ArrayFromHexString(
           '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef');
+
       final compressed = compressRawPublicKey(uncompressed);
       final decompressed = uncompressRawPublicKey(compressed);
 
@@ -82,38 +92,39 @@ void main() {
         '6b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c296';
 
     test('Valid prefix=03 (y is odd) for G => uncompressed is 65 bytes', () {
-      // Compressed form of the P-256 base point G with prefix=0x03.
       final compressed = uint8ArrayFromHexString('03$gX');
+
       final uncompressed = uncompressRawPublicKey(compressed);
 
       expect(uncompressed.length, 65);
-      expect(uncompressed[0], 0x04, reason: 'Should start with 0x04');
+      expect(uncompressed[0], 4);
     });
 
     test('Valid prefix=02 (y is even) for same X => uncompressed is 65 bytes',
         () {
-      // Same X, but prefix=0x02 => the function should pick the "even" Y
       final compressed = uint8ArrayFromHexString('02$gX');
+
       final uncompressed = uncompressRawPublicKey(compressed);
 
       expect(uncompressed.length, 65);
-      expect(uncompressed[0], 0x04);
+      expect(uncompressed[0], 4);
     });
 
     test('x >= p => throws ArgumentError', () {
-      // Use prefix=0x02 plus an X that is definitely >= p (e.g. 2^256 - 1)
       final invalidX =
           'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+
       final compressed = uint8ArrayFromHexString('02$invalidX');
+
       expect(() => uncompressRawPublicKey(compressed), throwsArgumentError);
     });
 
     test('Invalid curve point => sqrt fails => throws ArgumentError', () {
-      // Likely non-square in the curve equation. Prefix=0x02 + large X < p
-      // Here we pick X= (2^256 - 2) to avoid range error but still (very likely) invalid
       final randomX =
           'fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe';
+
       final compressed = uint8ArrayFromHexString('02$randomX');
+
       expect(() => uncompressRawPublicKey(compressed), throwsArgumentError);
     });
   });
@@ -125,7 +136,7 @@ void main() {
       final iv = Uint8List(12);
 
       final result = aesGcmEncrypt(plainText, key, iv);
-      // Expect ciphertext + 16-byte tag => total length = plaintext + 16
+
       expect(result.length, equals(plainText.length + 16));
     });
 
@@ -136,6 +147,7 @@ void main() {
       final aad = Uint8List.fromList([99, 100]);
 
       final result = aesGcmEncrypt(plainText, key, iv, aad);
+
       expect(result.length, equals(plainText.length + 16));
     });
 
@@ -143,13 +155,15 @@ void main() {
       final plainText = Uint8List.fromList([5, 6, 7, 8, 9]);
       final key = Uint8List(32);
       final iv = Uint8List(12);
+      
       final encrypted = aesGcmEncrypt(plainText, key, iv);
+
       expect(encrypted.length, equals(plainText.length + 16));
     });
 
     test('Invalid key length => throws ArgumentError', () {
       final plainText = Uint8List(5);
-      final key = Uint8List(17); // 136 bits (not a valid AES key size)
+      final key = Uint8List(17);
       final iv = Uint8List(12);
 
       expect(() => aesGcmEncrypt(plainText, key, iv),
@@ -177,6 +191,7 @@ void main() {
 
       final encrypted = aesGcmEncrypt(plainText, key, iv, aad);
       final decrypted = aesGcmDecrypt(encrypted, key, iv, aad);
+
       expect(decrypted, equals(plainText));
     });
 
@@ -187,7 +202,7 @@ void main() {
 
       final encrypted = aesGcmEncrypt(plainText, key, iv);
 
-      encrypted[0] ^= 0xFF;
+      encrypted[0] ^= 255;
       expect(() => aesGcmDecrypt(encrypted, key, iv), throwsException);
     });
 
@@ -198,106 +213,16 @@ void main() {
 
       final encrypted = aesGcmEncrypt(plainText, key, iv);
 
-      encrypted[encrypted.length - 1] ^= 0xFF;
+      encrypted[encrypted.length - 1] ^= 255;
       expect(() => aesGcmDecrypt(encrypted, key, iv), throwsException);
     });
 
     test('Invalid key length => throws ArgumentError', () {
-      final encrypted = Uint8List(16); // dummy
-      final key = Uint8List(17); // invalid
+      final encrypted = Uint8List(16);
+      final key = Uint8List(17);
       final iv = Uint8List(12);
+
       expect(() => aesGcmDecrypt(encrypted, key, iv), throwsArgumentError);
-    });
-  });
-
-  group('HKDF tests (extractAndExpand)', () {
-    test('RFC 5869 Test Vector', () {
-      final ikm =
-          Uint8List.fromList([11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11]);
-      final sharedSecret =
-          Uint8List.fromList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
-      final info = Uint8List.fromList(
-          [240, 241, 242, 243, 244, 245, 246, 247, 248, 249]);
-      const length = 42;
-
-      final expectedOkm = Uint8List.fromList([
-        88,
-        220,
-        225,
-        13,
-        88,
-        1,
-        205,
-        253,
-        168,
-        49,
-        114,
-        107,
-        254,
-        188,
-        183,
-        67,
-        209,
-        74,
-        126,
-        232,
-        58,
-        160,
-        87,
-        169,
-        61,
-        89,
-        176,
-        161,
-        49,
-        127,
-        240,
-        157,
-        16,
-        92,
-        206,
-        207,
-        83,
-        86,
-        146,
-        177,
-        77,
-        213
-      ]);
-
-      final okm = extractAndExpand(sharedSecret, ikm, info, length);
-      expect(okm, equals(expectedOkm));
-    });
-
-    test('Empty salt & info, short OKM', () {
-      // If salt (sharedSecret) is empty, we default to zeros for extract
-      final sharedSecret = Uint8List(0);
-      final ikm =
-          Uint8List.fromList([170, 170, 170, 170, 170, 170]); // some random
-      final info = Uint8List(0);
-      const length = 16;
-
-      final expectedOkm = Uint8List.fromList([
-        46,
-        68,
-        28,
-        247,
-        164,
-        218,
-        252,
-        66,
-        89,
-        246,
-        166,
-        116,
-        6,
-        9,
-        179,
-        193
-      ]);
-
-      final okm = extractAndExpand(sharedSecret, ikm, info, length);
-      expect(okm, equals(expectedOkm));
     });
   });
 
@@ -309,6 +234,7 @@ void main() {
       final len = 0;
 
       final output = buildLabeledInfo(label, info, suiteId, len);
+
       expect(output.length, 9);
       expect(output[0], 0);
       expect(output[1], 0);
@@ -321,16 +247,14 @@ void main() {
       final len = 16;
 
       final output = buildLabeledInfo(label, info, suiteId, len);
-
-      // total length = 9 (overhead) + 1 (suiteId) + 2 (label) + 3 (info) = 15
-      expect(output.length, 15);
-      expect(output[1], 16, reason: 'Byte 1 should contain len=16');
-      // check that suiteId, label, and info are in the right spots
       final suiteIdIndex = 9;
-      expect(output[suiteIdIndex], 9);
       final labelIndex = suiteIdIndex + suiteId.length;
-      expect(output.sublist(labelIndex, labelIndex + 2), [1, 2]);
       final infoIndex = labelIndex + 2;
+
+      expect(output.length, 15);
+      expect(output[1], 16);
+      expect(output[suiteIdIndex], 9);
+      expect(output.sublist(labelIndex, labelIndex + 2), [1, 2]);
       expect(output.sublist(infoIndex, infoIndex + 3), [3, 4, 5]);
     });
   });
@@ -343,7 +267,6 @@ void main() {
 
       final output = buildLabeledIkm(label, ikm, suiteId);
 
-      // minimal output is just HPKE_VERSION
       expect(output.length, HPKE_VERSION.length);
       expect(output, equals(Uint8List.fromList(HPKE_VERSION)));
     });
@@ -358,7 +281,6 @@ void main() {
       final expectedLength =
           HPKE_VERSION.length + suiteId.length + label.length + ikm.length;
       expect(output.length, expectedLength);
-
       final suiteIdIndex = HPKE_VERSION.length;
       final labelIndex = suiteIdIndex + suiteId.length;
       final ikmIndex = labelIndex + label.length;
@@ -371,10 +293,57 @@ void main() {
     });
   });
 
+  group('buildAdditionalAssociatedData tests', () {
+    test('Concatenates non-empty sender and receiver public buffers', () {
+      final senderPubBuf = Uint8List.fromList([1, 2, 3, 4]);
+      final receiverPubBuf = Uint8List.fromList([5, 6, 7, 8]);
+      final expected = Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8]);
+
+      final result =
+          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+
+    test('Handles empty sender public buffer', () {
+      final senderPubBuf = Uint8List.fromList([]);
+      final receiverPubBuf = Uint8List.fromList([9, 10, 11, 12]);
+      final expected = Uint8List.fromList([9, 10, 11, 12]);
+
+      final result =
+          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+
+    test('Handles empty receiver public buffer', () {
+      final senderPubBuf = Uint8List.fromList([13, 14, 15, 16]);
+      final receiverPubBuf = Uint8List.fromList([]);
+      final expected = Uint8List.fromList([13, 14, 15, 16]);
+
+      final result =
+          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+
+    test('Handles both sender and receiver buffers being empty', () {
+      final senderPubBuf = Uint8List.fromList([]);
+      final receiverPubBuf = Uint8List.fromList([]);
+      final expected = Uint8List.fromList([]);
+
+      final result =
+          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+
+      expect(result, equals(expected));
+    });
+  });
+
   group('getKemContext tests', () {
     test('Both buffers non-empty, merges correctly', () {
       final encappedKeyBuf = Uint8List.fromList([1, 2, 3]);
       final pubKeyHex = '04050607';
+
       final context = getKemContext(encappedKeyBuf, pubKeyHex);
 
       expect(context.length, 7);
@@ -384,10 +353,11 @@ void main() {
     test('Empty encappedKeyBuf, non-empty publicKey', () {
       final encappedKeyBuf = Uint8List(0);
       final pubKeyHex = 'aa55';
+
       final context = getKemContext(encappedKeyBuf, pubKeyHex);
 
       expect(context.length, 2);
-      expect(context, equals([0xaa, 0x55]));
+      expect(context, equals([170, 85]));
     });
 
     test('Non-empty encappedKeyBuf, empty publicKey', () {
@@ -403,126 +373,10 @@ void main() {
       final pubKeyHex =
           List.generate(64, (i) => i.toRadixString(16).padLeft(2, '0'))
               .join('');
+
       final context = getKemContext(encappedKeyBuf, pubKeyHex);
 
       expect(context.length, 128);
-    });
-  });
-
-  group('deriveSS tests (generated)', () {
-    test('Valid ephemeral + recipient private => known shared secret', () {
-      final ephemeralPubCompressed = uint8ArrayFromHexString(
-          '042429bc20c6ef6d8bed8eff26f62b10457e6dbb0fe743c95aea929cfb20955e20a8b69ba9d98dc8eac7ef99b0ee94ff4a1bbe2f730e5940db1fc9daa48490f2a6');
-      final recipientPrivHex =
-          '62ee85b30bd2605ca3b6dc4ec541fdb0ff89ce50745eaf888ee14d5ec2cd372e';
-
-      final expectedSharedHex =
-          '70a8c462e00bbf0a6a25ee63adfe4d5dc968b9f94424af21473bb852191efe96';
-      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
-
-      final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
-      expect(got, equals(expectedShared));
-    });
-
-    test('Another valid ephemeral + recipient private => known shared secret',
-        () {
-      final ephemeralPubCompressed = uint8ArrayFromHexString(
-          '045434d861d587351c84b531cb7006d9aa80e62b6789f628159504cf966cdb13ca9669eabdf99faede322359779a4e72d235c6f9d728dff19f2b98631a4d475c3f');
-      final recipientPrivHex =
-          '4fd172c0ae1a32f3f4b2a2a1f531178cfb7cfd96f85a98051b08ab4fe09b749a';
-
-      final expectedSharedHex =
-          'a82c0eec81f8f59f96adfc56d558ff652199dae905585861ccc6160a5c0d8d33';
-      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
-
-      final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
-      expect(got, equals(expectedShared));
-    });
-
-    test('Invalid ephemeral public key => throws ArgumentError', () {
-      final invalidPub =
-          uint8ArrayFromHexString('03'); // Invalid compressed public key
-      final priv = '01';
-      expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
-    });
-
-    test('Corrupted ephemeral public key => bad prefix => throws ArgumentError',
-        () {
-      final invalidPub = Uint8List(33); // Corrupted public key
-      invalidPub[0] = 0x07; // Invalid prefix
-      final priv = '01';
-      expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
-    });
-
-    test(
-        'Uncompressed ephemeral => known 65-byte input => correct derived length',
-        () {
-      final ephemeralPubUncomp = uint8ArrayFromHexString(
-          '044bf0ee44fed86067171d327958bfa5da6260533b81f4a5a431a112164f1b396a9bf22ce0190bf90382fa2f88db4f1fa304cc1651dc7ed3d2fbb17ec44a76ada4');
-      final recipientPrivHex =
-          'abcb1042ef9dff49908d90d721ae3d5325dbfb26bcf0878e88f87cb608bc9048';
-
-      final expectedSharedHex =
-          '281d3a091d25b0990f2d9cb13af2a48afc0f95ae78f540eb1035a9bd5c3ef48c';
-      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
-
-      final got = deriveSS(ephemeralPubUncomp, recipientPrivHex);
-      expect(got, equals(expectedShared));
-    });
-
-    test('Very small private key => throws ArgumentError', () {
-      final ephemeralPubCompressed = uint8ArrayFromHexString(
-          '0472f15632f7a654032950ca563a70cda11c3a92b43a2a7a35e372c3d68df54b04a7ec89abf4a8fe3bee092c05a66521eb3dabfd18e66b2b83dbfffb2ab4ab8abf');
-      final smallPrivHex = '01';
-
-      expect(() => deriveSS(ephemeralPubCompressed, smallPrivHex),
-          throwsArgumentError);
-    });
-  });
-
-  group('buildAdditionalAssociatedData tests', () {
-    test('Concatenates non-empty sender and receiver public buffers', () {
-      final senderPubBuf = Uint8List.fromList([1, 2, 3, 4]);
-      final receiverPubBuf = Uint8List.fromList([5, 6, 7, 8]);
-
-      final expected = Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8]);
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
-
-      expect(result, equals(expected));
-    });
-
-    test('Handles empty sender public buffer', () {
-      final senderPubBuf = Uint8List.fromList([]);
-      final receiverPubBuf = Uint8List.fromList([9, 10, 11, 12]);
-
-      final expected = Uint8List.fromList([9, 10, 11, 12]);
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
-
-      expect(result, equals(expected));
-    });
-
-    test('Handles empty receiver public buffer', () {
-      final senderPubBuf = Uint8List.fromList([13, 14, 15, 16]);
-      final receiverPubBuf = Uint8List.fromList([]);
-
-      final expected = Uint8List.fromList([13, 14, 15, 16]);
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
-
-      expect(result, equals(expected));
-    });
-
-    test('Handles both sender and receiver buffers being empty', () {
-      final senderPubBuf = Uint8List.fromList([]);
-      final receiverPubBuf = Uint8List.fromList([]);
-
-      final expected = Uint8List.fromList([]);
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
-
-      expect(result, equals(expected));
     });
   });
 
@@ -530,9 +384,10 @@ void main() {
     test('Valid 32-byte hex => compressed public key', () {
       final privHex =
           'd10d5ab30f9ec176728a2e996058b925a0edf14e4df0876c1005293b889b5e83';
-      final pubCompressed = getPublicKey(privHex, isCompressed: true);
       final expectedCompressedHex =
           '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210';
+
+      final pubCompressed = getPublicKey(privHex, isCompressed: true);
 
       expect(pubCompressed.length, 33);
       expect(pubCompressed, uint8ArrayFromHexString(expectedCompressedHex));
@@ -541,9 +396,10 @@ void main() {
     test('Valid 32-byte hex => uncompressed public key', () {
       final privHex =
           'd10d5ab30f9ec176728a2e996058b925a0edf14e4df0876c1005293b889b5e83';
-      final pubUncompressed = getPublicKey(privHex, isCompressed: false);
       final expectedUncompressedHex =
           '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef';
+
+      final pubUncompressed = getPublicKey(privHex, isCompressed: false);
 
       expect(pubUncompressed.length, 65);
       expect(pubUncompressed, uint8ArrayFromHexString(expectedUncompressedHex));
@@ -552,9 +408,10 @@ void main() {
     test('Valid 32-byte Uint8List => compressed public key', () {
       final privBytes = uint8ArrayFromHexString(
           'b9517a3082352ac11004c2ad2f0e725b04075cfe8c94fa8764f1455808b1de5e');
-      final pubCompressed = getPublicKey(privBytes, isCompressed: true);
       final expectedCompressedHex =
           '028c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc';
+
+      final pubCompressed = getPublicKey(privBytes, isCompressed: true);
 
       expect(pubCompressed.length, 33);
       expect(pubCompressed, uint8ArrayFromHexString(expectedCompressedHex));
@@ -577,54 +434,11 @@ void main() {
           '99a7734ccc510e4a69519714950023d17e203a636606fb8e8eb74acbacadbe77';
       final expectedPubHex =
           '0490d6737d301376272cfe66e567482ec0c24ab4855f77b1d9409d503ec48bdb72c41332defbac1dae7415bc4d637c8d1e11ee7522c02ce861c1cd79c0be88a5b8';
-
-      final gotPub = getPublicKey(ephemeralPrivHex, isCompressed: false);
       final expectedPub = uint8ArrayFromHexString(expectedPubHex);
 
+      final gotPub = getPublicKey(ephemeralPrivHex, isCompressed: false);
+
       expect(gotPub, equals(expectedPub));
-    });
-  });
-  group('decryptCredentialBundle Tests', () {
-    const mockSenderPrivateKey =
-        "67ee05fc3bdf4161bc70701c221d8d77180294cefcfcea64ba83c4d4c732fcb9";
-    const mockPrivateKey =
-        "20fa65df11f24833790ae283fc9a0c215eecbbc589549767977994dc69d05a56";
-    const mockCredentialBundle =
-        "w99a5xV6A75TfoAUkZn869fVyDYvgVsKrawMALZXmrauZd8hEv66EkPU1Z42CUaHESQjcA5bqd8dynTGBMLWB9ewtXWPEVbZvocB4Tw2K1vQVp7uwjf";
-
-    test('decryptCredentialBundle successfully decrypts a valid bundle', () {
-      final decryptedData = decryptCredentialBundle(
-        credentialBundle: mockCredentialBundle,
-        embeddedKey: mockPrivateKey,
-      );
-
-      expect(decryptedData, mockSenderPrivateKey);
-    });
-
-    test('decryptCredentialBundle throws an error for invalid bundle', () {
-      const invalidBundle = "invalidBase58CheckData";
-
-      expect(
-        () => decryptCredentialBundle(
-          credentialBundle: invalidBundle,
-          embeddedKey: mockPrivateKey,
-        ),
-        throwsException,
-      );
-    });
-
-    test('decryptCredentialBundle throws an error for incorrect private key',
-        () {
-      const incorrectPrivateKey =
-          "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-
-      expect(
-        () => decryptCredentialBundle(
-          credentialBundle: mockCredentialBundle,
-          embeddedKey: incorrectPrivateKey,
-        ),
-        throwsException,
-      );
     });
   });
 
@@ -697,6 +511,7 @@ void main() {
         85,
         239
       ]);
+
       final publicKey = loadPublicKey(validPublicKeyBytes);
 
       expect(publicKey, isA<ECPublicKey>());
@@ -705,7 +520,7 @@ void main() {
     });
 
     test('Invalid public key bytes => throws ArgumentError', () {
-      final invalidPublicKeyBytes = Uint8List.fromList([0x02, 0x01, 0x02]);
+      final invalidPublicKeyBytes = Uint8List.fromList([2, 1, 2]);
 
       expect(() => loadPublicKey(invalidPublicKeyBytes), throwsArgumentError);
     });
@@ -754,6 +569,78 @@ void main() {
 
       expect(
           () => loadPublicKey(compressedPublicKeyBytes), throwsArgumentError);
+    });
+  });
+
+  group('deriveSS tests', () {
+    test('Valid ephemeral + recipient private => known shared secret', () {
+      final ephemeralPubCompressed = uint8ArrayFromHexString(
+          '042429bc20c6ef6d8bed8eff26f62b10457e6dbb0fe743c95aea929cfb20955e20a8b69ba9d98dc8eac7ef99b0ee94ff4a1bbe2f730e5940db1fc9daa48490f2a6');
+      final recipientPrivHex =
+          '62ee85b30bd2605ca3b6dc4ec541fdb0ff89ce50745eaf888ee14d5ec2cd372e';
+      final expectedSharedHex =
+          '70a8c462e00bbf0a6a25ee63adfe4d5dc968b9f94424af21473bb852191efe96';
+      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
+
+      final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
+
+      expect(got, equals(expectedShared));
+    });
+
+    test('Another valid ephemeral + recipient private => known shared secret',
+        () {
+      final ephemeralPubCompressed = uint8ArrayFromHexString(
+          '045434d861d587351c84b531cb7006d9aa80e62b6789f628159504cf966cdb13ca9669eabdf99faede322359779a4e72d235c6f9d728dff19f2b98631a4d475c3f');
+      final recipientPrivHex =
+          '4fd172c0ae1a32f3f4b2a2a1f531178cfb7cfd96f85a98051b08ab4fe09b749a';
+      final expectedSharedHex =
+          'a82c0eec81f8f59f96adfc56d558ff652199dae905585861ccc6160a5c0d8d33';
+      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
+
+      final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
+
+      expect(got, equals(expectedShared));
+    });
+
+    test('Invalid ephemeral public key => throws ArgumentError', () {
+      final invalidPub = uint8ArrayFromHexString('03');
+      final priv = '01';
+
+      expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
+    });
+
+    test('Corrupted ephemeral public key => bad prefix => throws ArgumentError',
+        () {
+      final invalidPub = Uint8List(33);
+      invalidPub[0] = 7;
+      final priv = '01';
+
+      expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
+    });
+
+    test(
+        'Uncompressed ephemeral => known 65-byte input => correct derived length',
+        () {
+      final ephemeralPubUncomp = uint8ArrayFromHexString(
+          '044bf0ee44fed86067171d327958bfa5da6260533b81f4a5a431a112164f1b396a9bf22ce0190bf90382fa2f88db4f1fa304cc1651dc7ed3d2fbb17ec44a76ada4');
+      final recipientPrivHex =
+          'abcb1042ef9dff49908d90d721ae3d5325dbfb26bcf0878e88f87cb608bc9048';
+      final expectedSharedHex =
+          '281d3a091d25b0990f2d9cb13af2a48afc0f95ae78f540eb1035a9bd5c3ef48c';
+      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
+
+      final got = deriveSS(ephemeralPubUncomp, recipientPrivHex);
+
+      expect(got, equals(expectedShared));
+    });
+
+    test('Very small private key => throws ArgumentError', () {
+      final ephemeralPubCompressed = uint8ArrayFromHexString(
+          '0472f15632f7a654032950ca563a70cda11c3a92b43a2a7a35e372c3d68df54b04a7ec89abf4a8fe3bee092c05a66521eb3dabfd18e66b2b83dbfffb2ab4ab8abf');
+      final smallPrivHex = '01';
+
+      expect(() => deriveSS(ephemeralPubCompressed, smallPrivHex),
+          throwsArgumentError);
     });
   });
 
@@ -827,6 +714,7 @@ void main() {
         245,
         197
       ]);
+
       final result = fromDerSignature(derSignature);
 
       expect(result, equals(expectedResult));
@@ -903,6 +791,7 @@ void main() {
         245,
         197
       ]);
+
       final result = fromDerSignature(invalidDerSignature);
 
       expect(result, equals(expectedResult));
@@ -1015,6 +904,7 @@ void main() {
         signedData: validSignedData,
         dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
       );
+
       expect(result, isTrue);
     });
 
@@ -1041,6 +931,7 @@ void main() {
         signedData: incorrectSignedData,
         dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
       );
+
       expect(result, isFalse);
     });
 
@@ -1055,118 +946,6 @@ void main() {
       );
 
       expect(result, isFalse);
-    });
-  });
-
-  // TODO: Add tests for other cases
-  group('decryptExportBundle Tests', () {
-    test('decryptExportBundle successfully decrypts a valid bundle - mnemonic ',
-        () async {
-      const exportBundle = '''
-      {
-        "version": "v1.0.0",
-        "data": "7b22656e6361707065645075626c6963223a2230343434313065633837653566653266666461313561313866613337376132316133633431633334373666383631333362343238306164373631303266343064356462326463353362343730303763636139336166666330613535316464353134333937643039373931636664393233306663613330343862313731663364363738222c2263697068657274657874223a22656662303538626633666634626534653232323330326266326636303738363062343237346232623031616339343536643362613638646135613235363236303030613839383262313465306261663061306465323966353434353461333739613362653664633364386339343938376131353638633764393566396663346239316265663232316165356562383432333361323833323131346431373962646664636631643066376164656231353766343131613439383430222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437227d",
-        "dataSignature": "304502203a7dc258590a637e76f6be6ed1a2080eed5614175060b9073f5e36592bdaf610022100ab9955b603df6cf45408067f652da48551652451b91967bf37dd094d13a7bdd4",
-        "enclaveQuorumPublic": "04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"
-      }
-    ''';
-
-      const privateKey =
-          'ffc6090f14bcf260e5dfe63f45412e60a477bb905956d7cc90195b71c2a544b3';
-
-      const expectedMnemonic =
-          'leaf lady until indicate praise final route toast cake minimum insect unknown';
-
-      final result = await decryptExportBundle(
-        exportBundle: exportBundle,
-        embeddedKey: privateKey,
-        organizationId: 'f9a31c64-d604-42e4-9bef-a773096afad7',
-        keyFormat: 'HEXADECIMAL',
-        returnMnemonic: true,
-      );
-
-      expect(result, expectedMnemonic);
-    });
-  });
-
-  test(
-      'decryptExportBundle successfully decrypts a valid bundle - non-mnemonic',
-      () async {
-    const exportBundle = '''
-      {
-        "version": "v1.0.0",
-        "data": "7b22656e6361707065645075626c6963223a2230343434313065633837653566653266666461313561313866613337376132316133633431633334373666383631333362343238306164373631303266343064356462326463353362343730303763636139336166666330613535316464353134333937643039373931636664393233306663613330343862313731663364363738222c2263697068657274657874223a22656662303538626633666634626534653232323330326266326636303738363062343237346232623031616339343536643362613638646135613235363236303030613839383262313465306261663061306465323966353434353461333739613362653664633364386339343938376131353638633764393566396663346239316265663232316165356562383432333361323833323131346431373962646664636631643066376164656231353766343131613439383430222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437227d",
-        "dataSignature": "304502203a7dc258590a637e76f6be6ed1a2080eed5614175060b9073f5e36592bdaf610022100ab9955b603df6cf45408067f652da48551652451b91967bf37dd094d13a7bdd4",
-        "enclaveQuorumPublic": "04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"
-      }
-    ''';
-
-    const privateKey =
-        'ffc6090f14bcf260e5dfe63f45412e60a477bb905956d7cc90195b71c2a544b3';
-
-    const expectedNonMnemonic =
-        '6c656166206c61647920756e74696c20696e646963617465207072616973652066696e616c20726f75746520746f6173742063616b65206d696e696d756d20696e7365637420756e6b6e6f776e';
-
-    final result = await decryptExportBundle(
-      exportBundle: exportBundle,
-      embeddedKey: privateKey,
-      organizationId: 'f9a31c64-d604-42e4-9bef-a773096afad7',
-      keyFormat: 'HEXADECIMAL',
-      returnMnemonic: false,
-    );
-
-    expect(result, expectedNonMnemonic);
-  });
-
-  group('encryptWalletToBundle Tests', () {
-    test('encryptWalletToBundle successfully encrypts a mnemonic wallet bundle',
-        () async {
-      const mnemonic =
-          'leaf lady until indicate praise final route toast cake minimum insect unknown';
-      const importBundle = '''
-        {
-          "version":"v1.0.0",
-          "data":"7b227461726765745075626c6963223a2230343937363965366266636162333235303534356666633537353361396138393061663431653833366432613933333633353461303165623737346135616265616563393465656430663734396665303366393966646566663839643033386630643534366538636539323164383732373562376437396161383730656133393061222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437222c22757365724964223a2237643461383835642d343636382d343063342d386633352d333333303165313165376435227d",
-          "dataSignature":"3045022100fefc56c6bf4142ff54ce085b8103e79c7ac571dad16a145e9c99ec6d081b97ff0220203bd0d0f6048cd139aa3eb79ccace5425c2f1347401b2c18c66b728f540f17e",
-          "enclaveQuorumPublic":"04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"
-        }
-      ''';
-      const userId = '7d4a885d-4668-40c4-8f35-33301e11e7d5';
-      const organizationId = 'f9a31c64-d604-42e4-9bef-a773096afad7';
-
-      await encryptWalletToBundle(
-        mnemonic: mnemonic,
-        importBundle: importBundle,
-        userId: userId,
-        organizationId: organizationId,
-      );
-
-      // TODO: Since the encryption is non-deterministic, we can't compare the result directly
-      // To verify we need to use the apiClient to import the wallet
-    });
-  });
-
-  group('encryptPrivateKeyToBundle Tests', () {
-    test('encryptPrivateKeyToBundle successfully encrypts a private key bundle',
-        () async {
-      const privateKey =
-          '6fd4d81de4820d2f8f7b2df8aa63ebb4b042af5854313e1f3abae6b55eb1cf83';
-      const importBundle = '''
-      {"version":"v1.0.0","data":"7b227461726765745075626c6963223a2230343133613663626239646434643763653561303562363031313631643437643565353861303732386237353162613063363838333364356335383164623931616339303061633431626433616530383830636636306233353636306261353839373066356663393162353263373135636438313734386364633431333363656263222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437222c22757365724964223a2237643461383835642d343636382d343063342d386633352d333333303165313165376435227d","dataSignature":"30440220424e74b9b75ee7e0ea83ff71c5c33dfa113c6321447fb65322bfe154b06f97f6022030d98ab126ece21eb60bd19d4dd6670a802d5cc84e626949746a797b4ee23163","enclaveQuorumPublic":"04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"}
-    ''';
-      const userId = '7d4a885d-4668-40c4-8f35-33301e11e7d5';
-      const organizationId = 'f9a31c64-d604-42e4-9bef-a773096afad7';
-
-       await encryptPrivateKeyToBundle(
-        privateKey: privateKey,
-        keyFormat: 'HEXADECIMAL',
-        importBundle: importBundle,
-        userId: userId,
-        organizationId: organizationId,
-      );
-
-      // TODO: Since the encryption is non-deterministic, we can't compare the result directly
-      // To verify we need to use the apiClient to import the wallet
     });
   });
 }

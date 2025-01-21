@@ -1,4 +1,22 @@
-/// Compute the modular square root using the Tonelli-Shanks algorithm.
+/// Test if a specific bit is set in a BigInt
+bool testBit(BigInt n, int i) {
+  final m = BigInt.one << i;
+  return (n & m) != BigInt.zero;
+}
+
+/// Computes the modular square root using the Tonelli-Shanks algorithm.
+///
+/// Parameters:
+/// - [x]: The value to compute the modular square root for.
+/// - [p]: The prime modulus.
+///
+/// Returns:
+/// - The modular square root of `x` modulo `p` as a [BigInt].
+///
+/// Throws:
+/// - [ArgumentError]: If `p` is not positive or if a modular square root 
+///   cannot be found.
+/// - [UnsupportedError]: If `p` does not satisfy the condition `p % 4 == 3`.
 BigInt modSqrt(BigInt x, BigInt p) {
   if (p <= BigInt.zero) {
     throw ArgumentError("p must be positive");
@@ -19,13 +37,15 @@ BigInt modSqrt(BigInt x, BigInt p) {
   throw UnsupportedError("unsupported modulus value");
 }
 
-/// Test if a specific bit is set in a BigInt.
-bool testBit(BigInt n, int i) {
-  final m = BigInt.one << i;
-  return (n & m) != BigInt.zero;
-}
-
-/// Compute the modular exponentiation.
+/// Computes modular exponentiation.
+///
+/// Parameters:
+/// - [b]: The base as a [BigInt].
+/// - [exp]: The exponent as a [BigInt].
+/// - [p]: The modulus as a [BigInt].
+///
+/// Returns:
+/// - The result of `(b^exp) % p` as a [BigInt].
 BigInt modPow(BigInt b, BigInt exp, BigInt p) {
   if (exp == BigInt.zero) {
     return BigInt.one;

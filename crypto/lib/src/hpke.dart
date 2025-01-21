@@ -1,7 +1,90 @@
 import 'dart:typed_data';
-import 'package:encoding/encoding.dart';
+import 'package:turnkey_encoding/encoding.dart';
 import 'constant.dart';
-import 'crypto_base.dart';
+import 'crypto.dart';
+import 'package:pointycastle/export.dart';
+import 'dart:convert';
+
+Uint8List hmacSha256(Uint8List key, Uint8List data) {
+  final hmac = HMac(SHA256Digest(), 64);
+  hmac.init(KeyParameter(key));
+  return hmac.process(data);
+}
+
+/// HKDF-extract (JS: `extract(sha256, ikm, salt)`).
+/// If [salt] is null, uses a zeroed array of length 32 (SHA-256 digest size).
+Uint8List hkdfExtract(Uint8List ikm, [Uint8List? salt]) {
+  const hashLen = 32; // for SHA-256
+  final usedSalt = salt ?? Uint8List(hashLen);
+  return hmacSha256(usedSalt, ikm);
+}
+
+/// HKDF-expand (JS: `expand(sha256, prk, info, len)`).
+/// Produces [length] bytes of output key material.
+/// If [info] is null, uses an empty array.
+Uint8List hkdfExpand(Uint8List prk, [Uint8List? info, int length = 32]) {
+  const hashLen = 32; // for SHA-256
+  if (length > 255 * hashLen) {
+    throw ArgumentError('length cannot exceed 255 * hashLen');
+  }
+  final usedInfo = info ?? Uint8List(0);
+  final blocks = (length + hashLen - 1) ~/ hashLen;
+
+  final okm = Uint8List(blocks * hashLen);
+  Uint8List tBlock = Uint8List(0);
+
+  for (int i = 0; i < blocks; i++) {
+    // T(i) = HMAC-Hash(prk, T(i-1) || info || counter)
+    final buffer = Uint8List(tBlock.length + usedInfo.length + 1);
+    buffer.setAll(0, tBlock);
+    buffer.setAll(tBlock.length, usedInfo);
+    buffer[buffer.length - 1] = i + 1; // counter
+    tBlock = hmacSha256(prk, buffer);
+    okm.setAll(i * hashLen, tBlock);
+  }
+  return okm.sublist(0, length);
+}
+
+/// Perform HKDF extract and expand operations.
+///
+/// - [sharedSecret]: The shared secret used as the salt for the extract phase.
+/// - [ikm]: Input key material.
+/// - [info]: Context and application-specific information.
+/// - [len]: The desired output length in bytes.
+///
+/// Returns a `Uint8List` containing the derived key of the specified length.
+Uint8List extractAndExpand(
+  Uint8List sharedSecret,
+  Uint8List ikm,
+  Uint8List info,
+  int len,
+) {
+  final prk = hkdfExtract(ikm, sharedSecret);
+  final okm = hkdfExpand(prk, info, len);
+  return okm;
+}
+
+/// Formats an HPKE buffer into a JSON string with the encapsulated public key and ciphertext.
+///
+/// - [encryptedBuf]: The result of `hpkeAuthEncrypt` or `hpkeEncrypt` as a `Uint8List`.
+///
+/// Returns:
+/// - A JSON string with "encappedPublic" and "ciphertext".
+String formatHpkeBuf(Uint8List encryptedBuf) {
+  final compressedSenderBuf = encryptedBuf.sublist(0, 33);
+  final encryptedData = encryptedBuf.sublist(33);
+
+  final encappedKeyBufHex = uint8ArrayToHexString(
+    uncompressRawPublicKey(compressedSenderBuf),
+  );
+
+  final ciphertextHex = uint8ArrayToHexString(encryptedData);
+
+  return jsonEncode({
+    'encappedPublic': encappedKeyBufHex,
+    'ciphertext': ciphertextHex,
+  });
+}
 
 /// Encrypts data using Authenticated Hybrid Public Key Encryption (HPKE) standard.
 ///
