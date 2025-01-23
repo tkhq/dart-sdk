@@ -44,6 +44,7 @@ class CustomSwaggerGenerator implements Builder {
     final importStatements = [
       'import \'package:http/http.dart\' as http;',
       'import \'dart:convert\';',
+      'import \'package:turnkey_dart_http_client/__generated__/public_api.swagger.dart\';',
     ];
 
     final codeBuffer = StringBuffer();
@@ -81,11 +82,27 @@ class CustomSwaggerGenerator implements Builder {
 
         if (operation.key == 'post') {
           final operationId = operation.value.operationId;
-          final operationNameWithoutNamespace = operationId.replaceFirst('${namespace}_', '').toLowerCase();
-          final methodName = operationNameWithoutNamespace.replaceFirst(operationNameWithoutNamespace[0], operationNameWithoutNamespace[0].toUpperCase());
+          final operationNameWithoutNamespace = operationId.replaceFirst('${namespace}_', '');
+          final methodName = '${operationNameWithoutNamespace[0].toLowerCase()}${operationNameWithoutNamespace.substring(1)}';
 
-         // codeBuffer.writeln('  Future<${operation.value.responses.values.first.schema!.type}> $methodName(${operation.value.parameters.first.type} input) async {');
+          final inputType = 'T${operationNameWithoutNamespace}Body';  //TODO: These types need to be generated also 
+          final responseType = 'T${operationNameWithoutNamespace}Response';
+
+          codeBuffer.writeln('  Future<$responseType> $methodName($inputType input) async {');
           codeBuffer.writeln('    return request(\'$path\', input);');
+          codeBuffer.writeln('  }');
+          codeBuffer.writeln('');
+
+
+          codeBuffer.writeln('  Future<TSignedRequest> stamp$operationNameWithoutNamespace($inputType input) async {');
+          codeBuffer.writeln('    final fullUrl = this.baseUrl + \'$path\';');
+          codeBuffer.writeln('    final body = jsonEncode(input);');
+          codeBuffer.writeln('    final stamp = await this.stamper.stamp(body);');
+          codeBuffer.writeln('    return TSignedRequest(');
+          codeBuffer.writeln('      body: body,');
+          codeBuffer.writeln('      stamp: stamp,');
+          codeBuffer.writeln('      url: fullUrl,');
+          codeBuffer.writeln('    );');
           codeBuffer.writeln('  }');
           codeBuffer.writeln('');
         }
@@ -102,7 +119,7 @@ class CustomSwaggerGenerator implements Builder {
   }
 
   String _tryFormatCode(String code) {
-    return code;
+    return code;  //TODO: This is a temporary fix to prevent the build from failing. Add code formatting later
     try {
       final formattedResult = DartFormatter().format(code);
       return formattedResult;
