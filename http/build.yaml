@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      swagger_dart_code_generator:
+        options:
+          input_folder: lib/swagger
+          output_folder: lib/__generated__/services/coordinator/v1
+          build_only_models: true
+          
+builders:
+  codegen:
+      import: "package:turnkey_dart_http_client/builder/builder.dart"
+      builder_factories: ["codegen"]
+      build_extensions: {'.swagger.json': ['.custom.swagger.dart']}
+      build_to: source
+      auto_apply: root_package
+      runs_before: ["swagger_dart_code_generator"]
+
+

@@ -1,4 +1,20 @@
+import 'dart:convert';
 import 'dart:typed_data';
+
+/// Converts a given string into a Base64 URL-encoded string.
+///
+/// Parameters:
+/// - [input]: The [String] to encode.
+///
+/// Returns:
+/// - A [String] containing the Base64 URL-encoded representation of [input].
+///
+/// This function first encodes the input string into a standard Base64 string
+/// and then transforms it into a Base64 URL-encoded format.
+String stringToBase64urlString(String input) {
+  final base64String = btoa(input);
+  return base64StringToBase64UrlEncodedString(base64String);
+}
 
 /// Converts a `Uint8List` to a hexadecimal string.
 ///
@@ -125,4 +141,31 @@ String hexToAscii(String hexString) {
 /// Returns a `String` representing the base64 URL-encoded version of the input.
 String base64StringToBase64UrlEncodedString(String input) {
   return input.replaceAll('+', '-').replaceAll('/', '_').replaceAll('=', '');
+}
+
+/// Encodes a given string into a Base64-encoded string.
+///
+/// Parameters:
+/// - [s]: The [String] to encode.
+///
+/// Returns:
+/// - A [String] containing the Base64-encoded representation of [s].
+///
+/// Throws:
+/// - [ArgumentError]: If the input string is empty.
+/// - [FormatException]: If the input string contains characters with code points greater than 255.
+String btoa(String s) {
+  if (s.isEmpty) {
+    throw ArgumentError("1 argument required, but only 0 present.");
+  }
+
+  for (int i = 0; i < s.length; i++) {
+    if (s.codeUnitAt(i) > 255) {
+      throw ArgumentError(
+          'InvalidCharacterError: found code point greater than 255: ${s.codeUnitAt(i)} at position $i');
+    }
+  }
+
+  final bytes = utf8.encode(s);
+  return base64.encode(bytes);
 }
