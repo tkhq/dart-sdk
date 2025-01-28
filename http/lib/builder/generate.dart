@@ -24,10 +24,8 @@ Future<void> generateFetchers({
   required List<TFileInfo> fileList,
   required String targetPath,
 }) async {
-
   for (final fileInfo in fileList) {
-    final SwaggerRoot spec =
-        SwaggerRoot.fromJson(fileInfo.parsedData);
+    final SwaggerRoot spec = SwaggerRoot.fromJson(fileInfo.parsedData);
     final sourceAbsolutePath = fileInfo.absolutePath;
 
     final namespace = spec.tags.map((tag) => tag.name).firstWhere(
@@ -232,63 +230,63 @@ Future<void> generateFetchers({
           case 'post':
             {
               // Generate the main fetcher method
-              currentCodeBuffer.add('''
-      $dartDocCommentForMethod
-      Future<${responseTypeParameter}> ${fetcherName}(${rawFetcherInputParameter.isNotEmpty ? rawFetcherInputParameter : ''}) async {
-        return request<${[
-                responseTypeParameter, // 1. response
-                bodyTypeBinding.isBound
-                    ? bodyTypeBinding.name
-                    : "Never", // 2. body
-                queryTypeBinding.isBound
-                    ? queryTypeBinding.name
-                    : "Never", // 3. query
-                substitutionTypeBinding.isBound
-                    ? substitutionTypeBinding.name
-                    : "Never", // 4. substitution
-                sharedHeadersTypeBinding.isBound
-                    ? '${sharedHeadersTypeBinding.name}?'
-                    : "Never", // 5. headers
-              ].join(', ')}>(
-          uri: "${endpointPath}",
-          method: "${upperCasedMethod}",
-          ${[
-                if (queryTypeBinding.isBound) 'query: input.query,',
-                if (bodyTypeBinding.isBound) 'body: input.body,',
-                if (substitutionTypeBinding.isBound)
-                  'substitution: input.substitution,',
-                if (sharedHeadersTypeBinding.isBound) 'headers: input.headers,',
-              ].join('\n')}
-        );
-      }
-      ''');
+      //         currentCodeBuffer.add('''
+      // $dartDocCommentForMethod
+      // Future<${responseTypeParameter}> ${fetcherName}(${rawFetcherInputParameter.isNotEmpty ? rawFetcherInputParameter : ''}) async {
+      //   return request<${[
+      //           responseTypeParameter, // 1. response
+      //           bodyTypeBinding.isBound
+      //               ? bodyTypeBinding.name
+      //               : "Never", // 2. body
+      //           queryTypeBinding.isBound
+      //               ? queryTypeBinding.name
+      //               : "Never", // 3. query
+      //           substitutionTypeBinding.isBound
+      //               ? substitutionTypeBinding.name
+      //               : "Never", // 4. substitution
+      //           sharedHeadersTypeBinding.isBound
+      //               ? '${sharedHeadersTypeBinding.name}?'
+      //               : "Never", // 5. headers
+      //         ].join(', ')}>(
+      //     uri: "${endpointPath}",
+      //     method: "${upperCasedMethod}",
+      //     ${[
+      //           if (queryTypeBinding.isBound) 'query: input.query,',
+      //           if (bodyTypeBinding.isBound) 'body: input.body,',
+      //           if (substitutionTypeBinding.isBound)
+      //             'substitution: input.substitution,',
+      //           if (sharedHeadersTypeBinding.isBound) 'headers: input.headers,',
+      //         ].join('\n')}
+      //   );
+      // }
+      // ''');
 
               // Generate the signed request method
-              currentCodeBuffer.add('''
-      $dartDocCommentForSignMethod
-      Future<TSignedRequest> ${signedRequestGeneratorName}(${rawSignRequestInputParameters.isNotEmpty ? rawSignRequestInputParameters : ''}) async {
-        return signedRequest<${[
-                bodyTypeBinding.isBound
-                    ? bodyTypeBinding.name
-                    : "Never", // 1. body
-                queryTypeBinding.isBound
-                    ? queryTypeBinding.name
-                    : "Never", // 2. query
-                substitutionTypeBinding.isBound
-                    ? substitutionTypeBinding.name
-                    : "Never", // 3. substitution
-              ].join(', ')}>(
-          uri: "${endpointPath}",
-          ${[
-                if (queryTypeBinding.isBound) 'query: input.query,',
-                if (bodyTypeBinding.isBound) 'body: input.body,',
-                if (substitutionTypeBinding.isBound)
-                  'substitution: input.substitution,',
-                'options: options,',
-              ].join('\n')}
-        );
-      }
-      ''');
+      //         currentCodeBuffer.add('''
+      // $dartDocCommentForSignMethod
+      // Future<TSignedRequest> ${signedRequestGeneratorName}(${rawSignRequestInputParameters.isNotEmpty ? rawSignRequestInputParameters : ''}) async {
+      //   return signedRequest<${[
+      //           bodyTypeBinding.isBound
+      //               ? bodyTypeBinding.name
+      //               : "Never", // 1. body
+      //           queryTypeBinding.isBound
+      //               ? queryTypeBinding.name
+      //               : "Never", // 2. query
+      //           substitutionTypeBinding.isBound
+      //               ? substitutionTypeBinding.name
+      //               : "Never", // 3. substitution
+      //         ].join(', ')}>(
+      //     uri: "${endpointPath}",
+      //     ${[
+      //           if (queryTypeBinding.isBound) 'query: input.query,',
+      //           if (bodyTypeBinding.isBound) 'body: input.body,',
+      //           if (substitutionTypeBinding.isBound)
+      //             'substitution: input.substitution,',
+      //           'options: options,',
+      //         ].join('\n')}
+      //   );
+      // }
+      // ''');
               break;
             }
           default:
@@ -311,14 +309,14 @@ Future<void> generateFetchers({
       '''
         $COMMENT_HEADER
         ${importStatementSet.where((statement) => statement.isNotEmpty).join('\n')}
-        import 'package:turnkey_dart_http_client/__generated__/public_api.swagger.dart';
-        import 'package:turnkey_dart_http_client/swagger/base.dart';
+        import '../../../../base.dart';
+        import 'public_api.swagger.dart';
         ${globalStatementSet.where((statement) => statement.isNotEmpty).join('\n')}
       ''',
     );
 
-    await safeWriteFileAsync("$targetPath/public_api.fetcher.dart",
-        currentCodeBuffer.join("\n\n"));
+    await safeWriteFileAsync(
+        "$targetPath/public_api.fetcher.dart", currentCodeBuffer.join("\n\n"));
     await formatDocument(targetPath);
   }
 }
@@ -341,8 +339,7 @@ Future<void> generateFetchers({
 Future<void> generateClientFromSwagger({
   required SwaggerRoot spec,
   required String targetPath,
-}
-) async {
+}) async {
   final namespace = spec.tags.map((tag) => tag.name).firstWhere(
         (name) => name.isNotEmpty,
         orElse: () => throw Exception(
@@ -356,8 +353,9 @@ Future<void> generateClientFromSwagger({
   }
 
   final importStatementSet = <String>[
-    'import "package:turnkey_dart_http_client/swagger/base.dart" hide request;',
-    'import "package:turnkey_dart_http_client/swagger/public_api.fetcher.dart";',
+    'import "public_api.fetcher.dart";',
+    'import "../../../../base.dart";',
+    'import "../../../../version.dart";'
     'import "dart:convert";',
     'import "dart:async";',
     'import "dart:io";',
@@ -463,9 +461,9 @@ Future<void> generateClientFromSwagger({
       Future<$responseType> $methodName({
         required $inputType input,
       }) async {
-        return await request<$responseType, $inputType>(
-          uri: "$endpointPath",
-          body: input,
+        return await request<$inputType, $responseType>(
+          "$endpointPath",
+          input,
         );
       }
     ''');

@@ -29,6 +29,7 @@ class Codegen implements Builder {
     final SwaggerRoot publicApiSwaggerSpec =
         SwaggerRoot.fromJson(fileList[0].parsedData);
 
+    print('hellos');
     await generateClientFromSwagger(spec: publicApiSwaggerSpec, targetPath: OUTPUT_GENERATED_DIRECTORY );
   }
 }
