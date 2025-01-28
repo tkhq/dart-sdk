@@ -73,32 +73,12 @@ Future<void> generateFetchers({
         }
         final bool isEndpointDeprecated = operation.deprecated;
 
-        final String fetcherName =
-            operationNameWithoutNamespace[0].toLowerCase() +
-                operationNameWithoutNamespace.substring(1);
-
-        final String signedRequestGeneratorName =
-            'sign$operationNameWithoutNamespace';
-
         final List<SwaggerRequestParameter> parameterList =
             operation.parameters;
 
         final String upperCasedMethod = method.toUpperCase();
 
         final String endpointInfo = '`$upperCasedMethod $endpointPath`';
-
-        final dartDocCommentForMethod = assembleDartDocComment([
-          operation.summary,
-          operation.description,
-          endpointInfo,
-          isEndpointDeprecated ? "@deprecated" : null,
-        ]);
-
-        final dartDocCommentForSignMethod = assembleDartDocComment([
-          'Request a WebAuthn assertion and return a signed ${operationNameWithoutNamespace} request, ready to be POSTed to Turnkey.',
-          'See {@link ${operationNameWithoutNamespace}}',
-          isEndpointDeprecated ? "@deprecated" : null,
-        ]);
 
         final dartDocCommentForType = assembleDartDocComment([
           endpointInfo,
@@ -214,88 +194,6 @@ Future<void> generateFetchers({
             }
           }),
         );
-
-        final String rawFetcherInputParameter = !inputTypeBinding.isBound
-            ? ""
-            : "{required ${inputTypeBinding.name} input}";
-
-        final String rawSignRequestInputParameters = !inputTypeBinding.isBound
-            ? "TurnkeyCredentialRequestOptions? options"
-            : "{required ${inputTypeBinding.name} input, TurnkeyCredentialRequestOptions? options}";
-
-        final String responseTypeParameter =
-            responseTypeBinding.isBound ? responseTypeBinding.name : "void";
-
-        switch (method) {
-          case 'post':
-            {
-              // Generate the main fetcher method
-      //         currentCodeBuffer.add('''
-      // $dartDocCommentForMethod
-      // Future<${responseTypeParameter}> ${fetcherName}(${rawFetcherInputParameter.isNotEmpty ? rawFetcherInputParameter : ''}) async {
-      //   return request<${[
-      //           responseTypeParameter, // 1. response
-      //           bodyTypeBinding.isBound
-      //               ? bodyTypeBinding.name
-      //               : "Never", // 2. body
-      //           queryTypeBinding.isBound
-      //               ? queryTypeBinding.name
-      //               : "Never", // 3. query
-      //           substitutionTypeBinding.isBound
-      //               ? substitutionTypeBinding.name
-      //               : "Never", // 4. substitution
-      //           sharedHeadersTypeBinding.isBound
-      //               ? '${sharedHeadersTypeBinding.name}?'
-      //               : "Never", // 5. headers
-      //         ].join(', ')}>(
-      //     uri: "${endpointPath}",
-      //     method: "${upperCasedMethod}",
-      //     ${[
-      //           if (queryTypeBinding.isBound) 'query: input.query,',
-      //           if (bodyTypeBinding.isBound) 'body: input.body,',
-      //           if (substitutionTypeBinding.isBound)
-      //             'substitution: input.substitution,',
-      //           if (sharedHeadersTypeBinding.isBound) 'headers: input.headers,',
-      //         ].join('\n')}
-      //   );
-      // }
-      // ''');
-
-              // Generate the signed request method
-      //         currentCodeBuffer.add('''
-      // $dartDocCommentForSignMethod
-      // Future<TSignedRequest> ${signedRequestGeneratorName}(${rawSignRequestInputParameters.isNotEmpty ? rawSignRequestInputParameters : ''}) async {
-      //   return signedRequest<${[
-      //           bodyTypeBinding.isBound
-      //               ? bodyTypeBinding.name
-      //               : "Never", // 1. body
-      //           queryTypeBinding.isBound
-      //               ? queryTypeBinding.name
-      //               : "Never", // 2. query
-      //           substitutionTypeBinding.isBound
-      //               ? substitutionTypeBinding.name
-      //               : "Never", // 3. substitution
-      //         ].join(', ')}>(
-      //     uri: "${endpointPath}",
-      //     ${[
-      //           if (queryTypeBinding.isBound) 'query: input.query,',
-      //           if (bodyTypeBinding.isBound) 'body: input.body,',
-      //           if (substitutionTypeBinding.isBound)
-      //             'substitution: input.substitution,',
-      //           'options: options,',
-      //         ].join('\n')}
-      //   );
-      // }
-      // ''');
-              break;
-            }
-          default:
-            {
-              throw Exception(
-                'Unsupported method ${method} for ${endpointPath}',
-              );
-            }
-        }
       }
     }
 
@@ -309,7 +207,6 @@ Future<void> generateFetchers({
       '''
         $COMMENT_HEADER
         ${importStatementSet.where((statement) => statement.isNotEmpty).join('\n')}
-        import '../../../../base.dart';
         import 'public_api.swagger.dart';
         ${globalStatementSet.where((statement) => statement.isNotEmpty).join('\n')}
       ''',

@@ -1,11 +1,6 @@
 class TConfig {
-  /// Turnkey API public key
   final String apiPublicKey;
-
-  /// Turnkey API private key
   final String apiPrivateKey;
-
-  /// Turnkey API base URL
   final String baseUrl;
 
   TConfig({
@@ -16,7 +11,6 @@ class TConfig {
 }
 
 class TBrowserConfig {
-  /// Turnkey API base URL
   final String baseUrl;
 
   TBrowserConfig({
@@ -24,7 +18,6 @@ class TBrowserConfig {
   });
 }
 
-/// Nullable configuration for `TConfig`
 class NullableTConfig {
   String? apiPublicKey;
   String? apiPrivateKey;
@@ -36,8 +29,6 @@ class NullableTConfig {
     this.baseUrl,
   });
 }
-
-/// Nullable configuration for `TBrowserConfig`
 class NullableTBrowserConfig {
   String? baseUrl;
 

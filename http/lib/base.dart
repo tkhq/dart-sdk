@@ -3,49 +3,14 @@ import 'dart:io';
 import 'package:turnkey_dart_api_stamper/api_stamper.dart';
 import 'package:turnkey_encoding/encoding.dart';
 import 'config.dart';
-import 'webauth.dart';
 
 typedef TBasicType = String;
 typedef TQueryShape = Map<String, TBasicType>;
 typedef THeadersShape = Map<String, TBasicType>?;
 typedef TBodyShape = dynamic;
 typedef TSubstitutionShape = Map<String, dynamic>;
-
 final THeadersShape sharedHeaders = {};
 
-final Map<String, dynamic> sharedRequestOptions = {
-  'redirect': 'follow',
-};
-
-@Deprecated('This function is deprecated.')
-Future<SignedRequest> signedRequest<B extends Map<String, dynamic>?,
-    Q extends Map<String, dynamic>?, S extends Map<String, dynamic>?>({
-  required String uri,
-  Q? query,
-  B? body,
-  S? substitution,
-}) async {
-  final Q inputQuery = query ?? {} as Q;
-  final S inputSubstitution = substitution ?? {} as S;
-  final B inputBody = body ?? {} as B;
-
-  final Uri url = constructUrl(
-    uri: uri,
-    query: inputQuery as Map<String, dynamic>,
-    substitution: inputSubstitution as Map<String, dynamic>,
-  );
-
-  final jsonBody = jsonEncode(inputBody);
-
-  final stamp = await getWebAuthnAssertion(jsonBody);
-
-  // Return the signed request
-  return SignedRequest(
-    url: url.toString(),
-    body: jsonBody,
-    stamp: stamp,
-  );
-}
 
 Future<TResponse> request<
     TResponse,
@@ -85,26 +50,20 @@ Future<TResponse> request<
   late HttpClientResponse response;
 
   try {
-    // Ensure the request is POST
     if (method.toUpperCase() != 'POST') {
       throw ArgumentError('Unsupported method: $method');
     }
 
-    // Create a POST request
     httpRequest = await httpClient.postUrl(url);
 
-    // Add headers
     requestHeaders.forEach((key, value) {
       httpRequest.headers.set(key, value);
     });
 
-    // Add the body to the request
     httpRequest.write(sealedBody);
 
-    // Await the response
     response = await httpRequest.close();
 
-    // Handle non-OK responses
     if (response.statusCode < 200 || response.statusCode >= 300) {
       final String errorBody = await response.transform(utf8.decoder).join();
       try {
@@ -115,7 +74,6 @@ Future<TResponse> request<
       }
     }
 
-    // Parse and return the response body
     final String responseBody = await response.transform(utf8.decoder).join();
     return jsonDecode(responseBody) as TResponse;
   } finally {
@@ -140,13 +98,10 @@ Uri constructUrl({
 }) {
   final String baseUrl = getBaseUrl();
 
-  // Substitute placeholders in the URI
   final String substitutedPath = substitutePath(uri, substitution);
 
-  // Create the base URL with the substituted path
   final Uri baseUri = Uri.parse(baseUrl).resolve(substitutedPath);
 
-  // Add query parameters
   final Map<String, String> queryParams = {};
   query.forEach((key, value) {
     if (value is List) {
@@ -244,24 +199,20 @@ Future<Map<String, String>> sealAndStampRequestBody({
   apiPublicKey ??= getConfig().apiPublicKey;
   apiPrivateKey ??= getConfig().apiPrivateKey;
 
-  // Serialize the body to a stable string format
   final String sealedBody = stableStringify(body);
 
-  // Generate the signature
   final String signature = await signWithApiKey(
     apiPublicKey,
     apiPrivateKey,
     sealedBody,
   );
 
-  // Create the sealed stamp
   final String sealedStamp = stableStringify({
     'publicKey': apiPublicKey,
     'scheme': 'SIGNATURE_SCHEME_TK_API_P256',
     'signature': signature,
   });
 
-  // Convert the sealed stamp to base64 URL-safe string
   final String xStamp = stringToBase64urlString(sealedStamp);
 
   return {
@@ -275,19 +226,6 @@ class THttpConfig {
 
   THttpConfig({
     required this.baseUrl,
-  });
-}
-
-// Deprecated
-class SignedRequest {
-  final String body;
-  final String stamp;
-  final String url;
-
-  SignedRequest({
-    required this.body,
-    required this.stamp,
-    required this.url,
   });
 }
 
