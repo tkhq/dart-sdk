@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/turnkey.dart';
+import 'buttons.dart';
 
 class Country {
   final String name;
@@ -22,6 +26,8 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   ];
 
   Country _selectedCountry = _countries[0];
+
+  final TextEditingController _phoneInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +62,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
               ),
               Expanded(
                 child: TextField(
+                  controller: _phoneInputController,
                   decoration: InputDecoration(
                     hintText: 'Phone number',
                     border: InputBorder.none,
@@ -68,17 +75,26 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         ),
         SizedBox(height: 20),
         SizedBox(
-          width: double.infinity, // Set the width to fill the parent
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6), // Rectangular shape
-              ),
-            ),
-            child: Text('Continue'),
+          width: double.infinity,
+          child: Consumer<TurnkeyProvider>(
+            builder: (context, turnkeyProvider, child) {
+              return LoadingButton(
+                isLoading: turnkeyProvider.isLoading('initPhoneLogin'),
+                onPressed: () async {
+                  final phoneNumber =
+                      '${_selectedCountry.code} ${_phoneInputController.text}';
+                  if (phoneNumber.isNotEmpty) {
+                    await turnkeyProvider.initPhoneLogin(context, phoneNumber);
+                  } else {
+                    // Show an error message if phone number box is empty
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Please enter a phone number')),
+                    );
+                  }
+                },
+                text: 'Continue',
+              );
+            },
           ),
         ),
       ],

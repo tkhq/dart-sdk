@@ -6,8 +6,7 @@ import 'package:ecdsa/ecdsa.dart';
 
 import 'types.dart';
 
-
- class ApiStamperConfig {
+class ApiStamperConfig {
   final String apiPublicKey;
 
   final String apiPrivateKey;
@@ -18,19 +17,16 @@ import 'types.dart';
   });
 }
 
-
 String signWithApiKey(String publicKey, String privateKey, String content) {
-  
   var ec = getP256();
 
   var ecPrivateKey = PrivateKey.fromHex(ec, privateKey);
 
-  var publicKeyString = ec.privateToPublicKey(ecPrivateKey).toCompressedHex();    
+  var publicKeyString = ec.privateToPublicKey(ecPrivateKey).toCompressedHex();
 
   if (publicKeyString != publicKey) {
     throw Exception(
-      'Bad API key. Expected to get public key $publicKey, got $publicKeyString'
-    );
+        'Bad API key. Expected to get public key $publicKey, got $publicKeyString');
   }
 
   var bytes = utf8.encode(content);
@@ -45,8 +41,7 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
   sBigInt = curveOrder - sBigInt;
   sig.S = sBigInt;
 
-  return(sig.toDERHex());
-
+  return (sig.toDERHex());
 }
 
 class ApiStamper {
@@ -55,7 +50,9 @@ class ApiStamper {
 
   var stampHeaderName = "X-Stamp";
 
-  ApiStamper(ApiStamperConfig config): apiPublicKey = config.apiPublicKey, apiPrivateKey = config.apiPrivateKey;
+  ApiStamper(ApiStamperConfig config)
+      : apiPublicKey = config.apiPublicKey,
+        apiPrivateKey = config.apiPrivateKey;
 
   StampReturnType stamp(String content) {
     var signature = signWithApiKey(apiPublicKey, apiPrivateKey, content);
@@ -71,6 +68,4 @@ class ApiStamper {
       stampHeaderValue: jsonEncode(stamp),
     );
   }
-
-
 }

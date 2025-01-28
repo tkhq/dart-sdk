@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/login.dart';
-import 'package:turnkey_flutter_demo_app/screens/otp.dart';
+
+import 'providers/session.dart';
+import 'providers/turnkey.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SessionProvider()),
+        ChangeNotifierProvider(create: (_) => TurnkeyProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -34,8 +45,25 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
-        child: LoginScreen(),
+      body: Consumer<TurnkeyProvider>(
+        //TODO: maybe we should just show a snackbar from the TurnkeyProvider when an error occurs
+        builder: (context, turnkeyProvider, child) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (turnkeyProvider.errorMessage != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content: Text(
+                        'An error has occurred: \n ${turnkeyProvider.errorMessage!}')),
+              );
+
+              turnkeyProvider.setError(null);
+            }
+          });
+
+          return Center(
+            child: LoginScreen(),
+          );
+        },
       ),
     );
   }

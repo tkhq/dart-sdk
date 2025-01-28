@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-  //TODO: Add callback functions for the buttons, then naviagte if needed
   @override
   Widget build(BuildContext context) {
     return Scaffold(
