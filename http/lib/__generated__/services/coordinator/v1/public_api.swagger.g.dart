@@ -5761,8 +5761,7 @@ V1Vote _$V1VoteFromJson(Map<String, dynamic> json) => V1Vote(
       publicKey: json['publicKey'] as String,
       signature: json['signature'] as String,
       scheme: json['scheme'] as String,
-      // We manually add a check until the API is fixed (See https://github.com/tkhq/mono/pull/3693 for details)
-      createdAt: json['createdAt'] == null ? Externaldatav1Timestamp(seconds: '0', nanos: '0') : Externaldatav1Timestamp.fromJson(
+      createdAt: Externaldatav1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
     );
 
