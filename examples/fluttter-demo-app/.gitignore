@@ -51,3 +51,6 @@ ios/Runner.xcworkspace/
 ios/Flutter/Flutter.framework/
 ios/Flutter/App.framework/
 ios/Flutter/engine/
+
+# Environment files
+.env
