@@ -11,6 +11,8 @@ dependencies:
   ecdsa: 0.1.2
   turnkey_dart_http_client:
     path: ../http
+  turnkey_encoding:
+    path: ../encoding
 dev_dependencies:
   flutter_test:
     sdk: flutter

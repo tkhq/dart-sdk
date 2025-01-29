@@ -42,12 +42,15 @@ dependencies:
     path: ../../crypto
   turnkey_flutter_passkey_stamper:
     path: ../../passkey-stamper
+  turnkey_dart_api_stamper:
+    path: ../../api-stamper
   turnkey_dart_http_client:
     path: ../../http
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
   elliptic: ^0.3.11
   flutter_dotenv: ^5.2.1
+  crypto: ^3.0.6
 
 dev_dependencies:
   flutter_test:
