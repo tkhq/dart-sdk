@@ -18,7 +18,6 @@ class PasskeyInput extends StatelessWidget {
                 onPressed: turnkeyProvider.isLoading('loginWithPasskey')
                     ? null
                     : () async {
-                        print('loginWithPasskey unimplemented');
                         await turnkeyProvider.loginWithPasskey(context);
                       },
                 style: ElevatedButton.styleFrom(
