@@ -253,7 +253,7 @@ Future<void> generateClientFromSwagger({
     'import "public_api.fetcher.dart";',
     'import "../../../../base.dart";',
     'import "../../../../version.dart";'
-    'import "dart:convert";',
+        'import "dart:convert";',
     'import "dart:async";',
     'import "dart:io";',
   ];

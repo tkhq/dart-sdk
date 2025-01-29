@@ -9,8 +9,13 @@ dependencies:
   elliptic: 0.3.11
   crypto: 3.0.6
   ecdsa: 0.1.2
+  turnkey_dart_http_client:
+    path: ../http
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.0.0
   build_test: ^2.0.0
+
+publish_to: none # We add this temporarily, so we can use local dependencies
+

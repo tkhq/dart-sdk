@@ -3,13 +3,15 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 
-
 String getChallengeFromPayload(String payload) {
-  final bytes = utf8.encode(payload);
-  final digest = sha256.convert(bytes);
-  final hexString = digest.bytes;
+  var bytes = utf8.encode(payload);
+  var digest = sha256.convert(bytes);
 
-  final base64String = base64.encode(hexString);
+  String hexString = digest.toString();
+
+  Uint8List hexBytes = Uint8List.fromList(hexString.codeUnits);
+  String base64String = base64Encode(hexBytes);
+
   return base64String;
 }
 

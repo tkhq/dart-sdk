@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/types.dart';
+import 'package:turnkey_dart_http_client/base.dart';
+import 'package:turnkey_encoding/encoding.dart';
 
-import 'types.dart';
 import 'utils.dart';
 
 class Stamp {
@@ -19,7 +20,6 @@ class Stamp {
   });
 }
 
-
 class PasskeyRegistrationConfig {
   final Map<String, String> rp; // Relying party details: {name, id}
   final Map<String, String> user; // User details: {displayName, name, id}
@@ -27,7 +27,8 @@ class PasskeyRegistrationConfig {
   final int? timeout; // Optional timeout in milliseconds
   final List<CredentialType>? excludeCredentials; // Credentials to exclude
   final String? attestation; // Attestation type: none, direct, indirect
-  final AuthenticatorSelectionType? authenticatorSelection; // Authenticator selection criteria
+  final AuthenticatorSelectionType?
+      authenticatorSelection; // Authenticator selection criteria
   final String? authenticatorName; // Optional authenticator name
 
   PasskeyRegistrationConfig({
@@ -42,8 +43,7 @@ class PasskeyRegistrationConfig {
   });
 }
 
-
- class PasskeyStamperConfig {
+class PasskeyStamperConfig {
   // The RPID ("Relying Party ID") for your app.
   final String rpId;
 
@@ -70,42 +70,52 @@ class PasskeyRegistrationConfig {
   // Optional flag to prefer immediately available credentials. Defaults to true.
   final bool? preferImmediatelyAvailableCredentials;
 
-  PasskeyStamperConfig({required this.rpId, this.timeout, this.userVerification, this.allowCredentials, this.withSecurityKey, this.withPlatformKey, this.mediation, this.preferImmediatelyAvailableCredentials, this.extensions});
-
-}
-
-String base64StringToBase64UrlEncodedString(String input) { // TODO: replace with function from encoding library
-  return input
-      .replaceAll('+', '-') 
-      .replaceAll('/', '_')
-      .replaceAll('=', '');
+  PasskeyStamperConfig(
+      {required this.rpId,
+      this.timeout,
+      this.userVerification,
+      this.allowCredentials,
+      this.withSecurityKey,
+      this.withPlatformKey,
+      this.mediation,
+      this.preferImmediatelyAvailableCredentials,
+      this.extensions});
 }
 
 // Function to create a passkey
-Future<Map<String, dynamic>> createPasskey(
-  PasskeyRegistrationConfig config,
-  {bool withSecurityKey = false, bool withPlatformKey = false}  // TODO: Support for security key and platform key
-) async {
+Future<Map<String, dynamic>> createPasskey(PasskeyRegistrationConfig config,
+    {bool withSecurityKey = false,
+    bool withPlatformKey =
+        false} // TODO: Support for security key and platform key
+    ) async {
   final String challenge = config.challenge ?? generateChallenge();
 
-  final String userId = base64Url.encode(utf8.encode(config.user['id']!)).replaceAll('=', '');
+  final String userId =
+      base64Url.encode(utf8.encode(config.user['id']!)).replaceAll('=', '');
 
   final authenticator = PasskeyAuthenticator();
-  
+
   final options = RegisterRequestType(
-    relyingParty: RelyingPartyType(name: config.rp['name']!, id: config.rp['id']!),
-    user: UserType(displayName: config.user['displayName']!, name: config.user['name']!, id: userId),
+    relyingParty:
+        RelyingPartyType(name: config.rp['name']!, id: config.rp['id']!),
+    user: UserType(
+        displayName: config.user['displayName']!,
+        name: config.user['name']!,
+        id: userId),
     timeout: config.timeout ?? 300000,
     challenge: challenge,
     excludeCredentials: config.excludeCredentials ?? [],
-    pubKeyCredParams: [PubKeyCredParamType(type: "public-key", alg: -7), PubKeyCredParamType(type: "public-key", alg: -257)],
+    pubKeyCredParams: [
+      PubKeyCredParamType(type: "public-key", alg: -7),
+      PubKeyCredParamType(type: "public-key", alg: -257)
+    ],
     attestation: config.attestation ?? 'none',
-    authSelectionType: config.authenticatorSelection ?? AuthenticatorSelectionType(
-      requireResidentKey: true,
-      authenticatorAttachment: "platform",
-      residentKey: "required",
-      userVerification: "preferred"
-    ),
+    authSelectionType: config.authenticatorSelection ??
+        AuthenticatorSelectionType(
+            requireResidentKey: true,
+            authenticatorAttachment: "platform",
+            residentKey: "required",
+            userVerification: "preferred"),
   );
 
   final credential = await authenticator.register(options);
@@ -114,18 +124,18 @@ Future<Map<String, dynamic>> createPasskey(
     'authenticatorName': config.authenticatorName,
     'challenge': challenge,
     'attestation': {
-      'credentialId': base64StringToBase64UrlEncodedString(credential.rawId),
-      'clientDataJson': base64StringToBase64UrlEncodedString(credential.clientDataJSON),
-      'attestationObject': base64StringToBase64UrlEncodedString(credential.attestationObject),
+      'credentialId': base64StringToBase64UrlEncodedString(credential.id),
+      'clientDataJson':
+          base64StringToBase64UrlEncodedString(credential.clientDataJSON),
+      'attestationObject':
+          base64StringToBase64UrlEncodedString(credential.attestationObject),
       'transports': ["AUTHENTICATOR_TRANSPORT_HYBRID"],
     },
   };
 }
 
-
-
 // Passkey Stamper class
-class PasskeyStamper {
+class PasskeyStamper implements TStamper {
   final String rpId;
   final int timeout;
   final String userVerification;
@@ -135,26 +145,30 @@ class PasskeyStamper {
   final MediationType mediation;
   final bool preferImmediatelyAvailableCredentials;
   final Map<String, dynamic> extensions;
-  
 
   PasskeyStamper(PasskeyStamperConfig config)
       : rpId = config.rpId,
         timeout = config.timeout ?? 300000,
         userVerification = config.userVerification ?? 'preferred',
         allowCredentials = config.allowCredentials ?? [],
-        forcePlatformKey = config.withPlatformKey ?? false, //TODO: Allow for platform key
-        forceSecurityKey = config.withSecurityKey ?? false, //TODO: Allow for security key
+        forcePlatformKey =
+            config.withPlatformKey ?? false, //TODO: Allow for platform key
+        forceSecurityKey =
+            config.withSecurityKey ?? false, //TODO: Allow for security key
         mediation = config.mediation ?? MediationType.Silent,
-        preferImmediatelyAvailableCredentials = config.preferImmediatelyAvailableCredentials ?? true,
-        extensions = config.extensions ?? {}; //TODO: Do we need to pass extensions?
+        preferImmediatelyAvailableCredentials =
+            config.preferImmediatelyAvailableCredentials ?? true,
+        extensions =
+            config.extensions ?? {}; //TODO: Do we need to pass extensions?
 
-  final stampHeaderName = "X-Stamp";
+  final stampHeaderName = "X-Stamp-Webauthn";
 
-
-  Future<StampReturnType> stamp(String payload) async {
+  @override
+  Future<TStamp> stamp(String payload) async {
     final challenge = getChallengeFromPayload(payload);
 
-    final authenticator = PasskeyAuthenticator(); //TODO: Is it ok to create another authenticator object here?
+    final authenticator =
+        PasskeyAuthenticator(); //TODO: Is it ok to create another authenticator object here?
 
     final signingOptions = AuthenticateRequestType(
       challenge: challenge,
@@ -162,24 +176,25 @@ class PasskeyStamper {
       relyingPartyId: rpId,
       timeout: timeout,
       allowCredentials: allowCredentials,
-      userVerification: userVerification, 
-      preferImmediatelyAvailableCredentials: preferImmediatelyAvailableCredentials,
+      userVerification: userVerification,
+      preferImmediatelyAvailableCredentials:
+          preferImmediatelyAvailableCredentials,
     );
 
     var authenticationResult = await authenticator.authenticate(signingOptions);
 
     var stamp = {
       "authenticatorData": base64StringToBase64UrlEncodedString(
-        authenticationResult.authenticatorData
-      ),
+          authenticationResult.authenticatorData),
       "clientDataJson": base64StringToBase64UrlEncodedString(
-        authenticationResult.clientDataJSON
-      ),
-      "credentialId": base64StringToBase64UrlEncodedString(authenticationResult.id),
-      "signature": base64StringToBase64UrlEncodedString(authenticationResult.signature),
+          authenticationResult.clientDataJSON),
+      "credentialId":
+          base64StringToBase64UrlEncodedString(authenticationResult.id),
+      "signature":
+          base64StringToBase64UrlEncodedString(authenticationResult.signature),
     };
 
-    return StampReturnType(
+    return TStamp(
       stampHeaderName: stampHeaderName,
       stampHeaderValue: jsonEncode(stamp),
     );

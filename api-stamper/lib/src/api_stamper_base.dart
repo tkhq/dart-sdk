@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
+import 'package:turnkey_dart_http_client/base.dart';
 
-import 'types.dart';
-
-
- class ApiStamperConfig {
+class ApiStamperConfig {
   final String apiPublicKey;
 
   final String apiPrivateKey;
@@ -18,19 +16,16 @@ import 'types.dart';
   });
 }
 
-
 String signWithApiKey(String publicKey, String privateKey, String content) {
-  
   var ec = getP256();
 
   var ecPrivateKey = PrivateKey.fromHex(ec, privateKey);
 
-  var publicKeyString = ec.privateToPublicKey(ecPrivateKey).toCompressedHex();    
+  var publicKeyString = ec.privateToPublicKey(ecPrivateKey).toCompressedHex();
 
   if (publicKeyString != publicKey) {
     throw Exception(
-      'Bad API key. Expected to get public key $publicKey, got $publicKeyString'
-    );
+        'Bad API key. Expected to get public key $publicKey, got $publicKeyString');
   }
 
   var bytes = utf8.encode(content);
@@ -45,19 +40,21 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
   sBigInt = curveOrder - sBigInt;
   sig.S = sBigInt;
 
-  return(sig.toDERHex());
-
+  return (sig.toDERHex());
 }
 
-class ApiStamper {
+class ApiStamper implements TStamper {
   final String apiPublicKey;
   final String apiPrivateKey;
 
   var stampHeaderName = "X-Stamp";
 
-  ApiStamper(ApiStamperConfig config): apiPublicKey = config.apiPublicKey, apiPrivateKey = config.apiPrivateKey;
+  ApiStamper(ApiStamperConfig config)
+      : apiPublicKey = config.apiPublicKey,
+        apiPrivateKey = config.apiPrivateKey;
 
-  StampReturnType stamp(String content) {
+  @override
+  Future<TStamp> stamp(String content) async {
     var signature = signWithApiKey(apiPublicKey, apiPrivateKey, content);
 
     var stamp = {
@@ -66,11 +63,9 @@ class ApiStamper {
       "signature": signature,
     };
 
-    return StampReturnType(
+    return TStamp(
       stampHeaderName: stampHeaderName,
       stampHeaderValue: jsonEncode(stamp),
     );
   }
-
-
 }
