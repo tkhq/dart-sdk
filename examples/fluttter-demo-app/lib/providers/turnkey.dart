@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:turnkey_dart_api_stamper/api_stamper.dart';
 import 'package:turnkey_dart_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_dart_http_client/base.dart';
 import 'package:turnkey_dart_http_client/index.dart';
@@ -11,12 +12,53 @@ import 'package:turnkey_flutter_passkey_stamper/passkey_stamper.dart';
 import '../utils/constants.dart';
 import 'session.dart';
 
+class User {
+  final String id;
+  final String? userName;
+  final String? email;
+  final String? phoneNumber;
+  final String organizationId;
+  final List<Wallet> wallets;
+
+  User({
+    required this.id,
+    this.userName,
+    this.email,
+    this.phoneNumber,
+    required this.organizationId,
+    required this.wallets,
+  });
+}
+
+class Wallet {
+  final String name;
+  final String id;
+  final List<String> accounts;
+
+  Wallet({
+    required this.name,
+    required this.id,
+    required this.accounts,
+  });
+}
+
 class TurnkeyProvider with ChangeNotifier {
   final Map<String, bool> _loading = {};
   String? _errorMessage;
+  User? _user;
+  TurnkeyClient? _client; //TODO: Does client need to be a state variable?
+
+  final SessionProvider
+      sessionProvider; //TODO: Switch all functions in this file to use this sessionProvider variable
+
+  TurnkeyProvider({required this.sessionProvider}) {
+    sessionProvider.addListener(_onSessionUpdate);
+    _onSessionUpdate();
+  }
 
   bool isLoading(String key) => _loading[key] ?? false;
   String? get errorMessage => _errorMessage;
+  User? get user => _user;
 
   void setLoading(String key, bool loading) {
     _loading[key] = loading;
@@ -26,6 +68,76 @@ class TurnkeyProvider with ChangeNotifier {
   void setError(String? message) {
     _errorMessage = message;
     notifyListeners();
+  }
+
+  Future<void> _onSessionUpdate() async {
+    print('Session updated');
+    final session = sessionProvider.session;
+    print('Session: ${session?.expiry}');
+    if (session != null) {
+      try {
+        final stamper = ApiStamper(
+          ApiStamperConfig(
+              apiPrivateKey: session.privateKey,
+              apiPublicKey: session.publicKey),
+        );
+
+        final client = TurnkeyClient(
+          config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
+          stamper: stamper,
+        );
+        _client = client;
+
+        final whoami = await client.getWhoami(
+            input: V1GetWhoamiRequest(
+          organizationId: EnvConfig.organizationId,
+        ));
+
+        if (whoami.userId != null && whoami.organizationId != null) {
+          final walletsResponse = await client.getWallets(
+            input: V1GetWalletsRequest(organizationId: whoami.organizationId),
+          );
+          final userResponse = await client.getUser(
+            input: V1GetUserRequest(
+              organizationId: whoami.organizationId,
+              userId: whoami.userId,
+            ),
+          );
+
+          final wallets =
+              await Future.wait(walletsResponse.wallets.map((wallet) async {
+            final accountsResponse = await client.getWalletAccounts(
+                input: V1GetWalletAccountsRequest(
+                    organizationId: whoami.organizationId,
+                    walletId: wallet.walletId));
+            return Wallet(
+              name: wallet.walletName,
+              id: wallet.walletId,
+              accounts: accountsResponse.accounts
+                  //TODO: Do we need to run account.address thru a 'getAddress' function?
+                  .map<String>((account) => (account.address))
+                  .toList(),
+            );
+          }).toList());
+
+          final user = userResponse.user;
+
+          _user = User(
+            id: user.userId,
+            userName: user.userName,
+            email: user.userEmail,
+            phoneNumber: user.userPhoneNumber,
+            organizationId: whoami.organizationId,
+            wallets: wallets,
+          );
+
+          notifyListeners();
+        }
+      } catch (error) {
+        print(error.toString());
+        setError(error.toString());
+      }
+    }
   }
 
   Future<void> initEmailLogin(BuildContext context, String email) async {
@@ -197,7 +309,8 @@ class TurnkeyProvider with ChangeNotifier {
       });
 
       if (response['subOrganizationId'] != null) {
-        final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
+        final stamper =
+            PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
         final httpClient = TurnkeyClient(
             config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
             stamper: stamper);
@@ -211,8 +324,7 @@ class TurnkeyProvider with ChangeNotifier {
                 type: V1CreateReadWriteSessionRequestType
                     .activityTypeCreateReadWriteSessionV2,
                 timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-                organizationId:
-                    EnvConfig.organizationId,
+                organizationId: EnvConfig.organizationId,
                 parameters: V1CreateReadWriteSessionIntentV2(
                     targetPublicKey: targetPublicKey)));
 
@@ -244,7 +356,8 @@ class TurnkeyProvider with ChangeNotifier {
         throw Exception("Passkeys are not supported on this device");
       }
 
-      final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
+      final stamper =
+          PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
       final httpClient = TurnkeyClient(
           config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
           stamper: stamper);
@@ -258,8 +371,7 @@ class TurnkeyProvider with ChangeNotifier {
               type: V1CreateReadWriteSessionRequestType
                   .activityTypeCreateReadWriteSessionV2,
               timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-              organizationId:
-                  EnvConfig.organizationId,
+              organizationId: EnvConfig.organizationId,
               parameters: V1CreateReadWriteSessionIntentV2(
                   targetPublicKey: targetPublicKey)));
 
@@ -277,6 +389,33 @@ class TurnkeyProvider with ChangeNotifier {
       setError(error.toString());
     } finally {
       setLoading('loginWithPasskey', false);
+    }
+  }
+
+  Future<V1ActivityResponse> signRawPayload(
+      BuildContext context, V1SignRawPayloadIntentV2 parameters) async {
+    setLoading('signRawPayload', true);
+    setError(null);
+
+    try {
+      if (_client == null || user == null) {
+        throw Exception("Client or user not initialized");
+        //TODO: Maybe autologout here?
+      }
+
+      final response = _client!.signRawPayload(
+          //TODO: Does this need to be stampSignRawPayload?
+          input: V1SignRawPayloadRequest(
+              type: V1SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId: user!.organizationId,
+              parameters: parameters));
+      return response;
+    } catch (error) {
+      setError(error.toString());
+      throw Exception(error.toString());
+    } finally {
+      setLoading('signRawPayload', false);
     }
   }
 }

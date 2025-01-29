@@ -6,16 +6,21 @@ import 'providers/session.dart';
 import 'providers/turnkey.dart';
 
 void main() async {
-
   // Load the environment variables from the .env file
-  WidgetsFlutterBinding.ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SessionProvider()),
-        ChangeNotifierProvider(create: (_) => TurnkeyProvider()),
+        ChangeNotifierProxyProvider<SessionProvider, TurnkeyProvider>(
+          create: (context) => TurnkeyProvider(
+              sessionProvider:
+                  Provider.of<SessionProvider>(context, listen: false)),
+          update: (context, sessionProvider, previous) =>
+              TurnkeyProvider(sessionProvider: sessionProvider),
+        ),
       ],
       child: MyApp(),
     ),
@@ -59,7 +64,7 @@ class MyHomePage extends StatelessWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     content: Text(
-                        'An error has occurred: \n ${turnkeyProvider.errorMessage!}')),
+                        'An error has occurred: \n${turnkeyProvider.errorMessage!}')),
               );
 
               turnkeyProvider.setError(null);

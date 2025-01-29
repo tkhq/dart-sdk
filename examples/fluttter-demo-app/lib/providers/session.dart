@@ -44,6 +44,14 @@ class SessionProvider with ChangeNotifier {
 
   Session? get session => _session;
 
+  SessionProvider() {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await checkSession();
+  }
+
   Future<String> createEmbeddedKey() async {
     final keyPair = await generateP256KeyPair();
     final embeddedPrivateKey = keyPair.privateKey;
@@ -83,9 +91,7 @@ class SessionProvider with ChangeNotifier {
 
     var ecPrivateKey = PrivateKey.fromHex(ec, privateKey);
 
-    var publicKey = ec
-        .privateToPublicKey(ecPrivateKey)
-        .toString(); //TODO: Check if this is correct
+    var publicKey = ec.privateToPublicKey(ecPrivateKey).toCompressedHex();
 
     final session =
         Session(publicKey: publicKey, privateKey: privateKey, expiry: expiry);
@@ -115,5 +121,18 @@ class SessionProvider with ChangeNotifier {
     _session = null;
     notifyListeners();
     await _secureStorage.delete(key: StorageKey.Session.toString());
+  }
+
+  Future<void> checkSession() async {
+    final session = await getSession();
+
+    if (session?.expiry != null &&
+        session!.expiry > DateTime.now().millisecondsSinceEpoch) {
+      _session = session;
+      notifyListeners();
+      // TODO: Add autologin
+    } else {
+      // TODO Add autologout
+    }
   }
 }

@@ -11,7 +11,7 @@ class PasskeyInput extends StatelessWidget {
     return Column(
       children: <Widget>[
         SizedBox(
-          width: double.infinity, // Set the width to fill the parent
+          width: double.infinity,
           child: Consumer<TurnkeyProvider>(
             builder: (context, turnkeyProvider, child) {
               return ElevatedButton(
@@ -40,7 +40,7 @@ class PasskeyInput extends StatelessWidget {
         SizedBox(height: 10),
         SizedBox(
           //TODO: Replace with loader button
-          width: double.infinity, // Set the width to fill the parent
+          width: double.infinity,
           child: Consumer<TurnkeyProvider>(
             builder: (context, turnkeyProvider, child) {
               return TextButton(

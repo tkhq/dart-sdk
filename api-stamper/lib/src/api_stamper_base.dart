@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
 import 'package:turnkey_dart_http_client/base.dart';
+import 'package:turnkey_encoding/encoding.dart';
 
 class ApiStamperConfig {
   final String apiPublicKey;
@@ -65,7 +66,7 @@ class ApiStamper implements TStamper {
 
     return TStamp(
       stampHeaderName: stampHeaderName,
-      stampHeaderValue: jsonEncode(stamp),
+      stampHeaderValue: stringToBase64urlString(jsonEncode(stamp)),
     );
   }
 }
