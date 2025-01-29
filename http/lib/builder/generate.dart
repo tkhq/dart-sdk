@@ -275,6 +275,8 @@ Future<void> generateClientFromSwagger({
         Future<TResponseType> request<TBodyType, TResponseType>(
           String url,
           TBodyType body,
+          TResponseType Function(Map<String, dynamic>) fromJson,
+
         ) async {
           final fullUrl = '\${config.baseUrl}\$url';
           final stringifiedBody = jsonEncode(body);
@@ -298,7 +300,9 @@ Future<void> generateClientFromSwagger({
             }
 
             final responseBody = await response.transform(utf8.decoder).join();
-            return jsonDecode(responseBody) as TResponseType;
+            final decodedJson = jsonDecode(responseBody) as Map<String, dynamic>;
+
+            return fromJson(decodedJson);
           } finally {
             client.close();
           }
@@ -361,6 +365,7 @@ Future<void> generateClientFromSwagger({
         return await request<$inputType, $responseType>(
           "$endpointPath",
           input,
+          (json) => $responseType.fromJson(json)
         );
       }
     ''');

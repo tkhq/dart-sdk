@@ -21,6 +21,7 @@ class TurnkeyClient {
   Future<TResponseType> request<TBodyType, TResponseType>(
     String url,
     TBodyType body,
+    TResponseType Function(Map<String, dynamic>) fromJson,
   ) async {
     final fullUrl = '${config.baseUrl}$url';
     final stringifiedBody = jsonEncode(body);
@@ -44,7 +45,9 @@ class TurnkeyClient {
       }
 
       final responseBody = await response.transform(utf8.decoder).join();
-      return jsonDecode(responseBody) as TResponseType;
+      final decodedJson = jsonDecode(responseBody) as Map<String, dynamic>;
+
+      return fromJson(decodedJson);
     } finally {
       client.close();
     }
@@ -60,9 +63,9 @@ class TurnkeyClient {
     required TGetActivityBody input,
   }) async {
     return await request<TGetActivityBody, TGetActivityResponse>(
-      "/public/v1/query/get_activity",
-      input,
-    );
+        "/public/v1/query/get_activity",
+        input,
+        (json) => TGetActivityResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetActivityBody` by using the client's `stamp` function.
@@ -93,9 +96,9 @@ class TurnkeyClient {
     required TGetApiKeyBody input,
   }) async {
     return await request<TGetApiKeyBody, TGetApiKeyResponse>(
-      "/public/v1/query/get_api_key",
-      input,
-    );
+        "/public/v1/query/get_api_key",
+        input,
+        (json) => TGetApiKeyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetApiKeyBody` by using the client's `stamp` function.
@@ -126,9 +129,9 @@ class TurnkeyClient {
     required TGetApiKeysBody input,
   }) async {
     return await request<TGetApiKeysBody, TGetApiKeysResponse>(
-      "/public/v1/query/get_api_keys",
-      input,
-    );
+        "/public/v1/query/get_api_keys",
+        input,
+        (json) => TGetApiKeysResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetApiKeysBody` by using the client's `stamp` function.
@@ -159,10 +162,8 @@ class TurnkeyClient {
     required TGetAttestationDocumentBody input,
   }) async {
     return await request<TGetAttestationDocumentBody,
-        TGetAttestationDocumentResponse>(
-      "/public/v1/query/get_attestation",
-      input,
-    );
+            TGetAttestationDocumentResponse>("/public/v1/query/get_attestation",
+        input, (json) => TGetAttestationDocumentResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetAttestationDocumentBody` by using the client's `stamp` function.
@@ -193,9 +194,9 @@ class TurnkeyClient {
     required TGetAuthenticatorBody input,
   }) async {
     return await request<TGetAuthenticatorBody, TGetAuthenticatorResponse>(
-      "/public/v1/query/get_authenticator",
-      input,
-    );
+        "/public/v1/query/get_authenticator",
+        input,
+        (json) => TGetAuthenticatorResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetAuthenticatorBody` by using the client's `stamp` function.
@@ -226,9 +227,9 @@ class TurnkeyClient {
     required TGetAuthenticatorsBody input,
   }) async {
     return await request<TGetAuthenticatorsBody, TGetAuthenticatorsResponse>(
-      "/public/v1/query/get_authenticators",
-      input,
-    );
+        "/public/v1/query/get_authenticators",
+        input,
+        (json) => TGetAuthenticatorsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetAuthenticatorsBody` by using the client's `stamp` function.
@@ -259,9 +260,9 @@ class TurnkeyClient {
     required TGetOauthProvidersBody input,
   }) async {
     return await request<TGetOauthProvidersBody, TGetOauthProvidersResponse>(
-      "/public/v1/query/get_oauth_providers",
-      input,
-    );
+        "/public/v1/query/get_oauth_providers",
+        input,
+        (json) => TGetOauthProvidersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetOauthProvidersBody` by using the client's `stamp` function.
@@ -292,9 +293,9 @@ class TurnkeyClient {
     required TGetOrganizationBody input,
   }) async {
     return await request<TGetOrganizationBody, TGetOrganizationResponse>(
-      "/public/v1/query/get_organization",
-      input,
-    );
+        "/public/v1/query/get_organization",
+        input,
+        (json) => TGetOrganizationResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetOrganizationBody` by using the client's `stamp` function.
@@ -325,10 +326,10 @@ class TurnkeyClient {
     required TGetOrganizationConfigsBody input,
   }) async {
     return await request<TGetOrganizationConfigsBody,
-        TGetOrganizationConfigsResponse>(
-      "/public/v1/query/get_organization_configs",
-      input,
-    );
+            TGetOrganizationConfigsResponse>(
+        "/public/v1/query/get_organization_configs",
+        input,
+        (json) => TGetOrganizationConfigsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetOrganizationConfigsBody` by using the client's `stamp` function.
@@ -360,9 +361,9 @@ class TurnkeyClient {
     required TGetPolicyBody input,
   }) async {
     return await request<TGetPolicyBody, TGetPolicyResponse>(
-      "/public/v1/query/get_policy",
-      input,
-    );
+        "/public/v1/query/get_policy",
+        input,
+        (json) => TGetPolicyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetPolicyBody` by using the client's `stamp` function.
@@ -393,9 +394,9 @@ class TurnkeyClient {
     required TGetPrivateKeyBody input,
   }) async {
     return await request<TGetPrivateKeyBody, TGetPrivateKeyResponse>(
-      "/public/v1/query/get_private_key",
-      input,
-    );
+        "/public/v1/query/get_private_key",
+        input,
+        (json) => TGetPrivateKeyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetPrivateKeyBody` by using the client's `stamp` function.
@@ -426,9 +427,9 @@ class TurnkeyClient {
     required TGetUserBody input,
   }) async {
     return await request<TGetUserBody, TGetUserResponse>(
-      "/public/v1/query/get_user",
-      input,
-    );
+        "/public/v1/query/get_user",
+        input,
+        (json) => TGetUserResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetUserBody` by using the client's `stamp` function.
@@ -459,9 +460,9 @@ class TurnkeyClient {
     required TGetWalletBody input,
   }) async {
     return await request<TGetWalletBody, TGetWalletResponse>(
-      "/public/v1/query/get_wallet",
-      input,
-    );
+        "/public/v1/query/get_wallet",
+        input,
+        (json) => TGetWalletResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetWalletBody` by using the client's `stamp` function.
@@ -492,9 +493,9 @@ class TurnkeyClient {
     required TGetActivitiesBody input,
   }) async {
     return await request<TGetActivitiesBody, TGetActivitiesResponse>(
-      "/public/v1/query/list_activities",
-      input,
-    );
+        "/public/v1/query/list_activities",
+        input,
+        (json) => TGetActivitiesResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetActivitiesBody` by using the client's `stamp` function.
@@ -525,9 +526,9 @@ class TurnkeyClient {
     required TGetPoliciesBody input,
   }) async {
     return await request<TGetPoliciesBody, TGetPoliciesResponse>(
-      "/public/v1/query/list_policies",
-      input,
-    );
+        "/public/v1/query/list_policies",
+        input,
+        (json) => TGetPoliciesResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetPoliciesBody` by using the client's `stamp` function.
@@ -558,9 +559,9 @@ class TurnkeyClient {
     required TListPrivateKeyTagsBody input,
   }) async {
     return await request<TListPrivateKeyTagsBody, TListPrivateKeyTagsResponse>(
-      "/public/v1/query/list_private_key_tags",
-      input,
-    );
+        "/public/v1/query/list_private_key_tags",
+        input,
+        (json) => TListPrivateKeyTagsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TListPrivateKeyTagsBody` by using the client's `stamp` function.
@@ -591,9 +592,9 @@ class TurnkeyClient {
     required TGetPrivateKeysBody input,
   }) async {
     return await request<TGetPrivateKeysBody, TGetPrivateKeysResponse>(
-      "/public/v1/query/list_private_keys",
-      input,
-    );
+        "/public/v1/query/list_private_keys",
+        input,
+        (json) => TGetPrivateKeysResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetPrivateKeysBody` by using the client's `stamp` function.
@@ -624,9 +625,9 @@ class TurnkeyClient {
     required TGetSubOrgIdsBody input,
   }) async {
     return await request<TGetSubOrgIdsBody, TGetSubOrgIdsResponse>(
-      "/public/v1/query/list_suborgs",
-      input,
-    );
+        "/public/v1/query/list_suborgs",
+        input,
+        (json) => TGetSubOrgIdsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetSubOrgIdsBody` by using the client's `stamp` function.
@@ -657,9 +658,9 @@ class TurnkeyClient {
     required TListUserTagsBody input,
   }) async {
     return await request<TListUserTagsBody, TListUserTagsResponse>(
-      "/public/v1/query/list_user_tags",
-      input,
-    );
+        "/public/v1/query/list_user_tags",
+        input,
+        (json) => TListUserTagsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TListUserTagsBody` by using the client's `stamp` function.
@@ -690,9 +691,9 @@ class TurnkeyClient {
     required TGetUsersBody input,
   }) async {
     return await request<TGetUsersBody, TGetUsersResponse>(
-      "/public/v1/query/list_users",
-      input,
-    );
+        "/public/v1/query/list_users",
+        input,
+        (json) => TGetUsersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetUsersBody` by using the client's `stamp` function.
@@ -723,10 +724,10 @@ class TurnkeyClient {
     required TGetVerifiedSubOrgIdsBody input,
   }) async {
     return await request<TGetVerifiedSubOrgIdsBody,
-        TGetVerifiedSubOrgIdsResponse>(
-      "/public/v1/query/list_verified_suborgs",
-      input,
-    );
+            TGetVerifiedSubOrgIdsResponse>(
+        "/public/v1/query/list_verified_suborgs",
+        input,
+        (json) => TGetVerifiedSubOrgIdsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetVerifiedSubOrgIdsBody` by using the client's `stamp` function.
@@ -757,9 +758,9 @@ class TurnkeyClient {
     required TGetWalletAccountsBody input,
   }) async {
     return await request<TGetWalletAccountsBody, TGetWalletAccountsResponse>(
-      "/public/v1/query/list_wallet_accounts",
-      input,
-    );
+        "/public/v1/query/list_wallet_accounts",
+        input,
+        (json) => TGetWalletAccountsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetWalletAccountsBody` by using the client's `stamp` function.
@@ -790,9 +791,9 @@ class TurnkeyClient {
     required TGetWalletsBody input,
   }) async {
     return await request<TGetWalletsBody, TGetWalletsResponse>(
-      "/public/v1/query/list_wallets",
-      input,
-    );
+        "/public/v1/query/list_wallets",
+        input,
+        (json) => TGetWalletsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetWalletsBody` by using the client's `stamp` function.
@@ -823,9 +824,9 @@ class TurnkeyClient {
     required TGetWhoamiBody input,
   }) async {
     return await request<TGetWhoamiBody, TGetWhoamiResponse>(
-      "/public/v1/query/whoami",
-      input,
-    );
+        "/public/v1/query/whoami",
+        input,
+        (json) => TGetWhoamiResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TGetWhoamiBody` by using the client's `stamp` function.
@@ -856,9 +857,9 @@ class TurnkeyClient {
     required TApproveActivityBody input,
   }) async {
     return await request<TApproveActivityBody, TApproveActivityResponse>(
-      "/public/v1/submit/approve_activity",
-      input,
-    );
+        "/public/v1/submit/approve_activity",
+        input,
+        (json) => TApproveActivityResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TApproveActivityBody` by using the client's `stamp` function.
@@ -889,9 +890,9 @@ class TurnkeyClient {
     required TCreateApiKeysBody input,
   }) async {
     return await request<TCreateApiKeysBody, TCreateApiKeysResponse>(
-      "/public/v1/submit/create_api_keys",
-      input,
-    );
+        "/public/v1/submit/create_api_keys",
+        input,
+        (json) => TCreateApiKeysResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateApiKeysBody` by using the client's `stamp` function.
@@ -922,9 +923,9 @@ class TurnkeyClient {
     required TCreateApiOnlyUsersBody input,
   }) async {
     return await request<TCreateApiOnlyUsersBody, TCreateApiOnlyUsersResponse>(
-      "/public/v1/submit/create_api_only_users",
-      input,
-    );
+        "/public/v1/submit/create_api_only_users",
+        input,
+        (json) => TCreateApiOnlyUsersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateApiOnlyUsersBody` by using the client's `stamp` function.
@@ -955,10 +956,10 @@ class TurnkeyClient {
     required TCreateAuthenticatorsBody input,
   }) async {
     return await request<TCreateAuthenticatorsBody,
-        TCreateAuthenticatorsResponse>(
-      "/public/v1/submit/create_authenticators",
-      input,
-    );
+            TCreateAuthenticatorsResponse>(
+        "/public/v1/submit/create_authenticators",
+        input,
+        (json) => TCreateAuthenticatorsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateAuthenticatorsBody` by using the client's `stamp` function.
@@ -989,9 +990,9 @@ class TurnkeyClient {
     required TCreateInvitationsBody input,
   }) async {
     return await request<TCreateInvitationsBody, TCreateInvitationsResponse>(
-      "/public/v1/submit/create_invitations",
-      input,
-    );
+        "/public/v1/submit/create_invitations",
+        input,
+        (json) => TCreateInvitationsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateInvitationsBody` by using the client's `stamp` function.
@@ -1022,10 +1023,10 @@ class TurnkeyClient {
     required TCreateOauthProvidersBody input,
   }) async {
     return await request<TCreateOauthProvidersBody,
-        TCreateOauthProvidersResponse>(
-      "/public/v1/submit/create_oauth_providers",
-      input,
-    );
+            TCreateOauthProvidersResponse>(
+        "/public/v1/submit/create_oauth_providers",
+        input,
+        (json) => TCreateOauthProvidersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateOauthProvidersBody` by using the client's `stamp` function.
@@ -1056,9 +1057,9 @@ class TurnkeyClient {
     required TCreatePoliciesBody input,
   }) async {
     return await request<TCreatePoliciesBody, TCreatePoliciesResponse>(
-      "/public/v1/submit/create_policies",
-      input,
-    );
+        "/public/v1/submit/create_policies",
+        input,
+        (json) => TCreatePoliciesResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreatePoliciesBody` by using the client's `stamp` function.
@@ -1089,9 +1090,9 @@ class TurnkeyClient {
     required TCreatePolicyBody input,
   }) async {
     return await request<TCreatePolicyBody, TCreatePolicyResponse>(
-      "/public/v1/submit/create_policy",
-      input,
-    );
+        "/public/v1/submit/create_policy",
+        input,
+        (json) => TCreatePolicyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreatePolicyBody` by using the client's `stamp` function.
@@ -1122,10 +1123,10 @@ class TurnkeyClient {
     required TCreatePrivateKeyTagBody input,
   }) async {
     return await request<TCreatePrivateKeyTagBody,
-        TCreatePrivateKeyTagResponse>(
-      "/public/v1/submit/create_private_key_tag",
-      input,
-    );
+            TCreatePrivateKeyTagResponse>(
+        "/public/v1/submit/create_private_key_tag",
+        input,
+        (json) => TCreatePrivateKeyTagResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreatePrivateKeyTagBody` by using the client's `stamp` function.
@@ -1156,9 +1157,9 @@ class TurnkeyClient {
     required TCreatePrivateKeysBody input,
   }) async {
     return await request<TCreatePrivateKeysBody, TCreatePrivateKeysResponse>(
-      "/public/v1/submit/create_private_keys",
-      input,
-    );
+        "/public/v1/submit/create_private_keys",
+        input,
+        (json) => TCreatePrivateKeysResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreatePrivateKeysBody` by using the client's `stamp` function.
@@ -1189,10 +1190,10 @@ class TurnkeyClient {
     required TCreateReadOnlySessionBody input,
   }) async {
     return await request<TCreateReadOnlySessionBody,
-        TCreateReadOnlySessionResponse>(
-      "/public/v1/submit/create_read_only_session",
-      input,
-    );
+            TCreateReadOnlySessionResponse>(
+        "/public/v1/submit/create_read_only_session",
+        input,
+        (json) => TCreateReadOnlySessionResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateReadOnlySessionBody` by using the client's `stamp` function.
@@ -1224,10 +1225,10 @@ class TurnkeyClient {
     required TCreateReadWriteSessionBody input,
   }) async {
     return await request<TCreateReadWriteSessionBody,
-        TCreateReadWriteSessionResponse>(
-      "/public/v1/submit/create_read_write_session",
-      input,
-    );
+            TCreateReadWriteSessionResponse>(
+        "/public/v1/submit/create_read_write_session",
+        input,
+        (json) => TCreateReadWriteSessionResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateReadWriteSessionBody` by using the client's `stamp` function.
@@ -1259,10 +1260,10 @@ class TurnkeyClient {
     required TCreateSubOrganizationBody input,
   }) async {
     return await request<TCreateSubOrganizationBody,
-        TCreateSubOrganizationResponse>(
-      "/public/v1/submit/create_sub_organization",
-      input,
-    );
+            TCreateSubOrganizationResponse>(
+        "/public/v1/submit/create_sub_organization",
+        input,
+        (json) => TCreateSubOrganizationResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateSubOrganizationBody` by using the client's `stamp` function.
@@ -1294,9 +1295,9 @@ class TurnkeyClient {
     required TCreateUserTagBody input,
   }) async {
     return await request<TCreateUserTagBody, TCreateUserTagResponse>(
-      "/public/v1/submit/create_user_tag",
-      input,
-    );
+        "/public/v1/submit/create_user_tag",
+        input,
+        (json) => TCreateUserTagResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateUserTagBody` by using the client's `stamp` function.
@@ -1327,9 +1328,9 @@ class TurnkeyClient {
     required TCreateUsersBody input,
   }) async {
     return await request<TCreateUsersBody, TCreateUsersResponse>(
-      "/public/v1/submit/create_users",
-      input,
-    );
+        "/public/v1/submit/create_users",
+        input,
+        (json) => TCreateUsersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateUsersBody` by using the client's `stamp` function.
@@ -1360,9 +1361,9 @@ class TurnkeyClient {
     required TCreateWalletBody input,
   }) async {
     return await request<TCreateWalletBody, TCreateWalletResponse>(
-      "/public/v1/submit/create_wallet",
-      input,
-    );
+        "/public/v1/submit/create_wallet",
+        input,
+        (json) => TCreateWalletResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateWalletBody` by using the client's `stamp` function.
@@ -1393,10 +1394,10 @@ class TurnkeyClient {
     required TCreateWalletAccountsBody input,
   }) async {
     return await request<TCreateWalletAccountsBody,
-        TCreateWalletAccountsResponse>(
-      "/public/v1/submit/create_wallet_accounts",
-      input,
-    );
+            TCreateWalletAccountsResponse>(
+        "/public/v1/submit/create_wallet_accounts",
+        input,
+        (json) => TCreateWalletAccountsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TCreateWalletAccountsBody` by using the client's `stamp` function.
@@ -1427,9 +1428,9 @@ class TurnkeyClient {
     required TDeleteApiKeysBody input,
   }) async {
     return await request<TDeleteApiKeysBody, TDeleteApiKeysResponse>(
-      "/public/v1/submit/delete_api_keys",
-      input,
-    );
+        "/public/v1/submit/delete_api_keys",
+        input,
+        (json) => TDeleteApiKeysResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteApiKeysBody` by using the client's `stamp` function.
@@ -1460,10 +1461,10 @@ class TurnkeyClient {
     required TDeleteAuthenticatorsBody input,
   }) async {
     return await request<TDeleteAuthenticatorsBody,
-        TDeleteAuthenticatorsResponse>(
-      "/public/v1/submit/delete_authenticators",
-      input,
-    );
+            TDeleteAuthenticatorsResponse>(
+        "/public/v1/submit/delete_authenticators",
+        input,
+        (json) => TDeleteAuthenticatorsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteAuthenticatorsBody` by using the client's `stamp` function.
@@ -1494,9 +1495,9 @@ class TurnkeyClient {
     required TDeleteInvitationBody input,
   }) async {
     return await request<TDeleteInvitationBody, TDeleteInvitationResponse>(
-      "/public/v1/submit/delete_invitation",
-      input,
-    );
+        "/public/v1/submit/delete_invitation",
+        input,
+        (json) => TDeleteInvitationResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteInvitationBody` by using the client's `stamp` function.
@@ -1527,10 +1528,10 @@ class TurnkeyClient {
     required TDeleteOauthProvidersBody input,
   }) async {
     return await request<TDeleteOauthProvidersBody,
-        TDeleteOauthProvidersResponse>(
-      "/public/v1/submit/delete_oauth_providers",
-      input,
-    );
+            TDeleteOauthProvidersResponse>(
+        "/public/v1/submit/delete_oauth_providers",
+        input,
+        (json) => TDeleteOauthProvidersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteOauthProvidersBody` by using the client's `stamp` function.
@@ -1561,9 +1562,9 @@ class TurnkeyClient {
     required TDeletePolicyBody input,
   }) async {
     return await request<TDeletePolicyBody, TDeletePolicyResponse>(
-      "/public/v1/submit/delete_policy",
-      input,
-    );
+        "/public/v1/submit/delete_policy",
+        input,
+        (json) => TDeletePolicyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeletePolicyBody` by using the client's `stamp` function.
@@ -1594,10 +1595,10 @@ class TurnkeyClient {
     required TDeletePrivateKeyTagsBody input,
   }) async {
     return await request<TDeletePrivateKeyTagsBody,
-        TDeletePrivateKeyTagsResponse>(
-      "/public/v1/submit/delete_private_key_tags",
-      input,
-    );
+            TDeletePrivateKeyTagsResponse>(
+        "/public/v1/submit/delete_private_key_tags",
+        input,
+        (json) => TDeletePrivateKeyTagsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeletePrivateKeyTagsBody` by using the client's `stamp` function.
@@ -1629,9 +1630,9 @@ class TurnkeyClient {
     required TDeletePrivateKeysBody input,
   }) async {
     return await request<TDeletePrivateKeysBody, TDeletePrivateKeysResponse>(
-      "/public/v1/submit/delete_private_keys",
-      input,
-    );
+        "/public/v1/submit/delete_private_keys",
+        input,
+        (json) => TDeletePrivateKeysResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeletePrivateKeysBody` by using the client's `stamp` function.
@@ -1662,10 +1663,10 @@ class TurnkeyClient {
     required TDeleteSubOrganizationBody input,
   }) async {
     return await request<TDeleteSubOrganizationBody,
-        TDeleteSubOrganizationResponse>(
-      "/public/v1/submit/delete_sub_organization",
-      input,
-    );
+            TDeleteSubOrganizationResponse>(
+        "/public/v1/submit/delete_sub_organization",
+        input,
+        (json) => TDeleteSubOrganizationResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteSubOrganizationBody` by using the client's `stamp` function.
@@ -1697,9 +1698,9 @@ class TurnkeyClient {
     required TDeleteUserTagsBody input,
   }) async {
     return await request<TDeleteUserTagsBody, TDeleteUserTagsResponse>(
-      "/public/v1/submit/delete_user_tags",
-      input,
-    );
+        "/public/v1/submit/delete_user_tags",
+        input,
+        (json) => TDeleteUserTagsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteUserTagsBody` by using the client's `stamp` function.
@@ -1730,9 +1731,9 @@ class TurnkeyClient {
     required TDeleteUsersBody input,
   }) async {
     return await request<TDeleteUsersBody, TDeleteUsersResponse>(
-      "/public/v1/submit/delete_users",
-      input,
-    );
+        "/public/v1/submit/delete_users",
+        input,
+        (json) => TDeleteUsersResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteUsersBody` by using the client's `stamp` function.
@@ -1763,9 +1764,9 @@ class TurnkeyClient {
     required TDeleteWalletsBody input,
   }) async {
     return await request<TDeleteWalletsBody, TDeleteWalletsResponse>(
-      "/public/v1/submit/delete_wallets",
-      input,
-    );
+        "/public/v1/submit/delete_wallets",
+        input,
+        (json) => TDeleteWalletsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TDeleteWalletsBody` by using the client's `stamp` function.
@@ -1796,9 +1797,9 @@ class TurnkeyClient {
     required TEmailAuthBody input,
   }) async {
     return await request<TEmailAuthBody, TEmailAuthResponse>(
-      "/public/v1/submit/email_auth",
-      input,
-    );
+        "/public/v1/submit/email_auth",
+        input,
+        (json) => TEmailAuthResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TEmailAuthBody` by using the client's `stamp` function.
@@ -1829,9 +1830,9 @@ class TurnkeyClient {
     required TExportPrivateKeyBody input,
   }) async {
     return await request<TExportPrivateKeyBody, TExportPrivateKeyResponse>(
-      "/public/v1/submit/export_private_key",
-      input,
-    );
+        "/public/v1/submit/export_private_key",
+        input,
+        (json) => TExportPrivateKeyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TExportPrivateKeyBody` by using the client's `stamp` function.
@@ -1862,9 +1863,9 @@ class TurnkeyClient {
     required TExportWalletBody input,
   }) async {
     return await request<TExportWalletBody, TExportWalletResponse>(
-      "/public/v1/submit/export_wallet",
-      input,
-    );
+        "/public/v1/submit/export_wallet",
+        input,
+        (json) => TExportWalletResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TExportWalletBody` by using the client's `stamp` function.
@@ -1895,10 +1896,10 @@ class TurnkeyClient {
     required TExportWalletAccountBody input,
   }) async {
     return await request<TExportWalletAccountBody,
-        TExportWalletAccountResponse>(
-      "/public/v1/submit/export_wallet_account",
-      input,
-    );
+            TExportWalletAccountResponse>(
+        "/public/v1/submit/export_wallet_account",
+        input,
+        (json) => TExportWalletAccountResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TExportWalletAccountBody` by using the client's `stamp` function.
@@ -1929,9 +1930,9 @@ class TurnkeyClient {
     required TImportPrivateKeyBody input,
   }) async {
     return await request<TImportPrivateKeyBody, TImportPrivateKeyResponse>(
-      "/public/v1/submit/import_private_key",
-      input,
-    );
+        "/public/v1/submit/import_private_key",
+        input,
+        (json) => TImportPrivateKeyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TImportPrivateKeyBody` by using the client's `stamp` function.
@@ -1962,9 +1963,9 @@ class TurnkeyClient {
     required TImportWalletBody input,
   }) async {
     return await request<TImportWalletBody, TImportWalletResponse>(
-      "/public/v1/submit/import_wallet",
-      input,
-    );
+        "/public/v1/submit/import_wallet",
+        input,
+        (json) => TImportWalletResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TImportWalletBody` by using the client's `stamp` function.
@@ -1995,10 +1996,10 @@ class TurnkeyClient {
     required TInitImportPrivateKeyBody input,
   }) async {
     return await request<TInitImportPrivateKeyBody,
-        TInitImportPrivateKeyResponse>(
-      "/public/v1/submit/init_import_private_key",
-      input,
-    );
+            TInitImportPrivateKeyResponse>(
+        "/public/v1/submit/init_import_private_key",
+        input,
+        (json) => TInitImportPrivateKeyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TInitImportPrivateKeyBody` by using the client's `stamp` function.
@@ -2030,9 +2031,9 @@ class TurnkeyClient {
     required TInitImportWalletBody input,
   }) async {
     return await request<TInitImportWalletBody, TInitImportWalletResponse>(
-      "/public/v1/submit/init_import_wallet",
-      input,
-    );
+        "/public/v1/submit/init_import_wallet",
+        input,
+        (json) => TInitImportWalletResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TInitImportWalletBody` by using the client's `stamp` function.
@@ -2063,9 +2064,9 @@ class TurnkeyClient {
     required TInitOtpAuthBody input,
   }) async {
     return await request<TInitOtpAuthBody, TInitOtpAuthResponse>(
-      "/public/v1/submit/init_otp_auth",
-      input,
-    );
+        "/public/v1/submit/init_otp_auth",
+        input,
+        (json) => TInitOtpAuthResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TInitOtpAuthBody` by using the client's `stamp` function.
@@ -2096,10 +2097,10 @@ class TurnkeyClient {
     required TInitUserEmailRecoveryBody input,
   }) async {
     return await request<TInitUserEmailRecoveryBody,
-        TInitUserEmailRecoveryResponse>(
-      "/public/v1/submit/init_user_email_recovery",
-      input,
-    );
+            TInitUserEmailRecoveryResponse>(
+        "/public/v1/submit/init_user_email_recovery",
+        input,
+        (json) => TInitUserEmailRecoveryResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TInitUserEmailRecoveryBody` by using the client's `stamp` function.
@@ -2130,10 +2131,8 @@ class TurnkeyClient {
   Future<TOauthResponse> oauth({
     required TOauthBody input,
   }) async {
-    return await request<TOauthBody, TOauthResponse>(
-      "/public/v1/submit/oauth",
-      input,
-    );
+    return await request<TOauthBody, TOauthResponse>("/public/v1/submit/oauth",
+        input, (json) => TOauthResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TOauthBody` by using the client's `stamp` function.
@@ -2164,9 +2163,9 @@ class TurnkeyClient {
     required TOtpAuthBody input,
   }) async {
     return await request<TOtpAuthBody, TOtpAuthResponse>(
-      "/public/v1/submit/otp_auth",
-      input,
-    );
+        "/public/v1/submit/otp_auth",
+        input,
+        (json) => TOtpAuthResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TOtpAuthBody` by using the client's `stamp` function.
@@ -2197,9 +2196,9 @@ class TurnkeyClient {
     required TRecoverUserBody input,
   }) async {
     return await request<TRecoverUserBody, TRecoverUserResponse>(
-      "/public/v1/submit/recover_user",
-      input,
-    );
+        "/public/v1/submit/recover_user",
+        input,
+        (json) => TRecoverUserResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TRecoverUserBody` by using the client's `stamp` function.
@@ -2230,9 +2229,9 @@ class TurnkeyClient {
     required TRejectActivityBody input,
   }) async {
     return await request<TRejectActivityBody, TRejectActivityResponse>(
-      "/public/v1/submit/reject_activity",
-      input,
-    );
+        "/public/v1/submit/reject_activity",
+        input,
+        (json) => TRejectActivityResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TRejectActivityBody` by using the client's `stamp` function.
@@ -2263,10 +2262,10 @@ class TurnkeyClient {
     required TRemoveOrganizationFeatureBody input,
   }) async {
     return await request<TRemoveOrganizationFeatureBody,
-        TRemoveOrganizationFeatureResponse>(
-      "/public/v1/submit/remove_organization_feature",
-      input,
-    );
+            TRemoveOrganizationFeatureResponse>(
+        "/public/v1/submit/remove_organization_feature",
+        input,
+        (json) => TRemoveOrganizationFeatureResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TRemoveOrganizationFeatureBody` by using the client's `stamp` function.
@@ -2298,10 +2297,10 @@ class TurnkeyClient {
     required TSetOrganizationFeatureBody input,
   }) async {
     return await request<TSetOrganizationFeatureBody,
-        TSetOrganizationFeatureResponse>(
-      "/public/v1/submit/set_organization_feature",
-      input,
-    );
+            TSetOrganizationFeatureResponse>(
+        "/public/v1/submit/set_organization_feature",
+        input,
+        (json) => TSetOrganizationFeatureResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TSetOrganizationFeatureBody` by using the client's `stamp` function.
@@ -2333,9 +2332,9 @@ class TurnkeyClient {
     required TSignRawPayloadBody input,
   }) async {
     return await request<TSignRawPayloadBody, TSignRawPayloadResponse>(
-      "/public/v1/submit/sign_raw_payload",
-      input,
-    );
+        "/public/v1/submit/sign_raw_payload",
+        input,
+        (json) => TSignRawPayloadResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TSignRawPayloadBody` by using the client's `stamp` function.
@@ -2366,9 +2365,9 @@ class TurnkeyClient {
     required TSignRawPayloadsBody input,
   }) async {
     return await request<TSignRawPayloadsBody, TSignRawPayloadsResponse>(
-      "/public/v1/submit/sign_raw_payloads",
-      input,
-    );
+        "/public/v1/submit/sign_raw_payloads",
+        input,
+        (json) => TSignRawPayloadsResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TSignRawPayloadsBody` by using the client's `stamp` function.
@@ -2399,9 +2398,9 @@ class TurnkeyClient {
     required TSignTransactionBody input,
   }) async {
     return await request<TSignTransactionBody, TSignTransactionResponse>(
-      "/public/v1/submit/sign_transaction",
-      input,
-    );
+        "/public/v1/submit/sign_transaction",
+        input,
+        (json) => TSignTransactionResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TSignTransactionBody` by using the client's `stamp` function.
@@ -2432,9 +2431,9 @@ class TurnkeyClient {
     required TUpdatePolicyBody input,
   }) async {
     return await request<TUpdatePolicyBody, TUpdatePolicyResponse>(
-      "/public/v1/submit/update_policy",
-      input,
-    );
+        "/public/v1/submit/update_policy",
+        input,
+        (json) => TUpdatePolicyResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TUpdatePolicyBody` by using the client's `stamp` function.
@@ -2465,10 +2464,10 @@ class TurnkeyClient {
     required TUpdatePrivateKeyTagBody input,
   }) async {
     return await request<TUpdatePrivateKeyTagBody,
-        TUpdatePrivateKeyTagResponse>(
-      "/public/v1/submit/update_private_key_tag",
-      input,
-    );
+            TUpdatePrivateKeyTagResponse>(
+        "/public/v1/submit/update_private_key_tag",
+        input,
+        (json) => TUpdatePrivateKeyTagResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TUpdatePrivateKeyTagBody` by using the client's `stamp` function.
@@ -2499,9 +2498,9 @@ class TurnkeyClient {
     required TUpdateRootQuorumBody input,
   }) async {
     return await request<TUpdateRootQuorumBody, TUpdateRootQuorumResponse>(
-      "/public/v1/submit/update_root_quorum",
-      input,
-    );
+        "/public/v1/submit/update_root_quorum",
+        input,
+        (json) => TUpdateRootQuorumResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TUpdateRootQuorumBody` by using the client's `stamp` function.
@@ -2532,9 +2531,9 @@ class TurnkeyClient {
     required TUpdateUserBody input,
   }) async {
     return await request<TUpdateUserBody, TUpdateUserResponse>(
-      "/public/v1/submit/update_user",
-      input,
-    );
+        "/public/v1/submit/update_user",
+        input,
+        (json) => TUpdateUserResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserBody` by using the client's `stamp` function.
@@ -2565,9 +2564,9 @@ class TurnkeyClient {
     required TUpdateUserTagBody input,
   }) async {
     return await request<TUpdateUserTagBody, TUpdateUserTagResponse>(
-      "/public/v1/submit/update_user_tag",
-      input,
-    );
+        "/public/v1/submit/update_user_tag",
+        input,
+        (json) => TUpdateUserTagResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserTagBody` by using the client's `stamp` function.

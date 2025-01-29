@@ -55,6 +55,7 @@ class MyHomePage extends StatelessWidget {
         builder: (context, turnkeyProvider, child) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (turnkeyProvider.errorMessage != null) {
+              print(turnkeyProvider.errorMessage);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                     content: Text(
