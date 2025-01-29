@@ -68,8 +68,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             final user = turnkeyProvider.user;
             final userName = user?.userName ?? 'User';
             final selectedWallet = user?.wallets[0];
-            //final walletAccounts = selectedWallet?.accounts;
-            final walletAccounts = <String>['Account 1', 'Account 2'];
+            final walletAccounts = selectedWallet?.accounts;
 
             return Padding(
               padding: EdgeInsets.all(24),
