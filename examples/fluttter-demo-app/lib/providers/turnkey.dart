@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:turnkey_dart_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
+import 'package:turnkey_dart_http_client/base.dart';
+import 'package:turnkey_dart_http_client/index.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_flutter_demo_app/screens/dashboard.dart';
+import 'package:turnkey_flutter_passkey_stamper/passkey_stamper.dart';
 import '../utils/constants.dart';
 import 'session.dart';
 
@@ -161,6 +165,119 @@ class TurnkeyProvider with ChangeNotifier {
       } finally {
         setLoading('completePhoneAuth', false);
       }
+    }
+  }
+
+  Future<void> signUpWithPasskey(BuildContext context) async {
+    setLoading('signUpWithPasskey', true);
+    setError(null);
+    final rpId = 'passkeyapp.tkhqlabs.xyz'; //TODO: ENV variable
+
+    try {
+      //TODO: Check if supported. Might need to modify the passkeystamper to have this function
+      if (!true) {
+        throw Exception("Passkeys are not supported on this device");
+      }
+
+      final authenticationParams =
+          await createPasskey(PasskeyRegistrationConfig(rp: {
+        'id': rpId, //TODO: ENV variable
+        'name': 'Flutter test app',
+      }, user: {
+        'id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'name': "Anonymous User",
+        'displayName': "Anonymous User",
+      }, authenticatorName: 'End-User Passkey'));
+
+      final response = await createSubOrg({
+        'passkey': {
+          'challenge': authenticationParams['challenge'],
+          'attestation': authenticationParams['attestation'],
+        },
+      });
+
+      if (response['subOrganizationId'] != null) {
+        final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
+        final httpClient = TurnkeyClient(
+            config: THttpConfig(baseUrl: 'https://api.turnkey.com'),
+            stamper: stamper);
+
+        final sessionProvider =
+            Provider.of<SessionProvider>(context, listen: false);
+        final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+        final sessionResponse = await httpClient.createReadWriteSession(
+            input: V1CreateReadWriteSessionRequest(
+                type: V1CreateReadWriteSessionRequestType
+                    .activityTypeCreateReadWriteSessionV2,
+                timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+                organizationId:
+                    'c7d4e3a8-3f26-42d6-9821-b155ca303598', // TODO: ENV VARIABLE
+                parameters: V1CreateReadWriteSessionIntentV2(
+                    targetPublicKey: targetPublicKey)));
+
+        final credentialBundle = sessionResponse
+            .activity.result.createReadWriteSessionResultV2?.credentialBundle;
+
+        if (credentialBundle != null) {
+          await sessionProvider.createSession(credentialBundle);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DashboardScreen()),
+          );
+        }
+      }
+    } catch (error) {
+      print(error.toString());
+      setError(error.toString());
+    } finally {
+      setLoading('signUpWithPasskey', false);
+    }
+  }
+
+  Future<void> loginWithPasskey(BuildContext context) async {
+    setLoading('loginWithPasskey', true);
+    setError(null);
+
+    try {
+      if (!true) {
+        throw Exception("Passkeys are not supported on this device");
+      }
+      final rpId = 'passkeyapp.tkhqlabs.xyz'; //TODO: ENV variable
+
+      final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
+      final httpClient = TurnkeyClient(
+          config: THttpConfig(baseUrl: 'https://api.turnkey.com'),
+          stamper: stamper);
+
+      final sessionProvider =
+          Provider.of<SessionProvider>(context, listen: false);
+      final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+      final sessionResponse = await httpClient.createReadWriteSession(
+          input: V1CreateReadWriteSessionRequest(
+              type: V1CreateReadWriteSessionRequestType
+                  .activityTypeCreateReadWriteSessionV2,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId:
+                  'c7d4e3a8-3f26-42d6-9821-b155ca303598', // TODO: ENV VARIABLE
+              parameters: V1CreateReadWriteSessionIntentV2(
+                  targetPublicKey: targetPublicKey)));
+
+      final credentialBundle = sessionResponse
+          .activity.result.createReadWriteSessionResultV2?.credentialBundle;
+
+      if (credentialBundle != null) {
+        await sessionProvider.createSession(credentialBundle);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardScreen()),
+        );
+      }
+    } catch (error) {
+      setError(error.toString());
+    } finally {
+      setLoading('loginWithPasskey', false);
     }
   }
 }

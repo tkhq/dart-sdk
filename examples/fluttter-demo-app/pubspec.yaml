@@ -40,6 +40,10 @@ dependencies:
   #TODO: These should be replaced with the published package
   turnkey_crypto:
     path: ../../crypto
+  turnkey_flutter_passkey_stamper:
+    path: ../../passkey-stamper
+  turnkey_dart_http_client:
+    path: ../../http
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
   elliptic: ^0.3.11

@@ -46,8 +46,8 @@ class SessionProvider with ChangeNotifier {
 
   Future<String> createEmbeddedKey() async {
     final keyPair = await generateP256KeyPair();
-    final embeddedPrivateKey = keyPair.privateKey.toString();
-    final publicKey = keyPair.publicKey.toString();
+    final embeddedPrivateKey = keyPair.privateKey;
+    final publicKey = keyPair.publicKey;
 
     await _saveEmbeddedKey(embeddedPrivateKey);
 

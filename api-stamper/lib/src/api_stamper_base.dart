@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
-
-import 'types.dart';
+import 'package:turnkey_dart_http_client/base.dart';
 
 class ApiStamperConfig {
   final String apiPublicKey;
@@ -44,7 +43,7 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
   return (sig.toDERHex());
 }
 
-class ApiStamper {
+class ApiStamper implements TStamper {
   final String apiPublicKey;
   final String apiPrivateKey;
 
@@ -54,7 +53,8 @@ class ApiStamper {
       : apiPublicKey = config.apiPublicKey,
         apiPrivateKey = config.apiPrivateKey;
 
-  StampReturnType stamp(String content) {
+  @override
+  Future<TStamp> stamp(String content) async {
     var signature = signWithApiKey(apiPublicKey, apiPrivateKey, content);
 
     var stamp = {
@@ -63,7 +63,7 @@ class ApiStamper {
       "signature": signature,
     };
 
-    return StampReturnType(
+    return TStamp(
       stampHeaderName: stampHeaderName,
       stampHeaderValue: jsonEncode(stamp),
     );
