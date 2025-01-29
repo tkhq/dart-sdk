@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:turnkey_dart_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_dart_http_client/base.dart';
 import 'package:turnkey_dart_http_client/index.dart';
+import 'package:turnkey_flutter_demo_app/config.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_flutter_demo_app/screens/dashboard.dart';
@@ -171,7 +172,6 @@ class TurnkeyProvider with ChangeNotifier {
   Future<void> signUpWithPasskey(BuildContext context) async {
     setLoading('signUpWithPasskey', true);
     setError(null);
-    final rpId = 'passkeyapp.tkhqlabs.xyz'; //TODO: ENV variable
 
     try {
       //TODO: Check if supported. Might need to modify the passkeystamper to have this function
@@ -181,7 +181,7 @@ class TurnkeyProvider with ChangeNotifier {
 
       final authenticationParams =
           await createPasskey(PasskeyRegistrationConfig(rp: {
-        'id': rpId, //TODO: ENV variable
+        'id': EnvConfig.rpId,
         'name': 'Flutter test app',
       }, user: {
         'id': DateTime.now().millisecondsSinceEpoch.toString(),
@@ -197,9 +197,9 @@ class TurnkeyProvider with ChangeNotifier {
       });
 
       if (response['subOrganizationId'] != null) {
-        final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
+        final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
         final httpClient = TurnkeyClient(
-            config: THttpConfig(baseUrl: 'https://api.turnkey.com'),
+            config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
             stamper: stamper);
 
         final sessionProvider =
@@ -212,7 +212,7 @@ class TurnkeyProvider with ChangeNotifier {
                     .activityTypeCreateReadWriteSessionV2,
                 timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
                 organizationId:
-                    'c7d4e3a8-3f26-42d6-9821-b155ca303598', // TODO: ENV VARIABLE
+                    EnvConfig.organizationId,
                 parameters: V1CreateReadWriteSessionIntentV2(
                     targetPublicKey: targetPublicKey)));
 
@@ -243,11 +243,10 @@ class TurnkeyProvider with ChangeNotifier {
       if (!true) {
         throw Exception("Passkeys are not supported on this device");
       }
-      final rpId = 'passkeyapp.tkhqlabs.xyz'; //TODO: ENV variable
 
-      final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
+      final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
       final httpClient = TurnkeyClient(
-          config: THttpConfig(baseUrl: 'https://api.turnkey.com'),
+          config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
           stamper: stamper);
 
       final sessionProvider =
@@ -260,7 +259,7 @@ class TurnkeyProvider with ChangeNotifier {
                   .activityTypeCreateReadWriteSessionV2,
               timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
               organizationId:
-                  'c7d4e3a8-3f26-42d6-9821-b155ca303598', // TODO: ENV VARIABLE
+                  EnvConfig.organizationId,
               parameters: V1CreateReadWriteSessionIntentV2(
                   targetPublicKey: targetPublicKey)));
 

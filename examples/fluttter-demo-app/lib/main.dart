@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/login.dart';
-
+import 'config.dart';
 import 'providers/session.dart';
 import 'providers/turnkey.dart';
 
-void main() {
+void main() async {
+
+  // Load the environment variables from the .env file
+  WidgetsFlutterBinding.ensureInitialized(); 
+  await loadEnv();
+
   runApp(
     MultiProvider(
       providers: [

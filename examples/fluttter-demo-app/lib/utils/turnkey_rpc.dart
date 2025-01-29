@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:turnkey_flutter_demo_app/config.dart';
 
 class TurnkeyRPCError implements Exception {
   final String code;
@@ -11,10 +12,6 @@ class TurnkeyRPCError implements Exception {
   String toString() => 'TurnkeyRPCError(code: $code, message: $message)';
 }
 
-const String BACKEND_API_URL = String.fromEnvironment(
-    //TODO: ENV variables
-    'EXPO_PUBLIC_BACKEND_API_URL',
-    defaultValue: 'http://localhost:8082');
 
 //TODO: Type these properly
 Future<T> jsonRpcRequest<M, T>(
@@ -25,7 +22,7 @@ Future<T> jsonRpcRequest<M, T>(
   };
 
   final response = await http.post(
-    Uri.parse('$BACKEND_API_URL/turnkey'),
+    Uri.parse('${EnvConfig.backendApiUrl}/turnkey'),
     headers: {
       'Content-Type': 'application/json',
     },
