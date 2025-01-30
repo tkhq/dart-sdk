@@ -4,6 +4,7 @@ import 'package:turnkey_flutter_demo_app/screens/login.dart';
 import 'config.dart';
 import 'providers/session.dart';
 import 'providers/turnkey.dart';
+import 'screens/dashboard.dart';
 
 void main() async {
   // Load the environment variables from the .env file
@@ -13,7 +14,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SessionProvider()),
+        ChangeNotifierProvider(create: (context) => SessionProvider()),
         ChangeNotifierProxyProvider<SessionProvider, TurnkeyProvider>(
           create: (context) => TurnkeyProvider(
               sessionProvider:
@@ -39,43 +40,62 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 0, 26, 255)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Turnkey Flutter Demo App'),
+      home: const HomePage(title: 'Turnkey Flutter Demo App'),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key, required this.title});
 
   final String title;
 
   @override
   Widget build(BuildContext context) {
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
+
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+
+    // These two functions have to be here instead of their respective classes because they rely on the context
+    void showTurnkeyProviderErrors() {
+      if (turnkeyProvider.errorMessage != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'An error has occurred: \n${turnkeyProvider.errorMessage.toString()}'),
+          ),
+        );
+
+        turnkeyProvider.setError(null);
+      }
+    }
+
+    void autoLogin() {
+      if (sessionProvider.session != null &&
+          sessionProvider.session!.expiry >
+              DateTime.now().millisecondsSinceEpoch) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => DashboardScreen()),
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Logged in! Redirecting to the dashboard.'),
+          ),
+        );
+      }
+    }
+
+    turnkeyProvider.addListener(showTurnkeyProviderErrors);
+    sessionProvider.addListener(autoLogin);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: Consumer<TurnkeyProvider>(
-        //TODO: maybe we should just show a snackbar from the TurnkeyProvider when an error occurs
-        builder: (context, turnkeyProvider, child) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (turnkeyProvider.errorMessage != null) {
-              print(turnkeyProvider.errorMessage);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text(
-                        'An error has occurred: \n${turnkeyProvider.errorMessage!}')),
-              );
-
-              turnkeyProvider.setError(null);
-            }
-          });
-
-          return Center(
-            child: LoginScreen(),
-          );
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        body: LoginScreen());
   }
 }

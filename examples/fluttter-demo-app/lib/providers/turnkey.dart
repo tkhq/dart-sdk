@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:turnkey_dart_api_stamper/api_stamper.dart';
 import 'package:turnkey_dart_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_dart_http_client/base.dart';
 import 'package:turnkey_dart_http_client/index.dart';
 import 'package:turnkey_flutter_demo_app/config.dart';
+
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
-import 'package:turnkey_flutter_demo_app/screens/dashboard.dart';
+
 import 'package:turnkey_flutter_passkey_stamper/passkey_stamper.dart';
 import '../utils/constants.dart';
 import 'session.dart';
@@ -46,10 +47,9 @@ class TurnkeyProvider with ChangeNotifier {
   final Map<String, bool> _loading = {};
   String? _errorMessage;
   User? _user;
-  TurnkeyClient? _client; //TODO: Does client need to be a state variable?
+  TurnkeyClient? _client;
 
-  final SessionProvider
-      sessionProvider; //TODO: Switch all functions in this file to use this sessionProvider variable
+  final SessionProvider sessionProvider;
 
   TurnkeyProvider({required this.sessionProvider}) {
     sessionProvider.addListener(_onSessionUpdate);
@@ -71,9 +71,8 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   Future<void> _onSessionUpdate() async {
-    print('Session updated');
     final session = sessionProvider.session;
-    print('Session: ${session?.expiry}');
+
     if (session != null) {
       try {
         final stamper = ApiStamper(
@@ -114,7 +113,6 @@ class TurnkeyProvider with ChangeNotifier {
               name: wallet.walletName,
               id: wallet.walletId,
               accounts: accountsResponse.accounts
-                  //TODO: Do we need to run account.address thru a 'getAddress' function?
                   .map<String>((account) => (account.address))
                   .toList(),
             );
@@ -134,7 +132,6 @@ class TurnkeyProvider with ChangeNotifier {
           notifyListeners();
         }
       } catch (error) {
-        print(error.toString());
         setError(error.toString());
       }
     }
@@ -182,8 +179,6 @@ class TurnkeyProvider with ChangeNotifier {
       setError(null);
 
       try {
-        final sessionProvider =
-            Provider.of<SessionProvider>(context, listen: false);
         final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
         final response = await otpAuth({
@@ -197,11 +192,6 @@ class TurnkeyProvider with ChangeNotifier {
 
         if (response['credentialBundle'] != null) {
           await sessionProvider.createSession(response['credentialBundle']);
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DashboardScreen()),
-          );
         }
       } catch (error) {
         setError(error.toString());
@@ -252,8 +242,6 @@ class TurnkeyProvider with ChangeNotifier {
       setError(null);
 
       try {
-        final sessionProvider =
-            Provider.of<SessionProvider>(context, listen: false);
         final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
         final response = await otpAuth({
@@ -267,11 +255,6 @@ class TurnkeyProvider with ChangeNotifier {
 
         if (response['credentialBundle'] != null) {
           await sessionProvider.createSession(response['credentialBundle']);
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DashboardScreen()),
-          );
         }
       } catch (error) {
         setError(error.toString());
@@ -315,8 +298,6 @@ class TurnkeyProvider with ChangeNotifier {
             config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
             stamper: stamper);
 
-        final sessionProvider =
-            Provider.of<SessionProvider>(context, listen: false);
         final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
         final sessionResponse = await httpClient.createReadWriteSession(
@@ -333,10 +314,6 @@ class TurnkeyProvider with ChangeNotifier {
 
         if (credentialBundle != null) {
           await sessionProvider.createSession(credentialBundle);
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DashboardScreen()),
-          );
         }
       }
     } catch (error) {
@@ -362,8 +339,6 @@ class TurnkeyProvider with ChangeNotifier {
           config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
           stamper: stamper);
 
-      final sessionProvider =
-          Provider.of<SessionProvider>(context, listen: false);
       final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
       final sessionResponse = await httpClient.createReadWriteSession(
@@ -380,16 +355,17 @@ class TurnkeyProvider with ChangeNotifier {
 
       if (credentialBundle != null) {
         await sessionProvider.createSession(credentialBundle);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => DashboardScreen()),
-        );
       }
     } catch (error) {
       setError(error.toString());
     } finally {
       setLoading('loginWithPasskey', false);
     }
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await sessionProvider.clearSession();
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   Future<V1ActivityResponse> signRawPayload(
@@ -400,11 +376,9 @@ class TurnkeyProvider with ChangeNotifier {
     try {
       if (_client == null || user == null) {
         throw Exception("Client or user not initialized");
-        //TODO: Maybe autologout here?
       }
 
       final response = _client!.signRawPayload(
-          //TODO: Does this need to be stampSignRawPayload?
           input: V1SignRawPayloadRequest(
               type: V1SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
               timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),

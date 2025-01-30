@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String? _selectedAccount;
   String? _signature;
 
-  Future<void> handleSign(BuildContext context, String messageToSign) async {
+  Future<void> handleSign(BuildContext context, String messageToSign,
+      Function onStateUpdated) async {
     try {
       final turnkeyProvider =
           Provider.of<TurnkeyProvider>(context, listen: false);
@@ -42,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       final response =
           await turnkeyProvider.signRawPayload(context, parameters);
 
-      setState(() {
+      onStateUpdated(() {
         _signature =
             'r: ${response.activity.result.signRawPayloadResult?.r}, s: ${response.activity.result.signRawPayloadResult?.s}, v: ${response.activity.result.signRawPayloadResult?.v}';
       });
@@ -51,7 +53,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         SnackBar(content: Text('Success! Message signed.')),
       );
     } catch (error) {
-      print("Error signing message: $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error signing message: $error')),
+      );
     }
   }
 
@@ -60,15 +64,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final signMessage = "I love Turnkey";
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Provider.of<TurnkeyProvider>(context, listen: false)
+                .logout(context);
+          },
+          icon: Icon(
+            Icons.logout,
+            size: 24.0,
+            semanticLabel: 'Logout of your Turnkey session',
+          ),
+        ),
         title: Text('Dashboard'),
       ),
       body: Center(
         child: Consumer<TurnkeyProvider>(
           builder: (context, turnkeyProvider, child) {
             final user = turnkeyProvider.user;
-            final userName = user?.userName ?? 'User';
+            final userName =
+                (user?.userName != null && user!.userName!.isNotEmpty)
+                    ? user.userName
+                    : 'User';
             final selectedWallet = user?.wallets[0];
             final walletAccounts = selectedWallet?.accounts;
+            _selectedAccount = walletAccounts?.first;
 
             return Padding(
               padding: EdgeInsets.all(24),
@@ -105,7 +124,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: walletAccounts.map((account) {
                           return RadioListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: Text(account),
+                            title: Text(
+                                '${account.substring(0, 6)}...${account.substring(account.length - 6)}'),
                             onChanged: (String? value) {
                               setState(() {
                                 _selectedAccount = value;
@@ -127,25 +147,50 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('Sign Message'),
-                              content: Text(_signature ?? signMessage),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    _signature = null;
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text('Cancel'),
+                            return StatefulBuilder(
+                                builder: (context, setState) {
+                              return AlertDialog(
+                                title: Text('Sign Message'),
+                                content: Container(
+                                  constraints: BoxConstraints(
+                                    minHeight: 100,
+                                  ),
+                                  padding: EdgeInsets.all(10),
+                                  transformAlignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        spreadRadius: 0.8,
+                                        blurRadius: 2,
+                                        offset: Offset(0, 1),
+                                      ),
+                                    ],
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(_signature ?? signMessage),
                                 ),
-                                TextButton(
-                                  onPressed: () async {
-                                    await handleSign(context, signMessage);
-                                  },
-                                  child: Text('Sign'),
-                                ),
-                              ],
-                            );
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _signature = null;
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () async {
+                                      await handleSign(
+                                          context, signMessage, setState);
+                                    },
+                                    child: Text('Sign'),
+                                  ),
+                                ],
+                              );
+                            });
                           },
                         );
                       },

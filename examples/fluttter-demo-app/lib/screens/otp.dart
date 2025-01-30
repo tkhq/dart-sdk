@@ -7,8 +7,7 @@ import 'package:turnkey_flutter_demo_app/widgets/buttons.dart';
 import '../providers/turnkey.dart';
 
 class OTPScreen extends StatelessWidget {
-  final String
-      otpType; //TODO: Make this an enum. Does this come from the HTTP package?
+  final String otpType;
   final String otpId;
   final String organizationId;
 
@@ -90,6 +89,12 @@ class OTPScreen extends StatelessWidget {
                         Expanded(child: Consumer<TurnkeyProvider>(
                             builder: (context, turnkeyProvider, child) {
                           return LoadingButton(
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
                             onPressed: () async {
                               final otpCode = otpController.text;
                               if (otpCode.isNotEmpty) {
