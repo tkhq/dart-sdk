@@ -14,7 +14,7 @@ bool testBit(BigInt n, int i) {
 /// - The modular square root of `x` modulo `p` as a [BigInt].
 ///
 /// Throws:
-/// - [ArgumentError]: If `p` is not positive or if a modular square root 
+/// - [ArgumentError]: If `p` is not positive or if a modular square root
 ///   cannot be found.
 /// - [UnsupportedError]: If `p` does not satisfy the condition `p % 4 == 3`.
 BigInt modSqrt(BigInt x, BigInt p) {
@@ -51,11 +51,8 @@ BigInt modPow(BigInt b, BigInt exp, BigInt p) {
     return BigInt.one;
   }
 
-  BigInt result = b %
-      p; // Start with base reduced modulo p to ensure the initial value is within bounds, TODO: should we also do this in javascript?
-
+  BigInt result = b % p;
   final exponentBitString = exp.toRadixString(2);
-
   for (int i = 1; i < exponentBitString.length; ++i) {
     result = (result * result) % p;
     if (exponentBitString[i] == '1') {

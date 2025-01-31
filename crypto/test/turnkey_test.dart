@@ -47,7 +47,6 @@ void main() {
     });
   });
 
-  // TODO: Add tests for other cases
   group('decryptExportBundle Tests', () {
     test('decryptExportBundle successfully decrypts a valid bundle - mnemonic ',
         () async {
@@ -128,8 +127,8 @@ void main() {
         organizationId: organizationId,
       );
 
-      // TODO: Since the encryption is non-deterministic, we can't compare the result directly
-      // To verify we need to use the apiClient to import the wallet
+      // Since the encryption is non-deterministic, we can't compare the result directly
+      // To verify we would need to use the apiClient to import the wallet
     });
   });
 
@@ -152,8 +151,8 @@ void main() {
         organizationId: organizationId,
       );
 
-      // TODO: Since the encryption is non-deterministic, we can't compare the result directly
-      // To verify we need to use the apiClient to import the wallet
+      // Since the encryption is non-deterministic, we can't compare the result directly
+      // To verify we would need to use the apiClient to import the wallet
     });
   });
 }

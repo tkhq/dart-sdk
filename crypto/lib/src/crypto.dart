@@ -174,7 +174,7 @@ Uint8List aesGcmEncrypt(
   final cipher = GCMBlockCipher(AESEngine());
   final aeadParams = AEADParameters(
     KeyParameter(key),
-    128, //TODO: check what we use in javascript (@noble/ciphers/aes default value)
+    128,
     iv,
     aad ?? Uint8List(0),
   );
@@ -201,7 +201,7 @@ Uint8List aesGcmDecrypt(
   final cipher = GCMBlockCipher(AESEngine());
   final aeadParams = AEADParameters(
     KeyParameter(key),
-    128, //TODO: check what we use in javascript (@noble/ciphers/aes default value)
+    128, 
     iv,
     aad ?? Uint8List(0),
   );
@@ -337,7 +337,6 @@ KeyPair generateP256KeyPair() {
 ///
 /// Returns:
 /// - The public key as a `Uint8List` in the specified format.
-/// TODO: In javascript we actually say this function returns an Uint8Array or hexstring private key when it just returns a Uint8Array, we should fix that
 Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
   Uint8List privKeyBytes;
   if (privateKey is String) {
@@ -433,7 +432,6 @@ Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
   }
 
   // Return only the X-coordinate as the shared secret
-  // TODO: check if we need to return the full point (javascript implementation only does x, is that intentional?)
   return Uint8List.fromList(xBytes);
 }
 
