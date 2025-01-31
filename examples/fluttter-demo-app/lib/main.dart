@@ -12,6 +12,7 @@ void main() async {
   await loadEnv();
 
   runApp(
+    // TurnkeyProvider depends on SessionProvider, so we need to provide it first
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SessionProvider()),
@@ -61,6 +62,7 @@ class HomePage extends StatelessWidget {
     // These two functions have to be here instead of their respective classes because they rely on the context
     void showTurnkeyProviderErrors() {
       if (turnkeyProvider.errorMessage != null) {
+        debugPrint(turnkeyProvider.errorMessage.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

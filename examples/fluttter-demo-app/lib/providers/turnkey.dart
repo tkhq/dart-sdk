@@ -269,11 +269,6 @@ class TurnkeyProvider with ChangeNotifier {
     setError(null);
 
     try {
-      //TODO: Check if supported. Might need to modify the passkeystamper to have this function
-      if (!true) {
-        throw Exception("Passkeys are not supported on this device");
-      }
-
       final authenticationParams =
           await createPasskey(PasskeyRegistrationConfig(rp: {
         'id': EnvConfig.rpId,
@@ -317,7 +312,6 @@ class TurnkeyProvider with ChangeNotifier {
         }
       }
     } catch (error) {
-      print(error.toString());
       setError(error.toString());
     } finally {
       setLoading('signUpWithPasskey', false);
@@ -329,10 +323,6 @@ class TurnkeyProvider with ChangeNotifier {
     setError(null);
 
     try {
-      if (!true) {
-        throw Exception("Passkeys are not supported on this device");
-      }
-
       final stamper =
           PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
       final httpClient = TurnkeyClient(

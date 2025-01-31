@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,13 +24,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Provider.of<TurnkeyProvider>(context, listen: false);
       final addressType = _selectedAccount!.startsWith("0x") ? "ETH" : "SOL";
       final hashedMessage = addressType == "ETH"
-          ? sha256
-              .convert(utf8.encode(messageToSign))
-              .toString() //Idk if this works
+          ? sha256.convert(utf8.encode(messageToSign)).toString()
           : utf8
               .encode(messageToSign)
               .map((b) => b.toRadixString(16).padLeft(2, '0'))
-              .join(); //What is this doing?
+              .join();
 
       final parameters = V1SignRawPayloadIntentV2(
           signWith: _selectedAccount!,

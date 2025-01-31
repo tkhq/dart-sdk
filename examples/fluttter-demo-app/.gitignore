@@ -54,3 +54,7 @@ ios/Flutter/engine/
 
 # Environment files
 .env
+
+# Api server related
+api-server/node_modules/
+api-server/dist/
