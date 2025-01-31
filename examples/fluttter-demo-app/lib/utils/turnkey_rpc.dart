@@ -12,8 +12,6 @@ class TurnkeyRPCError implements Exception {
   String toString() => 'TurnkeyRPCError(code: $code, message: $message)';
 }
 
-
-//TODO: Type these properly
 Future<T> jsonRpcRequest<M, T>(
     String method, Map<String, dynamic> params) async {
   final requestBody = {
@@ -22,7 +20,7 @@ Future<T> jsonRpcRequest<M, T>(
   };
 
   final response = await http.post(
-    Uri.parse('${EnvConfig.backendApiUrl}/turnkey'),
+    Uri.parse('${EnvConfig.backendApiUrl}/api'),
     headers: {
       'Content-Type': 'application/json',
     },

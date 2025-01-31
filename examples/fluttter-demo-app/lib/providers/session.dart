@@ -7,9 +7,8 @@ import 'package:turnkey_crypto/crypto.dart';
 import '../utils/helpers.dart';
 
 enum StorageKey {
-  //TODO: Naming scheme for dart
-  EmbeddedKey,
-  Session,
+  embeddedKey,
+  session,
 }
 
 class Session {
@@ -64,14 +63,14 @@ class SessionProvider with ChangeNotifier {
 
   Future<void> _saveEmbeddedKey(String key) async {
     await _secureStorage.write(
-        key: StorageKey.EmbeddedKey.toString(), value: key);
+        key: StorageKey.embeddedKey.toString(), value: key);
   }
 
   Future<String?> _getEmbeddedKey({bool deleteKey = true}) async {
     final key =
-        await _secureStorage.read(key: StorageKey.EmbeddedKey.toString());
+        await _secureStorage.read(key: StorageKey.embeddedKey.toString());
     if (deleteKey) {
-      await _secureStorage.delete(key: StorageKey.EmbeddedKey.toString());
+      await _secureStorage.delete(key: StorageKey.embeddedKey.toString());
     }
     return key;
   }
@@ -102,7 +101,7 @@ class SessionProvider with ChangeNotifier {
 
   Future<Session?> getSession() async {
     final sessionJson =
-        await _secureStorage.read(key: StorageKey.Session.toString());
+        await _secureStorage.read(key: StorageKey.session.toString());
     if (sessionJson != null) {
       return Session.fromJson(jsonDecode(sessionJson));
     }
@@ -113,14 +112,14 @@ class SessionProvider with ChangeNotifier {
     _session = session;
     notifyListeners();
     await _secureStorage.write(
-        key: StorageKey.Session.toString(),
+        key: StorageKey.session.toString(),
         value: jsonEncode(session.toJson()));
   }
 
   Future<void> clearSession() async {
     _session = null;
     notifyListeners();
-    await _secureStorage.delete(key: StorageKey.Session.toString());
+    await _secureStorage.delete(key: StorageKey.session.toString());
   }
 
   Future<void> checkSession() async {
@@ -129,10 +128,8 @@ class SessionProvider with ChangeNotifier {
     if (session?.expiry != null &&
         session!.expiry > DateTime.now().millisecondsSinceEpoch) {
       _session = session;
+
       notifyListeners();
-      // TODO: Add autologin
-    } else {
-      // TODO Add autologout
     }
   }
 }

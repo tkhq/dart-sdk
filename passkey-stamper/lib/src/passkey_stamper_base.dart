@@ -20,6 +20,7 @@ class Stamp {
   });
 }
 
+// See more details on the registration config here: https://webauthn.guide/#registration
 class PasskeyRegistrationConfig {
   final Map<String, String> rp; // Relying party details: {name, id}
   final Map<String, String> user; // User details: {displayName, name, id}
@@ -28,7 +29,7 @@ class PasskeyRegistrationConfig {
   final List<CredentialType>? excludeCredentials; // Credentials to exclude
   final String? attestation; // Attestation type: none, direct, indirect
   final AuthenticatorSelectionType?
-      authenticatorSelection; // Authenticator selection criteria
+      authenticatorSelection; // Authenticator selection criteria. Can allow for cross-platform security keys here.
   final String? authenticatorName; // Optional authenticator name
 
   PasskeyRegistrationConfig({
@@ -55,39 +56,25 @@ class PasskeyStamperConfig {
   // Optional list of credentials to pass. Defaults to empty.
   final List<CredentialType>? allowCredentials;
 
-  // Option to force security passkeys on native platforms
-  final bool? withSecurityKey;
-
-  // Option to force platform passkeys on native platforms
-  final bool? withPlatformKey;
-
-  // Optional extensions. Defaults to empty. TODO: Do we need to pass extensions?
-  final Map<String, dynamic>? extensions;
-
   // Optional mediation type. Defaults to silent.
   final MediationType? mediation;
 
   // Optional flag to prefer immediately available credentials. Defaults to true.
   final bool? preferImmediatelyAvailableCredentials;
 
-  PasskeyStamperConfig(
-      {required this.rpId,
-      this.timeout,
-      this.userVerification,
-      this.allowCredentials,
-      this.withSecurityKey,
-      this.withPlatformKey,
-      this.mediation,
-      this.preferImmediatelyAvailableCredentials,
-      this.extensions});
+  PasskeyStamperConfig({
+    required this.rpId,
+    this.timeout,
+    this.userVerification,
+    this.allowCredentials,
+    this.mediation,
+    this.preferImmediatelyAvailableCredentials,
+  });
 }
 
-// Function to create a passkey
-Future<Map<String, dynamic>> createPasskey(PasskeyRegistrationConfig config,
-    {bool withSecurityKey = false,
-    bool withPlatformKey =
-        false} // TODO: Support for security key and platform key
-    ) async {
+Future<Map<String, dynamic>> createPasskey(
+  PasskeyRegistrationConfig config,
+) async {
   final String challenge = config.challenge ?? generateChallenge();
 
   final String userId =
@@ -140,26 +127,17 @@ class PasskeyStamper implements TStamper {
   final int timeout;
   final String userVerification;
   final List<CredentialType> allowCredentials;
-  final bool forcePlatformKey;
-  final bool forceSecurityKey;
   final MediationType mediation;
   final bool preferImmediatelyAvailableCredentials;
-  final Map<String, dynamic> extensions;
 
   PasskeyStamper(PasskeyStamperConfig config)
       : rpId = config.rpId,
         timeout = config.timeout ?? 300000,
         userVerification = config.userVerification ?? 'preferred',
         allowCredentials = config.allowCredentials ?? [],
-        forcePlatformKey =
-            config.withPlatformKey ?? false, //TODO: Allow for platform key
-        forceSecurityKey =
-            config.withSecurityKey ?? false, //TODO: Allow for security key
         mediation = config.mediation ?? MediationType.Silent,
         preferImmediatelyAvailableCredentials =
-            config.preferImmediatelyAvailableCredentials ?? true,
-        extensions =
-            config.extensions ?? {}; //TODO: Do we need to pass extensions?
+            config.preferImmediatelyAvailableCredentials ?? true;
 
   final stampHeaderName = "X-Stamp-Webauthn";
 
@@ -167,8 +145,7 @@ class PasskeyStamper implements TStamper {
   Future<TStamp> stamp(String payload) async {
     final challenge = getChallengeFromPayload(payload);
 
-    final authenticator =
-        PasskeyAuthenticator(); //TODO: Is it ok to create another authenticator object here?
+    final authenticator = PasskeyAuthenticator();
 
     final signingOptions = AuthenticateRequestType(
       challenge: challenge,
