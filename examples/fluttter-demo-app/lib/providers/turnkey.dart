@@ -88,16 +88,16 @@ class TurnkeyProvider with ChangeNotifier {
         _client = client;
 
         final whoami = await client.getWhoami(
-            input: V1GetWhoamiRequest(
+            input: GetWhoamiRequest(
           organizationId: EnvConfig.organizationId,
         ));
 
         if (whoami.userId != null && whoami.organizationId != null) {
           final walletsResponse = await client.getWallets(
-            input: V1GetWalletsRequest(organizationId: whoami.organizationId),
+            input: GetWalletsRequest(organizationId: whoami.organizationId),
           );
           final userResponse = await client.getUser(
-            input: V1GetUserRequest(
+            input: GetUserRequest(
               organizationId: whoami.organizationId,
               userId: whoami.userId,
             ),
@@ -106,7 +106,7 @@ class TurnkeyProvider with ChangeNotifier {
           final wallets =
               await Future.wait(walletsResponse.wallets.map((wallet) async {
             final accountsResponse = await client.getWalletAccounts(
-                input: V1GetWalletAccountsRequest(
+                input: GetWalletAccountsRequest(
                     organizationId: whoami.organizationId,
                     walletId: wallet.walletId));
             return Wallet(
@@ -296,12 +296,12 @@ class TurnkeyProvider with ChangeNotifier {
         final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
         final sessionResponse = await httpClient.createReadWriteSession(
-            input: V1CreateReadWriteSessionRequest(
-                type: V1CreateReadWriteSessionRequestType
+            input: CreateReadWriteSessionRequest(
+                type: CreateReadWriteSessionRequestType
                     .activityTypeCreateReadWriteSessionV2,
                 timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
                 organizationId: EnvConfig.organizationId,
-                parameters: V1CreateReadWriteSessionIntentV2(
+                parameters: CreateReadWriteSessionIntentV2(
                     targetPublicKey: targetPublicKey)));
 
         final credentialBundle = sessionResponse
@@ -332,12 +332,12 @@ class TurnkeyProvider with ChangeNotifier {
       final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
       final sessionResponse = await httpClient.createReadWriteSession(
-          input: V1CreateReadWriteSessionRequest(
-              type: V1CreateReadWriteSessionRequestType
+          input: CreateReadWriteSessionRequest(
+              type: CreateReadWriteSessionRequestType
                   .activityTypeCreateReadWriteSessionV2,
               timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
               organizationId: EnvConfig.organizationId,
-              parameters: V1CreateReadWriteSessionIntentV2(
+              parameters: CreateReadWriteSessionIntentV2(
                   targetPublicKey: targetPublicKey)));
 
       final credentialBundle = sessionResponse
@@ -358,8 +358,8 @@ class TurnkeyProvider with ChangeNotifier {
     Navigator.pushReplacementNamed(context, '/');
   }
 
-  Future<V1ActivityResponse> signRawPayload(
-      BuildContext context, V1SignRawPayloadIntentV2 parameters) async {
+  Future<ActivityResponse> signRawPayload(
+      BuildContext context, SignRawPayloadIntentV2 parameters) async {
     setLoading('signRawPayload', true);
     setError(null);
 
@@ -369,8 +369,8 @@ class TurnkeyProvider with ChangeNotifier {
       }
 
       final response = _client!.signRawPayload(
-          input: V1SignRawPayloadRequest(
-              type: V1SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
+          input: SignRawPayloadRequest(
+              type: SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
               timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
               organizationId: user!.organizationId,
               parameters: parameters));

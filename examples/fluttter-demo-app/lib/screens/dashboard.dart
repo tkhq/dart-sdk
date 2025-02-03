@@ -30,13 +30,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               .map((b) => b.toRadixString(16).padLeft(2, '0'))
               .join();
 
-      final parameters = V1SignRawPayloadIntentV2(
+      final parameters = SignRawPayloadIntentV2(
           signWith: _selectedAccount!,
           payload: hashedMessage,
-          encoding: V1PayloadEncoding.payloadEncodingHexadecimal,
+          encoding: PayloadEncoding.payloadEncodingHexadecimal,
           hashFunction: addressType == "ETH"
-              ? V1HashFunction.hashFunctionNoOp
-              : V1HashFunction.hashFunctionNotApplicable);
+              ? HashFunction.hashFunctionNoOp
+              : HashFunction.hashFunctionNotApplicable);
 
       final response =
           await turnkeyProvider.signRawPayload(context, parameters);

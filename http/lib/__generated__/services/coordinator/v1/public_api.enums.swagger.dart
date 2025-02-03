@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:collection/collection.dart';
 
-enum V1AccessType {
+enum AccessType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -14,10 +14,10 @@ enum V1AccessType {
 
   final String? value;
 
-  const V1AccessType(this.value);
+  const AccessType(this.value);
 }
 
-enum V1ActivityStatus {
+enum ActivityStatus {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -36,10 +36,10 @@ enum V1ActivityStatus {
 
   final String? value;
 
-  const V1ActivityStatus(this.value);
+  const ActivityStatus(this.value);
 }
 
-enum V1ActivityType {
+enum ActivityType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -208,14 +208,16 @@ enum V1ActivityType {
   activityTypeOtpAuth('ACTIVITY_TYPE_OTP_AUTH'),
   @JsonValue('ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7')
   activityTypeCreateSubOrganizationV7(
-      'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7');
+      'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7'),
+  @JsonValue('ACTIVITY_TYPE_UPDATE_WALLET')
+  activityTypeUpdateWallet('ACTIVITY_TYPE_UPDATE_WALLET');
 
   final String? value;
 
-  const V1ActivityType(this.value);
+  const ActivityType(this.value);
 }
 
-enum V1AddressFormat {
+enum AddressFormat {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -292,10 +294,10 @@ enum V1AddressFormat {
 
   final String? value;
 
-  const V1AddressFormat(this.value);
+  const AddressFormat(this.value);
 }
 
-enum V1ApiKeyCurve {
+enum ApiKeyCurve {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -308,10 +310,10 @@ enum V1ApiKeyCurve {
 
   final String? value;
 
-  const V1ApiKeyCurve(this.value);
+  const ApiKeyCurve(this.value);
 }
 
-enum V1ApproveActivityRequestType {
+enum ApproveActivityRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -320,10 +322,10 @@ enum V1ApproveActivityRequestType {
 
   final String? value;
 
-  const V1ApproveActivityRequestType(this.value);
+  const ApproveActivityRequestType(this.value);
 }
 
-enum V1AuthenticatorAttestationResponseAuthenticatorAttachment {
+enum AuthenticatorAttestationResponseAuthenticatorAttachment {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -334,10 +336,10 @@ enum V1AuthenticatorAttestationResponseAuthenticatorAttachment {
 
   final String? value;
 
-  const V1AuthenticatorAttestationResponseAuthenticatorAttachment(this.value);
+  const AuthenticatorAttestationResponseAuthenticatorAttachment(this.value);
 }
 
-enum V1AuthenticatorTransport {
+enum AuthenticatorTransport {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -354,10 +356,10 @@ enum V1AuthenticatorTransport {
 
   final String? value;
 
-  const V1AuthenticatorTransport(this.value);
+  const AuthenticatorTransport(this.value);
 }
 
-enum V1CreateApiKeysRequestType {
+enum CreateApiKeysRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -366,22 +368,10 @@ enum V1CreateApiKeysRequestType {
 
   final String? value;
 
-  const V1CreateApiKeysRequestType(this.value);
+  const CreateApiKeysRequestType(this.value);
 }
 
-enum V1CreateApiOnlyUsersRequestType {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('ACTIVITY_TYPE_CREATE_API_ONLY_USERS')
-  activityTypeCreateApiOnlyUsers('ACTIVITY_TYPE_CREATE_API_ONLY_USERS');
-
-  final String? value;
-
-  const V1CreateApiOnlyUsersRequestType(this.value);
-}
-
-enum V1CreateAuthenticatorsRequestType {
+enum CreateAuthenticatorsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -390,10 +380,10 @@ enum V1CreateAuthenticatorsRequestType {
 
   final String? value;
 
-  const V1CreateAuthenticatorsRequestType(this.value);
+  const CreateAuthenticatorsRequestType(this.value);
 }
 
-enum V1CreateInvitationsRequestType {
+enum CreateInvitationsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -402,10 +392,10 @@ enum V1CreateInvitationsRequestType {
 
   final String? value;
 
-  const V1CreateInvitationsRequestType(this.value);
+  const CreateInvitationsRequestType(this.value);
 }
 
-enum V1CreateOauthProvidersRequestType {
+enum CreateOauthProvidersRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -414,10 +404,10 @@ enum V1CreateOauthProvidersRequestType {
 
   final String? value;
 
-  const V1CreateOauthProvidersRequestType(this.value);
+  const CreateOauthProvidersRequestType(this.value);
 }
 
-enum V1CreatePoliciesRequestType {
+enum CreatePoliciesRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -426,10 +416,10 @@ enum V1CreatePoliciesRequestType {
 
   final String? value;
 
-  const V1CreatePoliciesRequestType(this.value);
+  const CreatePoliciesRequestType(this.value);
 }
 
-enum V1CreatePolicyRequestType {
+enum CreatePolicyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -438,10 +428,10 @@ enum V1CreatePolicyRequestType {
 
   final String? value;
 
-  const V1CreatePolicyRequestType(this.value);
+  const CreatePolicyRequestType(this.value);
 }
 
-enum V1CreatePrivateKeyTagRequestType {
+enum CreatePrivateKeyTagRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -450,10 +440,10 @@ enum V1CreatePrivateKeyTagRequestType {
 
   final String? value;
 
-  const V1CreatePrivateKeyTagRequestType(this.value);
+  const CreatePrivateKeyTagRequestType(this.value);
 }
 
-enum V1CreatePrivateKeysRequestType {
+enum CreatePrivateKeysRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -462,10 +452,10 @@ enum V1CreatePrivateKeysRequestType {
 
   final String? value;
 
-  const V1CreatePrivateKeysRequestType(this.value);
+  const CreatePrivateKeysRequestType(this.value);
 }
 
-enum V1CreateReadOnlySessionRequestType {
+enum CreateReadOnlySessionRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -474,10 +464,10 @@ enum V1CreateReadOnlySessionRequestType {
 
   final String? value;
 
-  const V1CreateReadOnlySessionRequestType(this.value);
+  const CreateReadOnlySessionRequestType(this.value);
 }
 
-enum V1CreateReadWriteSessionRequestType {
+enum CreateReadWriteSessionRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -487,10 +477,10 @@ enum V1CreateReadWriteSessionRequestType {
 
   final String? value;
 
-  const V1CreateReadWriteSessionRequestType(this.value);
+  const CreateReadWriteSessionRequestType(this.value);
 }
 
-enum V1CreateSubOrganizationRequestType {
+enum CreateSubOrganizationRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -500,10 +490,10 @@ enum V1CreateSubOrganizationRequestType {
 
   final String? value;
 
-  const V1CreateSubOrganizationRequestType(this.value);
+  const CreateSubOrganizationRequestType(this.value);
 }
 
-enum V1CreateUserTagRequestType {
+enum CreateUserTagRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -512,10 +502,10 @@ enum V1CreateUserTagRequestType {
 
   final String? value;
 
-  const V1CreateUserTagRequestType(this.value);
+  const CreateUserTagRequestType(this.value);
 }
 
-enum V1CreateUsersRequestType {
+enum CreateUsersRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -524,10 +514,10 @@ enum V1CreateUsersRequestType {
 
   final String? value;
 
-  const V1CreateUsersRequestType(this.value);
+  const CreateUsersRequestType(this.value);
 }
 
-enum V1CreateWalletAccountsRequestType {
+enum CreateWalletAccountsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -536,10 +526,10 @@ enum V1CreateWalletAccountsRequestType {
 
   final String? value;
 
-  const V1CreateWalletAccountsRequestType(this.value);
+  const CreateWalletAccountsRequestType(this.value);
 }
 
-enum V1CreateWalletRequestType {
+enum CreateWalletRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -548,10 +538,10 @@ enum V1CreateWalletRequestType {
 
   final String? value;
 
-  const V1CreateWalletRequestType(this.value);
+  const CreateWalletRequestType(this.value);
 }
 
-enum V1CredentialType {
+enum CredentialType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -572,10 +562,10 @@ enum V1CredentialType {
 
   final String? value;
 
-  const V1CredentialType(this.value);
+  const CredentialType(this.value);
 }
 
-enum V1Curve {
+enum Curve {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -586,10 +576,10 @@ enum V1Curve {
 
   final String? value;
 
-  const V1Curve(this.value);
+  const Curve(this.value);
 }
 
-enum V1DeleteApiKeysRequestType {
+enum DeleteApiKeysRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -598,10 +588,10 @@ enum V1DeleteApiKeysRequestType {
 
   final String? value;
 
-  const V1DeleteApiKeysRequestType(this.value);
+  const DeleteApiKeysRequestType(this.value);
 }
 
-enum V1DeleteAuthenticatorsRequestType {
+enum DeleteAuthenticatorsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -610,10 +600,10 @@ enum V1DeleteAuthenticatorsRequestType {
 
   final String? value;
 
-  const V1DeleteAuthenticatorsRequestType(this.value);
+  const DeleteAuthenticatorsRequestType(this.value);
 }
 
-enum V1DeleteInvitationRequestType {
+enum DeleteInvitationRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -622,10 +612,10 @@ enum V1DeleteInvitationRequestType {
 
   final String? value;
 
-  const V1DeleteInvitationRequestType(this.value);
+  const DeleteInvitationRequestType(this.value);
 }
 
-enum V1DeleteOauthProvidersRequestType {
+enum DeleteOauthProvidersRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -634,10 +624,10 @@ enum V1DeleteOauthProvidersRequestType {
 
   final String? value;
 
-  const V1DeleteOauthProvidersRequestType(this.value);
+  const DeleteOauthProvidersRequestType(this.value);
 }
 
-enum V1DeletePolicyRequestType {
+enum DeletePolicyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -646,10 +636,10 @@ enum V1DeletePolicyRequestType {
 
   final String? value;
 
-  const V1DeletePolicyRequestType(this.value);
+  const DeletePolicyRequestType(this.value);
 }
 
-enum V1DeletePrivateKeyTagsRequestType {
+enum DeletePrivateKeyTagsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -658,10 +648,10 @@ enum V1DeletePrivateKeyTagsRequestType {
 
   final String? value;
 
-  const V1DeletePrivateKeyTagsRequestType(this.value);
+  const DeletePrivateKeyTagsRequestType(this.value);
 }
 
-enum V1DeletePrivateKeysRequestType {
+enum DeletePrivateKeysRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -670,10 +660,10 @@ enum V1DeletePrivateKeysRequestType {
 
   final String? value;
 
-  const V1DeletePrivateKeysRequestType(this.value);
+  const DeletePrivateKeysRequestType(this.value);
 }
 
-enum V1DeleteSubOrganizationRequestType {
+enum DeleteSubOrganizationRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -682,10 +672,10 @@ enum V1DeleteSubOrganizationRequestType {
 
   final String? value;
 
-  const V1DeleteSubOrganizationRequestType(this.value);
+  const DeleteSubOrganizationRequestType(this.value);
 }
 
-enum V1DeleteUserTagsRequestType {
+enum DeleteUserTagsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -694,10 +684,10 @@ enum V1DeleteUserTagsRequestType {
 
   final String? value;
 
-  const V1DeleteUserTagsRequestType(this.value);
+  const DeleteUserTagsRequestType(this.value);
 }
 
-enum V1DeleteUsersRequestType {
+enum DeleteUsersRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -706,10 +696,10 @@ enum V1DeleteUsersRequestType {
 
   final String? value;
 
-  const V1DeleteUsersRequestType(this.value);
+  const DeleteUsersRequestType(this.value);
 }
 
-enum V1DeleteWalletsRequestType {
+enum DeleteWalletsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -718,10 +708,10 @@ enum V1DeleteWalletsRequestType {
 
   final String? value;
 
-  const V1DeleteWalletsRequestType(this.value);
+  const DeleteWalletsRequestType(this.value);
 }
 
-enum V1Effect {
+enum Effect {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -732,10 +722,10 @@ enum V1Effect {
 
   final String? value;
 
-  const V1Effect(this.value);
+  const Effect(this.value);
 }
 
-enum V1EmailAuthRequestType {
+enum EmailAuthRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -744,10 +734,10 @@ enum V1EmailAuthRequestType {
 
   final String? value;
 
-  const V1EmailAuthRequestType(this.value);
+  const EmailAuthRequestType(this.value);
 }
 
-enum V1ExportPrivateKeyRequestType {
+enum ExportPrivateKeyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -756,10 +746,10 @@ enum V1ExportPrivateKeyRequestType {
 
   final String? value;
 
-  const V1ExportPrivateKeyRequestType(this.value);
+  const ExportPrivateKeyRequestType(this.value);
 }
 
-enum V1ExportWalletAccountRequestType {
+enum ExportWalletAccountRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -768,10 +758,10 @@ enum V1ExportWalletAccountRequestType {
 
   final String? value;
 
-  const V1ExportWalletAccountRequestType(this.value);
+  const ExportWalletAccountRequestType(this.value);
 }
 
-enum V1ExportWalletRequestType {
+enum ExportWalletRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -780,10 +770,10 @@ enum V1ExportWalletRequestType {
 
   final String? value;
 
-  const V1ExportWalletRequestType(this.value);
+  const ExportWalletRequestType(this.value);
 }
 
-enum V1FeatureName {
+enum FeatureName {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -804,10 +794,10 @@ enum V1FeatureName {
 
   final String? value;
 
-  const V1FeatureName(this.value);
+  const FeatureName(this.value);
 }
 
-enum V1HashFunction {
+enum HashFunction {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -822,10 +812,10 @@ enum V1HashFunction {
 
   final String? value;
 
-  const V1HashFunction(this.value);
+  const HashFunction(this.value);
 }
 
-enum V1ImportPrivateKeyRequestType {
+enum ImportPrivateKeyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -834,10 +824,10 @@ enum V1ImportPrivateKeyRequestType {
 
   final String? value;
 
-  const V1ImportPrivateKeyRequestType(this.value);
+  const ImportPrivateKeyRequestType(this.value);
 }
 
-enum V1ImportWalletRequestType {
+enum ImportWalletRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -846,10 +836,10 @@ enum V1ImportWalletRequestType {
 
   final String? value;
 
-  const V1ImportWalletRequestType(this.value);
+  const ImportWalletRequestType(this.value);
 }
 
-enum V1InitImportPrivateKeyRequestType {
+enum InitImportPrivateKeyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -858,10 +848,10 @@ enum V1InitImportPrivateKeyRequestType {
 
   final String? value;
 
-  const V1InitImportPrivateKeyRequestType(this.value);
+  const InitImportPrivateKeyRequestType(this.value);
 }
 
-enum V1InitImportWalletRequestType {
+enum InitImportWalletRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -870,10 +860,10 @@ enum V1InitImportWalletRequestType {
 
   final String? value;
 
-  const V1InitImportWalletRequestType(this.value);
+  const InitImportWalletRequestType(this.value);
 }
 
-enum V1InitOtpAuthRequestType {
+enum InitOtpAuthRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -882,10 +872,10 @@ enum V1InitOtpAuthRequestType {
 
   final String? value;
 
-  const V1InitOtpAuthRequestType(this.value);
+  const InitOtpAuthRequestType(this.value);
 }
 
-enum V1InitUserEmailRecoveryRequestType {
+enum InitUserEmailRecoveryRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -894,26 +884,10 @@ enum V1InitUserEmailRecoveryRequestType {
 
   final String? value;
 
-  const V1InitUserEmailRecoveryRequestType(this.value);
+  const InitUserEmailRecoveryRequestType(this.value);
 }
 
-enum V1InvitationStatus {
-  @JsonValue(null)
-  swaggerGeneratedUnknown(null),
-
-  @JsonValue('INVITATION_STATUS_CREATED')
-  invitationStatusCreated('INVITATION_STATUS_CREATED'),
-  @JsonValue('INVITATION_STATUS_ACCEPTED')
-  invitationStatusAccepted('INVITATION_STATUS_ACCEPTED'),
-  @JsonValue('INVITATION_STATUS_REVOKED')
-  invitationStatusRevoked('INVITATION_STATUS_REVOKED');
-
-  final String? value;
-
-  const V1InvitationStatus(this.value);
-}
-
-enum V1MnemonicLanguage {
+enum MnemonicLanguage {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -938,10 +912,10 @@ enum V1MnemonicLanguage {
 
   final String? value;
 
-  const V1MnemonicLanguage(this.value);
+  const MnemonicLanguage(this.value);
 }
 
-enum V1OauthRequestType {
+enum OauthRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -950,10 +924,10 @@ enum V1OauthRequestType {
 
   final String? value;
 
-  const V1OauthRequestType(this.value);
+  const OauthRequestType(this.value);
 }
 
-enum V1Operator {
+enum Operator {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -982,10 +956,10 @@ enum V1Operator {
 
   final String? value;
 
-  const V1Operator(this.value);
+  const Operator(this.value);
 }
 
-enum V1OtpAuthRequestType {
+enum OtpAuthRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -994,10 +968,10 @@ enum V1OtpAuthRequestType {
 
   final String? value;
 
-  const V1OtpAuthRequestType(this.value);
+  const OtpAuthRequestType(this.value);
 }
 
-enum V1PathFormat {
+enum PathFormat {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1006,10 +980,10 @@ enum V1PathFormat {
 
   final String? value;
 
-  const V1PathFormat(this.value);
+  const PathFormat(this.value);
 }
 
-enum V1PayloadEncoding {
+enum PayloadEncoding {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1020,10 +994,10 @@ enum V1PayloadEncoding {
 
   final String? value;
 
-  const V1PayloadEncoding(this.value);
+  const PayloadEncoding(this.value);
 }
 
-enum V1PublicKeyCredentialWithAttestationType {
+enum PublicKeyCredentialWithAttestationType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1032,10 +1006,10 @@ enum V1PublicKeyCredentialWithAttestationType {
 
   final String? value;
 
-  const V1PublicKeyCredentialWithAttestationType(this.value);
+  const PublicKeyCredentialWithAttestationType(this.value);
 }
 
-enum V1PublicKeyCredentialWithAttestationAuthenticatorAttachment {
+enum PublicKeyCredentialWithAttestationAuthenticatorAttachment {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1046,10 +1020,10 @@ enum V1PublicKeyCredentialWithAttestationAuthenticatorAttachment {
 
   final String? value;
 
-  const V1PublicKeyCredentialWithAttestationAuthenticatorAttachment(this.value);
+  const PublicKeyCredentialWithAttestationAuthenticatorAttachment(this.value);
 }
 
-enum V1RecoverUserRequestType {
+enum RecoverUserRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1058,10 +1032,10 @@ enum V1RecoverUserRequestType {
 
   final String? value;
 
-  const V1RecoverUserRequestType(this.value);
+  const RecoverUserRequestType(this.value);
 }
 
-enum V1RejectActivityRequestType {
+enum RejectActivityRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1070,10 +1044,10 @@ enum V1RejectActivityRequestType {
 
   final String? value;
 
-  const V1RejectActivityRequestType(this.value);
+  const RejectActivityRequestType(this.value);
 }
 
-enum V1RemoveOrganizationFeatureRequestType {
+enum RemoveOrganizationFeatureRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1083,10 +1057,10 @@ enum V1RemoveOrganizationFeatureRequestType {
 
   final String? value;
 
-  const V1RemoveOrganizationFeatureRequestType(this.value);
+  const RemoveOrganizationFeatureRequestType(this.value);
 }
 
-enum V1SetOrganizationFeatureRequestType {
+enum SetOrganizationFeatureRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1095,10 +1069,10 @@ enum V1SetOrganizationFeatureRequestType {
 
   final String? value;
 
-  const V1SetOrganizationFeatureRequestType(this.value);
+  const SetOrganizationFeatureRequestType(this.value);
 }
 
-enum V1SignRawPayloadRequestType {
+enum SignRawPayloadRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1107,10 +1081,10 @@ enum V1SignRawPayloadRequestType {
 
   final String? value;
 
-  const V1SignRawPayloadRequestType(this.value);
+  const SignRawPayloadRequestType(this.value);
 }
 
-enum V1SignRawPayloadsRequestType {
+enum SignRawPayloadsRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1119,10 +1093,10 @@ enum V1SignRawPayloadsRequestType {
 
   final String? value;
 
-  const V1SignRawPayloadsRequestType(this.value);
+  const SignRawPayloadsRequestType(this.value);
 }
 
-enum V1SignTransactionRequestType {
+enum SignTransactionRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1131,10 +1105,10 @@ enum V1SignTransactionRequestType {
 
   final String? value;
 
-  const V1SignTransactionRequestType(this.value);
+  const SignTransactionRequestType(this.value);
 }
 
-enum V1TagType {
+enum TagType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1145,10 +1119,10 @@ enum V1TagType {
 
   final String? value;
 
-  const V1TagType(this.value);
+  const TagType(this.value);
 }
 
-enum V1TransactionType {
+enum TransactionType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1159,10 +1133,10 @@ enum V1TransactionType {
 
   final String? value;
 
-  const V1TransactionType(this.value);
+  const TransactionType(this.value);
 }
 
-enum V1UpdatePolicyRequestType {
+enum UpdatePolicyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1171,10 +1145,10 @@ enum V1UpdatePolicyRequestType {
 
   final String? value;
 
-  const V1UpdatePolicyRequestType(this.value);
+  const UpdatePolicyRequestType(this.value);
 }
 
-enum V1UpdatePrivateKeyTagRequestType {
+enum UpdatePrivateKeyTagRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1183,10 +1157,10 @@ enum V1UpdatePrivateKeyTagRequestType {
 
   final String? value;
 
-  const V1UpdatePrivateKeyTagRequestType(this.value);
+  const UpdatePrivateKeyTagRequestType(this.value);
 }
 
-enum V1UpdateRootQuorumRequestType {
+enum UpdateRootQuorumRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1195,10 +1169,10 @@ enum V1UpdateRootQuorumRequestType {
 
   final String? value;
 
-  const V1UpdateRootQuorumRequestType(this.value);
+  const UpdateRootQuorumRequestType(this.value);
 }
 
-enum V1UpdateUserRequestType {
+enum UpdateUserRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1207,10 +1181,10 @@ enum V1UpdateUserRequestType {
 
   final String? value;
 
-  const V1UpdateUserRequestType(this.value);
+  const UpdateUserRequestType(this.value);
 }
 
-enum V1UpdateUserTagRequestType {
+enum UpdateUserTagRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1219,10 +1193,22 @@ enum V1UpdateUserTagRequestType {
 
   final String? value;
 
-  const V1UpdateUserTagRequestType(this.value);
+  const UpdateUserTagRequestType(this.value);
 }
 
-enum V1VoteSelection {
+enum UpdateWalletRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_UPDATE_WALLET')
+  activityTypeUpdateWallet('ACTIVITY_TYPE_UPDATE_WALLET');
+
+  final String? value;
+
+  const UpdateWalletRequestType(this.value);
+}
+
+enum VoteSelection {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
@@ -1233,5 +1219,5 @@ enum V1VoteSelection {
 
   final String? value;
 
-  const V1VoteSelection(this.value);
+  const VoteSelection(this.value);
 }

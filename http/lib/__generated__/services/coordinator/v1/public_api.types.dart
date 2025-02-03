@@ -3,7 +3,7 @@
 import 'public_api.swagger.dart';
 
 /// `POST /public/v1/query/get_activity`
-typedef TGetActivityResponse = V1ActivityResponse;
+typedef TGetActivityResponse = ActivityResponse;
 
 /// `POST /public/v1/query/get_activity`
 class TGetActivityInput {
@@ -15,10 +15,10 @@ class TGetActivityInput {
 }
 
 /// `POST /public/v1/query/get_activity`
-typedef TGetActivityBody = V1GetActivityRequest;
+typedef TGetActivityBody = GetActivityRequest;
 
 /// `POST /public/v1/query/get_api_key`
-typedef TGetApiKeyResponse = V1GetApiKeyResponse;
+typedef TGetApiKeyResponse = GetApiKeyResponse;
 
 /// `POST /public/v1/query/get_api_key`
 class TGetApiKeyInput {
@@ -30,10 +30,10 @@ class TGetApiKeyInput {
 }
 
 /// `POST /public/v1/query/get_api_key`
-typedef TGetApiKeyBody = V1GetApiKeyRequest;
+typedef TGetApiKeyBody = GetApiKeyRequest;
 
 /// `POST /public/v1/query/get_api_keys`
-typedef TGetApiKeysResponse = V1GetApiKeysResponse;
+typedef TGetApiKeysResponse = GetApiKeysResponse;
 
 /// `POST /public/v1/query/get_api_keys`
 class TGetApiKeysInput {
@@ -45,25 +45,10 @@ class TGetApiKeysInput {
 }
 
 /// `POST /public/v1/query/get_api_keys`
-typedef TGetApiKeysBody = V1GetApiKeysRequest;
-
-/// `POST /public/v1/query/get_attestation`
-typedef TGetAttestationDocumentResponse = V1GetAttestationDocumentResponse;
-
-/// `POST /public/v1/query/get_attestation`
-class TGetAttestationDocumentInput {
-  final TGetAttestationDocumentBody body;
-
-  TGetAttestationDocumentInput({
-    required this.body,
-  });
-}
-
-/// `POST /public/v1/query/get_attestation`
-typedef TGetAttestationDocumentBody = V1GetAttestationDocumentRequest;
+typedef TGetApiKeysBody = GetApiKeysRequest;
 
 /// `POST /public/v1/query/get_authenticator`
-typedef TGetAuthenticatorResponse = V1GetAuthenticatorResponse;
+typedef TGetAuthenticatorResponse = GetAuthenticatorResponse;
 
 /// `POST /public/v1/query/get_authenticator`
 class TGetAuthenticatorInput {
@@ -75,10 +60,10 @@ class TGetAuthenticatorInput {
 }
 
 /// `POST /public/v1/query/get_authenticator`
-typedef TGetAuthenticatorBody = V1GetAuthenticatorRequest;
+typedef TGetAuthenticatorBody = GetAuthenticatorRequest;
 
 /// `POST /public/v1/query/get_authenticators`
-typedef TGetAuthenticatorsResponse = V1GetAuthenticatorsResponse;
+typedef TGetAuthenticatorsResponse = GetAuthenticatorsResponse;
 
 /// `POST /public/v1/query/get_authenticators`
 class TGetAuthenticatorsInput {
@@ -90,10 +75,10 @@ class TGetAuthenticatorsInput {
 }
 
 /// `POST /public/v1/query/get_authenticators`
-typedef TGetAuthenticatorsBody = V1GetAuthenticatorsRequest;
+typedef TGetAuthenticatorsBody = GetAuthenticatorsRequest;
 
 /// `POST /public/v1/query/get_oauth_providers`
-typedef TGetOauthProvidersResponse = V1GetOauthProvidersResponse;
+typedef TGetOauthProvidersResponse = GetOauthProvidersResponse;
 
 /// `POST /public/v1/query/get_oauth_providers`
 class TGetOauthProvidersInput {
@@ -105,25 +90,10 @@ class TGetOauthProvidersInput {
 }
 
 /// `POST /public/v1/query/get_oauth_providers`
-typedef TGetOauthProvidersBody = V1GetOauthProvidersRequest;
-
-/// `POST /public/v1/query/get_organization`
-typedef TGetOrganizationResponse = V1GetOrganizationResponse;
-
-/// `POST /public/v1/query/get_organization`
-class TGetOrganizationInput {
-  final TGetOrganizationBody body;
-
-  TGetOrganizationInput({
-    required this.body,
-  });
-}
-
-/// `POST /public/v1/query/get_organization`
-typedef TGetOrganizationBody = V1GetOrganizationRequest;
+typedef TGetOauthProvidersBody = GetOauthProvidersRequest;
 
 /// `POST /public/v1/query/get_organization_configs`
-typedef TGetOrganizationConfigsResponse = V1GetOrganizationConfigsResponse;
+typedef TGetOrganizationConfigsResponse = GetOrganizationConfigsResponse;
 
 /// `POST /public/v1/query/get_organization_configs`
 class TGetOrganizationConfigsInput {
@@ -135,10 +105,10 @@ class TGetOrganizationConfigsInput {
 }
 
 /// `POST /public/v1/query/get_organization_configs`
-typedef TGetOrganizationConfigsBody = V1GetOrganizationConfigsRequest;
+typedef TGetOrganizationConfigsBody = GetOrganizationConfigsRequest;
 
 /// `POST /public/v1/query/get_policy`
-typedef TGetPolicyResponse = V1GetPolicyResponse;
+typedef TGetPolicyResponse = GetPolicyResponse;
 
 /// `POST /public/v1/query/get_policy`
 class TGetPolicyInput {
@@ -150,10 +120,10 @@ class TGetPolicyInput {
 }
 
 /// `POST /public/v1/query/get_policy`
-typedef TGetPolicyBody = V1GetPolicyRequest;
+typedef TGetPolicyBody = GetPolicyRequest;
 
 /// `POST /public/v1/query/get_private_key`
-typedef TGetPrivateKeyResponse = V1GetPrivateKeyResponse;
+typedef TGetPrivateKeyResponse = GetPrivateKeyResponse;
 
 /// `POST /public/v1/query/get_private_key`
 class TGetPrivateKeyInput {
@@ -165,10 +135,10 @@ class TGetPrivateKeyInput {
 }
 
 /// `POST /public/v1/query/get_private_key`
-typedef TGetPrivateKeyBody = V1GetPrivateKeyRequest;
+typedef TGetPrivateKeyBody = GetPrivateKeyRequest;
 
 /// `POST /public/v1/query/get_user`
-typedef TGetUserResponse = V1GetUserResponse;
+typedef TGetUserResponse = GetUserResponse;
 
 /// `POST /public/v1/query/get_user`
 class TGetUserInput {
@@ -180,10 +150,10 @@ class TGetUserInput {
 }
 
 /// `POST /public/v1/query/get_user`
-typedef TGetUserBody = V1GetUserRequest;
+typedef TGetUserBody = GetUserRequest;
 
 /// `POST /public/v1/query/get_wallet`
-typedef TGetWalletResponse = V1GetWalletResponse;
+typedef TGetWalletResponse = GetWalletResponse;
 
 /// `POST /public/v1/query/get_wallet`
 class TGetWalletInput {
@@ -195,10 +165,25 @@ class TGetWalletInput {
 }
 
 /// `POST /public/v1/query/get_wallet`
-typedef TGetWalletBody = V1GetWalletRequest;
+typedef TGetWalletBody = GetWalletRequest;
+
+/// `POST /public/v1/query/get_wallet_account`
+typedef TGetWalletAccountResponse = GetWalletAccountResponse;
+
+/// `POST /public/v1/query/get_wallet_account`
+class TGetWalletAccountInput {
+  final TGetWalletAccountBody body;
+
+  TGetWalletAccountInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/query/get_wallet_account`
+typedef TGetWalletAccountBody = GetWalletAccountRequest;
 
 /// `POST /public/v1/query/list_activities`
-typedef TGetActivitiesResponse = V1GetActivitiesResponse;
+typedef TGetActivitiesResponse = GetActivitiesResponse;
 
 /// `POST /public/v1/query/list_activities`
 class TGetActivitiesInput {
@@ -210,10 +195,10 @@ class TGetActivitiesInput {
 }
 
 /// `POST /public/v1/query/list_activities`
-typedef TGetActivitiesBody = V1GetActivitiesRequest;
+typedef TGetActivitiesBody = GetActivitiesRequest;
 
 /// `POST /public/v1/query/list_policies`
-typedef TGetPoliciesResponse = V1GetPoliciesResponse;
+typedef TGetPoliciesResponse = GetPoliciesResponse;
 
 /// `POST /public/v1/query/list_policies`
 class TGetPoliciesInput {
@@ -225,10 +210,10 @@ class TGetPoliciesInput {
 }
 
 /// `POST /public/v1/query/list_policies`
-typedef TGetPoliciesBody = V1GetPoliciesRequest;
+typedef TGetPoliciesBody = GetPoliciesRequest;
 
 /// `POST /public/v1/query/list_private_key_tags`
-typedef TListPrivateKeyTagsResponse = V1ListPrivateKeyTagsResponse;
+typedef TListPrivateKeyTagsResponse = ListPrivateKeyTagsResponse;
 
 /// `POST /public/v1/query/list_private_key_tags`
 class TListPrivateKeyTagsInput {
@@ -240,10 +225,10 @@ class TListPrivateKeyTagsInput {
 }
 
 /// `POST /public/v1/query/list_private_key_tags`
-typedef TListPrivateKeyTagsBody = V1ListPrivateKeyTagsRequest;
+typedef TListPrivateKeyTagsBody = ListPrivateKeyTagsRequest;
 
 /// `POST /public/v1/query/list_private_keys`
-typedef TGetPrivateKeysResponse = V1GetPrivateKeysResponse;
+typedef TGetPrivateKeysResponse = GetPrivateKeysResponse;
 
 /// `POST /public/v1/query/list_private_keys`
 class TGetPrivateKeysInput {
@@ -255,10 +240,10 @@ class TGetPrivateKeysInput {
 }
 
 /// `POST /public/v1/query/list_private_keys`
-typedef TGetPrivateKeysBody = V1GetPrivateKeysRequest;
+typedef TGetPrivateKeysBody = GetPrivateKeysRequest;
 
 /// `POST /public/v1/query/list_suborgs`
-typedef TGetSubOrgIdsResponse = V1GetSubOrgIdsResponse;
+typedef TGetSubOrgIdsResponse = GetSubOrgIdsResponse;
 
 /// `POST /public/v1/query/list_suborgs`
 class TGetSubOrgIdsInput {
@@ -270,10 +255,10 @@ class TGetSubOrgIdsInput {
 }
 
 /// `POST /public/v1/query/list_suborgs`
-typedef TGetSubOrgIdsBody = V1GetSubOrgIdsRequest;
+typedef TGetSubOrgIdsBody = GetSubOrgIdsRequest;
 
 /// `POST /public/v1/query/list_user_tags`
-typedef TListUserTagsResponse = V1ListUserTagsResponse;
+typedef TListUserTagsResponse = ListUserTagsResponse;
 
 /// `POST /public/v1/query/list_user_tags`
 class TListUserTagsInput {
@@ -285,10 +270,10 @@ class TListUserTagsInput {
 }
 
 /// `POST /public/v1/query/list_user_tags`
-typedef TListUserTagsBody = V1ListUserTagsRequest;
+typedef TListUserTagsBody = ListUserTagsRequest;
 
 /// `POST /public/v1/query/list_users`
-typedef TGetUsersResponse = V1GetUsersResponse;
+typedef TGetUsersResponse = GetUsersResponse;
 
 /// `POST /public/v1/query/list_users`
 class TGetUsersInput {
@@ -300,10 +285,10 @@ class TGetUsersInput {
 }
 
 /// `POST /public/v1/query/list_users`
-typedef TGetUsersBody = V1GetUsersRequest;
+typedef TGetUsersBody = GetUsersRequest;
 
 /// `POST /public/v1/query/list_verified_suborgs`
-typedef TGetVerifiedSubOrgIdsResponse = V1GetVerifiedSubOrgIdsResponse;
+typedef TGetVerifiedSubOrgIdsResponse = GetVerifiedSubOrgIdsResponse;
 
 /// `POST /public/v1/query/list_verified_suborgs`
 class TGetVerifiedSubOrgIdsInput {
@@ -315,10 +300,10 @@ class TGetVerifiedSubOrgIdsInput {
 }
 
 /// `POST /public/v1/query/list_verified_suborgs`
-typedef TGetVerifiedSubOrgIdsBody = V1GetVerifiedSubOrgIdsRequest;
+typedef TGetVerifiedSubOrgIdsBody = GetVerifiedSubOrgIdsRequest;
 
 /// `POST /public/v1/query/list_wallet_accounts`
-typedef TGetWalletAccountsResponse = V1GetWalletAccountsResponse;
+typedef TGetWalletAccountsResponse = GetWalletAccountsResponse;
 
 /// `POST /public/v1/query/list_wallet_accounts`
 class TGetWalletAccountsInput {
@@ -330,10 +315,10 @@ class TGetWalletAccountsInput {
 }
 
 /// `POST /public/v1/query/list_wallet_accounts`
-typedef TGetWalletAccountsBody = V1GetWalletAccountsRequest;
+typedef TGetWalletAccountsBody = GetWalletAccountsRequest;
 
 /// `POST /public/v1/query/list_wallets`
-typedef TGetWalletsResponse = V1GetWalletsResponse;
+typedef TGetWalletsResponse = GetWalletsResponse;
 
 /// `POST /public/v1/query/list_wallets`
 class TGetWalletsInput {
@@ -345,10 +330,10 @@ class TGetWalletsInput {
 }
 
 /// `POST /public/v1/query/list_wallets`
-typedef TGetWalletsBody = V1GetWalletsRequest;
+typedef TGetWalletsBody = GetWalletsRequest;
 
 /// `POST /public/v1/query/whoami`
-typedef TGetWhoamiResponse = V1GetWhoamiResponse;
+typedef TGetWhoamiResponse = GetWhoamiResponse;
 
 /// `POST /public/v1/query/whoami`
 class TGetWhoamiInput {
@@ -360,10 +345,10 @@ class TGetWhoamiInput {
 }
 
 /// `POST /public/v1/query/whoami`
-typedef TGetWhoamiBody = V1GetWhoamiRequest;
+typedef TGetWhoamiBody = GetWhoamiRequest;
 
 /// `POST /public/v1/submit/approve_activity`
-typedef TApproveActivityResponse = V1ActivityResponse;
+typedef TApproveActivityResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/approve_activity`
 class TApproveActivityInput {
@@ -375,10 +360,10 @@ class TApproveActivityInput {
 }
 
 /// `POST /public/v1/submit/approve_activity`
-typedef TApproveActivityBody = V1ApproveActivityRequest;
+typedef TApproveActivityBody = ApproveActivityRequest;
 
 /// `POST /public/v1/submit/create_api_keys`
-typedef TCreateApiKeysResponse = V1ActivityResponse;
+typedef TCreateApiKeysResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_api_keys`
 class TCreateApiKeysInput {
@@ -390,25 +375,10 @@ class TCreateApiKeysInput {
 }
 
 /// `POST /public/v1/submit/create_api_keys`
-typedef TCreateApiKeysBody = V1CreateApiKeysRequest;
-
-/// `POST /public/v1/submit/create_api_only_users`
-typedef TCreateApiOnlyUsersResponse = V1ActivityResponse;
-
-/// `POST /public/v1/submit/create_api_only_users`
-class TCreateApiOnlyUsersInput {
-  final TCreateApiOnlyUsersBody body;
-
-  TCreateApiOnlyUsersInput({
-    required this.body,
-  });
-}
-
-/// `POST /public/v1/submit/create_api_only_users`
-typedef TCreateApiOnlyUsersBody = V1CreateApiOnlyUsersRequest;
+typedef TCreateApiKeysBody = CreateApiKeysRequest;
 
 /// `POST /public/v1/submit/create_authenticators`
-typedef TCreateAuthenticatorsResponse = V1ActivityResponse;
+typedef TCreateAuthenticatorsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_authenticators`
 class TCreateAuthenticatorsInput {
@@ -420,10 +390,10 @@ class TCreateAuthenticatorsInput {
 }
 
 /// `POST /public/v1/submit/create_authenticators`
-typedef TCreateAuthenticatorsBody = V1CreateAuthenticatorsRequest;
+typedef TCreateAuthenticatorsBody = CreateAuthenticatorsRequest;
 
 /// `POST /public/v1/submit/create_invitations`
-typedef TCreateInvitationsResponse = V1ActivityResponse;
+typedef TCreateInvitationsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_invitations`
 class TCreateInvitationsInput {
@@ -435,10 +405,10 @@ class TCreateInvitationsInput {
 }
 
 /// `POST /public/v1/submit/create_invitations`
-typedef TCreateInvitationsBody = V1CreateInvitationsRequest;
+typedef TCreateInvitationsBody = CreateInvitationsRequest;
 
 /// `POST /public/v1/submit/create_oauth_providers`
-typedef TCreateOauthProvidersResponse = V1ActivityResponse;
+typedef TCreateOauthProvidersResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_oauth_providers`
 class TCreateOauthProvidersInput {
@@ -450,10 +420,10 @@ class TCreateOauthProvidersInput {
 }
 
 /// `POST /public/v1/submit/create_oauth_providers`
-typedef TCreateOauthProvidersBody = V1CreateOauthProvidersRequest;
+typedef TCreateOauthProvidersBody = CreateOauthProvidersRequest;
 
 /// `POST /public/v1/submit/create_policies`
-typedef TCreatePoliciesResponse = V1ActivityResponse;
+typedef TCreatePoliciesResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_policies`
 class TCreatePoliciesInput {
@@ -465,10 +435,10 @@ class TCreatePoliciesInput {
 }
 
 /// `POST /public/v1/submit/create_policies`
-typedef TCreatePoliciesBody = V1CreatePoliciesRequest;
+typedef TCreatePoliciesBody = CreatePoliciesRequest;
 
 /// `POST /public/v1/submit/create_policy`
-typedef TCreatePolicyResponse = V1ActivityResponse;
+typedef TCreatePolicyResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_policy`
 class TCreatePolicyInput {
@@ -480,10 +450,10 @@ class TCreatePolicyInput {
 }
 
 /// `POST /public/v1/submit/create_policy`
-typedef TCreatePolicyBody = V1CreatePolicyRequest;
+typedef TCreatePolicyBody = CreatePolicyRequest;
 
 /// `POST /public/v1/submit/create_private_key_tag`
-typedef TCreatePrivateKeyTagResponse = V1ActivityResponse;
+typedef TCreatePrivateKeyTagResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_private_key_tag`
 class TCreatePrivateKeyTagInput {
@@ -495,10 +465,10 @@ class TCreatePrivateKeyTagInput {
 }
 
 /// `POST /public/v1/submit/create_private_key_tag`
-typedef TCreatePrivateKeyTagBody = V1CreatePrivateKeyTagRequest;
+typedef TCreatePrivateKeyTagBody = CreatePrivateKeyTagRequest;
 
 /// `POST /public/v1/submit/create_private_keys`
-typedef TCreatePrivateKeysResponse = V1ActivityResponse;
+typedef TCreatePrivateKeysResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_private_keys`
 class TCreatePrivateKeysInput {
@@ -510,10 +480,10 @@ class TCreatePrivateKeysInput {
 }
 
 /// `POST /public/v1/submit/create_private_keys`
-typedef TCreatePrivateKeysBody = V1CreatePrivateKeysRequest;
+typedef TCreatePrivateKeysBody = CreatePrivateKeysRequest;
 
 /// `POST /public/v1/submit/create_read_only_session`
-typedef TCreateReadOnlySessionResponse = V1ActivityResponse;
+typedef TCreateReadOnlySessionResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_read_only_session`
 class TCreateReadOnlySessionInput {
@@ -525,10 +495,10 @@ class TCreateReadOnlySessionInput {
 }
 
 /// `POST /public/v1/submit/create_read_only_session`
-typedef TCreateReadOnlySessionBody = V1CreateReadOnlySessionRequest;
+typedef TCreateReadOnlySessionBody = CreateReadOnlySessionRequest;
 
 /// `POST /public/v1/submit/create_read_write_session`
-typedef TCreateReadWriteSessionResponse = V1ActivityResponse;
+typedef TCreateReadWriteSessionResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_read_write_session`
 class TCreateReadWriteSessionInput {
@@ -540,10 +510,10 @@ class TCreateReadWriteSessionInput {
 }
 
 /// `POST /public/v1/submit/create_read_write_session`
-typedef TCreateReadWriteSessionBody = V1CreateReadWriteSessionRequest;
+typedef TCreateReadWriteSessionBody = CreateReadWriteSessionRequest;
 
 /// `POST /public/v1/submit/create_sub_organization`
-typedef TCreateSubOrganizationResponse = V1ActivityResponse;
+typedef TCreateSubOrganizationResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_sub_organization`
 class TCreateSubOrganizationInput {
@@ -555,10 +525,10 @@ class TCreateSubOrganizationInput {
 }
 
 /// `POST /public/v1/submit/create_sub_organization`
-typedef TCreateSubOrganizationBody = V1CreateSubOrganizationRequest;
+typedef TCreateSubOrganizationBody = CreateSubOrganizationRequest;
 
 /// `POST /public/v1/submit/create_user_tag`
-typedef TCreateUserTagResponse = V1ActivityResponse;
+typedef TCreateUserTagResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_user_tag`
 class TCreateUserTagInput {
@@ -570,10 +540,10 @@ class TCreateUserTagInput {
 }
 
 /// `POST /public/v1/submit/create_user_tag`
-typedef TCreateUserTagBody = V1CreateUserTagRequest;
+typedef TCreateUserTagBody = CreateUserTagRequest;
 
 /// `POST /public/v1/submit/create_users`
-typedef TCreateUsersResponse = V1ActivityResponse;
+typedef TCreateUsersResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_users`
 class TCreateUsersInput {
@@ -585,10 +555,10 @@ class TCreateUsersInput {
 }
 
 /// `POST /public/v1/submit/create_users`
-typedef TCreateUsersBody = V1CreateUsersRequest;
+typedef TCreateUsersBody = CreateUsersRequest;
 
 /// `POST /public/v1/submit/create_wallet`
-typedef TCreateWalletResponse = V1ActivityResponse;
+typedef TCreateWalletResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_wallet`
 class TCreateWalletInput {
@@ -600,10 +570,10 @@ class TCreateWalletInput {
 }
 
 /// `POST /public/v1/submit/create_wallet`
-typedef TCreateWalletBody = V1CreateWalletRequest;
+typedef TCreateWalletBody = CreateWalletRequest;
 
 /// `POST /public/v1/submit/create_wallet_accounts`
-typedef TCreateWalletAccountsResponse = V1ActivityResponse;
+typedef TCreateWalletAccountsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/create_wallet_accounts`
 class TCreateWalletAccountsInput {
@@ -615,10 +585,10 @@ class TCreateWalletAccountsInput {
 }
 
 /// `POST /public/v1/submit/create_wallet_accounts`
-typedef TCreateWalletAccountsBody = V1CreateWalletAccountsRequest;
+typedef TCreateWalletAccountsBody = CreateWalletAccountsRequest;
 
 /// `POST /public/v1/submit/delete_api_keys`
-typedef TDeleteApiKeysResponse = V1ActivityResponse;
+typedef TDeleteApiKeysResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_api_keys`
 class TDeleteApiKeysInput {
@@ -630,10 +600,10 @@ class TDeleteApiKeysInput {
 }
 
 /// `POST /public/v1/submit/delete_api_keys`
-typedef TDeleteApiKeysBody = V1DeleteApiKeysRequest;
+typedef TDeleteApiKeysBody = DeleteApiKeysRequest;
 
 /// `POST /public/v1/submit/delete_authenticators`
-typedef TDeleteAuthenticatorsResponse = V1ActivityResponse;
+typedef TDeleteAuthenticatorsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_authenticators`
 class TDeleteAuthenticatorsInput {
@@ -645,10 +615,10 @@ class TDeleteAuthenticatorsInput {
 }
 
 /// `POST /public/v1/submit/delete_authenticators`
-typedef TDeleteAuthenticatorsBody = V1DeleteAuthenticatorsRequest;
+typedef TDeleteAuthenticatorsBody = DeleteAuthenticatorsRequest;
 
 /// `POST /public/v1/submit/delete_invitation`
-typedef TDeleteInvitationResponse = V1ActivityResponse;
+typedef TDeleteInvitationResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_invitation`
 class TDeleteInvitationInput {
@@ -660,10 +630,10 @@ class TDeleteInvitationInput {
 }
 
 /// `POST /public/v1/submit/delete_invitation`
-typedef TDeleteInvitationBody = V1DeleteInvitationRequest;
+typedef TDeleteInvitationBody = DeleteInvitationRequest;
 
 /// `POST /public/v1/submit/delete_oauth_providers`
-typedef TDeleteOauthProvidersResponse = V1ActivityResponse;
+typedef TDeleteOauthProvidersResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_oauth_providers`
 class TDeleteOauthProvidersInput {
@@ -675,10 +645,10 @@ class TDeleteOauthProvidersInput {
 }
 
 /// `POST /public/v1/submit/delete_oauth_providers`
-typedef TDeleteOauthProvidersBody = V1DeleteOauthProvidersRequest;
+typedef TDeleteOauthProvidersBody = DeleteOauthProvidersRequest;
 
 /// `POST /public/v1/submit/delete_policy`
-typedef TDeletePolicyResponse = V1ActivityResponse;
+typedef TDeletePolicyResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_policy`
 class TDeletePolicyInput {
@@ -690,10 +660,10 @@ class TDeletePolicyInput {
 }
 
 /// `POST /public/v1/submit/delete_policy`
-typedef TDeletePolicyBody = V1DeletePolicyRequest;
+typedef TDeletePolicyBody = DeletePolicyRequest;
 
 /// `POST /public/v1/submit/delete_private_key_tags`
-typedef TDeletePrivateKeyTagsResponse = V1ActivityResponse;
+typedef TDeletePrivateKeyTagsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_private_key_tags`
 class TDeletePrivateKeyTagsInput {
@@ -705,10 +675,10 @@ class TDeletePrivateKeyTagsInput {
 }
 
 /// `POST /public/v1/submit/delete_private_key_tags`
-typedef TDeletePrivateKeyTagsBody = V1DeletePrivateKeyTagsRequest;
+typedef TDeletePrivateKeyTagsBody = DeletePrivateKeyTagsRequest;
 
 /// `POST /public/v1/submit/delete_private_keys`
-typedef TDeletePrivateKeysResponse = V1ActivityResponse;
+typedef TDeletePrivateKeysResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_private_keys`
 class TDeletePrivateKeysInput {
@@ -720,10 +690,10 @@ class TDeletePrivateKeysInput {
 }
 
 /// `POST /public/v1/submit/delete_private_keys`
-typedef TDeletePrivateKeysBody = V1DeletePrivateKeysRequest;
+typedef TDeletePrivateKeysBody = DeletePrivateKeysRequest;
 
 /// `POST /public/v1/submit/delete_sub_organization`
-typedef TDeleteSubOrganizationResponse = V1ActivityResponse;
+typedef TDeleteSubOrganizationResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_sub_organization`
 class TDeleteSubOrganizationInput {
@@ -735,10 +705,10 @@ class TDeleteSubOrganizationInput {
 }
 
 /// `POST /public/v1/submit/delete_sub_organization`
-typedef TDeleteSubOrganizationBody = V1DeleteSubOrganizationRequest;
+typedef TDeleteSubOrganizationBody = DeleteSubOrganizationRequest;
 
 /// `POST /public/v1/submit/delete_user_tags`
-typedef TDeleteUserTagsResponse = V1ActivityResponse;
+typedef TDeleteUserTagsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_user_tags`
 class TDeleteUserTagsInput {
@@ -750,10 +720,10 @@ class TDeleteUserTagsInput {
 }
 
 /// `POST /public/v1/submit/delete_user_tags`
-typedef TDeleteUserTagsBody = V1DeleteUserTagsRequest;
+typedef TDeleteUserTagsBody = DeleteUserTagsRequest;
 
 /// `POST /public/v1/submit/delete_users`
-typedef TDeleteUsersResponse = V1ActivityResponse;
+typedef TDeleteUsersResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_users`
 class TDeleteUsersInput {
@@ -765,10 +735,10 @@ class TDeleteUsersInput {
 }
 
 /// `POST /public/v1/submit/delete_users`
-typedef TDeleteUsersBody = V1DeleteUsersRequest;
+typedef TDeleteUsersBody = DeleteUsersRequest;
 
 /// `POST /public/v1/submit/delete_wallets`
-typedef TDeleteWalletsResponse = V1ActivityResponse;
+typedef TDeleteWalletsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/delete_wallets`
 class TDeleteWalletsInput {
@@ -780,10 +750,10 @@ class TDeleteWalletsInput {
 }
 
 /// `POST /public/v1/submit/delete_wallets`
-typedef TDeleteWalletsBody = V1DeleteWalletsRequest;
+typedef TDeleteWalletsBody = DeleteWalletsRequest;
 
 /// `POST /public/v1/submit/email_auth`
-typedef TEmailAuthResponse = V1ActivityResponse;
+typedef TEmailAuthResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/email_auth`
 class TEmailAuthInput {
@@ -795,10 +765,10 @@ class TEmailAuthInput {
 }
 
 /// `POST /public/v1/submit/email_auth`
-typedef TEmailAuthBody = V1EmailAuthRequest;
+typedef TEmailAuthBody = EmailAuthRequest;
 
 /// `POST /public/v1/submit/export_private_key`
-typedef TExportPrivateKeyResponse = V1ActivityResponse;
+typedef TExportPrivateKeyResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/export_private_key`
 class TExportPrivateKeyInput {
@@ -810,10 +780,10 @@ class TExportPrivateKeyInput {
 }
 
 /// `POST /public/v1/submit/export_private_key`
-typedef TExportPrivateKeyBody = V1ExportPrivateKeyRequest;
+typedef TExportPrivateKeyBody = ExportPrivateKeyRequest;
 
 /// `POST /public/v1/submit/export_wallet`
-typedef TExportWalletResponse = V1ActivityResponse;
+typedef TExportWalletResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/export_wallet`
 class TExportWalletInput {
@@ -825,10 +795,10 @@ class TExportWalletInput {
 }
 
 /// `POST /public/v1/submit/export_wallet`
-typedef TExportWalletBody = V1ExportWalletRequest;
+typedef TExportWalletBody = ExportWalletRequest;
 
 /// `POST /public/v1/submit/export_wallet_account`
-typedef TExportWalletAccountResponse = V1ActivityResponse;
+typedef TExportWalletAccountResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/export_wallet_account`
 class TExportWalletAccountInput {
@@ -840,10 +810,10 @@ class TExportWalletAccountInput {
 }
 
 /// `POST /public/v1/submit/export_wallet_account`
-typedef TExportWalletAccountBody = V1ExportWalletAccountRequest;
+typedef TExportWalletAccountBody = ExportWalletAccountRequest;
 
 /// `POST /public/v1/submit/import_private_key`
-typedef TImportPrivateKeyResponse = V1ActivityResponse;
+typedef TImportPrivateKeyResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/import_private_key`
 class TImportPrivateKeyInput {
@@ -855,10 +825,10 @@ class TImportPrivateKeyInput {
 }
 
 /// `POST /public/v1/submit/import_private_key`
-typedef TImportPrivateKeyBody = V1ImportPrivateKeyRequest;
+typedef TImportPrivateKeyBody = ImportPrivateKeyRequest;
 
 /// `POST /public/v1/submit/import_wallet`
-typedef TImportWalletResponse = V1ActivityResponse;
+typedef TImportWalletResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/import_wallet`
 class TImportWalletInput {
@@ -870,10 +840,10 @@ class TImportWalletInput {
 }
 
 /// `POST /public/v1/submit/import_wallet`
-typedef TImportWalletBody = V1ImportWalletRequest;
+typedef TImportWalletBody = ImportWalletRequest;
 
 /// `POST /public/v1/submit/init_import_private_key`
-typedef TInitImportPrivateKeyResponse = V1ActivityResponse;
+typedef TInitImportPrivateKeyResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/init_import_private_key`
 class TInitImportPrivateKeyInput {
@@ -885,10 +855,10 @@ class TInitImportPrivateKeyInput {
 }
 
 /// `POST /public/v1/submit/init_import_private_key`
-typedef TInitImportPrivateKeyBody = V1InitImportPrivateKeyRequest;
+typedef TInitImportPrivateKeyBody = InitImportPrivateKeyRequest;
 
 /// `POST /public/v1/submit/init_import_wallet`
-typedef TInitImportWalletResponse = V1ActivityResponse;
+typedef TInitImportWalletResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/init_import_wallet`
 class TInitImportWalletInput {
@@ -900,10 +870,10 @@ class TInitImportWalletInput {
 }
 
 /// `POST /public/v1/submit/init_import_wallet`
-typedef TInitImportWalletBody = V1InitImportWalletRequest;
+typedef TInitImportWalletBody = InitImportWalletRequest;
 
 /// `POST /public/v1/submit/init_otp_auth`
-typedef TInitOtpAuthResponse = V1ActivityResponse;
+typedef TInitOtpAuthResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/init_otp_auth`
 class TInitOtpAuthInput {
@@ -915,10 +885,10 @@ class TInitOtpAuthInput {
 }
 
 /// `POST /public/v1/submit/init_otp_auth`
-typedef TInitOtpAuthBody = V1InitOtpAuthRequest;
+typedef TInitOtpAuthBody = InitOtpAuthRequest;
 
 /// `POST /public/v1/submit/init_user_email_recovery`
-typedef TInitUserEmailRecoveryResponse = V1ActivityResponse;
+typedef TInitUserEmailRecoveryResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/init_user_email_recovery`
 class TInitUserEmailRecoveryInput {
@@ -930,10 +900,10 @@ class TInitUserEmailRecoveryInput {
 }
 
 /// `POST /public/v1/submit/init_user_email_recovery`
-typedef TInitUserEmailRecoveryBody = V1InitUserEmailRecoveryRequest;
+typedef TInitUserEmailRecoveryBody = InitUserEmailRecoveryRequest;
 
 /// `POST /public/v1/submit/oauth`
-typedef TOauthResponse = V1ActivityResponse;
+typedef TOauthResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/oauth`
 class TOauthInput {
@@ -945,10 +915,10 @@ class TOauthInput {
 }
 
 /// `POST /public/v1/submit/oauth`
-typedef TOauthBody = V1OauthRequest;
+typedef TOauthBody = OauthRequest;
 
 /// `POST /public/v1/submit/otp_auth`
-typedef TOtpAuthResponse = V1ActivityResponse;
+typedef TOtpAuthResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/otp_auth`
 class TOtpAuthInput {
@@ -960,10 +930,10 @@ class TOtpAuthInput {
 }
 
 /// `POST /public/v1/submit/otp_auth`
-typedef TOtpAuthBody = V1OtpAuthRequest;
+typedef TOtpAuthBody = OtpAuthRequest;
 
 /// `POST /public/v1/submit/recover_user`
-typedef TRecoverUserResponse = V1ActivityResponse;
+typedef TRecoverUserResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/recover_user`
 class TRecoverUserInput {
@@ -975,10 +945,10 @@ class TRecoverUserInput {
 }
 
 /// `POST /public/v1/submit/recover_user`
-typedef TRecoverUserBody = V1RecoverUserRequest;
+typedef TRecoverUserBody = RecoverUserRequest;
 
 /// `POST /public/v1/submit/reject_activity`
-typedef TRejectActivityResponse = V1ActivityResponse;
+typedef TRejectActivityResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/reject_activity`
 class TRejectActivityInput {
@@ -990,10 +960,10 @@ class TRejectActivityInput {
 }
 
 /// `POST /public/v1/submit/reject_activity`
-typedef TRejectActivityBody = V1RejectActivityRequest;
+typedef TRejectActivityBody = RejectActivityRequest;
 
 /// `POST /public/v1/submit/remove_organization_feature`
-typedef TRemoveOrganizationFeatureResponse = V1ActivityResponse;
+typedef TRemoveOrganizationFeatureResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/remove_organization_feature`
 class TRemoveOrganizationFeatureInput {
@@ -1005,10 +975,10 @@ class TRemoveOrganizationFeatureInput {
 }
 
 /// `POST /public/v1/submit/remove_organization_feature`
-typedef TRemoveOrganizationFeatureBody = V1RemoveOrganizationFeatureRequest;
+typedef TRemoveOrganizationFeatureBody = RemoveOrganizationFeatureRequest;
 
 /// `POST /public/v1/submit/set_organization_feature`
-typedef TSetOrganizationFeatureResponse = V1ActivityResponse;
+typedef TSetOrganizationFeatureResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/set_organization_feature`
 class TSetOrganizationFeatureInput {
@@ -1020,10 +990,10 @@ class TSetOrganizationFeatureInput {
 }
 
 /// `POST /public/v1/submit/set_organization_feature`
-typedef TSetOrganizationFeatureBody = V1SetOrganizationFeatureRequest;
+typedef TSetOrganizationFeatureBody = SetOrganizationFeatureRequest;
 
 /// `POST /public/v1/submit/sign_raw_payload`
-typedef TSignRawPayloadResponse = V1ActivityResponse;
+typedef TSignRawPayloadResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/sign_raw_payload`
 class TSignRawPayloadInput {
@@ -1035,10 +1005,10 @@ class TSignRawPayloadInput {
 }
 
 /// `POST /public/v1/submit/sign_raw_payload`
-typedef TSignRawPayloadBody = V1SignRawPayloadRequest;
+typedef TSignRawPayloadBody = SignRawPayloadRequest;
 
 /// `POST /public/v1/submit/sign_raw_payloads`
-typedef TSignRawPayloadsResponse = V1ActivityResponse;
+typedef TSignRawPayloadsResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/sign_raw_payloads`
 class TSignRawPayloadsInput {
@@ -1050,10 +1020,10 @@ class TSignRawPayloadsInput {
 }
 
 /// `POST /public/v1/submit/sign_raw_payloads`
-typedef TSignRawPayloadsBody = V1SignRawPayloadsRequest;
+typedef TSignRawPayloadsBody = SignRawPayloadsRequest;
 
 /// `POST /public/v1/submit/sign_transaction`
-typedef TSignTransactionResponse = V1ActivityResponse;
+typedef TSignTransactionResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/sign_transaction`
 class TSignTransactionInput {
@@ -1065,10 +1035,10 @@ class TSignTransactionInput {
 }
 
 /// `POST /public/v1/submit/sign_transaction`
-typedef TSignTransactionBody = V1SignTransactionRequest;
+typedef TSignTransactionBody = SignTransactionRequest;
 
 /// `POST /public/v1/submit/update_policy`
-typedef TUpdatePolicyResponse = V1ActivityResponse;
+typedef TUpdatePolicyResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/update_policy`
 class TUpdatePolicyInput {
@@ -1080,10 +1050,10 @@ class TUpdatePolicyInput {
 }
 
 /// `POST /public/v1/submit/update_policy`
-typedef TUpdatePolicyBody = V1UpdatePolicyRequest;
+typedef TUpdatePolicyBody = UpdatePolicyRequest;
 
 /// `POST /public/v1/submit/update_private_key_tag`
-typedef TUpdatePrivateKeyTagResponse = V1ActivityResponse;
+typedef TUpdatePrivateKeyTagResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/update_private_key_tag`
 class TUpdatePrivateKeyTagInput {
@@ -1095,10 +1065,10 @@ class TUpdatePrivateKeyTagInput {
 }
 
 /// `POST /public/v1/submit/update_private_key_tag`
-typedef TUpdatePrivateKeyTagBody = V1UpdatePrivateKeyTagRequest;
+typedef TUpdatePrivateKeyTagBody = UpdatePrivateKeyTagRequest;
 
 /// `POST /public/v1/submit/update_root_quorum`
-typedef TUpdateRootQuorumResponse = V1ActivityResponse;
+typedef TUpdateRootQuorumResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/update_root_quorum`
 class TUpdateRootQuorumInput {
@@ -1110,10 +1080,10 @@ class TUpdateRootQuorumInput {
 }
 
 /// `POST /public/v1/submit/update_root_quorum`
-typedef TUpdateRootQuorumBody = V1UpdateRootQuorumRequest;
+typedef TUpdateRootQuorumBody = UpdateRootQuorumRequest;
 
 /// `POST /public/v1/submit/update_user`
-typedef TUpdateUserResponse = V1ActivityResponse;
+typedef TUpdateUserResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/update_user`
 class TUpdateUserInput {
@@ -1125,10 +1095,10 @@ class TUpdateUserInput {
 }
 
 /// `POST /public/v1/submit/update_user`
-typedef TUpdateUserBody = V1UpdateUserRequest;
+typedef TUpdateUserBody = UpdateUserRequest;
 
 /// `POST /public/v1/submit/update_user_tag`
-typedef TUpdateUserTagResponse = V1ActivityResponse;
+typedef TUpdateUserTagResponse = ActivityResponse;
 
 /// `POST /public/v1/submit/update_user_tag`
 class TUpdateUserTagInput {
@@ -1140,7 +1110,19 @@ class TUpdateUserTagInput {
 }
 
 /// `POST /public/v1/submit/update_user_tag`
-typedef TUpdateUserTagBody = V1UpdateUserTagRequest;
+typedef TUpdateUserTagBody = UpdateUserTagRequest;
 
-/// `POST /tkhq/api/v1/noop-codegen-anchor`
-typedef TNOOPCodegenAnchorResponse = V1NOOPCodegenAnchorResponse;
+/// `POST /public/v1/submit/update_wallet`
+typedef TUpdateWalletResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/update_wallet`
+class TUpdateWalletInput {
+  final TUpdateWalletBody body;
+
+  TUpdateWalletInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/update_wallet`
+typedef TUpdateWalletBody = UpdateWalletRequest;

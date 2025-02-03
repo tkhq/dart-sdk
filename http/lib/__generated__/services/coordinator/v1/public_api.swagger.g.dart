@@ -6,314 +6,106 @@ part of 'public_api.swagger.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApiApiKeyParams _$ApiApiKeyParamsFromJson(Map<String, dynamic> json) =>
-    ApiApiKeyParams(
-      apiKeyName: json['apiKeyName'] as String,
-      publicKey: json['publicKey'] as String,
-      expirationSeconds: json['expirationSeconds'] as String?,
-    );
-
-Map<String, dynamic> _$ApiApiKeyParamsToJson(ApiApiKeyParams instance) =>
-    <String, dynamic>{
-      'apiKeyName': instance.apiKeyName,
-      'publicKey': instance.publicKey,
-      'expirationSeconds': instance.expirationSeconds,
-    };
-
-BillingActivateBillingTierIntent _$BillingActivateBillingTierIntentFromJson(
+AcceptInvitationIntent _$AcceptInvitationIntentFromJson(
         Map<String, dynamic> json) =>
-    BillingActivateBillingTierIntent(
-      productId: json['productId'] as String,
-    );
-
-Map<String, dynamic> _$BillingActivateBillingTierIntentToJson(
-        BillingActivateBillingTierIntent instance) =>
-    <String, dynamic>{
-      'productId': instance.productId,
-    };
-
-BillingActivateBillingTierResult _$BillingActivateBillingTierResultFromJson(
-        Map<String, dynamic> json) =>
-    BillingActivateBillingTierResult(
-      productId: json['productId'] as String,
-    );
-
-Map<String, dynamic> _$BillingActivateBillingTierResultToJson(
-        BillingActivateBillingTierResult instance) =>
-    <String, dynamic>{
-      'productId': instance.productId,
-    };
-
-BillingDeletePaymentMethodIntent _$BillingDeletePaymentMethodIntentFromJson(
-        Map<String, dynamic> json) =>
-    BillingDeletePaymentMethodIntent(
-      paymentMethodId: json['paymentMethodId'] as String,
-    );
-
-Map<String, dynamic> _$BillingDeletePaymentMethodIntentToJson(
-        BillingDeletePaymentMethodIntent instance) =>
-    <String, dynamic>{
-      'paymentMethodId': instance.paymentMethodId,
-    };
-
-BillingDeletePaymentMethodResult _$BillingDeletePaymentMethodResultFromJson(
-        Map<String, dynamic> json) =>
-    BillingDeletePaymentMethodResult(
-      paymentMethodId: json['paymentMethodId'] as String,
-    );
-
-Map<String, dynamic> _$BillingDeletePaymentMethodResultToJson(
-        BillingDeletePaymentMethodResult instance) =>
-    <String, dynamic>{
-      'paymentMethodId': instance.paymentMethodId,
-    };
-
-BillingSetPaymentMethodIntent _$BillingSetPaymentMethodIntentFromJson(
-        Map<String, dynamic> json) =>
-    BillingSetPaymentMethodIntent(
-      number: json['number'] as String,
-      cvv: json['cvv'] as String,
-      expiryMonth: json['expiryMonth'] as String,
-      expiryYear: json['expiryYear'] as String,
-      cardHolderEmail: json['cardHolderEmail'] as String,
-      cardHolderName: json['cardHolderName'] as String,
-    );
-
-Map<String, dynamic> _$BillingSetPaymentMethodIntentToJson(
-        BillingSetPaymentMethodIntent instance) =>
-    <String, dynamic>{
-      'number': instance.number,
-      'cvv': instance.cvv,
-      'expiryMonth': instance.expiryMonth,
-      'expiryYear': instance.expiryYear,
-      'cardHolderEmail': instance.cardHolderEmail,
-      'cardHolderName': instance.cardHolderName,
-    };
-
-BillingSetPaymentMethodIntentV2 _$BillingSetPaymentMethodIntentV2FromJson(
-        Map<String, dynamic> json) =>
-    BillingSetPaymentMethodIntentV2(
-      paymentMethodId: json['paymentMethodId'] as String,
-      cardHolderEmail: json['cardHolderEmail'] as String,
-      cardHolderName: json['cardHolderName'] as String,
-    );
-
-Map<String, dynamic> _$BillingSetPaymentMethodIntentV2ToJson(
-        BillingSetPaymentMethodIntentV2 instance) =>
-    <String, dynamic>{
-      'paymentMethodId': instance.paymentMethodId,
-      'cardHolderEmail': instance.cardHolderEmail,
-      'cardHolderName': instance.cardHolderName,
-    };
-
-BillingSetPaymentMethodResult _$BillingSetPaymentMethodResultFromJson(
-        Map<String, dynamic> json) =>
-    BillingSetPaymentMethodResult(
-      lastFour: json['lastFour'] as String,
-      cardHolderName: json['cardHolderName'] as String,
-      cardHolderEmail: json['cardHolderEmail'] as String,
-    );
-
-Map<String, dynamic> _$BillingSetPaymentMethodResultToJson(
-        BillingSetPaymentMethodResult instance) =>
-    <String, dynamic>{
-      'lastFour': instance.lastFour,
-      'cardHolderName': instance.cardHolderName,
-      'cardHolderEmail': instance.cardHolderEmail,
-    };
-
-Datav1Tag _$Datav1TagFromJson(Map<String, dynamic> json) => Datav1Tag(
-      tagId: json['tagId'] as String,
-      tagName: json['tagName'] as String,
-      tagType: v1TagTypeFromJson(json['tagType']),
-      createdAt: Externaldatav1Timestamp.fromJson(
-          json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
-          json['updatedAt'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$Datav1TagToJson(Datav1Tag instance) => <String, dynamic>{
-      'tagId': instance.tagId,
-      'tagName': instance.tagName,
-      'tagType': v1TagTypeToJson(instance.tagType),
-      'createdAt': instance.createdAt.toJson(),
-      'updatedAt': instance.updatedAt.toJson(),
-    };
-
-Externaldatav1Address _$Externaldatav1AddressFromJson(
-        Map<String, dynamic> json) =>
-    Externaldatav1Address(
-      format: v1AddressFormatNullableFromJson(json['format']),
-      address: json['address'] as String?,
-    );
-
-Map<String, dynamic> _$Externaldatav1AddressToJson(
-        Externaldatav1Address instance) =>
-    <String, dynamic>{
-      'format': v1AddressFormatNullableToJson(instance.format),
-      'address': instance.address,
-    };
-
-Externaldatav1Credential _$Externaldatav1CredentialFromJson(
-        Map<String, dynamic> json) =>
-    Externaldatav1Credential(
-      publicKey: json['publicKey'] as String,
-      type: v1CredentialTypeFromJson(json['type']),
-    );
-
-Map<String, dynamic> _$Externaldatav1CredentialToJson(
-        Externaldatav1Credential instance) =>
-    <String, dynamic>{
-      'publicKey': instance.publicKey,
-      'type': v1CredentialTypeToJson(instance.type),
-    };
-
-Externaldatav1Quorum _$Externaldatav1QuorumFromJson(
-        Map<String, dynamic> json) =>
-    Externaldatav1Quorum(
-      threshold: (json['threshold'] as num).toInt(),
-      userIds: (json['userIds'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
-    );
-
-Map<String, dynamic> _$Externaldatav1QuorumToJson(
-        Externaldatav1Quorum instance) =>
-    <String, dynamic>{
-      'threshold': instance.threshold,
-      'userIds': instance.userIds,
-    };
-
-Externaldatav1Timestamp _$Externaldatav1TimestampFromJson(
-        Map<String, dynamic> json) =>
-    Externaldatav1Timestamp(
-      seconds: json['seconds'] as String,
-      nanos: json['nanos'] as String,
-    );
-
-Map<String, dynamic> _$Externaldatav1TimestampToJson(
-        Externaldatav1Timestamp instance) =>
-    <String, dynamic>{
-      'seconds': instance.seconds,
-      'nanos': instance.nanos,
-    };
-
-Immutableactivityv1Address _$Immutableactivityv1AddressFromJson(
-        Map<String, dynamic> json) =>
-    Immutableactivityv1Address(
-      format: v1AddressFormatNullableFromJson(json['format']),
-      address: json['address'] as String?,
-    );
-
-Map<String, dynamic> _$Immutableactivityv1AddressToJson(
-        Immutableactivityv1Address instance) =>
-    <String, dynamic>{
-      'format': v1AddressFormatNullableToJson(instance.format),
-      'address': instance.address,
-    };
-
-ProtobufAny _$ProtobufAnyFromJson(Map<String, dynamic> json) => ProtobufAny(
-      type: json['@type'] as String?,
-    );
-
-Map<String, dynamic> _$ProtobufAnyToJson(ProtobufAny instance) =>
-    <String, dynamic>{
-      '@type': instance.type,
-    };
-
-RpcStatus _$RpcStatusFromJson(Map<String, dynamic> json) => RpcStatus(
-      code: (json['code'] as num?)?.toInt(),
-      message: json['message'] as String?,
-      details: (json['details'] as List<dynamic>?)
-              ?.map((e) => ProtobufAny.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-
-Map<String, dynamic> _$RpcStatusToJson(RpcStatus instance) => <String, dynamic>{
-      'code': instance.code,
-      'message': instance.message,
-      'details': instance.details?.map((e) => e.toJson()).toList(),
-    };
-
-V1AcceptInvitationIntent _$V1AcceptInvitationIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1AcceptInvitationIntent(
+    AcceptInvitationIntent(
       invitationId: json['invitationId'] as String,
       userId: json['userId'] as String,
-      authenticator: V1AuthenticatorParams.fromJson(
+      authenticator: AuthenticatorParams.fromJson(
           json['authenticator'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1AcceptInvitationIntentToJson(
-        V1AcceptInvitationIntent instance) =>
+Map<String, dynamic> _$AcceptInvitationIntentToJson(
+        AcceptInvitationIntent instance) =>
     <String, dynamic>{
       'invitationId': instance.invitationId,
       'userId': instance.userId,
       'authenticator': instance.authenticator.toJson(),
     };
 
-V1AcceptInvitationIntentV2 _$V1AcceptInvitationIntentV2FromJson(
+AcceptInvitationIntentV2 _$AcceptInvitationIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1AcceptInvitationIntentV2(
+    AcceptInvitationIntentV2(
       invitationId: json['invitationId'] as String,
       userId: json['userId'] as String,
-      authenticator: V1AuthenticatorParamsV2.fromJson(
+      authenticator: AuthenticatorParamsV2.fromJson(
           json['authenticator'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1AcceptInvitationIntentV2ToJson(
-        V1AcceptInvitationIntentV2 instance) =>
+Map<String, dynamic> _$AcceptInvitationIntentV2ToJson(
+        AcceptInvitationIntentV2 instance) =>
     <String, dynamic>{
       'invitationId': instance.invitationId,
       'userId': instance.userId,
       'authenticator': instance.authenticator.toJson(),
     };
 
-V1AcceptInvitationResult _$V1AcceptInvitationResultFromJson(
+AcceptInvitationResult _$AcceptInvitationResultFromJson(
         Map<String, dynamic> json) =>
-    V1AcceptInvitationResult(
+    AcceptInvitationResult(
       invitationId: json['invitationId'] as String,
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1AcceptInvitationResultToJson(
-        V1AcceptInvitationResult instance) =>
+Map<String, dynamic> _$AcceptInvitationResultToJson(
+        AcceptInvitationResult instance) =>
     <String, dynamic>{
       'invitationId': instance.invitationId,
       'userId': instance.userId,
     };
 
-V1Activity _$V1ActivityFromJson(Map<String, dynamic> json) => V1Activity(
+ActivateBillingTierIntent _$ActivateBillingTierIntentFromJson(
+        Map<String, dynamic> json) =>
+    ActivateBillingTierIntent(
+      productId: json['productId'] as String,
+    );
+
+Map<String, dynamic> _$ActivateBillingTierIntentToJson(
+        ActivateBillingTierIntent instance) =>
+    <String, dynamic>{
+      'productId': instance.productId,
+    };
+
+ActivateBillingTierResult _$ActivateBillingTierResultFromJson(
+        Map<String, dynamic> json) =>
+    ActivateBillingTierResult(
+      productId: json['productId'] as String,
+    );
+
+Map<String, dynamic> _$ActivateBillingTierResultToJson(
+        ActivateBillingTierResult instance) =>
+    <String, dynamic>{
+      'productId': instance.productId,
+    };
+
+Activity _$ActivityFromJson(Map<String, dynamic> json) => Activity(
       id: json['id'] as String,
       organizationId: json['organizationId'] as String,
-      status: v1ActivityStatusFromJson(json['status']),
-      type: v1ActivityTypeFromJson(json['type']),
-      intent: V1Intent.fromJson(json['intent'] as Map<String, dynamic>),
-      result: V1Result.fromJson(json['result'] as Map<String, dynamic>),
+      status: activityStatusFromJson(json['status']),
+      type: activityTypeFromJson(json['type']),
+      intent: Intent.fromJson(json['intent'] as Map<String, dynamic>),
+      result: Result.fromJson(json['result'] as Map<String, dynamic>),
       votes: (json['votes'] as List<dynamic>?)
-              ?.map((e) => V1Vote.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Vote.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       fingerprint: json['fingerprint'] as String,
       canApprove: json['canApprove'] as bool,
       canReject: json['canReject'] as bool,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
       failure: json['failure'] == null
           ? null
-          : RpcStatus.fromJson(json['failure'] as Map<String, dynamic>),
+          : Status.fromJson(json['failure'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ActivityToJson(V1Activity instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{
       'id': instance.id,
       'organizationId': instance.organizationId,
-      'status': v1ActivityStatusToJson(instance.status),
-      'type': v1ActivityTypeToJson(instance.type),
+      'status': activityStatusToJson(instance.status),
+      'type': activityTypeToJson(instance.type),
       'intent': instance.intent.toJson(),
       'result': instance.result.toJson(),
       'votes': instance.votes.map((e) => e.toJson()).toList(),
@@ -325,29 +117,37 @@ Map<String, dynamic> _$V1ActivityToJson(V1Activity instance) =>
       'failure': instance.failure?.toJson(),
     };
 
-V1ActivityResponse _$V1ActivityResponseFromJson(Map<String, dynamic> json) =>
-    V1ActivityResponse(
-      activity: V1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+ActivityResponse _$ActivityResponseFromJson(Map<String, dynamic> json) =>
+    ActivityResponse(
+      activity: Activity.fromJson(json['activity'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ActivityResponseToJson(V1ActivityResponse instance) =>
+Map<String, dynamic> _$ActivityResponseToJson(ActivityResponse instance) =>
     <String, dynamic>{
       'activity': instance.activity.toJson(),
     };
 
-V1ApiKey _$V1ApiKeyFromJson(Map<String, dynamic> json) => V1ApiKey(
-      credential: Externaldatav1Credential.fromJson(
+Any _$AnyFromJson(Map<String, dynamic> json) => Any(
+      type: json['@type'] as String?,
+    );
+
+Map<String, dynamic> _$AnyToJson(Any instance) => <String, dynamic>{
+      '@type': instance.type,
+    };
+
+ApiKey _$ApiKeyFromJson(Map<String, dynamic> json) => ApiKey(
+      credential: ExternalDataV1Credential.fromJson(
           json['credential'] as Map<String, dynamic>),
       apiKeyId: json['apiKeyId'] as String,
       apiKeyName: json['apiKeyName'] as String,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
       expirationSeconds: json['expirationSeconds'] as String?,
     );
 
-Map<String, dynamic> _$V1ApiKeyToJson(V1ApiKey instance) => <String, dynamic>{
+Map<String, dynamic> _$ApiKeyToJson(ApiKey instance) => <String, dynamic>{
       'credential': instance.credential.toJson(),
       'apiKeyId': instance.apiKeyId,
       'apiKeyName': instance.apiKeyName,
@@ -356,24 +156,37 @@ Map<String, dynamic> _$V1ApiKeyToJson(V1ApiKey instance) => <String, dynamic>{
       'expirationSeconds': instance.expirationSeconds,
     };
 
-V1ApiKeyParamsV2 _$V1ApiKeyParamsV2FromJson(Map<String, dynamic> json) =>
-    V1ApiKeyParamsV2(
+ApiKeyParams _$ApiKeyParamsFromJson(Map<String, dynamic> json) => ApiKeyParams(
       apiKeyName: json['apiKeyName'] as String,
       publicKey: json['publicKey'] as String,
-      curveType: v1ApiKeyCurveFromJson(json['curveType']),
       expirationSeconds: json['expirationSeconds'] as String?,
     );
 
-Map<String, dynamic> _$V1ApiKeyParamsV2ToJson(V1ApiKeyParamsV2 instance) =>
+Map<String, dynamic> _$ApiKeyParamsToJson(ApiKeyParams instance) =>
     <String, dynamic>{
       'apiKeyName': instance.apiKeyName,
       'publicKey': instance.publicKey,
-      'curveType': v1ApiKeyCurveToJson(instance.curveType),
       'expirationSeconds': instance.expirationSeconds,
     };
 
-V1ApiOnlyUserParams _$V1ApiOnlyUserParamsFromJson(Map<String, dynamic> json) =>
-    V1ApiOnlyUserParams(
+ApiKeyParamsV2 _$ApiKeyParamsV2FromJson(Map<String, dynamic> json) =>
+    ApiKeyParamsV2(
+      apiKeyName: json['apiKeyName'] as String,
+      publicKey: json['publicKey'] as String,
+      curveType: apiKeyCurveFromJson(json['curveType']),
+      expirationSeconds: json['expirationSeconds'] as String?,
+    );
+
+Map<String, dynamic> _$ApiKeyParamsV2ToJson(ApiKeyParamsV2 instance) =>
+    <String, dynamic>{
+      'apiKeyName': instance.apiKeyName,
+      'publicKey': instance.publicKey,
+      'curveType': apiKeyCurveToJson(instance.curveType),
+      'expirationSeconds': instance.expirationSeconds,
+    };
+
+ApiOnlyUserParams _$ApiOnlyUserParamsFromJson(Map<String, dynamic> json) =>
+    ApiOnlyUserParams(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       userTags: (json['userTags'] as List<dynamic>?)
@@ -381,13 +194,12 @@ V1ApiOnlyUserParams _$V1ApiOnlyUserParamsFromJson(Map<String, dynamic> json) =>
               .toList() ??
           [],
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => ApiApiKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1ApiOnlyUserParamsToJson(
-        V1ApiOnlyUserParams instance) =>
+Map<String, dynamic> _$ApiOnlyUserParamsToJson(ApiOnlyUserParams instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -395,75 +207,74 @@ Map<String, dynamic> _$V1ApiOnlyUserParamsToJson(
       'apiKeys': instance.apiKeys.map((e) => e.toJson()).toList(),
     };
 
-V1ApproveActivityIntent _$V1ApproveActivityIntentFromJson(
+ApproveActivityIntent _$ApproveActivityIntentFromJson(
         Map<String, dynamic> json) =>
-    V1ApproveActivityIntent(
+    ApproveActivityIntent(
       fingerprint: json['fingerprint'] as String,
     );
 
-Map<String, dynamic> _$V1ApproveActivityIntentToJson(
-        V1ApproveActivityIntent instance) =>
+Map<String, dynamic> _$ApproveActivityIntentToJson(
+        ApproveActivityIntent instance) =>
     <String, dynamic>{
       'fingerprint': instance.fingerprint,
     };
 
-V1ApproveActivityRequest _$V1ApproveActivityRequestFromJson(
+ApproveActivityRequest _$ApproveActivityRequestFromJson(
         Map<String, dynamic> json) =>
-    V1ApproveActivityRequest(
-      type: v1ApproveActivityRequestTypeFromJson(json['type']),
+    ApproveActivityRequest(
+      type: approveActivityRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1ApproveActivityIntent.fromJson(
+      parameters: ApproveActivityIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ApproveActivityRequestToJson(
-        V1ApproveActivityRequest instance) =>
+Map<String, dynamic> _$ApproveActivityRequestToJson(
+        ApproveActivityRequest instance) =>
     <String, dynamic>{
-      'type': v1ApproveActivityRequestTypeToJson(instance.type),
+      'type': approveActivityRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1Attestation _$V1AttestationFromJson(Map<String, dynamic> json) =>
-    V1Attestation(
+Attestation _$AttestationFromJson(Map<String, dynamic> json) => Attestation(
       credentialId: json['credentialId'] as String,
       clientDataJson: json['clientDataJson'] as String,
       attestationObject: json['attestationObject'] as String,
       transports:
-          v1AuthenticatorTransportListFromJson(json['transports'] as List?),
+          authenticatorTransportListFromJson(json['transports'] as List?),
     );
 
-Map<String, dynamic> _$V1AttestationToJson(V1Attestation instance) =>
+Map<String, dynamic> _$AttestationToJson(Attestation instance) =>
     <String, dynamic>{
       'credentialId': instance.credentialId,
       'clientDataJson': instance.clientDataJson,
       'attestationObject': instance.attestationObject,
-      'transports': v1AuthenticatorTransportListToJson(instance.transports),
+      'transports': authenticatorTransportListToJson(instance.transports),
     };
 
-V1Authenticator _$V1AuthenticatorFromJson(Map<String, dynamic> json) =>
-    V1Authenticator(
+Authenticator _$AuthenticatorFromJson(Map<String, dynamic> json) =>
+    Authenticator(
       transports:
-          v1AuthenticatorTransportListFromJson(json['transports'] as List?),
+          authenticatorTransportListFromJson(json['transports'] as List?),
       attestationType: json['attestationType'] as String,
       aaguid: json['aaguid'] as String,
       credentialId: json['credentialId'] as String,
       model: json['model'] as String,
-      credential: Externaldatav1Credential.fromJson(
+      credential: ExternalDataV1Credential.fromJson(
           json['credential'] as Map<String, dynamic>),
       authenticatorId: json['authenticatorId'] as String,
       authenticatorName: json['authenticatorName'] as String,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1AuthenticatorToJson(V1Authenticator instance) =>
+Map<String, dynamic> _$AuthenticatorToJson(Authenticator instance) =>
     <String, dynamic>{
-      'transports': v1AuthenticatorTransportListToJson(instance.transports),
+      'transports': authenticatorTransportListToJson(instance.transports),
       'attestationType': instance.attestationType,
       'aaguid': instance.aaguid,
       'credentialId': instance.credentialId,
@@ -475,41 +286,40 @@ Map<String, dynamic> _$V1AuthenticatorToJson(V1Authenticator instance) =>
       'updatedAt': instance.updatedAt.toJson(),
     };
 
-V1AuthenticatorAttestationResponse _$V1AuthenticatorAttestationResponseFromJson(
+AuthenticatorAttestationResponse _$AuthenticatorAttestationResponseFromJson(
         Map<String, dynamic> json) =>
-    V1AuthenticatorAttestationResponse(
+    AuthenticatorAttestationResponse(
       clientDataJson: json['clientDataJson'] as String,
       attestationObject: json['attestationObject'] as String,
       transports:
-          v1AuthenticatorTransportListFromJson(json['transports'] as List?),
+          authenticatorTransportListFromJson(json['transports'] as List?),
       authenticatorAttachment:
-          v1AuthenticatorAttestationResponseAuthenticatorAttachmentNullableFromJson(
+          authenticatorAttestationResponseAuthenticatorAttachmentNullableFromJson(
               json['authenticatorAttachment']),
     );
 
-Map<String, dynamic> _$V1AuthenticatorAttestationResponseToJson(
-        V1AuthenticatorAttestationResponse instance) =>
+Map<String, dynamic> _$AuthenticatorAttestationResponseToJson(
+        AuthenticatorAttestationResponse instance) =>
     <String, dynamic>{
       'clientDataJson': instance.clientDataJson,
       'attestationObject': instance.attestationObject,
-      'transports': v1AuthenticatorTransportListToJson(instance.transports),
+      'transports': authenticatorTransportListToJson(instance.transports),
       'authenticatorAttachment':
-          v1AuthenticatorAttestationResponseAuthenticatorAttachmentNullableToJson(
+          authenticatorAttestationResponseAuthenticatorAttachmentNullableToJson(
               instance.authenticatorAttachment),
     };
 
-V1AuthenticatorParams _$V1AuthenticatorParamsFromJson(
-        Map<String, dynamic> json) =>
-    V1AuthenticatorParams(
+AuthenticatorParams _$AuthenticatorParamsFromJson(Map<String, dynamic> json) =>
+    AuthenticatorParams(
       authenticatorName: json['authenticatorName'] as String,
       userId: json['userId'] as String,
-      attestation: V1PublicKeyCredentialWithAttestation.fromJson(
+      attestation: PublicKeyCredentialWithAttestation.fromJson(
           json['attestation'] as Map<String, dynamic>),
       challenge: json['challenge'] as String,
     );
 
-Map<String, dynamic> _$V1AuthenticatorParamsToJson(
-        V1AuthenticatorParams instance) =>
+Map<String, dynamic> _$AuthenticatorParamsToJson(
+        AuthenticatorParams instance) =>
     <String, dynamic>{
       'authenticatorName': instance.authenticatorName,
       'userId': instance.userId,
@@ -517,341 +327,319 @@ Map<String, dynamic> _$V1AuthenticatorParamsToJson(
       'challenge': instance.challenge,
     };
 
-V1AuthenticatorParamsV2 _$V1AuthenticatorParamsV2FromJson(
+AuthenticatorParamsV2 _$AuthenticatorParamsV2FromJson(
         Map<String, dynamic> json) =>
-    V1AuthenticatorParamsV2(
+    AuthenticatorParamsV2(
       authenticatorName: json['authenticatorName'] as String,
       challenge: json['challenge'] as String,
       attestation:
-          V1Attestation.fromJson(json['attestation'] as Map<String, dynamic>),
+          Attestation.fromJson(json['attestation'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1AuthenticatorParamsV2ToJson(
-        V1AuthenticatorParamsV2 instance) =>
+Map<String, dynamic> _$AuthenticatorParamsV2ToJson(
+        AuthenticatorParamsV2 instance) =>
     <String, dynamic>{
       'authenticatorName': instance.authenticatorName,
       'challenge': instance.challenge,
       'attestation': instance.attestation.toJson(),
     };
 
-V1Config _$V1ConfigFromJson(Map<String, dynamic> json) => V1Config(
+Config _$ConfigFromJson(Map<String, dynamic> json) => Config(
       features: (json['features'] as List<dynamic>?)
-              ?.map((e) => V1Feature.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Feature.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       quorum: json['quorum'] == null
           ? null
-          : Externaldatav1Quorum.fromJson(
+          : ExternalDataV1Quorum.fromJson(
               json['quorum'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ConfigToJson(V1Config instance) => <String, dynamic>{
+Map<String, dynamic> _$ConfigToJson(Config instance) => <String, dynamic>{
       'features': instance.features?.map((e) => e.toJson()).toList(),
       'quorum': instance.quorum?.toJson(),
     };
 
-V1CreateApiKeysIntent _$V1CreateApiKeysIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateApiKeysIntent(
+CreateApiKeysIntent _$CreateApiKeysIntentFromJson(Map<String, dynamic> json) =>
+    CreateApiKeysIntent(
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => ApiApiKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1CreateApiKeysIntentToJson(
-        V1CreateApiKeysIntent instance) =>
+Map<String, dynamic> _$CreateApiKeysIntentToJson(
+        CreateApiKeysIntent instance) =>
     <String, dynamic>{
       'apiKeys': instance.apiKeys.map((e) => e.toJson()).toList(),
       'userId': instance.userId,
     };
 
-V1CreateApiKeysIntentV2 _$V1CreateApiKeysIntentV2FromJson(
+CreateApiKeysIntentV2 _$CreateApiKeysIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreateApiKeysIntentV2(
+    CreateApiKeysIntentV2(
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => V1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1CreateApiKeysIntentV2ToJson(
-        V1CreateApiKeysIntentV2 instance) =>
+Map<String, dynamic> _$CreateApiKeysIntentV2ToJson(
+        CreateApiKeysIntentV2 instance) =>
     <String, dynamic>{
       'apiKeys': instance.apiKeys.map((e) => e.toJson()).toList(),
       'userId': instance.userId,
     };
 
-V1CreateApiKeysRequest _$V1CreateApiKeysRequestFromJson(
+CreateApiKeysRequest _$CreateApiKeysRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateApiKeysRequest(
-      type: v1CreateApiKeysRequestTypeFromJson(json['type']),
+    CreateApiKeysRequest(
+      type: createApiKeysRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateApiKeysIntentV2.fromJson(
+      parameters: CreateApiKeysIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateApiKeysRequestToJson(
-        V1CreateApiKeysRequest instance) =>
+Map<String, dynamic> _$CreateApiKeysRequestToJson(
+        CreateApiKeysRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateApiKeysRequestTypeToJson(instance.type),
+      'type': createApiKeysRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateApiKeysResult _$V1CreateApiKeysResultFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateApiKeysResult(
+CreateApiKeysResult _$CreateApiKeysResultFromJson(Map<String, dynamic> json) =>
+    CreateApiKeysResult(
       apiKeyIds: (json['apiKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateApiKeysResultToJson(
-        V1CreateApiKeysResult instance) =>
+Map<String, dynamic> _$CreateApiKeysResultToJson(
+        CreateApiKeysResult instance) =>
     <String, dynamic>{
       'apiKeyIds': instance.apiKeyIds,
     };
 
-V1CreateApiOnlyUsersIntent _$V1CreateApiOnlyUsersIntentFromJson(
+CreateApiOnlyUsersIntent _$CreateApiOnlyUsersIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateApiOnlyUsersIntent(
+    CreateApiOnlyUsersIntent(
       apiOnlyUsers: (json['apiOnlyUsers'] as List<dynamic>?)
-              ?.map((e) =>
-                  V1ApiOnlyUserParams.fromJson(e as Map<String, dynamic>))
+              ?.map(
+                  (e) => ApiOnlyUserParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateApiOnlyUsersIntentToJson(
-        V1CreateApiOnlyUsersIntent instance) =>
+Map<String, dynamic> _$CreateApiOnlyUsersIntentToJson(
+        CreateApiOnlyUsersIntent instance) =>
     <String, dynamic>{
       'apiOnlyUsers': instance.apiOnlyUsers.map((e) => e.toJson()).toList(),
     };
 
-V1CreateApiOnlyUsersRequest _$V1CreateApiOnlyUsersRequestFromJson(
+CreateApiOnlyUsersResult _$CreateApiOnlyUsersResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateApiOnlyUsersRequest(
-      type: v1CreateApiOnlyUsersRequestTypeFromJson(json['type']),
-      timestampMs: json['timestampMs'] as String,
-      organizationId: json['organizationId'] as String,
-      parameters: V1CreateApiOnlyUsersIntent.fromJson(
-          json['parameters'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$V1CreateApiOnlyUsersRequestToJson(
-        V1CreateApiOnlyUsersRequest instance) =>
-    <String, dynamic>{
-      'type': v1CreateApiOnlyUsersRequestTypeToJson(instance.type),
-      'timestampMs': instance.timestampMs,
-      'organizationId': instance.organizationId,
-      'parameters': instance.parameters.toJson(),
-    };
-
-V1CreateApiOnlyUsersResult _$V1CreateApiOnlyUsersResultFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateApiOnlyUsersResult(
+    CreateApiOnlyUsersResult(
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateApiOnlyUsersResultToJson(
-        V1CreateApiOnlyUsersResult instance) =>
+Map<String, dynamic> _$CreateApiOnlyUsersResultToJson(
+        CreateApiOnlyUsersResult instance) =>
     <String, dynamic>{
       'userIds': instance.userIds,
     };
 
-V1CreateAuthenticatorsIntent _$V1CreateAuthenticatorsIntentFromJson(
+CreateAuthenticatorsIntent _$CreateAuthenticatorsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateAuthenticatorsIntent(
+    CreateAuthenticatorsIntent(
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParams.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1CreateAuthenticatorsIntentToJson(
-        V1CreateAuthenticatorsIntent instance) =>
+Map<String, dynamic> _$CreateAuthenticatorsIntentToJson(
+        CreateAuthenticatorsIntent instance) =>
     <String, dynamic>{
       'authenticators': instance.authenticators.map((e) => e.toJson()).toList(),
       'userId': instance.userId,
     };
 
-V1CreateAuthenticatorsIntentV2 _$V1CreateAuthenticatorsIntentV2FromJson(
+CreateAuthenticatorsIntentV2 _$CreateAuthenticatorsIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreateAuthenticatorsIntentV2(
+    CreateAuthenticatorsIntentV2(
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1CreateAuthenticatorsIntentV2ToJson(
-        V1CreateAuthenticatorsIntentV2 instance) =>
+Map<String, dynamic> _$CreateAuthenticatorsIntentV2ToJson(
+        CreateAuthenticatorsIntentV2 instance) =>
     <String, dynamic>{
       'authenticators': instance.authenticators.map((e) => e.toJson()).toList(),
       'userId': instance.userId,
     };
 
-V1CreateAuthenticatorsRequest _$V1CreateAuthenticatorsRequestFromJson(
+CreateAuthenticatorsRequest _$CreateAuthenticatorsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateAuthenticatorsRequest(
-      type: v1CreateAuthenticatorsRequestTypeFromJson(json['type']),
+    CreateAuthenticatorsRequest(
+      type: createAuthenticatorsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateAuthenticatorsIntentV2.fromJson(
+      parameters: CreateAuthenticatorsIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateAuthenticatorsRequestToJson(
-        V1CreateAuthenticatorsRequest instance) =>
+Map<String, dynamic> _$CreateAuthenticatorsRequestToJson(
+        CreateAuthenticatorsRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateAuthenticatorsRequestTypeToJson(instance.type),
+      'type': createAuthenticatorsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateAuthenticatorsResult _$V1CreateAuthenticatorsResultFromJson(
+CreateAuthenticatorsResult _$CreateAuthenticatorsResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateAuthenticatorsResult(
+    CreateAuthenticatorsResult(
       authenticatorIds: (json['authenticatorIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateAuthenticatorsResultToJson(
-        V1CreateAuthenticatorsResult instance) =>
+Map<String, dynamic> _$CreateAuthenticatorsResultToJson(
+        CreateAuthenticatorsResult instance) =>
     <String, dynamic>{
       'authenticatorIds': instance.authenticatorIds,
     };
 
-V1CreateInvitationsIntent _$V1CreateInvitationsIntentFromJson(
+CreateInvitationsIntent _$CreateInvitationsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateInvitationsIntent(
+    CreateInvitationsIntent(
       invitations: (json['invitations'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1InvitationParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => InvitationParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateInvitationsIntentToJson(
-        V1CreateInvitationsIntent instance) =>
+Map<String, dynamic> _$CreateInvitationsIntentToJson(
+        CreateInvitationsIntent instance) =>
     <String, dynamic>{
       'invitations': instance.invitations.map((e) => e.toJson()).toList(),
     };
 
-V1CreateInvitationsRequest _$V1CreateInvitationsRequestFromJson(
+CreateInvitationsRequest _$CreateInvitationsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateInvitationsRequest(
-      type: v1CreateInvitationsRequestTypeFromJson(json['type']),
+    CreateInvitationsRequest(
+      type: createInvitationsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateInvitationsIntent.fromJson(
+      parameters: CreateInvitationsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateInvitationsRequestToJson(
-        V1CreateInvitationsRequest instance) =>
+Map<String, dynamic> _$CreateInvitationsRequestToJson(
+        CreateInvitationsRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateInvitationsRequestTypeToJson(instance.type),
+      'type': createInvitationsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateInvitationsResult _$V1CreateInvitationsResultFromJson(
+CreateInvitationsResult _$CreateInvitationsResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateInvitationsResult(
+    CreateInvitationsResult(
       invitationIds: (json['invitationIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateInvitationsResultToJson(
-        V1CreateInvitationsResult instance) =>
+Map<String, dynamic> _$CreateInvitationsResultToJson(
+        CreateInvitationsResult instance) =>
     <String, dynamic>{
       'invitationIds': instance.invitationIds,
     };
 
-V1CreateOauthProvidersIntent _$V1CreateOauthProvidersIntentFromJson(
+CreateOauthProvidersIntent _$CreateOauthProvidersIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateOauthProvidersIntent(
+    CreateOauthProvidersIntent(
       userId: json['userId'] as String,
       oauthProviders: (json['oauthProviders'] as List<dynamic>?)
               ?.map((e) =>
-                  V1OauthProviderParams.fromJson(e as Map<String, dynamic>))
+                  OauthProviderParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateOauthProvidersIntentToJson(
-        V1CreateOauthProvidersIntent instance) =>
+Map<String, dynamic> _$CreateOauthProvidersIntentToJson(
+        CreateOauthProvidersIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'oauthProviders': instance.oauthProviders.map((e) => e.toJson()).toList(),
     };
 
-V1CreateOauthProvidersRequest _$V1CreateOauthProvidersRequestFromJson(
+CreateOauthProvidersRequest _$CreateOauthProvidersRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateOauthProvidersRequest(
-      type: v1CreateOauthProvidersRequestTypeFromJson(json['type']),
+    CreateOauthProvidersRequest(
+      type: createOauthProvidersRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateOauthProvidersIntent.fromJson(
+      parameters: CreateOauthProvidersIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateOauthProvidersRequestToJson(
-        V1CreateOauthProvidersRequest instance) =>
+Map<String, dynamic> _$CreateOauthProvidersRequestToJson(
+        CreateOauthProvidersRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateOauthProvidersRequestTypeToJson(instance.type),
+      'type': createOauthProvidersRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateOauthProvidersResult _$V1CreateOauthProvidersResultFromJson(
+CreateOauthProvidersResult _$CreateOauthProvidersResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateOauthProvidersResult(
+    CreateOauthProvidersResult(
       providerIds: (json['providerIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateOauthProvidersResultToJson(
-        V1CreateOauthProvidersResult instance) =>
+Map<String, dynamic> _$CreateOauthProvidersResultToJson(
+        CreateOauthProvidersResult instance) =>
     <String, dynamic>{
       'providerIds': instance.providerIds,
     };
 
-V1CreateOrganizationIntent _$V1CreateOrganizationIntentFromJson(
+CreateOrganizationIntent _$CreateOrganizationIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateOrganizationIntent(
+    CreateOrganizationIntent(
       organizationName: json['organizationName'] as String,
       rootEmail: json['rootEmail'] as String,
-      rootAuthenticator: V1AuthenticatorParams.fromJson(
+      rootAuthenticator: AuthenticatorParams.fromJson(
           json['rootAuthenticator'] as Map<String, dynamic>),
       rootUserId: json['rootUserId'] as String?,
     );
 
-Map<String, dynamic> _$V1CreateOrganizationIntentToJson(
-        V1CreateOrganizationIntent instance) =>
+Map<String, dynamic> _$CreateOrganizationIntentToJson(
+        CreateOrganizationIntent instance) =>
     <String, dynamic>{
       'organizationName': instance.organizationName,
       'rootEmail': instance.rootEmail,
@@ -859,18 +647,18 @@ Map<String, dynamic> _$V1CreateOrganizationIntentToJson(
       'rootUserId': instance.rootUserId,
     };
 
-V1CreateOrganizationIntentV2 _$V1CreateOrganizationIntentV2FromJson(
+CreateOrganizationIntentV2 _$CreateOrganizationIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreateOrganizationIntentV2(
+    CreateOrganizationIntentV2(
       organizationName: json['organizationName'] as String,
       rootEmail: json['rootEmail'] as String,
-      rootAuthenticator: V1AuthenticatorParamsV2.fromJson(
+      rootAuthenticator: AuthenticatorParamsV2.fromJson(
           json['rootAuthenticator'] as Map<String, dynamic>),
       rootUserId: json['rootUserId'] as String?,
     );
 
-Map<String, dynamic> _$V1CreateOrganizationIntentV2ToJson(
-        V1CreateOrganizationIntentV2 instance) =>
+Map<String, dynamic> _$CreateOrganizationIntentV2ToJson(
+        CreateOrganizationIntentV2 instance) =>
     <String, dynamic>{
       'organizationName': instance.organizationName,
       'rootEmail': instance.rootEmail,
@@ -878,164 +666,159 @@ Map<String, dynamic> _$V1CreateOrganizationIntentV2ToJson(
       'rootUserId': instance.rootUserId,
     };
 
-V1CreateOrganizationResult _$V1CreateOrganizationResultFromJson(
+CreateOrganizationResult _$CreateOrganizationResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateOrganizationResult(
+    CreateOrganizationResult(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1CreateOrganizationResultToJson(
-        V1CreateOrganizationResult instance) =>
+Map<String, dynamic> _$CreateOrganizationResultToJson(
+        CreateOrganizationResult instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1CreatePoliciesIntent _$V1CreatePoliciesIntentFromJson(
+CreatePoliciesIntent _$CreatePoliciesIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePoliciesIntent(
+    CreatePoliciesIntent(
       policies: (json['policies'] as List<dynamic>?)
               ?.map((e) =>
-                  V1CreatePolicyIntentV3.fromJson(e as Map<String, dynamic>))
+                  CreatePolicyIntentV3.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreatePoliciesIntentToJson(
-        V1CreatePoliciesIntent instance) =>
+Map<String, dynamic> _$CreatePoliciesIntentToJson(
+        CreatePoliciesIntent instance) =>
     <String, dynamic>{
       'policies': instance.policies.map((e) => e.toJson()).toList(),
     };
 
-V1CreatePoliciesRequest _$V1CreatePoliciesRequestFromJson(
+CreatePoliciesRequest _$CreatePoliciesRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePoliciesRequest(
-      type: v1CreatePoliciesRequestTypeFromJson(json['type']),
+    CreatePoliciesRequest(
+      type: createPoliciesRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreatePoliciesIntent.fromJson(
+      parameters: CreatePoliciesIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreatePoliciesRequestToJson(
-        V1CreatePoliciesRequest instance) =>
+Map<String, dynamic> _$CreatePoliciesRequestToJson(
+        CreatePoliciesRequest instance) =>
     <String, dynamic>{
-      'type': v1CreatePoliciesRequestTypeToJson(instance.type),
+      'type': createPoliciesRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreatePoliciesResult _$V1CreatePoliciesResultFromJson(
+CreatePoliciesResult _$CreatePoliciesResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePoliciesResult(
+    CreatePoliciesResult(
       policyIds: (json['policyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreatePoliciesResultToJson(
-        V1CreatePoliciesResult instance) =>
+Map<String, dynamic> _$CreatePoliciesResultToJson(
+        CreatePoliciesResult instance) =>
     <String, dynamic>{
       'policyIds': instance.policyIds,
     };
 
-V1CreatePolicyIntent _$V1CreatePolicyIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1CreatePolicyIntent(
+CreatePolicyIntent _$CreatePolicyIntentFromJson(Map<String, dynamic> json) =>
+    CreatePolicyIntent(
       policyName: json['policyName'] as String,
       selectors: (json['selectors'] as List<dynamic>?)
-              ?.map((e) => V1Selector.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Selector.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      effect: v1EffectFromJson(json['effect']),
+      effect: effectFromJson(json['effect']),
       notes: json['notes'] as String?,
     );
 
-Map<String, dynamic> _$V1CreatePolicyIntentToJson(
-        V1CreatePolicyIntent instance) =>
+Map<String, dynamic> _$CreatePolicyIntentToJson(CreatePolicyIntent instance) =>
     <String, dynamic>{
       'policyName': instance.policyName,
       'selectors': instance.selectors.map((e) => e.toJson()).toList(),
-      'effect': v1EffectToJson(instance.effect),
+      'effect': effectToJson(instance.effect),
       'notes': instance.notes,
     };
 
-V1CreatePolicyIntentV2 _$V1CreatePolicyIntentV2FromJson(
+CreatePolicyIntentV2 _$CreatePolicyIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreatePolicyIntentV2(
+    CreatePolicyIntentV2(
       policyName: json['policyName'] as String,
       selectors: (json['selectors'] as List<dynamic>?)
-              ?.map((e) => V1SelectorV2.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => SelectorV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      effect: v1EffectFromJson(json['effect']),
+      effect: effectFromJson(json['effect']),
       notes: json['notes'] as String?,
     );
 
-Map<String, dynamic> _$V1CreatePolicyIntentV2ToJson(
-        V1CreatePolicyIntentV2 instance) =>
+Map<String, dynamic> _$CreatePolicyIntentV2ToJson(
+        CreatePolicyIntentV2 instance) =>
     <String, dynamic>{
       'policyName': instance.policyName,
       'selectors': instance.selectors.map((e) => e.toJson()).toList(),
-      'effect': v1EffectToJson(instance.effect),
+      'effect': effectToJson(instance.effect),
       'notes': instance.notes,
     };
 
-V1CreatePolicyIntentV3 _$V1CreatePolicyIntentV3FromJson(
+CreatePolicyIntentV3 _$CreatePolicyIntentV3FromJson(
         Map<String, dynamic> json) =>
-    V1CreatePolicyIntentV3(
+    CreatePolicyIntentV3(
       policyName: json['policyName'] as String,
-      effect: v1EffectFromJson(json['effect']),
+      effect: effectFromJson(json['effect']),
       condition: json['condition'] as String?,
       consensus: json['consensus'] as String?,
       notes: json['notes'] as String?,
     );
 
-Map<String, dynamic> _$V1CreatePolicyIntentV3ToJson(
-        V1CreatePolicyIntentV3 instance) =>
+Map<String, dynamic> _$CreatePolicyIntentV3ToJson(
+        CreatePolicyIntentV3 instance) =>
     <String, dynamic>{
       'policyName': instance.policyName,
-      'effect': v1EffectToJson(instance.effect),
+      'effect': effectToJson(instance.effect),
       'condition': instance.condition,
       'consensus': instance.consensus,
       'notes': instance.notes,
     };
 
-V1CreatePolicyRequest _$V1CreatePolicyRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1CreatePolicyRequest(
-      type: v1CreatePolicyRequestTypeFromJson(json['type']),
+CreatePolicyRequest _$CreatePolicyRequestFromJson(Map<String, dynamic> json) =>
+    CreatePolicyRequest(
+      type: createPolicyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreatePolicyIntentV3.fromJson(
+      parameters: CreatePolicyIntentV3.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreatePolicyRequestToJson(
-        V1CreatePolicyRequest instance) =>
+Map<String, dynamic> _$CreatePolicyRequestToJson(
+        CreatePolicyRequest instance) =>
     <String, dynamic>{
-      'type': v1CreatePolicyRequestTypeToJson(instance.type),
+      'type': createPolicyRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreatePolicyResult _$V1CreatePolicyResultFromJson(
-        Map<String, dynamic> json) =>
-    V1CreatePolicyResult(
+CreatePolicyResult _$CreatePolicyResultFromJson(Map<String, dynamic> json) =>
+    CreatePolicyResult(
       policyId: json['policyId'] as String,
     );
 
-Map<String, dynamic> _$V1CreatePolicyResultToJson(
-        V1CreatePolicyResult instance) =>
+Map<String, dynamic> _$CreatePolicyResultToJson(CreatePolicyResult instance) =>
     <String, dynamic>{
       'policyId': instance.policyId,
     };
 
-V1CreatePrivateKeyTagIntent _$V1CreatePrivateKeyTagIntentFromJson(
+CreatePrivateKeyTagIntent _$CreatePrivateKeyTagIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeyTagIntent(
+    CreatePrivateKeyTagIntent(
       privateKeyTagName: json['privateKeyTagName'] as String,
       privateKeyIds: (json['privateKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1043,35 +826,35 @@ V1CreatePrivateKeyTagIntent _$V1CreatePrivateKeyTagIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeyTagIntentToJson(
-        V1CreatePrivateKeyTagIntent instance) =>
+Map<String, dynamic> _$CreatePrivateKeyTagIntentToJson(
+        CreatePrivateKeyTagIntent instance) =>
     <String, dynamic>{
       'privateKeyTagName': instance.privateKeyTagName,
       'privateKeyIds': instance.privateKeyIds,
     };
 
-V1CreatePrivateKeyTagRequest _$V1CreatePrivateKeyTagRequestFromJson(
+CreatePrivateKeyTagRequest _$CreatePrivateKeyTagRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeyTagRequest(
-      type: v1CreatePrivateKeyTagRequestTypeFromJson(json['type']),
+    CreatePrivateKeyTagRequest(
+      type: createPrivateKeyTagRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreatePrivateKeyTagIntent.fromJson(
+      parameters: CreatePrivateKeyTagIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeyTagRequestToJson(
-        V1CreatePrivateKeyTagRequest instance) =>
+Map<String, dynamic> _$CreatePrivateKeyTagRequestToJson(
+        CreatePrivateKeyTagRequest instance) =>
     <String, dynamic>{
-      'type': v1CreatePrivateKeyTagRequestTypeToJson(instance.type),
+      'type': createPrivateKeyTagRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreatePrivateKeyTagResult _$V1CreatePrivateKeyTagResultFromJson(
+CreatePrivateKeyTagResult _$CreatePrivateKeyTagResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeyTagResult(
+    CreatePrivateKeyTagResult(
       privateKeyTagId: json['privateKeyTagId'] as String,
       privateKeyIds: (json['privateKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1079,125 +862,122 @@ V1CreatePrivateKeyTagResult _$V1CreatePrivateKeyTagResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeyTagResultToJson(
-        V1CreatePrivateKeyTagResult instance) =>
+Map<String, dynamic> _$CreatePrivateKeyTagResultToJson(
+        CreatePrivateKeyTagResult instance) =>
     <String, dynamic>{
       'privateKeyTagId': instance.privateKeyTagId,
       'privateKeyIds': instance.privateKeyIds,
     };
 
-V1CreatePrivateKeysIntent _$V1CreatePrivateKeysIntentFromJson(
+CreatePrivateKeysIntent _$CreatePrivateKeysIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeysIntent(
+    CreatePrivateKeysIntent(
       privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1PrivateKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PrivateKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeysIntentToJson(
-        V1CreatePrivateKeysIntent instance) =>
+Map<String, dynamic> _$CreatePrivateKeysIntentToJson(
+        CreatePrivateKeysIntent instance) =>
     <String, dynamic>{
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
     };
 
-V1CreatePrivateKeysIntentV2 _$V1CreatePrivateKeysIntentV2FromJson(
+CreatePrivateKeysIntentV2 _$CreatePrivateKeysIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeysIntentV2(
+    CreatePrivateKeysIntentV2(
       privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1PrivateKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PrivateKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeysIntentV2ToJson(
-        V1CreatePrivateKeysIntentV2 instance) =>
+Map<String, dynamic> _$CreatePrivateKeysIntentV2ToJson(
+        CreatePrivateKeysIntentV2 instance) =>
     <String, dynamic>{
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
     };
 
-V1CreatePrivateKeysRequest _$V1CreatePrivateKeysRequestFromJson(
+CreatePrivateKeysRequest _$CreatePrivateKeysRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeysRequest(
-      type: v1CreatePrivateKeysRequestTypeFromJson(json['type']),
+    CreatePrivateKeysRequest(
+      type: createPrivateKeysRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreatePrivateKeysIntentV2.fromJson(
+      parameters: CreatePrivateKeysIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeysRequestToJson(
-        V1CreatePrivateKeysRequest instance) =>
+Map<String, dynamic> _$CreatePrivateKeysRequestToJson(
+        CreatePrivateKeysRequest instance) =>
     <String, dynamic>{
-      'type': v1CreatePrivateKeysRequestTypeToJson(instance.type),
+      'type': createPrivateKeysRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreatePrivateKeysResult _$V1CreatePrivateKeysResultFromJson(
+CreatePrivateKeysResult _$CreatePrivateKeysResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeysResult(
+    CreatePrivateKeysResult(
       privateKeyIds: (json['privateKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeysResultToJson(
-        V1CreatePrivateKeysResult instance) =>
+Map<String, dynamic> _$CreatePrivateKeysResultToJson(
+        CreatePrivateKeysResult instance) =>
     <String, dynamic>{
       'privateKeyIds': instance.privateKeyIds,
     };
 
-V1CreatePrivateKeysResultV2 _$V1CreatePrivateKeysResultV2FromJson(
+CreatePrivateKeysResultV2 _$CreatePrivateKeysResultV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreatePrivateKeysResultV2(
+    CreatePrivateKeysResultV2(
       privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1PrivateKeyResult.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PrivateKeyResult.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreatePrivateKeysResultV2ToJson(
-        V1CreatePrivateKeysResultV2 instance) =>
+Map<String, dynamic> _$CreatePrivateKeysResultV2ToJson(
+        CreatePrivateKeysResultV2 instance) =>
     <String, dynamic>{
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
     };
 
-V1CreateReadOnlySessionIntent _$V1CreateReadOnlySessionIntentFromJson(
+CreateReadOnlySessionIntent _$CreateReadOnlySessionIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadOnlySessionIntent();
+    CreateReadOnlySessionIntent();
 
-Map<String, dynamic> _$V1CreateReadOnlySessionIntentToJson(
-        V1CreateReadOnlySessionIntent instance) =>
+Map<String, dynamic> _$CreateReadOnlySessionIntentToJson(
+        CreateReadOnlySessionIntent instance) =>
     <String, dynamic>{};
 
-V1CreateReadOnlySessionRequest _$V1CreateReadOnlySessionRequestFromJson(
+CreateReadOnlySessionRequest _$CreateReadOnlySessionRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadOnlySessionRequest(
-      type: v1CreateReadOnlySessionRequestTypeFromJson(json['type']),
+    CreateReadOnlySessionRequest(
+      type: createReadOnlySessionRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateReadOnlySessionIntent.fromJson(
+      parameters: CreateReadOnlySessionIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateReadOnlySessionRequestToJson(
-        V1CreateReadOnlySessionRequest instance) =>
+Map<String, dynamic> _$CreateReadOnlySessionRequestToJson(
+        CreateReadOnlySessionRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateReadOnlySessionRequestTypeToJson(instance.type),
+      'type': createReadOnlySessionRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateReadOnlySessionResult _$V1CreateReadOnlySessionResultFromJson(
+CreateReadOnlySessionResult _$CreateReadOnlySessionResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadOnlySessionResult(
+    CreateReadOnlySessionResult(
       organizationId: json['organizationId'] as String,
       organizationName: json['organizationName'] as String,
       userId: json['userId'] as String,
@@ -1206,8 +986,8 @@ V1CreateReadOnlySessionResult _$V1CreateReadOnlySessionResultFromJson(
       sessionExpiry: json['sessionExpiry'] as String,
     );
 
-Map<String, dynamic> _$V1CreateReadOnlySessionResultToJson(
-        V1CreateReadOnlySessionResult instance) =>
+Map<String, dynamic> _$CreateReadOnlySessionResultToJson(
+        CreateReadOnlySessionResult instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'organizationName': instance.organizationName,
@@ -1217,17 +997,17 @@ Map<String, dynamic> _$V1CreateReadOnlySessionResultToJson(
       'sessionExpiry': instance.sessionExpiry,
     };
 
-V1CreateReadWriteSessionIntent _$V1CreateReadWriteSessionIntentFromJson(
+CreateReadWriteSessionIntent _$CreateReadWriteSessionIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadWriteSessionIntent(
+    CreateReadWriteSessionIntent(
       targetPublicKey: json['targetPublicKey'] as String,
       email: json['email'] as String,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
     );
 
-Map<String, dynamic> _$V1CreateReadWriteSessionIntentToJson(
-        V1CreateReadWriteSessionIntent instance) =>
+Map<String, dynamic> _$CreateReadWriteSessionIntentToJson(
+        CreateReadWriteSessionIntent instance) =>
     <String, dynamic>{
       'targetPublicKey': instance.targetPublicKey,
       'email': instance.email,
@@ -1235,17 +1015,17 @@ Map<String, dynamic> _$V1CreateReadWriteSessionIntentToJson(
       'expirationSeconds': instance.expirationSeconds,
     };
 
-V1CreateReadWriteSessionIntentV2 _$V1CreateReadWriteSessionIntentV2FromJson(
+CreateReadWriteSessionIntentV2 _$CreateReadWriteSessionIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadWriteSessionIntentV2(
+    CreateReadWriteSessionIntentV2(
       targetPublicKey: json['targetPublicKey'] as String,
       userId: json['userId'] as String?,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
     );
 
-Map<String, dynamic> _$V1CreateReadWriteSessionIntentV2ToJson(
-        V1CreateReadWriteSessionIntentV2 instance) =>
+Map<String, dynamic> _$CreateReadWriteSessionIntentV2ToJson(
+        CreateReadWriteSessionIntentV2 instance) =>
     <String, dynamic>{
       'targetPublicKey': instance.targetPublicKey,
       'userId': instance.userId,
@@ -1253,28 +1033,28 @@ Map<String, dynamic> _$V1CreateReadWriteSessionIntentV2ToJson(
       'expirationSeconds': instance.expirationSeconds,
     };
 
-V1CreateReadWriteSessionRequest _$V1CreateReadWriteSessionRequestFromJson(
+CreateReadWriteSessionRequest _$CreateReadWriteSessionRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadWriteSessionRequest(
-      type: v1CreateReadWriteSessionRequestTypeFromJson(json['type']),
+    CreateReadWriteSessionRequest(
+      type: createReadWriteSessionRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateReadWriteSessionIntentV2.fromJson(
+      parameters: CreateReadWriteSessionIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateReadWriteSessionRequestToJson(
-        V1CreateReadWriteSessionRequest instance) =>
+Map<String, dynamic> _$CreateReadWriteSessionRequestToJson(
+        CreateReadWriteSessionRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateReadWriteSessionRequestTypeToJson(instance.type),
+      'type': createReadWriteSessionRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateReadWriteSessionResult _$V1CreateReadWriteSessionResultFromJson(
+CreateReadWriteSessionResult _$CreateReadWriteSessionResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadWriteSessionResult(
+    CreateReadWriteSessionResult(
       organizationId: json['organizationId'] as String,
       organizationName: json['organizationName'] as String,
       userId: json['userId'] as String,
@@ -1283,8 +1063,8 @@ V1CreateReadWriteSessionResult _$V1CreateReadWriteSessionResultFromJson(
       credentialBundle: json['credentialBundle'] as String,
     );
 
-Map<String, dynamic> _$V1CreateReadWriteSessionResultToJson(
-        V1CreateReadWriteSessionResult instance) =>
+Map<String, dynamic> _$CreateReadWriteSessionResultToJson(
+        CreateReadWriteSessionResult instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'organizationName': instance.organizationName,
@@ -1294,9 +1074,9 @@ Map<String, dynamic> _$V1CreateReadWriteSessionResultToJson(
       'credentialBundle': instance.credentialBundle,
     };
 
-V1CreateReadWriteSessionResultV2 _$V1CreateReadWriteSessionResultV2FromJson(
+CreateReadWriteSessionResultV2 _$CreateReadWriteSessionResultV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreateReadWriteSessionResultV2(
+    CreateReadWriteSessionResultV2(
       organizationId: json['organizationId'] as String,
       organizationName: json['organizationName'] as String,
       userId: json['userId'] as String,
@@ -1305,8 +1085,8 @@ V1CreateReadWriteSessionResultV2 _$V1CreateReadWriteSessionResultV2FromJson(
       credentialBundle: json['credentialBundle'] as String,
     );
 
-Map<String, dynamic> _$V1CreateReadWriteSessionResultV2ToJson(
-        V1CreateReadWriteSessionResultV2 instance) =>
+Map<String, dynamic> _$CreateReadWriteSessionResultV2ToJson(
+        CreateReadWriteSessionResultV2 instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'organizationName': instance.organizationName,
@@ -1316,58 +1096,57 @@ Map<String, dynamic> _$V1CreateReadWriteSessionResultV2ToJson(
       'credentialBundle': instance.credentialBundle,
     };
 
-V1CreateSubOrganizationIntent _$V1CreateSubOrganizationIntentFromJson(
+CreateSubOrganizationIntent _$CreateSubOrganizationIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntent(
+    CreateSubOrganizationIntent(
       name: json['name'] as String,
-      rootAuthenticator: V1AuthenticatorParamsV2.fromJson(
+      rootAuthenticator: AuthenticatorParamsV2.fromJson(
           json['rootAuthenticator'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentToJson(
-        V1CreateSubOrganizationIntent instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentToJson(
+        CreateSubOrganizationIntent instance) =>
     <String, dynamic>{
       'name': instance.name,
       'rootAuthenticator': instance.rootAuthenticator.toJson(),
     };
 
-V1CreateSubOrganizationIntentV2 _$V1CreateSubOrganizationIntentV2FromJson(
+CreateSubOrganizationIntentV2 _$CreateSubOrganizationIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntentV2(
+    CreateSubOrganizationIntentV2(
       subOrganizationName: json['subOrganizationName'] as String,
       rootUsers: (json['rootUsers'] as List<dynamic>?)
-              ?.map((e) => V1RootUserParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => RootUserParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootQuorumThreshold: (json['rootQuorumThreshold'] as num).toInt(),
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentV2ToJson(
-        V1CreateSubOrganizationIntentV2 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentV2ToJson(
+        CreateSubOrganizationIntentV2 instance) =>
     <String, dynamic>{
       'subOrganizationName': instance.subOrganizationName,
       'rootUsers': instance.rootUsers.map((e) => e.toJson()).toList(),
       'rootQuorumThreshold': instance.rootQuorumThreshold,
     };
 
-V1CreateSubOrganizationIntentV3 _$V1CreateSubOrganizationIntentV3FromJson(
+CreateSubOrganizationIntentV3 _$CreateSubOrganizationIntentV3FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntentV3(
+    CreateSubOrganizationIntentV3(
       subOrganizationName: json['subOrganizationName'] as String,
       rootUsers: (json['rootUsers'] as List<dynamic>?)
-              ?.map((e) => V1RootUserParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => RootUserParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootQuorumThreshold: (json['rootQuorumThreshold'] as num).toInt(),
       privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1PrivateKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PrivateKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentV3ToJson(
-        V1CreateSubOrganizationIntentV3 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentV3ToJson(
+        CreateSubOrganizationIntentV3 instance) =>
     <String, dynamic>{
       'subOrganizationName': instance.subOrganizationName,
       'rootUsers': instance.rootUsers.map((e) => e.toJson()).toList(),
@@ -1375,24 +1154,24 @@ Map<String, dynamic> _$V1CreateSubOrganizationIntentV3ToJson(
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
     };
 
-V1CreateSubOrganizationIntentV4 _$V1CreateSubOrganizationIntentV4FromJson(
+CreateSubOrganizationIntentV4 _$CreateSubOrganizationIntentV4FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntentV4(
+    CreateSubOrganizationIntentV4(
       subOrganizationName: json['subOrganizationName'] as String,
       rootUsers: (json['rootUsers'] as List<dynamic>?)
-              ?.map((e) => V1RootUserParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => RootUserParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootQuorumThreshold: (json['rootQuorumThreshold'] as num).toInt(),
       wallet: json['wallet'] == null
           ? null
-          : V1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
       disableEmailRecovery: json['disableEmailRecovery'] as bool?,
       disableEmailAuth: json['disableEmailAuth'] as bool?,
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentV4ToJson(
-        V1CreateSubOrganizationIntentV4 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentV4ToJson(
+        CreateSubOrganizationIntentV4 instance) =>
     <String, dynamic>{
       'subOrganizationName': instance.subOrganizationName,
       'rootUsers': instance.rootUsers.map((e) => e.toJson()).toList(),
@@ -1402,25 +1181,24 @@ Map<String, dynamic> _$V1CreateSubOrganizationIntentV4ToJson(
       'disableEmailAuth': instance.disableEmailAuth,
     };
 
-V1CreateSubOrganizationIntentV5 _$V1CreateSubOrganizationIntentV5FromJson(
+CreateSubOrganizationIntentV5 _$CreateSubOrganizationIntentV5FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntentV5(
+    CreateSubOrganizationIntentV5(
       subOrganizationName: json['subOrganizationName'] as String,
       rootUsers: (json['rootUsers'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1RootUserParamsV2.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => RootUserParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootQuorumThreshold: (json['rootQuorumThreshold'] as num).toInt(),
       wallet: json['wallet'] == null
           ? null
-          : V1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
       disableEmailRecovery: json['disableEmailRecovery'] as bool?,
       disableEmailAuth: json['disableEmailAuth'] as bool?,
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentV5ToJson(
-        V1CreateSubOrganizationIntentV5 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentV5ToJson(
+        CreateSubOrganizationIntentV5 instance) =>
     <String, dynamic>{
       'subOrganizationName': instance.subOrganizationName,
       'rootUsers': instance.rootUsers.map((e) => e.toJson()).toList(),
@@ -1430,25 +1208,24 @@ Map<String, dynamic> _$V1CreateSubOrganizationIntentV5ToJson(
       'disableEmailAuth': instance.disableEmailAuth,
     };
 
-V1CreateSubOrganizationIntentV6 _$V1CreateSubOrganizationIntentV6FromJson(
+CreateSubOrganizationIntentV6 _$CreateSubOrganizationIntentV6FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntentV6(
+    CreateSubOrganizationIntentV6(
       subOrganizationName: json['subOrganizationName'] as String,
       rootUsers: (json['rootUsers'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1RootUserParamsV3.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => RootUserParamsV3.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootQuorumThreshold: (json['rootQuorumThreshold'] as num).toInt(),
       wallet: json['wallet'] == null
           ? null
-          : V1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
       disableEmailRecovery: json['disableEmailRecovery'] as bool?,
       disableEmailAuth: json['disableEmailAuth'] as bool?,
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentV6ToJson(
-        V1CreateSubOrganizationIntentV6 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentV6ToJson(
+        CreateSubOrganizationIntentV6 instance) =>
     <String, dynamic>{
       'subOrganizationName': instance.subOrganizationName,
       'rootUsers': instance.rootUsers.map((e) => e.toJson()).toList(),
@@ -1458,27 +1235,26 @@ Map<String, dynamic> _$V1CreateSubOrganizationIntentV6ToJson(
       'disableEmailAuth': instance.disableEmailAuth,
     };
 
-V1CreateSubOrganizationIntentV7 _$V1CreateSubOrganizationIntentV7FromJson(
+CreateSubOrganizationIntentV7 _$CreateSubOrganizationIntentV7FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationIntentV7(
+    CreateSubOrganizationIntentV7(
       subOrganizationName: json['subOrganizationName'] as String,
       rootUsers: (json['rootUsers'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1RootUserParamsV4.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => RootUserParamsV4.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootQuorumThreshold: (json['rootQuorumThreshold'] as num).toInt(),
       wallet: json['wallet'] == null
           ? null
-          : V1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletParams.fromJson(json['wallet'] as Map<String, dynamic>),
       disableEmailRecovery: json['disableEmailRecovery'] as bool?,
       disableEmailAuth: json['disableEmailAuth'] as bool?,
       disableSmsAuth: json['disableSmsAuth'] as bool?,
       disableOtpEmailAuth: json['disableOtpEmailAuth'] as bool?,
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationIntentV7ToJson(
-        V1CreateSubOrganizationIntentV7 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationIntentV7ToJson(
+        CreateSubOrganizationIntentV7 instance) =>
     <String, dynamic>{
       'subOrganizationName': instance.subOrganizationName,
       'rootUsers': instance.rootUsers.map((e) => e.toJson()).toList(),
@@ -1490,28 +1266,28 @@ Map<String, dynamic> _$V1CreateSubOrganizationIntentV7ToJson(
       'disableOtpEmailAuth': instance.disableOtpEmailAuth,
     };
 
-V1CreateSubOrganizationRequest _$V1CreateSubOrganizationRequestFromJson(
+CreateSubOrganizationRequest _$CreateSubOrganizationRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationRequest(
-      type: v1CreateSubOrganizationRequestTypeFromJson(json['type']),
+    CreateSubOrganizationRequest(
+      type: createSubOrganizationRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateSubOrganizationIntentV7.fromJson(
+      parameters: CreateSubOrganizationIntentV7.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationRequestToJson(
-        V1CreateSubOrganizationRequest instance) =>
+Map<String, dynamic> _$CreateSubOrganizationRequestToJson(
+        CreateSubOrganizationRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateSubOrganizationRequestTypeToJson(instance.type),
+      'type': createSubOrganizationRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateSubOrganizationResult _$V1CreateSubOrganizationResultFromJson(
+CreateSubOrganizationResult _$CreateSubOrganizationResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationResult(
+    CreateSubOrganizationResult(
       subOrganizationId: json['subOrganizationId'] as String,
       rootUserIds: (json['rootUserIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1519,20 +1295,19 @@ V1CreateSubOrganizationResult _$V1CreateSubOrganizationResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationResultToJson(
-        V1CreateSubOrganizationResult instance) =>
+Map<String, dynamic> _$CreateSubOrganizationResultToJson(
+        CreateSubOrganizationResult instance) =>
     <String, dynamic>{
       'subOrganizationId': instance.subOrganizationId,
       'rootUserIds': instance.rootUserIds,
     };
 
-V1CreateSubOrganizationResultV3 _$V1CreateSubOrganizationResultV3FromJson(
+CreateSubOrganizationResultV3 _$CreateSubOrganizationResultV3FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationResultV3(
+    CreateSubOrganizationResultV3(
       subOrganizationId: json['subOrganizationId'] as String,
       privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map(
-                  (e) => V1PrivateKeyResult.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PrivateKeyResult.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       rootUserIds: (json['rootUserIds'] as List<dynamic>?)
@@ -1541,101 +1316,100 @@ V1CreateSubOrganizationResultV3 _$V1CreateSubOrganizationResultV3FromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationResultV3ToJson(
-        V1CreateSubOrganizationResultV3 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationResultV3ToJson(
+        CreateSubOrganizationResultV3 instance) =>
     <String, dynamic>{
       'subOrganizationId': instance.subOrganizationId,
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
       'rootUserIds': instance.rootUserIds,
     };
 
-V1CreateSubOrganizationResultV4 _$V1CreateSubOrganizationResultV4FromJson(
+CreateSubOrganizationResultV4 _$CreateSubOrganizationResultV4FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationResultV4(
+    CreateSubOrganizationResultV4(
       subOrganizationId: json['subOrganizationId'] as String,
       wallet: json['wallet'] == null
           ? null
-          : V1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
       rootUserIds: (json['rootUserIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationResultV4ToJson(
-        V1CreateSubOrganizationResultV4 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationResultV4ToJson(
+        CreateSubOrganizationResultV4 instance) =>
     <String, dynamic>{
       'subOrganizationId': instance.subOrganizationId,
       'wallet': instance.wallet?.toJson(),
       'rootUserIds': instance.rootUserIds,
     };
 
-V1CreateSubOrganizationResultV5 _$V1CreateSubOrganizationResultV5FromJson(
+CreateSubOrganizationResultV5 _$CreateSubOrganizationResultV5FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationResultV5(
+    CreateSubOrganizationResultV5(
       subOrganizationId: json['subOrganizationId'] as String,
       wallet: json['wallet'] == null
           ? null
-          : V1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
       rootUserIds: (json['rootUserIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationResultV5ToJson(
-        V1CreateSubOrganizationResultV5 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationResultV5ToJson(
+        CreateSubOrganizationResultV5 instance) =>
     <String, dynamic>{
       'subOrganizationId': instance.subOrganizationId,
       'wallet': instance.wallet?.toJson(),
       'rootUserIds': instance.rootUserIds,
     };
 
-V1CreateSubOrganizationResultV6 _$V1CreateSubOrganizationResultV6FromJson(
+CreateSubOrganizationResultV6 _$CreateSubOrganizationResultV6FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationResultV6(
+    CreateSubOrganizationResultV6(
       subOrganizationId: json['subOrganizationId'] as String,
       wallet: json['wallet'] == null
           ? null
-          : V1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
       rootUserIds: (json['rootUserIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationResultV6ToJson(
-        V1CreateSubOrganizationResultV6 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationResultV6ToJson(
+        CreateSubOrganizationResultV6 instance) =>
     <String, dynamic>{
       'subOrganizationId': instance.subOrganizationId,
       'wallet': instance.wallet?.toJson(),
       'rootUserIds': instance.rootUserIds,
     };
 
-V1CreateSubOrganizationResultV7 _$V1CreateSubOrganizationResultV7FromJson(
+CreateSubOrganizationResultV7 _$CreateSubOrganizationResultV7FromJson(
         Map<String, dynamic> json) =>
-    V1CreateSubOrganizationResultV7(
+    CreateSubOrganizationResultV7(
       subOrganizationId: json['subOrganizationId'] as String,
       wallet: json['wallet'] == null
           ? null
-          : V1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
+          : WalletResult.fromJson(json['wallet'] as Map<String, dynamic>),
       rootUserIds: (json['rootUserIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateSubOrganizationResultV7ToJson(
-        V1CreateSubOrganizationResultV7 instance) =>
+Map<String, dynamic> _$CreateSubOrganizationResultV7ToJson(
+        CreateSubOrganizationResultV7 instance) =>
     <String, dynamic>{
       'subOrganizationId': instance.subOrganizationId,
       'wallet': instance.wallet?.toJson(),
       'rootUserIds': instance.rootUserIds,
     };
 
-V1CreateUserTagIntent _$V1CreateUserTagIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateUserTagIntent(
+CreateUserTagIntent _$CreateUserTagIntentFromJson(Map<String, dynamic> json) =>
+    CreateUserTagIntent(
       userTagName: json['userTagName'] as String,
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1643,35 +1417,34 @@ V1CreateUserTagIntent _$V1CreateUserTagIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreateUserTagIntentToJson(
-        V1CreateUserTagIntent instance) =>
+Map<String, dynamic> _$CreateUserTagIntentToJson(
+        CreateUserTagIntent instance) =>
     <String, dynamic>{
       'userTagName': instance.userTagName,
       'userIds': instance.userIds,
     };
 
-V1CreateUserTagRequest _$V1CreateUserTagRequestFromJson(
+CreateUserTagRequest _$CreateUserTagRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateUserTagRequest(
-      type: v1CreateUserTagRequestTypeFromJson(json['type']),
+    CreateUserTagRequest(
+      type: createUserTagRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateUserTagIntent.fromJson(
+      parameters: CreateUserTagIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateUserTagRequestToJson(
-        V1CreateUserTagRequest instance) =>
+Map<String, dynamic> _$CreateUserTagRequestToJson(
+        CreateUserTagRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateUserTagRequestTypeToJson(instance.type),
+      'type': createUserTagRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateUserTagResult _$V1CreateUserTagResultFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateUserTagResult(
+CreateUserTagResult _$CreateUserTagResultFromJson(Map<String, dynamic> json) =>
+    CreateUserTagResult(
       userTagId: json['userTagId'] as String,
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1679,169 +1452,160 @@ V1CreateUserTagResult _$V1CreateUserTagResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreateUserTagResultToJson(
-        V1CreateUserTagResult instance) =>
+Map<String, dynamic> _$CreateUserTagResultToJson(
+        CreateUserTagResult instance) =>
     <String, dynamic>{
       'userTagId': instance.userTagId,
       'userIds': instance.userIds,
     };
 
-V1CreateUsersIntent _$V1CreateUsersIntentFromJson(Map<String, dynamic> json) =>
-    V1CreateUsersIntent(
+CreateUsersIntent _$CreateUsersIntentFromJson(Map<String, dynamic> json) =>
+    CreateUsersIntent(
       users: (json['users'] as List<dynamic>?)
-              ?.map((e) => V1UserParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => UserParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateUsersIntentToJson(
-        V1CreateUsersIntent instance) =>
+Map<String, dynamic> _$CreateUsersIntentToJson(CreateUsersIntent instance) =>
     <String, dynamic>{
       'users': instance.users.map((e) => e.toJson()).toList(),
     };
 
-V1CreateUsersIntentV2 _$V1CreateUsersIntentV2FromJson(
-        Map<String, dynamic> json) =>
-    V1CreateUsersIntentV2(
+CreateUsersIntentV2 _$CreateUsersIntentV2FromJson(Map<String, dynamic> json) =>
+    CreateUsersIntentV2(
       users: (json['users'] as List<dynamic>?)
-              ?.map((e) => V1UserParamsV2.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => UserParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateUsersIntentV2ToJson(
-        V1CreateUsersIntentV2 instance) =>
+Map<String, dynamic> _$CreateUsersIntentV2ToJson(
+        CreateUsersIntentV2 instance) =>
     <String, dynamic>{
       'users': instance.users.map((e) => e.toJson()).toList(),
     };
 
-V1CreateUsersRequest _$V1CreateUsersRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateUsersRequest(
-      type: v1CreateUsersRequestTypeFromJson(json['type']),
+CreateUsersRequest _$CreateUsersRequestFromJson(Map<String, dynamic> json) =>
+    CreateUsersRequest(
+      type: createUsersRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateUsersIntentV2.fromJson(
+      parameters: CreateUsersIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateUsersRequestToJson(
-        V1CreateUsersRequest instance) =>
+Map<String, dynamic> _$CreateUsersRequestToJson(CreateUsersRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateUsersRequestTypeToJson(instance.type),
+      'type': createUsersRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateUsersResult _$V1CreateUsersResultFromJson(Map<String, dynamic> json) =>
-    V1CreateUsersResult(
+CreateUsersResult _$CreateUsersResultFromJson(Map<String, dynamic> json) =>
+    CreateUsersResult(
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateUsersResultToJson(
-        V1CreateUsersResult instance) =>
+Map<String, dynamic> _$CreateUsersResultToJson(CreateUsersResult instance) =>
     <String, dynamic>{
       'userIds': instance.userIds,
     };
 
-V1CreateWalletAccountsIntent _$V1CreateWalletAccountsIntentFromJson(
+CreateWalletAccountsIntent _$CreateWalletAccountsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1CreateWalletAccountsIntent(
+    CreateWalletAccountsIntent(
       walletId: json['walletId'] as String,
       accounts: (json['accounts'] as List<dynamic>?)
               ?.map((e) =>
-                  V1WalletAccountParams.fromJson(e as Map<String, dynamic>))
+                  WalletAccountParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateWalletAccountsIntentToJson(
-        V1CreateWalletAccountsIntent instance) =>
+Map<String, dynamic> _$CreateWalletAccountsIntentToJson(
+        CreateWalletAccountsIntent instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'accounts': instance.accounts.map((e) => e.toJson()).toList(),
     };
 
-V1CreateWalletAccountsRequest _$V1CreateWalletAccountsRequestFromJson(
+CreateWalletAccountsRequest _$CreateWalletAccountsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1CreateWalletAccountsRequest(
-      type: v1CreateWalletAccountsRequestTypeFromJson(json['type']),
+    CreateWalletAccountsRequest(
+      type: createWalletAccountsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateWalletAccountsIntent.fromJson(
+      parameters: CreateWalletAccountsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateWalletAccountsRequestToJson(
-        V1CreateWalletAccountsRequest instance) =>
+Map<String, dynamic> _$CreateWalletAccountsRequestToJson(
+        CreateWalletAccountsRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateWalletAccountsRequestTypeToJson(instance.type),
+      'type': createWalletAccountsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateWalletAccountsResult _$V1CreateWalletAccountsResultFromJson(
+CreateWalletAccountsResult _$CreateWalletAccountsResultFromJson(
         Map<String, dynamic> json) =>
-    V1CreateWalletAccountsResult(
+    CreateWalletAccountsResult(
       addresses: (json['addresses'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1CreateWalletAccountsResultToJson(
-        V1CreateWalletAccountsResult instance) =>
+Map<String, dynamic> _$CreateWalletAccountsResultToJson(
+        CreateWalletAccountsResult instance) =>
     <String, dynamic>{
       'addresses': instance.addresses,
     };
 
-V1CreateWalletIntent _$V1CreateWalletIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateWalletIntent(
+CreateWalletIntent _$CreateWalletIntentFromJson(Map<String, dynamic> json) =>
+    CreateWalletIntent(
       walletName: json['walletName'] as String,
       accounts: (json['accounts'] as List<dynamic>?)
               ?.map((e) =>
-                  V1WalletAccountParams.fromJson(e as Map<String, dynamic>))
+                  WalletAccountParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       mnemonicLength: (json['mnemonicLength'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$V1CreateWalletIntentToJson(
-        V1CreateWalletIntent instance) =>
+Map<String, dynamic> _$CreateWalletIntentToJson(CreateWalletIntent instance) =>
     <String, dynamic>{
       'walletName': instance.walletName,
       'accounts': instance.accounts.map((e) => e.toJson()).toList(),
       'mnemonicLength': instance.mnemonicLength,
     };
 
-V1CreateWalletRequest _$V1CreateWalletRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateWalletRequest(
-      type: v1CreateWalletRequestTypeFromJson(json['type']),
+CreateWalletRequest _$CreateWalletRequestFromJson(Map<String, dynamic> json) =>
+    CreateWalletRequest(
+      type: createWalletRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1CreateWalletIntent.fromJson(
+      parameters: CreateWalletIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1CreateWalletRequestToJson(
-        V1CreateWalletRequest instance) =>
+Map<String, dynamic> _$CreateWalletRequestToJson(
+        CreateWalletRequest instance) =>
     <String, dynamic>{
-      'type': v1CreateWalletRequestTypeToJson(instance.type),
+      'type': createWalletRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1CreateWalletResult _$V1CreateWalletResultFromJson(
-        Map<String, dynamic> json) =>
-    V1CreateWalletResult(
+CreateWalletResult _$CreateWalletResultFromJson(Map<String, dynamic> json) =>
+    CreateWalletResult(
       walletId: json['walletId'] as String,
       addresses: (json['addresses'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1849,29 +1613,27 @@ V1CreateWalletResult _$V1CreateWalletResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1CreateWalletResultToJson(
-        V1CreateWalletResult instance) =>
+Map<String, dynamic> _$CreateWalletResultToJson(CreateWalletResult instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'addresses': instance.addresses,
     };
 
-V1CredPropsAuthenticationExtensionsClientOutputs
-    _$V1CredPropsAuthenticationExtensionsClientOutputsFromJson(
+CredPropsAuthenticationExtensionsClientOutputs
+    _$CredPropsAuthenticationExtensionsClientOutputsFromJson(
             Map<String, dynamic> json) =>
-        V1CredPropsAuthenticationExtensionsClientOutputs(
+        CredPropsAuthenticationExtensionsClientOutputs(
           rk: json['rk'] as bool,
         );
 
-Map<String, dynamic> _$V1CredPropsAuthenticationExtensionsClientOutputsToJson(
-        V1CredPropsAuthenticationExtensionsClientOutputs instance) =>
+Map<String, dynamic> _$CredPropsAuthenticationExtensionsClientOutputsToJson(
+        CredPropsAuthenticationExtensionsClientOutputs instance) =>
     <String, dynamic>{
       'rk': instance.rk,
     };
 
-V1DeleteApiKeysIntent _$V1DeleteApiKeysIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1DeleteApiKeysIntent(
+DeleteApiKeysIntent _$DeleteApiKeysIntentFromJson(Map<String, dynamic> json) =>
+    DeleteApiKeysIntent(
       userId: json['userId'] as String,
       apiKeyIds: (json['apiKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1879,50 +1641,49 @@ V1DeleteApiKeysIntent _$V1DeleteApiKeysIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1DeleteApiKeysIntentToJson(
-        V1DeleteApiKeysIntent instance) =>
+Map<String, dynamic> _$DeleteApiKeysIntentToJson(
+        DeleteApiKeysIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'apiKeyIds': instance.apiKeyIds,
     };
 
-V1DeleteApiKeysRequest _$V1DeleteApiKeysRequestFromJson(
+DeleteApiKeysRequest _$DeleteApiKeysRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteApiKeysRequest(
-      type: v1DeleteApiKeysRequestTypeFromJson(json['type']),
+    DeleteApiKeysRequest(
+      type: deleteApiKeysRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteApiKeysIntent.fromJson(
+      parameters: DeleteApiKeysIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteApiKeysRequestToJson(
-        V1DeleteApiKeysRequest instance) =>
+Map<String, dynamic> _$DeleteApiKeysRequestToJson(
+        DeleteApiKeysRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteApiKeysRequestTypeToJson(instance.type),
+      'type': deleteApiKeysRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteApiKeysResult _$V1DeleteApiKeysResultFromJson(
-        Map<String, dynamic> json) =>
-    V1DeleteApiKeysResult(
+DeleteApiKeysResult _$DeleteApiKeysResultFromJson(Map<String, dynamic> json) =>
+    DeleteApiKeysResult(
       apiKeyIds: (json['apiKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteApiKeysResultToJson(
-        V1DeleteApiKeysResult instance) =>
+Map<String, dynamic> _$DeleteApiKeysResultToJson(
+        DeleteApiKeysResult instance) =>
     <String, dynamic>{
       'apiKeyIds': instance.apiKeyIds,
     };
 
-V1DeleteAuthenticatorsIntent _$V1DeleteAuthenticatorsIntentFromJson(
+DeleteAuthenticatorsIntent _$DeleteAuthenticatorsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteAuthenticatorsIntent(
+    DeleteAuthenticatorsIntent(
       userId: json['userId'] as String,
       authenticatorIds: (json['authenticatorIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -1930,93 +1691,93 @@ V1DeleteAuthenticatorsIntent _$V1DeleteAuthenticatorsIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1DeleteAuthenticatorsIntentToJson(
-        V1DeleteAuthenticatorsIntent instance) =>
+Map<String, dynamic> _$DeleteAuthenticatorsIntentToJson(
+        DeleteAuthenticatorsIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'authenticatorIds': instance.authenticatorIds,
     };
 
-V1DeleteAuthenticatorsRequest _$V1DeleteAuthenticatorsRequestFromJson(
+DeleteAuthenticatorsRequest _$DeleteAuthenticatorsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteAuthenticatorsRequest(
-      type: v1DeleteAuthenticatorsRequestTypeFromJson(json['type']),
+    DeleteAuthenticatorsRequest(
+      type: deleteAuthenticatorsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteAuthenticatorsIntent.fromJson(
+      parameters: DeleteAuthenticatorsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteAuthenticatorsRequestToJson(
-        V1DeleteAuthenticatorsRequest instance) =>
+Map<String, dynamic> _$DeleteAuthenticatorsRequestToJson(
+        DeleteAuthenticatorsRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteAuthenticatorsRequestTypeToJson(instance.type),
+      'type': deleteAuthenticatorsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteAuthenticatorsResult _$V1DeleteAuthenticatorsResultFromJson(
+DeleteAuthenticatorsResult _$DeleteAuthenticatorsResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteAuthenticatorsResult(
+    DeleteAuthenticatorsResult(
       authenticatorIds: (json['authenticatorIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteAuthenticatorsResultToJson(
-        V1DeleteAuthenticatorsResult instance) =>
+Map<String, dynamic> _$DeleteAuthenticatorsResultToJson(
+        DeleteAuthenticatorsResult instance) =>
     <String, dynamic>{
       'authenticatorIds': instance.authenticatorIds,
     };
 
-V1DeleteInvitationIntent _$V1DeleteInvitationIntentFromJson(
+DeleteInvitationIntent _$DeleteInvitationIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteInvitationIntent(
+    DeleteInvitationIntent(
       invitationId: json['invitationId'] as String,
     );
 
-Map<String, dynamic> _$V1DeleteInvitationIntentToJson(
-        V1DeleteInvitationIntent instance) =>
+Map<String, dynamic> _$DeleteInvitationIntentToJson(
+        DeleteInvitationIntent instance) =>
     <String, dynamic>{
       'invitationId': instance.invitationId,
     };
 
-V1DeleteInvitationRequest _$V1DeleteInvitationRequestFromJson(
+DeleteInvitationRequest _$DeleteInvitationRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteInvitationRequest(
-      type: v1DeleteInvitationRequestTypeFromJson(json['type']),
+    DeleteInvitationRequest(
+      type: deleteInvitationRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteInvitationIntent.fromJson(
+      parameters: DeleteInvitationIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteInvitationRequestToJson(
-        V1DeleteInvitationRequest instance) =>
+Map<String, dynamic> _$DeleteInvitationRequestToJson(
+        DeleteInvitationRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteInvitationRequestTypeToJson(instance.type),
+      'type': deleteInvitationRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteInvitationResult _$V1DeleteInvitationResultFromJson(
+DeleteInvitationResult _$DeleteInvitationResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteInvitationResult(
+    DeleteInvitationResult(
       invitationId: json['invitationId'] as String,
     );
 
-Map<String, dynamic> _$V1DeleteInvitationResultToJson(
-        V1DeleteInvitationResult instance) =>
+Map<String, dynamic> _$DeleteInvitationResultToJson(
+        DeleteInvitationResult instance) =>
     <String, dynamic>{
       'invitationId': instance.invitationId,
     };
 
-V1DeleteOauthProvidersIntent _$V1DeleteOauthProvidersIntentFromJson(
+DeleteOauthProvidersIntent _$DeleteOauthProvidersIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteOauthProvidersIntent(
+    DeleteOauthProvidersIntent(
       userId: json['userId'] as String,
       providerIds: (json['providerIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -2024,151 +1785,170 @@ V1DeleteOauthProvidersIntent _$V1DeleteOauthProvidersIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1DeleteOauthProvidersIntentToJson(
-        V1DeleteOauthProvidersIntent instance) =>
+Map<String, dynamic> _$DeleteOauthProvidersIntentToJson(
+        DeleteOauthProvidersIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'providerIds': instance.providerIds,
     };
 
-V1DeleteOauthProvidersRequest _$V1DeleteOauthProvidersRequestFromJson(
+DeleteOauthProvidersRequest _$DeleteOauthProvidersRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteOauthProvidersRequest(
-      type: v1DeleteOauthProvidersRequestTypeFromJson(json['type']),
+    DeleteOauthProvidersRequest(
+      type: deleteOauthProvidersRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteOauthProvidersIntent.fromJson(
+      parameters: DeleteOauthProvidersIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteOauthProvidersRequestToJson(
-        V1DeleteOauthProvidersRequest instance) =>
+Map<String, dynamic> _$DeleteOauthProvidersRequestToJson(
+        DeleteOauthProvidersRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteOauthProvidersRequestTypeToJson(instance.type),
+      'type': deleteOauthProvidersRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteOauthProvidersResult _$V1DeleteOauthProvidersResultFromJson(
+DeleteOauthProvidersResult _$DeleteOauthProvidersResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteOauthProvidersResult(
+    DeleteOauthProvidersResult(
       providerIds: (json['providerIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteOauthProvidersResultToJson(
-        V1DeleteOauthProvidersResult instance) =>
+Map<String, dynamic> _$DeleteOauthProvidersResultToJson(
+        DeleteOauthProvidersResult instance) =>
     <String, dynamic>{
       'providerIds': instance.providerIds,
     };
 
-V1DeleteOrganizationIntent _$V1DeleteOrganizationIntentFromJson(
+DeleteOrganizationIntent _$DeleteOrganizationIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteOrganizationIntent(
+    DeleteOrganizationIntent(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1DeleteOrganizationIntentToJson(
-        V1DeleteOrganizationIntent instance) =>
+Map<String, dynamic> _$DeleteOrganizationIntentToJson(
+        DeleteOrganizationIntent instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1DeleteOrganizationResult _$V1DeleteOrganizationResultFromJson(
+DeleteOrganizationResult _$DeleteOrganizationResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteOrganizationResult(
+    DeleteOrganizationResult(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1DeleteOrganizationResultToJson(
-        V1DeleteOrganizationResult instance) =>
+Map<String, dynamic> _$DeleteOrganizationResultToJson(
+        DeleteOrganizationResult instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1DeletePolicyIntent _$V1DeletePolicyIntentFromJson(
+DeletePaymentMethodIntent _$DeletePaymentMethodIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePolicyIntent(
+    DeletePaymentMethodIntent(
+      paymentMethodId: json['paymentMethodId'] as String,
+    );
+
+Map<String, dynamic> _$DeletePaymentMethodIntentToJson(
+        DeletePaymentMethodIntent instance) =>
+    <String, dynamic>{
+      'paymentMethodId': instance.paymentMethodId,
+    };
+
+DeletePaymentMethodResult _$DeletePaymentMethodResultFromJson(
+        Map<String, dynamic> json) =>
+    DeletePaymentMethodResult(
+      paymentMethodId: json['paymentMethodId'] as String,
+    );
+
+Map<String, dynamic> _$DeletePaymentMethodResultToJson(
+        DeletePaymentMethodResult instance) =>
+    <String, dynamic>{
+      'paymentMethodId': instance.paymentMethodId,
+    };
+
+DeletePolicyIntent _$DeletePolicyIntentFromJson(Map<String, dynamic> json) =>
+    DeletePolicyIntent(
       policyId: json['policyId'] as String,
     );
 
-Map<String, dynamic> _$V1DeletePolicyIntentToJson(
-        V1DeletePolicyIntent instance) =>
+Map<String, dynamic> _$DeletePolicyIntentToJson(DeletePolicyIntent instance) =>
     <String, dynamic>{
       'policyId': instance.policyId,
     };
 
-V1DeletePolicyRequest _$V1DeletePolicyRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1DeletePolicyRequest(
-      type: v1DeletePolicyRequestTypeFromJson(json['type']),
+DeletePolicyRequest _$DeletePolicyRequestFromJson(Map<String, dynamic> json) =>
+    DeletePolicyRequest(
+      type: deletePolicyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeletePolicyIntent.fromJson(
+      parameters: DeletePolicyIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeletePolicyRequestToJson(
-        V1DeletePolicyRequest instance) =>
+Map<String, dynamic> _$DeletePolicyRequestToJson(
+        DeletePolicyRequest instance) =>
     <String, dynamic>{
-      'type': v1DeletePolicyRequestTypeToJson(instance.type),
+      'type': deletePolicyRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeletePolicyResult _$V1DeletePolicyResultFromJson(
-        Map<String, dynamic> json) =>
-    V1DeletePolicyResult(
+DeletePolicyResult _$DeletePolicyResultFromJson(Map<String, dynamic> json) =>
+    DeletePolicyResult(
       policyId: json['policyId'] as String,
     );
 
-Map<String, dynamic> _$V1DeletePolicyResultToJson(
-        V1DeletePolicyResult instance) =>
+Map<String, dynamic> _$DeletePolicyResultToJson(DeletePolicyResult instance) =>
     <String, dynamic>{
       'policyId': instance.policyId,
     };
 
-V1DeletePrivateKeyTagsIntent _$V1DeletePrivateKeyTagsIntentFromJson(
+DeletePrivateKeyTagsIntent _$DeletePrivateKeyTagsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePrivateKeyTagsIntent(
+    DeletePrivateKeyTagsIntent(
       privateKeyTagIds: (json['privateKeyTagIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeletePrivateKeyTagsIntentToJson(
-        V1DeletePrivateKeyTagsIntent instance) =>
+Map<String, dynamic> _$DeletePrivateKeyTagsIntentToJson(
+        DeletePrivateKeyTagsIntent instance) =>
     <String, dynamic>{
       'privateKeyTagIds': instance.privateKeyTagIds,
     };
 
-V1DeletePrivateKeyTagsRequest _$V1DeletePrivateKeyTagsRequestFromJson(
+DeletePrivateKeyTagsRequest _$DeletePrivateKeyTagsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePrivateKeyTagsRequest(
-      type: v1DeletePrivateKeyTagsRequestTypeFromJson(json['type']),
+    DeletePrivateKeyTagsRequest(
+      type: deletePrivateKeyTagsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeletePrivateKeyTagsIntent.fromJson(
+      parameters: DeletePrivateKeyTagsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeletePrivateKeyTagsRequestToJson(
-        V1DeletePrivateKeyTagsRequest instance) =>
+Map<String, dynamic> _$DeletePrivateKeyTagsRequestToJson(
+        DeletePrivateKeyTagsRequest instance) =>
     <String, dynamic>{
-      'type': v1DeletePrivateKeyTagsRequestTypeToJson(instance.type),
+      'type': deletePrivateKeyTagsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeletePrivateKeyTagsResult _$V1DeletePrivateKeyTagsResultFromJson(
+DeletePrivateKeyTagsResult _$DeletePrivateKeyTagsResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePrivateKeyTagsResult(
+    DeletePrivateKeyTagsResult(
       privateKeyTagIds: (json['privateKeyTagIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -2179,16 +1959,16 @@ V1DeletePrivateKeyTagsResult _$V1DeletePrivateKeyTagsResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1DeletePrivateKeyTagsResultToJson(
-        V1DeletePrivateKeyTagsResult instance) =>
+Map<String, dynamic> _$DeletePrivateKeyTagsResultToJson(
+        DeletePrivateKeyTagsResult instance) =>
     <String, dynamic>{
       'privateKeyTagIds': instance.privateKeyTagIds,
       'privateKeyIds': instance.privateKeyIds,
     };
 
-V1DeletePrivateKeysIntent _$V1DeletePrivateKeysIntentFromJson(
+DeletePrivateKeysIntent _$DeletePrivateKeysIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePrivateKeysIntent(
+    DeletePrivateKeysIntent(
       privateKeyIds: (json['privateKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -2196,127 +1976,127 @@ V1DeletePrivateKeysIntent _$V1DeletePrivateKeysIntentFromJson(
       deleteWithoutExport: json['deleteWithoutExport'] as bool?,
     );
 
-Map<String, dynamic> _$V1DeletePrivateKeysIntentToJson(
-        V1DeletePrivateKeysIntent instance) =>
+Map<String, dynamic> _$DeletePrivateKeysIntentToJson(
+        DeletePrivateKeysIntent instance) =>
     <String, dynamic>{
       'privateKeyIds': instance.privateKeyIds,
       'deleteWithoutExport': instance.deleteWithoutExport,
     };
 
-V1DeletePrivateKeysRequest _$V1DeletePrivateKeysRequestFromJson(
+DeletePrivateKeysRequest _$DeletePrivateKeysRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePrivateKeysRequest(
-      type: v1DeletePrivateKeysRequestTypeFromJson(json['type']),
+    DeletePrivateKeysRequest(
+      type: deletePrivateKeysRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeletePrivateKeysIntent.fromJson(
+      parameters: DeletePrivateKeysIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeletePrivateKeysRequestToJson(
-        V1DeletePrivateKeysRequest instance) =>
+Map<String, dynamic> _$DeletePrivateKeysRequestToJson(
+        DeletePrivateKeysRequest instance) =>
     <String, dynamic>{
-      'type': v1DeletePrivateKeysRequestTypeToJson(instance.type),
+      'type': deletePrivateKeysRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeletePrivateKeysResult _$V1DeletePrivateKeysResultFromJson(
+DeletePrivateKeysResult _$DeletePrivateKeysResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeletePrivateKeysResult(
+    DeletePrivateKeysResult(
       privateKeyIds: (json['privateKeyIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeletePrivateKeysResultToJson(
-        V1DeletePrivateKeysResult instance) =>
+Map<String, dynamic> _$DeletePrivateKeysResultToJson(
+        DeletePrivateKeysResult instance) =>
     <String, dynamic>{
       'privateKeyIds': instance.privateKeyIds,
     };
 
-V1DeleteSubOrganizationIntent _$V1DeleteSubOrganizationIntentFromJson(
+DeleteSubOrganizationIntent _$DeleteSubOrganizationIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteSubOrganizationIntent(
+    DeleteSubOrganizationIntent(
       deleteWithoutExport: json['deleteWithoutExport'] as bool?,
     );
 
-Map<String, dynamic> _$V1DeleteSubOrganizationIntentToJson(
-        V1DeleteSubOrganizationIntent instance) =>
+Map<String, dynamic> _$DeleteSubOrganizationIntentToJson(
+        DeleteSubOrganizationIntent instance) =>
     <String, dynamic>{
       'deleteWithoutExport': instance.deleteWithoutExport,
     };
 
-V1DeleteSubOrganizationRequest _$V1DeleteSubOrganizationRequestFromJson(
+DeleteSubOrganizationRequest _$DeleteSubOrganizationRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteSubOrganizationRequest(
-      type: v1DeleteSubOrganizationRequestTypeFromJson(json['type']),
+    DeleteSubOrganizationRequest(
+      type: deleteSubOrganizationRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteSubOrganizationIntent.fromJson(
+      parameters: DeleteSubOrganizationIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteSubOrganizationRequestToJson(
-        V1DeleteSubOrganizationRequest instance) =>
+Map<String, dynamic> _$DeleteSubOrganizationRequestToJson(
+        DeleteSubOrganizationRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteSubOrganizationRequestTypeToJson(instance.type),
+      'type': deleteSubOrganizationRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteSubOrganizationResult _$V1DeleteSubOrganizationResultFromJson(
+DeleteSubOrganizationResult _$DeleteSubOrganizationResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteSubOrganizationResult(
+    DeleteSubOrganizationResult(
       subOrganizationUuid: json['subOrganizationUuid'] as String,
     );
 
-Map<String, dynamic> _$V1DeleteSubOrganizationResultToJson(
-        V1DeleteSubOrganizationResult instance) =>
+Map<String, dynamic> _$DeleteSubOrganizationResultToJson(
+        DeleteSubOrganizationResult instance) =>
     <String, dynamic>{
       'subOrganizationUuid': instance.subOrganizationUuid,
     };
 
-V1DeleteUserTagsIntent _$V1DeleteUserTagsIntentFromJson(
+DeleteUserTagsIntent _$DeleteUserTagsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteUserTagsIntent(
+    DeleteUserTagsIntent(
       userTagIds: (json['userTagIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteUserTagsIntentToJson(
-        V1DeleteUserTagsIntent instance) =>
+Map<String, dynamic> _$DeleteUserTagsIntentToJson(
+        DeleteUserTagsIntent instance) =>
     <String, dynamic>{
       'userTagIds': instance.userTagIds,
     };
 
-V1DeleteUserTagsRequest _$V1DeleteUserTagsRequestFromJson(
+DeleteUserTagsRequest _$DeleteUserTagsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteUserTagsRequest(
-      type: v1DeleteUserTagsRequestTypeFromJson(json['type']),
+    DeleteUserTagsRequest(
+      type: deleteUserTagsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteUserTagsIntent.fromJson(
+      parameters: DeleteUserTagsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteUserTagsRequestToJson(
-        V1DeleteUserTagsRequest instance) =>
+Map<String, dynamic> _$DeleteUserTagsRequestToJson(
+        DeleteUserTagsRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteUserTagsRequestTypeToJson(instance.type),
+      'type': deleteUserTagsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteUserTagsResult _$V1DeleteUserTagsResultFromJson(
+DeleteUserTagsResult _$DeleteUserTagsResultFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteUserTagsResult(
+    DeleteUserTagsResult(
       userTagIds: (json['userTagIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -2327,63 +2107,58 @@ V1DeleteUserTagsResult _$V1DeleteUserTagsResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1DeleteUserTagsResultToJson(
-        V1DeleteUserTagsResult instance) =>
+Map<String, dynamic> _$DeleteUserTagsResultToJson(
+        DeleteUserTagsResult instance) =>
     <String, dynamic>{
       'userTagIds': instance.userTagIds,
       'userIds': instance.userIds,
     };
 
-V1DeleteUsersIntent _$V1DeleteUsersIntentFromJson(Map<String, dynamic> json) =>
-    V1DeleteUsersIntent(
+DeleteUsersIntent _$DeleteUsersIntentFromJson(Map<String, dynamic> json) =>
+    DeleteUsersIntent(
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteUsersIntentToJson(
-        V1DeleteUsersIntent instance) =>
+Map<String, dynamic> _$DeleteUsersIntentToJson(DeleteUsersIntent instance) =>
     <String, dynamic>{
       'userIds': instance.userIds,
     };
 
-V1DeleteUsersRequest _$V1DeleteUsersRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1DeleteUsersRequest(
-      type: v1DeleteUsersRequestTypeFromJson(json['type']),
+DeleteUsersRequest _$DeleteUsersRequestFromJson(Map<String, dynamic> json) =>
+    DeleteUsersRequest(
+      type: deleteUsersRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteUsersIntent.fromJson(
+      parameters: DeleteUsersIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteUsersRequestToJson(
-        V1DeleteUsersRequest instance) =>
+Map<String, dynamic> _$DeleteUsersRequestToJson(DeleteUsersRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteUsersRequestTypeToJson(instance.type),
+      'type': deleteUsersRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteUsersResult _$V1DeleteUsersResultFromJson(Map<String, dynamic> json) =>
-    V1DeleteUsersResult(
+DeleteUsersResult _$DeleteUsersResultFromJson(Map<String, dynamic> json) =>
+    DeleteUsersResult(
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteUsersResultToJson(
-        V1DeleteUsersResult instance) =>
+Map<String, dynamic> _$DeleteUsersResultToJson(DeleteUsersResult instance) =>
     <String, dynamic>{
       'userIds': instance.userIds,
     };
 
-V1DeleteWalletsIntent _$V1DeleteWalletsIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1DeleteWalletsIntent(
+DeleteWalletsIntent _$DeleteWalletsIntentFromJson(Map<String, dynamic> json) =>
+    DeleteWalletsIntent(
       walletIds: (json['walletIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -2391,85 +2166,85 @@ V1DeleteWalletsIntent _$V1DeleteWalletsIntentFromJson(
       deleteWithoutExport: json['deleteWithoutExport'] as bool?,
     );
 
-Map<String, dynamic> _$V1DeleteWalletsIntentToJson(
-        V1DeleteWalletsIntent instance) =>
+Map<String, dynamic> _$DeleteWalletsIntentToJson(
+        DeleteWalletsIntent instance) =>
     <String, dynamic>{
       'walletIds': instance.walletIds,
       'deleteWithoutExport': instance.deleteWithoutExport,
     };
 
-V1DeleteWalletsRequest _$V1DeleteWalletsRequestFromJson(
+DeleteWalletsRequest _$DeleteWalletsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1DeleteWalletsRequest(
-      type: v1DeleteWalletsRequestTypeFromJson(json['type']),
+    DeleteWalletsRequest(
+      type: deleteWalletsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1DeleteWalletsIntent.fromJson(
+      parameters: DeleteWalletsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1DeleteWalletsRequestToJson(
-        V1DeleteWalletsRequest instance) =>
+Map<String, dynamic> _$DeleteWalletsRequestToJson(
+        DeleteWalletsRequest instance) =>
     <String, dynamic>{
-      'type': v1DeleteWalletsRequestTypeToJson(instance.type),
+      'type': deleteWalletsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1DeleteWalletsResult _$V1DeleteWalletsResultFromJson(
-        Map<String, dynamic> json) =>
-    V1DeleteWalletsResult(
+DeleteWalletsResult _$DeleteWalletsResultFromJson(Map<String, dynamic> json) =>
+    DeleteWalletsResult(
       walletIds: (json['walletIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1DeleteWalletsResultToJson(
-        V1DeleteWalletsResult instance) =>
+Map<String, dynamic> _$DeleteWalletsResultToJson(
+        DeleteWalletsResult instance) =>
     <String, dynamic>{
       'walletIds': instance.walletIds,
     };
 
-V1DisablePrivateKeyIntent _$V1DisablePrivateKeyIntentFromJson(
+DisablePrivateKeyIntent _$DisablePrivateKeyIntentFromJson(
         Map<String, dynamic> json) =>
-    V1DisablePrivateKeyIntent(
+    DisablePrivateKeyIntent(
       privateKeyId: json['privateKeyId'] as String,
     );
 
-Map<String, dynamic> _$V1DisablePrivateKeyIntentToJson(
-        V1DisablePrivateKeyIntent instance) =>
+Map<String, dynamic> _$DisablePrivateKeyIntentToJson(
+        DisablePrivateKeyIntent instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
     };
 
-V1DisablePrivateKeyResult _$V1DisablePrivateKeyResultFromJson(
+DisablePrivateKeyResult _$DisablePrivateKeyResultFromJson(
         Map<String, dynamic> json) =>
-    V1DisablePrivateKeyResult(
+    DisablePrivateKeyResult(
       privateKeyId: json['privateKeyId'] as String,
     );
 
-Map<String, dynamic> _$V1DisablePrivateKeyResultToJson(
-        V1DisablePrivateKeyResult instance) =>
+Map<String, dynamic> _$DisablePrivateKeyResultToJson(
+        DisablePrivateKeyResult instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
     };
 
-V1EmailAuthIntent _$V1EmailAuthIntentFromJson(Map<String, dynamic> json) =>
-    V1EmailAuthIntent(
+EmailAuthIntent _$EmailAuthIntentFromJson(Map<String, dynamic> json) =>
+    EmailAuthIntent(
       email: json['email'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
       emailCustomization: json['emailCustomization'] == null
           ? null
-          : V1EmailCustomizationParams.fromJson(
+          : EmailCustomizationParams.fromJson(
               json['emailCustomization'] as Map<String, dynamic>),
       invalidateExisting: json['invalidateExisting'] as bool?,
+      sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
     );
 
-Map<String, dynamic> _$V1EmailAuthIntentToJson(V1EmailAuthIntent instance) =>
+Map<String, dynamic> _$EmailAuthIntentToJson(EmailAuthIntent instance) =>
     <String, dynamic>{
       'email': instance.email,
       'targetPublicKey': instance.targetPublicKey,
@@ -2477,23 +2252,24 @@ Map<String, dynamic> _$V1EmailAuthIntentToJson(V1EmailAuthIntent instance) =>
       'expirationSeconds': instance.expirationSeconds,
       'emailCustomization': instance.emailCustomization?.toJson(),
       'invalidateExisting': instance.invalidateExisting,
+      'sendFromEmailAddress': instance.sendFromEmailAddress,
     };
 
-V1EmailAuthIntentV2 _$V1EmailAuthIntentV2FromJson(Map<String, dynamic> json) =>
-    V1EmailAuthIntentV2(
+EmailAuthIntentV2 _$EmailAuthIntentV2FromJson(Map<String, dynamic> json) =>
+    EmailAuthIntentV2(
       email: json['email'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
       emailCustomization: json['emailCustomization'] == null
           ? null
-          : V1EmailCustomizationParams.fromJson(
+          : EmailCustomizationParams.fromJson(
               json['emailCustomization'] as Map<String, dynamic>),
       invalidateExisting: json['invalidateExisting'] as bool?,
+      sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
     );
 
-Map<String, dynamic> _$V1EmailAuthIntentV2ToJson(
-        V1EmailAuthIntentV2 instance) =>
+Map<String, dynamic> _$EmailAuthIntentV2ToJson(EmailAuthIntentV2 instance) =>
     <String, dynamic>{
       'email': instance.email,
       'targetPublicKey': instance.targetPublicKey,
@@ -2501,40 +2277,41 @@ Map<String, dynamic> _$V1EmailAuthIntentV2ToJson(
       'expirationSeconds': instance.expirationSeconds,
       'emailCustomization': instance.emailCustomization?.toJson(),
       'invalidateExisting': instance.invalidateExisting,
+      'sendFromEmailAddress': instance.sendFromEmailAddress,
     };
 
-V1EmailAuthRequest _$V1EmailAuthRequestFromJson(Map<String, dynamic> json) =>
-    V1EmailAuthRequest(
-      type: v1EmailAuthRequestTypeFromJson(json['type']),
+EmailAuthRequest _$EmailAuthRequestFromJson(Map<String, dynamic> json) =>
+    EmailAuthRequest(
+      type: emailAuthRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1EmailAuthIntentV2.fromJson(
+      parameters: EmailAuthIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1EmailAuthRequestToJson(V1EmailAuthRequest instance) =>
+Map<String, dynamic> _$EmailAuthRequestToJson(EmailAuthRequest instance) =>
     <String, dynamic>{
-      'type': v1EmailAuthRequestTypeToJson(instance.type),
+      'type': emailAuthRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1EmailAuthResult _$V1EmailAuthResultFromJson(Map<String, dynamic> json) =>
-    V1EmailAuthResult(
+EmailAuthResult _$EmailAuthResultFromJson(Map<String, dynamic> json) =>
+    EmailAuthResult(
       userId: json['userId'] as String,
       apiKeyId: json['apiKeyId'] as String,
     );
 
-Map<String, dynamic> _$V1EmailAuthResultToJson(V1EmailAuthResult instance) =>
+Map<String, dynamic> _$EmailAuthResultToJson(EmailAuthResult instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'apiKeyId': instance.apiKeyId,
     };
 
-V1EmailCustomizationParams _$V1EmailCustomizationParamsFromJson(
+EmailCustomizationParams _$EmailCustomizationParamsFromJson(
         Map<String, dynamic> json) =>
-    V1EmailCustomizationParams(
+    EmailCustomizationParams(
       appName: json['appName'] as String?,
       logoUrl: json['logoUrl'] as String?,
       magicLinkTemplate: json['magicLinkTemplate'] as String?,
@@ -2542,8 +2319,8 @@ V1EmailCustomizationParams _$V1EmailCustomizationParamsFromJson(
       templateId: json['templateId'] as String?,
     );
 
-Map<String, dynamic> _$V1EmailCustomizationParamsToJson(
-        V1EmailCustomizationParams instance) =>
+Map<String, dynamic> _$EmailCustomizationParamsToJson(
+        EmailCustomizationParams instance) =>
     <String, dynamic>{
       'appName': instance.appName,
       'logoUrl': instance.logoUrl,
@@ -2552,539 +2329,472 @@ Map<String, dynamic> _$V1EmailCustomizationParamsToJson(
       'templateId': instance.templateId,
     };
 
-V1ExportPrivateKeyIntent _$V1ExportPrivateKeyIntentFromJson(
+ExportPrivateKeyIntent _$ExportPrivateKeyIntentFromJson(
         Map<String, dynamic> json) =>
-    V1ExportPrivateKeyIntent(
+    ExportPrivateKeyIntent(
       privateKeyId: json['privateKeyId'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
     );
 
-Map<String, dynamic> _$V1ExportPrivateKeyIntentToJson(
-        V1ExportPrivateKeyIntent instance) =>
+Map<String, dynamic> _$ExportPrivateKeyIntentToJson(
+        ExportPrivateKeyIntent instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'targetPublicKey': instance.targetPublicKey,
     };
 
-V1ExportPrivateKeyRequest _$V1ExportPrivateKeyRequestFromJson(
+ExportPrivateKeyRequest _$ExportPrivateKeyRequestFromJson(
         Map<String, dynamic> json) =>
-    V1ExportPrivateKeyRequest(
-      type: v1ExportPrivateKeyRequestTypeFromJson(json['type']),
+    ExportPrivateKeyRequest(
+      type: exportPrivateKeyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1ExportPrivateKeyIntent.fromJson(
+      parameters: ExportPrivateKeyIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ExportPrivateKeyRequestToJson(
-        V1ExportPrivateKeyRequest instance) =>
+Map<String, dynamic> _$ExportPrivateKeyRequestToJson(
+        ExportPrivateKeyRequest instance) =>
     <String, dynamic>{
-      'type': v1ExportPrivateKeyRequestTypeToJson(instance.type),
+      'type': exportPrivateKeyRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1ExportPrivateKeyResult _$V1ExportPrivateKeyResultFromJson(
+ExportPrivateKeyResult _$ExportPrivateKeyResultFromJson(
         Map<String, dynamic> json) =>
-    V1ExportPrivateKeyResult(
+    ExportPrivateKeyResult(
       privateKeyId: json['privateKeyId'] as String,
       exportBundle: json['exportBundle'] as String,
     );
 
-Map<String, dynamic> _$V1ExportPrivateKeyResultToJson(
-        V1ExportPrivateKeyResult instance) =>
+Map<String, dynamic> _$ExportPrivateKeyResultToJson(
+        ExportPrivateKeyResult instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'exportBundle': instance.exportBundle,
     };
 
-V1ExportWalletAccountIntent _$V1ExportWalletAccountIntentFromJson(
+ExportWalletAccountIntent _$ExportWalletAccountIntentFromJson(
         Map<String, dynamic> json) =>
-    V1ExportWalletAccountIntent(
+    ExportWalletAccountIntent(
       address: json['address'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
     );
 
-Map<String, dynamic> _$V1ExportWalletAccountIntentToJson(
-        V1ExportWalletAccountIntent instance) =>
+Map<String, dynamic> _$ExportWalletAccountIntentToJson(
+        ExportWalletAccountIntent instance) =>
     <String, dynamic>{
       'address': instance.address,
       'targetPublicKey': instance.targetPublicKey,
     };
 
-V1ExportWalletAccountRequest _$V1ExportWalletAccountRequestFromJson(
+ExportWalletAccountRequest _$ExportWalletAccountRequestFromJson(
         Map<String, dynamic> json) =>
-    V1ExportWalletAccountRequest(
-      type: v1ExportWalletAccountRequestTypeFromJson(json['type']),
+    ExportWalletAccountRequest(
+      type: exportWalletAccountRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1ExportWalletAccountIntent.fromJson(
+      parameters: ExportWalletAccountIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ExportWalletAccountRequestToJson(
-        V1ExportWalletAccountRequest instance) =>
+Map<String, dynamic> _$ExportWalletAccountRequestToJson(
+        ExportWalletAccountRequest instance) =>
     <String, dynamic>{
-      'type': v1ExportWalletAccountRequestTypeToJson(instance.type),
+      'type': exportWalletAccountRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1ExportWalletAccountResult _$V1ExportWalletAccountResultFromJson(
+ExportWalletAccountResult _$ExportWalletAccountResultFromJson(
         Map<String, dynamic> json) =>
-    V1ExportWalletAccountResult(
+    ExportWalletAccountResult(
       address: json['address'] as String,
       exportBundle: json['exportBundle'] as String,
     );
 
-Map<String, dynamic> _$V1ExportWalletAccountResultToJson(
-        V1ExportWalletAccountResult instance) =>
+Map<String, dynamic> _$ExportWalletAccountResultToJson(
+        ExportWalletAccountResult instance) =>
     <String, dynamic>{
       'address': instance.address,
       'exportBundle': instance.exportBundle,
     };
 
-V1ExportWalletIntent _$V1ExportWalletIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1ExportWalletIntent(
+ExportWalletIntent _$ExportWalletIntentFromJson(Map<String, dynamic> json) =>
+    ExportWalletIntent(
       walletId: json['walletId'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
-      language: v1MnemonicLanguageNullableFromJson(json['language']),
+      language: mnemonicLanguageNullableFromJson(json['language']),
     );
 
-Map<String, dynamic> _$V1ExportWalletIntentToJson(
-        V1ExportWalletIntent instance) =>
+Map<String, dynamic> _$ExportWalletIntentToJson(ExportWalletIntent instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'targetPublicKey': instance.targetPublicKey,
-      'language': v1MnemonicLanguageNullableToJson(instance.language),
+      'language': mnemonicLanguageNullableToJson(instance.language),
     };
 
-V1ExportWalletRequest _$V1ExportWalletRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1ExportWalletRequest(
-      type: v1ExportWalletRequestTypeFromJson(json['type']),
+ExportWalletRequest _$ExportWalletRequestFromJson(Map<String, dynamic> json) =>
+    ExportWalletRequest(
+      type: exportWalletRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1ExportWalletIntent.fromJson(
+      parameters: ExportWalletIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ExportWalletRequestToJson(
-        V1ExportWalletRequest instance) =>
+Map<String, dynamic> _$ExportWalletRequestToJson(
+        ExportWalletRequest instance) =>
     <String, dynamic>{
-      'type': v1ExportWalletRequestTypeToJson(instance.type),
+      'type': exportWalletRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1ExportWalletResult _$V1ExportWalletResultFromJson(
-        Map<String, dynamic> json) =>
-    V1ExportWalletResult(
+ExportWalletResult _$ExportWalletResultFromJson(Map<String, dynamic> json) =>
+    ExportWalletResult(
       walletId: json['walletId'] as String,
       exportBundle: json['exportBundle'] as String,
     );
 
-Map<String, dynamic> _$V1ExportWalletResultToJson(
-        V1ExportWalletResult instance) =>
+Map<String, dynamic> _$ExportWalletResultToJson(ExportWalletResult instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'exportBundle': instance.exportBundle,
     };
 
-V1Feature _$V1FeatureFromJson(Map<String, dynamic> json) => V1Feature(
-      name: v1FeatureNameNullableFromJson(json['name']),
+Feature _$FeatureFromJson(Map<String, dynamic> json) => Feature(
+      name: featureNameNullableFromJson(json['name']),
       $value: json['value'] as String?,
     );
 
-Map<String, dynamic> _$V1FeatureToJson(V1Feature instance) => <String, dynamic>{
-      'name': v1FeatureNameNullableToJson(instance.name),
+Map<String, dynamic> _$FeatureToJson(Feature instance) => <String, dynamic>{
+      'name': featureNameNullableToJson(instance.name),
       'value': instance.$value,
     };
 
-V1GetActivitiesRequest _$V1GetActivitiesRequestFromJson(
+GetActivitiesRequest _$GetActivitiesRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetActivitiesRequest(
+    GetActivitiesRequest(
       organizationId: json['organizationId'] as String,
       filterByStatus:
-          v1ActivityStatusListFromJson(json['filterByStatus'] as List?),
+          activityStatusListFromJson(json['filterByStatus'] as List?),
       paginationOptions: json['paginationOptions'] == null
           ? null
-          : V1Pagination.fromJson(
+          : Pagination.fromJson(
               json['paginationOptions'] as Map<String, dynamic>),
-      filterByType: v1ActivityTypeListFromJson(json['filterByType'] as List?),
+      filterByType: activityTypeListFromJson(json['filterByType'] as List?),
     );
 
-Map<String, dynamic> _$V1GetActivitiesRequestToJson(
-        V1GetActivitiesRequest instance) =>
+Map<String, dynamic> _$GetActivitiesRequestToJson(
+        GetActivitiesRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
-      'filterByStatus': v1ActivityStatusListToJson(instance.filterByStatus),
+      'filterByStatus': activityStatusListToJson(instance.filterByStatus),
       'paginationOptions': instance.paginationOptions?.toJson(),
-      'filterByType': v1ActivityTypeListToJson(instance.filterByType),
+      'filterByType': activityTypeListToJson(instance.filterByType),
     };
 
-V1GetActivitiesResponse _$V1GetActivitiesResponseFromJson(
+GetActivitiesResponse _$GetActivitiesResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetActivitiesResponse(
+    GetActivitiesResponse(
       activities: (json['activities'] as List<dynamic>?)
-              ?.map((e) => V1Activity.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Activity.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetActivitiesResponseToJson(
-        V1GetActivitiesResponse instance) =>
+Map<String, dynamic> _$GetActivitiesResponseToJson(
+        GetActivitiesResponse instance) =>
     <String, dynamic>{
       'activities': instance.activities.map((e) => e.toJson()).toList(),
     };
 
-V1GetActivityRequest _$V1GetActivityRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1GetActivityRequest(
+GetActivityRequest _$GetActivityRequestFromJson(Map<String, dynamic> json) =>
+    GetActivityRequest(
       organizationId: json['organizationId'] as String,
       activityId: json['activityId'] as String,
     );
 
-Map<String, dynamic> _$V1GetActivityRequestToJson(
-        V1GetActivityRequest instance) =>
+Map<String, dynamic> _$GetActivityRequestToJson(GetActivityRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'activityId': instance.activityId,
     };
 
-V1GetApiKeyRequest _$V1GetApiKeyRequestFromJson(Map<String, dynamic> json) =>
-    V1GetApiKeyRequest(
+GetApiKeyRequest _$GetApiKeyRequestFromJson(Map<String, dynamic> json) =>
+    GetApiKeyRequest(
       organizationId: json['organizationId'] as String,
       apiKeyId: json['apiKeyId'] as String,
     );
 
-Map<String, dynamic> _$V1GetApiKeyRequestToJson(V1GetApiKeyRequest instance) =>
+Map<String, dynamic> _$GetApiKeyRequestToJson(GetApiKeyRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'apiKeyId': instance.apiKeyId,
     };
 
-V1GetApiKeyResponse _$V1GetApiKeyResponseFromJson(Map<String, dynamic> json) =>
-    V1GetApiKeyResponse(
-      apiKey: V1ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>),
+GetApiKeyResponse _$GetApiKeyResponseFromJson(Map<String, dynamic> json) =>
+    GetApiKeyResponse(
+      apiKey: ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetApiKeyResponseToJson(
-        V1GetApiKeyResponse instance) =>
+Map<String, dynamic> _$GetApiKeyResponseToJson(GetApiKeyResponse instance) =>
     <String, dynamic>{
       'apiKey': instance.apiKey.toJson(),
     };
 
-V1GetApiKeysRequest _$V1GetApiKeysRequestFromJson(Map<String, dynamic> json) =>
-    V1GetApiKeysRequest(
+GetApiKeysRequest _$GetApiKeysRequestFromJson(Map<String, dynamic> json) =>
+    GetApiKeysRequest(
       organizationId: json['organizationId'] as String,
       userId: json['userId'] as String?,
     );
 
-Map<String, dynamic> _$V1GetApiKeysRequestToJson(
-        V1GetApiKeysRequest instance) =>
+Map<String, dynamic> _$GetApiKeysRequestToJson(GetApiKeysRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'userId': instance.userId,
     };
 
-V1GetApiKeysResponse _$V1GetApiKeysResponseFromJson(
-        Map<String, dynamic> json) =>
-    V1GetApiKeysResponse(
+GetApiKeysResponse _$GetApiKeysResponseFromJson(Map<String, dynamic> json) =>
+    GetApiKeysResponse(
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => V1ApiKey.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetApiKeysResponseToJson(
-        V1GetApiKeysResponse instance) =>
+Map<String, dynamic> _$GetApiKeysResponseToJson(GetApiKeysResponse instance) =>
     <String, dynamic>{
       'apiKeys': instance.apiKeys.map((e) => e.toJson()).toList(),
     };
 
-V1GetAttestationDocumentRequest _$V1GetAttestationDocumentRequestFromJson(
+GetAuthenticatorRequest _$GetAuthenticatorRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetAttestationDocumentRequest(
-      organizationId: json['organizationId'] as String,
-      enclaveType: json['enclaveType'] as String,
-    );
-
-Map<String, dynamic> _$V1GetAttestationDocumentRequestToJson(
-        V1GetAttestationDocumentRequest instance) =>
-    <String, dynamic>{
-      'organizationId': instance.organizationId,
-      'enclaveType': instance.enclaveType,
-    };
-
-V1GetAttestationDocumentResponse _$V1GetAttestationDocumentResponseFromJson(
-        Map<String, dynamic> json) =>
-    V1GetAttestationDocumentResponse(
-      attestationDocument: json['attestationDocument'] as String,
-    );
-
-Map<String, dynamic> _$V1GetAttestationDocumentResponseToJson(
-        V1GetAttestationDocumentResponse instance) =>
-    <String, dynamic>{
-      'attestationDocument': instance.attestationDocument,
-    };
-
-V1GetAuthenticatorRequest _$V1GetAuthenticatorRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1GetAuthenticatorRequest(
+    GetAuthenticatorRequest(
       organizationId: json['organizationId'] as String,
       authenticatorId: json['authenticatorId'] as String,
     );
 
-Map<String, dynamic> _$V1GetAuthenticatorRequestToJson(
-        V1GetAuthenticatorRequest instance) =>
+Map<String, dynamic> _$GetAuthenticatorRequestToJson(
+        GetAuthenticatorRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'authenticatorId': instance.authenticatorId,
     };
 
-V1GetAuthenticatorResponse _$V1GetAuthenticatorResponseFromJson(
+GetAuthenticatorResponse _$GetAuthenticatorResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetAuthenticatorResponse(
-      authenticator: V1Authenticator.fromJson(
-          json['authenticator'] as Map<String, dynamic>),
+    GetAuthenticatorResponse(
+      authenticator:
+          Authenticator.fromJson(json['authenticator'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetAuthenticatorResponseToJson(
-        V1GetAuthenticatorResponse instance) =>
+Map<String, dynamic> _$GetAuthenticatorResponseToJson(
+        GetAuthenticatorResponse instance) =>
     <String, dynamic>{
       'authenticator': instance.authenticator.toJson(),
     };
 
-V1GetAuthenticatorsRequest _$V1GetAuthenticatorsRequestFromJson(
+GetAuthenticatorsRequest _$GetAuthenticatorsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetAuthenticatorsRequest(
+    GetAuthenticatorsRequest(
       organizationId: json['organizationId'] as String,
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1GetAuthenticatorsRequestToJson(
-        V1GetAuthenticatorsRequest instance) =>
+Map<String, dynamic> _$GetAuthenticatorsRequestToJson(
+        GetAuthenticatorsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'userId': instance.userId,
     };
 
-V1GetAuthenticatorsResponse _$V1GetAuthenticatorsResponseFromJson(
+GetAuthenticatorsResponse _$GetAuthenticatorsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetAuthenticatorsResponse(
+    GetAuthenticatorsResponse(
       authenticators: (json['authenticators'] as List<dynamic>?)
-              ?.map((e) => V1Authenticator.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Authenticator.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetAuthenticatorsResponseToJson(
-        V1GetAuthenticatorsResponse instance) =>
+Map<String, dynamic> _$GetAuthenticatorsResponseToJson(
+        GetAuthenticatorsResponse instance) =>
     <String, dynamic>{
       'authenticators': instance.authenticators.map((e) => e.toJson()).toList(),
     };
 
-V1GetOauthProvidersRequest _$V1GetOauthProvidersRequestFromJson(
+GetOauthProvidersRequest _$GetOauthProvidersRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetOauthProvidersRequest(
+    GetOauthProvidersRequest(
       organizationId: json['organizationId'] as String,
       userId: json['userId'] as String?,
     );
 
-Map<String, dynamic> _$V1GetOauthProvidersRequestToJson(
-        V1GetOauthProvidersRequest instance) =>
+Map<String, dynamic> _$GetOauthProvidersRequestToJson(
+        GetOauthProvidersRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'userId': instance.userId,
     };
 
-V1GetOauthProvidersResponse _$V1GetOauthProvidersResponseFromJson(
+GetOauthProvidersResponse _$GetOauthProvidersResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetOauthProvidersResponse(
+    GetOauthProvidersResponse(
       oauthProviders: (json['oauthProviders'] as List<dynamic>?)
-              ?.map((e) => V1OauthProvider.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => OauthProvider.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetOauthProvidersResponseToJson(
-        V1GetOauthProvidersResponse instance) =>
+Map<String, dynamic> _$GetOauthProvidersResponseToJson(
+        GetOauthProvidersResponse instance) =>
     <String, dynamic>{
       'oauthProviders': instance.oauthProviders.map((e) => e.toJson()).toList(),
     };
 
-V1GetOrganizationConfigsRequest _$V1GetOrganizationConfigsRequestFromJson(
+GetOrganizationConfigsRequest _$GetOrganizationConfigsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetOrganizationConfigsRequest(
+    GetOrganizationConfigsRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1GetOrganizationConfigsRequestToJson(
-        V1GetOrganizationConfigsRequest instance) =>
+Map<String, dynamic> _$GetOrganizationConfigsRequestToJson(
+        GetOrganizationConfigsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1GetOrganizationConfigsResponse _$V1GetOrganizationConfigsResponseFromJson(
+GetOrganizationConfigsResponse _$GetOrganizationConfigsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetOrganizationConfigsResponse(
-      configs: V1Config.fromJson(json['configs'] as Map<String, dynamic>),
+    GetOrganizationConfigsResponse(
+      configs: Config.fromJson(json['configs'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetOrganizationConfigsResponseToJson(
-        V1GetOrganizationConfigsResponse instance) =>
+Map<String, dynamic> _$GetOrganizationConfigsResponseToJson(
+        GetOrganizationConfigsResponse instance) =>
     <String, dynamic>{
       'configs': instance.configs.toJson(),
     };
 
-V1GetOrganizationRequest _$V1GetOrganizationRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1GetOrganizationRequest(
+GetPoliciesRequest _$GetPoliciesRequestFromJson(Map<String, dynamic> json) =>
+    GetPoliciesRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1GetOrganizationRequestToJson(
-        V1GetOrganizationRequest instance) =>
+Map<String, dynamic> _$GetPoliciesRequestToJson(GetPoliciesRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1GetOrganizationResponse _$V1GetOrganizationResponseFromJson(
-        Map<String, dynamic> json) =>
-    V1GetOrganizationResponse(
-      organizationData: V1OrganizationData.fromJson(
-          json['organizationData'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$V1GetOrganizationResponseToJson(
-        V1GetOrganizationResponse instance) =>
-    <String, dynamic>{
-      'organizationData': instance.organizationData.toJson(),
-    };
-
-V1GetPoliciesRequest _$V1GetPoliciesRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1GetPoliciesRequest(
-      organizationId: json['organizationId'] as String,
-    );
-
-Map<String, dynamic> _$V1GetPoliciesRequestToJson(
-        V1GetPoliciesRequest instance) =>
-    <String, dynamic>{
-      'organizationId': instance.organizationId,
-    };
-
-V1GetPoliciesResponse _$V1GetPoliciesResponseFromJson(
-        Map<String, dynamic> json) =>
-    V1GetPoliciesResponse(
+GetPoliciesResponse _$GetPoliciesResponseFromJson(Map<String, dynamic> json) =>
+    GetPoliciesResponse(
       policies: (json['policies'] as List<dynamic>?)
-              ?.map((e) => V1Policy.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Policy.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetPoliciesResponseToJson(
-        V1GetPoliciesResponse instance) =>
+Map<String, dynamic> _$GetPoliciesResponseToJson(
+        GetPoliciesResponse instance) =>
     <String, dynamic>{
       'policies': instance.policies.map((e) => e.toJson()).toList(),
     };
 
-V1GetPolicyRequest _$V1GetPolicyRequestFromJson(Map<String, dynamic> json) =>
-    V1GetPolicyRequest(
+GetPolicyRequest _$GetPolicyRequestFromJson(Map<String, dynamic> json) =>
+    GetPolicyRequest(
       organizationId: json['organizationId'] as String,
       policyId: json['policyId'] as String,
     );
 
-Map<String, dynamic> _$V1GetPolicyRequestToJson(V1GetPolicyRequest instance) =>
+Map<String, dynamic> _$GetPolicyRequestToJson(GetPolicyRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'policyId': instance.policyId,
     };
 
-V1GetPolicyResponse _$V1GetPolicyResponseFromJson(Map<String, dynamic> json) =>
-    V1GetPolicyResponse(
-      policy: V1Policy.fromJson(json['policy'] as Map<String, dynamic>),
+GetPolicyResponse _$GetPolicyResponseFromJson(Map<String, dynamic> json) =>
+    GetPolicyResponse(
+      policy: Policy.fromJson(json['policy'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetPolicyResponseToJson(
-        V1GetPolicyResponse instance) =>
+Map<String, dynamic> _$GetPolicyResponseToJson(GetPolicyResponse instance) =>
     <String, dynamic>{
       'policy': instance.policy.toJson(),
     };
 
-V1GetPrivateKeyRequest _$V1GetPrivateKeyRequestFromJson(
+GetPrivateKeyRequest _$GetPrivateKeyRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetPrivateKeyRequest(
+    GetPrivateKeyRequest(
       organizationId: json['organizationId'] as String,
       privateKeyId: json['privateKeyId'] as String,
     );
 
-Map<String, dynamic> _$V1GetPrivateKeyRequestToJson(
-        V1GetPrivateKeyRequest instance) =>
+Map<String, dynamic> _$GetPrivateKeyRequestToJson(
+        GetPrivateKeyRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'privateKeyId': instance.privateKeyId,
     };
 
-V1GetPrivateKeyResponse _$V1GetPrivateKeyResponseFromJson(
+GetPrivateKeyResponse _$GetPrivateKeyResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetPrivateKeyResponse(
+    GetPrivateKeyResponse(
       privateKey:
-          V1PrivateKey.fromJson(json['privateKey'] as Map<String, dynamic>),
+          PrivateKey.fromJson(json['privateKey'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetPrivateKeyResponseToJson(
-        V1GetPrivateKeyResponse instance) =>
+Map<String, dynamic> _$GetPrivateKeyResponseToJson(
+        GetPrivateKeyResponse instance) =>
     <String, dynamic>{
       'privateKey': instance.privateKey.toJson(),
     };
 
-V1GetPrivateKeysRequest _$V1GetPrivateKeysRequestFromJson(
+GetPrivateKeysRequest _$GetPrivateKeysRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetPrivateKeysRequest(
+    GetPrivateKeysRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1GetPrivateKeysRequestToJson(
-        V1GetPrivateKeysRequest instance) =>
+Map<String, dynamic> _$GetPrivateKeysRequestToJson(
+        GetPrivateKeysRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1GetPrivateKeysResponse _$V1GetPrivateKeysResponseFromJson(
+GetPrivateKeysResponse _$GetPrivateKeysResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetPrivateKeysResponse(
+    GetPrivateKeysResponse(
       privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map((e) => V1PrivateKey.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => PrivateKey.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetPrivateKeysResponseToJson(
-        V1GetPrivateKeysResponse instance) =>
+Map<String, dynamic> _$GetPrivateKeysResponseToJson(
+        GetPrivateKeysResponse instance) =>
     <String, dynamic>{
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
     };
 
-V1GetSubOrgIdsRequest _$V1GetSubOrgIdsRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1GetSubOrgIdsRequest(
+GetSubOrgIdsRequest _$GetSubOrgIdsRequestFromJson(Map<String, dynamic> json) =>
+    GetSubOrgIdsRequest(
       organizationId: json['organizationId'] as String,
       filterType: json['filterType'] as String?,
       filterValue: json['filterValue'] as String?,
       paginationOptions: json['paginationOptions'] == null
           ? null
-          : V1Pagination.fromJson(
+          : Pagination.fromJson(
               json['paginationOptions'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetSubOrgIdsRequestToJson(
-        V1GetSubOrgIdsRequest instance) =>
+Map<String, dynamic> _$GetSubOrgIdsRequestToJson(
+        GetSubOrgIdsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'filterType': instance.filterType,
@@ -3092,80 +2802,80 @@ Map<String, dynamic> _$V1GetSubOrgIdsRequestToJson(
       'paginationOptions': instance.paginationOptions?.toJson(),
     };
 
-V1GetSubOrgIdsResponse _$V1GetSubOrgIdsResponseFromJson(
+GetSubOrgIdsResponse _$GetSubOrgIdsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetSubOrgIdsResponse(
+    GetSubOrgIdsResponse(
       organizationIds: (json['organizationIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetSubOrgIdsResponseToJson(
-        V1GetSubOrgIdsResponse instance) =>
+Map<String, dynamic> _$GetSubOrgIdsResponseToJson(
+        GetSubOrgIdsResponse instance) =>
     <String, dynamic>{
       'organizationIds': instance.organizationIds,
     };
 
-V1GetUserRequest _$V1GetUserRequestFromJson(Map<String, dynamic> json) =>
-    V1GetUserRequest(
+GetUserRequest _$GetUserRequestFromJson(Map<String, dynamic> json) =>
+    GetUserRequest(
       organizationId: json['organizationId'] as String,
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1GetUserRequestToJson(V1GetUserRequest instance) =>
+Map<String, dynamic> _$GetUserRequestToJson(GetUserRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'userId': instance.userId,
     };
 
-V1GetUserResponse _$V1GetUserResponseFromJson(Map<String, dynamic> json) =>
-    V1GetUserResponse(
-      user: V1User.fromJson(json['user'] as Map<String, dynamic>),
+GetUserResponse _$GetUserResponseFromJson(Map<String, dynamic> json) =>
+    GetUserResponse(
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetUserResponseToJson(V1GetUserResponse instance) =>
+Map<String, dynamic> _$GetUserResponseToJson(GetUserResponse instance) =>
     <String, dynamic>{
       'user': instance.user.toJson(),
     };
 
-V1GetUsersRequest _$V1GetUsersRequestFromJson(Map<String, dynamic> json) =>
-    V1GetUsersRequest(
+GetUsersRequest _$GetUsersRequestFromJson(Map<String, dynamic> json) =>
+    GetUsersRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1GetUsersRequestToJson(V1GetUsersRequest instance) =>
+Map<String, dynamic> _$GetUsersRequestToJson(GetUsersRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1GetUsersResponse _$V1GetUsersResponseFromJson(Map<String, dynamic> json) =>
-    V1GetUsersResponse(
+GetUsersResponse _$GetUsersResponseFromJson(Map<String, dynamic> json) =>
+    GetUsersResponse(
       users: (json['users'] as List<dynamic>?)
-              ?.map((e) => V1User.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => User.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetUsersResponseToJson(V1GetUsersResponse instance) =>
+Map<String, dynamic> _$GetUsersResponseToJson(GetUsersResponse instance) =>
     <String, dynamic>{
       'users': instance.users.map((e) => e.toJson()).toList(),
     };
 
-V1GetVerifiedSubOrgIdsRequest _$V1GetVerifiedSubOrgIdsRequestFromJson(
+GetVerifiedSubOrgIdsRequest _$GetVerifiedSubOrgIdsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetVerifiedSubOrgIdsRequest(
+    GetVerifiedSubOrgIdsRequest(
       organizationId: json['organizationId'] as String,
       filterType: json['filterType'] as String?,
       filterValue: json['filterValue'] as String?,
       paginationOptions: json['paginationOptions'] == null
           ? null
-          : V1Pagination.fromJson(
+          : Pagination.fromJson(
               json['paginationOptions'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetVerifiedSubOrgIdsRequestToJson(
-        V1GetVerifiedSubOrgIdsRequest instance) =>
+Map<String, dynamic> _$GetVerifiedSubOrgIdsRequestToJson(
+        GetVerifiedSubOrgIdsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'filterType': instance.filterType,
@@ -3173,124 +2883,149 @@ Map<String, dynamic> _$V1GetVerifiedSubOrgIdsRequestToJson(
       'paginationOptions': instance.paginationOptions?.toJson(),
     };
 
-V1GetVerifiedSubOrgIdsResponse _$V1GetVerifiedSubOrgIdsResponseFromJson(
+GetVerifiedSubOrgIdsResponse _$GetVerifiedSubOrgIdsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetVerifiedSubOrgIdsResponse(
+    GetVerifiedSubOrgIdsResponse(
       organizationIds: (json['organizationIds'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetVerifiedSubOrgIdsResponseToJson(
-        V1GetVerifiedSubOrgIdsResponse instance) =>
+Map<String, dynamic> _$GetVerifiedSubOrgIdsResponseToJson(
+        GetVerifiedSubOrgIdsResponse instance) =>
     <String, dynamic>{
       'organizationIds': instance.organizationIds,
     };
 
-V1GetWalletAccountsRequest _$V1GetWalletAccountsRequestFromJson(
+GetWalletAccountRequest _$GetWalletAccountRequestFromJson(
         Map<String, dynamic> json) =>
-    V1GetWalletAccountsRequest(
+    GetWalletAccountRequest(
+      organizationId: json['organizationId'] as String,
+      walletId: json['walletId'] as String,
+      address: json['address'] as String?,
+      path: json['path'] as String?,
+    );
+
+Map<String, dynamic> _$GetWalletAccountRequestToJson(
+        GetWalletAccountRequest instance) =>
+    <String, dynamic>{
+      'organizationId': instance.organizationId,
+      'walletId': instance.walletId,
+      'address': instance.address,
+      'path': instance.path,
+    };
+
+GetWalletAccountResponse _$GetWalletAccountResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetWalletAccountResponse(
+      account: WalletAccount.fromJson(json['account'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetWalletAccountResponseToJson(
+        GetWalletAccountResponse instance) =>
+    <String, dynamic>{
+      'account': instance.account.toJson(),
+    };
+
+GetWalletAccountsRequest _$GetWalletAccountsRequestFromJson(
+        Map<String, dynamic> json) =>
+    GetWalletAccountsRequest(
       organizationId: json['organizationId'] as String,
       walletId: json['walletId'] as String,
       paginationOptions: json['paginationOptions'] == null
           ? null
-          : V1Pagination.fromJson(
+          : Pagination.fromJson(
               json['paginationOptions'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetWalletAccountsRequestToJson(
-        V1GetWalletAccountsRequest instance) =>
+Map<String, dynamic> _$GetWalletAccountsRequestToJson(
+        GetWalletAccountsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'walletId': instance.walletId,
       'paginationOptions': instance.paginationOptions?.toJson(),
     };
 
-V1GetWalletAccountsResponse _$V1GetWalletAccountsResponseFromJson(
+GetWalletAccountsResponse _$GetWalletAccountsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1GetWalletAccountsResponse(
+    GetWalletAccountsResponse(
       accounts: (json['accounts'] as List<dynamic>?)
-              ?.map((e) => V1WalletAccount.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => WalletAccount.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetWalletAccountsResponseToJson(
-        V1GetWalletAccountsResponse instance) =>
+Map<String, dynamic> _$GetWalletAccountsResponseToJson(
+        GetWalletAccountsResponse instance) =>
     <String, dynamic>{
       'accounts': instance.accounts.map((e) => e.toJson()).toList(),
     };
 
-V1GetWalletRequest _$V1GetWalletRequestFromJson(Map<String, dynamic> json) =>
-    V1GetWalletRequest(
+GetWalletRequest _$GetWalletRequestFromJson(Map<String, dynamic> json) =>
+    GetWalletRequest(
       organizationId: json['organizationId'] as String,
       walletId: json['walletId'] as String,
     );
 
-Map<String, dynamic> _$V1GetWalletRequestToJson(V1GetWalletRequest instance) =>
+Map<String, dynamic> _$GetWalletRequestToJson(GetWalletRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'walletId': instance.walletId,
     };
 
-V1GetWalletResponse _$V1GetWalletResponseFromJson(Map<String, dynamic> json) =>
-    V1GetWalletResponse(
-      wallet: V1Wallet.fromJson(json['wallet'] as Map<String, dynamic>),
+GetWalletResponse _$GetWalletResponseFromJson(Map<String, dynamic> json) =>
+    GetWalletResponse(
+      wallet: Wallet.fromJson(json['wallet'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1GetWalletResponseToJson(
-        V1GetWalletResponse instance) =>
+Map<String, dynamic> _$GetWalletResponseToJson(GetWalletResponse instance) =>
     <String, dynamic>{
       'wallet': instance.wallet.toJson(),
     };
 
-V1GetWalletsRequest _$V1GetWalletsRequestFromJson(Map<String, dynamic> json) =>
-    V1GetWalletsRequest(
+GetWalletsRequest _$GetWalletsRequestFromJson(Map<String, dynamic> json) =>
+    GetWalletsRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1GetWalletsRequestToJson(
-        V1GetWalletsRequest instance) =>
+Map<String, dynamic> _$GetWalletsRequestToJson(GetWalletsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1GetWalletsResponse _$V1GetWalletsResponseFromJson(
-        Map<String, dynamic> json) =>
-    V1GetWalletsResponse(
+GetWalletsResponse _$GetWalletsResponseFromJson(Map<String, dynamic> json) =>
+    GetWalletsResponse(
       wallets: (json['wallets'] as List<dynamic>?)
-              ?.map((e) => V1Wallet.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Wallet.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1GetWalletsResponseToJson(
-        V1GetWalletsResponse instance) =>
+Map<String, dynamic> _$GetWalletsResponseToJson(GetWalletsResponse instance) =>
     <String, dynamic>{
       'wallets': instance.wallets.map((e) => e.toJson()).toList(),
     };
 
-V1GetWhoamiRequest _$V1GetWhoamiRequestFromJson(Map<String, dynamic> json) =>
-    V1GetWhoamiRequest(
+GetWhoamiRequest _$GetWhoamiRequestFromJson(Map<String, dynamic> json) =>
+    GetWhoamiRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1GetWhoamiRequestToJson(V1GetWhoamiRequest instance) =>
+Map<String, dynamic> _$GetWhoamiRequestToJson(GetWhoamiRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1GetWhoamiResponse _$V1GetWhoamiResponseFromJson(Map<String, dynamic> json) =>
-    V1GetWhoamiResponse(
+GetWhoamiResponse _$GetWhoamiResponseFromJson(Map<String, dynamic> json) =>
+    GetWhoamiResponse(
       organizationId: json['organizationId'] as String,
       organizationName: json['organizationName'] as String,
       userId: json['userId'] as String,
       username: json['username'] as String,
     );
 
-Map<String, dynamic> _$V1GetWhoamiResponseToJson(
-        V1GetWhoamiResponse instance) =>
+Map<String, dynamic> _$GetWhoamiResponseToJson(GetWhoamiResponse instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
       'organizationName': instance.organizationName,
@@ -3298,79 +3033,77 @@ Map<String, dynamic> _$V1GetWhoamiResponseToJson(
       'username': instance.username,
     };
 
-V1ImportPrivateKeyIntent _$V1ImportPrivateKeyIntentFromJson(
+ImportPrivateKeyIntent _$ImportPrivateKeyIntentFromJson(
         Map<String, dynamic> json) =>
-    V1ImportPrivateKeyIntent(
+    ImportPrivateKeyIntent(
       userId: json['userId'] as String,
       privateKeyName: json['privateKeyName'] as String,
       encryptedBundle: json['encryptedBundle'] as String,
-      curve: v1CurveFromJson(json['curve']),
+      curve: curveFromJson(json['curve']),
       addressFormats:
-          v1AddressFormatListFromJson(json['addressFormats'] as List?),
+          addressFormatListFromJson(json['addressFormats'] as List?),
     );
 
-Map<String, dynamic> _$V1ImportPrivateKeyIntentToJson(
-        V1ImportPrivateKeyIntent instance) =>
+Map<String, dynamic> _$ImportPrivateKeyIntentToJson(
+        ImportPrivateKeyIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'privateKeyName': instance.privateKeyName,
       'encryptedBundle': instance.encryptedBundle,
-      'curve': v1CurveToJson(instance.curve),
-      'addressFormats': v1AddressFormatListToJson(instance.addressFormats),
+      'curve': curveToJson(instance.curve),
+      'addressFormats': addressFormatListToJson(instance.addressFormats),
     };
 
-V1ImportPrivateKeyRequest _$V1ImportPrivateKeyRequestFromJson(
+ImportPrivateKeyRequest _$ImportPrivateKeyRequestFromJson(
         Map<String, dynamic> json) =>
-    V1ImportPrivateKeyRequest(
-      type: v1ImportPrivateKeyRequestTypeFromJson(json['type']),
+    ImportPrivateKeyRequest(
+      type: importPrivateKeyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1ImportPrivateKeyIntent.fromJson(
+      parameters: ImportPrivateKeyIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ImportPrivateKeyRequestToJson(
-        V1ImportPrivateKeyRequest instance) =>
+Map<String, dynamic> _$ImportPrivateKeyRequestToJson(
+        ImportPrivateKeyRequest instance) =>
     <String, dynamic>{
-      'type': v1ImportPrivateKeyRequestTypeToJson(instance.type),
+      'type': importPrivateKeyRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1ImportPrivateKeyResult _$V1ImportPrivateKeyResultFromJson(
+ImportPrivateKeyResult _$ImportPrivateKeyResultFromJson(
         Map<String, dynamic> json) =>
-    V1ImportPrivateKeyResult(
+    ImportPrivateKeyResult(
       privateKeyId: json['privateKeyId'] as String,
       addresses: (json['addresses'] as List<dynamic>?)
-              ?.map((e) => Immutableactivityv1Address.fromJson(
-                  e as Map<String, dynamic>))
+              ?.map(
+                  (e) => ActivityV1Address.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1ImportPrivateKeyResultToJson(
-        V1ImportPrivateKeyResult instance) =>
+Map<String, dynamic> _$ImportPrivateKeyResultToJson(
+        ImportPrivateKeyResult instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'addresses': instance.addresses.map((e) => e.toJson()).toList(),
     };
 
-V1ImportWalletIntent _$V1ImportWalletIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1ImportWalletIntent(
+ImportWalletIntent _$ImportWalletIntentFromJson(Map<String, dynamic> json) =>
+    ImportWalletIntent(
       userId: json['userId'] as String,
       walletName: json['walletName'] as String,
       encryptedBundle: json['encryptedBundle'] as String,
       accounts: (json['accounts'] as List<dynamic>?)
               ?.map((e) =>
-                  V1WalletAccountParams.fromJson(e as Map<String, dynamic>))
+                  WalletAccountParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1ImportWalletIntentToJson(
-        V1ImportWalletIntent instance) =>
+Map<String, dynamic> _$ImportWalletIntentToJson(ImportWalletIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'walletName': instance.walletName,
@@ -3378,28 +3111,26 @@ Map<String, dynamic> _$V1ImportWalletIntentToJson(
       'accounts': instance.accounts.map((e) => e.toJson()).toList(),
     };
 
-V1ImportWalletRequest _$V1ImportWalletRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1ImportWalletRequest(
-      type: v1ImportWalletRequestTypeFromJson(json['type']),
+ImportWalletRequest _$ImportWalletRequestFromJson(Map<String, dynamic> json) =>
+    ImportWalletRequest(
+      type: importWalletRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1ImportWalletIntent.fromJson(
+      parameters: ImportWalletIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ImportWalletRequestToJson(
-        V1ImportWalletRequest instance) =>
+Map<String, dynamic> _$ImportWalletRequestToJson(
+        ImportWalletRequest instance) =>
     <String, dynamic>{
-      'type': v1ImportWalletRequestTypeToJson(instance.type),
+      'type': importWalletRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1ImportWalletResult _$V1ImportWalletResultFromJson(
-        Map<String, dynamic> json) =>
-    V1ImportWalletResult(
+ImportWalletResult _$ImportWalletResultFromJson(Map<String, dynamic> json) =>
+    ImportWalletResult(
       walletId: json['walletId'] as String,
       addresses: (json['addresses'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -3407,168 +3138,165 @@ V1ImportWalletResult _$V1ImportWalletResultFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1ImportWalletResultToJson(
-        V1ImportWalletResult instance) =>
+Map<String, dynamic> _$ImportWalletResultToJson(ImportWalletResult instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'addresses': instance.addresses,
     };
 
-V1InitImportPrivateKeyIntent _$V1InitImportPrivateKeyIntentFromJson(
+InitImportPrivateKeyIntent _$InitImportPrivateKeyIntentFromJson(
         Map<String, dynamic> json) =>
-    V1InitImportPrivateKeyIntent(
+    InitImportPrivateKeyIntent(
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1InitImportPrivateKeyIntentToJson(
-        V1InitImportPrivateKeyIntent instance) =>
+Map<String, dynamic> _$InitImportPrivateKeyIntentToJson(
+        InitImportPrivateKeyIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
     };
 
-V1InitImportPrivateKeyRequest _$V1InitImportPrivateKeyRequestFromJson(
+InitImportPrivateKeyRequest _$InitImportPrivateKeyRequestFromJson(
         Map<String, dynamic> json) =>
-    V1InitImportPrivateKeyRequest(
-      type: v1InitImportPrivateKeyRequestTypeFromJson(json['type']),
+    InitImportPrivateKeyRequest(
+      type: initImportPrivateKeyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1InitImportPrivateKeyIntent.fromJson(
+      parameters: InitImportPrivateKeyIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1InitImportPrivateKeyRequestToJson(
-        V1InitImportPrivateKeyRequest instance) =>
+Map<String, dynamic> _$InitImportPrivateKeyRequestToJson(
+        InitImportPrivateKeyRequest instance) =>
     <String, dynamic>{
-      'type': v1InitImportPrivateKeyRequestTypeToJson(instance.type),
+      'type': initImportPrivateKeyRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1InitImportPrivateKeyResult _$V1InitImportPrivateKeyResultFromJson(
+InitImportPrivateKeyResult _$InitImportPrivateKeyResultFromJson(
         Map<String, dynamic> json) =>
-    V1InitImportPrivateKeyResult(
+    InitImportPrivateKeyResult(
       importBundle: json['importBundle'] as String,
     );
 
-Map<String, dynamic> _$V1InitImportPrivateKeyResultToJson(
-        V1InitImportPrivateKeyResult instance) =>
+Map<String, dynamic> _$InitImportPrivateKeyResultToJson(
+        InitImportPrivateKeyResult instance) =>
     <String, dynamic>{
       'importBundle': instance.importBundle,
     };
 
-V1InitImportWalletIntent _$V1InitImportWalletIntentFromJson(
+InitImportWalletIntent _$InitImportWalletIntentFromJson(
         Map<String, dynamic> json) =>
-    V1InitImportWalletIntent(
+    InitImportWalletIntent(
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1InitImportWalletIntentToJson(
-        V1InitImportWalletIntent instance) =>
+Map<String, dynamic> _$InitImportWalletIntentToJson(
+        InitImportWalletIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
     };
 
-V1InitImportWalletRequest _$V1InitImportWalletRequestFromJson(
+InitImportWalletRequest _$InitImportWalletRequestFromJson(
         Map<String, dynamic> json) =>
-    V1InitImportWalletRequest(
-      type: v1InitImportWalletRequestTypeFromJson(json['type']),
+    InitImportWalletRequest(
+      type: initImportWalletRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1InitImportWalletIntent.fromJson(
+      parameters: InitImportWalletIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1InitImportWalletRequestToJson(
-        V1InitImportWalletRequest instance) =>
+Map<String, dynamic> _$InitImportWalletRequestToJson(
+        InitImportWalletRequest instance) =>
     <String, dynamic>{
-      'type': v1InitImportWalletRequestTypeToJson(instance.type),
+      'type': initImportWalletRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1InitImportWalletResult _$V1InitImportWalletResultFromJson(
+InitImportWalletResult _$InitImportWalletResultFromJson(
         Map<String, dynamic> json) =>
-    V1InitImportWalletResult(
+    InitImportWalletResult(
       importBundle: json['importBundle'] as String,
     );
 
-Map<String, dynamic> _$V1InitImportWalletResultToJson(
-        V1InitImportWalletResult instance) =>
+Map<String, dynamic> _$InitImportWalletResultToJson(
+        InitImportWalletResult instance) =>
     <String, dynamic>{
       'importBundle': instance.importBundle,
     };
 
-V1InitOtpAuthIntent _$V1InitOtpAuthIntentFromJson(Map<String, dynamic> json) =>
-    V1InitOtpAuthIntent(
+InitOtpAuthIntent _$InitOtpAuthIntentFromJson(Map<String, dynamic> json) =>
+    InitOtpAuthIntent(
       otpType: json['otpType'] as String,
       contact: json['contact'] as String,
       emailCustomization: json['emailCustomization'] == null
           ? null
-          : V1EmailCustomizationParams.fromJson(
+          : EmailCustomizationParams.fromJson(
               json['emailCustomization'] as Map<String, dynamic>),
       smsCustomization: json['smsCustomization'] == null
           ? null
-          : V1SmsCustomizationParams.fromJson(
+          : SmsCustomizationParams.fromJson(
               json['smsCustomization'] as Map<String, dynamic>),
       userIdentifier: json['userIdentifier'] as String?,
+      sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
     );
 
-Map<String, dynamic> _$V1InitOtpAuthIntentToJson(
-        V1InitOtpAuthIntent instance) =>
+Map<String, dynamic> _$InitOtpAuthIntentToJson(InitOtpAuthIntent instance) =>
     <String, dynamic>{
       'otpType': instance.otpType,
       'contact': instance.contact,
       'emailCustomization': instance.emailCustomization?.toJson(),
       'smsCustomization': instance.smsCustomization?.toJson(),
       'userIdentifier': instance.userIdentifier,
+      'sendFromEmailAddress': instance.sendFromEmailAddress,
     };
 
-V1InitOtpAuthRequest _$V1InitOtpAuthRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1InitOtpAuthRequest(
-      type: v1InitOtpAuthRequestTypeFromJson(json['type']),
+InitOtpAuthRequest _$InitOtpAuthRequestFromJson(Map<String, dynamic> json) =>
+    InitOtpAuthRequest(
+      type: initOtpAuthRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1InitOtpAuthIntent.fromJson(
+      parameters: InitOtpAuthIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1InitOtpAuthRequestToJson(
-        V1InitOtpAuthRequest instance) =>
+Map<String, dynamic> _$InitOtpAuthRequestToJson(InitOtpAuthRequest instance) =>
     <String, dynamic>{
-      'type': v1InitOtpAuthRequestTypeToJson(instance.type),
+      'type': initOtpAuthRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1InitOtpAuthResult _$V1InitOtpAuthResultFromJson(Map<String, dynamic> json) =>
-    V1InitOtpAuthResult(
+InitOtpAuthResult _$InitOtpAuthResultFromJson(Map<String, dynamic> json) =>
+    InitOtpAuthResult(
       otpId: json['otpId'] as String,
     );
 
-Map<String, dynamic> _$V1InitOtpAuthResultToJson(
-        V1InitOtpAuthResult instance) =>
+Map<String, dynamic> _$InitOtpAuthResultToJson(InitOtpAuthResult instance) =>
     <String, dynamic>{
       'otpId': instance.otpId,
     };
 
-V1InitUserEmailRecoveryIntent _$V1InitUserEmailRecoveryIntentFromJson(
+InitUserEmailRecoveryIntent _$InitUserEmailRecoveryIntentFromJson(
         Map<String, dynamic> json) =>
-    V1InitUserEmailRecoveryIntent(
+    InitUserEmailRecoveryIntent(
       email: json['email'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
       expirationSeconds: json['expirationSeconds'] as String?,
       emailCustomization: json['emailCustomization'] == null
           ? null
-          : V1EmailCustomizationParams.fromJson(
+          : EmailCustomizationParams.fromJson(
               json['emailCustomization'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1InitUserEmailRecoveryIntentToJson(
-        V1InitUserEmailRecoveryIntent instance) =>
+Map<String, dynamic> _$InitUserEmailRecoveryIntentToJson(
+        InitUserEmailRecoveryIntent instance) =>
     <String, dynamic>{
       'email': instance.email,
       'targetPublicKey': instance.targetPublicKey,
@@ -3576,365 +3304,369 @@ Map<String, dynamic> _$V1InitUserEmailRecoveryIntentToJson(
       'emailCustomization': instance.emailCustomization?.toJson(),
     };
 
-V1InitUserEmailRecoveryRequest _$V1InitUserEmailRecoveryRequestFromJson(
+InitUserEmailRecoveryRequest _$InitUserEmailRecoveryRequestFromJson(
         Map<String, dynamic> json) =>
-    V1InitUserEmailRecoveryRequest(
-      type: v1InitUserEmailRecoveryRequestTypeFromJson(json['type']),
+    InitUserEmailRecoveryRequest(
+      type: initUserEmailRecoveryRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1InitUserEmailRecoveryIntent.fromJson(
+      parameters: InitUserEmailRecoveryIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1InitUserEmailRecoveryRequestToJson(
-        V1InitUserEmailRecoveryRequest instance) =>
+Map<String, dynamic> _$InitUserEmailRecoveryRequestToJson(
+        InitUserEmailRecoveryRequest instance) =>
     <String, dynamic>{
-      'type': v1InitUserEmailRecoveryRequestTypeToJson(instance.type),
+      'type': initUserEmailRecoveryRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1InitUserEmailRecoveryResult _$V1InitUserEmailRecoveryResultFromJson(
+InitUserEmailRecoveryResult _$InitUserEmailRecoveryResultFromJson(
         Map<String, dynamic> json) =>
-    V1InitUserEmailRecoveryResult(
+    InitUserEmailRecoveryResult(
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1InitUserEmailRecoveryResultToJson(
-        V1InitUserEmailRecoveryResult instance) =>
+Map<String, dynamic> _$InitUserEmailRecoveryResultToJson(
+        InitUserEmailRecoveryResult instance) =>
     <String, dynamic>{
       'userId': instance.userId,
     };
 
-V1Intent _$V1IntentFromJson(Map<String, dynamic> json) => V1Intent(
+Intent _$IntentFromJson(Map<String, dynamic> json) => Intent(
       createOrganizationIntent: json['createOrganizationIntent'] == null
           ? null
-          : V1CreateOrganizationIntent.fromJson(
+          : CreateOrganizationIntent.fromJson(
               json['createOrganizationIntent'] as Map<String, dynamic>),
       createAuthenticatorsIntent: json['createAuthenticatorsIntent'] == null
           ? null
-          : V1CreateAuthenticatorsIntent.fromJson(
+          : CreateAuthenticatorsIntent.fromJson(
               json['createAuthenticatorsIntent'] as Map<String, dynamic>),
       createUsersIntent: json['createUsersIntent'] == null
           ? null
-          : V1CreateUsersIntent.fromJson(
+          : CreateUsersIntent.fromJson(
               json['createUsersIntent'] as Map<String, dynamic>),
       createPrivateKeysIntent: json['createPrivateKeysIntent'] == null
           ? null
-          : V1CreatePrivateKeysIntent.fromJson(
+          : CreatePrivateKeysIntent.fromJson(
               json['createPrivateKeysIntent'] as Map<String, dynamic>),
       signRawPayloadIntent: json['signRawPayloadIntent'] == null
           ? null
-          : V1SignRawPayloadIntent.fromJson(
+          : SignRawPayloadIntent.fromJson(
               json['signRawPayloadIntent'] as Map<String, dynamic>),
       createInvitationsIntent: json['createInvitationsIntent'] == null
           ? null
-          : V1CreateInvitationsIntent.fromJson(
+          : CreateInvitationsIntent.fromJson(
               json['createInvitationsIntent'] as Map<String, dynamic>),
       acceptInvitationIntent: json['acceptInvitationIntent'] == null
           ? null
-          : V1AcceptInvitationIntent.fromJson(
+          : AcceptInvitationIntent.fromJson(
               json['acceptInvitationIntent'] as Map<String, dynamic>),
       createPolicyIntent: json['createPolicyIntent'] == null
           ? null
-          : V1CreatePolicyIntent.fromJson(
+          : CreatePolicyIntent.fromJson(
               json['createPolicyIntent'] as Map<String, dynamic>),
       disablePrivateKeyIntent: json['disablePrivateKeyIntent'] == null
           ? null
-          : V1DisablePrivateKeyIntent.fromJson(
+          : DisablePrivateKeyIntent.fromJson(
               json['disablePrivateKeyIntent'] as Map<String, dynamic>),
       deleteUsersIntent: json['deleteUsersIntent'] == null
           ? null
-          : V1DeleteUsersIntent.fromJson(
+          : DeleteUsersIntent.fromJson(
               json['deleteUsersIntent'] as Map<String, dynamic>),
       deleteAuthenticatorsIntent: json['deleteAuthenticatorsIntent'] == null
           ? null
-          : V1DeleteAuthenticatorsIntent.fromJson(
+          : DeleteAuthenticatorsIntent.fromJson(
               json['deleteAuthenticatorsIntent'] as Map<String, dynamic>),
       deleteInvitationIntent: json['deleteInvitationIntent'] == null
           ? null
-          : V1DeleteInvitationIntent.fromJson(
+          : DeleteInvitationIntent.fromJson(
               json['deleteInvitationIntent'] as Map<String, dynamic>),
       deleteOrganizationIntent: json['deleteOrganizationIntent'] == null
           ? null
-          : V1DeleteOrganizationIntent.fromJson(
+          : DeleteOrganizationIntent.fromJson(
               json['deleteOrganizationIntent'] as Map<String, dynamic>),
       deletePolicyIntent: json['deletePolicyIntent'] == null
           ? null
-          : V1DeletePolicyIntent.fromJson(
+          : DeletePolicyIntent.fromJson(
               json['deletePolicyIntent'] as Map<String, dynamic>),
       createUserTagIntent: json['createUserTagIntent'] == null
           ? null
-          : V1CreateUserTagIntent.fromJson(
+          : CreateUserTagIntent.fromJson(
               json['createUserTagIntent'] as Map<String, dynamic>),
       deleteUserTagsIntent: json['deleteUserTagsIntent'] == null
           ? null
-          : V1DeleteUserTagsIntent.fromJson(
+          : DeleteUserTagsIntent.fromJson(
               json['deleteUserTagsIntent'] as Map<String, dynamic>),
       signTransactionIntent: json['signTransactionIntent'] == null
           ? null
-          : V1SignTransactionIntent.fromJson(
+          : SignTransactionIntent.fromJson(
               json['signTransactionIntent'] as Map<String, dynamic>),
       createApiKeysIntent: json['createApiKeysIntent'] == null
           ? null
-          : V1CreateApiKeysIntent.fromJson(
+          : CreateApiKeysIntent.fromJson(
               json['createApiKeysIntent'] as Map<String, dynamic>),
       deleteApiKeysIntent: json['deleteApiKeysIntent'] == null
           ? null
-          : V1DeleteApiKeysIntent.fromJson(
+          : DeleteApiKeysIntent.fromJson(
               json['deleteApiKeysIntent'] as Map<String, dynamic>),
       approveActivityIntent: json['approveActivityIntent'] == null
           ? null
-          : V1ApproveActivityIntent.fromJson(
+          : ApproveActivityIntent.fromJson(
               json['approveActivityIntent'] as Map<String, dynamic>),
       rejectActivityIntent: json['rejectActivityIntent'] == null
           ? null
-          : V1RejectActivityIntent.fromJson(
+          : RejectActivityIntent.fromJson(
               json['rejectActivityIntent'] as Map<String, dynamic>),
       createPrivateKeyTagIntent: json['createPrivateKeyTagIntent'] == null
           ? null
-          : V1CreatePrivateKeyTagIntent.fromJson(
+          : CreatePrivateKeyTagIntent.fromJson(
               json['createPrivateKeyTagIntent'] as Map<String, dynamic>),
       deletePrivateKeyTagsIntent: json['deletePrivateKeyTagsIntent'] == null
           ? null
-          : V1DeletePrivateKeyTagsIntent.fromJson(
+          : DeletePrivateKeyTagsIntent.fromJson(
               json['deletePrivateKeyTagsIntent'] as Map<String, dynamic>),
       createPolicyIntentV2: json['createPolicyIntentV2'] == null
           ? null
-          : V1CreatePolicyIntentV2.fromJson(
+          : CreatePolicyIntentV2.fromJson(
               json['createPolicyIntentV2'] as Map<String, dynamic>),
       setPaymentMethodIntent: json['setPaymentMethodIntent'] == null
           ? null
-          : BillingSetPaymentMethodIntent.fromJson(
+          : SetPaymentMethodIntent.fromJson(
               json['setPaymentMethodIntent'] as Map<String, dynamic>),
       activateBillingTierIntent: json['activateBillingTierIntent'] == null
           ? null
-          : BillingActivateBillingTierIntent.fromJson(
+          : ActivateBillingTierIntent.fromJson(
               json['activateBillingTierIntent'] as Map<String, dynamic>),
       deletePaymentMethodIntent: json['deletePaymentMethodIntent'] == null
           ? null
-          : BillingDeletePaymentMethodIntent.fromJson(
+          : DeletePaymentMethodIntent.fromJson(
               json['deletePaymentMethodIntent'] as Map<String, dynamic>),
       createPolicyIntentV3: json['createPolicyIntentV3'] == null
           ? null
-          : V1CreatePolicyIntentV3.fromJson(
+          : CreatePolicyIntentV3.fromJson(
               json['createPolicyIntentV3'] as Map<String, dynamic>),
       createApiOnlyUsersIntent: json['createApiOnlyUsersIntent'] == null
           ? null
-          : V1CreateApiOnlyUsersIntent.fromJson(
+          : CreateApiOnlyUsersIntent.fromJson(
               json['createApiOnlyUsersIntent'] as Map<String, dynamic>),
       updateRootQuorumIntent: json['updateRootQuorumIntent'] == null
           ? null
-          : V1UpdateRootQuorumIntent.fromJson(
+          : UpdateRootQuorumIntent.fromJson(
               json['updateRootQuorumIntent'] as Map<String, dynamic>),
       updateUserTagIntent: json['updateUserTagIntent'] == null
           ? null
-          : V1UpdateUserTagIntent.fromJson(
+          : UpdateUserTagIntent.fromJson(
               json['updateUserTagIntent'] as Map<String, dynamic>),
       updatePrivateKeyTagIntent: json['updatePrivateKeyTagIntent'] == null
           ? null
-          : V1UpdatePrivateKeyTagIntent.fromJson(
+          : UpdatePrivateKeyTagIntent.fromJson(
               json['updatePrivateKeyTagIntent'] as Map<String, dynamic>),
       createAuthenticatorsIntentV2: json['createAuthenticatorsIntentV2'] == null
           ? null
-          : V1CreateAuthenticatorsIntentV2.fromJson(
+          : CreateAuthenticatorsIntentV2.fromJson(
               json['createAuthenticatorsIntentV2'] as Map<String, dynamic>),
       acceptInvitationIntentV2: json['acceptInvitationIntentV2'] == null
           ? null
-          : V1AcceptInvitationIntentV2.fromJson(
+          : AcceptInvitationIntentV2.fromJson(
               json['acceptInvitationIntentV2'] as Map<String, dynamic>),
       createOrganizationIntentV2: json['createOrganizationIntentV2'] == null
           ? null
-          : V1CreateOrganizationIntentV2.fromJson(
+          : CreateOrganizationIntentV2.fromJson(
               json['createOrganizationIntentV2'] as Map<String, dynamic>),
       createUsersIntentV2: json['createUsersIntentV2'] == null
           ? null
-          : V1CreateUsersIntentV2.fromJson(
+          : CreateUsersIntentV2.fromJson(
               json['createUsersIntentV2'] as Map<String, dynamic>),
       createSubOrganizationIntent: json['createSubOrganizationIntent'] == null
           ? null
-          : V1CreateSubOrganizationIntent.fromJson(
+          : CreateSubOrganizationIntent.fromJson(
               json['createSubOrganizationIntent'] as Map<String, dynamic>),
       createSubOrganizationIntentV2: json['createSubOrganizationIntentV2'] ==
               null
           ? null
-          : V1CreateSubOrganizationIntentV2.fromJson(
+          : CreateSubOrganizationIntentV2.fromJson(
               json['createSubOrganizationIntentV2'] as Map<String, dynamic>),
       updateAllowedOriginsIntent: json['updateAllowedOriginsIntent'] == null
           ? null
-          : V1UpdateAllowedOriginsIntent.fromJson(
+          : UpdateAllowedOriginsIntent.fromJson(
               json['updateAllowedOriginsIntent'] as Map<String, dynamic>),
       createPrivateKeysIntentV2: json['createPrivateKeysIntentV2'] == null
           ? null
-          : V1CreatePrivateKeysIntentV2.fromJson(
+          : CreatePrivateKeysIntentV2.fromJson(
               json['createPrivateKeysIntentV2'] as Map<String, dynamic>),
       updateUserIntent: json['updateUserIntent'] == null
           ? null
-          : V1UpdateUserIntent.fromJson(
+          : UpdateUserIntent.fromJson(
               json['updateUserIntent'] as Map<String, dynamic>),
       updatePolicyIntent: json['updatePolicyIntent'] == null
           ? null
-          : V1UpdatePolicyIntent.fromJson(
+          : UpdatePolicyIntent.fromJson(
               json['updatePolicyIntent'] as Map<String, dynamic>),
       setPaymentMethodIntentV2: json['setPaymentMethodIntentV2'] == null
           ? null
-          : BillingSetPaymentMethodIntentV2.fromJson(
+          : SetPaymentMethodIntentV2.fromJson(
               json['setPaymentMethodIntentV2'] as Map<String, dynamic>),
       createSubOrganizationIntentV3: json['createSubOrganizationIntentV3'] ==
               null
           ? null
-          : V1CreateSubOrganizationIntentV3.fromJson(
+          : CreateSubOrganizationIntentV3.fromJson(
               json['createSubOrganizationIntentV3'] as Map<String, dynamic>),
       createWalletIntent: json['createWalletIntent'] == null
           ? null
-          : V1CreateWalletIntent.fromJson(
+          : CreateWalletIntent.fromJson(
               json['createWalletIntent'] as Map<String, dynamic>),
       createWalletAccountsIntent: json['createWalletAccountsIntent'] == null
           ? null
-          : V1CreateWalletAccountsIntent.fromJson(
+          : CreateWalletAccountsIntent.fromJson(
               json['createWalletAccountsIntent'] as Map<String, dynamic>),
       initUserEmailRecoveryIntent: json['initUserEmailRecoveryIntent'] == null
           ? null
-          : V1InitUserEmailRecoveryIntent.fromJson(
+          : InitUserEmailRecoveryIntent.fromJson(
               json['initUserEmailRecoveryIntent'] as Map<String, dynamic>),
       recoverUserIntent: json['recoverUserIntent'] == null
           ? null
-          : V1RecoverUserIntent.fromJson(
+          : RecoverUserIntent.fromJson(
               json['recoverUserIntent'] as Map<String, dynamic>),
       setOrganizationFeatureIntent: json['setOrganizationFeatureIntent'] == null
           ? null
-          : V1SetOrganizationFeatureIntent.fromJson(
+          : SetOrganizationFeatureIntent.fromJson(
               json['setOrganizationFeatureIntent'] as Map<String, dynamic>),
       removeOrganizationFeatureIntent:
           json['removeOrganizationFeatureIntent'] == null
               ? null
-              : V1RemoveOrganizationFeatureIntent.fromJson(
+              : RemoveOrganizationFeatureIntent.fromJson(
                   json['removeOrganizationFeatureIntent']
                       as Map<String, dynamic>),
       signRawPayloadIntentV2: json['signRawPayloadIntentV2'] == null
           ? null
-          : V1SignRawPayloadIntentV2.fromJson(
+          : SignRawPayloadIntentV2.fromJson(
               json['signRawPayloadIntentV2'] as Map<String, dynamic>),
       signTransactionIntentV2: json['signTransactionIntentV2'] == null
           ? null
-          : V1SignTransactionIntentV2.fromJson(
+          : SignTransactionIntentV2.fromJson(
               json['signTransactionIntentV2'] as Map<String, dynamic>),
       exportPrivateKeyIntent: json['exportPrivateKeyIntent'] == null
           ? null
-          : V1ExportPrivateKeyIntent.fromJson(
+          : ExportPrivateKeyIntent.fromJson(
               json['exportPrivateKeyIntent'] as Map<String, dynamic>),
       exportWalletIntent: json['exportWalletIntent'] == null
           ? null
-          : V1ExportWalletIntent.fromJson(
+          : ExportWalletIntent.fromJson(
               json['exportWalletIntent'] as Map<String, dynamic>),
       createSubOrganizationIntentV4: json['createSubOrganizationIntentV4'] ==
               null
           ? null
-          : V1CreateSubOrganizationIntentV4.fromJson(
+          : CreateSubOrganizationIntentV4.fromJson(
               json['createSubOrganizationIntentV4'] as Map<String, dynamic>),
       emailAuthIntent: json['emailAuthIntent'] == null
           ? null
-          : V1EmailAuthIntent.fromJson(
+          : EmailAuthIntent.fromJson(
               json['emailAuthIntent'] as Map<String, dynamic>),
       exportWalletAccountIntent: json['exportWalletAccountIntent'] == null
           ? null
-          : V1ExportWalletAccountIntent.fromJson(
+          : ExportWalletAccountIntent.fromJson(
               json['exportWalletAccountIntent'] as Map<String, dynamic>),
       initImportWalletIntent: json['initImportWalletIntent'] == null
           ? null
-          : V1InitImportWalletIntent.fromJson(
+          : InitImportWalletIntent.fromJson(
               json['initImportWalletIntent'] as Map<String, dynamic>),
       importWalletIntent: json['importWalletIntent'] == null
           ? null
-          : V1ImportWalletIntent.fromJson(
+          : ImportWalletIntent.fromJson(
               json['importWalletIntent'] as Map<String, dynamic>),
       initImportPrivateKeyIntent: json['initImportPrivateKeyIntent'] == null
           ? null
-          : V1InitImportPrivateKeyIntent.fromJson(
+          : InitImportPrivateKeyIntent.fromJson(
               json['initImportPrivateKeyIntent'] as Map<String, dynamic>),
       importPrivateKeyIntent: json['importPrivateKeyIntent'] == null
           ? null
-          : V1ImportPrivateKeyIntent.fromJson(
+          : ImportPrivateKeyIntent.fromJson(
               json['importPrivateKeyIntent'] as Map<String, dynamic>),
       createPoliciesIntent: json['createPoliciesIntent'] == null
           ? null
-          : V1CreatePoliciesIntent.fromJson(
+          : CreatePoliciesIntent.fromJson(
               json['createPoliciesIntent'] as Map<String, dynamic>),
       signRawPayloadsIntent: json['signRawPayloadsIntent'] == null
           ? null
-          : V1SignRawPayloadsIntent.fromJson(
+          : SignRawPayloadsIntent.fromJson(
               json['signRawPayloadsIntent'] as Map<String, dynamic>),
       createReadOnlySessionIntent: json['createReadOnlySessionIntent'] == null
           ? null
-          : V1CreateReadOnlySessionIntent.fromJson(
+          : CreateReadOnlySessionIntent.fromJson(
               json['createReadOnlySessionIntent'] as Map<String, dynamic>),
       createOauthProvidersIntent: json['createOauthProvidersIntent'] == null
           ? null
-          : V1CreateOauthProvidersIntent.fromJson(
+          : CreateOauthProvidersIntent.fromJson(
               json['createOauthProvidersIntent'] as Map<String, dynamic>),
       deleteOauthProvidersIntent: json['deleteOauthProvidersIntent'] == null
           ? null
-          : V1DeleteOauthProvidersIntent.fromJson(
+          : DeleteOauthProvidersIntent.fromJson(
               json['deleteOauthProvidersIntent'] as Map<String, dynamic>),
       createSubOrganizationIntentV5: json['createSubOrganizationIntentV5'] ==
               null
           ? null
-          : V1CreateSubOrganizationIntentV5.fromJson(
+          : CreateSubOrganizationIntentV5.fromJson(
               json['createSubOrganizationIntentV5'] as Map<String, dynamic>),
       oauthIntent: json['oauthIntent'] == null
           ? null
-          : V1OauthIntent.fromJson(json['oauthIntent'] as Map<String, dynamic>),
+          : OauthIntent.fromJson(json['oauthIntent'] as Map<String, dynamic>),
       createApiKeysIntentV2: json['createApiKeysIntentV2'] == null
           ? null
-          : V1CreateApiKeysIntentV2.fromJson(
+          : CreateApiKeysIntentV2.fromJson(
               json['createApiKeysIntentV2'] as Map<String, dynamic>),
       createReadWriteSessionIntent: json['createReadWriteSessionIntent'] == null
           ? null
-          : V1CreateReadWriteSessionIntent.fromJson(
+          : CreateReadWriteSessionIntent.fromJson(
               json['createReadWriteSessionIntent'] as Map<String, dynamic>),
       emailAuthIntentV2: json['emailAuthIntentV2'] == null
           ? null
-          : V1EmailAuthIntentV2.fromJson(
+          : EmailAuthIntentV2.fromJson(
               json['emailAuthIntentV2'] as Map<String, dynamic>),
       createSubOrganizationIntentV6: json['createSubOrganizationIntentV6'] ==
               null
           ? null
-          : V1CreateSubOrganizationIntentV6.fromJson(
+          : CreateSubOrganizationIntentV6.fromJson(
               json['createSubOrganizationIntentV6'] as Map<String, dynamic>),
       deletePrivateKeysIntent: json['deletePrivateKeysIntent'] == null
           ? null
-          : V1DeletePrivateKeysIntent.fromJson(
+          : DeletePrivateKeysIntent.fromJson(
               json['deletePrivateKeysIntent'] as Map<String, dynamic>),
       deleteWalletsIntent: json['deleteWalletsIntent'] == null
           ? null
-          : V1DeleteWalletsIntent.fromJson(
+          : DeleteWalletsIntent.fromJson(
               json['deleteWalletsIntent'] as Map<String, dynamic>),
       createReadWriteSessionIntentV2: json['createReadWriteSessionIntentV2'] ==
               null
           ? null
-          : V1CreateReadWriteSessionIntentV2.fromJson(
+          : CreateReadWriteSessionIntentV2.fromJson(
               json['createReadWriteSessionIntentV2'] as Map<String, dynamic>),
       deleteSubOrganizationIntent: json['deleteSubOrganizationIntent'] == null
           ? null
-          : V1DeleteSubOrganizationIntent.fromJson(
+          : DeleteSubOrganizationIntent.fromJson(
               json['deleteSubOrganizationIntent'] as Map<String, dynamic>),
       initOtpAuthIntent: json['initOtpAuthIntent'] == null
           ? null
-          : V1InitOtpAuthIntent.fromJson(
+          : InitOtpAuthIntent.fromJson(
               json['initOtpAuthIntent'] as Map<String, dynamic>),
       otpAuthIntent: json['otpAuthIntent'] == null
           ? null
-          : V1OtpAuthIntent.fromJson(
+          : OtpAuthIntent.fromJson(
               json['otpAuthIntent'] as Map<String, dynamic>),
       createSubOrganizationIntentV7: json['createSubOrganizationIntentV7'] ==
               null
           ? null
-          : V1CreateSubOrganizationIntentV7.fromJson(
+          : CreateSubOrganizationIntentV7.fromJson(
               json['createSubOrganizationIntentV7'] as Map<String, dynamic>),
+      updateWalletIntent: json['updateWalletIntent'] == null
+          ? null
+          : UpdateWalletIntent.fromJson(
+              json['updateWalletIntent'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1IntentToJson(V1Intent instance) => <String, dynamic>{
+Map<String, dynamic> _$IntentToJson(Intent instance) => <String, dynamic>{
       'createOrganizationIntent': instance.createOrganizationIntent?.toJson(),
       'createAuthenticatorsIntent':
           instance.createAuthenticatorsIntent?.toJson(),
@@ -4038,134 +3770,91 @@ Map<String, dynamic> _$V1IntentToJson(V1Intent instance) => <String, dynamic>{
       'otpAuthIntent': instance.otpAuthIntent?.toJson(),
       'createSubOrganizationIntentV7':
           instance.createSubOrganizationIntentV7?.toJson(),
+      'updateWalletIntent': instance.updateWalletIntent?.toJson(),
     };
 
-V1Invitation _$V1InvitationFromJson(Map<String, dynamic> json) => V1Invitation(
-      invitationId: json['invitationId'] as String,
-      receiverUserName: json['receiverUserName'] as String,
-      receiverEmail: json['receiverEmail'] as String,
-      receiverUserTags: (json['receiverUserTags'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
-      accessType: v1AccessTypeFromJson(json['accessType']),
-      status: v1InvitationStatusFromJson(json['status']),
-      createdAt: Externaldatav1Timestamp.fromJson(
-          json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
-          json['updatedAt'] as Map<String, dynamic>),
-      senderUserId: json['senderUserId'] as String,
-    );
-
-Map<String, dynamic> _$V1InvitationToJson(V1Invitation instance) =>
-    <String, dynamic>{
-      'invitationId': instance.invitationId,
-      'receiverUserName': instance.receiverUserName,
-      'receiverEmail': instance.receiverEmail,
-      'receiverUserTags': instance.receiverUserTags,
-      'accessType': v1AccessTypeToJson(instance.accessType),
-      'status': v1InvitationStatusToJson(instance.status),
-      'createdAt': instance.createdAt.toJson(),
-      'updatedAt': instance.updatedAt.toJson(),
-      'senderUserId': instance.senderUserId,
-    };
-
-V1InvitationParams _$V1InvitationParamsFromJson(Map<String, dynamic> json) =>
-    V1InvitationParams(
+InvitationParams _$InvitationParamsFromJson(Map<String, dynamic> json) =>
+    InvitationParams(
       receiverUserName: json['receiverUserName'] as String,
       receiverUserEmail: json['receiverUserEmail'] as String,
       receiverUserTags: (json['receiverUserTags'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
-      accessType: v1AccessTypeFromJson(json['accessType']),
+      accessType: accessTypeFromJson(json['accessType']),
       senderUserId: json['senderUserId'] as String,
     );
 
-Map<String, dynamic> _$V1InvitationParamsToJson(V1InvitationParams instance) =>
+Map<String, dynamic> _$InvitationParamsToJson(InvitationParams instance) =>
     <String, dynamic>{
       'receiverUserName': instance.receiverUserName,
       'receiverUserEmail': instance.receiverUserEmail,
       'receiverUserTags': instance.receiverUserTags,
-      'accessType': v1AccessTypeToJson(instance.accessType),
+      'accessType': accessTypeToJson(instance.accessType),
       'senderUserId': instance.senderUserId,
     };
 
-V1ListPrivateKeyTagsRequest _$V1ListPrivateKeyTagsRequestFromJson(
+ListPrivateKeyTagsRequest _$ListPrivateKeyTagsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1ListPrivateKeyTagsRequest(
+    ListPrivateKeyTagsRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1ListPrivateKeyTagsRequestToJson(
-        V1ListPrivateKeyTagsRequest instance) =>
+Map<String, dynamic> _$ListPrivateKeyTagsRequestToJson(
+        ListPrivateKeyTagsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1ListPrivateKeyTagsResponse _$V1ListPrivateKeyTagsResponseFromJson(
+ListPrivateKeyTagsResponse _$ListPrivateKeyTagsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1ListPrivateKeyTagsResponse(
+    ListPrivateKeyTagsResponse(
       privateKeyTags: (json['privateKeyTags'] as List<dynamic>?)
-              ?.map((e) => Datav1Tag.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => V1Tag.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1ListPrivateKeyTagsResponseToJson(
-        V1ListPrivateKeyTagsResponse instance) =>
+Map<String, dynamic> _$ListPrivateKeyTagsResponseToJson(
+        ListPrivateKeyTagsResponse instance) =>
     <String, dynamic>{
       'privateKeyTags': instance.privateKeyTags.map((e) => e.toJson()).toList(),
     };
 
-V1ListUserTagsRequest _$V1ListUserTagsRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1ListUserTagsRequest(
+ListUserTagsRequest _$ListUserTagsRequestFromJson(Map<String, dynamic> json) =>
+    ListUserTagsRequest(
       organizationId: json['organizationId'] as String,
     );
 
-Map<String, dynamic> _$V1ListUserTagsRequestToJson(
-        V1ListUserTagsRequest instance) =>
+Map<String, dynamic> _$ListUserTagsRequestToJson(
+        ListUserTagsRequest instance) =>
     <String, dynamic>{
       'organizationId': instance.organizationId,
     };
 
-V1ListUserTagsResponse _$V1ListUserTagsResponseFromJson(
+ListUserTagsResponse _$ListUserTagsResponseFromJson(
         Map<String, dynamic> json) =>
-    V1ListUserTagsResponse(
+    ListUserTagsResponse(
       userTags: (json['userTags'] as List<dynamic>?)
-              ?.map((e) => Datav1Tag.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => V1Tag.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1ListUserTagsResponseToJson(
-        V1ListUserTagsResponse instance) =>
+Map<String, dynamic> _$ListUserTagsResponseToJson(
+        ListUserTagsResponse instance) =>
     <String, dynamic>{
       'userTags': instance.userTags.map((e) => e.toJson()).toList(),
     };
 
-V1NOOPCodegenAnchorResponse _$V1NOOPCodegenAnchorResponseFromJson(
-        Map<String, dynamic> json) =>
-    V1NOOPCodegenAnchorResponse(
-      stamp: V1WebAuthnStamp.fromJson(json['stamp'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$V1NOOPCodegenAnchorResponseToJson(
-        V1NOOPCodegenAnchorResponse instance) =>
-    <String, dynamic>{
-      'stamp': instance.stamp.toJson(),
-    };
-
-V1OauthIntent _$V1OauthIntentFromJson(Map<String, dynamic> json) =>
-    V1OauthIntent(
+OauthIntent _$OauthIntentFromJson(Map<String, dynamic> json) => OauthIntent(
       oidcToken: json['oidcToken'] as String,
       targetPublicKey: json['targetPublicKey'] as String,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
     );
 
-Map<String, dynamic> _$V1OauthIntentToJson(V1OauthIntent instance) =>
+Map<String, dynamic> _$OauthIntentToJson(OauthIntent instance) =>
     <String, dynamic>{
       'oidcToken': instance.oidcToken,
       'targetPublicKey': instance.targetPublicKey,
@@ -4173,20 +3862,20 @@ Map<String, dynamic> _$V1OauthIntentToJson(V1OauthIntent instance) =>
       'expirationSeconds': instance.expirationSeconds,
     };
 
-V1OauthProvider _$V1OauthProviderFromJson(Map<String, dynamic> json) =>
-    V1OauthProvider(
+OauthProvider _$OauthProviderFromJson(Map<String, dynamic> json) =>
+    OauthProvider(
       providerId: json['providerId'] as String,
       providerName: json['providerName'] as String,
       issuer: json['issuer'] as String,
       audience: json['audience'] as String,
       subject: json['subject'] as String,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1OauthProviderToJson(V1OauthProvider instance) =>
+Map<String, dynamic> _$OauthProviderToJson(OauthProvider instance) =>
     <String, dynamic>{
       'providerId': instance.providerId,
       'providerName': instance.providerName,
@@ -4197,105 +3886,50 @@ Map<String, dynamic> _$V1OauthProviderToJson(V1OauthProvider instance) =>
       'updatedAt': instance.updatedAt.toJson(),
     };
 
-V1OauthProviderParams _$V1OauthProviderParamsFromJson(
-        Map<String, dynamic> json) =>
-    V1OauthProviderParams(
+OauthProviderParams _$OauthProviderParamsFromJson(Map<String, dynamic> json) =>
+    OauthProviderParams(
       providerName: json['providerName'] as String,
       oidcToken: json['oidcToken'] as String,
     );
 
-Map<String, dynamic> _$V1OauthProviderParamsToJson(
-        V1OauthProviderParams instance) =>
+Map<String, dynamic> _$OauthProviderParamsToJson(
+        OauthProviderParams instance) =>
     <String, dynamic>{
       'providerName': instance.providerName,
       'oidcToken': instance.oidcToken,
     };
 
-V1OauthRequest _$V1OauthRequestFromJson(Map<String, dynamic> json) =>
-    V1OauthRequest(
-      type: v1OauthRequestTypeFromJson(json['type']),
+OauthRequest _$OauthRequestFromJson(Map<String, dynamic> json) => OauthRequest(
+      type: oauthRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
       parameters:
-          V1OauthIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+          OauthIntent.fromJson(json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1OauthRequestToJson(V1OauthRequest instance) =>
+Map<String, dynamic> _$OauthRequestToJson(OauthRequest instance) =>
     <String, dynamic>{
-      'type': v1OauthRequestTypeToJson(instance.type),
+      'type': oauthRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1OauthResult _$V1OauthResultFromJson(Map<String, dynamic> json) =>
-    V1OauthResult(
+OauthResult _$OauthResultFromJson(Map<String, dynamic> json) => OauthResult(
       userId: json['userId'] as String,
       apiKeyId: json['apiKeyId'] as String,
       credentialBundle: json['credentialBundle'] as String,
     );
 
-Map<String, dynamic> _$V1OauthResultToJson(V1OauthResult instance) =>
+Map<String, dynamic> _$OauthResultToJson(OauthResult instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'apiKeyId': instance.apiKeyId,
       'credentialBundle': instance.credentialBundle,
     };
 
-V1OrganizationData _$V1OrganizationDataFromJson(Map<String, dynamic> json) =>
-    V1OrganizationData(
-      organizationId: json['organizationId'] as String?,
-      name: json['name'] as String?,
-      users: (json['users'] as List<dynamic>?)
-              ?.map((e) => V1User.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      policies: (json['policies'] as List<dynamic>?)
-              ?.map((e) => V1Policy.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      privateKeys: (json['privateKeys'] as List<dynamic>?)
-              ?.map((e) => V1PrivateKey.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      invitations: (json['invitations'] as List<dynamic>?)
-              ?.map((e) => V1Invitation.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      tags: (json['tags'] as List<dynamic>?)
-              ?.map((e) => Datav1Tag.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      rootQuorum: json['rootQuorum'] == null
-          ? null
-          : Externaldatav1Quorum.fromJson(
-              json['rootQuorum'] as Map<String, dynamic>),
-      features: (json['features'] as List<dynamic>?)
-              ?.map((e) => V1Feature.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      wallets: (json['wallets'] as List<dynamic>?)
-              ?.map((e) => V1Wallet.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-
-Map<String, dynamic> _$V1OrganizationDataToJson(V1OrganizationData instance) =>
-    <String, dynamic>{
-      'organizationId': instance.organizationId,
-      'name': instance.name,
-      'users': instance.users?.map((e) => e.toJson()).toList(),
-      'policies': instance.policies?.map((e) => e.toJson()).toList(),
-      'privateKeys': instance.privateKeys?.map((e) => e.toJson()).toList(),
-      'invitations': instance.invitations?.map((e) => e.toJson()).toList(),
-      'tags': instance.tags?.map((e) => e.toJson()).toList(),
-      'rootQuorum': instance.rootQuorum?.toJson(),
-      'features': instance.features?.map((e) => e.toJson()).toList(),
-      'wallets': instance.wallets?.map((e) => e.toJson()).toList(),
-    };
-
-V1OtpAuthIntent _$V1OtpAuthIntentFromJson(Map<String, dynamic> json) =>
-    V1OtpAuthIntent(
+OtpAuthIntent _$OtpAuthIntentFromJson(Map<String, dynamic> json) =>
+    OtpAuthIntent(
       otpId: json['otpId'] as String,
       otpCode: json['otpCode'] as String,
       targetPublicKey: json['targetPublicKey'] as String?,
@@ -4304,7 +3938,7 @@ V1OtpAuthIntent _$V1OtpAuthIntentFromJson(Map<String, dynamic> json) =>
       invalidateExisting: json['invalidateExisting'] as bool?,
     );
 
-Map<String, dynamic> _$V1OtpAuthIntentToJson(V1OtpAuthIntent instance) =>
+Map<String, dynamic> _$OtpAuthIntentToJson(OtpAuthIntent instance) =>
     <String, dynamic>{
       'otpId': instance.otpId,
       'otpCode': instance.otpCode,
@@ -4314,67 +3948,67 @@ Map<String, dynamic> _$V1OtpAuthIntentToJson(V1OtpAuthIntent instance) =>
       'invalidateExisting': instance.invalidateExisting,
     };
 
-V1OtpAuthRequest _$V1OtpAuthRequestFromJson(Map<String, dynamic> json) =>
-    V1OtpAuthRequest(
-      type: v1OtpAuthRequestTypeFromJson(json['type']),
+OtpAuthRequest _$OtpAuthRequestFromJson(Map<String, dynamic> json) =>
+    OtpAuthRequest(
+      type: otpAuthRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
       parameters:
-          V1OtpAuthIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+          OtpAuthIntent.fromJson(json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1OtpAuthRequestToJson(V1OtpAuthRequest instance) =>
+Map<String, dynamic> _$OtpAuthRequestToJson(OtpAuthRequest instance) =>
     <String, dynamic>{
-      'type': v1OtpAuthRequestTypeToJson(instance.type),
+      'type': otpAuthRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1OtpAuthResult _$V1OtpAuthResultFromJson(Map<String, dynamic> json) =>
-    V1OtpAuthResult(
+OtpAuthResult _$OtpAuthResultFromJson(Map<String, dynamic> json) =>
+    OtpAuthResult(
       userId: json['userId'] as String,
       apiKeyId: json['apiKeyId'] as String?,
       credentialBundle: json['credentialBundle'] as String?,
     );
 
-Map<String, dynamic> _$V1OtpAuthResultToJson(V1OtpAuthResult instance) =>
+Map<String, dynamic> _$OtpAuthResultToJson(OtpAuthResult instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'apiKeyId': instance.apiKeyId,
       'credentialBundle': instance.credentialBundle,
     };
 
-V1Pagination _$V1PaginationFromJson(Map<String, dynamic> json) => V1Pagination(
+Pagination _$PaginationFromJson(Map<String, dynamic> json) => Pagination(
       limit: json['limit'] as String?,
       before: json['before'] as String?,
       after: json['after'] as String?,
     );
 
-Map<String, dynamic> _$V1PaginationToJson(V1Pagination instance) =>
+Map<String, dynamic> _$PaginationToJson(Pagination instance) =>
     <String, dynamic>{
       'limit': instance.limit,
       'before': instance.before,
       'after': instance.after,
     };
 
-V1Policy _$V1PolicyFromJson(Map<String, dynamic> json) => V1Policy(
+Policy _$PolicyFromJson(Map<String, dynamic> json) => Policy(
       policyId: json['policyId'] as String,
       policyName: json['policyName'] as String,
-      effect: v1EffectFromJson(json['effect']),
-      createdAt: Externaldatav1Timestamp.fromJson(
+      effect: effectFromJson(json['effect']),
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
       notes: json['notes'] as String,
       consensus: json['consensus'] as String,
       condition: json['condition'] as String,
     );
 
-Map<String, dynamic> _$V1PolicyToJson(V1Policy instance) => <String, dynamic>{
+Map<String, dynamic> _$PolicyToJson(Policy instance) => <String, dynamic>{
       'policyId': instance.policyId,
       'policyName': instance.policyName,
-      'effect': v1EffectToJson(instance.effect),
+      'effect': effectToJson(instance.effect),
       'createdAt': instance.createdAt.toJson(),
       'updatedAt': instance.updatedAt.toJson(),
       'notes': instance.notes,
@@ -4382,34 +4016,33 @@ Map<String, dynamic> _$V1PolicyToJson(V1Policy instance) => <String, dynamic>{
       'condition': instance.condition,
     };
 
-V1PrivateKey _$V1PrivateKeyFromJson(Map<String, dynamic> json) => V1PrivateKey(
+PrivateKey _$PrivateKeyFromJson(Map<String, dynamic> json) => PrivateKey(
       privateKeyId: json['privateKeyId'] as String,
       publicKey: json['publicKey'] as String,
       privateKeyName: json['privateKeyName'] as String,
-      curve: v1CurveFromJson(json['curve']),
+      curve: curveFromJson(json['curve']),
       addresses: (json['addresses'] as List<dynamic>?)
-              ?.map((e) =>
-                  Externaldatav1Address.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => DataV1Address.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       privateKeyTags: (json['privateKeyTags'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
       exported: json['exported'] as bool,
       imported: json['imported'] as bool,
     );
 
-Map<String, dynamic> _$V1PrivateKeyToJson(V1PrivateKey instance) =>
+Map<String, dynamic> _$PrivateKeyToJson(PrivateKey instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'publicKey': instance.publicKey,
       'privateKeyName': instance.privateKeyName,
-      'curve': v1CurveToJson(instance.curve),
+      'curve': curveToJson(instance.curve),
       'addresses': instance.addresses.map((e) => e.toJson()).toList(),
       'privateKeyTags': instance.privateKeyTags,
       'createdAt': instance.createdAt.toJson(),
@@ -4418,465 +4051,465 @@ Map<String, dynamic> _$V1PrivateKeyToJson(V1PrivateKey instance) =>
       'imported': instance.imported,
     };
 
-V1PrivateKeyParams _$V1PrivateKeyParamsFromJson(Map<String, dynamic> json) =>
-    V1PrivateKeyParams(
+PrivateKeyParams _$PrivateKeyParamsFromJson(Map<String, dynamic> json) =>
+    PrivateKeyParams(
       privateKeyName: json['privateKeyName'] as String,
-      curve: v1CurveFromJson(json['curve']),
+      curve: curveFromJson(json['curve']),
       privateKeyTags: (json['privateKeyTags'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
       addressFormats:
-          v1AddressFormatListFromJson(json['addressFormats'] as List?),
+          addressFormatListFromJson(json['addressFormats'] as List?),
     );
 
-Map<String, dynamic> _$V1PrivateKeyParamsToJson(V1PrivateKeyParams instance) =>
+Map<String, dynamic> _$PrivateKeyParamsToJson(PrivateKeyParams instance) =>
     <String, dynamic>{
       'privateKeyName': instance.privateKeyName,
-      'curve': v1CurveToJson(instance.curve),
+      'curve': curveToJson(instance.curve),
       'privateKeyTags': instance.privateKeyTags,
-      'addressFormats': v1AddressFormatListToJson(instance.addressFormats),
+      'addressFormats': addressFormatListToJson(instance.addressFormats),
     };
 
-V1PrivateKeyResult _$V1PrivateKeyResultFromJson(Map<String, dynamic> json) =>
-    V1PrivateKeyResult(
+PrivateKeyResult _$PrivateKeyResultFromJson(Map<String, dynamic> json) =>
+    PrivateKeyResult(
       privateKeyId: json['privateKeyId'] as String?,
       addresses: (json['addresses'] as List<dynamic>?)
-              ?.map((e) => Immutableactivityv1Address.fromJson(
-                  e as Map<String, dynamic>))
+              ?.map(
+                  (e) => ActivityV1Address.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1PrivateKeyResultToJson(V1PrivateKeyResult instance) =>
+Map<String, dynamic> _$PrivateKeyResultToJson(PrivateKeyResult instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'addresses': instance.addresses?.map((e) => e.toJson()).toList(),
     };
 
-V1PublicKeyCredentialWithAttestation
-    _$V1PublicKeyCredentialWithAttestationFromJson(Map<String, dynamic> json) =>
-        V1PublicKeyCredentialWithAttestation(
-          id: json['id'] as String,
-          type: v1PublicKeyCredentialWithAttestationTypeFromJson(json['type']),
-          rawId: json['rawId'] as String,
-          authenticatorAttachment:
-              v1PublicKeyCredentialWithAttestationAuthenticatorAttachmentNullableFromJson(
-                  json['authenticatorAttachment']),
-          response: V1AuthenticatorAttestationResponse.fromJson(
-              json['response'] as Map<String, dynamic>),
-          clientExtensionResults: V1SimpleClientExtensionResults.fromJson(
-              json['clientExtensionResults'] as Map<String, dynamic>),
-        );
+PublicKeyCredentialWithAttestation _$PublicKeyCredentialWithAttestationFromJson(
+        Map<String, dynamic> json) =>
+    PublicKeyCredentialWithAttestation(
+      id: json['id'] as String,
+      type: publicKeyCredentialWithAttestationTypeFromJson(json['type']),
+      rawId: json['rawId'] as String,
+      authenticatorAttachment:
+          publicKeyCredentialWithAttestationAuthenticatorAttachmentNullableFromJson(
+              json['authenticatorAttachment']),
+      response: AuthenticatorAttestationResponse.fromJson(
+          json['response'] as Map<String, dynamic>),
+      clientExtensionResults: SimpleClientExtensionResults.fromJson(
+          json['clientExtensionResults'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$V1PublicKeyCredentialWithAttestationToJson(
-        V1PublicKeyCredentialWithAttestation instance) =>
+Map<String, dynamic> _$PublicKeyCredentialWithAttestationToJson(
+        PublicKeyCredentialWithAttestation instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'type': v1PublicKeyCredentialWithAttestationTypeToJson(instance.type),
+      'type': publicKeyCredentialWithAttestationTypeToJson(instance.type),
       'rawId': instance.rawId,
       'authenticatorAttachment':
-          v1PublicKeyCredentialWithAttestationAuthenticatorAttachmentNullableToJson(
+          publicKeyCredentialWithAttestationAuthenticatorAttachmentNullableToJson(
               instance.authenticatorAttachment),
       'response': instance.response.toJson(),
       'clientExtensionResults': instance.clientExtensionResults.toJson(),
     };
 
-V1RecoverUserIntent _$V1RecoverUserIntentFromJson(Map<String, dynamic> json) =>
-    V1RecoverUserIntent(
-      authenticator: V1AuthenticatorParamsV2.fromJson(
+RecoverUserIntent _$RecoverUserIntentFromJson(Map<String, dynamic> json) =>
+    RecoverUserIntent(
+      authenticator: AuthenticatorParamsV2.fromJson(
           json['authenticator'] as Map<String, dynamic>),
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1RecoverUserIntentToJson(
-        V1RecoverUserIntent instance) =>
+Map<String, dynamic> _$RecoverUserIntentToJson(RecoverUserIntent instance) =>
     <String, dynamic>{
       'authenticator': instance.authenticator.toJson(),
       'userId': instance.userId,
     };
 
-V1RecoverUserRequest _$V1RecoverUserRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1RecoverUserRequest(
-      type: v1RecoverUserRequestTypeFromJson(json['type']),
+RecoverUserRequest _$RecoverUserRequestFromJson(Map<String, dynamic> json) =>
+    RecoverUserRequest(
+      type: recoverUserRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1RecoverUserIntent.fromJson(
+      parameters: RecoverUserIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1RecoverUserRequestToJson(
-        V1RecoverUserRequest instance) =>
+Map<String, dynamic> _$RecoverUserRequestToJson(RecoverUserRequest instance) =>
     <String, dynamic>{
-      'type': v1RecoverUserRequestTypeToJson(instance.type),
+      'type': recoverUserRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1RecoverUserResult _$V1RecoverUserResultFromJson(Map<String, dynamic> json) =>
-    V1RecoverUserResult(
+RecoverUserResult _$RecoverUserResultFromJson(Map<String, dynamic> json) =>
+    RecoverUserResult(
       authenticatorId: (json['authenticatorId'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1RecoverUserResultToJson(
-        V1RecoverUserResult instance) =>
+Map<String, dynamic> _$RecoverUserResultToJson(RecoverUserResult instance) =>
     <String, dynamic>{
       'authenticatorId': instance.authenticatorId,
     };
 
-V1RejectActivityIntent _$V1RejectActivityIntentFromJson(
+RejectActivityIntent _$RejectActivityIntentFromJson(
         Map<String, dynamic> json) =>
-    V1RejectActivityIntent(
+    RejectActivityIntent(
       fingerprint: json['fingerprint'] as String,
     );
 
-Map<String, dynamic> _$V1RejectActivityIntentToJson(
-        V1RejectActivityIntent instance) =>
+Map<String, dynamic> _$RejectActivityIntentToJson(
+        RejectActivityIntent instance) =>
     <String, dynamic>{
       'fingerprint': instance.fingerprint,
     };
 
-V1RejectActivityRequest _$V1RejectActivityRequestFromJson(
+RejectActivityRequest _$RejectActivityRequestFromJson(
         Map<String, dynamic> json) =>
-    V1RejectActivityRequest(
-      type: v1RejectActivityRequestTypeFromJson(json['type']),
+    RejectActivityRequest(
+      type: rejectActivityRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1RejectActivityIntent.fromJson(
+      parameters: RejectActivityIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1RejectActivityRequestToJson(
-        V1RejectActivityRequest instance) =>
+Map<String, dynamic> _$RejectActivityRequestToJson(
+        RejectActivityRequest instance) =>
     <String, dynamic>{
-      'type': v1RejectActivityRequestTypeToJson(instance.type),
+      'type': rejectActivityRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1RemoveOrganizationFeatureIntent _$V1RemoveOrganizationFeatureIntentFromJson(
+RemoveOrganizationFeatureIntent _$RemoveOrganizationFeatureIntentFromJson(
         Map<String, dynamic> json) =>
-    V1RemoveOrganizationFeatureIntent(
-      name: v1FeatureNameFromJson(json['name']),
+    RemoveOrganizationFeatureIntent(
+      name: featureNameFromJson(json['name']),
     );
 
-Map<String, dynamic> _$V1RemoveOrganizationFeatureIntentToJson(
-        V1RemoveOrganizationFeatureIntent instance) =>
+Map<String, dynamic> _$RemoveOrganizationFeatureIntentToJson(
+        RemoveOrganizationFeatureIntent instance) =>
     <String, dynamic>{
-      'name': v1FeatureNameToJson(instance.name),
+      'name': featureNameToJson(instance.name),
     };
 
-V1RemoveOrganizationFeatureRequest _$V1RemoveOrganizationFeatureRequestFromJson(
+RemoveOrganizationFeatureRequest _$RemoveOrganizationFeatureRequestFromJson(
         Map<String, dynamic> json) =>
-    V1RemoveOrganizationFeatureRequest(
-      type: v1RemoveOrganizationFeatureRequestTypeFromJson(json['type']),
+    RemoveOrganizationFeatureRequest(
+      type: removeOrganizationFeatureRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1RemoveOrganizationFeatureIntent.fromJson(
+      parameters: RemoveOrganizationFeatureIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1RemoveOrganizationFeatureRequestToJson(
-        V1RemoveOrganizationFeatureRequest instance) =>
+Map<String, dynamic> _$RemoveOrganizationFeatureRequestToJson(
+        RemoveOrganizationFeatureRequest instance) =>
     <String, dynamic>{
-      'type': v1RemoveOrganizationFeatureRequestTypeToJson(instance.type),
+      'type': removeOrganizationFeatureRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1RemoveOrganizationFeatureResult _$V1RemoveOrganizationFeatureResultFromJson(
+RemoveOrganizationFeatureResult _$RemoveOrganizationFeatureResultFromJson(
         Map<String, dynamic> json) =>
-    V1RemoveOrganizationFeatureResult(
+    RemoveOrganizationFeatureResult(
       features: (json['features'] as List<dynamic>?)
-              ?.map((e) => V1Feature.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Feature.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1RemoveOrganizationFeatureResultToJson(
-        V1RemoveOrganizationFeatureResult instance) =>
+Map<String, dynamic> _$RemoveOrganizationFeatureResultToJson(
+        RemoveOrganizationFeatureResult instance) =>
     <String, dynamic>{
       'features': instance.features.map((e) => e.toJson()).toList(),
     };
 
-V1Result _$V1ResultFromJson(Map<String, dynamic> json) => V1Result(
+Result _$ResultFromJson(Map<String, dynamic> json) => Result(
       createOrganizationResult: json['createOrganizationResult'] == null
           ? null
-          : V1CreateOrganizationResult.fromJson(
+          : CreateOrganizationResult.fromJson(
               json['createOrganizationResult'] as Map<String, dynamic>),
       createAuthenticatorsResult: json['createAuthenticatorsResult'] == null
           ? null
-          : V1CreateAuthenticatorsResult.fromJson(
+          : CreateAuthenticatorsResult.fromJson(
               json['createAuthenticatorsResult'] as Map<String, dynamic>),
       createUsersResult: json['createUsersResult'] == null
           ? null
-          : V1CreateUsersResult.fromJson(
+          : CreateUsersResult.fromJson(
               json['createUsersResult'] as Map<String, dynamic>),
       createPrivateKeysResult: json['createPrivateKeysResult'] == null
           ? null
-          : V1CreatePrivateKeysResult.fromJson(
+          : CreatePrivateKeysResult.fromJson(
               json['createPrivateKeysResult'] as Map<String, dynamic>),
       createInvitationsResult: json['createInvitationsResult'] == null
           ? null
-          : V1CreateInvitationsResult.fromJson(
+          : CreateInvitationsResult.fromJson(
               json['createInvitationsResult'] as Map<String, dynamic>),
       acceptInvitationResult: json['acceptInvitationResult'] == null
           ? null
-          : V1AcceptInvitationResult.fromJson(
+          : AcceptInvitationResult.fromJson(
               json['acceptInvitationResult'] as Map<String, dynamic>),
       signRawPayloadResult: json['signRawPayloadResult'] == null
           ? null
-          : V1SignRawPayloadResult.fromJson(
+          : SignRawPayloadResult.fromJson(
               json['signRawPayloadResult'] as Map<String, dynamic>),
       createPolicyResult: json['createPolicyResult'] == null
           ? null
-          : V1CreatePolicyResult.fromJson(
+          : CreatePolicyResult.fromJson(
               json['createPolicyResult'] as Map<String, dynamic>),
       disablePrivateKeyResult: json['disablePrivateKeyResult'] == null
           ? null
-          : V1DisablePrivateKeyResult.fromJson(
+          : DisablePrivateKeyResult.fromJson(
               json['disablePrivateKeyResult'] as Map<String, dynamic>),
       deleteUsersResult: json['deleteUsersResult'] == null
           ? null
-          : V1DeleteUsersResult.fromJson(
+          : DeleteUsersResult.fromJson(
               json['deleteUsersResult'] as Map<String, dynamic>),
       deleteAuthenticatorsResult: json['deleteAuthenticatorsResult'] == null
           ? null
-          : V1DeleteAuthenticatorsResult.fromJson(
+          : DeleteAuthenticatorsResult.fromJson(
               json['deleteAuthenticatorsResult'] as Map<String, dynamic>),
       deleteInvitationResult: json['deleteInvitationResult'] == null
           ? null
-          : V1DeleteInvitationResult.fromJson(
+          : DeleteInvitationResult.fromJson(
               json['deleteInvitationResult'] as Map<String, dynamic>),
       deleteOrganizationResult: json['deleteOrganizationResult'] == null
           ? null
-          : V1DeleteOrganizationResult.fromJson(
+          : DeleteOrganizationResult.fromJson(
               json['deleteOrganizationResult'] as Map<String, dynamic>),
       deletePolicyResult: json['deletePolicyResult'] == null
           ? null
-          : V1DeletePolicyResult.fromJson(
+          : DeletePolicyResult.fromJson(
               json['deletePolicyResult'] as Map<String, dynamic>),
       createUserTagResult: json['createUserTagResult'] == null
           ? null
-          : V1CreateUserTagResult.fromJson(
+          : CreateUserTagResult.fromJson(
               json['createUserTagResult'] as Map<String, dynamic>),
       deleteUserTagsResult: json['deleteUserTagsResult'] == null
           ? null
-          : V1DeleteUserTagsResult.fromJson(
+          : DeleteUserTagsResult.fromJson(
               json['deleteUserTagsResult'] as Map<String, dynamic>),
       signTransactionResult: json['signTransactionResult'] == null
           ? null
-          : V1SignTransactionResult.fromJson(
+          : SignTransactionResult.fromJson(
               json['signTransactionResult'] as Map<String, dynamic>),
       deleteApiKeysResult: json['deleteApiKeysResult'] == null
           ? null
-          : V1DeleteApiKeysResult.fromJson(
+          : DeleteApiKeysResult.fromJson(
               json['deleteApiKeysResult'] as Map<String, dynamic>),
       createApiKeysResult: json['createApiKeysResult'] == null
           ? null
-          : V1CreateApiKeysResult.fromJson(
+          : CreateApiKeysResult.fromJson(
               json['createApiKeysResult'] as Map<String, dynamic>),
       createPrivateKeyTagResult: json['createPrivateKeyTagResult'] == null
           ? null
-          : V1CreatePrivateKeyTagResult.fromJson(
+          : CreatePrivateKeyTagResult.fromJson(
               json['createPrivateKeyTagResult'] as Map<String, dynamic>),
       deletePrivateKeyTagsResult: json['deletePrivateKeyTagsResult'] == null
           ? null
-          : V1DeletePrivateKeyTagsResult.fromJson(
+          : DeletePrivateKeyTagsResult.fromJson(
               json['deletePrivateKeyTagsResult'] as Map<String, dynamic>),
       setPaymentMethodResult: json['setPaymentMethodResult'] == null
           ? null
-          : BillingSetPaymentMethodResult.fromJson(
+          : SetPaymentMethodResult.fromJson(
               json['setPaymentMethodResult'] as Map<String, dynamic>),
       activateBillingTierResult: json['activateBillingTierResult'] == null
           ? null
-          : BillingActivateBillingTierResult.fromJson(
+          : ActivateBillingTierResult.fromJson(
               json['activateBillingTierResult'] as Map<String, dynamic>),
       deletePaymentMethodResult: json['deletePaymentMethodResult'] == null
           ? null
-          : BillingDeletePaymentMethodResult.fromJson(
+          : DeletePaymentMethodResult.fromJson(
               json['deletePaymentMethodResult'] as Map<String, dynamic>),
       createApiOnlyUsersResult: json['createApiOnlyUsersResult'] == null
           ? null
-          : V1CreateApiOnlyUsersResult.fromJson(
+          : CreateApiOnlyUsersResult.fromJson(
               json['createApiOnlyUsersResult'] as Map<String, dynamic>),
       updateRootQuorumResult: json['updateRootQuorumResult'] == null
           ? null
-          : V1UpdateRootQuorumResult.fromJson(
+          : UpdateRootQuorumResult.fromJson(
               json['updateRootQuorumResult'] as Map<String, dynamic>),
       updateUserTagResult: json['updateUserTagResult'] == null
           ? null
-          : V1UpdateUserTagResult.fromJson(
+          : UpdateUserTagResult.fromJson(
               json['updateUserTagResult'] as Map<String, dynamic>),
       updatePrivateKeyTagResult: json['updatePrivateKeyTagResult'] == null
           ? null
-          : V1UpdatePrivateKeyTagResult.fromJson(
+          : UpdatePrivateKeyTagResult.fromJson(
               json['updatePrivateKeyTagResult'] as Map<String, dynamic>),
       createSubOrganizationResult: json['createSubOrganizationResult'] == null
           ? null
-          : V1CreateSubOrganizationResult.fromJson(
+          : CreateSubOrganizationResult.fromJson(
               json['createSubOrganizationResult'] as Map<String, dynamic>),
       updateAllowedOriginsResult: json['updateAllowedOriginsResult'] == null
           ? null
-          : V1UpdateAllowedOriginsResult.fromJson(
+          : UpdateAllowedOriginsResult.fromJson(
               json['updateAllowedOriginsResult'] as Map<String, dynamic>),
       createPrivateKeysResultV2: json['createPrivateKeysResultV2'] == null
           ? null
-          : V1CreatePrivateKeysResultV2.fromJson(
+          : CreatePrivateKeysResultV2.fromJson(
               json['createPrivateKeysResultV2'] as Map<String, dynamic>),
       updateUserResult: json['updateUserResult'] == null
           ? null
-          : V1UpdateUserResult.fromJson(
+          : UpdateUserResult.fromJson(
               json['updateUserResult'] as Map<String, dynamic>),
       updatePolicyResult: json['updatePolicyResult'] == null
           ? null
-          : V1UpdatePolicyResult.fromJson(
+          : UpdatePolicyResult.fromJson(
               json['updatePolicyResult'] as Map<String, dynamic>),
       createSubOrganizationResultV3: json['createSubOrganizationResultV3'] ==
               null
           ? null
-          : V1CreateSubOrganizationResultV3.fromJson(
+          : CreateSubOrganizationResultV3.fromJson(
               json['createSubOrganizationResultV3'] as Map<String, dynamic>),
       createWalletResult: json['createWalletResult'] == null
           ? null
-          : V1CreateWalletResult.fromJson(
+          : CreateWalletResult.fromJson(
               json['createWalletResult'] as Map<String, dynamic>),
       createWalletAccountsResult: json['createWalletAccountsResult'] == null
           ? null
-          : V1CreateWalletAccountsResult.fromJson(
+          : CreateWalletAccountsResult.fromJson(
               json['createWalletAccountsResult'] as Map<String, dynamic>),
       initUserEmailRecoveryResult: json['initUserEmailRecoveryResult'] == null
           ? null
-          : V1InitUserEmailRecoveryResult.fromJson(
+          : InitUserEmailRecoveryResult.fromJson(
               json['initUserEmailRecoveryResult'] as Map<String, dynamic>),
       recoverUserResult: json['recoverUserResult'] == null
           ? null
-          : V1RecoverUserResult.fromJson(
+          : RecoverUserResult.fromJson(
               json['recoverUserResult'] as Map<String, dynamic>),
       setOrganizationFeatureResult: json['setOrganizationFeatureResult'] == null
           ? null
-          : V1SetOrganizationFeatureResult.fromJson(
+          : SetOrganizationFeatureResult.fromJson(
               json['setOrganizationFeatureResult'] as Map<String, dynamic>),
       removeOrganizationFeatureResult:
           json['removeOrganizationFeatureResult'] == null
               ? null
-              : V1RemoveOrganizationFeatureResult.fromJson(
+              : RemoveOrganizationFeatureResult.fromJson(
                   json['removeOrganizationFeatureResult']
                       as Map<String, dynamic>),
       exportPrivateKeyResult: json['exportPrivateKeyResult'] == null
           ? null
-          : V1ExportPrivateKeyResult.fromJson(
+          : ExportPrivateKeyResult.fromJson(
               json['exportPrivateKeyResult'] as Map<String, dynamic>),
       exportWalletResult: json['exportWalletResult'] == null
           ? null
-          : V1ExportWalletResult.fromJson(
+          : ExportWalletResult.fromJson(
               json['exportWalletResult'] as Map<String, dynamic>),
       createSubOrganizationResultV4: json['createSubOrganizationResultV4'] ==
               null
           ? null
-          : V1CreateSubOrganizationResultV4.fromJson(
+          : CreateSubOrganizationResultV4.fromJson(
               json['createSubOrganizationResultV4'] as Map<String, dynamic>),
       emailAuthResult: json['emailAuthResult'] == null
           ? null
-          : V1EmailAuthResult.fromJson(
+          : EmailAuthResult.fromJson(
               json['emailAuthResult'] as Map<String, dynamic>),
       exportWalletAccountResult: json['exportWalletAccountResult'] == null
           ? null
-          : V1ExportWalletAccountResult.fromJson(
+          : ExportWalletAccountResult.fromJson(
               json['exportWalletAccountResult'] as Map<String, dynamic>),
       initImportWalletResult: json['initImportWalletResult'] == null
           ? null
-          : V1InitImportWalletResult.fromJson(
+          : InitImportWalletResult.fromJson(
               json['initImportWalletResult'] as Map<String, dynamic>),
       importWalletResult: json['importWalletResult'] == null
           ? null
-          : V1ImportWalletResult.fromJson(
+          : ImportWalletResult.fromJson(
               json['importWalletResult'] as Map<String, dynamic>),
       initImportPrivateKeyResult: json['initImportPrivateKeyResult'] == null
           ? null
-          : V1InitImportPrivateKeyResult.fromJson(
+          : InitImportPrivateKeyResult.fromJson(
               json['initImportPrivateKeyResult'] as Map<String, dynamic>),
       importPrivateKeyResult: json['importPrivateKeyResult'] == null
           ? null
-          : V1ImportPrivateKeyResult.fromJson(
+          : ImportPrivateKeyResult.fromJson(
               json['importPrivateKeyResult'] as Map<String, dynamic>),
       createPoliciesResult: json['createPoliciesResult'] == null
           ? null
-          : V1CreatePoliciesResult.fromJson(
+          : CreatePoliciesResult.fromJson(
               json['createPoliciesResult'] as Map<String, dynamic>),
       signRawPayloadsResult: json['signRawPayloadsResult'] == null
           ? null
-          : V1SignRawPayloadsResult.fromJson(
+          : SignRawPayloadsResult.fromJson(
               json['signRawPayloadsResult'] as Map<String, dynamic>),
       createReadOnlySessionResult: json['createReadOnlySessionResult'] == null
           ? null
-          : V1CreateReadOnlySessionResult.fromJson(
+          : CreateReadOnlySessionResult.fromJson(
               json['createReadOnlySessionResult'] as Map<String, dynamic>),
       createOauthProvidersResult: json['createOauthProvidersResult'] == null
           ? null
-          : V1CreateOauthProvidersResult.fromJson(
+          : CreateOauthProvidersResult.fromJson(
               json['createOauthProvidersResult'] as Map<String, dynamic>),
       deleteOauthProvidersResult: json['deleteOauthProvidersResult'] == null
           ? null
-          : V1DeleteOauthProvidersResult.fromJson(
+          : DeleteOauthProvidersResult.fromJson(
               json['deleteOauthProvidersResult'] as Map<String, dynamic>),
       createSubOrganizationResultV5: json['createSubOrganizationResultV5'] ==
               null
           ? null
-          : V1CreateSubOrganizationResultV5.fromJson(
+          : CreateSubOrganizationResultV5.fromJson(
               json['createSubOrganizationResultV5'] as Map<String, dynamic>),
       oauthResult: json['oauthResult'] == null
           ? null
-          : V1OauthResult.fromJson(json['oauthResult'] as Map<String, dynamic>),
+          : OauthResult.fromJson(json['oauthResult'] as Map<String, dynamic>),
       createReadWriteSessionResult: json['createReadWriteSessionResult'] == null
           ? null
-          : V1CreateReadWriteSessionResult.fromJson(
+          : CreateReadWriteSessionResult.fromJson(
               json['createReadWriteSessionResult'] as Map<String, dynamic>),
       createSubOrganizationResultV6: json['createSubOrganizationResultV6'] ==
               null
           ? null
-          : V1CreateSubOrganizationResultV6.fromJson(
+          : CreateSubOrganizationResultV6.fromJson(
               json['createSubOrganizationResultV6'] as Map<String, dynamic>),
       deletePrivateKeysResult: json['deletePrivateKeysResult'] == null
           ? null
-          : V1DeletePrivateKeysResult.fromJson(
+          : DeletePrivateKeysResult.fromJson(
               json['deletePrivateKeysResult'] as Map<String, dynamic>),
       deleteWalletsResult: json['deleteWalletsResult'] == null
           ? null
-          : V1DeleteWalletsResult.fromJson(
+          : DeleteWalletsResult.fromJson(
               json['deleteWalletsResult'] as Map<String, dynamic>),
       createReadWriteSessionResultV2: json['createReadWriteSessionResultV2'] ==
               null
           ? null
-          : V1CreateReadWriteSessionResultV2.fromJson(
+          : CreateReadWriteSessionResultV2.fromJson(
               json['createReadWriteSessionResultV2'] as Map<String, dynamic>),
       deleteSubOrganizationResult: json['deleteSubOrganizationResult'] == null
           ? null
-          : V1DeleteSubOrganizationResult.fromJson(
+          : DeleteSubOrganizationResult.fromJson(
               json['deleteSubOrganizationResult'] as Map<String, dynamic>),
       initOtpAuthResult: json['initOtpAuthResult'] == null
           ? null
-          : V1InitOtpAuthResult.fromJson(
+          : InitOtpAuthResult.fromJson(
               json['initOtpAuthResult'] as Map<String, dynamic>),
       otpAuthResult: json['otpAuthResult'] == null
           ? null
-          : V1OtpAuthResult.fromJson(
+          : OtpAuthResult.fromJson(
               json['otpAuthResult'] as Map<String, dynamic>),
       createSubOrganizationResultV7: json['createSubOrganizationResultV7'] ==
               null
           ? null
-          : V1CreateSubOrganizationResultV7.fromJson(
+          : CreateSubOrganizationResultV7.fromJson(
               json['createSubOrganizationResultV7'] as Map<String, dynamic>),
+      updateWalletResult: json['updateWalletResult'] == null
+          ? null
+          : UpdateWalletResult.fromJson(
+              json['updateWalletResult'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1ResultToJson(V1Result instance) => <String, dynamic>{
+Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
       'createOrganizationResult': instance.createOrganizationResult?.toJson(),
       'createAuthenticatorsResult':
           instance.createAuthenticatorsResult?.toJson(),
@@ -4963,24 +4596,25 @@ Map<String, dynamic> _$V1ResultToJson(V1Result instance) => <String, dynamic>{
       'otpAuthResult': instance.otpAuthResult?.toJson(),
       'createSubOrganizationResultV7':
           instance.createSubOrganizationResultV7?.toJson(),
+      'updateWalletResult': instance.updateWalletResult?.toJson(),
     };
 
-V1RootUserParams _$V1RootUserParamsFromJson(Map<String, dynamic> json) =>
-    V1RootUserParams(
+RootUserParams _$RootUserParamsFromJson(Map<String, dynamic> json) =>
+    RootUserParams(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => ApiApiKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1RootUserParamsToJson(V1RootUserParams instance) =>
+Map<String, dynamic> _$RootUserParamsToJson(RootUserParams instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -4988,27 +4622,27 @@ Map<String, dynamic> _$V1RootUserParamsToJson(V1RootUserParams instance) =>
       'authenticators': instance.authenticators.map((e) => e.toJson()).toList(),
     };
 
-V1RootUserParamsV2 _$V1RootUserParamsV2FromJson(Map<String, dynamic> json) =>
-    V1RootUserParamsV2(
+RootUserParamsV2 _$RootUserParamsV2FromJson(Map<String, dynamic> json) =>
+    RootUserParamsV2(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => ApiApiKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       oauthProviders: (json['oauthProviders'] as List<dynamic>?)
               ?.map((e) =>
-                  V1OauthProviderParams.fromJson(e as Map<String, dynamic>))
+                  OauthProviderParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1RootUserParamsV2ToJson(V1RootUserParamsV2 instance) =>
+Map<String, dynamic> _$RootUserParamsV2ToJson(RootUserParamsV2 instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -5017,27 +4651,27 @@ Map<String, dynamic> _$V1RootUserParamsV2ToJson(V1RootUserParamsV2 instance) =>
       'oauthProviders': instance.oauthProviders.map((e) => e.toJson()).toList(),
     };
 
-V1RootUserParamsV3 _$V1RootUserParamsV3FromJson(Map<String, dynamic> json) =>
-    V1RootUserParamsV3(
+RootUserParamsV3 _$RootUserParamsV3FromJson(Map<String, dynamic> json) =>
+    RootUserParamsV3(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => V1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       oauthProviders: (json['oauthProviders'] as List<dynamic>?)
               ?.map((e) =>
-                  V1OauthProviderParams.fromJson(e as Map<String, dynamic>))
+                  OauthProviderParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1RootUserParamsV3ToJson(V1RootUserParamsV3 instance) =>
+Map<String, dynamic> _$RootUserParamsV3ToJson(RootUserParamsV3 instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -5046,28 +4680,28 @@ Map<String, dynamic> _$V1RootUserParamsV3ToJson(V1RootUserParamsV3 instance) =>
       'oauthProviders': instance.oauthProviders.map((e) => e.toJson()).toList(),
     };
 
-V1RootUserParamsV4 _$V1RootUserParamsV4FromJson(Map<String, dynamic> json) =>
-    V1RootUserParamsV4(
+RootUserParamsV4 _$RootUserParamsV4FromJson(Map<String, dynamic> json) =>
+    RootUserParamsV4(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       userPhoneNumber: json['userPhoneNumber'] as String?,
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => V1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       oauthProviders: (json['oauthProviders'] as List<dynamic>?)
               ?.map((e) =>
-                  V1OauthProviderParams.fromJson(e as Map<String, dynamic>))
+                  OauthProviderParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1RootUserParamsV4ToJson(V1RootUserParamsV4 instance) =>
+Map<String, dynamic> _$RootUserParamsV4ToJson(RootUserParamsV4 instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -5077,383 +4711,446 @@ Map<String, dynamic> _$V1RootUserParamsV4ToJson(V1RootUserParamsV4 instance) =>
       'oauthProviders': instance.oauthProviders.map((e) => e.toJson()).toList(),
     };
 
-V1Selector _$V1SelectorFromJson(Map<String, dynamic> json) => V1Selector(
+Selector _$SelectorFromJson(Map<String, dynamic> json) => Selector(
       subject: json['subject'] as String?,
-      $operator: v1OperatorNullableFromJson(json['operator']),
+      $operator: operatorNullableFromJson(json['operator']),
       target: json['target'] as String?,
     );
 
-Map<String, dynamic> _$V1SelectorToJson(V1Selector instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SelectorToJson(Selector instance) => <String, dynamic>{
       'subject': instance.subject,
-      'operator': v1OperatorNullableToJson(instance.$operator),
+      'operator': operatorNullableToJson(instance.$operator),
       'target': instance.target,
     };
 
-V1SelectorV2 _$V1SelectorV2FromJson(Map<String, dynamic> json) => V1SelectorV2(
+SelectorV2 _$SelectorV2FromJson(Map<String, dynamic> json) => SelectorV2(
       subject: json['subject'] as String?,
-      $operator: v1OperatorNullableFromJson(json['operator']),
+      $operator: operatorNullableFromJson(json['operator']),
       targets: (json['targets'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1SelectorV2ToJson(V1SelectorV2 instance) =>
+Map<String, dynamic> _$SelectorV2ToJson(SelectorV2 instance) =>
     <String, dynamic>{
       'subject': instance.subject,
-      'operator': v1OperatorNullableToJson(instance.$operator),
+      'operator': operatorNullableToJson(instance.$operator),
       'targets': instance.targets,
     };
 
-V1SetOrganizationFeatureIntent _$V1SetOrganizationFeatureIntentFromJson(
+SetOrganizationFeatureIntent _$SetOrganizationFeatureIntentFromJson(
         Map<String, dynamic> json) =>
-    V1SetOrganizationFeatureIntent(
-      name: v1FeatureNameFromJson(json['name']),
+    SetOrganizationFeatureIntent(
+      name: featureNameFromJson(json['name']),
       $value: json['value'] as String,
     );
 
-Map<String, dynamic> _$V1SetOrganizationFeatureIntentToJson(
-        V1SetOrganizationFeatureIntent instance) =>
+Map<String, dynamic> _$SetOrganizationFeatureIntentToJson(
+        SetOrganizationFeatureIntent instance) =>
     <String, dynamic>{
-      'name': v1FeatureNameToJson(instance.name),
+      'name': featureNameToJson(instance.name),
       'value': instance.$value,
     };
 
-V1SetOrganizationFeatureRequest _$V1SetOrganizationFeatureRequestFromJson(
+SetOrganizationFeatureRequest _$SetOrganizationFeatureRequestFromJson(
         Map<String, dynamic> json) =>
-    V1SetOrganizationFeatureRequest(
-      type: v1SetOrganizationFeatureRequestTypeFromJson(json['type']),
+    SetOrganizationFeatureRequest(
+      type: setOrganizationFeatureRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1SetOrganizationFeatureIntent.fromJson(
+      parameters: SetOrganizationFeatureIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1SetOrganizationFeatureRequestToJson(
-        V1SetOrganizationFeatureRequest instance) =>
+Map<String, dynamic> _$SetOrganizationFeatureRequestToJson(
+        SetOrganizationFeatureRequest instance) =>
     <String, dynamic>{
-      'type': v1SetOrganizationFeatureRequestTypeToJson(instance.type),
+      'type': setOrganizationFeatureRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1SetOrganizationFeatureResult _$V1SetOrganizationFeatureResultFromJson(
+SetOrganizationFeatureResult _$SetOrganizationFeatureResultFromJson(
         Map<String, dynamic> json) =>
-    V1SetOrganizationFeatureResult(
+    SetOrganizationFeatureResult(
       features: (json['features'] as List<dynamic>?)
-              ?.map((e) => V1Feature.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Feature.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1SetOrganizationFeatureResultToJson(
-        V1SetOrganizationFeatureResult instance) =>
+Map<String, dynamic> _$SetOrganizationFeatureResultToJson(
+        SetOrganizationFeatureResult instance) =>
     <String, dynamic>{
       'features': instance.features.map((e) => e.toJson()).toList(),
     };
 
-V1SignRawPayloadIntent _$V1SignRawPayloadIntentFromJson(
+SetPaymentMethodIntent _$SetPaymentMethodIntentFromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadIntent(
-      privateKeyId: json['privateKeyId'] as String,
-      payload: json['payload'] as String,
-      encoding: v1PayloadEncodingFromJson(json['encoding']),
-      hashFunction: v1HashFunctionFromJson(json['hashFunction']),
+    SetPaymentMethodIntent(
+      number: json['number'] as String,
+      cvv: json['cvv'] as String,
+      expiryMonth: json['expiryMonth'] as String,
+      expiryYear: json['expiryYear'] as String,
+      cardHolderEmail: json['cardHolderEmail'] as String,
+      cardHolderName: json['cardHolderName'] as String,
     );
 
-Map<String, dynamic> _$V1SignRawPayloadIntentToJson(
-        V1SignRawPayloadIntent instance) =>
+Map<String, dynamic> _$SetPaymentMethodIntentToJson(
+        SetPaymentMethodIntent instance) =>
+    <String, dynamic>{
+      'number': instance.number,
+      'cvv': instance.cvv,
+      'expiryMonth': instance.expiryMonth,
+      'expiryYear': instance.expiryYear,
+      'cardHolderEmail': instance.cardHolderEmail,
+      'cardHolderName': instance.cardHolderName,
+    };
+
+SetPaymentMethodIntentV2 _$SetPaymentMethodIntentV2FromJson(
+        Map<String, dynamic> json) =>
+    SetPaymentMethodIntentV2(
+      paymentMethodId: json['paymentMethodId'] as String,
+      cardHolderEmail: json['cardHolderEmail'] as String,
+      cardHolderName: json['cardHolderName'] as String,
+    );
+
+Map<String, dynamic> _$SetPaymentMethodIntentV2ToJson(
+        SetPaymentMethodIntentV2 instance) =>
+    <String, dynamic>{
+      'paymentMethodId': instance.paymentMethodId,
+      'cardHolderEmail': instance.cardHolderEmail,
+      'cardHolderName': instance.cardHolderName,
+    };
+
+SetPaymentMethodResult _$SetPaymentMethodResultFromJson(
+        Map<String, dynamic> json) =>
+    SetPaymentMethodResult(
+      lastFour: json['lastFour'] as String,
+      cardHolderName: json['cardHolderName'] as String,
+      cardHolderEmail: json['cardHolderEmail'] as String,
+    );
+
+Map<String, dynamic> _$SetPaymentMethodResultToJson(
+        SetPaymentMethodResult instance) =>
+    <String, dynamic>{
+      'lastFour': instance.lastFour,
+      'cardHolderName': instance.cardHolderName,
+      'cardHolderEmail': instance.cardHolderEmail,
+    };
+
+SignRawPayloadIntent _$SignRawPayloadIntentFromJson(
+        Map<String, dynamic> json) =>
+    SignRawPayloadIntent(
+      privateKeyId: json['privateKeyId'] as String,
+      payload: json['payload'] as String,
+      encoding: payloadEncodingFromJson(json['encoding']),
+      hashFunction: hashFunctionFromJson(json['hashFunction']),
+    );
+
+Map<String, dynamic> _$SignRawPayloadIntentToJson(
+        SignRawPayloadIntent instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'payload': instance.payload,
-      'encoding': v1PayloadEncodingToJson(instance.encoding),
-      'hashFunction': v1HashFunctionToJson(instance.hashFunction),
+      'encoding': payloadEncodingToJson(instance.encoding),
+      'hashFunction': hashFunctionToJson(instance.hashFunction),
     };
 
-V1SignRawPayloadIntentV2 _$V1SignRawPayloadIntentV2FromJson(
+SignRawPayloadIntentV2 _$SignRawPayloadIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadIntentV2(
+    SignRawPayloadIntentV2(
       signWith: json['signWith'] as String,
       payload: json['payload'] as String,
-      encoding: v1PayloadEncodingFromJson(json['encoding']),
-      hashFunction: v1HashFunctionFromJson(json['hashFunction']),
+      encoding: payloadEncodingFromJson(json['encoding']),
+      hashFunction: hashFunctionFromJson(json['hashFunction']),
     );
 
-Map<String, dynamic> _$V1SignRawPayloadIntentV2ToJson(
-        V1SignRawPayloadIntentV2 instance) =>
+Map<String, dynamic> _$SignRawPayloadIntentV2ToJson(
+        SignRawPayloadIntentV2 instance) =>
     <String, dynamic>{
       'signWith': instance.signWith,
       'payload': instance.payload,
-      'encoding': v1PayloadEncodingToJson(instance.encoding),
-      'hashFunction': v1HashFunctionToJson(instance.hashFunction),
+      'encoding': payloadEncodingToJson(instance.encoding),
+      'hashFunction': hashFunctionToJson(instance.hashFunction),
     };
 
-V1SignRawPayloadRequest _$V1SignRawPayloadRequestFromJson(
+SignRawPayloadRequest _$SignRawPayloadRequestFromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadRequest(
-      type: v1SignRawPayloadRequestTypeFromJson(json['type']),
+    SignRawPayloadRequest(
+      type: signRawPayloadRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1SignRawPayloadIntentV2.fromJson(
+      parameters: SignRawPayloadIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1SignRawPayloadRequestToJson(
-        V1SignRawPayloadRequest instance) =>
+Map<String, dynamic> _$SignRawPayloadRequestToJson(
+        SignRawPayloadRequest instance) =>
     <String, dynamic>{
-      'type': v1SignRawPayloadRequestTypeToJson(instance.type),
+      'type': signRawPayloadRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1SignRawPayloadResult _$V1SignRawPayloadResultFromJson(
+SignRawPayloadResult _$SignRawPayloadResultFromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadResult(
+    SignRawPayloadResult(
       r: json['r'] as String,
       s: json['s'] as String,
       v: json['v'] as String,
     );
 
-Map<String, dynamic> _$V1SignRawPayloadResultToJson(
-        V1SignRawPayloadResult instance) =>
+Map<String, dynamic> _$SignRawPayloadResultToJson(
+        SignRawPayloadResult instance) =>
     <String, dynamic>{
       'r': instance.r,
       's': instance.s,
       'v': instance.v,
     };
 
-V1SignRawPayloadsIntent _$V1SignRawPayloadsIntentFromJson(
+SignRawPayloadsIntent _$SignRawPayloadsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadsIntent(
+    SignRawPayloadsIntent(
       signWith: json['signWith'] as String,
       payloads: (json['payloads'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
-      encoding: v1PayloadEncodingFromJson(json['encoding']),
-      hashFunction: v1HashFunctionFromJson(json['hashFunction']),
+      encoding: payloadEncodingFromJson(json['encoding']),
+      hashFunction: hashFunctionFromJson(json['hashFunction']),
     );
 
-Map<String, dynamic> _$V1SignRawPayloadsIntentToJson(
-        V1SignRawPayloadsIntent instance) =>
+Map<String, dynamic> _$SignRawPayloadsIntentToJson(
+        SignRawPayloadsIntent instance) =>
     <String, dynamic>{
       'signWith': instance.signWith,
       'payloads': instance.payloads,
-      'encoding': v1PayloadEncodingToJson(instance.encoding),
-      'hashFunction': v1HashFunctionToJson(instance.hashFunction),
+      'encoding': payloadEncodingToJson(instance.encoding),
+      'hashFunction': hashFunctionToJson(instance.hashFunction),
     };
 
-V1SignRawPayloadsRequest _$V1SignRawPayloadsRequestFromJson(
+SignRawPayloadsRequest _$SignRawPayloadsRequestFromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadsRequest(
-      type: v1SignRawPayloadsRequestTypeFromJson(json['type']),
+    SignRawPayloadsRequest(
+      type: signRawPayloadsRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1SignRawPayloadsIntent.fromJson(
+      parameters: SignRawPayloadsIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1SignRawPayloadsRequestToJson(
-        V1SignRawPayloadsRequest instance) =>
+Map<String, dynamic> _$SignRawPayloadsRequestToJson(
+        SignRawPayloadsRequest instance) =>
     <String, dynamic>{
-      'type': v1SignRawPayloadsRequestTypeToJson(instance.type),
+      'type': signRawPayloadsRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1SignRawPayloadsResult _$V1SignRawPayloadsResultFromJson(
+SignRawPayloadsResult _$SignRawPayloadsResultFromJson(
         Map<String, dynamic> json) =>
-    V1SignRawPayloadsResult(
+    SignRawPayloadsResult(
       signatures: (json['signatures'] as List<dynamic>?)
               ?.map((e) =>
-                  V1SignRawPayloadResult.fromJson(e as Map<String, dynamic>))
+                  SignRawPayloadResult.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1SignRawPayloadsResultToJson(
-        V1SignRawPayloadsResult instance) =>
+Map<String, dynamic> _$SignRawPayloadsResultToJson(
+        SignRawPayloadsResult instance) =>
     <String, dynamic>{
       'signatures': instance.signatures?.map((e) => e.toJson()).toList(),
     };
 
-V1SignTransactionIntent _$V1SignTransactionIntentFromJson(
+SignTransactionIntent _$SignTransactionIntentFromJson(
         Map<String, dynamic> json) =>
-    V1SignTransactionIntent(
+    SignTransactionIntent(
       privateKeyId: json['privateKeyId'] as String,
       unsignedTransaction: json['unsignedTransaction'] as String,
-      type: v1TransactionTypeFromJson(json['type']),
+      type: transactionTypeFromJson(json['type']),
     );
 
-Map<String, dynamic> _$V1SignTransactionIntentToJson(
-        V1SignTransactionIntent instance) =>
+Map<String, dynamic> _$SignTransactionIntentToJson(
+        SignTransactionIntent instance) =>
     <String, dynamic>{
       'privateKeyId': instance.privateKeyId,
       'unsignedTransaction': instance.unsignedTransaction,
-      'type': v1TransactionTypeToJson(instance.type),
+      'type': transactionTypeToJson(instance.type),
     };
 
-V1SignTransactionIntentV2 _$V1SignTransactionIntentV2FromJson(
+SignTransactionIntentV2 _$SignTransactionIntentV2FromJson(
         Map<String, dynamic> json) =>
-    V1SignTransactionIntentV2(
+    SignTransactionIntentV2(
       signWith: json['signWith'] as String,
       unsignedTransaction: json['unsignedTransaction'] as String,
-      type: v1TransactionTypeFromJson(json['type']),
+      type: transactionTypeFromJson(json['type']),
     );
 
-Map<String, dynamic> _$V1SignTransactionIntentV2ToJson(
-        V1SignTransactionIntentV2 instance) =>
+Map<String, dynamic> _$SignTransactionIntentV2ToJson(
+        SignTransactionIntentV2 instance) =>
     <String, dynamic>{
       'signWith': instance.signWith,
       'unsignedTransaction': instance.unsignedTransaction,
-      'type': v1TransactionTypeToJson(instance.type),
+      'type': transactionTypeToJson(instance.type),
     };
 
-V1SignTransactionRequest _$V1SignTransactionRequestFromJson(
+SignTransactionRequest _$SignTransactionRequestFromJson(
         Map<String, dynamic> json) =>
-    V1SignTransactionRequest(
-      type: v1SignTransactionRequestTypeFromJson(json['type']),
+    SignTransactionRequest(
+      type: signTransactionRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1SignTransactionIntentV2.fromJson(
+      parameters: SignTransactionIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1SignTransactionRequestToJson(
-        V1SignTransactionRequest instance) =>
+Map<String, dynamic> _$SignTransactionRequestToJson(
+        SignTransactionRequest instance) =>
     <String, dynamic>{
-      'type': v1SignTransactionRequestTypeToJson(instance.type),
+      'type': signTransactionRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1SignTransactionResult _$V1SignTransactionResultFromJson(
+SignTransactionResult _$SignTransactionResultFromJson(
         Map<String, dynamic> json) =>
-    V1SignTransactionResult(
+    SignTransactionResult(
       signedTransaction: json['signedTransaction'] as String,
     );
 
-Map<String, dynamic> _$V1SignTransactionResultToJson(
-        V1SignTransactionResult instance) =>
+Map<String, dynamic> _$SignTransactionResultToJson(
+        SignTransactionResult instance) =>
     <String, dynamic>{
       'signedTransaction': instance.signedTransaction,
     };
 
-V1SimpleClientExtensionResults _$V1SimpleClientExtensionResultsFromJson(
+SimpleClientExtensionResults _$SimpleClientExtensionResultsFromJson(
         Map<String, dynamic> json) =>
-    V1SimpleClientExtensionResults(
+    SimpleClientExtensionResults(
       appid: json['appid'] as bool?,
       appidExclude: json['appidExclude'] as bool?,
       credProps: json['credProps'] == null
           ? null
-          : V1CredPropsAuthenticationExtensionsClientOutputs.fromJson(
+          : CredPropsAuthenticationExtensionsClientOutputs.fromJson(
               json['credProps'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1SimpleClientExtensionResultsToJson(
-        V1SimpleClientExtensionResults instance) =>
+Map<String, dynamic> _$SimpleClientExtensionResultsToJson(
+        SimpleClientExtensionResults instance) =>
     <String, dynamic>{
       'appid': instance.appid,
       'appidExclude': instance.appidExclude,
       'credProps': instance.credProps?.toJson(),
     };
 
-V1SmsCustomizationParams _$V1SmsCustomizationParamsFromJson(
+SmsCustomizationParams _$SmsCustomizationParamsFromJson(
         Map<String, dynamic> json) =>
-    V1SmsCustomizationParams(
+    SmsCustomizationParams(
       template: json['template'] as String?,
     );
 
-Map<String, dynamic> _$V1SmsCustomizationParamsToJson(
-        V1SmsCustomizationParams instance) =>
+Map<String, dynamic> _$SmsCustomizationParamsToJson(
+        SmsCustomizationParams instance) =>
     <String, dynamic>{
       'template': instance.template,
     };
 
-V1UpdateAllowedOriginsIntent _$V1UpdateAllowedOriginsIntentFromJson(
+Status _$StatusFromJson(Map<String, dynamic> json) => Status(
+      code: (json['code'] as num?)?.toInt(),
+      message: json['message'] as String?,
+      details: (json['details'] as List<dynamic>?)
+              ?.map((e) => Any.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$StatusToJson(Status instance) => <String, dynamic>{
+      'code': instance.code,
+      'message': instance.message,
+      'details': instance.details?.map((e) => e.toJson()).toList(),
+    };
+
+UpdateAllowedOriginsIntent _$UpdateAllowedOriginsIntentFromJson(
         Map<String, dynamic> json) =>
-    V1UpdateAllowedOriginsIntent(
+    UpdateAllowedOriginsIntent(
       allowedOrigins: (json['allowedOrigins'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],
     );
 
-Map<String, dynamic> _$V1UpdateAllowedOriginsIntentToJson(
-        V1UpdateAllowedOriginsIntent instance) =>
+Map<String, dynamic> _$UpdateAllowedOriginsIntentToJson(
+        UpdateAllowedOriginsIntent instance) =>
     <String, dynamic>{
       'allowedOrigins': instance.allowedOrigins,
     };
 
-V1UpdateAllowedOriginsResult _$V1UpdateAllowedOriginsResultFromJson(
+UpdateAllowedOriginsResult _$UpdateAllowedOriginsResultFromJson(
         Map<String, dynamic> json) =>
-    V1UpdateAllowedOriginsResult();
+    UpdateAllowedOriginsResult();
 
-Map<String, dynamic> _$V1UpdateAllowedOriginsResultToJson(
-        V1UpdateAllowedOriginsResult instance) =>
+Map<String, dynamic> _$UpdateAllowedOriginsResultToJson(
+        UpdateAllowedOriginsResult instance) =>
     <String, dynamic>{};
 
-V1UpdatePolicyIntent _$V1UpdatePolicyIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1UpdatePolicyIntent(
+UpdatePolicyIntent _$UpdatePolicyIntentFromJson(Map<String, dynamic> json) =>
+    UpdatePolicyIntent(
       policyId: json['policyId'] as String,
       policyName: json['policyName'] as String?,
-      policyEffect: v1EffectNullableFromJson(json['policyEffect']),
+      policyEffect: effectNullableFromJson(json['policyEffect']),
       policyCondition: json['policyCondition'] as String?,
       policyConsensus: json['policyConsensus'] as String?,
       policyNotes: json['policyNotes'] as String?,
     );
 
-Map<String, dynamic> _$V1UpdatePolicyIntentToJson(
-        V1UpdatePolicyIntent instance) =>
+Map<String, dynamic> _$UpdatePolicyIntentToJson(UpdatePolicyIntent instance) =>
     <String, dynamic>{
       'policyId': instance.policyId,
       'policyName': instance.policyName,
-      'policyEffect': v1EffectNullableToJson(instance.policyEffect),
+      'policyEffect': effectNullableToJson(instance.policyEffect),
       'policyCondition': instance.policyCondition,
       'policyConsensus': instance.policyConsensus,
       'policyNotes': instance.policyNotes,
     };
 
-V1UpdatePolicyRequest _$V1UpdatePolicyRequestFromJson(
-        Map<String, dynamic> json) =>
-    V1UpdatePolicyRequest(
-      type: v1UpdatePolicyRequestTypeFromJson(json['type']),
+UpdatePolicyRequest _$UpdatePolicyRequestFromJson(Map<String, dynamic> json) =>
+    UpdatePolicyRequest(
+      type: updatePolicyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1UpdatePolicyIntent.fromJson(
+      parameters: UpdatePolicyIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1UpdatePolicyRequestToJson(
-        V1UpdatePolicyRequest instance) =>
+Map<String, dynamic> _$UpdatePolicyRequestToJson(
+        UpdatePolicyRequest instance) =>
     <String, dynamic>{
-      'type': v1UpdatePolicyRequestTypeToJson(instance.type),
+      'type': updatePolicyRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1UpdatePolicyResult _$V1UpdatePolicyResultFromJson(
-        Map<String, dynamic> json) =>
-    V1UpdatePolicyResult(
+UpdatePolicyResult _$UpdatePolicyResultFromJson(Map<String, dynamic> json) =>
+    UpdatePolicyResult(
       policyId: json['policyId'] as String,
     );
 
-Map<String, dynamic> _$V1UpdatePolicyResultToJson(
-        V1UpdatePolicyResult instance) =>
+Map<String, dynamic> _$UpdatePolicyResultToJson(UpdatePolicyResult instance) =>
     <String, dynamic>{
       'policyId': instance.policyId,
     };
 
-V1UpdatePrivateKeyTagIntent _$V1UpdatePrivateKeyTagIntentFromJson(
+UpdatePrivateKeyTagIntent _$UpdatePrivateKeyTagIntentFromJson(
         Map<String, dynamic> json) =>
-    V1UpdatePrivateKeyTagIntent(
+    UpdatePrivateKeyTagIntent(
       privateKeyTagId: json['privateKeyTagId'] as String,
       newPrivateKeyTagName: json['newPrivateKeyTagName'] as String?,
       addPrivateKeyIds: (json['addPrivateKeyIds'] as List<dynamic>?)
@@ -5466,8 +5163,8 @@ V1UpdatePrivateKeyTagIntent _$V1UpdatePrivateKeyTagIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1UpdatePrivateKeyTagIntentToJson(
-        V1UpdatePrivateKeyTagIntent instance) =>
+Map<String, dynamic> _$UpdatePrivateKeyTagIntentToJson(
+        UpdatePrivateKeyTagIntent instance) =>
     <String, dynamic>{
       'privateKeyTagId': instance.privateKeyTagId,
       'newPrivateKeyTagName': instance.newPrivateKeyTagName,
@@ -5475,40 +5172,40 @@ Map<String, dynamic> _$V1UpdatePrivateKeyTagIntentToJson(
       'removePrivateKeyIds': instance.removePrivateKeyIds,
     };
 
-V1UpdatePrivateKeyTagRequest _$V1UpdatePrivateKeyTagRequestFromJson(
+UpdatePrivateKeyTagRequest _$UpdatePrivateKeyTagRequestFromJson(
         Map<String, dynamic> json) =>
-    V1UpdatePrivateKeyTagRequest(
-      type: v1UpdatePrivateKeyTagRequestTypeFromJson(json['type']),
+    UpdatePrivateKeyTagRequest(
+      type: updatePrivateKeyTagRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1UpdatePrivateKeyTagIntent.fromJson(
+      parameters: UpdatePrivateKeyTagIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1UpdatePrivateKeyTagRequestToJson(
-        V1UpdatePrivateKeyTagRequest instance) =>
+Map<String, dynamic> _$UpdatePrivateKeyTagRequestToJson(
+        UpdatePrivateKeyTagRequest instance) =>
     <String, dynamic>{
-      'type': v1UpdatePrivateKeyTagRequestTypeToJson(instance.type),
+      'type': updatePrivateKeyTagRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1UpdatePrivateKeyTagResult _$V1UpdatePrivateKeyTagResultFromJson(
+UpdatePrivateKeyTagResult _$UpdatePrivateKeyTagResultFromJson(
         Map<String, dynamic> json) =>
-    V1UpdatePrivateKeyTagResult(
+    UpdatePrivateKeyTagResult(
       privateKeyTagId: json['privateKeyTagId'] as String,
     );
 
-Map<String, dynamic> _$V1UpdatePrivateKeyTagResultToJson(
-        V1UpdatePrivateKeyTagResult instance) =>
+Map<String, dynamic> _$UpdatePrivateKeyTagResultToJson(
+        UpdatePrivateKeyTagResult instance) =>
     <String, dynamic>{
       'privateKeyTagId': instance.privateKeyTagId,
     };
 
-V1UpdateRootQuorumIntent _$V1UpdateRootQuorumIntentFromJson(
+UpdateRootQuorumIntent _$UpdateRootQuorumIntentFromJson(
         Map<String, dynamic> json) =>
-    V1UpdateRootQuorumIntent(
+    UpdateRootQuorumIntent(
       threshold: (json['threshold'] as num).toInt(),
       userIds: (json['userIds'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -5516,42 +5213,42 @@ V1UpdateRootQuorumIntent _$V1UpdateRootQuorumIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1UpdateRootQuorumIntentToJson(
-        V1UpdateRootQuorumIntent instance) =>
+Map<String, dynamic> _$UpdateRootQuorumIntentToJson(
+        UpdateRootQuorumIntent instance) =>
     <String, dynamic>{
       'threshold': instance.threshold,
       'userIds': instance.userIds,
     };
 
-V1UpdateRootQuorumRequest _$V1UpdateRootQuorumRequestFromJson(
+UpdateRootQuorumRequest _$UpdateRootQuorumRequestFromJson(
         Map<String, dynamic> json) =>
-    V1UpdateRootQuorumRequest(
-      type: v1UpdateRootQuorumRequestTypeFromJson(json['type']),
+    UpdateRootQuorumRequest(
+      type: updateRootQuorumRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1UpdateRootQuorumIntent.fromJson(
+      parameters: UpdateRootQuorumIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1UpdateRootQuorumRequestToJson(
-        V1UpdateRootQuorumRequest instance) =>
+Map<String, dynamic> _$UpdateRootQuorumRequestToJson(
+        UpdateRootQuorumRequest instance) =>
     <String, dynamic>{
-      'type': v1UpdateRootQuorumRequestTypeToJson(instance.type),
+      'type': updateRootQuorumRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1UpdateRootQuorumResult _$V1UpdateRootQuorumResultFromJson(
+UpdateRootQuorumResult _$UpdateRootQuorumResultFromJson(
         Map<String, dynamic> json) =>
-    V1UpdateRootQuorumResult();
+    UpdateRootQuorumResult();
 
-Map<String, dynamic> _$V1UpdateRootQuorumResultToJson(
-        V1UpdateRootQuorumResult instance) =>
+Map<String, dynamic> _$UpdateRootQuorumResultToJson(
+        UpdateRootQuorumResult instance) =>
     <String, dynamic>{};
 
-V1UpdateUserIntent _$V1UpdateUserIntentFromJson(Map<String, dynamic> json) =>
-    V1UpdateUserIntent(
+UpdateUserIntent _$UpdateUserIntentFromJson(Map<String, dynamic> json) =>
+    UpdateUserIntent(
       userId: json['userId'] as String,
       userName: json['userName'] as String?,
       userEmail: json['userEmail'] as String?,
@@ -5562,7 +5259,7 @@ V1UpdateUserIntent _$V1UpdateUserIntentFromJson(Map<String, dynamic> json) =>
       userPhoneNumber: json['userPhoneNumber'] as String?,
     );
 
-Map<String, dynamic> _$V1UpdateUserIntentToJson(V1UpdateUserIntent instance) =>
+Map<String, dynamic> _$UpdateUserIntentToJson(UpdateUserIntent instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'userName': instance.userName,
@@ -5571,37 +5268,35 @@ Map<String, dynamic> _$V1UpdateUserIntentToJson(V1UpdateUserIntent instance) =>
       'userPhoneNumber': instance.userPhoneNumber,
     };
 
-V1UpdateUserRequest _$V1UpdateUserRequestFromJson(Map<String, dynamic> json) =>
-    V1UpdateUserRequest(
-      type: v1UpdateUserRequestTypeFromJson(json['type']),
+UpdateUserRequest _$UpdateUserRequestFromJson(Map<String, dynamic> json) =>
+    UpdateUserRequest(
+      type: updateUserRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1UpdateUserIntent.fromJson(
-          json['parameters'] as Map<String, dynamic>),
+      parameters:
+          UpdateUserIntent.fromJson(json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1UpdateUserRequestToJson(
-        V1UpdateUserRequest instance) =>
+Map<String, dynamic> _$UpdateUserRequestToJson(UpdateUserRequest instance) =>
     <String, dynamic>{
-      'type': v1UpdateUserRequestTypeToJson(instance.type),
+      'type': updateUserRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1UpdateUserResult _$V1UpdateUserResultFromJson(Map<String, dynamic> json) =>
-    V1UpdateUserResult(
+UpdateUserResult _$UpdateUserResultFromJson(Map<String, dynamic> json) =>
+    UpdateUserResult(
       userId: json['userId'] as String,
     );
 
-Map<String, dynamic> _$V1UpdateUserResultToJson(V1UpdateUserResult instance) =>
+Map<String, dynamic> _$UpdateUserResultToJson(UpdateUserResult instance) =>
     <String, dynamic>{
       'userId': instance.userId,
     };
 
-V1UpdateUserTagIntent _$V1UpdateUserTagIntentFromJson(
-        Map<String, dynamic> json) =>
-    V1UpdateUserTagIntent(
+UpdateUserTagIntent _$UpdateUserTagIntentFromJson(Map<String, dynamic> json) =>
+    UpdateUserTagIntent(
       userTagId: json['userTagId'] as String,
       newUserTagName: json['newUserTagName'] as String?,
       addUserIds: (json['addUserIds'] as List<dynamic>?)
@@ -5614,8 +5309,8 @@ V1UpdateUserTagIntent _$V1UpdateUserTagIntentFromJson(
           [],
     );
 
-Map<String, dynamic> _$V1UpdateUserTagIntentToJson(
-        V1UpdateUserTagIntent instance) =>
+Map<String, dynamic> _$UpdateUserTagIntentToJson(
+        UpdateUserTagIntent instance) =>
     <String, dynamic>{
       'userTagId': instance.userTagId,
       'newUserTagName': instance.newUserTagName,
@@ -5623,48 +5318,87 @@ Map<String, dynamic> _$V1UpdateUserTagIntentToJson(
       'removeUserIds': instance.removeUserIds,
     };
 
-V1UpdateUserTagRequest _$V1UpdateUserTagRequestFromJson(
+UpdateUserTagRequest _$UpdateUserTagRequestFromJson(
         Map<String, dynamic> json) =>
-    V1UpdateUserTagRequest(
-      type: v1UpdateUserTagRequestTypeFromJson(json['type']),
+    UpdateUserTagRequest(
+      type: updateUserTagRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: V1UpdateUserTagIntent.fromJson(
+      parameters: UpdateUserTagIntent.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1UpdateUserTagRequestToJson(
-        V1UpdateUserTagRequest instance) =>
+Map<String, dynamic> _$UpdateUserTagRequestToJson(
+        UpdateUserTagRequest instance) =>
     <String, dynamic>{
-      'type': v1UpdateUserTagRequestTypeToJson(instance.type),
+      'type': updateUserTagRequestTypeToJson(instance.type),
       'timestampMs': instance.timestampMs,
       'organizationId': instance.organizationId,
       'parameters': instance.parameters.toJson(),
     };
 
-V1UpdateUserTagResult _$V1UpdateUserTagResultFromJson(
-        Map<String, dynamic> json) =>
-    V1UpdateUserTagResult(
+UpdateUserTagResult _$UpdateUserTagResultFromJson(Map<String, dynamic> json) =>
+    UpdateUserTagResult(
       userTagId: json['userTagId'] as String,
     );
 
-Map<String, dynamic> _$V1UpdateUserTagResultToJson(
-        V1UpdateUserTagResult instance) =>
+Map<String, dynamic> _$UpdateUserTagResultToJson(
+        UpdateUserTagResult instance) =>
     <String, dynamic>{
       'userTagId': instance.userTagId,
     };
 
-V1User _$V1UserFromJson(Map<String, dynamic> json) => V1User(
+UpdateWalletIntent _$UpdateWalletIntentFromJson(Map<String, dynamic> json) =>
+    UpdateWalletIntent(
+      walletId: json['walletId'] as String,
+      walletName: json['walletName'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateWalletIntentToJson(UpdateWalletIntent instance) =>
+    <String, dynamic>{
+      'walletId': instance.walletId,
+      'walletName': instance.walletName,
+    };
+
+UpdateWalletRequest _$UpdateWalletRequestFromJson(Map<String, dynamic> json) =>
+    UpdateWalletRequest(
+      type: updateWalletRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters: UpdateWalletIntent.fromJson(
+          json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateWalletRequestToJson(
+        UpdateWalletRequest instance) =>
+    <String, dynamic>{
+      'type': updateWalletRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+UpdateWalletResult _$UpdateWalletResultFromJson(Map<String, dynamic> json) =>
+    UpdateWalletResult(
+      walletId: json['walletId'] as String,
+    );
+
+Map<String, dynamic> _$UpdateWalletResultToJson(UpdateWalletResult instance) =>
+    <String, dynamic>{
+      'walletId': instance.walletId,
+    };
+
+User _$UserFromJson(Map<String, dynamic> json) => User(
       userId: json['userId'] as String,
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       userPhoneNumber: json['userPhoneNumber'] as String?,
       authenticators: (json['authenticators'] as List<dynamic>?)
-              ?.map((e) => V1Authenticator.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => Authenticator.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => V1ApiKey.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKey.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userTags: (json['userTags'] as List<dynamic>?)
@@ -5672,16 +5406,16 @@ V1User _$V1UserFromJson(Map<String, dynamic> json) => V1User(
               .toList() ??
           [],
       oauthProviders: (json['oauthProviders'] as List<dynamic>?)
-              ?.map((e) => V1OauthProvider.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => OauthProvider.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1UserToJson(V1User instance) => <String, dynamic>{
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'userId': instance.userId,
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -5694,17 +5428,17 @@ Map<String, dynamic> _$V1UserToJson(V1User instance) => <String, dynamic>{
       'updatedAt': instance.updatedAt.toJson(),
     };
 
-V1UserParams _$V1UserParamsFromJson(Map<String, dynamic> json) => V1UserParams(
+UserParams _$UserParamsFromJson(Map<String, dynamic> json) => UserParams(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
-      accessType: v1AccessTypeFromJson(json['accessType']),
+      accessType: accessTypeFromJson(json['accessType']),
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => ApiApiKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParams.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userTags: (json['userTags'] as List<dynamic>?)
@@ -5713,27 +5447,26 @@ V1UserParams _$V1UserParamsFromJson(Map<String, dynamic> json) => V1UserParams(
           [],
     );
 
-Map<String, dynamic> _$V1UserParamsToJson(V1UserParams instance) =>
+Map<String, dynamic> _$UserParamsToJson(UserParams instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
-      'accessType': v1AccessTypeToJson(instance.accessType),
+      'accessType': accessTypeToJson(instance.accessType),
       'apiKeys': instance.apiKeys.map((e) => e.toJson()).toList(),
       'authenticators': instance.authenticators.map((e) => e.toJson()).toList(),
       'userTags': instance.userTags,
     };
 
-V1UserParamsV2 _$V1UserParamsV2FromJson(Map<String, dynamic> json) =>
-    V1UserParamsV2(
+UserParamsV2 _$UserParamsV2FromJson(Map<String, dynamic> json) => UserParamsV2(
       userName: json['userName'] as String,
       userEmail: json['userEmail'] as String?,
       apiKeys: (json['apiKeys'] as List<dynamic>?)
-              ?.map((e) => ApiApiKeyParams.fromJson(e as Map<String, dynamic>))
+              ?.map((e) => ApiKeyParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       authenticators: (json['authenticators'] as List<dynamic>?)
               ?.map((e) =>
-                  V1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       userTags: (json['userTags'] as List<dynamic>?)
@@ -5742,7 +5475,7 @@ V1UserParamsV2 _$V1UserParamsV2FromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$V1UserParamsV2ToJson(V1UserParamsV2 instance) =>
+Map<String, dynamic> _$UserParamsV2ToJson(UserParamsV2 instance) =>
     <String, dynamic>{
       'userName': instance.userName,
       'userEmail': instance.userEmail,
@@ -5751,26 +5484,26 @@ Map<String, dynamic> _$V1UserParamsV2ToJson(V1UserParamsV2 instance) =>
       'userTags': instance.userTags,
     };
 
-V1Vote _$V1VoteFromJson(Map<String, dynamic> json) => V1Vote(
+Vote _$VoteFromJson(Map<String, dynamic> json) => Vote(
       id: json['id'] as String,
       userId: json['userId'] as String,
-      user: V1User.fromJson(json['user'] as Map<String, dynamic>),
+      user: User.fromJson(json['user'] as Map<String, dynamic>),
       activityId: json['activityId'] as String,
-      selection: v1VoteSelectionFromJson(json['selection']),
+      selection: voteSelectionFromJson(json['selection']),
       message: json['message'] as String,
       publicKey: json['publicKey'] as String,
       signature: json['signature'] as String,
       scheme: json['scheme'] as String,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1VoteToJson(V1Vote instance) => <String, dynamic>{
+Map<String, dynamic> _$VoteToJson(Vote instance) => <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
       'user': instance.user.toJson(),
       'activityId': instance.activityId,
-      'selection': v1VoteSelectionToJson(instance.selection),
+      'selection': voteSelectionToJson(instance.selection),
       'message': instance.message,
       'publicKey': instance.publicKey,
       'signature': instance.signature,
@@ -5778,18 +5511,18 @@ Map<String, dynamic> _$V1VoteToJson(V1Vote instance) => <String, dynamic>{
       'createdAt': instance.createdAt.toJson(),
     };
 
-V1Wallet _$V1WalletFromJson(Map<String, dynamic> json) => V1Wallet(
+Wallet _$WalletFromJson(Map<String, dynamic> json) => Wallet(
       walletId: json['walletId'] as String,
       walletName: json['walletName'] as String,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
       exported: json['exported'] as bool,
       imported: json['imported'] as bool,
     );
 
-Map<String, dynamic> _$V1WalletToJson(V1Wallet instance) => <String, dynamic>{
+Map<String, dynamic> _$WalletToJson(Wallet instance) => <String, dynamic>{
       'walletId': instance.walletId,
       'walletName': instance.walletName,
       'createdAt': instance.createdAt.toJson(),
@@ -5798,74 +5531,71 @@ Map<String, dynamic> _$V1WalletToJson(V1Wallet instance) => <String, dynamic>{
       'imported': instance.imported,
     };
 
-V1WalletAccount _$V1WalletAccountFromJson(Map<String, dynamic> json) =>
-    V1WalletAccount(
+WalletAccount _$WalletAccountFromJson(Map<String, dynamic> json) =>
+    WalletAccount(
       walletAccountId: json['walletAccountId'] as String,
       organizationId: json['organizationId'] as String,
       walletId: json['walletId'] as String,
-      curve: v1CurveFromJson(json['curve']),
-      pathFormat: v1PathFormatFromJson(json['pathFormat']),
+      curve: curveFromJson(json['curve']),
+      pathFormat: pathFormatFromJson(json['pathFormat']),
       path: json['path'] as String,
-      addressFormat: v1AddressFormatFromJson(json['addressFormat']),
+      addressFormat: addressFormatFromJson(json['addressFormat']),
       address: json['address'] as String,
-      createdAt: Externaldatav1Timestamp.fromJson(
+      createdAt: ExternalDataV1Timestamp.fromJson(
           json['createdAt'] as Map<String, dynamic>),
-      updatedAt: Externaldatav1Timestamp.fromJson(
+      updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$V1WalletAccountToJson(V1WalletAccount instance) =>
+Map<String, dynamic> _$WalletAccountToJson(WalletAccount instance) =>
     <String, dynamic>{
       'walletAccountId': instance.walletAccountId,
       'organizationId': instance.organizationId,
       'walletId': instance.walletId,
-      'curve': v1CurveToJson(instance.curve),
-      'pathFormat': v1PathFormatToJson(instance.pathFormat),
+      'curve': curveToJson(instance.curve),
+      'pathFormat': pathFormatToJson(instance.pathFormat),
       'path': instance.path,
-      'addressFormat': v1AddressFormatToJson(instance.addressFormat),
+      'addressFormat': addressFormatToJson(instance.addressFormat),
       'address': instance.address,
       'createdAt': instance.createdAt.toJson(),
       'updatedAt': instance.updatedAt.toJson(),
     };
 
-V1WalletAccountParams _$V1WalletAccountParamsFromJson(
-        Map<String, dynamic> json) =>
-    V1WalletAccountParams(
-      curve: v1CurveFromJson(json['curve']),
-      pathFormat: v1PathFormatFromJson(json['pathFormat']),
+WalletAccountParams _$WalletAccountParamsFromJson(Map<String, dynamic> json) =>
+    WalletAccountParams(
+      curve: curveFromJson(json['curve']),
+      pathFormat: pathFormatFromJson(json['pathFormat']),
       path: json['path'] as String,
-      addressFormat: v1AddressFormatFromJson(json['addressFormat']),
+      addressFormat: addressFormatFromJson(json['addressFormat']),
     );
 
-Map<String, dynamic> _$V1WalletAccountParamsToJson(
-        V1WalletAccountParams instance) =>
+Map<String, dynamic> _$WalletAccountParamsToJson(
+        WalletAccountParams instance) =>
     <String, dynamic>{
-      'curve': v1CurveToJson(instance.curve),
-      'pathFormat': v1PathFormatToJson(instance.pathFormat),
+      'curve': curveToJson(instance.curve),
+      'pathFormat': pathFormatToJson(instance.pathFormat),
       'path': instance.path,
-      'addressFormat': v1AddressFormatToJson(instance.addressFormat),
+      'addressFormat': addressFormatToJson(instance.addressFormat),
     };
 
-V1WalletParams _$V1WalletParamsFromJson(Map<String, dynamic> json) =>
-    V1WalletParams(
+WalletParams _$WalletParamsFromJson(Map<String, dynamic> json) => WalletParams(
       walletName: json['walletName'] as String,
       accounts: (json['accounts'] as List<dynamic>?)
               ?.map((e) =>
-                  V1WalletAccountParams.fromJson(e as Map<String, dynamic>))
+                  WalletAccountParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
       mnemonicLength: (json['mnemonicLength'] as num?)?.toInt(),
     );
 
-Map<String, dynamic> _$V1WalletParamsToJson(V1WalletParams instance) =>
+Map<String, dynamic> _$WalletParamsToJson(WalletParams instance) =>
     <String, dynamic>{
       'walletName': instance.walletName,
       'accounts': instance.accounts.map((e) => e.toJson()).toList(),
       'mnemonicLength': instance.mnemonicLength,
     };
 
-V1WalletResult _$V1WalletResultFromJson(Map<String, dynamic> json) =>
-    V1WalletResult(
+WalletResult _$WalletResultFromJson(Map<String, dynamic> json) => WalletResult(
       walletId: json['walletId'] as String,
       addresses: (json['addresses'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -5873,24 +5603,95 @@ V1WalletResult _$V1WalletResultFromJson(Map<String, dynamic> json) =>
           [],
     );
 
-Map<String, dynamic> _$V1WalletResultToJson(V1WalletResult instance) =>
+Map<String, dynamic> _$WalletResultToJson(WalletResult instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'addresses': instance.addresses,
     };
 
-V1WebAuthnStamp _$V1WebAuthnStampFromJson(Map<String, dynamic> json) =>
-    V1WebAuthnStamp(
-      credentialId: json['credentialId'] as String,
-      clientDataJson: json['clientDataJson'] as String,
-      authenticatorData: json['authenticatorData'] as String,
-      signature: json['signature'] as String,
+ActivityV1Address _$ActivityV1AddressFromJson(Map<String, dynamic> json) =>
+    ActivityV1Address(
+      format: addressFormatNullableFromJson(json['format']),
+      address: json['address'] as String?,
     );
 
-Map<String, dynamic> _$V1WebAuthnStampToJson(V1WebAuthnStamp instance) =>
+Map<String, dynamic> _$ActivityV1AddressToJson(ActivityV1Address instance) =>
     <String, dynamic>{
-      'credentialId': instance.credentialId,
-      'clientDataJson': instance.clientDataJson,
-      'authenticatorData': instance.authenticatorData,
-      'signature': instance.signature,
+      'format': addressFormatNullableToJson(instance.format),
+      'address': instance.address,
+    };
+
+DataV1Address _$DataV1AddressFromJson(Map<String, dynamic> json) =>
+    DataV1Address(
+      format: addressFormatNullableFromJson(json['format']),
+      address: json['address'] as String?,
+    );
+
+Map<String, dynamic> _$DataV1AddressToJson(DataV1Address instance) =>
+    <String, dynamic>{
+      'format': addressFormatNullableToJson(instance.format),
+      'address': instance.address,
+    };
+
+ExternalDataV1Credential _$ExternalDataV1CredentialFromJson(
+        Map<String, dynamic> json) =>
+    ExternalDataV1Credential(
+      publicKey: json['publicKey'] as String,
+      type: credentialTypeFromJson(json['type']),
+    );
+
+Map<String, dynamic> _$ExternalDataV1CredentialToJson(
+        ExternalDataV1Credential instance) =>
+    <String, dynamic>{
+      'publicKey': instance.publicKey,
+      'type': credentialTypeToJson(instance.type),
+    };
+
+ExternalDataV1Quorum _$ExternalDataV1QuorumFromJson(
+        Map<String, dynamic> json) =>
+    ExternalDataV1Quorum(
+      threshold: (json['threshold'] as num).toInt(),
+      userIds: (json['userIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$ExternalDataV1QuorumToJson(
+        ExternalDataV1Quorum instance) =>
+    <String, dynamic>{
+      'threshold': instance.threshold,
+      'userIds': instance.userIds,
+    };
+
+ExternalDataV1Timestamp _$ExternalDataV1TimestampFromJson(
+        Map<String, dynamic> json) =>
+    ExternalDataV1Timestamp(
+      seconds: json['seconds'] as String,
+      nanos: json['nanos'] as String,
+    );
+
+Map<String, dynamic> _$ExternalDataV1TimestampToJson(
+        ExternalDataV1Timestamp instance) =>
+    <String, dynamic>{
+      'seconds': instance.seconds,
+      'nanos': instance.nanos,
+    };
+
+V1Tag _$V1TagFromJson(Map<String, dynamic> json) => V1Tag(
+      tagId: json['tagId'] as String,
+      tagName: json['tagName'] as String,
+      tagType: tagTypeFromJson(json['tagType']),
+      createdAt: ExternalDataV1Timestamp.fromJson(
+          json['createdAt'] as Map<String, dynamic>),
+      updatedAt: ExternalDataV1Timestamp.fromJson(
+          json['updatedAt'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$V1TagToJson(V1Tag instance) => <String, dynamic>{
+      'tagId': instance.tagId,
+      'tagName': instance.tagName,
+      'tagType': tagTypeToJson(instance.tagType),
+      'createdAt': instance.createdAt.toJson(),
+      'updatedAt': instance.updatedAt.toJson(),
     };
