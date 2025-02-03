@@ -1,6 +1,6 @@
 # Turnkey Flutter Passkey Stamper
 
-This package contains a Flutter passkey stamper. It uses the Flutter [`passkeys`](https://github.com/corbado/flutter-passkeys/tree/main/packages/passkeys/passkeys) package to do the heavy lifting. This stamper is meant to be used with Turnkey's [`Dart http package`](https://github.com/tkhq/dart-sdk/tree/main/http).
+This package contains a Flutter passkey stamper. It uses the Flutter [passkeys](https://github.com/corbado/flutter-passkeys/tree/main/packages/passkeys/passkeys) package to do the heavy lifting. This stamper is meant to be used with Turnkey's [http package](/http).
 
 ## Installation
 
@@ -102,16 +102,19 @@ import 'package:turnkey_dart_http_client/turnkey_dart_http_client.dart';
 
 final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: 'your.site.com'));
 
-// New HTTP client able to sign with passkeys!
-final httpClient = TurnkeyClient(
+// The Turnkey client uses the passed in stamper to produce signed requests
+// and sends them to Turnkey
+final client = TurnkeyClient(
   config: THttpConfig(baseUrl: 'https://api.turnkey.com'),
   stamper: stamper,
 );
 
-// Now, send authenticated requests
-await httpClient.signTransaction(...);
+// Now you can make authenticated requests!
+final data = await client.getWhoami(
+  input: TGetWhoamiRequest(organizationId: '<Your organization id>'),
+);
 ```
 
 ## Demo app
 
-Head over to [this repository](https://github.com/tkhq/dart-sdk/tree/main/examples/fluttter-demo-app) for a fully functional Flutter demo app!
+Head over to [this repository](/examples/fluttter-demo-app) for a fully functional Flutter demo app!

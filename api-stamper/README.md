@@ -1,21 +1,28 @@
 # Turnkey Dart Api Stamper
 
-This package contains functions to stamp a Turnkey request. It is meant to be used with Turnkey's [`Dart http package`](https://github.com/tkhq/dart-sdk/tree/main/http).
+This package contains functions to stamp a Turnkey request. It is meant to be used with Turnkey's [http package](/http).
 
-Usage:
+Example usage:
 
 ```dart
 import 'package:turnkey_dart_api_stamper/api_stamper.dart';
-import 'package:turnkey_dart_http_client/turnkey_dart_http_client.dart';
+import 'package:turnkey_dart_http_client/turnkey_client.dart';
 
+// This stamper produces signatures using the API key pair passed in.
 final stamper = ApiStamper(
-    ApiStamperConfig(
-        apiPrivateKey: session.privateKey,
-        apiPublicKey: session.publicKey),
+  apiPublicKey: '...',
+  apiPrivateKey: '...',
 );
 
-final httpClient = TurnkeyClient(
+// The Turnkey client uses the passed in stamper to produce signed requests
+// and sends them to Turnkey
+final client = TurnkeyClient(
   config: THttpConfig(baseUrl: 'https://api.turnkey.com'),
   stamper: stamper,
+);
+
+// Now you can make authenticated requests!
+final data = await client.getWhoami(
+  input: TGetWhoamiRequest(organizationId: '<Your organization id>'),
 );
 ```
