@@ -935,8 +935,6 @@ void main() {
       expect(result, isFalse);
     });
 
-    // I'm not sure if this makes sense. The signature is invalid, should it return false or throw an error?
-    // TODO: Investigate what the javascript implementation does
     test('Invalid signature format => returns false', () {
       final result = verifyEnclaveSignature(
         enclaveQuorumPublic: validEnclaveQuorumPublic,

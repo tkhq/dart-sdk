@@ -10,14 +10,6 @@ class TConfig {
   });
 }
 
-class TBrowserConfig {
-  final String baseUrl;
-
-  TBrowserConfig({
-    required this.baseUrl,
-  });
-}
-
 class NullableTConfig {
   String? apiPublicKey;
   String? apiPrivateKey;
@@ -29,13 +21,6 @@ class NullableTConfig {
     this.baseUrl,
   });
 }
-class NullableTBrowserConfig {
-  String? baseUrl;
-
-  NullableTBrowserConfig({
-    this.baseUrl,
-  });
-}
 
 final NullableTConfig config = NullableTConfig(
   apiPublicKey: null,
@@ -43,21 +28,12 @@ final NullableTConfig config = NullableTConfig(
   baseUrl: null,
 );
 
-final NullableTBrowserConfig browserConfig = NullableTBrowserConfig(
-  baseUrl: null,
-);
 
 TConfig getConfig() {
   return TConfig(
     apiPublicKey: assertNonEmptyString(config.apiPublicKey, "apiPublicKey"),
     apiPrivateKey: assertNonEmptyString(config.apiPrivateKey, "apiPrivateKey"),
     baseUrl: assertNonEmptyString(config.baseUrl, "baseUrl"),
-  );
-}
-
-TBrowserConfig getBrowserConfig() {
-  return TBrowserConfig(
-    baseUrl: assertNonEmptyString(browserConfig.baseUrl, "baseUrl"),
   );
 }
 

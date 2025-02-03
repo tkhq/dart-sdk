@@ -1,1 +1,1 @@
-const VERSION = "@turnkey/http@2.17.2";
+const VERSION = "turnkey_http@1.00.0";

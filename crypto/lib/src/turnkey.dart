@@ -28,11 +28,10 @@ String decryptCredentialBundle({
   required String embeddedKey,
 }) {
   try {
-    // TODO: check if bitcoin is the right codec here, in javascript we use https://github.com/bitcoinjs/bs58check
     final bundleBytes = Base58CheckCodec.bitcoin().decode(credentialBundle);
 
     // Base58CheckCodec strips the version byte, so we need to add it back 
-    final versionByte = Uint8List.fromList([bundleBytes.version]); // Add the version byte
+    final versionByte = Uint8List.fromList([bundleBytes.version]);
     final bundleBytesPayload = Uint8List.fromList(versionByte + bundleBytes.payload);
 
 
@@ -220,8 +219,7 @@ Future<String> encryptWalletToBundle({
     throw Exception('Missing "targetPublic" in bundle signed data.');
   }
 
-  // Load target public key generated from enclave and set in local storage
-  // TODO: this is a comment in the javascript implementation, but I don't think this makes sense
+  // Load target public key generated from enclave
   final Uint8List targetKeyBuf = uint8ArrayFromHexString(signedData['targetPublic']);
   final Uint8List privateKeyBundle = hpkeEncrypt(
     plainTextBuf: plainTextBuf,
@@ -293,8 +291,7 @@ Future<String> encryptPrivateKeyToBundle({
     throw Exception('Missing "targetPublic" in bundle signed data.');
   }
 
-  // Load target public key generated from enclave and set in local storage
-  // TODO: this is a comment in the javascript implementation, but I don't think this makes sense
+  // Load target public key generated from enclave
   final Uint8List targetKeyBuf = uint8ArrayFromHexString(signedData['targetPublic']);
   final Uint8List privateKeyBundle = hpkeEncrypt(
     plainTextBuf: plainTextBuf,
