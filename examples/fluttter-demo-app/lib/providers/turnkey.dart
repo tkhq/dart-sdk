@@ -297,8 +297,8 @@ class TurnkeyProvider with ChangeNotifier {
         'name': 'Flutter test app',
       }, user: {
         'id': DateTime.now().millisecondsSinceEpoch.toString(),
-        'name': "WOWOWOWOW",
-        'displayName': "WOWOWOWOW",
+        'name': "Anonymous User",
+        'displayName': "Anonymous User",
       }, authenticatorName: 'End-User Passkey'));
 
       final response = await createSubOrg({
