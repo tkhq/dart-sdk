@@ -14,6 +14,4 @@ builders:
       build_extensions: {'.swagger.json': ['.custom.swagger.dart']}
       build_to: source
       auto_apply: root_package
-      runs_before: ["swagger_dart_code_generator"]
-
 

@@ -4,23 +4,22 @@ import 'types.dart';
 import 'package:swagger_dart_code_generator/src/swagger_models/swagger_root.dart';
 import 'package:swagger_dart_code_generator/src/swagger_models/requests/swagger_request_parameter.dart';
 
-/// Generates fetcher files based on Swagger specifications and organizes them into modules.
+/// Generates mapped types from Swagger specifications.
 ///
-/// Parameters:
-/// - [fileList]: A required [List<TFileInfo>] containing parsed Swagger specifications and file metadata.
-///
-/// This function processes each file to:
+/// This function processes each file in [fileList] to:
 /// - Parse the Swagger specification into structured objects.
 /// - Extract namespaces, endpoints, and operation details.
-/// - Generate Dart fetcher files with methods and types for API endpoints.
-/// - Create signed request methods for WebAuthn assertions.
-/// - Organize imports and export modules.
+/// - Generate Dart types and mappings for API endpoints.
+/// - Ensure compliance with Dart naming conventions.
 ///
-/// It also ensures:
-/// - Proper validation of namespaces and operation IDs.
-/// - Compliance with Dart naming conventions for generated methods and types.
-/// - Formatting of generated files with the `dart format` command.
-Future<void> generateFetchers({
+/// Additionally, it:
+/// - Validates namespaces and operation IDs.
+/// - Formats the generated files using `dart format`.
+///
+/// Parameters:
+/// - [fileList]: A list of [TFileInfo] containing parsed Swagger specifications and file metadata.
+/// - [targetPath]: The directory where the generated files should be stored.
+Future<void> generateMappedSwaggerTypes({
   required List<TFileInfo> fileList,
   required String targetPath,
 }) async {
@@ -213,7 +212,7 @@ Future<void> generateFetchers({
     );
 
     await safeWriteFileAsync(
-        "$targetPath/public_api.fetcher.dart", currentCodeBuffer.join("\n\n"));
+        "$targetPath/public_api.types.dart", currentCodeBuffer.join("\n\n"));
     await formatDocument(targetPath);
   }
 }
@@ -234,9 +233,19 @@ Future<void> generateFetchers({
 /// Returns:
 /// - A [Future] that resolves when the client generation process is complete.
 Future<void> generateClientFromSwagger({
-  required SwaggerRoot spec,
+  required List<TFileInfo> fileList,
   required String targetPath,
 }) async {
+
+   if (fileList.length != 1) {
+      throw Exception(
+          'Expected 1 spec in public API folder. Got ${fileList.length}');
+    }
+
+  final SwaggerRoot spec =
+        SwaggerRoot.fromJson(fileList[0].parsedData);
+
+
   final namespace = spec.tags.map((tag) => tag.name).firstWhere(
         (name) => name.isNotEmpty,
         orElse: () => throw Exception(
@@ -250,7 +259,7 @@ Future<void> generateClientFromSwagger({
   }
 
   final importStatementSet = <String>[
-    'import "public_api.fetcher.dart";',
+    'import "public_api.types.dart";',
     'import "../../../../base.dart";',
     'import "../../../../version.dart";'
         'import "dart:convert";',
