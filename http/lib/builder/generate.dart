@@ -60,16 +60,6 @@ Future<void> generateMappedSwaggerTypes({
         final operation = methodMap[method]!;
         final operationId = operation.operationId;
 
-        final operationNameWithoutNamespace = operationId.replaceFirst(
-          RegExp('^${namespace}_'),
-          '',
-        );
-
-        if (operationNameWithoutNamespace == operationId) {
-          throw Exception(
-            'Namespace "$namespace" doesn\'t appear in operation "$operationId" in path "$endpointPath"',
-          );
-        }
         final bool isEndpointDeprecated = operation.deprecated;
 
         final List<SwaggerRequestParameter> parameterList =
@@ -88,7 +78,7 @@ Future<void> generateMappedSwaggerTypes({
             extractRefsFromOperation(operation.responses, operation.parameters);
 
         final TBinding responseTypeBinding = TBinding(
-          name: 'T${operationNameWithoutNamespace}Response',
+          name: 'T${operationId}Response',
           isBound: true,
           value: !operation.responses.containsKey('200')
               ? 'void'
@@ -97,20 +87,20 @@ Future<void> generateMappedSwaggerTypes({
 
         // TODO: I dont think we actually need this
         final TBinding queryTypeBinding = TBinding(
-          name: 'T${operationNameWithoutNamespace}Query',
+          name: 'T${operationId}Query',
           isBound: parameterList.any((item) => item.inParameter == 'query'),
           value: 'operations["$operationId"]["parameters"]["query"]',
         );
 
         final TBinding bodyTypeBinding = TBinding(
-          name: 'T${operationNameWithoutNamespace}Body',
+          name: 'T${operationId}Body',
           isBound: method == 'post' &&
               parameterList.any((item) => item.inParameter == 'body'),
           value: refs['parameter'] ?? "Never",
         );
 
         final TBinding substitutionTypeBinding = TBinding(
-          name: 'T${operationNameWithoutNamespace}Substitution',
+          name: 'T${operationId}Substitution',
           isBound: parameterList.any((item) => item.inParameter == 'path'),
           value: 'operations["$operationId"]["parameters"]["path"]',
         );
@@ -124,7 +114,7 @@ Future<void> generateMappedSwaggerTypes({
         );
 
         final TBinding inputTypeBinding = TBinding(
-          name: 'T${operationNameWithoutNamespace}Input',
+          name: 'T${operationId}Input',
           isBound: bodyTypeBinding.isBound ||
               queryTypeBinding.isBound ||
               substitutionTypeBinding.isBound ||
@@ -337,33 +327,18 @@ Future<void> generateClientFromSwagger({
     final operation = methodMap['post']!;
     final operationId = operation.operationId;
 
-    final operationNameWithoutNamespace = operationId.replaceFirst(
-      RegExp('^${namespace}_'),
-      '',
-    );
-
-    if (operationNameWithoutNamespace == operationId) {
-      throw Exception(
-        'Namespace "$namespace" doesn\'t appear in operation "$operationId" in path "$endpointPath"',
-      );
-    }
-
-    if (operationNameWithoutNamespace == "NOOPCodegenAnchor") {
-      continue;
-    }
-
     final bool isEndpointDeprecated = operation.deprecated;
 
-    final String methodName = operationNameWithoutNamespace[0].toLowerCase() +
-        operationNameWithoutNamespace.substring(1);
+    final String methodName = operationId[0].toLowerCase() +
+        operationId.substring(1);
 
-    final inputType = 'T${operationNameWithoutNamespace}Body';
-    final responseType = 'T${operationNameWithoutNamespace}Response';
+    final inputType = 'T${operationId}Body';
+    final responseType = 'T${operationId}Response';
 
     codeBuffer.add(assembleDartDocComment([
       operation.description,
       'Sign the provided `$inputType` with the client\'s `stamp` function and submit the request (POST $endpointPath).',
-      'See also: `stamp$operationNameWithoutNamespace`.',
+      'See also: `stamp$operationId`.',
       if (isEndpointDeprecated) '@deprecated',
     ]));
 
@@ -381,13 +356,13 @@ Future<void> generateClientFromSwagger({
 
     codeBuffer.add(assembleDartDocComment([
       'Produce a `SignedRequest` from `$inputType` by using the client\'s `stamp` function.',
-      'See also: `$operationNameWithoutNamespace`.',
+      'See also: `$operationId`.',
       if (isEndpointDeprecated) '@deprecated',
       '\n',
     ]));
 
     codeBuffer.add('''
-      Future<TSignedRequest> stamp$operationNameWithoutNamespace({
+      Future<TSignedRequest> stamp$operationId({
         required $inputType input,
         }) async {
           final fullUrl = '\${config.baseUrl}$endpointPath';

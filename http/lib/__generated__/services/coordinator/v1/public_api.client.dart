@@ -152,38 +152,6 @@ class TurnkeyClient {
     );
   }
 
-  /// Get the attestation document corresponding to an enclave.
-  ///
-  /// Sign the provided `TGetAttestationDocumentBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_attestation).
-  ///
-  /// See also: `stampGetAttestationDocument`.
-
-  Future<TGetAttestationDocumentResponse> getAttestationDocument({
-    required TGetAttestationDocumentBody input,
-  }) async {
-    return await request<TGetAttestationDocumentBody,
-            TGetAttestationDocumentResponse>("/public/v1/query/get_attestation",
-        input, (json) => TGetAttestationDocumentResponse.fromJson(json));
-  }
-
-  /// Produce a `SignedRequest` from `TGetAttestationDocumentBody` by using the client's `stamp` function.
-  ///
-  /// See also: `GetAttestationDocument`.
-
-  Future<TSignedRequest> stampGetAttestationDocument({
-    required TGetAttestationDocumentBody input,
-  }) async {
-    final fullUrl = '${config.baseUrl}/public/v1/query/get_attestation';
-    final body = jsonEncode(input);
-    final stamp = await stamper.stamp(body);
-
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
-  }
-
   /// Get details about an authenticator
   ///
   /// Sign the provided `TGetAuthenticatorBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_authenticator).
@@ -273,39 +241,6 @@ class TurnkeyClient {
     required TGetOauthProvidersBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_oauth_providers';
-    final body = jsonEncode(input);
-    final stamp = await stamper.stamp(body);
-
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
-  }
-
-  /// Get details about an Organization
-  ///
-  /// Sign the provided `TGetOrganizationBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_organization).
-  ///
-  /// See also: `stampGetOrganization`.
-
-  Future<TGetOrganizationResponse> getOrganization({
-    required TGetOrganizationBody input,
-  }) async {
-    return await request<TGetOrganizationBody, TGetOrganizationResponse>(
-        "/public/v1/query/get_organization",
-        input,
-        (json) => TGetOrganizationResponse.fromJson(json));
-  }
-
-  /// Produce a `SignedRequest` from `TGetOrganizationBody` by using the client's `stamp` function.
-  ///
-  /// See also: `GetOrganization`.
-
-  Future<TSignedRequest> stampGetOrganization({
-    required TGetOrganizationBody input,
-  }) async {
-    final fullUrl = '${config.baseUrl}/public/v1/query/get_organization';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -473,6 +408,39 @@ class TurnkeyClient {
     required TGetWalletBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_wallet';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Get a single wallet account
+  ///
+  /// Sign the provided `TGetWalletAccountBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_wallet_account).
+  ///
+  /// See also: `stampGetWalletAccount`.
+
+  Future<TGetWalletAccountResponse> getWalletAccount({
+    required TGetWalletAccountBody input,
+  }) async {
+    return await request<TGetWalletAccountBody, TGetWalletAccountResponse>(
+        "/public/v1/query/get_wallet_account",
+        input,
+        (json) => TGetWalletAccountResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetWalletAccountBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetWalletAccount`.
+
+  Future<TSignedRequest> stampGetWalletAccount({
+    required TGetWalletAccountBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/query/get_wallet_account';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -748,7 +716,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Accounts wirhin a Wallet
+  /// List all Accounts within a Wallet
   ///
   /// Sign the provided `TGetWalletAccountsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_wallet_accounts).
   ///
@@ -903,39 +871,6 @@ class TurnkeyClient {
     required TCreateApiKeysBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_api_keys';
-    final body = jsonEncode(input);
-    final stamp = await stamper.stamp(body);
-
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
-  }
-
-  /// Create API-only Users in an existing Organization
-  ///
-  /// Sign the provided `TCreateApiOnlyUsersBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_api_only_users).
-  ///
-  /// See also: `stampCreateApiOnlyUsers`.
-
-  Future<TCreateApiOnlyUsersResponse> createApiOnlyUsers({
-    required TCreateApiOnlyUsersBody input,
-  }) async {
-    return await request<TCreateApiOnlyUsersBody, TCreateApiOnlyUsersResponse>(
-        "/public/v1/submit/create_api_only_users",
-        input,
-        (json) => TCreateApiOnlyUsersResponse.fromJson(json));
-  }
-
-  /// Produce a `SignedRequest` from `TCreateApiOnlyUsersBody` by using the client's `stamp` function.
-  ///
-  /// See also: `CreateApiOnlyUsers`.
-
-  Future<TSignedRequest> stampCreateApiOnlyUsers({
-    required TCreateApiOnlyUsersBody input,
-  }) async {
-    final fullUrl = '${config.baseUrl}/public/v1/submit/create_api_only_users';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -2577,6 +2512,39 @@ class TurnkeyClient {
     required TUpdateUserTagBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_tag';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Update a wallet for an organization
+  ///
+  /// Sign the provided `TUpdateWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_wallet).
+  ///
+  /// See also: `stampUpdateWallet`.
+
+  Future<TUpdateWalletResponse> updateWallet({
+    required TUpdateWalletBody input,
+  }) async {
+    return await request<TUpdateWalletBody, TUpdateWalletResponse>(
+        "/public/v1/submit/update_wallet",
+        input,
+        (json) => TUpdateWalletResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TUpdateWalletBody` by using the client's `stamp` function.
+  ///
+  /// See also: `UpdateWallet`.
+
+  Future<TSignedRequest> stampUpdateWallet({
+    required TUpdateWalletBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/update_wallet';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
