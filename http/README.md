@@ -31,7 +31,7 @@ final data = await client.getWhoami(
 
 ## HTTP client
 
-`turnkey_http` provides fully typed http client for interacting with the Turnkey API. You can find all available methods [here](/http/lib/__generated__/services/coordinator/public/v1/public_api.client.dart). The types of input parameters and output responses are also exported for convenience.
+`turnkey_http` provides fully typed http client for interacting with the Turnkey API. You can find all available methods [here](/http/lib/__generated__/services/coordinator/v1/public_api.client.dart). The types of input parameters and output responses are also exported for convenience.
 
 The OpenAPI spec that generates the client and types is also [included](/http/lib/swagger/public_api.swagger.json) in the package.
 
