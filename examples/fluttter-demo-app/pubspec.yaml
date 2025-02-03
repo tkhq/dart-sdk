@@ -30,6 +30,8 @@ dependencies:
   elliptic: ^0.3.11
   flutter_dotenv: ^5.2.1
   crypto: ^3.0.6
+  openid_client: ^0.4.9
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:

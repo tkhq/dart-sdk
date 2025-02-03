@@ -1,24 +1,23 @@
-import { type TurnkeyApiTypes } from '@turnkey/sdk-server';
+import { type TurnkeyApiTypes } from "@turnkey/sdk-server";
 
-
-export type Attestation = TurnkeyApiTypes['v1Attestation'];
+export type Attestation = TurnkeyApiTypes["v1Attestation"];
 
 export type Email = `${string}@${string}.${string}`;
 
 export type GetSubOrgIdParams = {
   filterType:
-    | 'NAME'
-    | 'USERNAME'
-    | 'EMAIL'
-    | 'PHONE_NUMBER'
-    | 'CREDENTIAL_ID'
-    | 'PUBLIC_KEY'
-    | 'OIDC_TOKEN';
+    | "NAME"
+    | "USERNAME"
+    | "EMAIL"
+    | "PHONE_NUMBER"
+    | "CREDENTIAL_ID"
+    | "PUBLIC_KEY"
+    | "OIDC_TOKEN";
   filterValue: string;
 };
 
 export type InitOtpAuthParams = {
-  otpType: 'OTP_TYPE_EMAIL' | 'OTP_TYPE_SMS';
+  otpType: "OTP_TYPE_EMAIL" | "OTP_TYPE_SMS";
   contact: string;
 };
 
@@ -29,6 +28,10 @@ export type CreateSubOrgParams = {
     name?: string;
     challenge: string;
     attestation: Attestation;
+  };
+  oauth?: {
+    oidcToken: string;
+    providerName: string;
   };
 };
 
@@ -46,12 +49,20 @@ export type OtpAuthParams = {
   invalidateExisting?: boolean;
 };
 
+export type OAuthLoginParams = {
+  oidcToken: string;
+  providerName: string;
+  targetPublicKey: string;
+  expirationSeconds?: string;
+};
+
 export type MethodParamsMap = {
   getSubOrgId: GetSubOrgIdParams;
   initOTPAuth: InitOtpAuthParams;
   createSubOrg: CreateSubOrgParams;
   getWhoami: GetWhoamiParams;
   otpAuth: OtpAuthParams;
+  oAuthLogin: OAuthLoginParams;
 };
 
 export type MethodName = keyof MethodParamsMap;
@@ -75,4 +86,3 @@ export type User = {
     accounts: `0x${string}`[];
   }[];
 };
-

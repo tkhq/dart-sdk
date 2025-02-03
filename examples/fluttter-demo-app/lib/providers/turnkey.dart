@@ -1,15 +1,22 @@
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:openid_client/openid_client_io.dart' as openid;
 
 import 'package:turnkey_api_stamper/api_stamper.dart';
 import 'package:turnkey_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_http_client/base.dart';
 import 'package:turnkey_http_client/index.dart';
 import 'package:turnkey_flutter_demo_app/config.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 
 import 'package:turnkey_flutter_passkey_stamper/passkey_stamper.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../utils/constants.dart';
 import 'session.dart';
 
@@ -380,6 +387,82 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception(error.toString());
     } finally {
       setLoading('signRawPayload', false);
+    }
+  }
+
+  Future<void> signInWithGoogle(BuildContext context) async {
+    final clientId = EnvConfig.googleClientId;
+    final clientSecret = EnvConfig.googleClientSecret;
+    final redirectUri = Uri.parse(EnvConfig.oAuthRedirectUrl);
+    final List<String> scopes = ['openid', 'email', 'profile'];
+
+    try {
+      final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+      var issuer = await openid.Issuer.discover(
+          Uri.parse('https://accounts.google.com'));
+
+      var client = openid.Client(issuer, clientId);
+
+      urlLauncher(String url) async {
+        if (await canLaunchUrlString(url)) {
+          await launchUrlString(url);
+        } else {
+          throw 'Could not launch $url';
+        }
+      }
+
+      var authenticator = openid.Authenticator(client,
+          scopes: scopes,
+          port: 4000,
+          urlLancher: urlLauncher,
+          redirectUri: redirectUri,
+          additionalParameters: {
+            "nonce": sha256.convert(utf8.encode(targetPublicKey)).toString()
+          });
+
+      var c = await authenticator.authorize();
+
+      var tokenResponse = await c.getTokenResponse();
+
+      var authorizationCode = tokenResponse.toJson()['code'];
+
+      // Exchange the authorization code for tokens
+      var response = await http.post(
+        Uri.parse('https://oauth2.googleapis.com/token'),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: {
+          'code': authorizationCode,
+          'client_id': clientId,
+          'client_secret': clientSecret,
+          'redirect_uri': redirectUri.toString(),
+          'grant_type': 'authorization_code',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        var tokenResponse = json.decode(response.body);
+        var idToken = tokenResponse['id_token'];
+
+        final oAuthResponse = await oAuthLogin({
+          "oidcToken": idToken,
+          "providerName": "Google",
+          "targetPublicKey": targetPublicKey,
+          'expirationSeconds': OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
+        });
+        print(oAuthResponse);
+
+        if (oAuthResponse['credentialBundle'] != null) {
+          await sessionProvider
+              .createSession(oAuthResponse['credentialBundle']);
+        }
+      } else {
+        print('Failed to exchange authorization code for tokens');
+      }
+
+      closeInAppWebView();
+    } catch (e) {
+      print('Error during Google sign-in: $e');
     }
   }
 }
