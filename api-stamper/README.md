@@ -1,12 +1,12 @@
-# Turnkey Dart Api Stamper
+# Turnkey Api Stamper
 
 This package contains functions to stamp a Turnkey request. It is meant to be used with Turnkey's [http package](/http).
 
 Example usage:
 
 ```dart
-import 'package:turnkey_dart_api_stamper/api_stamper.dart';
-import 'package:turnkey_dart_http_client/turnkey_client.dart';
+import 'package:turnkey_api_stamper/api_stamper.dart';
+import 'package:turnkey_http_client/turnkey_client.dart';
 
 // This stamper produces signatures using the API key pair passed in.
 final stamper = ApiStamper(

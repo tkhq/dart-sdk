@@ -7,8 +7,8 @@ Turnkey API documentation lives here: https://docs.turnkey.com.
 Example usage:
 
 ```dart
-import 'package:turnkey_dart_api_stamper/api_stamper.dart';
-import 'package:turnkey_dart_http_client/turnkey_client.dart';
+import 'package:turnkey_api_stamper/api_stamper.dart';
+import 'package:turnkey_http_client/turnkey_client.dart';
 
 // This stamper produces signatures using the API key pair passed in.
 final stamper = ApiStamper(
@@ -35,13 +35,12 @@ final data = await client.getWhoami(
 
 The OpenAPI spec that generates the client and types is also [included](/http/lib/swagger/public_api.swagger.json) in the package.
 
-
-
 ## Generating HTTP Client
 
 To generate the typed HTTP client from the OpenAPI spec, run the following commands:
 
 1. Install dependencies:
+
    ```bash
    flutter pub get
    ```
@@ -50,4 +49,3 @@ To generate the typed HTTP client from the OpenAPI spec, run the following comma
    ```bash
    dart run build_runner build
    ```
-

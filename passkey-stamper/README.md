@@ -98,7 +98,7 @@ final authenticatorParams = await createPasskey(PasskeyRegistrationConfig(
 
 ```dart
 import 'package:turnkey_flutter_passkey_stamper/passkey_stamper.dart';
-import 'package:turnkey_dart_http_client/turnkey_dart_http_client.dart';
+import 'package:turnkey_http_client/turnkey_http_client.dart';
 
 final stamper = PasskeyStamper(PasskeyStamperConfig(rpId: 'your.site.com'));
 

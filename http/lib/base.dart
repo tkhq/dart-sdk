@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:turnkey_dart_api_stamper/api_stamper.dart';
+import 'package:turnkey_api_stamper/api_stamper.dart';
 import 'package:turnkey_encoding/encoding.dart';
 import 'config.dart';
 
@@ -46,7 +46,6 @@ class THttpConfig {
     required this.baseUrl,
   });
 }
-
 
 /// Represents a signed request ready to be POSTed to Turnkey
 class TSignedRequest {

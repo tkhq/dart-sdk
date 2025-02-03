@@ -1,5 +1,6 @@
-name: turnkey_dart_api_stamper
+name: turnkey_api_stamper
 description: A Dart package for api stamping functionalities.
+repository: https://github.com/tkhq/dart-sdk
 version: 0.1.0
 environment:
   sdk: ^3.6.1
@@ -9,7 +10,7 @@ dependencies:
   elliptic: 0.3.11
   crypto: 3.0.6
   ecdsa: 0.1.2
-  turnkey_dart_http_client:
+  turnkey_http_client:
     path: ../http
   turnkey_encoding:
     path: ../encoding
