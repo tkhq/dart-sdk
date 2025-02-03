@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/types.dart';
-import 'package:turnkey_dart_http_client/base.dart';
+import 'package:turnkey_http_client/base.dart';
 import 'package:turnkey_encoding/encoding.dart';
 
 import 'utils.dart';

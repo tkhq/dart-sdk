@@ -1,12 +1,13 @@
-name: turnkey_dart_http_client
+name: turnkey_http_client
 description: A Dart package for making HTTP requests to the Turnkey API.
+repository: https://github.com/tkhq/dart-sdk
 version: 0.1.0
 environment:
   sdk: ^3.6.1
 dependencies:
   turnkey_encoding:
     path: ../encoding # Encoding package needs to be published, so for now we just use a local path
-  turnkey_dart_api_stamper:
+  turnkey_api_stamper:
     path: ../api-stamper # Encoding package needs to be published, so for now we just use a local path
   flutter:
     sdk: flutter
@@ -21,7 +22,6 @@ dev_dependencies:
   chopper_generator: 8.0.4
   json_serializable: 6.9.3
   swagger_dart_code_generator: 3.0.1
-
 
 publish_to: none # We add this temporarily, so we can use local dependencies
 

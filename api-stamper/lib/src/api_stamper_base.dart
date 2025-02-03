@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
-import 'package:turnkey_dart_http_client/base.dart';
+import 'package:turnkey_http_client/base.dart';
 import 'package:turnkey_encoding/encoding.dart';
 
 class ApiStamperConfig {
