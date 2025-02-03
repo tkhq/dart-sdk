@@ -72,7 +72,7 @@ You will be prompted to select a device to run the app on. You can also use the 
 
 ## Passkey Configuration
 
-To allow passkeys to be registered on iOS and Android, you must set up an associated domain. For detailed instructions, refer to the [Turnkey Flutter Passkey Stamper README](https://github.com/tkhq/dart-sdk/tree/main/passkey-stamper) or [Apple](https://developer.apple.com/documentation/xcode/supporting-associated-domains) and [Google's](https://developer.android.com/identity/sign-in/credential-manager#add-support-dal) respective instruction pages.
+To allow passkeys to be registered on iOS and Android, you must set up an associated domain. For detailed instructions, refer to the [Turnkey Flutter Passkey Stamper README](/passkey-stamper) or [Apple](https://developer.apple.com/documentation/xcode/supporting-associated-domains) and [Google's](https://developer.android.com/identity/sign-in/credential-manager#add-support-dal) respective instruction pages.
 
 Once you have this setup, add your relying party server's domain to your .env file
 
