@@ -7,8 +7,8 @@ environment:
 dependencies:
   turnkey_encoding:
     path: ../encoding # Encoding package needs to be published, so for now we just use a local path
-  turnkey_api_stamper:
-    path: ../api-stamper # Encoding package needs to be published, so for now we just use a local path
+  turnkey_api_key_stamper:
+    path: ../api-key-stamper # Encoding package needs to be published, so for now we just use a local path
   flutter:
     sdk: flutter
   chopper: ^8.0.4

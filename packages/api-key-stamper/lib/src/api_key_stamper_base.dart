@@ -6,12 +6,12 @@ import 'package:ecdsa/ecdsa.dart';
 import 'package:turnkey_http_client/base.dart';
 import 'package:turnkey_encoding/encoding.dart';
 
-class ApiStamperConfig {
+class ApiKeyStamperConfig {
   final String apiPublicKey;
 
   final String apiPrivateKey;
 
-  ApiStamperConfig({
+  ApiKeyStamperConfig({
     required this.apiPublicKey,
     required this.apiPrivateKey,
   });
@@ -44,13 +44,13 @@ String signWithApiKey(String publicKey, String privateKey, String content) {
   return (sig.toDERHex());
 }
 
-class ApiStamper implements TStamper {
+class ApiKeyStamper implements TStamper {
   final String apiPublicKey;
   final String apiPrivateKey;
 
   var stampHeaderName = "X-Stamp";
 
-  ApiStamper(ApiStamperConfig config)
+  ApiKeyStamper(ApiKeyStamperConfig config)
       : apiPublicKey = config.apiPublicKey,
         apiPrivateKey = config.apiPrivateKey;
 

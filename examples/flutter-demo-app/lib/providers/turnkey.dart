@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:turnkey_api_stamper/api_stamper.dart';
+import 'package:turnkey_api_key_stamper/api_key_stamper.dart';
 import 'package:turnkey_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_http_client/base.dart';
 import 'package:turnkey_http_client/index.dart';
@@ -75,8 +75,8 @@ class TurnkeyProvider with ChangeNotifier {
 
     if (session != null) {
       try {
-        final stamper = ApiStamper(
-          ApiStamperConfig(
+        final stamper = ApiKeyStamper(
+          ApiKeyStamperConfig(
               apiPrivateKey: session.privateKey,
               apiPublicKey: session.publicKey),
         );
