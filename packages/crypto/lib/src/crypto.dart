@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:turnkey_encoding/encoding.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'constant.dart';
 import 'math.dart';
 import 'package:pointycastle/export.dart';

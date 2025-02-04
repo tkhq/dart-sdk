@@ -3,7 +3,7 @@ import 'package:pointycastle/pointycastle.dart';
 import 'package:test/test.dart';
 import 'package:turnkey_crypto/src/constant.dart';
 import 'package:turnkey_crypto/src/crypto.dart';
-import 'package:turnkey_encoding/encoding.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
 
 void main() {
   group('bigIntToHex', () {

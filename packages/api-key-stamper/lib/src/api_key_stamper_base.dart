@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:elliptic/elliptic.dart';
 import 'package:ecdsa/ecdsa.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'package:turnkey_http/base.dart';
-import 'package:turnkey_encoding/encoding.dart';
 
 class ApiKeyStamperConfig {
   final String apiPublicKey;

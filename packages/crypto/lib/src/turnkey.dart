@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:base58check/base58check.dart';
 import 'package:cryptography/cryptography.dart' as crypto;
-import 'package:turnkey_encoding/encoding.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'crypto.dart';
 import 'hpke.dart';
 import 'package:bs58/bs58.dart';

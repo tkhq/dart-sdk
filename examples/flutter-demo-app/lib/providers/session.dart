@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:elliptic/elliptic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:turnkey_crypto/crypto.dart';
+import 'package:turnkey_crypto/turnkey_crypto.dart';
 
 import '../utils/helpers.dart';
 

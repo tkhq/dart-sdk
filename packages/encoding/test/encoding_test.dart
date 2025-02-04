@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:test/test.dart';
-import 'package:turnkey_encoding/src/turnkey_encoding.dart';
+import 'package:turnkey_encoding/src/encoding.dart';
 
 void main() {
   group("uint8ArrayToHexString", () {
