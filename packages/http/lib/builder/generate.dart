@@ -85,7 +85,6 @@ Future<void> generateMappedSwaggerTypes({
               : refs['response']!,
         );
 
-        // TODO: I dont think we actually need this
         final TBinding queryTypeBinding = TBinding(
           name: 'T${operationId}Query',
           isBound: parameterList.any((item) => item.inParameter == 'query'),

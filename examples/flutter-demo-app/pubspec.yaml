@@ -16,7 +16,6 @@ dependencies:
   pinput: ^5.0.1
   flutter_svg: ^1.0.3
   http: ^1.3.0
-  #TODO: These should be replaced with the published package
   turnkey_crypto:
     path: ../../packages/crypto
   turnkey_flutter_passkey_stamper:
