@@ -2,14 +2,6 @@
 
 This package contains a Flutter passkey stamper. It uses the Flutter [passkeys](https://github.com/corbado/flutter-passkeys/tree/main/packages/passkeys/passkeys) package to do the heavy lifting. This stamper is meant to be used with Turnkey's [http package](/packages/http).
 
-## Installation
-
-- Install this package in your Flutter project with the following command:
-
-```bash
-flutter pub add 'TODO: ADD PACKAGE NAME AFTER PUBLISHING'
-```
-
 ## Platform specific setup
 
 ### iOS
