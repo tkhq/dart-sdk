@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:turnkey_http_client/__generated__/services/coordinator/v1/public_api.swagger.dart';
+import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_flutter_demo_app/providers/turnkey.dart';
 import 'package:crypto/crypto.dart';
 

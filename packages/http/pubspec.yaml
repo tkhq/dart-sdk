@@ -1,4 +1,4 @@
-name: turnkey_http_client
+name: turnkey_http
 description: A Dart package for making HTTP requests to the Turnkey API.
 repository: https://github.com/tkhq/dart-sdk
 version: 0.1.0

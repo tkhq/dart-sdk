@@ -11,3 +11,6 @@ pubspec.lock
 
 # Environment files
 .env
+
+# IntelliJ IDEA project files
+*.iml

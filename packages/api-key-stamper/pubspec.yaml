@@ -10,7 +10,7 @@ dependencies:
   elliptic: 0.3.11
   crypto: 3.0.6
   ecdsa: 0.1.2
-  turnkey_http_client:
+  turnkey_http:
     path: ../http
   turnkey_encoding:
     path: ../encoding

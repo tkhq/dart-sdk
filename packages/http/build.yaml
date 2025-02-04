@@ -9,7 +9,7 @@ targets:
 
 builders:
   codegen:
-    import: "package:turnkey_http_client/builder/builder.dart"
+    import: "package:turnkey_http/builder/builder.dart"
     builder_factories: ["codegen"]
     build_extensions: { ".swagger.json": [".custom.swagger.dart"] }
     build_to: source

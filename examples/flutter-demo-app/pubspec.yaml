@@ -23,7 +23,7 @@ dependencies:
     path: ../../packages/passkey-stamper
   turnkey_api_key_stamper:
     path: ../../packages/api-key-stamper
-  turnkey_http_client:
+  turnkey_http:
     path: ../../packages/http
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
