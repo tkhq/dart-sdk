@@ -7,8 +7,8 @@ Turnkey API documentation lives here: https://docs.turnkey.com.
 Example usage:
 
 ```dart
-import 'package:turnkey_api_stamper/api_stamper.dart';
-import 'package:turnkey_http_client/turnkey_client.dart';
+import 'package:turnkey_api_key_stamper/api_stamper.dart';
+import 'package:turnkey_http/turnkey_client.dart';
 
 // This stamper produces signatures using the API key pair passed in.
 final stamper = ApiStamper(

@@ -11,3 +11,12 @@ pubspec.lock
 
 # Environment files
 .env
+
+# IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Melos-generated files
+**/pubspec_overrides.yaml
+melos_bootstrap.xml
+melos_clean.xml
