@@ -1,21 +1,21 @@
 name: turnkey_crypto
-description: This package consolidates some common cryptographic utilities used across our applications, particularly primitives related to keys, encryption, and decryption in a pure Dart implementation.
+description: |
+  This package consolidates some common cryptographic utilities used across our applications, 
+  particularly primitives related to keys, encryption, and decryption in a pure Dart implementation.
 version: 0.1.0
 repository: https://github.com/tkhq/dart-sdk
+publish_to: https://pub.dev
 
 environment:
-  sdk: 3.6.1
+  sdk: ^3.6.1
 
 dependencies:
-  turnkey_encoding:
-    path: ../encoding # Encoding package needs to be published, so for now we just use a local path
-  pointycastle: 3.9.0
-  base58check: 2.0.0
-  bs58: 1.0.2
-  cryptography: 2.7.0
+  turnkey_encoding: ^0.1.0
+  pointycastle: ^3.9.0
+  base58check: ^2.0.0
+  bs58: ^1.0.2
+  cryptography: ^2.7.0
 
 dev_dependencies:
-  lints: 5.0.0
-  test: 1.25.0
-
-publish_to: none # We add this temporarily, so we can use local dependencies
+  lints: ^5.0.0
+  test: ^1.25.0
