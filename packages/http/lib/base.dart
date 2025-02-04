@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:turnkey_api_key_stamper/api_key_stamper.dart';
-import 'package:turnkey_encoding/encoding.dart';
+import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'config.dart';
 
 /// Seals and stamps the request body with your Turnkey API credentials.

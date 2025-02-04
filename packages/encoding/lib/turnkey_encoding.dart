@@ -1,6 +1,6 @@
 library;
 
-export 'src/encoding.dart'
+export 'src/turnkey_encoding.dart'
     show
         stringToBase64urlString,
         uint8ArrayToHexString,
