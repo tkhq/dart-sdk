@@ -5,7 +5,6 @@ description: |
   but be aware that significant interface changes may occur in the future.
 version: 0.1.0
 repository: https://github.com/tkhq/dart-sdk
-publish_to: https://pub.dev
 
 environment:
   sdk: ^3.6.1

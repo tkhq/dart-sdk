@@ -1,6 +1,6 @@
 name: turnkey_flutter_demo_app
 description: "A demo app using Turnkey's Flutter packages"
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: "none" 
 repository: https://github.com/tkhq/dart-sdk
 
 version: 1.0.0+1

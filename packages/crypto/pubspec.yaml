@@ -4,7 +4,6 @@ description: |
   particularly primitives related to keys, encryption, and decryption in a pure Dart implementation.
 version: 0.1.0
 repository: https://github.com/tkhq/dart-sdk
-publish_to: https://pub.dev
 
 environment:
   sdk: ^3.6.1
