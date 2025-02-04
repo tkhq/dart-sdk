@@ -1,7 +1,6 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 

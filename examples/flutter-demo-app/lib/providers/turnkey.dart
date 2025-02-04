@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
-import 'package:turnkey_flutter_passkey_stamper/turnkey_passkey_stamper.dart';
+import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_http/base.dart';
 import 'package:turnkey_flutter_demo_app/config.dart';
