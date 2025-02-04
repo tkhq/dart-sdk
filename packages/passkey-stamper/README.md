@@ -1,6 +1,6 @@
 # Turnkey Flutter Passkey Stamper
 
-This package contains a Flutter passkey stamper. It uses the Flutter [passkeys](https://github.com/corbado/flutter-passkeys/tree/main/packages/passkeys/passkeys) package to do the heavy lifting. This stamper is meant to be used with Turnkey's [http package](/http).
+This package contains a Flutter passkey stamper. It uses the Flutter [passkeys](https://github.com/corbado/flutter-passkeys/tree/main/packages/passkeys/passkeys) package to do the heavy lifting. This stamper is meant to be used with Turnkey's [http package](/packages/http).
 
 ## Installation
 
@@ -117,4 +117,4 @@ final data = await client.getWhoami(
 
 ## Demo app
 
-Head over to [this repository](/examples/fluttter-demo-app) for a fully functional Flutter demo app!
+Head over to [this repository](/examples/flutter-demo-app) for a fully functional Flutter demo app!

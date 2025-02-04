@@ -1,6 +1,6 @@
 # Turnkey Api Stamper
 
-This package contains functions to stamp a Turnkey request. It is meant to be used with Turnkey's [http package](/http).
+This package contains functions to stamp a Turnkey request. It is meant to be used with Turnkey's [http package](/packages/http).
 
 Example usage:
 
