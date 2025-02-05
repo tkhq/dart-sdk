@@ -1,4 +1,43 @@
 import 'dart:convert';
+import 'config.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
+import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
+
+/// Seals and stamps the request body with your Turnkey API credentials.
+///
+/// You can either:
+/// - Before calling [sealAndStampRequestBody], initialize with your Turnkey API credentials via init(...).
+/// - Or, provide [apiPublicKey] and [apiPrivateKey] here as arguments.
+Future<Map<String, String>> sealAndStampRequestBody({
+  required Map<String, dynamic> body,
+  String? apiPublicKey,
+  String? apiPrivateKey,
+}) async {
+  // Fallback to configuration if keys are not provided
+  apiPublicKey ??= getConfig().apiPublicKey;
+  apiPrivateKey ??= getConfig().apiPrivateKey;
+
+  final String sealedBody = stableStringify(body);
+
+  final String signature = await signWithApiKey(
+    apiPublicKey,
+    apiPrivateKey,
+    sealedBody,
+  );
+
+  final String sealedStamp = stableStringify({
+    'publicKey': apiPublicKey,
+    'scheme': 'SIGNATURE_SCHEME_TK_API_P256',
+    'signature': signature,
+  });
+
+  final String xStamp = stringToBase64urlString(sealedStamp);
+
+  return {
+    'sealedBody': sealedBody,
+    'xStamp': xStamp,
+  };
+}
 
 class THttpConfig {
   final String baseUrl;
