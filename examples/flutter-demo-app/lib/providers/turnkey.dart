@@ -1,4 +1,9 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
@@ -7,7 +12,12 @@ import 'package:turnkey_flutter_demo_app/config.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_http/turnkey_http.dart';
+import 'package:uni_links/uni_links.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../utils/constants.dart';
+import 'package:http/http.dart' as http;
+import 'package:openid_client/openid_client_io.dart' as openid;
 import 'session.dart';
 
 class User {
@@ -347,6 +357,114 @@ class TurnkeyProvider with ChangeNotifier {
       setError(error.toString());
     } finally {
       setLoading('loginWithPasskey', false);
+    }
+  }
+
+  Future<void> signInWithGoogle(BuildContext context) async {
+    //TODO: ADD LOADING AND COMMENTS
+    final clientId = EnvConfig.googleClientId;
+    final redirectUri = Uri.parse(EnvConfig.oAuthRedirectUri);
+    final List<String> scopes = ['openid', 'email', 'profile'];
+
+    final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+    try {
+      final String codeVerifier = generateChallenge();
+
+      var issuer = await openid.Issuer.discover(
+          Uri.parse('https://accounts.google.com/'));
+      var client = openid.Client(issuer, clientId);
+
+      urlLauncher(String url) async {
+        if (await canLaunchUrlString(url)) {
+          await launchUrlString(url);
+        } else {
+          throw 'Could not launch $url';
+        }
+      }
+
+      var authenticator = openid.Authenticator.fromFlow(
+          openid.Flow.authorizationCodeWithPKCE(client,
+              scopes: scopes,
+              codeVerifier: codeVerifier,
+              additionalParameters: {
+                "code_challenge_method": "S256",
+                "nonce": sha256.convert(utf8.encode(targetPublicKey)).toString()
+              }),
+          urlLancher: urlLauncher);
+
+      authenticator.flow.redirectUri = redirectUri;
+
+      uriLinkStream.listen((uri) async {
+        if (uri != null) {
+          String? responseCode = uri.queryParameters['code'];
+
+          if (responseCode != null) {
+            final response = await http.post(
+              Uri.parse('https://oauth2.googleapis.com/token'),
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              body: {
+                'code': responseCode,
+                'client_id': EnvConfig.googleClientId,
+                'redirect_uri': EnvConfig.oAuthRedirectUri,
+                'grant_type': 'authorization_code',
+                'code_verifier': codeVerifier,
+              },
+            );
+
+            if (response.statusCode == 200) {
+              final data = json.decode(response.body);
+
+              final oAuthResponse = await oAuthLogin({
+                "oidcToken": data['id_token'],
+                "providerName": "Google",
+                "targetPublicKey": targetPublicKey,
+                'expirationSeconds':
+                    OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
+              });
+
+              if (oAuthResponse['credentialBundle'] != null) {
+                await sessionProvider
+                    .createSession(oAuthResponse['credentialBundle']);
+                closeInAppWebView();
+                return;
+              } else {
+                debugPrint('Failed to exchange authorization code for tokens');
+              }
+            } else {
+              debugPrint("Error getting token: ${response.body}");
+            }
+          }
+        }
+      });
+
+      authenticator.authorize();
+    } catch (e) {
+      print('Error during Google sign-in: $e');
+    }
+  }
+
+  Future<void> signInWithApple(BuildContext context) async {
+    final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+    final credential = await SignInWithApple.getAppleIDCredential(scopes: [
+      AppleIDAuthorizationScopes.email,
+      AppleIDAuthorizationScopes.fullName,
+    ], nonce: sha256.convert(utf8.encode(targetPublicKey)).toString());
+    final oidcToken = credential.identityToken;
+
+    final oAuthResponse = await oAuthLogin({
+      "oidcToken": oidcToken,
+      "providerName": "Apple",
+      "targetPublicKey": targetPublicKey,
+      'expirationSeconds': OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
+    });
+
+    if (oAuthResponse['credentialBundle'] != null) {
+      await sessionProvider.createSession(oAuthResponse['credentialBundle']);
+      return;
+    } else {
+      debugPrint('Failed to exchange authorization code for tokens');
     }
   }
 

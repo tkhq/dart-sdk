@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:turnkey_flutter_demo_app/widgets/email.dart';
+import 'package:turnkey_flutter_demo_app/widgets/oauth.dart';
 import 'package:turnkey_flutter_demo_app/widgets/or_seperator.dart';
 import 'package:turnkey_flutter_demo_app/widgets/passkey.dart';
 import 'package:turnkey_flutter_demo_app/widgets/phone.dart';
@@ -49,6 +50,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+                  OAuthButtons(),
+                  OrSeperator(),
                   EmailInput(),
                   OrSeperator(),
                   PhoneNumberInput(),

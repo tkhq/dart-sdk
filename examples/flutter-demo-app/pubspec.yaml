@@ -1,6 +1,6 @@
 name: turnkey_flutter_demo_app
 description: "A demo app using Turnkey's Flutter packages"
-publish_to: "none" 
+publish_to: "none"
 repository: https://github.com/tkhq/dart-sdk
 
 version: 1.0.0+1
@@ -25,6 +25,10 @@ dependencies:
   elliptic: ^0.3.11
   flutter_dotenv: ^5.2.1
   crypto: ^3.0.6
+  openid_client: ^0.4.9
+  url_launcher: ^6.3.1
+  uni_links: ^0.5.1
+  sign_in_with_apple: ^6.1.4
 
 dev_dependencies:
   flutter_test:
@@ -36,4 +40,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/logo.svg
+    - assets/images/google.svg
+    - assets/images/apple.svg
     - .env
