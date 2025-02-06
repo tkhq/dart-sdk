@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
+import 'package:turnkey_crypto/turnkey_crypto.dart';
+
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_http/base.dart';
@@ -399,7 +401,6 @@ class TurnkeyProvider with ChangeNotifier {
       appLinks.uriLinkStream.listen((uri) async {
         // Listen for the redirect URI
         if (uri != null) {
-          print(uri.toString());
           String? responseCode = uri.queryParameters['code'];
 
           if (responseCode != null) {
@@ -458,6 +459,8 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   Future<void> signInWithApple(BuildContext context) async {
+    setLoading('signInWithApple', true);
+
     try {
       final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
@@ -486,6 +489,8 @@ class TurnkeyProvider with ChangeNotifier {
       }
     } catch (error) {
       setError(error.toString());
+    } finally {
+      setLoading('signInWithApple', false);
     }
   }
 
@@ -516,6 +521,44 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception(error.toString());
     } finally {
       setLoading('signRawPayload', false);
+    }
+  }
+
+  Future<String> exportWallet(BuildContext context, String walletId) async {
+    setLoading('exportWallet', true);
+    try {
+      if (_client == null || user == null) {
+        throw Exception("Client or user not initialized");
+      }
+
+      final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+      final response = await _client!.exportWallet(
+          input: ExportWalletRequest(
+              type: ExportWalletRequestType.activityTypeExportWallet,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId: user!.organizationId,
+              parameters: ExportWalletIntent(
+                  walletId: walletId, targetPublicKey: targetPublicKey)));
+      final exportBundle =
+          response.activity.result.exportWalletResult?.exportBundle;
+
+      final embeddedKey = await sessionProvider.getEmbeddedKey();
+      if (exportBundle == null || embeddedKey == null) {
+        throw Exception("Export bundle, embedded key, or user not initialized");
+      }
+
+      final export = await decryptExportBundle(
+          exportBundle: exportBundle,
+          embeddedKey: embeddedKey,
+          organizationId: user!.organizationId,
+          returnMnemonic: true);
+      return export;
+    } catch (error) {
+      setError(error.toString());
+      throw Exception(error.toString());
+    } finally {
+      setLoading('exportWallet', false);
     }
   }
 }

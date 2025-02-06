@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:turnkey_flutter_demo_app/providers/session.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_flutter_demo_app/providers/turnkey.dart';
+import 'package:turnkey_flutter_demo_app/providers/turnkey.dart' as tk;
 import 'package:crypto/crypto.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -14,6 +16,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  tk.Wallet? _selectedWallet;
   String? _selectedAccount;
   String? _signature;
 
@@ -56,6 +59,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  Future<void> handleExportWallet(BuildContext context) async {
+    try {
+      final turnkeyProvider =
+          Provider.of<TurnkeyProvider>(context, listen: false);
+
+      final export = await turnkeyProvider.exportWallet(
+        context,
+        _selectedWallet!.id,
+      );
+      print(export);
+      //TODO: Show exported wallet
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Success! Wallet exported.')),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error exporting wallet: $error')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final signMessage = "I love Turnkey";
@@ -82,8 +106,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 (user?.userName != null && user!.userName!.isNotEmpty)
                     ? user.userName
                     : 'User';
-            final selectedWallet = user?.wallets[0];
-            final walletAccounts = selectedWallet?.accounts;
+            _selectedWallet = user?.wallets[0];
+            final walletAccounts = _selectedWallet?.accounts;
             _selectedAccount = walletAccounts?.first;
 
             return Padding(
