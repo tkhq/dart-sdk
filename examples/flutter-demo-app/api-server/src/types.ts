@@ -50,6 +50,7 @@ export type OtpAuthParams = {
 };
 
 export type OAuthLoginParams = {
+  email?: Email;
   oidcToken: string;
   providerName: string;
   targetPublicKey: string;

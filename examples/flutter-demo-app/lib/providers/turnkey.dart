@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:app_links/app_links.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
@@ -12,7 +14,6 @@ import 'package:turnkey_flutter_demo_app/config.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_http/turnkey_http.dart';
-import 'package:uni_links/uni_links.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../utils/constants.dart';
@@ -361,9 +362,13 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
-    //TODO: ADD LOADING AND COMMENTS
+    // Sign in with Google is a demonstration of how to use the OpenID Connect with Turnkey using a generic OpenID Connect client library. This function can be refactored to allow oAuth with most OpenID Connect providers.
+    setLoading('signInWithGoogle', true);
+    final appLinks = AppLinks();
+
     final clientId = EnvConfig.googleClientId;
-    final redirectUri = Uri.parse(EnvConfig.oAuthRedirectUri);
+    final redirectUri = Uri.parse(
+        '${EnvConfig.googleRedirectScheme}://'); // This is the redirect URI that the OpenID Connect provider will redirect to after the user signs in. This URI must be registered with the OpenID Connect provider.
     final List<String> scopes = ['openid', 'email', 'profile'];
 
     final targetPublicKey = await sessionProvider.createEmbeddedKey();
@@ -376,11 +381,7 @@ class TurnkeyProvider with ChangeNotifier {
       var client = openid.Client(issuer, clientId);
 
       urlLauncher(String url) async {
-        if (await canLaunchUrlString(url)) {
-          await launchUrlString(url);
-        } else {
-          throw 'Could not launch $url';
-        }
+        await launchUrlString(url);
       }
 
       var authenticator = openid.Authenticator.fromFlow(
@@ -395,18 +396,21 @@ class TurnkeyProvider with ChangeNotifier {
 
       authenticator.flow.redirectUri = redirectUri;
 
-      uriLinkStream.listen((uri) async {
+      appLinks.uriLinkStream.listen((uri) async {
+        // Listen for the redirect URI
         if (uri != null) {
+          print(uri.toString());
           String? responseCode = uri.queryParameters['code'];
 
           if (responseCode != null) {
+            // Exchange the authorization code for tokens using PKCE: https://developers.google.com/identity/protocols/oauth2/native-app#obtainingaccesstokens
             final response = await http.post(
               Uri.parse('https://oauth2.googleapis.com/token'),
               headers: {'Content-Type': 'application/x-www-form-urlencoded'},
               body: {
                 'code': responseCode,
-                'client_id': EnvConfig.googleClientId,
-                'redirect_uri': EnvConfig.oAuthRedirectUri,
+                'client_id': clientId,
+                'redirect_uri': redirectUri.toString(),
                 'grant_type': 'authorization_code',
                 'code_verifier': codeVerifier,
               },
@@ -415,8 +419,15 @@ class TurnkeyProvider with ChangeNotifier {
             if (response.statusCode == 200) {
               final data = json.decode(response.body);
 
+              final idToken = data['id_token'];
+              final payload = JwtDecoder.decode(idToken);
+              final userEmail = payload[
+                  'email']; // Extract the email from JWT encoded ID token
+
+              // Use the ID token to authenticate with Turnkey
               final oAuthResponse = await oAuthLogin({
-                "oidcToken": data['id_token'],
+                "email": userEmail,
+                "oidcToken": idToken,
                 "providerName": "Google",
                 "targetPublicKey": targetPublicKey,
                 'expirationSeconds':
@@ -439,32 +450,42 @@ class TurnkeyProvider with ChangeNotifier {
       });
 
       authenticator.authorize();
-    } catch (e) {
-      print('Error during Google sign-in: $e');
+    } catch (error) {
+      setError(error.toString());
+    } finally {
+      setLoading('signInWithGoogle', false);
     }
   }
 
   Future<void> signInWithApple(BuildContext context) async {
-    final targetPublicKey = await sessionProvider.createEmbeddedKey();
+    try {
+      final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
-    final credential = await SignInWithApple.getAppleIDCredential(scopes: [
-      AppleIDAuthorizationScopes.email,
-      AppleIDAuthorizationScopes.fullName,
-    ], nonce: sha256.convert(utf8.encode(targetPublicKey)).toString());
-    final oidcToken = credential.identityToken;
+      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ], nonce: sha256.convert(utf8.encode(targetPublicKey)).toString());
+      final oidcToken = credential.identityToken;
 
-    final oAuthResponse = await oAuthLogin({
-      "oidcToken": oidcToken,
-      "providerName": "Apple",
-      "targetPublicKey": targetPublicKey,
-      'expirationSeconds': OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
-    });
+      if (oidcToken == null) {
+        throw Exception('Failed to get OIDC token');
+      }
 
-    if (oAuthResponse['credentialBundle'] != null) {
-      await sessionProvider.createSession(oAuthResponse['credentialBundle']);
-      return;
-    } else {
-      debugPrint('Failed to exchange authorization code for tokens');
+      final oAuthResponse = await oAuthLogin({
+        "oidcToken": oidcToken,
+        "providerName": "Apple",
+        "targetPublicKey": targetPublicKey,
+        'expirationSeconds': OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
+      });
+
+      if (oAuthResponse['credentialBundle'] != null) {
+        await sessionProvider.createSession(oAuthResponse['credentialBundle']);
+        return;
+      } else {
+        debugPrint('Failed to exchange authorization code for tokens');
+      }
+    } catch (error) {
+      setError(error.toString());
     }
   }
 

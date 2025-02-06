@@ -69,7 +69,7 @@ async function handleOAuthLogin(
   params: ParamsType<"oAuthLogin">,
   res: Response
 ) {
-  const { oidcToken, providerName, targetPublicKey, expirationSeconds } =
+  const { email, oidcToken, providerName, targetPublicKey, expirationSeconds } =
     params;
   let organizationId: string = turnkeyConfig.defaultOrganizationId;
 
@@ -81,7 +81,7 @@ async function handleOAuthLogin(
   if (organizationIds.length > 0) {
     organizationId = organizationIds[0];
   } else {
-    const createSubOrgParams = { oauth: { oidcToken, providerName } };
+    const createSubOrgParams = { email, oauth: { oidcToken, providerName } };
     const result = await handleCreateSubOrg(createSubOrgParams);
     organizationId = result.subOrganizationId;
   }
