@@ -33,6 +33,8 @@ export async function POST(req: Request, res: Response) {
 
       case "otpAuth":
         return handleOtpAuth(params as ParamsType<"otpAuth">, res);
+      case "oAuthLogin":
+        return handleOAuthLogin(params as ParamsType<"oAuthLogin">, res);
       default:
         return res.json({ error: "Method not found", status: 404 });
     }
@@ -61,6 +63,37 @@ async function handleGetSubOrgId(
     organizationId = organizationIds[0];
   }
   return res.json({ organizationId });
+}
+
+async function handleOAuthLogin(
+  params: ParamsType<"oAuthLogin">,
+  res: Response
+) {
+  const { email, oidcToken, providerName, targetPublicKey, expirationSeconds } =
+    params;
+  let organizationId: string = turnkeyConfig.defaultOrganizationId;
+
+  const { organizationIds } = await turnkey.getSubOrgIds({
+    filterType: "OIDC_TOKEN",
+    filterValue: oidcToken,
+  });
+
+  if (organizationIds.length > 0) {
+    organizationId = organizationIds[0];
+  } else {
+    const createSubOrgParams = { email, oauth: { oidcToken, providerName } };
+    const result = await handleCreateSubOrg(createSubOrgParams);
+    organizationId = result.subOrganizationId;
+  }
+
+  const oauthResponse = await turnkey.oauth({
+    organizationId,
+    oidcToken,
+    targetPublicKey,
+    expirationSeconds,
+  });
+
+  return res.json(oauthResponse);
 }
 
 async function handleInitOtpAuth(
@@ -104,12 +137,13 @@ async function handleOtpAuth(params: ParamsType<"otpAuth">, res: Response) {
 }
 
 async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
-  const { email, phone, passkey } = params;
+  const { email, phone, passkey, oauth } = params;
 
   const subOrganizationName = `Sub Org - ${email || phone}`;
   const userName = email ? email.split("@")[0] || email : "";
   const userEmail = email;
   const userPhoneNumber = phone;
+  const oauthProviders = oauth ? [oauth] : []; //TODO: Allow for multiple oAuth providers
   const authenticators = passkey
     ? [
         {
@@ -128,7 +162,7 @@ async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
         userName,
         userEmail,
         userPhoneNumber,
-        oauthProviders: [],
+        oauthProviders,
         authenticators,
         apiKeys: [],
       },

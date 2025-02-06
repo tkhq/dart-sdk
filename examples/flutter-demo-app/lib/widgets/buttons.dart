@@ -4,14 +4,16 @@ class LoadingButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPressed;
   final ButtonStyle? style;
-  final String text;
+  final String? text;
+  final Widget? child;
 
   const LoadingButton({
     super.key,
     required this.isLoading,
     required this.onPressed,
-    required this.text,
+    this.text,
     this.style,
+    this.child,
   });
 
   @override
@@ -30,7 +32,9 @@ class LoadingButton extends StatelessWidget {
           ? CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             )
-          : Text(text),
+          : text != null
+              ? Text(text!)
+              : child ?? child,
     );
   }
 }

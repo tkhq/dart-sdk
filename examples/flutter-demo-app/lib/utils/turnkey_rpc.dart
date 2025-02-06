@@ -55,3 +55,7 @@ Future<Map<String, dynamic>> getWhoami(Map<String, dynamic> params) async {
 Future<Map<String, dynamic>> otpAuth(Map<String, dynamic> params) async {
   return jsonRpcRequest('otpAuth', params);
 }
+
+Future<Map<String, dynamic>> oAuthLogin(Map<String, dynamic> params) async {
+  return jsonRpcRequest('oAuthLogin', params);
+}

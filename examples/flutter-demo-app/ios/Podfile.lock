@@ -1,5 +1,9 @@
 PODS:
+  - app_links (0.0.2):
+    - Flutter
   - Flutter (1.0.0)
+  - flutter_config (0.0.1):
+    - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
   - passkeys_ios (0.0.1):
@@ -7,34 +11,54 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - sign_in_with_apple (0.0.1):
+    - Flutter
   - ua_client_hints (1.4.1):
+    - Flutter
+  - url_launcher_ios (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - Flutter (from `Flutter`)
+  - flutter_config (from `.symlinks/plugins/flutter_config/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - passkeys_ios (from `.symlinks/plugins/passkeys_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - ua_client_hints (from `.symlinks/plugins/ua_client_hints/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   Flutter:
     :path: Flutter
+  flutter_config:
+    :path: ".symlinks/plugins/flutter_config/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   passkeys_ios:
     :path: ".symlinks/plugins/passkeys_ios/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sign_in_with_apple:
+    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   ua_client_hints:
     :path: ".symlinks/plugins/ua_client_hints/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
+  app_links: 3da4c36b46cac3bf24eb897f1a6ce80bda109874
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_config: a0cd4b5996f2a1683657d14777c8fa57e04a40ea
   flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
   passkeys_ios: 939d7d44f825048c8dffd4644f52444164c80ecd
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  sign_in_with_apple: c5dcc141574c8c54d5ac99dd2163c0c72ad22418
   ua_client_hints: 92fe0d139619b73ec9fcb46cc7e079a26178f586
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
