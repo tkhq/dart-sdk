@@ -5494,8 +5494,9 @@ Vote _$VoteFromJson(Map<String, dynamic> json) => Vote(
       publicKey: json['publicKey'] as String,
       signature: json['signature'] as String,
       scheme: json['scheme'] as String,
-      createdAt: ExternalDataV1Timestamp.fromJson(
-          json['createdAt'] as Map<String, dynamic>),
+      createdAt: json['createdAt'] != null
+          ? ExternalDataV1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>)
+          : ExternalDataV1Timestamp(seconds: '0', nanos: '0'),
     );
 
 Map<String, dynamic> _$VoteToJson(Vote instance) => <String, dynamic>{
