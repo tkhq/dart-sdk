@@ -66,7 +66,7 @@ class SessionProvider with ChangeNotifier {
         key: StorageKey.embeddedKey.toString(), value: key);
   }
 
-  Future<String?> _getEmbeddedKey({bool deleteKey = true}) async {
+  Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
     final key =
         await _secureStorage.read(key: StorageKey.embeddedKey.toString());
     if (deleteKey) {
@@ -77,7 +77,7 @@ class SessionProvider with ChangeNotifier {
 
   Future<Session> createSession(String bundle,
       {int expirySeconds = 900}) async {
-    final embeddedKey = await _getEmbeddedKey();
+    final embeddedKey = await getEmbeddedKey();
     if (embeddedKey == null) {
       throw Exception('Embedded key not found.');
     }

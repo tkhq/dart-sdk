@@ -143,7 +143,7 @@ async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
   const userName = email ? email.split("@")[0] || email : "";
   const userEmail = email;
   const userPhoneNumber = phone;
-  const oauthProviders = oauth ? [oauth] : []; //TODO: Allow for multiple oAuth providers
+  const oauthProviders = oauth ? [oauth] : []; // You can attach multiple oauth providers when creating a suborganization
   const authenticators = passkey
     ? [
         {

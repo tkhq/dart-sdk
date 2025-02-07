@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
+import 'package:turnkey_crypto/turnkey_crypto.dart';
+import 'package:turnkey_flutter_demo_app/utils/constants.dart';
+
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_http/base.dart';
@@ -16,7 +19,7 @@ import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_http/turnkey_http.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../utils/constants.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client_io.dart' as openid;
 import 'session.dart';
@@ -55,6 +58,8 @@ class TurnkeyProvider with ChangeNotifier {
   final Map<String, bool> _loading = {};
   String? _errorMessage;
   User? _user;
+  Wallet? _selectedWallet;
+  String? _selectedAccount;
   TurnkeyClient? _client;
 
   final SessionProvider sessionProvider;
@@ -67,6 +72,8 @@ class TurnkeyProvider with ChangeNotifier {
   bool isLoading(String key) => _loading[key] ?? false;
   String? get errorMessage => _errorMessage;
   User? get user => _user;
+  Wallet? get selectedWallet => _selectedWallet;
+  String? get selectedAccount => _selectedAccount;
 
   void setLoading(String key, bool loading) {
     _loading[key] = loading;
@@ -75,6 +82,17 @@ class TurnkeyProvider with ChangeNotifier {
 
   void setError(String? message) {
     _errorMessage = message;
+    notifyListeners();
+  }
+
+  void setSelectedWallet(Wallet? wallet, {bool? updateAccount = true}) {
+    _selectedWallet = wallet;
+    if (updateAccount == true) _selectedAccount = wallet?.accounts.first;
+    notifyListeners();
+  }
+
+  void setSelectedAccount(String? account) {
+    _selectedAccount = account;
     notifyListeners();
   }
 
@@ -136,6 +154,9 @@ class TurnkeyProvider with ChangeNotifier {
             organizationId: whoami.organizationId,
             wallets: wallets,
           );
+
+          setSelectedWallet(wallets.first);
+          setSelectedAccount(wallets.first.accounts.first);
 
           notifyListeners();
         }
@@ -399,7 +420,6 @@ class TurnkeyProvider with ChangeNotifier {
       appLinks.uriLinkStream.listen((uri) async {
         // Listen for the redirect URI
         if (uri != null) {
-          print(uri.toString());
           String? responseCode = uri.queryParameters['code'];
 
           if (responseCode != null) {
@@ -440,10 +460,11 @@ class TurnkeyProvider with ChangeNotifier {
                 closeInAppWebView();
                 return;
               } else {
-                debugPrint('Failed to exchange authorization code for tokens');
+                throw Exception(
+                    'Failed to exchange authorization code for tokens');
               }
             } else {
-              debugPrint("Error getting token: ${response.body}");
+              throw Exception("Error getting token: ${response.body}");
             }
           }
         }
@@ -458,6 +479,9 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   Future<void> signInWithApple(BuildContext context) async {
+    // Sign in with Apple leverages the sign_in_with_apple flutter package which uses Apple's native "Sign in with Apple" SDK on iOS.
+    setLoading('signInWithApple', true);
+
     try {
       final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
@@ -482,10 +506,12 @@ class TurnkeyProvider with ChangeNotifier {
         await sessionProvider.createSession(oAuthResponse['credentialBundle']);
         return;
       } else {
-        debugPrint('Failed to exchange authorization code for tokens');
+        throw Exception('No credential bundle returned');
       }
     } catch (error) {
       setError(error.toString());
+    } finally {
+      setLoading('signInWithApple', false);
     }
   }
 
@@ -504,7 +530,7 @@ class TurnkeyProvider with ChangeNotifier {
         throw Exception("Client or user not initialized");
       }
 
-      final response = _client!.signRawPayload(
+      final response = await _client!.signRawPayload(
           input: SignRawPayloadRequest(
               type: SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
               timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -516,6 +542,131 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception(error.toString());
     } finally {
       setLoading('signRawPayload', false);
+    }
+  }
+
+  Future<void> createWallet(
+      BuildContext context, CreateWalletIntent parameters) async {
+    setLoading('createWallet', true);
+    setError(null);
+
+    try {
+      if (_client == null || user == null) {
+        throw Exception("Client or user not initialized");
+      }
+
+      final response = await _client!.createWallet(
+          input: CreateWalletRequest(
+              type: CreateWalletRequestType.activityTypeCreateWallet,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId: user!.organizationId,
+              parameters: parameters));
+
+      if (response.activity.result.createWalletResult?.walletId != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Success! Wallet created.')),
+        );
+        _onSessionUpdate();
+      }
+    } catch (error) {
+      setError(error.toString());
+    } finally {
+      setLoading('createWallet', false);
+    }
+  }
+
+  Future<void> importWallet(BuildContext context, String mnemonic,
+      String walletName, List<WalletAccountParams> accounts) async {
+    setLoading('importWallet', true);
+    setError(null);
+
+    try {
+      if (_client == null || user == null) {
+        throw Exception("Client or user not initialized");
+      }
+      final initResponse = await _client!.initImportWallet(
+          input: InitImportWalletRequest(
+              type: InitImportWalletRequestType.activityTypeInitImportWallet,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId: user!.organizationId,
+              parameters: InitImportWalletIntent(userId: user!.id)));
+
+      final importBundle =
+          initResponse.activity.result.initImportWalletResult?.importBundle;
+
+      if (importBundle == null) {
+        throw Exception("Failed to get import bundle");
+      }
+
+      final encryptedBundle = await encryptWalletToBundle(
+        mnemonic: mnemonic,
+        importBundle: importBundle,
+        userId: user!.id,
+        organizationId: user!.organizationId,
+      );
+
+      final response = await _client!.importWallet(
+          input: ImportWalletRequest(
+              type: ImportWalletRequestType.activityTypeImportWallet,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId: user!.organizationId,
+              parameters: ImportWalletIntent(
+                  userId: user!.id,
+                  walletName: walletName,
+                  encryptedBundle: encryptedBundle,
+                  accounts: accounts)));
+
+      if (response.activity.result.importWalletResult?.walletId != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Success! Wallet imported.')),
+        );
+        _onSessionUpdate();
+      }
+    } catch (error) {
+      setError(error.toString());
+    } finally {
+      setLoading('importWallet', false);
+    }
+  }
+
+  Future<String> exportWallet(BuildContext context, String walletId) async {
+    setLoading('exportWallet', true);
+    try {
+      if (_client == null || user == null) {
+        throw Exception("Client or user not initialized");
+      }
+
+      final targetPublicKey = await sessionProvider.createEmbeddedKey();
+
+      final response = await _client!.exportWallet(
+          input: ExportWalletRequest(
+              type: ExportWalletRequestType.activityTypeExportWallet,
+              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+              organizationId: user!.organizationId,
+              parameters: ExportWalletIntent(
+                  walletId: walletId, targetPublicKey: targetPublicKey)));
+      final exportBundle =
+          response.activity.result.exportWalletResult?.exportBundle;
+
+      final embeddedKey = await sessionProvider.getEmbeddedKey();
+      if (exportBundle == null || embeddedKey == null) {
+        throw Exception("Export bundle, embedded key, or user not initialized");
+      }
+
+      final export = await decryptExportBundle(
+          exportBundle: exportBundle,
+          embeddedKey: embeddedKey,
+          organizationId: user!.organizationId,
+          returnMnemonic: true);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Success! Wallet exported.')),
+      );
+      return export;
+    } catch (error) {
+      setError(error.toString());
+      throw Exception(error.toString());
+    } finally {
+      setLoading('exportWallet', false);
     }
   }
 }
