@@ -30,7 +30,6 @@ dependencies:
   app_links: ^6.3.3
   url_launcher: ^6.3.1
   sign_in_with_apple: ^6.1.4
-  flutter_config: ^2.0.2
   jwt_decoder: ^2.0.1
 
 dev_dependencies:

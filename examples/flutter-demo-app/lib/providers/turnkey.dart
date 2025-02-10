@@ -1,15 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:app_links/app_links.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:openid_client/openid_client.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_flutter_demo_app/utils/constants.dart';
-
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:turnkey_http/base.dart';
@@ -19,8 +17,6 @@ import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_http/turnkey_http.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import 'package:http/http.dart' as http;
 import 'package:openid_client/openid_client_io.dart' as openid;
 import 'session.dart';
 
@@ -389,33 +385,29 @@ class TurnkeyProvider with ChangeNotifier {
 
     final clientId = EnvConfig.googleClientId;
     final redirectUri = Uri.parse(
-        '${EnvConfig.googleRedirectScheme}://'); // This is the redirect URI that the OpenID Connect provider will redirect to after the user signs in. This URI must be registered with the OpenID Connect provider.
+        '${EnvConfig.googleRedirectScheme}://'); // This is the redirect URI that the OpenID Connect provider will redirect to after the user signs in. This URI must be registered with the OpenID Connect provider and added to your info.plist and AndroidManifest.xml.
     final List<String> scopes = ['openid', 'email', 'profile'];
 
     final targetPublicKey = await sessionProvider.createEmbeddedKey();
 
     try {
-      final String codeVerifier = generateChallenge();
-
-      var issuer = await openid.Issuer.discover(
-          Uri.parse('https://accounts.google.com/'));
+      var issuer = await openid.Issuer.discover(Issuer.google);
       var client = openid.Client(issuer, clientId);
 
       urlLauncher(String url) async {
         await launchUrlString(url);
       }
 
-      var authenticator = openid.Authenticator.fromFlow(
-          openid.Flow.authorizationCodeWithPKCE(client,
-              scopes: scopes,
-              codeVerifier: codeVerifier,
-              additionalParameters: {
-                "code_challenge_method": "S256",
-                "nonce": sha256.convert(utf8.encode(targetPublicKey)).toString()
-              }),
-          urlLancher: urlLauncher);
+      var authenticator = openid.Authenticator(client,
+          scopes: scopes,
+          urlLancher: urlLauncher,
+          additionalParameters: {
+            "code_challenge_method": "S256",
+            "nonce": sha256.convert(utf8.encode(targetPublicKey)).toString()
+          });
 
-      authenticator.flow.redirectUri = redirectUri;
+      authenticator.flow.redirectUri =
+          redirectUri; // Setting the redirect URI after the authenticator is created will force the OpenID Connect client to use PKCE but still have a correct redirect URI: https://github.com/appsup-dart/openid_client/issues/4#issuecomment-1054165055
 
       appLinks.uriLinkStream.listen((uri) async {
         // Listen for the redirect URI
@@ -423,48 +415,39 @@ class TurnkeyProvider with ChangeNotifier {
           String? responseCode = uri.queryParameters['code'];
 
           if (responseCode != null) {
-            // Exchange the authorization code for tokens using PKCE: https://developers.google.com/identity/protocols/oauth2/native-app#obtainingaccesstokens
-            final response = await http.post(
-              Uri.parse('https://oauth2.googleapis.com/token'),
-              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-              body: {
-                'code': responseCode,
-                'client_id': clientId,
-                'redirect_uri': redirectUri.toString(),
-                'grant_type': 'authorization_code',
-                'code_verifier': codeVerifier,
-              },
-            );
+            final response = await authenticator.flow.callback({
+              // This callback function will exchange the authorization code for tokens using PKCE: https://developers.google.com/identity/protocols/oauth2/native-app#obtainingaccesstokens
+              'code': responseCode,
+              'state': authenticator.flow.state,
+            });
 
-            if (response.statusCode == 200) {
-              final data = json.decode(response.body);
+            final tokenResponse = await response.getTokenResponse();
+            final idToken = tokenResponse.idToken.toCompactSerialization();
+            final userInfo = await response.getUserInfo();
+            final userEmail = userInfo.email;
 
-              final idToken = data['id_token'];
-              final payload = JwtDecoder.decode(idToken);
-              final userEmail = payload[
-                  'email']; // Extract the email from JWT encoded ID token
+            if (idToken == null || userEmail == null) {
+              throw Exception('Failed to get ID token or user email');
+            }
 
-              // Use the ID token to authenticate with Turnkey
-              final oAuthResponse = await oAuthLogin({
-                "email": userEmail,
-                "oidcToken": idToken,
-                "providerName": "Google",
-                "targetPublicKey": targetPublicKey,
-                'expirationSeconds':
-                    OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
-              });
+            // Use the ID token to authenticate with Turnkey
+            final oAuthResponse = await oAuthLogin({
+              "email": userEmail,
+              "oidcToken": idToken,
+              "providerName": "Google",
+              "targetPublicKey": targetPublicKey,
+              'expirationSeconds':
+                  OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
+            });
 
-              if (oAuthResponse['credentialBundle'] != null) {
-                await sessionProvider
-                    .createSession(oAuthResponse['credentialBundle']);
-                closeInAppWebView();
-                return;
-              } else {
-                throw Exception(
-                    'Failed to exchange authorization code for tokens');
-              }
+            if (oAuthResponse['credentialBundle'] != null) {
+              await sessionProvider
+                  .createSession(oAuthResponse['credentialBundle']);
+              closeInAppWebView();
+              return;
             } else {
-              throw Exception("Error getting token: ${response.body}");
+              throw Exception(
+                  'Failed to exchange authorization code for tokens');
             }
           }
         }
