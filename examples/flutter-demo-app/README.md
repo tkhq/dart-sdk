@@ -28,7 +28,7 @@ RP_ID="<YOUR_RP_ID>"                    # This is the relying party ID that host
 
 # GOOGLE AUTH ENV VARIABLES
 GOOGLE_CLIENT_ID="<YOUR_GOOGLE_CLIENT_ID>"
-GOOGLE_REDIRECT_SCHEME="<YOUR_GOOGLE_REDIRECT_SCHEME>"  #This will be configured automatically as a redirect scheme for your app
+GOOGLE_REDIRECT_SCHEME="<YOUR_GOOGLE_REDIRECT_SCHEME>"
 
 #NODE SERVER ENV VARIABLES (Only used for the Node server in /api-server)
 TURNKEY_API_PUBLIC_KEY="<YOUR_TURNKEY_API_PUBLIC_KEY>"
@@ -89,7 +89,38 @@ Add your Google client id and redirect scheme to your .env file. These can be re
 
 ```python
 GOOGLE_CLIENT_ID="<YOUR_GOOGLE_CLIENT_ID>"
-GOOGLE_REDIRECT_SCHEME="<YOUR_GOOGLE_REDIRECT_SCHEME>"  #This will be configured automatically as a redirect scheme for your app
+GOOGLE_REDIRECT_SCHEME="<YOUR_GOOGLE_REDIRECT_SCHEME>"
+```
+
+Update your [info.plist](ios/Runner/Info.plist) file to add your redirect scheme on iOS:
+
+_Replace com.googleusercontent.apps.1234567890-abcdef with your actual redirect scheme_
+
+```html
+<array>
+  <dict>
+    <key>CFBundleURLName</key>
+    <string>com.googleusercontent.apps.1234567890-abcdef</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>com.googleusercontent.apps.1234567890-abcdef</string>
+    </array>
+  </dict>
+</array>
+```
+
+Update your main [AndroidManifest.xml](android/app/src/main/AndroidManifest.xml) to include this scheme as well:
+
+```html
+<intent-filter>
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data
+    android:scheme="com.googleusercontent.apps.1234567890-abcdef"
+    android:host=""
+  />
+</intent-filter>
 ```
 
 ### Sign in with Apple
