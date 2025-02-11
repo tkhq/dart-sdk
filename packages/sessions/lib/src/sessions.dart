@@ -78,7 +78,7 @@ class SessionProvider with ChangeNotifier {
 
   /// Retrieves the embedded private key from secure storage.
   ///
-  /// If [deleteKey] is true, the key will be deleted after retrieval.
+  /// If [deleteKey] is true (default), the key will be deleted after retrieval.
   Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
     final key =
         await _secureStorage.read(key: StorageKey.embeddedKey.toString());
@@ -91,7 +91,7 @@ class SessionProvider with ChangeNotifier {
   /// Creates a session using the provided credential bundle.
   ///
   /// [expirySeconds] specifies the session expiry time in seconds.
-  /// If [notifyListeners] is true, listeners will be notified of changes.
+  /// If [notifyListeners] is true (default), listeners will be notified of changes.
   ///
   /// Returns the created session.
   Future<Session> createSession(String bundle,
@@ -128,7 +128,7 @@ class SessionProvider with ChangeNotifier {
 
   /// Saves the session to secure storage.
   ///
-  /// If [notifyListeners] is true, listeners will be notified of changes.
+  /// If [notifyListeners] is true (default), listeners will be notified of changes.
   Future<void> _saveSession(Session session,
       {bool notifyListeners = true}) async {
     _session = session;
@@ -142,7 +142,7 @@ class SessionProvider with ChangeNotifier {
 
   /// Clears the current session from secure storage.
   ///
-  /// If [notifyListeners] is true, listeners will be notified of changes.
+  /// If [notifyListeners] is true (default), listeners will be notified of changes.
   Future<void> clearSession({bool notifyListeners = true}) async {
     _session = null;
     if (notifyListeners) {
@@ -153,7 +153,7 @@ class SessionProvider with ChangeNotifier {
 
   /// Checks if there is a valid session in secure storage.
   ///
-  /// If a valid session is found, it is loaded and listeners are notified if [notifyListeners] is true.
+  /// If a valid session is found, it is loaded and listeners are notified if [notifyListeners] is true (default).
   Future<void> checkSession({bool notifyListeners = true}) async {
     final session = await getSession();
 
