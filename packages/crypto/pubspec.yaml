@@ -2,7 +2,7 @@ name: turnkey_crypto
 description: |
   This package consolidates some common cryptographic utilities used across our applications, 
   particularly primitives related to keys, encryption, and decryption in a pure Dart implementation.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/tkhq/dart-sdk
 
 environment:

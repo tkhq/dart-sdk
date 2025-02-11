@@ -1,3 +1,7 @@
+## 0.1.1
+
+ - Exposed generateP256KeyPair function
+
 # Changelog
 
 ## 0.1.0 - Initial Release
