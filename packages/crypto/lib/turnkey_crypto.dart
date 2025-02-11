@@ -6,4 +6,4 @@ export 'src/turnkey.dart'
         decryptExportBundle,
         encryptPrivateKeyToBundle,
         encryptWalletToBundle;
-export 'src/crypto.dart' show getPublicKey;
+export 'src/crypto.dart' show getPublicKey, generateP256KeyPair;
