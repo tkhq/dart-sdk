@@ -16,11 +16,14 @@ dependencies:
   pinput: ^5.0.1
   flutter_svg: ^1.0.3
   http: ^1.3.0
-  turnkey_crypto: ^0.1.0
+  turnkey_crypto:
+    path: ../../packages/crypto
   turnkey_encoding: ^0.1.0
   turnkey_flutter_passkey_stamper: ^0.1.0
   turnkey_api_key_stamper: ^0.1.0
   turnkey_http: ^0.1.1
+  turnkey_sessions:
+    path: ../../packages/sessions
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
   elliptic: ^0.3.11

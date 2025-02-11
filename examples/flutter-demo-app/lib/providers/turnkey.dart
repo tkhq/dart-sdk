@@ -15,10 +15,10 @@ import 'package:turnkey_flutter_demo_app/config.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_http/turnkey_http.dart';
+import 'package:turnkey_sessions/turnkey_sessions.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:openid_client/openid_client_io.dart' as openid;
-import 'session.dart';
 
 class User {
   final String id;

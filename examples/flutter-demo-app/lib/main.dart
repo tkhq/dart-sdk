@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/login.dart';
+import 'package:turnkey_sessions/turnkey_sessions.dart';
 import 'config.dart';
-import 'providers/session.dart';
 import 'providers/turnkey.dart';
 import 'screens/dashboard.dart';
 
