@@ -4,6 +4,5 @@ packages:
 
 command:
   version:
-    branch: main # Enforces versioning only on the `main` branch
     workspaceChangelog: true # Generates a single workspace changelog
     updateGitTagRefs: true # Tags commits with version numbers
