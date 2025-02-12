@@ -2,6 +2,9 @@
 
 This demo app leverages Turnkey's Dart/Flutter packages to demonstrate how they can be used to create a fully functional application. It includes a simple Node.js backend API server to facilitate server-side operations.
 
+## Demo
+https://github.com/user-attachments/assets/3d583ed8-1eff-4101-ae43-3c76c655e635
+
 ## Prerequisites
 
 _Note: version numbers are approximated. Older or newer versions may or may not work correctly._
