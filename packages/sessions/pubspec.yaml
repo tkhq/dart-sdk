@@ -1,6 +1,6 @@
 name: turnkey_sessions
 description: A Dart package for managing sessions in secure storage
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
