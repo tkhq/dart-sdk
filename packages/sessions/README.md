@@ -113,4 +113,38 @@ Future<void> loginWithPasskey(BuildContext context) async {
 }
 ```
 
+Here's an example of auto login and logout functionality. This is done by adding a listener to the SessionProvider. Listeners will be notified when the session is created or expired.
+
+```dart
+// login_screen.dart
+
+void autoLogin() {
+  if (sessionProvider.session != null &&
+      sessionProvider.session!.expiry >
+          DateTime.now().millisecondsSinceEpoch) {
+
+    Navigator.pushReplacementNamed(context, '/dashboard');
+
+    print('Logged in! Redirecting to the dashboard.');
+  }
+}
+
+sessionProvider.addListener(autoLogin);
+
+// dashboard_screen.dart
+
+void autoLogout() async {
+  if (sessionProvider.session == null ||
+      sessionProvider.session!.expiry <=
+          DateTime.now().millisecondsSinceEpoch) {
+
+    Navigator.pushReplacementNamed(context, '/login');
+
+    print('Session expired. Please log in again.');
+  }
+}
+
+sessionProvider.addListener(autoLogout);
+```
+
 For more code references, take a look at [this file](../../examples/flutter-demo-app/lib/providers/turnkey.dart) from our Flutter demo app.
