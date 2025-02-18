@@ -500,7 +500,6 @@ class TurnkeyProvider with ChangeNotifier {
 
   Future<void> logout(BuildContext context) async {
     await sessionProvider.clearSession();
-    Navigator.pushReplacementNamed(context, '/');
   }
 
   Future<ActivityResponse> signRawPayload(

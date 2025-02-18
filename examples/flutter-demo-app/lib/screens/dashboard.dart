@@ -7,6 +7,7 @@ import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.sw
 import 'package:turnkey_flutter_demo_app/providers/turnkey.dart';
 import 'package:turnkey_flutter_demo_app/providers/turnkey.dart' as tk;
 import 'package:crypto/crypto.dart';
+import 'package:turnkey_sessions/turnkey_sessions.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -113,6 +114,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final signMessage = "I love Turnkey";
+    final sessionProvider =
+        Provider.of<SessionProvider>(context, listen: false);
+
+    void autoLogout() async {
+      if (sessionProvider.session == null ||
+          sessionProvider.session!.expiry <=
+              DateTime.now().millisecondsSinceEpoch) {
+        Navigator.pushReplacementNamed(context, '/');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Logged out. Please login again.'),
+          ),
+        );
+      }
+    }
+
+    sessionProvider.addListener(autoLogout);
 
     return Scaffold(
       appBar: AppBar(
