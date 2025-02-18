@@ -1,11 +1,10 @@
 ## 0.1.2
 
- - **FEAT**: Listeners notified when session expires (turnkey_sessions).
- - **DOCS**: Added auto login / logout example to README.
+- **DOCS**: Added auto login / logout example to README.
 
 ## 0.1.1
 
- - **FEAT**: Listeners notified when session expires (turnkey_sessions).
+- **FEAT**: Listeners notified when session expires (turnkey_sessions).
 
 ## 0.1.0 - Initial Release
 

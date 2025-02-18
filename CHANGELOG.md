@@ -11,19 +11,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
+- There are no breaking changes in this release.
 
 Packages with other changes:
 
- - [`turnkey_sessions` - `v0.1.2`](#turnkey_sessions---v012)
+- [`turnkey_sessions` - `v0.1.2`](#turnkey_sessions---v012)
 
 ---
 
 #### `turnkey_sessions` - `v0.1.2`
 
- - **FEAT**: Listeners notified when session expires (turnkey_sessions).
- - **DOCS**: Added auto login / logout example to README.
-
+- **DOCS**: Added auto login / logout example to README.
 
 ## 2025-02-18
 
@@ -33,18 +31,17 @@ Packages with other changes:
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
+- There are no breaking changes in this release.
 
 Packages with other changes:
 
- - [`turnkey_sessions` - `v0.1.1`](#turnkey_sessions---v011)
+- [`turnkey_sessions` - `v0.1.1`](#turnkey_sessions---v011)
 
 ---
 
 #### `turnkey_sessions` - `v0.1.1`
 
- - **FEAT**: Listeners notified when session expires (turnkey_sessions).
-
+- **FEAT**: Listeners notified when session expires (turnkey_sessions).
 
 ## 2025-02-11
 
@@ -54,17 +51,16 @@ Packages with other changes:
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
+- There are no breaking changes in this release.
 
 Packages with other changes:
 
- - [`turnkey_sessions` - `v0.1.0`](#turnkey_sessions---v010)
+- [`turnkey_sessions` - `v0.1.0`](#turnkey_sessions---v010)
 
 ---
 
 #### `turnkey_sessions` - `v0.1.0`
 
-
 ## 2025-02-11
 
 ### Changes
@@ -73,15 +69,14 @@ Packages with other changes:
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
+- There are no breaking changes in this release.
 
 Packages with other changes:
 
- - [`turnkey_crypto` - `v0.1.1`](#turnkey_crypto---v011)
+- [`turnkey_crypto` - `v0.1.1`](#turnkey_crypto---v011)
 
 ---
 
 #### `turnkey_crypto` - `v0.1.1`
 
- - Exposed generateP256KeyPair function
-
+- Exposed generateP256KeyPair function
