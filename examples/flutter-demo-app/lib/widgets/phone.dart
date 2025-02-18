@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+// ignore: implementation_imports
+import 'package:intl_phone_number_input/src/models/country_list.dart';
 
 import '../providers/turnkey.dart';
 import 'buttons.dart';
-
-class Country {
-  final String name;
-  final String flag;
-  final String code;
-
-  Country({required this.name, required this.flag, required this.code});
-}
 
 class PhoneNumberInput extends StatefulWidget {
   const PhoneNumberInput({super.key});
@@ -20,14 +15,30 @@ class PhoneNumberInput extends StatefulWidget {
 }
 
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
-  static final List<Country> _countries = [
-    Country(name: 'United States', flag: '🇺🇸', code: '+1'),
-    Country(name: 'Canada', flag: '🇨🇦', code: '+1'),
+  PhoneNumber initialNumber = PhoneNumber(isoCode: 'US');
+  PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
+
+  final unsupportedCountryCodes = [
+    "+93", // Afghanistan
+    "+964", // Iraq
+    "+963", // Syria
+    "+249", // Sudan
+    "+98", // Iran
+    "+850", // North Korea
+    "+53", // Cuba
+    "+250", // Rwanda
+    "+379", // Vatican City
   ];
 
-  Country _selectedCountry = _countries[0];
-
-  final TextEditingController _phoneInputController = TextEditingController();
+  List<String> getAllowedCountryCodes() {
+    return Countries.countryList
+        .where((country) =>
+            country['dial_code'] != null &&
+            country['alpha_2_code'] != null &&
+            !unsupportedCountryCodes.contains(country['dial_code']))
+        .map((country) => country['alpha_2_code'] as String)
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,35 +53,25 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
             ),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              DropdownButton<Country>(
-                value: _selectedCountry,
-                items: _countries.map((Country country) {
-                  return DropdownMenuItem<Country>(
-                    value: country,
-                    child: Text('${country.flag} ${country.code}'),
-                  );
-                }).toList(),
-                onChanged: (Country? newValue) {
-                  setState(() {
-                    _selectedCountry = newValue!;
-                  });
-                },
-              ),
-              Expanded(
-                child: TextField(
-                  controller: _phoneInputController,
-                  decoration: InputDecoration(
-                    hintText: 'Phone number',
-                    border: InputBorder.none,
-                  ),
-                  keyboardType: TextInputType.phone,
-                ),
-              ),
-            ],
+          child: InternationalPhoneNumberInput(
+            textAlignVertical: TextAlignVertical.top,
+            onInputChanged: (PhoneNumber number) {
+              setState(() {
+                _phoneNumber = number;
+              });
+            },
+            initialValue: initialNumber,
+            selectorConfig: SelectorConfig(
+              trailingSpace: false,
+              selectorType: PhoneInputSelectorType.DIALOG,
+            ),
+            formatInput: true,
+            countries: getAllowedCountryCodes(),
+            inputDecoration: InputDecoration(
+              hintText: 'Phone number',
+              border: InputBorder.none,
+            ),
+            keyboardType: TextInputType.phone,
           ),
         ),
         SizedBox(height: 20),
@@ -81,10 +82,10 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
               return LoadingButton(
                 isLoading: turnkeyProvider.isLoading('initPhoneLogin'),
                 onPressed: () async {
-                  final phoneNumber =
-                      '${_selectedCountry.code} ${_phoneInputController.text}';
-                  if (phoneNumber.isNotEmpty) {
-                    await turnkeyProvider.initPhoneLogin(context, phoneNumber);
+                  if (_phoneNumber.phoneNumber != null &&
+                      _phoneNumber.phoneNumber!.isNotEmpty) {
+                    await turnkeyProvider.initPhoneLogin(
+                        context, _phoneNumber.phoneNumber!);
                   } else {
                     // Show an error message if phone number box is empty
                     ScaffoldMessenger.of(context).showSnackBar(
