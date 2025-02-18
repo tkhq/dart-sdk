@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:country_code_picker/country_code_picker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+// ignore: implementation_imports
+import 'package:intl_phone_number_input/src/models/country_list.dart';
 
 import '../providers/turnkey.dart';
 import 'buttons.dart';
@@ -13,8 +15,8 @@ class PhoneNumberInput extends StatefulWidget {
 }
 
 class _PhoneNumberInputState extends State<PhoneNumberInput> {
-  final TextEditingController _phoneInputController = TextEditingController();
-  String _selectedCountryCode = '+1';
+  PhoneNumber initialNumber = PhoneNumber(isoCode: 'US');
+  PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
 
   final unsupportedCountryCodes = [
     "+93", // Afghanistan
@@ -28,18 +30,14 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
     "+379", // Vatican City
   ];
 
-  List<Map<String, String>> getAllowedCountries() {
-    return codes
+  List<String> getAllowedCountryCodes() {
+    return Countries.countryList
         .where((country) =>
+            country['dial_code'] != null &&
+            country['alpha_2_code'] != null &&
             !unsupportedCountryCodes.contains(country['dial_code']))
+        .map((country) => country['alpha_2_code'] as String)
         .toList();
-  }
-
-  String formatPhoneNumber(String phoneNumber) {
-    if (phoneNumber.length == 10 && !phoneNumber.contains(RegExp(r'[()-]'))) {
-      return '(${phoneNumber.substring(0, 3)}) ${phoneNumber.substring(3, 6)}-${phoneNumber.substring(6)}';
-    }
-    return phoneNumber;
   }
 
   @override
@@ -55,49 +53,25 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
             ),
             borderRadius: BorderRadius.circular(4),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              CountryCodePicker(
-                onChanged: (country) {
-                  setState(() {
-                    _selectedCountryCode = country.dialCode!;
-                  });
-                },
-                padding: EdgeInsets.zero,
-                pickerStyle: PickerStyle.dialog,
-                boxDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                initialSelection: 'US',
-                favorite: ['US', 'CA'],
-                showCountryOnly: false,
-                showOnlyCountryWhenClosed: false,
-                countryFilter: getAllowedCountries()
-                    .map((country) => country['code']!)
-                    .toList(),
-              ),
-              Expanded(
-                child: TextField(
-                  controller: _phoneInputController,
-                  decoration: InputDecoration(
-                    hintText: 'Phone number',
-                    border: InputBorder.none,
-                  ),
-                  keyboardType: TextInputType.phone,
-                  onChanged: (value) {
-                    setState(() {
-                      _phoneInputController.text = formatPhoneNumber(value);
-                      _phoneInputController.selection =
-                          TextSelection.fromPosition(
-                        TextPosition(offset: _phoneInputController.text.length),
-                      );
-                    });
-                  },
-                ),
-              ),
-            ],
+          child: InternationalPhoneNumberInput(
+            textAlignVertical: TextAlignVertical.top,
+            onInputChanged: (PhoneNumber number) {
+              setState(() {
+                _phoneNumber = number;
+              });
+            },
+            initialValue: initialNumber,
+            selectorConfig: SelectorConfig(
+              trailingSpace: false,
+              selectorType: PhoneInputSelectorType.DIALOG,
+            ),
+            formatInput: true,
+            countries: getAllowedCountryCodes(),
+            inputDecoration: InputDecoration(
+              hintText: 'Phone number',
+              border: InputBorder.none,
+            ),
+            keyboardType: TextInputType.phone,
           ),
         ),
         SizedBox(height: 20),
@@ -108,10 +82,10 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
               return LoadingButton(
                 isLoading: turnkeyProvider.isLoading('initPhoneLogin'),
                 onPressed: () async {
-                  final phoneNumber =
-                      '$_selectedCountryCode ${_phoneInputController.text}';
-                  if (_phoneInputController.text.isNotEmpty) {
-                    await turnkeyProvider.initPhoneLogin(context, phoneNumber);
+                  if (_phoneNumber.phoneNumber != null &&
+                      _phoneNumber.phoneNumber!.isNotEmpty) {
+                    await turnkeyProvider.initPhoneLogin(
+                        context, _phoneNumber.phoneNumber!);
                   } else {
                     // Show an error message if phone number box is empty
                     ScaffoldMessenger.of(context).showSnackBar(
