@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -43,6 +44,7 @@ class Session {
 class SessionProvider with ChangeNotifier {
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
   Session? _session;
+  Timer? _expiryTimer;
 
   /// Gets the current session.
   Session? get session => _session;
@@ -138,6 +140,7 @@ class SessionProvider with ChangeNotifier {
     await _secureStorage.write(
         key: StorageKey.session.toString(),
         value: jsonEncode(session.toJson()));
+    _startExpiryTimer(session.expiry);
   }
 
   /// Clears the current session from secure storage.
@@ -149,6 +152,7 @@ class SessionProvider with ChangeNotifier {
       this.notifyListeners();
     }
     await _secureStorage.delete(key: StorageKey.session.toString());
+    _expiryTimer?.cancel();
   }
 
   /// Checks if there is a valid session in secure storage.
@@ -160,10 +164,23 @@ class SessionProvider with ChangeNotifier {
     if (session?.expiry != null &&
         session!.expiry > DateTime.now().millisecondsSinceEpoch) {
       _session = session;
+      _startExpiryTimer(session.expiry);
 
       if (notifyListeners) {
         this.notifyListeners();
       }
     }
+  }
+
+  /// Starts a timer to notify listeners when the session expires.
+  void _startExpiryTimer(int expiry) {
+    final duration =
+        Duration(milliseconds: expiry - DateTime.now().millisecondsSinceEpoch);
+    _expiryTimer?.cancel();
+    _expiryTimer = Timer(duration, () {
+      _session = null;
+      debugPrint('Turnkey session expired. Listeners will be notified.');
+      notifyListeners();
+    });
   }
 }
