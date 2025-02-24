@@ -2,12 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:turnkey_flutter_demo_app/utils/constants.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
-import 'package:turnkey_flutter_demo_app/providers/turnkey.dart';
-import 'package:turnkey_flutter_demo_app/providers/turnkey.dart' as tk;
 import 'package:crypto/crypto.dart';
-import 'package:turnkey_sessions/turnkey_sessions.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+// ignore: implementation_imports
+import 'package:turnkey_sdk_flutter/src/types.dart' as tk;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -16,9 +15,13 @@ class DashboardScreen extends StatefulWidget {
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
+//TODO: TRY CATCH
+
 class _DashboardScreenState extends State<DashboardScreen> {
   String? _signature;
   String? _exportedWallet;
+  tk.Wallet? _selectedWallet;
+  String? _selectedAccount;
 
   Future<void> handleSign(BuildContext context, String messageToSign,
       String account, Function onStateUpdated) async {
@@ -114,12 +117,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final signMessage = "I love Turnkey";
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
 
     void autoLogout() async {
-      if (sessionProvider.session == null ||
-          sessionProvider.session!.expiry <=
+      if (turnkeyProvider.session == null ||
+          turnkeyProvider.session!.expiry <=
               DateTime.now().millisecondsSinceEpoch) {
         Navigator.pushReplacementNamed(context, '/');
 
@@ -131,7 +134,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       }
     }
 
-    sessionProvider.addListener(autoLogout);
+    void updateSelectedWallet() {
+      if (turnkeyProvider.user != null &&
+          turnkeyProvider.user!.wallets.isNotEmpty) {
+        setState(() {
+          _selectedWallet = turnkeyProvider.user!.wallets[0];
+        });
+        setState(() {
+          _selectedAccount = turnkeyProvider.user!.wallets[0].accounts[0];
+        });
+      }
+    }
+
+    turnkeyProvider.sessionProvider.addListener(autoLogout);
+    turnkeyProvider.addListener(updateSelectedWallet);
 
     return Scaffold(
       appBar: AppBar(
@@ -150,32 +166,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Center(
         child: Consumer<TurnkeyProvider>(
           builder: (context, turnkeyProvider, child) {
-            void showTurnkeyProviderErrors() {
-              if (turnkeyProvider.errorMessage != null) {
-                debugPrint(turnkeyProvider.errorMessage.toString());
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                        'An error has occurred: \n${turnkeyProvider.errorMessage.toString()}'),
-                  ),
-                );
-
-                turnkeyProvider.setError(null);
-              }
-            }
-
-            turnkeyProvider.addListener(showTurnkeyProviderErrors);
-
             final user = turnkeyProvider.user;
             final userName =
                 (user?.userName != null && user!.userName!.isNotEmpty)
                     ? user.userName
                     : 'User';
-            final selectedWallet =
-                turnkeyProvider.selectedWallet ?? user?.wallets[0];
-            final walletAccounts = selectedWallet?.accounts;
-            final selectedAccount =
-                turnkeyProvider.selectedAccount ?? walletAccounts?.first;
+
+            final walletAccounts = _selectedWallet?.accounts;
 
             return Padding(
               padding: EdgeInsets.all(24),
@@ -228,8 +225,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 PopupMenuButton<tk.Wallet>(
                                   onSelected: (wallet) {
-                                    turnkeyProvider.setSelectedWallet(wallet);
-                                    ;
+                                    setState(() {
+                                      _selectedWallet = wallet;
+                                      _selectedAccount = wallet.accounts[0];
+                                    });
                                   },
                                   itemBuilder: (BuildContext context) {
                                     List<PopupMenuEntry<tk.Wallet>> items = [];
@@ -266,7 +265,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        selectedWallet?.name ?? 'Wallet',
+                                        _selectedWallet?.name ?? 'Wallet',
                                         style: TextStyle(
                                           fontSize: 18,
                                         ),
@@ -286,7 +285,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 fontSize: 20,
                                                 color: Colors.black),
                                             title: Text(
-                                                'Export: ${selectedWallet?.name ?? 'wallet'}?'),
+                                                'Export: ${_selectedWallet?.name ?? 'wallet'}?'),
                                             content: Text(
                                               'Your seed phrase will be exposed to the screen.',
                                             ),
@@ -299,8 +298,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  handleExportWallet(
-                                                      context, selectedWallet!);
+                                                  handleExportWallet(context,
+                                                      _selectedWallet!);
                                                 },
                                                 child: Text('Yes'),
                                               ),
@@ -335,10 +334,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               title: Text(
                                   '${account.substring(0, 6)}...${account.substring(account.length - 6)}'),
                               onChanged: (String? value) {
-                                turnkeyProvider.setSelectedAccount(value);
+                                setState(() {
+                                  _selectedAccount = value;
+                                });
                               },
                               value: account,
-                              groupValue: selectedAccount,
+                              groupValue: _selectedAccount,
                             );
                           }),
                         ],
@@ -391,7 +392,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   TextButton(
                                     onPressed: () async {
                                       await handleSign(context, signMessage,
-                                          selectedAccount!, setState);
+                                          _selectedAccount!, setState);
                                     },
                                     child: Text('Sign'),
                                   ),

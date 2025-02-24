@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/turnkey.dart';
+import '../providers/auth.dart';
 import 'buttons.dart';
 
 class OAuthButtons extends StatelessWidget {
@@ -14,13 +14,13 @@ class OAuthButtons extends StatelessWidget {
       spacing: 20,
       children: <Widget>[
         Expanded(
-          child: Consumer<TurnkeyProvider>(
-            builder: (context, turnkeyProvider, child) {
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
               return LoadingButton(
                 onPressed: () {
-                  turnkeyProvider.signInWithGoogle(context);
+                  authRelayerProvider.signInWithGoogle(context);
                 },
-                isLoading: turnkeyProvider.isLoading('signInWithGoogle'),
+                isLoading: authRelayerProvider.isLoading('signInWithGoogle'),
                 child: SvgPicture.asset(
                   'assets/images/google.svg',
                   height: 20,
@@ -30,13 +30,13 @@ class OAuthButtons extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Consumer<TurnkeyProvider>(
-            builder: (context, turnkeyProvider, child) {
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
               return LoadingButton(
                 onPressed: () {
-                  turnkeyProvider.signInWithApple(context);
+                  authRelayerProvider.signInWithApple(context);
                 },
-                isLoading: turnkeyProvider.isLoading('signInWithApple'),
+                isLoading: authRelayerProvider.isLoading('signInWithApple'),
                 child: SvgPicture.asset(
                   'assets/images/apple.svg',
                   height: 20,

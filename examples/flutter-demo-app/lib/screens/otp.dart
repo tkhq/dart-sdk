@@ -4,7 +4,7 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/widgets/buttons.dart';
 
-import '../providers/turnkey.dart';
+import '../providers/auth.dart';
 
 class OTPScreen extends StatelessWidget {
   final String otpType;
@@ -86,7 +86,7 @@ class OTPScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 20),
-                        Expanded(child: Consumer<TurnkeyProvider>(
+                        Expanded(child: Consumer<AuthRelayerProvider>(
                             builder: (context, turnkeyProvider, child) {
                           return LoadingButton(
                             style: ElevatedButton.styleFrom(
@@ -99,7 +99,7 @@ class OTPScreen extends StatelessWidget {
                               final otpCode = otpController.text;
                               if (otpCode.isNotEmpty) {
                                 final turnkeyProvider =
-                                    Provider.of<TurnkeyProvider>(context,
+                                    Provider.of<AuthRelayerProvider>(context,
                                         listen: false);
                                 if (otpType == 'OTP_TYPE_EMAIL') {
                                   await turnkeyProvider.completeEmailAuth(

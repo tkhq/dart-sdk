@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/login.dart';
-import 'package:turnkey_sessions/turnkey_sessions.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'config.dart';
-import 'providers/turnkey.dart';
+import 'providers/auth.dart';
 import 'screens/dashboard.dart';
 
 void main() async {
@@ -12,16 +12,20 @@ void main() async {
   await loadEnv();
 
   runApp(
-    // TurnkeyProvider depends on SessionProvider, so we need to provide it first
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SessionProvider()),
-        ChangeNotifierProxyProvider<SessionProvider, TurnkeyProvider>(
-          create: (context) => TurnkeyProvider(
-              sessionProvider:
-                  Provider.of<SessionProvider>(context, listen: false)),
-          update: (context, sessionProvider, previous) =>
-              TurnkeyProvider(sessionProvider: sessionProvider),
+        ChangeNotifierProvider(
+            create: (context) => TurnkeyProvider(
+                config: TurnkeyConfig(
+                    apiBaseUrl: EnvConfig.turnkeyApiUrl,
+                    organizationId: EnvConfig.organizationId))),
+        ChangeNotifierProxyProvider<TurnkeyProvider, AuthRelayerProvider>(
+          //TODO: Can this be simplified? Add commments
+          create: (context) => AuthRelayerProvider(
+              turnkeyProvider:
+                  Provider.of<TurnkeyProvider>(context, listen: false)),
+          update: (context, turnkeyProvider, previous) =>
+              AuthRelayerProvider(turnkeyProvider: turnkeyProvider),
         ),
       ],
       child: MyApp(),
@@ -56,27 +60,27 @@ class HomePage extends StatelessWidget {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
 
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
+    final authRelayerProvider =
+        Provider.of<AuthRelayerProvider>(context, listen: false);
 
     // These two functions have to be here instead of their respective classes because they rely on the context
-    void showTurnkeyProviderErrors() {
-      if (turnkeyProvider.errorMessage != null) {
-        debugPrint(turnkeyProvider.errorMessage.toString());
+    void showAuthRelayerProviderErrors() {
+      if (authRelayerProvider.errorMessage != null) {
+        debugPrint(authRelayerProvider.errorMessage.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'An error has occurred: \n${turnkeyProvider.errorMessage.toString()}'),
+                'An error has occurred: \n${authRelayerProvider.errorMessage.toString()}'),
           ),
         );
 
-        turnkeyProvider.setError(null);
+        authRelayerProvider.setError(null);
       }
     }
 
     void autoLogin() {
-      if (sessionProvider.session != null &&
-          sessionProvider.session!.expiry >
+      if (turnkeyProvider.session != null &&
+          turnkeyProvider.session!.expiry >
               DateTime.now().millisecondsSinceEpoch) {
         Navigator.pushReplacement(
           context,
@@ -91,8 +95,8 @@ class HomePage extends StatelessWidget {
       }
     }
 
-    turnkeyProvider.addListener(showTurnkeyProviderErrors);
-    sessionProvider.addListener(autoLogin);
+    turnkeyProvider.sessionProvider.addListener(autoLogin);
+    authRelayerProvider.addListener(showAuthRelayerProviderErrors);
 
     return Scaffold(
         appBar: AppBar(

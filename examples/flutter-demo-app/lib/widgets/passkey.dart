@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/widgets/buttons.dart';
 
-import '../providers/turnkey.dart';
+import '../providers/auth.dart';
 
 class PasskeyInput extends StatelessWidget {
   const PasskeyInput({super.key});
@@ -13,23 +13,23 @@ class PasskeyInput extends StatelessWidget {
       children: <Widget>[
         SizedBox(
           width: double.infinity,
-          child: Consumer<TurnkeyProvider>(
-            builder: (context, turnkeyProvider, child) {
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
               return LoadingButton(
                 onPressed: () {
-                  if (!turnkeyProvider.isLoading('loginWithPasskey')) {
-                    turnkeyProvider.loginWithPasskey(context);
+                  if (!authRelayerProvider.isLoading('loginWithPasskey')) {
+                    authRelayerProvider.loginWithPasskey(context);
                   }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6), // Rectangular shape
+                    borderRadius: BorderRadius.circular(6),
                     side: BorderSide(color: Colors.black, width: 0.5),
                   ),
                 ),
-                isLoading: turnkeyProvider.isLoading('loginWithPasskey'),
+                isLoading: authRelayerProvider.isLoading('loginWithPasskey'),
                 text: 'Log in with passkey',
               );
             },
@@ -38,21 +38,21 @@ class PasskeyInput extends StatelessWidget {
         SizedBox(height: 10),
         SizedBox(
           width: double.infinity,
-          child: Consumer<TurnkeyProvider>(
-            builder: (context, turnkeyProvider, child) {
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
               return LoadingButton(
                 onPressed: () {
-                  if (!turnkeyProvider.isLoading('signUpWithPasskey')) {
-                    turnkeyProvider.signUpWithPasskey(context);
+                  if (!authRelayerProvider.isLoading('signUpWithPasskey')) {
+                    authRelayerProvider.signUpWithPasskey(context);
                   }
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6), // Rectangular shape
+                    borderRadius: BorderRadius.circular(6),
                   ),
                 ),
-                isLoading: turnkeyProvider.isLoading('signUpWithPasskey'),
+                isLoading: authRelayerProvider.isLoading('signUpWithPasskey'),
                 text: 'Sign up with passkey',
               );
             },

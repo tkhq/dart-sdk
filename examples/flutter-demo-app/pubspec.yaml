@@ -22,6 +22,8 @@ dependencies:
   turnkey_api_key_stamper: ^0.1.0
   turnkey_http: ^0.1.1
   turnkey_sessions: ^0.1.2
+  turnkey_sdk_flutter:
+    path: ../../packages/sdk-flutter
   flutter_secure_storage: ^9.2.4
   provider: ^6.1.2
   flutter_dotenv: ^5.2.1

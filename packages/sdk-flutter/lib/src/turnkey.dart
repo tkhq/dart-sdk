@@ -9,178 +9,150 @@ import 'package:turnkey_http/turnkey_http.dart';
 import 'package:turnkey_sdk_flutter/src/types.dart';
 import 'package:turnkey_sessions/turnkey_sessions.dart';
 
+//TODO: Parity with react-native. Add rest of functions and make more general
 class TurnkeyProvider with ChangeNotifier {
-  final Map<String, bool> _loading = {};
-  String? _errorMessage;
   User? _user;
-  Wallet? _selectedWallet;
-  String? _selectedAccount;
   TurnkeyClient? _client;
 
-  final SessionProvider sessionProvider;
   final TurnkeyConfig config;
+  final SessionProvider _sessionProvider = SessionProvider();
 
-  TurnkeyProvider({required this.sessionProvider, required this.config}) {
-    sessionProvider.addListener(_onSessionUpdate);
-    _onSessionUpdate();
+  TurnkeyProvider({required this.config}) {
+    _sessionProvider.addListener(_onSessionUpdate);
   }
 
-  bool isLoading(String key) => _loading[key] ?? false;
-  String? get errorMessage => _errorMessage;
   User? get user => _user;
-  Wallet? get selectedWallet => _selectedWallet;
-  String? get selectedAccount => _selectedAccount;
+  SessionProvider get sessionProvider => this._sessionProvider;
+  Session? get session => this._sessionProvider.session;
 
-  void setLoading(String key, bool loading) {
-    _loading[key] = loading;
-    notifyListeners();
+  // Exposing SessionProvider functions.
+  // TODO: Maybe we shouldnt do this. Hard to update :(
+  Future<String> createEmbeddedKey() async {
+    return await _sessionProvider.createEmbeddedKey();
   }
 
-  void setError(String? message) {
-    _errorMessage = message;
-    notifyListeners();
+  Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
+    return await _sessionProvider.getEmbeddedKey(deleteKey: deleteKey);
   }
 
-  void setSelectedWallet(Wallet? wallet, {bool? updateAccount = true}) {
-    _selectedWallet = wallet;
-    if (updateAccount == true) _selectedAccount = wallet?.accounts.first;
-    notifyListeners();
+  Future<Session> createSession(String bundle,
+      {int expirySeconds = 900, bool notifyListeners = true}) async {
+    return await _sessionProvider.createSession(bundle,
+        expirySeconds: expirySeconds, notifyListeners: notifyListeners);
   }
 
-  void setSelectedAccount(String? account) {
-    _selectedAccount = account;
-    notifyListeners();
+  Future<Session?> getSession() async {
+    return await _sessionProvider.getSession();
+  }
+
+  Future<void> clearSession({bool notifyListeners = true}) async {
+    return await _sessionProvider.clearSession(
+        notifyListeners: notifyListeners);
+  }
+
+  Future<void> checkSession({bool notifyListeners = true}) async {
+    return await _sessionProvider.checkSession(
+        notifyListeners: notifyListeners);
   }
 
   Future<void> _onSessionUpdate() async {
-    final session = sessionProvider.session;
+    print('Session updated');
+    final session = this.session;
 
     if (session != null) {
-      try {
-        final stamper = ApiKeyStamper(
-          ApiKeyStamperConfig(
-              apiPrivateKey: session.privateKey,
-              apiPublicKey: session.publicKey),
+      final stamper = ApiKeyStamper(
+        ApiKeyStamperConfig(
+            apiPrivateKey: session.privateKey, apiPublicKey: session.publicKey),
+      );
+
+      final client = TurnkeyClient(
+        config: THttpConfig(baseUrl: config.apiBaseUrl),
+        stamper: stamper,
+      );
+      _client = client;
+
+      final whoami = await client.getWhoami(
+          input: turnkeyTypes.GetWhoamiRequest(
+        organizationId: config.organizationId,
+      ));
+
+      if (whoami.userId != null && whoami.organizationId != null) {
+        final walletsResponse = await client.getWallets(
+          input: turnkeyTypes.GetWalletsRequest(
+              organizationId: whoami.organizationId),
         );
-
-        final client = TurnkeyClient(
-          config: THttpConfig(baseUrl: config.apiBaseUrl),
-          stamper: stamper,
-        );
-        _client = client;
-
-        final whoami = await client.getWhoami(
-            input: turnkeyTypes.GetWhoamiRequest(
-          organizationId: config.organizationId,
-        ));
-
-        if (whoami.userId != null && whoami.organizationId != null) {
-          final walletsResponse = await client.getWallets(
-            input: turnkeyTypes.GetWalletsRequest(
-                organizationId: whoami.organizationId),
-          );
-          final userResponse = await client.getUser(
-            input: turnkeyTypes.GetUserRequest(
-              organizationId: whoami.organizationId,
-              userId: whoami.userId,
-            ),
-          );
-
-          final wallets =
-              await Future.wait(walletsResponse.wallets.map((wallet) async {
-            final accountsResponse = await client.getWalletAccounts(
-                input: turnkeyTypes.GetWalletAccountsRequest(
-                    organizationId: whoami.organizationId,
-                    walletId: wallet.walletId));
-            return Wallet(
-              name: wallet.walletName,
-              id: wallet.walletId,
-              accounts: accountsResponse.accounts
-                  .map<String>((account) => (account.address))
-                  .toList(),
-            );
-          }).toList());
-
-          final user = userResponse.user;
-
-          _user = User(
-            id: user.userId,
-            userName: user.userName,
-            email: user.userEmail,
-            phoneNumber: user.userPhoneNumber,
+        final userResponse = await client.getUser(
+          input: turnkeyTypes.GetUserRequest(
             organizationId: whoami.organizationId,
-            wallets: wallets,
+            userId: whoami.userId,
+          ),
+        );
+
+        final wallets =
+            await Future.wait(walletsResponse.wallets.map((wallet) async {
+          final accountsResponse = await client.getWalletAccounts(
+              input: turnkeyTypes.GetWalletAccountsRequest(
+                  organizationId: whoami.organizationId,
+                  walletId: wallet.walletId));
+          return Wallet(
+            name: wallet.walletName,
+            id: wallet.walletId,
+            accounts: accountsResponse.accounts
+                .map<String>((account) => (account.address))
+                .toList(),
           );
+        }).toList());
 
-          setSelectedWallet(wallets.first);
-          setSelectedAccount(wallets.first.accounts.first);
+        final user = userResponse.user;
 
-          notifyListeners();
-        }
-      } catch (error) {
-        setError(error.toString());
+        _user = User(
+          id: user.userId,
+          userName: user.userName,
+          email: user.userEmail,
+          phoneNumber: user.userPhoneNumber,
+          organizationId: whoami.organizationId,
+          wallets: wallets,
+        );
+        notifyListeners();
       }
     }
   }
 
   Future<void> logout(BuildContext context) async {
-    await sessionProvider.clearSession();
+    await this.clearSession();
   }
 
   Future<turnkeyTypes.ActivityResponse> signRawPayload(BuildContext context,
       turnkeyTypes.SignRawPayloadIntentV2 parameters) async {
-    setLoading('signRawPayload', true);
-    setError(null);
-
-    try {
-      if (_client == null || user == null) {
-        throw Exception("Client or user not initialized");
-      }
-
-      final response = await _client!.signRawPayload(
-          input: turnkeyTypes.SignRawPayloadRequest(
-              type: turnkeyTypes
-                  .SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
-              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-              organizationId: user!.organizationId,
-              parameters: parameters));
-      return response;
-    } catch (error) {
-      setError(error.toString());
-      throw Exception(error.toString());
-    } finally {
-      setLoading('signRawPayload', false);
+    if (_client == null || user == null) {
+      throw Exception("Client or user not initialized");
     }
+
+    final response = await _client!.signRawPayload(
+        input: turnkeyTypes.SignRawPayloadRequest(
+            type: turnkeyTypes
+                .SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
+            timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+            organizationId: user!.organizationId,
+            parameters: parameters));
+    return response;
   }
 
   Future<void> createWallet(
       BuildContext context, turnkeyTypes.CreateWalletIntent parameters) async {
-    setLoading('createWallet', true);
-    setError(null);
+    if (_client == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
 
-    try {
-      if (_client == null || user == null) {
-        throw Exception("Client or user not initialized");
-      }
+    final response = await _client!.createWallet(
+        input: turnkeyTypes.CreateWalletRequest(
+            type: turnkeyTypes.CreateWalletRequestType.activityTypeCreateWallet,
+            timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+            organizationId: user!.organizationId,
+            parameters: parameters));
 
-      final response = await _client!.createWallet(
-          input: turnkeyTypes.CreateWalletRequest(
-              type:
-                  turnkeyTypes.CreateWalletRequestType.activityTypeCreateWallet,
-              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-              organizationId: user!.organizationId,
-              parameters: parameters));
-
-      if (response.activity.result.createWalletResult?.walletId != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Success! Wallet created.')),
-        );
-        _onSessionUpdate();
-      }
-    } catch (error) {
-      setError(error.toString());
-    } finally {
-      setLoading('createWallet', false);
+    if (response.activity.result.createWalletResult?.walletId != null) {
+      _onSessionUpdate();
     }
   }
 
@@ -189,100 +161,75 @@ class TurnkeyProvider with ChangeNotifier {
       String mnemonic,
       String walletName,
       List<turnkeyTypes.WalletAccountParams> accounts) async {
-    setLoading('importWallet', true);
-    setError(null);
+    if (_client == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
+    final initResponse = await _client!.initImportWallet(
+        input: turnkeyTypes.InitImportWalletRequest(
+            type: turnkeyTypes
+                .InitImportWalletRequestType.activityTypeInitImportWallet,
+            timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+            organizationId: user!.organizationId,
+            parameters: turnkeyTypes.InitImportWalletIntent(userId: user!.id)));
 
-    try {
-      if (_client == null || user == null) {
-        throw Exception("Client or user not initialized");
-      }
-      final initResponse = await _client!.initImportWallet(
-          input: turnkeyTypes.InitImportWalletRequest(
-              type: turnkeyTypes
-                  .InitImportWalletRequestType.activityTypeInitImportWallet,
-              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-              organizationId: user!.organizationId,
-              parameters:
-                  turnkeyTypes.InitImportWalletIntent(userId: user!.id)));
+    final importBundle =
+        initResponse.activity.result.initImportWalletResult?.importBundle;
 
-      final importBundle =
-          initResponse.activity.result.initImportWalletResult?.importBundle;
+    if (importBundle == null) {
+      throw Exception("Failed to get import bundle");
+    }
 
-      if (importBundle == null) {
-        throw Exception("Failed to get import bundle");
-      }
+    final encryptedBundle = await encryptWalletToBundle(
+      mnemonic: mnemonic,
+      importBundle: importBundle,
+      userId: user!.id,
+      organizationId: user!.organizationId,
+    );
 
-      final encryptedBundle = await encryptWalletToBundle(
-        mnemonic: mnemonic,
-        importBundle: importBundle,
-        userId: user!.id,
-        organizationId: user!.organizationId,
-      );
+    final response = await _client!.importWallet(
+        input: turnkeyTypes.ImportWalletRequest(
+            type: turnkeyTypes.ImportWalletRequestType.activityTypeImportWallet,
+            timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+            organizationId: user!.organizationId,
+            parameters: turnkeyTypes.ImportWalletIntent(
+                userId: user!.id,
+                walletName: walletName,
+                encryptedBundle: encryptedBundle,
+                accounts: accounts)));
 
-      final response = await _client!.importWallet(
-          input: turnkeyTypes.ImportWalletRequest(
-              type:
-                  turnkeyTypes.ImportWalletRequestType.activityTypeImportWallet,
-              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-              organizationId: user!.organizationId,
-              parameters: turnkeyTypes.ImportWalletIntent(
-                  userId: user!.id,
-                  walletName: walletName,
-                  encryptedBundle: encryptedBundle,
-                  accounts: accounts)));
-
-      if (response.activity.result.importWalletResult?.walletId != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Success! Wallet imported.')),
-        );
-        _onSessionUpdate();
-      }
-    } catch (error) {
-      setError(error.toString());
-    } finally {
-      setLoading('importWallet', false);
+    if (response.activity.result.importWalletResult?.walletId != null) {
+      _onSessionUpdate();
     }
   }
 
   Future<String> exportWallet(BuildContext context, String walletId) async {
-    setLoading('exportWallet', true);
-    try {
-      if (_client == null || user == null) {
-        throw Exception("Client or user not initialized");
-      }
-
-      final targetPublicKey = await sessionProvider.createEmbeddedKey();
-
-      final response = await _client!.exportWallet(
-          input: turnkeyTypes.ExportWalletRequest(
-              type:
-                  turnkeyTypes.ExportWalletRequestType.activityTypeExportWallet,
-              timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-              organizationId: user!.organizationId,
-              parameters: turnkeyTypes.ExportWalletIntent(
-                  walletId: walletId, targetPublicKey: targetPublicKey)));
-      final exportBundle =
-          response.activity.result.exportWalletResult?.exportBundle;
-
-      final embeddedKey = await sessionProvider.getEmbeddedKey();
-      if (exportBundle == null || embeddedKey == null) {
-        throw Exception("Export bundle, embedded key, or user not initialized");
-      }
-
-      final export = await decryptExportBundle(
-          exportBundle: exportBundle,
-          embeddedKey: embeddedKey,
-          organizationId: user!.organizationId,
-          returnMnemonic: true);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Success! Wallet exported.')),
-      );
-      return export;
-    } catch (error) {
-      setError(error.toString());
-      throw Exception(error.toString());
-    } finally {
-      setLoading('exportWallet', false);
+    if (_client == null || user == null) {
+      throw Exception("Client or user not initialized");
     }
+
+    final targetPublicKey = await this.createEmbeddedKey();
+
+    final response = await _client!.exportWallet(
+        input: turnkeyTypes.ExportWalletRequest(
+            type: turnkeyTypes.ExportWalletRequestType.activityTypeExportWallet,
+            timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+            organizationId: user!.organizationId,
+            parameters: turnkeyTypes.ExportWalletIntent(
+                walletId: walletId, targetPublicKey: targetPublicKey)));
+    final exportBundle =
+        response.activity.result.exportWalletResult?.exportBundle;
+
+    final embeddedKey = await this.getEmbeddedKey();
+    if (exportBundle == null || embeddedKey == null) {
+      throw Exception("Export bundle, embedded key, or user not initialized");
+    }
+
+    final export = await decryptExportBundle(
+        exportBundle: exportBundle,
+        embeddedKey: embeddedKey,
+        organizationId: user!.organizationId,
+        returnMnemonic: true);
+
+    return export;
   }
 }

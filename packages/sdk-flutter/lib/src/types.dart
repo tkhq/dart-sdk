@@ -128,39 +128,6 @@ class WalletAccount {
   }
 }
 
-/// A class representing a session with public and private keys and an expiry time.
-class Session {
-  final String publicKey;
-  final String privateKey;
-  final int expiry;
-  final User? user;
-
-  Session({
-    required this.publicKey,
-    required this.privateKey,
-    required this.expiry,
-    this.user,
-  });
-
-  /// Converts the session to a JSON map.
-  Map<String, dynamic> toJson() => {
-        'publicKey': publicKey,
-        'privateKey': privateKey,
-        'expiry': expiry,
-        'user': user?.toJson(),
-      };
-
-  /// Creates a session from a JSON map.
-  factory Session.fromJson(Map<String, dynamic> json) {
-    return Session(
-      publicKey: json['publicKey'],
-      privateKey: json['privateKey'],
-      expiry: json['expiry'],
-      user: json['user'] != null ? User.fromJson(json['user']) : null,
-    );
-  }
-}
-
 class TurnkeyConfig {
   final String apiBaseUrl;
   final String organizationId;
