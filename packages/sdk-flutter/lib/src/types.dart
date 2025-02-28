@@ -1,8 +1,45 @@
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
 enum StorageKey {
-  embeddedKey,
-  session,
+  turnkeyEmbeddedKeyStorage,
+  turnkeySessionStorage,
+  turnkeySessionKeysIndex,
+  turnkeySelectedSession,
+}
+
+/// A class representing a session with public and private keys and an expiry time.
+class Session {
+  final String storageKey;
+  final String publicKey;
+  final String privateKey;
+  final int expiry;
+  final User? user;
+
+  Session({
+    required this.storageKey,
+    required this.publicKey,
+    required this.privateKey,
+    required this.expiry,
+    this.user,
+  });
+
+  /// Converts the session to a JSON map.
+  Map<String, dynamic> toJson() => {
+        'publicKey': publicKey,
+        'privateKey': privateKey,
+        'expiry': expiry,
+      };
+
+  /// Creates a session from a JSON map.
+  factory Session.fromJson(Map<String, dynamic> json) {
+    return Session(
+      storageKey: json['storageKey'],
+      publicKey: json['publicKey'],
+      privateKey: json['privateKey'],
+      expiry: json['expiry'],
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
+    );
+  }
 }
 
 /// A class representing a user with various attributes.
@@ -52,7 +89,7 @@ class User {
 class Wallet {
   final String name;
   final String id;
-  final List<String> accounts;
+  final List<WalletAccount> accounts;
 
   Wallet({
     required this.name,
@@ -72,7 +109,7 @@ class Wallet {
     return Wallet(
       name: json['name'],
       id: json['id'],
-      accounts: List<String>.from(json['accounts']),
+      accounts: List<WalletAccount>.from(json['accounts']),
     );
   }
 }

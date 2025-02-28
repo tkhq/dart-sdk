@@ -1,6 +1,6 @@
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
-final OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
+const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
 
 final DEFAULT_ETHEREUM_ACCOUNT = WalletAccountParams(
   curve: Curve.curveSecp256k1,
