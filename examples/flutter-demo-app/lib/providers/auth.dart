@@ -80,7 +80,7 @@ class AuthRelayerProvider with ChangeNotifier {
       setError(null);
 
       try {
-        final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
+        final targetPublicKey = await createEmbeddedKey();
 
         final response = await otpAuth({
           'otpId': otpId,
@@ -143,7 +143,7 @@ class AuthRelayerProvider with ChangeNotifier {
       setError(null);
 
       try {
-        final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
+        final targetPublicKey = await createEmbeddedKey();
 
         final response = await otpAuth({
           'otpId': otpId,
@@ -194,7 +194,7 @@ class AuthRelayerProvider with ChangeNotifier {
             config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
             stamper: stamper);
 
-        final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
+        final targetPublicKey = await createEmbeddedKey();
 
         final sessionResponse = await httpClient.createReadWriteSession(
             input: CreateReadWriteSessionRequest(
@@ -230,7 +230,7 @@ class AuthRelayerProvider with ChangeNotifier {
           config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
           stamper: stamper);
 
-      final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
+      final targetPublicKey = await createEmbeddedKey();
 
       final sessionResponse = await httpClient.createReadWriteSession(
           input: CreateReadWriteSessionRequest(
@@ -264,7 +264,7 @@ class AuthRelayerProvider with ChangeNotifier {
         '${EnvConfig.googleRedirectScheme}://'); // This is the redirect URI that the OpenID Connect provider will redirect to after the user signs in. This URI must be registered with the OpenID Connect provider and added to your info.plist and AndroidManifest.xml.
     final List<String> scopes = ['openid', 'email', 'profile'];
 
-    final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
+    final targetPublicKey = await createEmbeddedKey();
 
     try {
       var issuer = await openid.Issuer.discover(Issuer.google);
@@ -342,7 +342,7 @@ class AuthRelayerProvider with ChangeNotifier {
     setLoading('signInWithApple', true);
 
     try {
-      final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
+      final targetPublicKey = await createEmbeddedKey();
 
       final credential = await SignInWithApple.getAppleIDCredential(scopes: [
         AppleIDAuthorizationScopes.email,

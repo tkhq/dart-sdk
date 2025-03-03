@@ -23,6 +23,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   tk.Wallet? _selectedWallet;
   String? _selectedAccount;
 
+  @override
+  void initState() {
+    super.initState();
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
+    turnkeyProvider.addListener(updateSelectedWallet);
+  }
+
+  @override
+  void dispose() {
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
+    turnkeyProvider.removeListener(updateSelectedWallet);
+    super.dispose();
+  }
+
+  void updateSelectedWallet() {
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
+    print('updating selected wallet ${turnkeyProvider.session!.user!.id}');
+    if (turnkeyProvider.session?.user != null &&
+        turnkeyProvider.session!.user!.wallets.isNotEmpty) {
+      setState(() {
+        _selectedWallet = turnkeyProvider.session?.user!.wallets[0];
+        _selectedAccount =
+            turnkeyProvider.session?.user!.wallets[0].accounts[0].address;
+      });
+    }
+  }
+
   Future<void> handleSign(BuildContext context, String messageToSign,
       String account, Function onStateUpdated) async {
     try {
@@ -46,10 +76,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       final response =
           await turnkeyProvider.signRawPayload(context, parameters);
-
+      //TODO: This can error?
       onStateUpdated(() {
-        _signature =
-            'r: ${response.activity.result.signRawPayloadResult?.r}, s: ${response.activity.result.signRawPayloadResult?.s}, v: ${response.activity.result.signRawPayloadResult?.v}';
+        _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -120,41 +149,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
 
-    void autoLogout() async {
-      if (turnkeyProvider.session == null ||
-          turnkeyProvider.session!.expiry <=
-              DateTime.now().millisecondsSinceEpoch) {
-        Navigator.pushReplacementNamed(context, '/');
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Logged out. Please login again.'),
-          ),
-        );
-      }
-    }
-
-    void updateSelectedWallet() {
-      if (turnkeyProvider.user != null &&
-          turnkeyProvider.user!.wallets.isNotEmpty) {
-        setState(() {
-          _selectedWallet = turnkeyProvider.user!.wallets[0];
-        });
-        setState(() {
-          _selectedAccount = turnkeyProvider.user!.wallets[0].accounts[0];
-        });
-      }
-    }
-
-    turnkeyProvider.sessionProvider.addListener(autoLogout);
     turnkeyProvider.addListener(updateSelectedWallet);
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Provider.of<TurnkeyProvider>(context, listen: false)
-                .logout(context);
+            Provider.of<TurnkeyProvider>(context, listen: false).clearSession();
           },
           icon: Icon(
             Icons.logout,
@@ -166,7 +167,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Center(
         child: Consumer<TurnkeyProvider>(
           builder: (context, turnkeyProvider, child) {
-            final user = turnkeyProvider.user;
+            final user = turnkeyProvider.session?.user;
             final userName =
                 (user?.userName != null && user!.userName!.isNotEmpty)
                     ? user.userName
@@ -227,7 +228,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   onSelected: (wallet) {
                                     setState(() {
                                       _selectedWallet = wallet;
-                                      _selectedAccount = wallet.accounts[0];
+                                      _selectedAccount =
+                                          wallet.accounts[0].address;
                                     });
                                   },
                                   itemBuilder: (BuildContext context) {
@@ -332,10 +334,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             return RadioListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
-                                  '${account.substring(0, 6)}...${account.substring(account.length - 6)}'),
-                              onChanged: (String? value) {
+                                  '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}'),
+                              onChanged: (Object? value) {
                                 setState(() {
-                                  _selectedAccount = value;
+                                  _selectedAccount =
+                                      (value as tk.WalletAccount?)?.address;
                                 });
                               },
                               value: account,

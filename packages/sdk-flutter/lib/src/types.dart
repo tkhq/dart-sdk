@@ -1,6 +1,6 @@
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
-enum StorageKey {
+enum SessionKey {
   turnkeyEmbeddedKeyStorage,
   turnkeySessionStorage,
   turnkeySessionKeysIndex,
@@ -9,14 +9,14 @@ enum StorageKey {
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
-  final String storageKey;
+  final String key;
   final String publicKey;
   final String privateKey;
   final int expiry;
   final User? user;
 
   Session({
-    required this.storageKey,
+    required this.key,
     required this.publicKey,
     required this.privateKey,
     required this.expiry,
@@ -25,15 +25,17 @@ class Session {
 
   /// Converts the session to a JSON map.
   Map<String, dynamic> toJson() => {
+        'key': key,
         'publicKey': publicKey,
         'privateKey': privateKey,
         'expiry': expiry,
+        'user': user?.toJson(),
       };
 
   /// Creates a session from a JSON map.
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
-      storageKey: json['storageKey'],
+      key: json['key'],
       publicKey: json['publicKey'],
       privateKey: json['privateKey'],
       expiry: json['expiry'],
@@ -101,7 +103,7 @@ class Wallet {
   Map<String, dynamic> toJson() => {
         'name': name,
         'id': id,
-        'accounts': accounts,
+        'accounts': accounts.map((account) => account.toJson()).toList(),
       };
 
   /// Creates a wallet from a JSON map.
@@ -109,7 +111,9 @@ class Wallet {
     return Wallet(
       name: json['name'],
       id: json['id'],
-      accounts: List<WalletAccount>.from(json['accounts']),
+      accounts: (json['accounts'] as List<dynamic>)
+          .map((accountJson) => WalletAccount.fromJson(accountJson))
+          .toList(),
     );
   }
 }
@@ -169,8 +173,15 @@ class TurnkeyConfig {
   final String apiBaseUrl;
   final String organizationId;
 
+  final void Function(Session session)? onSessionCreated;
+  final void Function(Session session)? onSessionExpired;
+  final void Function(Session session)? onSessionCleared;
+
   TurnkeyConfig({
     required this.apiBaseUrl,
     required this.organizationId,
+    this.onSessionCreated,
+    this.onSessionExpired,
+    this.onSessionCleared,
   });
 }

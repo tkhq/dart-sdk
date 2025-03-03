@@ -1,147 +1,138 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart'
     as turnkeyTypes;
-import 'package:turnkey_http/base.dart';
 import 'package:turnkey_http/turnkey_http.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
-//TODO: Parity with react-native. Add rest of functions and make more general.
-//Fix listeners an maybe have callback functions if possible. Replace secure storage with shared preferences for some functions.
-//Add more comments and documentation.
-//Seperate functions into different files
 class TurnkeyProvider with ChangeNotifier {
   Session? _session;
   TurnkeyClient? _client;
   Map<String, Timer>? _expiryTimers;
 
-  final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-
   final TurnkeyConfig config;
 
-  TurnkeyProvider({required this.config});
+  TurnkeyProvider({required this.config}) {
+    initializeSessions();
+  }
 
   Session? get session => _session;
+  TurnkeyClient? get client => _client;
 
-  Future<Session?> setSelectedSession(String storageKey) async {
-    final session = await getSession(storageKey);
+  set session(Session? newSession) {
+    print('SETTING SESSION!!!!: ${newSession!.user!.id}');
+    _session = newSession;
+    notifyListeners();
+  }
+
+  set client(TurnkeyClient? newClient) {
+    _client = newClient;
+    notifyListeners();
+  }
+
+  Future<void> initializeSessions() async {
+    print('Good morning');
+    final sessionKeys = await getSessionKeysIndex();
+
+    await Future.wait(sessionKeys.map((sessionKey) async {
+      final session = await getSession(sessionKey);
+
+      if (session == null ||
+          session.expiry <= DateTime.now().millisecondsSinceEpoch) {
+        await clearSession(sessionKey: sessionKey);
+        await removeSessionKeyFromIndex(sessionKey);
+        return;
+      }
+
+      await _scheduleSessionExpiration(sessionKey, session.expiry);
+    }));
+
+    final selectedSessionKey = await getSelectedSessionKey();
+
+    if (selectedSessionKey != null) {
+      final selectedSession = await getSession(selectedSessionKey);
+
+      if (selectedSession != null &&
+          selectedSession.expiry > DateTime.now().millisecondsSinceEpoch) {
+        final clientInstance = createClient(
+          selectedSession.publicKey,
+          selectedSession.privateKey,
+          config.apiBaseUrl,
+        );
+
+        session = selectedSession;
+        client = clientInstance;
+
+        config.onSessionCreated?.call(selectedSession);
+      } else {
+        await clearSession(sessionKey: selectedSessionKey);
+
+        config.onSessionExpired?.call(
+          selectedSession ??
+              (Session(
+                  key: selectedSessionKey,
+                  publicKey: "",
+                  privateKey: "",
+                  expiry: 0)),
+        );
+      }
+    }
+  }
+
+  Future<Session?> setSelectedSession(String sessionKey) async {
+    print('hello $sessionKey');
+    final session = await getSession(sessionKey);
+    print('Done get sessison');
     if (session != null &&
         session.expiry > DateTime.now().millisecondsSinceEpoch) {
+      print('Setting selected session: $sessionKey');
       final client = createClient(
           session.publicKey, session.privateKey, config.apiBaseUrl);
-      _client = client;
-      _session = session;
+      this.client = client;
+      this.session = session;
 
-      saveSelectedSessionKey(storageKey);
+      await saveSelectedSessionKey(sessionKey);
       notifyListeners();
-      await _scheduleSessionExpiration(storageKey, session.expiry);
 
+      config.onSessionCreated?.call(session);
       return session;
     } else {
-      await clearSession(storageKey: storageKey);
+      await clearSession(sessionKey: sessionKey);
       notifyListeners();
+
       return null;
     }
   }
 
-  Future<String?> getSelectedSessionKey() {
-    try {
-      return _secureStorage.read(
-          key: StorageKey.turnkeySelectedSession.toString());
-    } catch (e) {
-      throw Exception("Failed to get selected session: $e");
+  Future<void> _scheduleSessionExpiration(String sessionKey, int expiry) async {
+    if (_expiryTimers != null && _expiryTimers![sessionKey] != null) {
+      _expiryTimers![sessionKey]?.cancel();
     }
-  }
+    print('Scheduling session expiration for $sessionKey');
 
-  void saveSelectedSessionKey(String storageKey) {
-    try {
-      _secureStorage.write(
-        key: StorageKey.turnkeySelectedSession.toString(),
-        value: storageKey,
-      );
-    } catch (e) {
-      throw Exception("Failed to save selected session: $e");
-    }
-  }
+    final expireSession = () async {
+      print('Expiring session $sessionKey');
+      final expiredSession = await getSession(sessionKey);
+      print('Expired session: $expiredSession');
+      if (expiredSession == null) return;
 
-  void clearSelectedSessionKey() {
-    try {
-      _secureStorage.delete(key: StorageKey.turnkeySelectedSession.toString());
-    } catch (e) {
-      throw Exception("Failed to clear selected session: $e");
-    }
-  }
+      await clearSession(sessionKey: sessionKey);
 
-  Future<void> addSessionKeyToIndex(String sessionKey) async {
-    try {
-      final indexStr = await _secureStorage.read(
-          key: StorageKey.turnkeySessionKeysIndex.toString());
-      List<String> keys =
-          indexStr != null ? List<String>.from(jsonDecode(indexStr)) : [];
-      if (!keys.contains(sessionKey)) {
-        keys.add(sessionKey);
-        await _secureStorage.write(
-            key: StorageKey.turnkeySessionKeysIndex.toString(),
-            value: jsonEncode(keys));
-      }
-    } catch (error) {
-      throw Exception("Failed to add session key to index: $error");
-    }
-  }
+      config.onSessionExpired?.call(expiredSession);
+      _expiryTimers!.remove(sessionKey);
+    };
 
-  Future<List<String>> getSessionKeysIndex() async {
-    try {
-      final indexStr = await _secureStorage.read(
-          key: StorageKey.turnkeySessionKeysIndex.toString());
-      return indexStr != null ? List<String>.from(jsonDecode(indexStr)) : [];
-    } catch (error) {
-      throw Exception("Failed to get session keys index: $error");
-    }
-  }
+    final timeUntilExpiry = expiry - DateTime.now().millisecondsSinceEpoch;
 
-  Future<void> removeSessionKeyFromIndex(String sessionKey) async {
-    try {
-      final indexStr = await _secureStorage.read(
-          key: StorageKey.turnkeySessionKeysIndex.toString());
-      List<String> keys =
-          indexStr != null ? List<String>.from(jsonDecode(indexStr)) : [];
-      keys = keys.where((key) => key != sessionKey).toList();
-      await _secureStorage.write(
-          key: StorageKey.turnkeySessionKeysIndex.toString(),
-          value: jsonEncode(keys));
-    } catch (error) {
-      throw Exception("Failed to remove session key from index: $error");
-    }
-  }
-
-  Future<void> _scheduleSessionExpiration(String storageKey, int expiry) async {
-    if (_expiryTimers != null && _expiryTimers![storageKey] != null) {
-      _expiryTimers![storageKey]?.cancel();
-    }
-
-    final duration =
-        Duration(milliseconds: expiry - DateTime.now().millisecondsSinceEpoch);
-
-    if (duration > Duration.zero) {
-      _expiryTimers![storageKey] = Timer(duration, () async {
-        final expiredSession = await getSession(storageKey);
-        if (expiredSession != null) {
-          await clearSession(storageKey: storageKey);
-        }
-        notifyListeners();
-        _expiryTimers!.remove(storageKey);
-
-        debugPrint('Turnkey session expired. Listeners will be notified.');
-      });
+    if (timeUntilExpiry <= 0) {
+      await expireSession();
     } else {
-      clearSession(storageKey: storageKey);
-      notifyListeners();
-      debugPrint('Turnkey session expired. Listeners will be notified.');
+      _expiryTimers?.putIfAbsent(
+          sessionKey,
+          Timer(Duration(milliseconds: timeUntilExpiry), expireSession) as Timer
+              Function()); //TODO: make sure this cast works
     }
   }
 
@@ -153,60 +144,15 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
-  TurnkeyClient createClient(String publicKey, String privateKey, apiBaseUrl) {
-    final stamper = ApiKeyStamper(
-      ApiKeyStamperConfig(apiPrivateKey: privateKey, apiPublicKey: publicKey),
-    );
-
-    return TurnkeyClient(
-      config: THttpConfig(baseUrl: apiBaseUrl),
-      stamper: stamper,
-    );
-  }
-
-  /// Creates an embedded key pair and stores the private key securely.
-  ///
-  /// Returns the public key.
-  Future<String> createEmbeddedKey() async {
-    final keyPair = await generateP256KeyPair();
-    final embeddedPrivateKey = keyPair.privateKey;
-    final publicKey = keyPair.publicKeyUncompressed;
-
-    await _saveEmbeddedKey(embeddedPrivateKey);
-
-    return publicKey;
-  }
-
-  /// Saves the embedded private key securely.
-  Future<void> _saveEmbeddedKey(String key) async {
-    await _secureStorage.write(
-        key: StorageKey.turnkeyEmbeddedKeyStorage.toString(), value: key);
-  }
-
-  /// Retrieves the embedded private key from secure storage.
-  ///
-  /// If [deleteKey] is true (default), the key will be deleted after retrieval.
-  Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
-    final key = await _secureStorage.read(
-        key: StorageKey.turnkeyEmbeddedKeyStorage.toString());
-    if (deleteKey) {
-      await _secureStorage.delete(
-          key: StorageKey.turnkeyEmbeddedKeyStorage.toString());
-    }
-
-    return key;
-  }
-
   /// Creates a session using the provided credential bundle.
   ///
   /// [expirySeconds] specifies the session expiry time in seconds.
-  /// If [notifyListeners] is true (default), listeners will be notified of changes.
   ///
   /// Returns the created session.
   Future<Session> createSession(String bundle,
       {int expirySeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
-      String? storageKey,
-      bool notifyListeners = true}) async {
+      String? sessionKey}) async {
+    sessionKey ??= SessionKey.turnkeySessionStorage.toString();
     final embeddedKey = await getEmbeddedKey();
     if (embeddedKey == null) {
       throw Exception('Embedded key not found.');
@@ -218,143 +164,68 @@ class TurnkeyProvider with ChangeNotifier {
     final expiry = DateTime.now().millisecondsSinceEpoch + expirySeconds * 1000;
 
     final client = createClient(publicKey, privateKey, config.apiBaseUrl);
-    _client = client;
+    this.client = client;
 
     final user = await fetchUser(client, config.organizationId);
 
-    if (user != null) {
+    if (user == null) {
       throw Exception("Failed to fetch user");
     }
 
     final session = Session(
-        storageKey: storageKey ?? StorageKey.turnkeySessionStorage.toString(),
+        key: sessionKey,
         publicKey: publicKey,
         privateKey: privateKey,
         expiry: expiry,
         user: user);
 
-    await _saveSession(session, session.storageKey,
-        notifyListeners: notifyListeners);
+    print("Session created: $session");
+    await saveSession(
+      session,
+      session.key,
+    );
+    print("Session saved: $session");
+    await addSessionKeyToIndex(sessionKey);
+    print('Session key added: $sessionKey');
+    await _scheduleSessionExpiration(session.key, expiry);
+    print("Session scheduled: $session");
 
-    await _scheduleSessionExpiration(session.storageKey, expiry);
-    saveSelectedSessionKey(session.storageKey);
-    addSessionKeyToIndex(
-        storageKey ?? StorageKey.turnkeySessionStorage.toString());
+    final sessionKeys = await getSessionKeysIndex();
+    final isFirstSession = sessionKeys.length == 1;
+    print("Session keys: $sessionKeys");
 
+    if (isFirstSession) {
+      await setSelectedSession(sessionKey);
+    }
+    print('Selected session: $sessionKey');
+
+    config.onSessionCreated?.call(session);
     return session;
   }
 
-  /// Retrieves the current session from secure storage.
-  ///
-  /// Returns the session if it exists, otherwise null.
-  Future<Session?> getSession(String storageKey) async {
-    final sessionJson = await _secureStorage.read(key: storageKey);
-    if (sessionJson != null) {
-      return Session.fromJson(jsonDecode(sessionJson));
-    }
-    return null;
-  }
-
-  /// Saves the session to secure storage.
-  ///
-  /// If [notifyListeners] is true (default), listeners will be notified of changes.
-  Future<void> _saveSession(Session session, String storageKey,
-      {bool notifyListeners = true}) async {
-    try {
-      _session = session;
-      await _secureStorage.write(
-          key: storageKey, value: jsonEncode(session.toJson()));
-    } catch (e) {
-      throw Exception("Failed to save session: $e");
-    }
-
-    if (notifyListeners) {
-      this.notifyListeners();
-    }
-  }
-
   /// Clears the current session from secure storage.
-  ///
-  /// If [notifyListeners] is true (default), listeners will be notified of changes.
-  Future<Session?> clearSession(
-      {String? storageKey, bool notifyListeners = true}) async {
-    storageKey ??= StorageKey.turnkeySessionStorage
-        .toString(); //TOOD: Does this work? It should set default value if storageKey is null
+  Future<Session?> clearSession({String? sessionKey}) async {
+    sessionKey ??= SessionKey.turnkeySessionStorage
+        .toString(); //TOOD: Does this work? It should set default value if sessionKey is null
 
     try {
-      final clearedSession = await getSession(
-          storageKey); //TODO: We should make this known to listeners somehow
+      final clearedSession = await getSession(sessionKey);
 
-      if (session!.storageKey == storageKey) {
-        _session = null;
-        _client = null;
-        clearSelectedSessionKey();
+      if (session!.key == sessionKey) {
+        session = null;
+        client = null;
+        await clearSelectedSessionKey();
       }
 
-      removeSessionKeyFromIndex(storageKey);
-      await _secureStorage.delete(key: storageKey);
-      _expiryTimers![storageKey]?.cancel();
+      await resetSession(sessionKey);
+      await removeSessionKeyFromIndex(sessionKey);
+      _expiryTimers![sessionKey]?.cancel();
+
+      config.onSessionCleared?.call(clearedSession ??
+          Session(key: sessionKey, publicKey: "", privateKey: "", expiry: 0));
       return clearedSession;
     } catch (e) {
       throw Exception("Failed to clear session: $e");
-    }
-  }
-
-  Future<User?> fetchUser(TurnkeyClient client, String organizationId) async {
-    if (session != null) {
-      final whoami = await client.getWhoami(
-          input: turnkeyTypes.GetWhoamiRequest(
-        organizationId: config.organizationId,
-      ));
-
-      if (whoami.userId != null && whoami.organizationId != null) {
-        final walletsResponse = await client.getWallets(
-          input: turnkeyTypes.GetWalletsRequest(
-              organizationId: whoami.organizationId),
-        );
-        final userResponse = await client.getUser(
-          input: turnkeyTypes.GetUserRequest(
-            organizationId: whoami.organizationId,
-            userId: whoami.userId,
-          ),
-        );
-
-        final wallets =
-            await Future.wait(walletsResponse.wallets.map((wallet) async {
-          final accountsResponse = await client.getWalletAccounts(
-              input: turnkeyTypes.GetWalletAccountsRequest(
-                  organizationId: whoami.organizationId,
-                  walletId: wallet.walletId));
-          return Wallet(
-            name: wallet.walletName,
-            id: wallet.walletId,
-            accounts: accountsResponse.accounts
-                .map((account) => WalletAccount(
-                    id: account.walletAccountId,
-                    curve: account.curve,
-                    pathFormat: account.pathFormat,
-                    path: account.path,
-                    addressFormat: account.addressFormat,
-                    address: account.address,
-                    createdAt: account.createdAt,
-                    updatedAt: account.updatedAt))
-                .toList(),
-          );
-        }).toList());
-
-        final user = userResponse.user;
-        //TODO: Notify listeners?
-
-        notifyListeners();
-        return User(
-          id: user.userId,
-          userName: user.userName,
-          email: user.userEmail,
-          phoneNumber: user.userPhoneNumber,
-          organizationId: whoami.organizationId,
-          wallets: wallets,
-        );
-      }
     }
   }
 
@@ -368,15 +239,15 @@ class TurnkeyProvider with ChangeNotifier {
 
     if (updatedUser != null) {
       final updatedSession = Session(
-        storageKey: session!.storageKey,
+        key: session!.key,
         publicKey: session!.publicKey,
         privateKey: session!.privateKey,
         expiry: session!.expiry,
         user: updatedUser,
       );
 
-      await _saveSession(updatedSession, updatedSession.storageKey);
-      _session = updatedSession;
+      await saveSession(updatedSession, updatedSession.key);
+      session = updatedSession;
     }
   }
 
@@ -408,10 +279,6 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     return activity;
-  }
-
-  Future<void> logout(BuildContext context) async {
-    await this.clearSession();
   }
 
   Future<turnkeyTypes.SignRawPayloadResult> signRawPayload(BuildContext context,
@@ -507,7 +374,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Client or user not initialized");
     }
 
-    final targetPublicKey = await this.createEmbeddedKey();
+    final targetPublicKey = await createEmbeddedKey();
 
     final response = await _client!.exportWallet(
         input: turnkeyTypes.ExportWalletRequest(
@@ -519,7 +386,7 @@ class TurnkeyProvider with ChangeNotifier {
     final exportBundle =
         response.activity.result.exportWalletResult?.exportBundle;
 
-    final embeddedKey = await this.getEmbeddedKey();
+    final embeddedKey = await getEmbeddedKey();
     if (exportBundle == null || embeddedKey == null) {
       throw Exception("Export bundle, embedded key, or user not initialized");
     }

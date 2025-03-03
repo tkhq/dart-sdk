@@ -6,10 +6,41 @@ import 'config.dart';
 import 'providers/auth.dart';
 import 'screens/dashboard.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   // Load the environment variables from the .env file
   WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
+
+  void onSessionCreated(Session session) {
+    print('I am autologginignin');
+    if (session != null &&
+        session.expiry > DateTime.now().millisecondsSinceEpoch) {
+      navigatorKey.currentState?.pushReplacement(
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+      );
+
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text('Logged in! Redirecting to the dashboard.'),
+        ),
+      );
+    }
+  }
+
+  void onSessionExpired(Session session) async {
+    if (session == null ||
+        session.expiry <= DateTime.now().millisecondsSinceEpoch) {
+      navigatorKey.currentState?.pushReplacementNamed('/');
+
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text('Logged out. Please login again.'),
+        ),
+      );
+    }
+  }
 
   runApp(
     MultiProvider(
@@ -18,9 +49,10 @@ void main() async {
             create: (context) => TurnkeyProvider(
                 config: TurnkeyConfig(
                     apiBaseUrl: EnvConfig.turnkeyApiUrl,
-                    organizationId: EnvConfig.organizationId))),
+                    organizationId: EnvConfig.organizationId,
+                    onSessionCreated: onSessionCreated,
+                    onSessionExpired: onSessionExpired))),
         ChangeNotifierProxyProvider<TurnkeyProvider, AuthRelayerProvider>(
-          //TODO: Can this be simplified? Add commments
           create: (context) => AuthRelayerProvider(
               turnkeyProvider:
                   Provider.of<TurnkeyProvider>(context, listen: false)),
@@ -39,6 +71,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -78,24 +111,6 @@ class HomePage extends StatelessWidget {
       }
     }
 
-    void autoLogin() {
-      if (turnkeyProvider.session != null &&
-          turnkeyProvider.session!.expiry >
-              DateTime.now().millisecondsSinceEpoch) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => DashboardScreen()),
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Logged in! Redirecting to the dashboard.'),
-          ),
-        );
-      }
-    }
-
-    turnkeyProvider.sessionProvider.addListener(autoLogin);
     authRelayerProvider.addListener(showAuthRelayerProviderErrors);
 
     return Scaffold(
