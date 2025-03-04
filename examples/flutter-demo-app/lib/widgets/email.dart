@@ -43,7 +43,8 @@ class _EmailInputState extends State<EmailInput> {
                 onPressed: () async {
                   final email = _emailController.text;
                   if (email.isNotEmpty) {
-                    await authRelayerProvider.initEmailLogin(context, email);
+                    await authRelayerProvider.initOtpLogin(context,
+                        otpType: 'OTP_TYPE_EMAIL', contact: email);
                   } else {
                     // Show an error message if the email is empty
                     ScaffoldMessenger.of(context).showSnackBar(

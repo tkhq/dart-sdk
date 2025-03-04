@@ -1,12 +1,5 @@
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
-enum SessionKey {
-  turnkeyEmbeddedKeyStorage,
-  turnkeySessionStorage,
-  turnkeySessionKeysIndex,
-  turnkeySelectedSession,
-}
-
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
   final String key;
@@ -174,6 +167,7 @@ class TurnkeyConfig {
   final String organizationId;
 
   final void Function(Session session)? onSessionCreated;
+  final void Function(Session session)? onSessionSelected;
   final void Function(Session session)? onSessionExpired;
   final void Function(Session session)? onSessionCleared;
 
@@ -181,6 +175,7 @@ class TurnkeyConfig {
     required this.apiBaseUrl,
     required this.organizationId,
     this.onSessionCreated,
+    this.onSessionSelected,
     this.onSessionExpired,
     this.onSessionCleared,
   });

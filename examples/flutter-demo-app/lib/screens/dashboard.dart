@@ -2,11 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 import 'package:crypto/crypto.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
-// ignore: implementation_imports
-import 'package:turnkey_sdk_flutter/src/types.dart' as tk;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,40 +12,31 @@ class DashboardScreen extends StatefulWidget {
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-//TODO: TRY CATCH
-
 class _DashboardScreenState extends State<DashboardScreen> {
   String? _signature;
   String? _exportedWallet;
-  tk.Wallet? _selectedWallet;
-  String? _selectedAccount;
+  Wallet? _selectedWallet;
+  WalletAccount? _selectedAccount;
 
   @override
   void initState() {
     super.initState();
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
-    turnkeyProvider.addListener(updateSelectedWallet);
+    turnkeyProvider.addListener(_updateSelectedWallet);
+    _updateSelectedWallet();
   }
 
-  @override
-  void dispose() {
+  void _updateSelectedWallet() {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
-    turnkeyProvider.removeListener(updateSelectedWallet);
-    super.dispose();
-  }
 
-  void updateSelectedWallet() {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
-    print('updating selected wallet ${turnkeyProvider.session!.user!.id}');
     if (turnkeyProvider.session?.user != null &&
         turnkeyProvider.session!.user!.wallets.isNotEmpty) {
       setState(() {
         _selectedWallet = turnkeyProvider.session?.user!.wallets[0];
         _selectedAccount =
-            turnkeyProvider.session?.user!.wallets[0].accounts[0].address;
+            turnkeyProvider.session?.user!.wallets[0].accounts[0];
       });
     }
   }
@@ -76,7 +64,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       final response =
           await turnkeyProvider.signRawPayload(context, parameters);
-      //TODO: This can error?
       onStateUpdated(() {
         _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
       });
@@ -91,8 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  Future<void> handleExportWallet(
-      BuildContext context, tk.Wallet wallet) async {
+  Future<void> handleExportWallet(BuildContext context, Wallet wallet) async {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
 
@@ -146,16 +132,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final signMessage = "I love Turnkey";
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
-
-    turnkeyProvider.addListener(updateSelectedWallet);
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Provider.of<TurnkeyProvider>(context, listen: false).clearSession();
+            Provider.of<TurnkeyProvider>(context, listen: false)
+                .clearAllSessions();
           },
           icon: Icon(
             Icons.logout,
@@ -224,19 +207,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                PopupMenuButton<tk.Wallet>(
+                                PopupMenuButton<Wallet>(
                                   onSelected: (wallet) {
                                     setState(() {
                                       _selectedWallet = wallet;
-                                      _selectedAccount =
-                                          wallet.accounts[0].address;
+                                      _selectedAccount = wallet.accounts[0];
                                     });
                                   },
                                   itemBuilder: (BuildContext context) {
-                                    List<PopupMenuEntry<tk.Wallet>> items = [];
+                                    List<PopupMenuEntry<Wallet>> items = [];
                                     if (user?.wallets != null) {
                                       items.addAll(user!.wallets.map((wallet) {
-                                        return PopupMenuItem<tk.Wallet>(
+                                        return PopupMenuItem<Wallet>(
                                           value: wallet,
                                           child: Text(wallet.name),
                                         );
@@ -244,7 +226,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     }
                                     items.add(PopupMenuDivider());
                                     items.add(
-                                      PopupMenuItem<tk.Wallet>(
+                                      PopupMenuItem<Wallet>(
                                         onTap: () {
                                           showDialog(
                                               context: context,
@@ -337,8 +319,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}'),
                               onChanged: (Object? value) {
                                 setState(() {
-                                  _selectedAccount =
-                                      (value as tk.WalletAccount?)?.address;
+                                  _selectedAccount = (value as WalletAccount?);
                                 });
                               },
                               value: account,
@@ -395,7 +376,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   TextButton(
                                     onPressed: () async {
                                       await handleSign(context, signMessage,
-                                          _selectedAccount!, setState);
+                                          _selectedAccount!.address, setState);
                                     },
                                     child: Text('Sign'),
                                   ),

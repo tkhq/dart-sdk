@@ -6,12 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:openid_client/openid_client.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
-import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
-import 'package:turnkey_http/base.dart';
+
 import 'package:turnkey_flutter_demo_app/config.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
-import 'package:turnkey_http/turnkey_http.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -38,16 +36,17 @@ class AuthRelayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initEmailLogin(BuildContext context, String email) async {
-    setLoading('initEmailLogin', true);
+  Future<void> initOtpLogin(BuildContext context,
+      {required String otpType, required String contact}) async {
+    setLoading(
+        otpType == 'OTP_TYPE_EMAIL' ? 'initEmailLogin' : 'initPhoneLogin',
+        true);
     setError(null);
-
-    final otpType = 'OTP_TYPE_EMAIL';
 
     try {
       final response = await initOTPAuth({
         'otpType': otpType,
-        'contact': email,
+        'contact': contact,
       });
 
       if (response != null) {
@@ -65,18 +64,20 @@ class AuthRelayerProvider with ChangeNotifier {
     } catch (error) {
       setError(error.toString());
     } finally {
-      setLoading('initEmailLogin', false);
+      setLoading(
+          otpType == 'OTP_TYPE_EMAIL' ? 'initEmailLogin' : 'initPhoneLogin',
+          false);
     }
   }
 
-  Future<void> completeEmailAuth({
+  Future<void> completeOtpAuth({
     required BuildContext context,
     required String otpId,
     required String otpCode,
     required String organizationId,
   }) async {
     if (otpCode.isNotEmpty) {
-      setLoading('completeEmailAuth', true);
+      setLoading('completeOtpAuth', true);
       setError(null);
 
       try {
@@ -97,70 +98,7 @@ class AuthRelayerProvider with ChangeNotifier {
       } catch (error) {
         setError(error.toString());
       } finally {
-        setLoading('completeEmailAuth', false);
-      }
-    }
-  }
-
-  Future<void> initPhoneLogin(BuildContext context, String phone) async {
-    final otpType = 'OTP_TYPE_SMS';
-    setLoading('initPhoneLogin', true);
-    setError(null);
-
-    try {
-      final response = await initOTPAuth({
-        'otpType': otpType,
-        'contact': phone,
-      });
-
-      if (response != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OTPScreen(
-              otpType: otpType,
-              otpId: response['otpId'],
-              organizationId: response['organizationId'],
-            ),
-          ),
-        );
-      }
-    } catch (error) {
-      setError(error.toString());
-    } finally {
-      setLoading('initPhoneLogin', false);
-    }
-  }
-
-  Future<void> completePhoneAuth({
-    required BuildContext context,
-    required String otpId,
-    required String otpCode,
-    required String organizationId,
-  }) async {
-    if (otpCode.isNotEmpty) {
-      setLoading('completePhoneAuth', true);
-      setError(null);
-
-      try {
-        final targetPublicKey = await createEmbeddedKey();
-
-        final response = await otpAuth({
-          'otpId': otpId,
-          'otpCode': otpCode,
-          'organizationId': organizationId,
-          'targetPublicKey': targetPublicKey,
-          'expirationSeconds': OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
-          'invalidateExisting': false,
-        });
-
-        if (response['credentialBundle'] != null) {
-          await turnkeyProvider.createSession(response['credentialBundle']);
-        }
-      } catch (error) {
-        setError(error.toString());
-      } finally {
-        setLoading('completePhoneAuth', false);
+        setLoading('completeOtpAuth', false);
       }
     }
   }
@@ -245,7 +183,8 @@ class AuthRelayerProvider with ChangeNotifier {
           .activity.result.createReadWriteSessionResultV2?.credentialBundle;
 
       if (credentialBundle != null) {
-        await turnkeyProvider.createSession(credentialBundle);
+        await turnkeyProvider.createSession(credentialBundle,
+            sessionKey: 'passkey');
       }
     } catch (error) {
       setError(error.toString());

@@ -84,8 +84,9 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
                 onPressed: () async {
                   if (_phoneNumber.phoneNumber != null &&
                       _phoneNumber.phoneNumber!.isNotEmpty) {
-                    await authRelayerProvider.initPhoneLogin(
-                        context, _phoneNumber.phoneNumber!);
+                    await authRelayerProvider.initOtpLogin(context,
+                        otpType: 'OTP_TYPE_SMS',
+                        contact: _phoneNumber.phoneNumber!);
                   } else {
                     // Show an error message if phone number box is empty
                     ScaffoldMessenger.of(context).showSnackBar(

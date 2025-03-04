@@ -13,10 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
 
-  void onSessionCreated(Session session) {
-    print('I am autologginignin');
-    if (session != null &&
-        session.expiry > DateTime.now().millisecondsSinceEpoch) {
+  void onSessionSelected(Session session) {
+    if (session.expiry > DateTime.now().millisecondsSinceEpoch) {
       navigatorKey.currentState?.pushReplacement(
         MaterialPageRoute(builder: (context) => DashboardScreen()),
       );
@@ -29,17 +27,14 @@ void main() async {
     }
   }
 
-  void onSessionExpired(Session session) async {
-    if (session == null ||
-        session.expiry <= DateTime.now().millisecondsSinceEpoch) {
-      navigatorKey.currentState?.pushReplacementNamed('/');
+  void onSessionCleared(Session session) {
+    navigatorKey.currentState?.pushReplacementNamed('/');
 
-      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
-        SnackBar(
-          content: Text('Logged out. Please login again.'),
-        ),
-      );
-    }
+    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: Text('Logged out. Please login again.'),
+      ),
+    );
   }
 
   runApp(
@@ -50,8 +45,8 @@ void main() async {
                 config: TurnkeyConfig(
                     apiBaseUrl: EnvConfig.turnkeyApiUrl,
                     organizationId: EnvConfig.organizationId,
-                    onSessionCreated: onSessionCreated,
-                    onSessionExpired: onSessionExpired))),
+                    onSessionSelected: onSessionSelected,
+                    onSessionCleared: onSessionCleared))),
         ChangeNotifierProxyProvider<TurnkeyProvider, AuthRelayerProvider>(
           create: (context) => AuthRelayerProvider(
               turnkeyProvider:
@@ -90,13 +85,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
-
     final authRelayerProvider =
         Provider.of<AuthRelayerProvider>(context, listen: false);
 
-    // These two functions have to be here instead of their respective classes because they rely on the context
     void showAuthRelayerProviderErrors() {
       if (authRelayerProvider.errorMessage != null) {
         debugPrint(authRelayerProvider.errorMessage.toString());
