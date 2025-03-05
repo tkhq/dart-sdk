@@ -86,3 +86,14 @@ TurnkeyClient createClient(String publicKey, String privateKey, apiBaseUrl) {
     stamper: stamper,
   );
 }
+
+/// Checks if a given [session] is valid.
+///
+/// A session is considered valid if it has a defined expiry time
+/// and the expiry time is in the future.
+///
+/// Returns `true` if the session is valid, otherwise `false`.
+bool isValidSession(Session? session) {
+  return session != null &&
+      session.expiry > DateTime.now().millisecondsSinceEpoch;
+}

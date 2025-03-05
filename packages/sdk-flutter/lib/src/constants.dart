@@ -1,14 +1,18 @@
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
-// default storage key
-const TURNKEY_DEFAULT_SESSION_STORAGE = "turnkey_session";
+enum StorageKeys {
+  DefaultSession("@turnkey/session"),
+  EmbeddedKey("@turnkey/embedded-key"),
+  SessionKeys("@turnkey/session-keys"),
+  SelectedSession("@turnkey/selected-session");
 
-// fixed storage keys (used internally by the SDK)
-const TURNKEY_EMBEDDED_KEY_STORAGE = "turnkey_embedded_key";
-const TURNKEY_SESSION_KEYS_INDEX = "turnkey_session_keys_index";
-const TURNKEY_SELECTED_SESSION = "turnkey_selected_session";
+  final String value;
+  const StorageKeys(this.value);
+}
 
 const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
+
+const MAX_SESSIONS = 15;
 
 final DEFAULT_ETHEREUM_ACCOUNT = WalletAccountParams(
   curve: Curve.curveSecp256k1,

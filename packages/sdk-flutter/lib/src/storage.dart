@@ -1,33 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:turnkey_crypto/turnkey_crypto.dart';
+
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
-
-/// Generates a new embedded key pair and securely stores the private key in secure storage.
-///
-/// Returns the public key corresponding to the generated embedded key pair.
-Future<String> createEmbeddedKey() async {
-  final keyPair = await generateP256KeyPair();
-  final embeddedPrivateKey = keyPair.privateKey;
-  final publicKey = keyPair.publicKeyUncompressed;
-
-  await _saveEmbeddedKey(embeddedPrivateKey);
-
-  return publicKey;
-}
 
 /// Retrieves the stored embedded key from secure storage.
 /// Optionally deletes the key from storage after retrieval.
 ///
 /// [deleteKey] Whether to remove the embedded key after retrieval. Defaults to `true`.
 /// Returns the embedded private key if found, otherwise `null`.
+/// Throws if retrieving or deleting the key fails.
 Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
-  final key = await _secureStorage.read(key: TURNKEY_EMBEDDED_KEY_STORAGE);
+  final key = await _secureStorage.read(key: StorageKeys.EmbeddedKey.value);
   if (deleteKey) {
-    await _secureStorage.delete(key: TURNKEY_EMBEDDED_KEY_STORAGE);
+    await _secureStorage.delete(key: StorageKeys.EmbeddedKey.value);
   }
 
   return key;
@@ -36,14 +24,16 @@ Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
 /// Saves an embedded key securely in storage.
 ///
 /// [key] The private key to store securely.
-Future<void> _saveEmbeddedKey(String key) async {
-  await _secureStorage.write(key: TURNKEY_EMBEDDED_KEY_STORAGE, value: key);
+/// Throws if saving the key fails.
+Future<void> saveEmbeddedKey(String key) async {
+  await _secureStorage.write(key: StorageKeys.EmbeddedKey.value, value: key);
 }
 
 /// Retrieves a stored session from secure storage.
 ///
 /// [sessionKey] The unique key identifying the session.
 /// Returns the session object if found, otherwise `null`.
+/// Throws if retrieving the session fails.
 Future<Session?> getSession(String sessionKey) async {
   final sessionJson = await _secureStorage.read(key: sessionKey);
 
@@ -57,6 +47,7 @@ Future<Session?> getSession(String sessionKey) async {
 ///
 /// [session] The session object to store securely.
 /// [sessionKey] The unique key under which the session is stored.
+/// Throws if saving the session fails.
 Future<void> saveSession(
   Session session,
   String sessionKey,
@@ -72,6 +63,7 @@ Future<void> saveSession(
 /// Deletes a session from secure storage.
 ///
 /// [sessionKey] The unique key identifying the session to reset.
+/// Throws if deleting the session fails.
 Future<void> deleteSession(String sessionKey) async {
   try {
     await _secureStorage.delete(key: sessionKey);
@@ -83,9 +75,10 @@ Future<void> deleteSession(String sessionKey) async {
 /// Retrieves the selected session key from secure storage.
 ///
 /// Returns the selected session key as a string, or `null` if not found.
+/// Throws if retrieving the session key fails.
 Future<String?> getSelectedSessionKey() async {
   try {
-    return await _secureStorage.read(key: TURNKEY_SELECTED_SESSION);
+    return await _secureStorage.read(key: StorageKeys.SelectedSession.value);
   } catch (e) {
     throw Exception("Failed to get selected session: $e");
   }
@@ -94,10 +87,11 @@ Future<String?> getSelectedSessionKey() async {
 /// Saves the selected session key to secure storage.
 ///
 /// [sessionKey] The session key to mark as selected.
+/// Throws if saving the session key fails.
 Future<void> saveSelectedSessionKey(String sessionKey) async {
   try {
     await _secureStorage.write(
-      key: TURNKEY_SELECTED_SESSION,
+      key: StorageKeys.SelectedSession.value,
       value: sessionKey,
     );
   } catch (e) {
@@ -106,9 +100,11 @@ Future<void> saveSelectedSessionKey(String sessionKey) async {
 }
 
 /// Clears the selected session key from secure storage.
+///
+/// Throws if deleting the session key fails.
 Future<void> clearSelectedSessionKey() async {
   try {
-    await _secureStorage.delete(key: TURNKEY_SELECTED_SESSION);
+    await _secureStorage.delete(key: StorageKeys.SelectedSession.value);
   } catch (e) {
     throw Exception("Failed to clear selected session: $e");
   }
@@ -121,30 +117,58 @@ Future<void> clearSelectedSessionKey() async {
 /// - Stores the updated session index.
 ///
 /// [sessionKey] The session key to add to the index.
-Future<void> addSessionKeyToIndex(String sessionKey) async {
+/// Throws if the session key already exists or saving fails.
+Future<void> addSessionKey(String sessionKey) async {
   try {
-    final indexStr = await _secureStorage.read(key: TURNKEY_SESSION_KEYS_INDEX);
-    List<String> keys =
-        indexStr != null ? List<String>.from(jsonDecode(indexStr)) : [];
-    if (!keys.contains(sessionKey)) {
-      keys.add(sessionKey);
-      await _secureStorage.write(
-          key: TURNKEY_SESSION_KEYS_INDEX, value: jsonEncode(keys));
+    final indexStr =
+        await _secureStorage.read(key: StorageKeys.SessionKeys.value);
+
+    List<String> keys = [];
+
+    if (indexStr != null) {
+      try {
+        keys = List<String>.from(jsonDecode(indexStr));
+      } catch (e) {
+        throw Exception("Failed to parse session list: $e");
+      }
     }
-  } catch (error) {
-    throw Exception("Failed to add session key to index: $error");
+
+    if (keys.contains(sessionKey)) {
+      return;
+    }
+
+    keys.add(sessionKey);
+    await _secureStorage.write(
+      key: StorageKeys.SessionKeys.value,
+      value: jsonEncode(keys),
+    );
+  } catch (e) {
+    throw Exception("Failed to add session key: $e");
   }
 }
 
 /// Retrieves all session keys stored in the session index.
 ///
 /// Returns an array of session keys stored in secure storage.
-Future<List<String>> getSessionKeysIndex() async {
+/// Throws if retrieving the session list fails.
+Future<List<String>> getSessionKeys() async {
   try {
-    final indexStr = await _secureStorage.read(key: TURNKEY_SESSION_KEYS_INDEX);
-    return indexStr != null ? List<String>.from(jsonDecode(indexStr)) : [];
-  } catch (error) {
-    throw Exception("Failed to get session keys index: $error");
+    final indexStr =
+        await _secureStorage.read(key: StorageKeys.SessionKeys.value);
+
+    if (indexStr == null) {
+      return [];
+    }
+
+    try {
+      final keys = List<String>.from(jsonDecode(indexStr));
+
+      return keys;
+    } catch (e) {
+      throw Exception("Failed to parse session list: $e");
+    }
+  } catch (e) {
+    throw Exception("Failed to retrieve session list: $e");
   }
 }
 
@@ -155,15 +179,29 @@ Future<List<String>> getSessionKeysIndex() async {
 /// - Saves the updated session index back to secure storage.
 ///
 /// [sessionKey] The session key to remove from the index.
-Future<void> removeSessionKeyFromIndex(String sessionKey) async {
+/// Throws if removing the session key fails.
+Future<void> removeSessionKey(String sessionKey) async {
   try {
-    final indexStr = await _secureStorage.read(key: TURNKEY_SESSION_KEYS_INDEX);
-    List<String> keys =
-        indexStr != null ? List<String>.from(jsonDecode(indexStr)) : [];
-    keys = keys.where((key) => key != sessionKey).toList();
+    final indexStr =
+        await _secureStorage.read(key: StorageKeys.SessionKeys.value);
+
+    List<String> keys = [];
+
+    if (indexStr != null) {
+      try {
+        keys = List<String>.from(jsonDecode(indexStr));
+      } catch (e) {
+        throw Exception("Failed to parse session list: $e");
+      }
+    }
+
+    final updatedKeys = keys.where((key) => key != sessionKey).toList();
+
     await _secureStorage.write(
-        key: TURNKEY_SESSION_KEYS_INDEX, value: jsonEncode(keys));
-  } catch (error) {
-    throw Exception("Failed to remove session key from index: $error");
+      key: StorageKeys.SessionKeys.value,
+      value: jsonEncode(updatedKeys),
+    );
+  } catch (e) {
+    throw Exception("Failed to remove session key: $e");
   }
 }

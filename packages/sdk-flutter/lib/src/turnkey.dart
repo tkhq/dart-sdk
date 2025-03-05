@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_encoding/turnkey_encoding.dart';
+import 'package:turnkey_sdk_flutter/src/storage.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 class TurnkeyProvider with ChangeNotifier {
@@ -12,7 +13,7 @@ class TurnkeyProvider with ChangeNotifier {
   final TurnkeyConfig config;
 
   TurnkeyProvider({required this.config}) {
-    initializeSessions();
+    _initializeSessions();
   }
 
   Session? get session => _session;
@@ -34,29 +35,28 @@ class TurnkeyProvider with ChangeNotifier {
   /// removes expired sessions, and schedules expiration timers for active ones.
   /// Additionally, it loads the last selected session if it is still valid,
   /// otherwise it clears the session and triggers the session expiration callback.
-  Future<void> initializeSessions() async {
-    final sessionKeys = await getSessionKeysIndex();
+  Future<void> _initializeSessions() async {
+    final sessionKeys = await getSessionKeys();
 
     await Future.wait(sessionKeys.map((sessionKey) async {
       final session = await getSession(sessionKey);
 
-      if (session == null ||
-          session.expiry <= DateTime.now().millisecondsSinceEpoch) {
+      if (!isValidSession(session)) {
         await clearSession(sessionKey: sessionKey);
-        await removeSessionKeyFromIndex(sessionKey);
+        await removeSessionKey(sessionKey);
         return;
       }
 
-      await _scheduleSessionExpiration(sessionKey, session.expiry);
+      await _scheduleSessionExpiration(sessionKey, session!.expiry);
     }));
 
     final selectedSessionKey = await getSelectedSessionKey();
 
     if (selectedSessionKey != null) {
-      final selectedSession = await getSession(selectedSessionKey);
+      var selectedSession = await getSession(selectedSessionKey);
 
-      if (selectedSession != null &&
-          selectedSession.expiry > DateTime.now().millisecondsSinceEpoch) {
+      if (isValidSession(selectedSession)) {
+        selectedSession = selectedSession!;
         final clientInstance = createClient(
           selectedSession.publicKey,
           selectedSession.privateKey,
@@ -90,11 +90,13 @@ class TurnkeyProvider with ChangeNotifier {
   /// If the session is expired or invalid, clears the session and triggers [onSessionExpired].
   ///
   /// Returns the selected session if valid, otherwise `null`.
+  ///
+  /// [sessionKey] The key of the session to be selected.
   Future<Session?> setSelectedSession(String sessionKey) async {
-    final session = await getSession(sessionKey);
+    var session = await getSession(sessionKey);
 
-    if (session != null &&
-        session.expiry > DateTime.now().millisecondsSinceEpoch) {
+    if (isValidSession(session)) {
+      session = session!;
       final client = createClient(
           session.publicKey, session.privateKey, config.apiBaseUrl);
       this.client = client;
@@ -119,9 +121,14 @@ class TurnkeyProvider with ChangeNotifier {
   /// If the session is already expired, it triggers expiration immediately.
   /// Otherwise, schedules a timeout to expire the session at the appropriate time.
   /// Calls [clearSession] and invokes the [onSessionExpired] callback when the session expires.
-  Future<void> _scheduleSessionExpiration(String sessionKey, int expiry) async {
+  ///
+  /// [sessionKey] The key of the session to schedule expiration for.
+  /// [expirationSeconds] The expiration time in seconds.
+  Future<void> _scheduleSessionExpiration(
+      String sessionKey, int expirationSeconds) async {
     if (_expiryTimers.isNotEmpty && _expiryTimers.containsKey(sessionKey)) {
       _expiryTimers[sessionKey]?.cancel();
+      _expiryTimers.remove(sessionKey);
     }
 
     final expireSession = () async {
@@ -132,28 +139,16 @@ class TurnkeyProvider with ChangeNotifier {
       await clearSession(sessionKey: sessionKey);
 
       config.onSessionExpired?.call(expiredSession);
-      _expiryTimers.remove(sessionKey);
     };
 
-    final timeUntilExpiry = expiry - DateTime.now().millisecondsSinceEpoch;
+    final timeUntilExpiry =
+        expirationSeconds - DateTime.now().millisecondsSinceEpoch;
 
     if (timeUntilExpiry <= 0) {
       await expireSession();
     } else {
       _expiryTimers.putIfAbsent(sessionKey, () {
         return Timer(Duration(milliseconds: timeUntilExpiry), expireSession);
-      });
-    }
-  }
-
-  /// Clears all scheduled session expiration timeouts.
-  ///
-  /// Iterates over the currently tracked expiration timers and clears each one.
-  /// Resets the [_expiryTimers] object to an empty state.
-  void _clearTimeouts() {
-    if (_expiryTimers.isNotEmpty) {
-      _expiryTimers.forEach((key, timer) {
-        timer.cancel();
       });
     }
   }
@@ -172,9 +167,30 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// Returns the created session.
   /// Throws an [Exception] if the embedded key or user data cannot be retrieved.
-  Future<Session> createSession(String bundle,
-      {int expirySeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
-      String sessionKey = TURNKEY_DEFAULT_SESSION_STORAGE}) async {
+  ///
+  /// [bundle] The credential bundle to create the session from.
+  /// [expirationSeconds] The expiration time in seconds.
+  /// [sessionKey] The key to store the session under.
+  Future<Session> createSession(
+      {required String bundle,
+      int expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+      String? sessionKey}) async {
+    sessionKey ??= StorageKeys.DefaultSession.value;
+
+    final existingSessionKeys = await getSessionKeys();
+
+    if (existingSessionKeys.length >= MAX_SESSIONS) {
+      throw Exception(
+        'Maximum session limit of ${MAX_SESSIONS} reached. Please clear an existing session before creating a new one.',
+      );
+    }
+
+    if (existingSessionKeys.contains(sessionKey)) {
+      throw Exception(
+        'Session key "${sessionKey}" already exists. Please choose a unique session key or clear the existing session.',
+      );
+    }
+
     final embeddedKey = await getEmbeddedKey();
     if (embeddedKey == null) {
       throw Exception('Embedded key not found.');
@@ -183,7 +199,8 @@ class TurnkeyProvider with ChangeNotifier {
     final privateKey = decryptCredentialBundle(
         credentialBundle: bundle, embeddedKey: embeddedKey);
     final publicKey = uint8ArrayToHexString(getPublicKey(privateKey));
-    final expiry = DateTime.now().millisecondsSinceEpoch + expirySeconds * 1000;
+    final expiry =
+        DateTime.now().millisecondsSinceEpoch + expirationSeconds * 1000;
 
     final client = createClient(publicKey, privateKey, config.apiBaseUrl);
     this.client = client;
@@ -206,12 +223,11 @@ class TurnkeyProvider with ChangeNotifier {
       session.key,
     );
 
-    await addSessionKeyToIndex(sessionKey);
+    await addSessionKey(sessionKey);
 
     await _scheduleSessionExpiration(session.key, expiry);
 
-    final sessionKeys = await getSessionKeysIndex();
-    final isFirstSession = sessionKeys.length == 1;
+    final isFirstSession = existingSessionKeys.length == 0;
 
     if (isFirstSession) {
       await setSelectedSession(sessionKey);
@@ -231,9 +247,18 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// Returns the cleared session if successful, otherwise `null`.
   /// Throws an [Exception] if the session cannot be cleared.
-  Future<Session?> clearSession(
-      {String sessionKey = TURNKEY_DEFAULT_SESSION_STORAGE}) async {
+  ///
+  /// [sessionKey] The key of the session to clear.
+  Future<Session?> clearSession({String? sessionKey}) async {
     try {
+      final selectedSessionKey = await getSelectedSessionKey();
+
+      sessionKey ??= selectedSessionKey;
+
+      if (sessionKey == null) {
+        throw Exception("sessionKey not found");
+      }
+
       final clearedSession = await getSession(sessionKey);
 
       if (session?.key == sessionKey) {
@@ -246,9 +271,10 @@ class TurnkeyProvider with ChangeNotifier {
 
       await deleteSession(sessionKey);
 
-      await removeSessionKeyFromIndex(sessionKey);
+      await removeSessionKey(sessionKey);
 
       _expiryTimers[sessionKey]?.cancel();
+      _expiryTimers.remove(sessionKey);
 
       config.onSessionCleared?.call(clearedSession ??
           Session(key: sessionKey, publicKey: "", privateKey: "", expiry: 0));
@@ -265,16 +291,27 @@ class TurnkeyProvider with ChangeNotifier {
   /// Throws an [Exception] if any session cannot be cleared.
   Future<void> clearAllSessions() async {
     try {
-      final sessionKeys = await getSessionKeysIndex();
+      final sessionKeys = await getSessionKeys();
 
       for (final sessionKey in sessionKeys) {
         await clearSession(sessionKey: sessionKey);
       }
-
-      _clearTimeouts();
     } catch (e) {
       throw Exception("Failed to clear all sessions: $e");
     }
+  }
+
+  /// Generates a new embedded key pair and securely stores the private key in secure storage.
+  ///
+  /// Returns the public key corresponding to the generated embedded key pair.
+  Future<String> createEmbeddedKey() async {
+    final keyPair = await generateP256KeyPair();
+    final embeddedPrivateKey = keyPair.privateKey;
+    final publicKey = keyPair.publicKeyUncompressed;
+
+    await saveEmbeddedKey(embeddedPrivateKey);
+
+    return publicKey;
   }
 
   /// Refreshes the current user data.
@@ -312,8 +349,10 @@ class TurnkeyProvider with ChangeNotifier {
   /// If the update is successful, refreshes the user data to reflect changes.
   ///
   /// Throws an [Exception] if the client or session is not initialized.
-  Future<Activity> updateUser(BuildContext context,
-      {String? email, String? phone}) async {
+  ///
+  /// [email] The new email address of the user.
+  /// [phone] The new phone number of the user.
+  Future<Activity> updateUser({String? email, String? phone}) async {
     if (_client == null || session == null || session!.user == null) {
       throw Exception("Client or user not initialized");
     }
@@ -345,11 +384,26 @@ class TurnkeyProvider with ChangeNotifier {
   /// Signs a raw payload using the specified signing key and encoding parameters.
   ///
   /// Throws an [Exception] if the client or user is not initialized.
+  ///
+  /// [signWith] The key to sign with.
+  /// [payload] The payload to sign.
+  /// [encoding] The encoding of the payload.
+  /// [hashFunction] The hash function to use.
   Future<SignRawPayloadResult> signRawPayload(
-      BuildContext context, SignRawPayloadIntentV2 parameters) async {
+      {required String signWith,
+      required String payload,
+      required PayloadEncoding encoding,
+      required HashFunction hashFunction}) async {
     if (_client == null || session == null || session!.user == null) {
       throw Exception("Client or user not initialized");
     }
+
+    final parameters = SignRawPayloadIntentV2(
+      signWith: signWith,
+      payload: payload,
+      encoding: encoding,
+      hashFunction: hashFunction,
+    );
 
     final response = await _client!.signRawPayload(
         input: SignRawPayloadRequest(
@@ -365,14 +419,60 @@ class TurnkeyProvider with ChangeNotifier {
     return signRawPayloadResult;
   }
 
-  /// Creates a new wallet with the specified name and accounts.
+  /// Signs a transaction using the specified signing key and transaction parameters.
   ///
   /// Throws an [Exception] if the client or user is not initialized.
-  Future<Activity> createWallet(
-      BuildContext context, CreateWalletIntent parameters) async {
+  ///
+  /// [signWith] The key to sign with.
+  /// [unsignedTransaction] The unsigned transaction to sign.
+  /// [type] The type of the transaction from the [TransactionType] enum.
+  Future<SignTransactionResult> signTransaction(
+      {required String signWith,
+      required String unsignedTransaction,
+      required TransactionType type}) async {
     if (_client == null || session == null || session!.user == null) {
       throw Exception("Client or user not initialized");
     }
+
+    final parameters = SignTransactionIntentV2(
+        signWith: signWith,
+        unsignedTransaction: unsignedTransaction,
+        type: type);
+
+    final response = await _client!.signTransaction(
+        input: SignTransactionRequest(
+            type: SignTransactionRequestType.activityTypeSignTransactionV2,
+            timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+            organizationId: session!.user!.organizationId,
+            parameters: parameters));
+
+    final signTransactionResult =
+        response.activity.result.signTransactionResult;
+    if (signTransactionResult == null) {
+      throw Exception("Failed to sign transaction");
+    }
+    return signTransactionResult;
+  }
+
+  /// Creates a new wallet with the specified name and accounts.
+  ///
+  /// Throws an [Exception] if the client or user is not initialized.
+  ///
+  /// [walletName] The name of the wallet.
+  /// [accounts] The accounts to create in the wallet.
+  /// [mnemonicLength] The length of the mnemonic.
+  Future<Activity> createWallet(
+      {required String walletName,
+      required List<WalletAccountParams> accounts,
+      int? mnemonicLength}) async {
+    if (_client == null || session == null || session!.user == null) {
+      throw Exception("Client or user not initialized");
+    }
+    final parameters = CreateWalletIntent(
+      accounts: accounts,
+      walletName: walletName,
+      mnemonicLength: mnemonicLength,
+    );
 
     final response = await _client!.createWallet(
         input: CreateWalletRequest(
@@ -391,8 +491,14 @@ class TurnkeyProvider with ChangeNotifier {
   /// Imports a wallet using a provided mnemonic and creates accounts.
   ///
   /// Throws an [Exception] if the client or user is not initialized.
-  Future<void> importWallet(BuildContext context, String mnemonic,
-      String walletName, List<WalletAccountParams> accounts) async {
+  ///
+  /// [mnemonic] The mnemonic to import.
+  /// [walletName] The name of the wallet.
+  /// [accounts] The accounts to create in the wallet.
+  Future<void> importWallet(
+      {required String mnemonic,
+      required String walletName,
+      required List<WalletAccountParams> accounts}) async {
     if (_client == null || session == null || session!.user == null) {
       throw Exception("Client or user not initialized");
     }
@@ -436,7 +542,9 @@ class TurnkeyProvider with ChangeNotifier {
   /// Exports an existing wallet by decrypting the stored mnemonic phrase.
   ///
   /// Throws an [Exception] if the client, user, or export bundle is not initialized.
-  Future<String> exportWallet(BuildContext context, String walletId) async {
+  ///
+  /// [walletId] The ID of the wallet to export.
+  Future<String> exportWallet({required String walletId}) async {
     if (_client == null || session == null || session!.user == null) {
       throw Exception("Client or user not initialized");
     }

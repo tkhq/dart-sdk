@@ -54,16 +54,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               .map((b) => b.toRadixString(16).padLeft(2, '0'))
               .join();
 
-      final parameters = SignRawPayloadIntentV2(
+      final response = await turnkeyProvider.signRawPayload(
           signWith: account,
           payload: hashedMessage,
           encoding: PayloadEncoding.payloadEncodingHexadecimal,
           hashFunction: addressType == "ETH"
               ? HashFunction.hashFunctionNoOp
               : HashFunction.hashFunctionNotApplicable);
-
-      final response =
-          await turnkeyProvider.signRawPayload(context, parameters);
       onStateUpdated(() {
         _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
       });
@@ -83,8 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Provider.of<TurnkeyProvider>(context, listen: false);
 
     final export = await turnkeyProvider.exportWallet(
-      context,
-      wallet.id,
+      walletId: wallet.id,
     );
 
     _exportedWallet = export;
@@ -416,21 +412,17 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
         Provider.of<TurnkeyProvider>(context, listen: false);
     if (_generateSeedPhrase) {
       await turnkeyProvider.createWallet(
-        context,
-        CreateWalletIntent(
-          walletName: _walletNameController.text,
-          accounts: [
-            DEFAULT_ETHEREUM_ACCOUNT,
-            DEFAULT_SOLANA_ACCOUNT,
-          ],
-        ),
+        walletName: _walletNameController.text,
+        accounts: [
+          DEFAULT_ETHEREUM_ACCOUNT,
+          DEFAULT_SOLANA_ACCOUNT,
+        ],
       );
     } else {
       await turnkeyProvider.importWallet(
-        context,
-        _seedPhraseController.text,
-        _walletNameController.text,
-        [
+        mnemonic: _seedPhraseController.text,
+        walletName: _walletNameController.text,
+        accounts: [
           DEFAULT_ETHEREUM_ACCOUNT,
           DEFAULT_SOLANA_ACCOUNT,
         ],

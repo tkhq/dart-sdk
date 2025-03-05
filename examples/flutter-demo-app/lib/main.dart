@@ -14,7 +14,7 @@ void main() async {
   await loadEnv();
 
   void onSessionSelected(Session session) {
-    if (session.expiry > DateTime.now().millisecondsSinceEpoch) {
+    if (isValidSession(session)) {
       navigatorKey.currentState?.pushReplacement(
         MaterialPageRoute(builder: (context) => DashboardScreen()),
       );

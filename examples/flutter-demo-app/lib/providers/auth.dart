@@ -81,7 +81,7 @@ class AuthRelayerProvider with ChangeNotifier {
       setError(null);
 
       try {
-        final targetPublicKey = await createEmbeddedKey();
+        final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
 
         final response = await otpAuth({
           'otpId': otpId,
@@ -93,7 +93,8 @@ class AuthRelayerProvider with ChangeNotifier {
         });
 
         if (response['credentialBundle'] != null) {
-          await turnkeyProvider.createSession(response['credentialBundle']);
+          await turnkeyProvider.createSession(
+              bundle: response['credentialBundle']);
         }
       } catch (error) {
         setError(error.toString());
@@ -132,7 +133,7 @@ class AuthRelayerProvider with ChangeNotifier {
             config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
             stamper: stamper);
 
-        final targetPublicKey = await createEmbeddedKey();
+        final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
 
         final sessionResponse = await httpClient.createReadWriteSession(
             input: CreateReadWriteSessionRequest(
@@ -147,7 +148,7 @@ class AuthRelayerProvider with ChangeNotifier {
             .activity.result.createReadWriteSessionResultV2?.credentialBundle;
 
         if (credentialBundle != null) {
-          await turnkeyProvider.createSession(credentialBundle);
+          await turnkeyProvider.createSession(bundle: credentialBundle);
         }
       }
     } catch (error) {
@@ -168,7 +169,7 @@ class AuthRelayerProvider with ChangeNotifier {
           config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
           stamper: stamper);
 
-      final targetPublicKey = await createEmbeddedKey();
+      final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
 
       final sessionResponse = await httpClient.createReadWriteSession(
           input: CreateReadWriteSessionRequest(
@@ -183,8 +184,7 @@ class AuthRelayerProvider with ChangeNotifier {
           .activity.result.createReadWriteSessionResultV2?.credentialBundle;
 
       if (credentialBundle != null) {
-        await turnkeyProvider.createSession(credentialBundle,
-            sessionKey: 'passkey');
+        await turnkeyProvider.createSession(bundle: credentialBundle);
       }
     } catch (error) {
       setError(error.toString());
@@ -203,7 +203,7 @@ class AuthRelayerProvider with ChangeNotifier {
         '${EnvConfig.googleRedirectScheme}://'); // This is the redirect URI that the OpenID Connect provider will redirect to after the user signs in. This URI must be registered with the OpenID Connect provider and added to your info.plist and AndroidManifest.xml.
     final List<String> scopes = ['openid', 'email', 'profile'];
 
-    final targetPublicKey = await createEmbeddedKey();
+    final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
 
     try {
       var issuer = await openid.Issuer.discover(Issuer.google);
@@ -256,8 +256,8 @@ class AuthRelayerProvider with ChangeNotifier {
             });
 
             if (oAuthResponse['credentialBundle'] != null) {
-              await turnkeyProvider
-                  .createSession(oAuthResponse['credentialBundle']);
+              await turnkeyProvider.createSession(
+                  bundle: oAuthResponse['credentialBundle']);
               closeInAppWebView();
               return;
             } else {
@@ -281,7 +281,7 @@ class AuthRelayerProvider with ChangeNotifier {
     setLoading('signInWithApple', true);
 
     try {
-      final targetPublicKey = await createEmbeddedKey();
+      final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
 
       final credential = await SignInWithApple.getAppleIDCredential(scopes: [
         AppleIDAuthorizationScopes.email,
@@ -301,7 +301,8 @@ class AuthRelayerProvider with ChangeNotifier {
       });
 
       if (oAuthResponse['credentialBundle'] != null) {
-        await turnkeyProvider.createSession(oAuthResponse['credentialBundle']);
+        await turnkeyProvider.createSession(
+            bundle: oAuthResponse['credentialBundle']);
         return;
       } else {
         throw Exception('No credential bundle returned');
