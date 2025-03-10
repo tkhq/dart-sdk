@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 import '../providers/auth.dart';
 import 'buttons.dart';
@@ -44,7 +45,7 @@ class _EmailInputState extends State<EmailInput> {
                   final email = _emailController.text;
                   if (email.isNotEmpty) {
                     await authRelayerProvider.initOtpLogin(context,
-                        otpType: 'OTP_TYPE_EMAIL', contact: email);
+                        otpType: OtpType.Email, contact: email);
                   } else {
                     // Show an error message if the email is empty
                     ScaffoldMessenger.of(context).showSnackBar(

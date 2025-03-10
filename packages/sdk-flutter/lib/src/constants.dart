@@ -10,6 +10,14 @@ enum StorageKeys {
   const StorageKeys(this.value);
 }
 
+enum OtpType {
+  Email("OTP_TYPE_EMAIL"),
+  SMS("OTP_TYPE_SMS");
+
+  final String value;
+  const OtpType(this.value);
+}
+
 const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
 
 const MAX_SESSIONS = 15;

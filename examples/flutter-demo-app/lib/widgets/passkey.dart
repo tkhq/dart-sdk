@@ -18,7 +18,7 @@ class PasskeyInput extends StatelessWidget {
               return LoadingButton(
                 onPressed: () {
                   if (!authRelayerProvider.isLoading('loginWithPasskey')) {
-                    authRelayerProvider.loginWithPasskey(context);
+                    authRelayerProvider.loginWithPasskey();
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -43,7 +43,7 @@ class PasskeyInput extends StatelessWidget {
               return LoadingButton(
                 onPressed: () {
                   if (!authRelayerProvider.isLoading('signUpWithPasskey')) {
-                    authRelayerProvider.signUpWithPasskey(context);
+                    authRelayerProvider.signUpWithPasskey();
                   }
                 },
                 style: ElevatedButton.styleFrom(

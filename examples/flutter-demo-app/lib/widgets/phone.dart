@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 // ignore: implementation_imports
 import 'package:intl_phone_number_input/src/models/country_list.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 import '../providers/auth.dart';
 import 'buttons.dart';
@@ -19,15 +20,15 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
 
   final unsupportedCountryCodes = [
-    "+93", // Afghanistan
-    "+964", // Iraq
-    "+963", // Syria
-    "+249", // Sudan
-    "+98", // Iran
-    "+850", // North Korea
-    "+53", // Cuba
-    "+250", // Rwanda
-    "+379", // Vatican City
+    '+93', // Afghanistan
+    '+964', // Iraq
+    '+963', // Syria
+    '+249', // Sudan
+    '+98', // Iran
+    '+850', // North Korea
+    '+53', // Cuba
+    '+250', // Rwanda
+    '+379', // Vatican City
   ];
 
   List<String> getAllowedCountryCodes() {
@@ -85,7 +86,7 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
                   if (_phoneNumber.phoneNumber != null &&
                       _phoneNumber.phoneNumber!.isNotEmpty) {
                     await authRelayerProvider.initOtpLogin(context,
-                        otpType: 'OTP_TYPE_SMS',
+                        otpType: OtpType.SMS,
                         contact: _phoneNumber.phoneNumber!);
                   } else {
                     // Show an error message if phone number box is empty

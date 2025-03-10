@@ -1,6 +1,6 @@
 name: turnkey_flutter_demo_app
-description: "A demo app using Turnkey's Flutter packages"
-publish_to: "none"
+description: A demo app using Turnkey's Flutter packages
+publish_to: none
 repository: https://github.com/tkhq/dart-sdk
 
 version: 1.0.0+1
@@ -31,7 +31,7 @@ dependencies:
   url_launcher: ^6.3.1
   sign_in_with_apple: ^6.1.4
   intl_phone_number_input: ^0.7.4
-  flutter_libphonenumber_ios: "^1.4.0"
+  flutter_libphonenumber_ios: ^1.4.0
 
 dev_dependencies:
   flutter_test:

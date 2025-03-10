@@ -46,8 +46,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     try {
       final turnkeyProvider =
           Provider.of<TurnkeyProvider>(context, listen: false);
-      final addressType = account.startsWith("0x") ? "ETH" : "SOL";
-      final hashedMessage = addressType == "ETH"
+      final addressType = account.startsWith('0x') ? 'ETH' : 'SOL';
+      final hashedMessage = addressType == 'ETH'
           ? sha256.convert(utf8.encode(messageToSign)).toString()
           : utf8
               .encode(messageToSign)
@@ -58,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           signWith: account,
           payload: hashedMessage,
           encoding: PayloadEncoding.payloadEncodingHexadecimal,
-          hashFunction: addressType == "ETH"
+          hashFunction: addressType == 'ETH'
               ? HashFunction.hashFunctionNoOp
               : HashFunction.hashFunctionNotApplicable);
       onStateUpdated(() {
@@ -127,7 +127,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final signMessage = "I love Turnkey";
+    final signMessage = 'I love Turnkey';
 
     return Scaffold(
       appBar: AppBar(

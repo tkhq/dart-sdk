@@ -18,7 +18,7 @@ class OAuthButtons extends StatelessWidget {
             builder: (context, authRelayerProvider, child) {
               return LoadingButton(
                 onPressed: () {
-                  authRelayerProvider.signInWithGoogle(context);
+                  authRelayerProvider.signInWithGoogle();
                 },
                 isLoading: authRelayerProvider.isLoading('signInWithGoogle'),
                 child: SvgPicture.asset(
@@ -34,7 +34,7 @@ class OAuthButtons extends StatelessWidget {
             builder: (context, authRelayerProvider, child) {
               return LoadingButton(
                 onPressed: () {
-                  authRelayerProvider.signInWithApple(context);
+                  authRelayerProvider.signInWithApple();
                 },
                 isLoading: authRelayerProvider.isLoading('signInWithApple'),
                 child: SvgPicture.asset(
