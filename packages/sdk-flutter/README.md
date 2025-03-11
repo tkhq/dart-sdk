@@ -153,8 +153,10 @@ Using multiple sessions can be beneficial when enabling different authentication
 
 ---
 
-## **Demo App**
+## Template
 
-Check out [this repository](https://github.com/tkhq/dart-sdk/tree/main/examples/flutter-demo-app) for a full working example.
+For the quickest and easiest way to create a Turnkey-powered Flutter app, check out our [Turnkey Flutter Template](https://github.com/tkhq/flutter_template/).
 
----
+## Example App
+
+For a fully functional Flutter demo app that leverages Turnkey's Dart/Flutter packages, check out our [Turnkey Flutter Demo App](./examples/flutter-demo-app).
