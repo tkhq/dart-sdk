@@ -15,7 +15,7 @@ The Turnkey Dart SDK includes functionality to interact with Turnkey in various 
 
 ## Template
 
-For the quickes and easiest way to create a Turnkey-powered Flutter app, check out our [Turnkey Flutter Template](https://github.com/tkhq/flutter_template/).
+For the quickest and easiest way to create a Turnkey-powered Flutter app, check out our [Turnkey Flutter Template](https://github.com/tkhq/flutter_template/).
 
 ## Example App
 
