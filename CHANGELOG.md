@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-03-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`turnkey_sdk_flutter` - `v0.1.0`](#turnkey_sdk_flutter---v010)
+
+---
+
+#### `turnkey_sdk_flutter` - `v0.1.0`
+
+ - Initial release. Client side abstracted functions for Turnkey-powered Flutter apps
+
+
 ## 2025-02-18
 
 ### Changes
