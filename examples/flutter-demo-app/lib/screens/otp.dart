@@ -4,18 +4,14 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/widgets/buttons.dart';
 
-import '../providers/turnkey.dart';
+import '../providers/auth.dart';
 
 class OTPScreen extends StatelessWidget {
-  final String otpType;
   final String otpId;
   final String organizationId;
 
   const OTPScreen(
-      {super.key,
-      required this.otpId,
-      required this.organizationId,
-      required this.otpType});
+      {super.key, required this.otpId, required this.organizationId});
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +82,8 @@ class OTPScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 20),
-                        Expanded(child: Consumer<TurnkeyProvider>(
-                            builder: (context, turnkeyProvider, child) {
+                        Expanded(child: Consumer<AuthRelayerProvider>(
+                            builder: (context, authRelayerProvider, child) {
                           return LoadingButton(
                             style: ElevatedButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 10),
@@ -98,24 +94,11 @@ class OTPScreen extends StatelessWidget {
                             onPressed: () async {
                               final otpCode = otpController.text;
                               if (otpCode.isNotEmpty) {
-                                final turnkeyProvider =
-                                    Provider.of<TurnkeyProvider>(context,
-                                        listen: false);
-                                if (otpType == 'OTP_TYPE_EMAIL') {
-                                  await turnkeyProvider.completeEmailAuth(
-                                    context: context,
-                                    otpId: otpId,
-                                    otpCode: otpCode,
-                                    organizationId: organizationId,
-                                  );
-                                } else if (otpType == 'OTP_TYPE_SMS') {
-                                  await turnkeyProvider.completePhoneAuth(
-                                    context: context,
-                                    otpId: otpId,
-                                    otpCode: otpCode,
-                                    organizationId: organizationId,
-                                  );
-                                }
+                                await authRelayerProvider.completeOtpAuth(
+                                  otpId: otpId,
+                                  otpCode: otpCode,
+                                  organizationId: organizationId,
+                                );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -124,9 +107,8 @@ class OTPScreen extends StatelessWidget {
                                 );
                               }
                             },
-                            isLoading: turnkeyProvider
-                                    .isLoading('completeEmailAuth') ||
-                                turnkeyProvider.isLoading('completePhoneAuth'),
+                            isLoading: authRelayerProvider
+                                .isLoading('completeOtpAuth'),
                             text: 'Continue',
                           );
                         })),

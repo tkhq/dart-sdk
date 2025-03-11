@@ -2,12 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:turnkey_flutter_demo_app/utils/constants.dart';
-import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
-import 'package:turnkey_flutter_demo_app/providers/turnkey.dart';
-import 'package:turnkey_flutter_demo_app/providers/turnkey.dart' as tk;
 import 'package:crypto/crypto.dart';
-import 'package:turnkey_sessions/turnkey_sessions.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -19,34 +15,54 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   String? _signature;
   String? _exportedWallet;
+  Wallet? _selectedWallet;
+  WalletAccount? _selectedAccount;
+
+  @override
+  void initState() {
+    super.initState();
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
+    turnkeyProvider.addListener(_updateSelectedWallet);
+    _updateSelectedWallet();
+  }
+
+  void _updateSelectedWallet() {
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
+
+    if (turnkeyProvider.session?.user != null &&
+        turnkeyProvider.session!.user!.wallets.isNotEmpty) {
+      setState(() {
+        _selectedWallet = turnkeyProvider.session?.user!.wallets[0];
+        _selectedAccount =
+            turnkeyProvider.session?.user!.wallets[0].accounts[0];
+      });
+    }
+  }
 
   Future<void> handleSign(BuildContext context, String messageToSign,
       String account, Function onStateUpdated) async {
     try {
       final turnkeyProvider =
           Provider.of<TurnkeyProvider>(context, listen: false);
-      final addressType = account.startsWith("0x") ? "ETH" : "SOL";
-      final hashedMessage = addressType == "ETH"
+      final addressType = account.startsWith('0x') ? 'ETH' : 'SOL';
+      final hashedMessage = addressType == 'ETH'
           ? sha256.convert(utf8.encode(messageToSign)).toString()
           : utf8
               .encode(messageToSign)
               .map((b) => b.toRadixString(16).padLeft(2, '0'))
               .join();
 
-      final parameters = SignRawPayloadIntentV2(
+      final response = await turnkeyProvider.signRawPayload(
           signWith: account,
           payload: hashedMessage,
           encoding: PayloadEncoding.payloadEncodingHexadecimal,
-          hashFunction: addressType == "ETH"
+          hashFunction: addressType == 'ETH'
               ? HashFunction.hashFunctionNoOp
               : HashFunction.hashFunctionNotApplicable);
-
-      final response =
-          await turnkeyProvider.signRawPayload(context, parameters);
-
       onStateUpdated(() {
-        _signature =
-            'r: ${response.activity.result.signRawPayloadResult?.r}, s: ${response.activity.result.signRawPayloadResult?.s}, v: ${response.activity.result.signRawPayloadResult?.v}';
+        _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -59,14 +75,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
-  Future<void> handleExportWallet(
-      BuildContext context, tk.Wallet wallet) async {
+  Future<void> handleExportWallet(BuildContext context, Wallet wallet) async {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
 
     final export = await turnkeyProvider.exportWallet(
-      context,
-      wallet.id,
+      walletId: wallet.id,
     );
 
     _exportedWallet = export;
@@ -113,32 +127,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final signMessage = "I love Turnkey";
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
-
-    void autoLogout() async {
-      if (sessionProvider.session == null ||
-          sessionProvider.session!.expiry <=
-              DateTime.now().millisecondsSinceEpoch) {
-        Navigator.pushReplacementNamed(context, '/');
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Logged out. Please login again.'),
-          ),
-        );
-      }
-    }
-
-    sessionProvider.addListener(autoLogout);
+    final signMessage = 'I love Turnkey';
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
             Provider.of<TurnkeyProvider>(context, listen: false)
-                .logout(context);
+                .clearAllSessions();
           },
           icon: Icon(
             Icons.logout,
@@ -150,32 +146,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Center(
         child: Consumer<TurnkeyProvider>(
           builder: (context, turnkeyProvider, child) {
-            void showTurnkeyProviderErrors() {
-              if (turnkeyProvider.errorMessage != null) {
-                debugPrint(turnkeyProvider.errorMessage.toString());
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                        'An error has occurred: \n${turnkeyProvider.errorMessage.toString()}'),
-                  ),
-                );
-
-                turnkeyProvider.setError(null);
-              }
-            }
-
-            turnkeyProvider.addListener(showTurnkeyProviderErrors);
-
-            final user = turnkeyProvider.user;
+            final user = turnkeyProvider.session?.user;
             final userName =
                 (user?.userName != null && user!.userName!.isNotEmpty)
                     ? user.userName
                     : 'User';
-            final selectedWallet =
-                turnkeyProvider.selectedWallet ?? user?.wallets[0];
-            final walletAccounts = selectedWallet?.accounts;
-            final selectedAccount =
-                turnkeyProvider.selectedAccount ?? walletAccounts?.first;
+
+            final walletAccounts = _selectedWallet?.accounts;
 
             return Padding(
               padding: EdgeInsets.all(24),
@@ -226,16 +203,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                PopupMenuButton<tk.Wallet>(
+                                PopupMenuButton<Wallet>(
                                   onSelected: (wallet) {
-                                    turnkeyProvider.setSelectedWallet(wallet);
-                                    ;
+                                    setState(() {
+                                      _selectedWallet = wallet;
+                                      _selectedAccount = wallet.accounts[0];
+                                    });
                                   },
                                   itemBuilder: (BuildContext context) {
-                                    List<PopupMenuEntry<tk.Wallet>> items = [];
+                                    List<PopupMenuEntry<Wallet>> items = [];
                                     if (user?.wallets != null) {
                                       items.addAll(user!.wallets.map((wallet) {
-                                        return PopupMenuItem<tk.Wallet>(
+                                        return PopupMenuItem<Wallet>(
                                           value: wallet,
                                           child: Text(wallet.name),
                                         );
@@ -243,7 +222,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     }
                                     items.add(PopupMenuDivider());
                                     items.add(
-                                      PopupMenuItem<tk.Wallet>(
+                                      PopupMenuItem<Wallet>(
                                         onTap: () {
                                           showDialog(
                                               context: context,
@@ -266,7 +245,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        selectedWallet?.name ?? 'Wallet',
+                                        _selectedWallet?.name ?? 'Wallet',
                                         style: TextStyle(
                                           fontSize: 18,
                                         ),
@@ -286,7 +265,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 fontSize: 20,
                                                 color: Colors.black),
                                             title: Text(
-                                                'Export: ${selectedWallet?.name ?? 'wallet'}?'),
+                                                'Export: ${_selectedWallet?.name ?? 'wallet'}?'),
                                             content: Text(
                                               'Your seed phrase will be exposed to the screen.',
                                             ),
@@ -299,8 +278,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  handleExportWallet(
-                                                      context, selectedWallet!);
+                                                  handleExportWallet(context,
+                                                      _selectedWallet!);
                                                 },
                                                 child: Text('Yes'),
                                               ),
@@ -333,12 +312,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             return RadioListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
-                                  '${account.substring(0, 6)}...${account.substring(account.length - 6)}'),
-                              onChanged: (String? value) {
-                                turnkeyProvider.setSelectedAccount(value);
+                                  '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}'),
+                              onChanged: (Object? value) {
+                                setState(() {
+                                  _selectedAccount = (value as WalletAccount?);
+                                });
                               },
                               value: account,
-                              groupValue: selectedAccount,
+                              groupValue: _selectedAccount,
                             );
                           }),
                         ],
@@ -391,7 +372,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   TextButton(
                                     onPressed: () async {
                                       await handleSign(context, signMessage,
-                                          selectedAccount!, setState);
+                                          _selectedAccount!.address, setState);
                                     },
                                     child: Text('Sign'),
                                   ),
@@ -431,21 +412,17 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
         Provider.of<TurnkeyProvider>(context, listen: false);
     if (_generateSeedPhrase) {
       await turnkeyProvider.createWallet(
-        context,
-        CreateWalletIntent(
-          walletName: _walletNameController.text,
-          accounts: [
-            DEFAULT_ETHEREUM_ACCOUNT,
-            DEFAULT_SOLANA_ACCOUNT,
-          ],
-        ),
+        walletName: _walletNameController.text,
+        accounts: [
+          DEFAULT_ETHEREUM_ACCOUNT,
+          DEFAULT_SOLANA_ACCOUNT,
+        ],
       );
     } else {
       await turnkeyProvider.importWallet(
-        context,
-        _seedPhraseController.text,
-        _walletNameController.text,
-        [
+        mnemonic: _seedPhraseController.text,
+        walletName: _walletNameController.text,
+        accounts: [
           DEFAULT_ETHEREUM_ACCOUNT,
           DEFAULT_SOLANA_ACCOUNT,
         ],

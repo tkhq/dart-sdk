@@ -3,8 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 // ignore: implementation_imports
 import 'package:intl_phone_number_input/src/models/country_list.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
-import '../providers/turnkey.dart';
+import '../providers/auth.dart';
 import 'buttons.dart';
 
 class PhoneNumberInput extends StatefulWidget {
@@ -19,15 +20,15 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
   PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
 
   final unsupportedCountryCodes = [
-    "+93", // Afghanistan
-    "+964", // Iraq
-    "+963", // Syria
-    "+249", // Sudan
-    "+98", // Iran
-    "+850", // North Korea
-    "+53", // Cuba
-    "+250", // Rwanda
-    "+379", // Vatican City
+    '+93', // Afghanistan
+    '+964', // Iraq
+    '+963', // Syria
+    '+249', // Sudan
+    '+98', // Iran
+    '+850', // North Korea
+    '+53', // Cuba
+    '+250', // Rwanda
+    '+379', // Vatican City
   ];
 
   List<String> getAllowedCountryCodes() {
@@ -77,15 +78,16 @@ class _PhoneNumberInputState extends State<PhoneNumberInput> {
         SizedBox(height: 20),
         SizedBox(
           width: double.infinity,
-          child: Consumer<TurnkeyProvider>(
-            builder: (context, turnkeyProvider, child) {
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
               return LoadingButton(
-                isLoading: turnkeyProvider.isLoading('initPhoneLogin'),
+                isLoading: authRelayerProvider.isLoading('initPhoneLogin'),
                 onPressed: () async {
                   if (_phoneNumber.phoneNumber != null &&
                       _phoneNumber.phoneNumber!.isNotEmpty) {
-                    await turnkeyProvider.initPhoneLogin(
-                        context, _phoneNumber.phoneNumber!);
+                    await authRelayerProvider.initOtpLogin(context,
+                        otpType: OtpType.SMS,
+                        contact: _phoneNumber.phoneNumber!);
                   } else {
                     // Show an error message if phone number box is empty
                     ScaffoldMessenger.of(context).showSnackBar(

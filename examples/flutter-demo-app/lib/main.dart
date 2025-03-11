@@ -1,27 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/login.dart';
-import 'package:turnkey_sessions/turnkey_sessions.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'config.dart';
-import 'providers/turnkey.dart';
+import 'providers/auth.dart';
 import 'screens/dashboard.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   // Load the environment variables from the .env file
   WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
 
+  void onSessionSelected(Session session) {
+    if (isValidSession(session)) {
+      navigatorKey.currentState?.pushReplacement(
+        MaterialPageRoute(builder: (context) => DashboardScreen()),
+      );
+
+      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text('Logged in! Redirecting to the dashboard.'),
+        ),
+      );
+    }
+  }
+
+  void onSessionCleared(Session session) {
+    navigatorKey.currentState?.pushReplacementNamed('/');
+
+    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+      SnackBar(
+        content: Text('Logged out. Please login again.'),
+      ),
+    );
+  }
+
   runApp(
-    // TurnkeyProvider depends on SessionProvider, so we need to provide it first
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SessionProvider()),
-        ChangeNotifierProxyProvider<SessionProvider, TurnkeyProvider>(
-          create: (context) => TurnkeyProvider(
-              sessionProvider:
-                  Provider.of<SessionProvider>(context, listen: false)),
-          update: (context, sessionProvider, previous) =>
-              TurnkeyProvider(sessionProvider: sessionProvider),
+        ChangeNotifierProvider(
+            create: (context) => TurnkeyProvider(
+                config: TurnkeyConfig(
+                    apiBaseUrl: EnvConfig.turnkeyApiUrl,
+                    organizationId: EnvConfig.organizationId,
+                    onSessionSelected: onSessionSelected,
+                    onSessionCleared: onSessionCleared))),
+        ChangeNotifierProxyProvider<TurnkeyProvider, AuthRelayerProvider>(
+          create: (context) => AuthRelayerProvider(
+              turnkeyProvider:
+                  Provider.of<TurnkeyProvider>(context, listen: false)),
+          update: (context, turnkeyProvider, previous) =>
+              AuthRelayerProvider(turnkeyProvider: turnkeyProvider),
         ),
       ],
       child: MyApp(),
@@ -35,6 +66,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -53,46 +85,24 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    final authRelayerProvider =
+        Provider.of<AuthRelayerProvider>(context, listen: false);
 
-    final sessionProvider =
-        Provider.of<SessionProvider>(context, listen: false);
-
-    // These two functions have to be here instead of their respective classes because they rely on the context
-    void showTurnkeyProviderErrors() {
-      if (turnkeyProvider.errorMessage != null) {
-        debugPrint(turnkeyProvider.errorMessage.toString());
+    void showAuthRelayerProviderErrors() {
+      if (authRelayerProvider.errorMessage != null) {
+        debugPrint(authRelayerProvider.errorMessage.toString());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'An error has occurred: \n${turnkeyProvider.errorMessage.toString()}'),
+                'An error has occurred: \n${authRelayerProvider.errorMessage.toString()}'),
           ),
         );
 
-        turnkeyProvider.setError(null);
+        authRelayerProvider.setError(null);
       }
     }
 
-    void autoLogin() {
-      if (sessionProvider.session != null &&
-          sessionProvider.session!.expiry >
-              DateTime.now().millisecondsSinceEpoch) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => DashboardScreen()),
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Logged in! Redirecting to the dashboard.'),
-          ),
-        );
-      }
-    }
-
-    turnkeyProvider.addListener(showTurnkeyProviderErrors);
-    sessionProvider.addListener(autoLogin);
+    authRelayerProvider.addListener(showAuthRelayerProviderErrors);
 
     return Scaffold(
         appBar: AppBar(

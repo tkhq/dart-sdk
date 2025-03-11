@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
-import '../providers/turnkey.dart';
+import '../providers/auth.dart';
 import 'buttons.dart';
 
 class EmailInput extends StatefulWidget {
@@ -36,14 +37,15 @@ class _EmailInputState extends State<EmailInput> {
         SizedBox(height: 20),
         SizedBox(
           width: double.infinity,
-          child: Consumer<TurnkeyProvider>(
-            builder: (context, turnkeyProvider, child) {
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
               return LoadingButton(
-                isLoading: turnkeyProvider.isLoading('initEmailLogin'),
+                isLoading: authRelayerProvider.isLoading('initEmailLogin'),
                 onPressed: () async {
                   final email = _emailController.text;
                   if (email.isNotEmpty) {
-                    await turnkeyProvider.initEmailLogin(context, email);
+                    await authRelayerProvider.initOtpLogin(context,
+                        otpType: OtpType.Email, contact: email);
                   } else {
                     // Show an error message if the email is empty
                     ScaffoldMessenger.of(context).showSnackBar(
