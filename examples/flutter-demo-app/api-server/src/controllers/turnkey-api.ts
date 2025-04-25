@@ -3,6 +3,7 @@ import { DEFAULT_ETHEREUM_ACCOUNTS, Turnkey } from "@turnkey/sdk-server";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
+import { decodeJwt } from "../utils";
 
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
@@ -141,7 +142,7 @@ async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
 
   const subOrganizationName = `Sub Org - ${email || phone}`;
   const userName = email ? email.split("@")[0] || email : "";
-  const userEmail = email;
+  let userEmail = email;
   const userPhoneNumber = phone;
   const oauthProviders = oauth ? [oauth] : []; // You can attach multiple oauth providers when creating a suborganization
   const authenticators = passkey
@@ -153,6 +154,14 @@ async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
         },
       ]
     : [];
+
+  // If the user is authenticated with OAuth, you can extract the email from the token in most cases.
+  if (oauth) {
+    const decoded = decodeJwt(oauth.oidcToken);
+    if (decoded?.email) {
+      userEmail = decoded.email;
+    }
+  }
 
   const result = await turnkey.createSubOrganization({
     organizationId: turnkeyConfig.defaultOrganizationId,

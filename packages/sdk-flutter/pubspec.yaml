@@ -15,6 +15,8 @@ dependencies:
   turnkey_flutter_passkey_stamper: ^0.1.0
   turnkey_api_key_stamper: ^0.1.0
   turnkey_http: ^0.1.1
+  app_links: ^6.3.3
+  flutter_inappwebview: ^6.1.5
 
 dev_dependencies:
   flutter_test:

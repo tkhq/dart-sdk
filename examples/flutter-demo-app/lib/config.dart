@@ -8,8 +8,7 @@ class EnvConfig {
   static String get rpId => dotenv.env['RP_ID'] ?? '';
   static String get organizationId => dotenv.env['ORGANIZATION_ID'] ?? '';
   static String get googleClientId => dotenv.env['GOOGLE_CLIENT_ID'] ?? '';
-  static String get googleRedirectScheme =>
-      dotenv.env['GOOGLE_REDIRECT_SCHEME'] ?? '';
+  static String get appScheme => dotenv.env['APP_SCHEME'] ?? '';
 }
 
 Future<void> loadEnv() async {

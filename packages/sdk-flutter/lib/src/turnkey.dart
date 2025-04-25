@@ -1,5 +1,8 @@
 import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'package:turnkey_sdk_flutter/src/storage.dart';
@@ -571,5 +574,110 @@ class TurnkeyProvider with ChangeNotifier {
         embeddedKey: embeddedKey,
         organizationId: session!.user!.organizationId,
         returnMnemonic: true);
+  }
+
+  /// Handles the Google OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] The client ID for Google OAuth.
+  /// [nonce] A random nonce for the OAuth flow.
+  /// [scheme] The app's custom URL scheme.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to TURNKEY_OAUTH_ORIGIN_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [onSuccess] Callback function that receives the oidcToken upon successful authentication.
+  Future<void> handleGoogleOAuth({
+    required String clientId,
+    required String nonce,
+    required String scheme,
+    String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
+    String? redirectUri,
+    required void Function(String oidcToken) onSuccess,
+  }) async {
+    final AppLinks appLinks = AppLinks();
+
+    redirectUri ??=
+        '${TURNKEY__OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
+
+    final oauthUrl = originUri! +
+        '?provider=google' +
+        '&clientId=${Uri.encodeComponent(clientId)}' +
+        '&redirectUri=${Uri.encodeComponent(redirectUri)}' +
+        '&nonce=${Uri.encodeComponent(nonce)}';
+
+    // Create a completer to wait for the authentication result
+    final Completer<void> authCompleter = Completer<void>();
+
+    // Set up a subscription for deep links
+    StreamSubscription? subscription;
+    subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+      if (uri != null && uri.toString().startsWith(scheme)) {
+        // Parse query parameters from the URI
+        final idToken = uri.queryParameters['id_token'];
+
+        if (idToken != null) {
+          onSuccess(idToken);
+
+          // Complete the auth process. Runs the whenComplete callback
+          if (!authCompleter.isCompleted) {
+            authCompleter.complete();
+          }
+        }
+      }
+    });
+
+    try {
+      final browser = _OAuthBrowser(
+        onBrowserClosed: () {
+          if (!authCompleter.isCompleted) {
+            subscription?.cancel();
+            authCompleter.complete();
+            return;
+          }
+        },
+      );
+
+      await browser.open(
+        url: WebUri(oauthUrl),
+        settings: ChromeSafariBrowserSettings(
+          showTitle: true,
+          toolbarBackgroundColor: Colors.white,
+        ),
+      );
+
+      // Set a timeout for the authentication process
+      await authCompleter.future.timeout(
+        const Duration(minutes: 10),
+        onTimeout: () {
+          subscription?.cancel();
+          throw Exception('Authentication timed out');
+        },
+      );
+
+      await authCompleter.future.whenComplete(() async {
+        await browser.close();
+        subscription?.cancel();
+      });
+    } catch (e) {
+      subscription.cancel();
+      throw Exception('Google OAuth failed: $e');
+    }
+  }
+}
+
+// We create a custom browser class to handle the onClosed event
+class _OAuthBrowser extends ChromeSafariBrowser {
+  final VoidCallback onBrowserClosed;
+
+  _OAuthBrowser({required this.onBrowserClosed});
+
+  @override
+  void onClosed() {
+    onBrowserClosed();
+    super.onClosed();
   }
 }
