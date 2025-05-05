@@ -96,57 +96,46 @@ class AuthRelayerProvider with ChangeNotifier {
   }
 
   Future<void> signUpWithPasskey() async {
-    // Sign up with Passkey will create a new sub-org, device passkey and read-write session for the user. This function ultimately requires two 'passkey taps' from the user
+    // Sign up with Passkey will create a new sub-org and create a session using the embedded key
     setLoading('signUpWithPasskey', true);
     setError(null);
     final uuid = Uuid();
 
     try {
-      final authenticationParams = await createPasskey(PasskeyRegistrationConfig(
-          rp: {
-            'id': EnvConfig.rpId,
-            'name': 'Flutter test app',
-          },
-          user: {
-            'id': uuid.v4(),
-            'name': 'Anonymous User',
-            'displayName': 'Anonymous User',
-          },
-          authenticatorName:
-              'End-User Passkey')); // Creating a passkey initiates one 'passkey tap'
+      final authenticationParams =
+          await createPasskey(PasskeyRegistrationConfig(rp: {
+        'id': EnvConfig.rpId,
+        'name': 'Flutter test app',
+      }, user: {
+        'id': uuid.v4(),
+        'name': 'Anonymous User',
+        'displayName': 'Anonymous User',
+      }, authenticatorName: 'End-User Passkey'));
+
+      // Create embedded key before calling createSubOrg
+      final publicKey =
+          await turnkeyProvider.createEmbeddedKey(isCompressed: true);
 
       final response = await createSubOrg({
         'passkey': {
           'challenge': authenticationParams['challenge'],
           'attestation': authenticationParams['attestation'],
         },
+        'apiKeys': [
+          {
+            'apiKeyName': 'Passkey API Key',
+            'publicKey': publicKey,
+            'curveType': 'API_KEY_CURVE_P256',
+          }
+        ],
       });
 
-      if (response['subOrganizationId'] != null) {
-        final stamper =
-            PasskeyStamper(PasskeyStamperConfig(rpId: EnvConfig.rpId));
-        final httpClient = TurnkeyClient(
-            config: THttpConfig(baseUrl: EnvConfig.turnkeyApiUrl),
-            stamper: stamper);
-
-        final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
-
-        final sessionResponse = await httpClient.createReadWriteSession(
-            // Creating a read-write session initiates a 'passkey tap' to stamp the request to Turnkey
-            input: CreateReadWriteSessionRequest(
-                type: CreateReadWriteSessionRequestType
-                    .activityTypeCreateReadWriteSessionV2,
-                timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-                organizationId: EnvConfig.organizationId,
-                parameters: CreateReadWriteSessionIntentV2(
-                    targetPublicKey: targetPublicKey)));
-
-        final credentialBundle = sessionResponse
-            .activity.result.createReadWriteSessionResultV2?.credentialBundle;
-
-        if (credentialBundle != null) {
-          await turnkeyProvider.createSession(bundle: credentialBundle);
-        }
+      final subOrganizationId = response['subOrganizationId'];
+      if (subOrganizationId != null) {
+        // Successfully created sub-organization, proceed with creating session from embedded key
+        await turnkeyProvider.createSessionFromEmbeddedKey(
+          subOrganizationId: subOrganizationId,
+        );
       }
     } catch (error) {
       setError(error.toString());

@@ -138,7 +138,7 @@ async function handleOtpAuth(params: ParamsType<"otpAuth">, res: Response) {
 }
 
 async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
-  const { email, phone, passkey, oauth } = params;
+  const { email, phone, passkey, oauth, apiKeys } = params;
 
   const subOrganizationName = `Sub Org - ${email || phone}`;
   const userName = email ? email.split("@")[0] || email : "";
@@ -173,7 +173,7 @@ async function handleCreateSubOrg(params: ParamsType<"createSubOrg">) {
         userPhoneNumber,
         oauthProviders,
         authenticators,
-        apiKeys: [],
+        apiKeys: apiKeys ?? [],
       },
     ],
     rootQuorumThreshold: 1,

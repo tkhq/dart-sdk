@@ -2,6 +2,8 @@ import { type TurnkeyApiTypes } from "@turnkey/sdk-server";
 
 export type Attestation = TurnkeyApiTypes["v1Attestation"];
 
+export type CurveType = TurnkeyApiTypes["v1ApiKeyCurve"];
+
 export type Email = `${string}@${string}.${string}`;
 
 export type GetSubOrgIdParams = {
@@ -33,6 +35,12 @@ export type CreateSubOrgParams = {
     oidcToken: string;
     providerName: string;
   };
+  apiKeys?: {
+    apiKeyName: string;
+    publicKey: string;
+    curveType: CurveType;
+    expirationSeconds?: string;
+  }[];
 };
 
 export type GetWhoamiParams = {

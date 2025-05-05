@@ -24,9 +24,15 @@ Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
 /// Saves an embedded key securely in storage.
 ///
 /// [key] The private key to store securely.
+/// [sessionKey] Optional key to use for storing the embedded key. Defaults to [StorageKeys.EmbeddedKey].
 /// Throws if saving the key fails.
-Future<void> saveEmbeddedKey(String key) async {
-  await _secureStorage.write(key: StorageKeys.EmbeddedKey.value, value: key);
+Future<void> saveEmbeddedKey(String key, [String? sessionKey]) async {
+  try {
+    sessionKey ??= StorageKeys.EmbeddedKey.value;
+    await _secureStorage.write(key: sessionKey, value: key);
+  } catch (e) {
+    throw Exception("Could not save the embedded key: $e");
+  }
 }
 
 /// Retrieves a stored session from secure storage.
