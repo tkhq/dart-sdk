@@ -298,11 +298,8 @@ class TurnkeyProvider with ChangeNotifier {
       config.apiBaseUrl,
     );
 
-    print("Creating session with client: $clientInstance");
-
     final user = await fetchUser(clientInstance, subOrganizationId);
 
-    print(user);
     if (user == null) {
       throw Exception('User not found.');
     }
