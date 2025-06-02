@@ -1989,6 +1989,39 @@ class TurnkeyClient {
     );
   }
 
+  /// Initiate a Generic OTP activity
+  ///
+  /// Sign the provided `TInitOtpBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_otp).
+  ///
+  /// See also: `stampInitOtp`.
+
+  Future<TInitOtpResponse> initOtp({
+    required TInitOtpBody input,
+  }) async {
+    return await request<TInitOtpBody, TInitOtpResponse>(
+        "/public/v1/submit/init_otp",
+        input,
+        (json) => TInitOtpResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TInitOtpBody` by using the client's `stamp` function.
+  ///
+  /// See also: `InitOtp`.
+
+  Future<TSignedRequest> stampInitOtp({
+    required TInitOtpBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/init_otp';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
   /// Initiate an OTP auth activity
   ///
   /// Sign the provided `TInitOtpAuthBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_otp_auth).
@@ -2088,6 +2121,39 @@ class TurnkeyClient {
     );
   }
 
+  /// Create an Oauth session for a user
+  ///
+  /// Sign the provided `TOauthLoginBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/oauth_login).
+  ///
+  /// See also: `stampOauthLogin`.
+
+  Future<TOauthLoginResponse> oauthLogin({
+    required TOauthLoginBody input,
+  }) async {
+    return await request<TOauthLoginBody, TOauthLoginResponse>(
+        "/public/v1/submit/oauth_login",
+        input,
+        (json) => TOauthLoginResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TOauthLoginBody` by using the client's `stamp` function.
+  ///
+  /// See also: `OauthLogin`.
+
+  Future<TSignedRequest> stampOauthLogin({
+    required TOauthLoginBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/oauth_login';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
   /// Authenticate a user with an OTP code sent via email or SMS
   ///
   /// Sign the provided `TOtpAuthBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/otp_auth).
@@ -2111,6 +2177,39 @@ class TurnkeyClient {
     required TOtpAuthBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/otp_auth';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Create an OTP session for a user
+  ///
+  /// Sign the provided `TOtpLoginBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/otp_login).
+  ///
+  /// See also: `stampOtpLogin`.
+
+  Future<TOtpLoginResponse> otpLogin({
+    required TOtpLoginBody input,
+  }) async {
+    return await request<TOtpLoginBody, TOtpLoginResponse>(
+        "/public/v1/submit/otp_login",
+        input,
+        (json) => TOtpLoginResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TOtpLoginBody` by using the client's `stamp` function.
+  ///
+  /// See also: `OtpLogin`.
+
+  Future<TSignedRequest> stampOtpLogin({
+    required TOtpLoginBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/otp_login';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -2356,6 +2455,39 @@ class TurnkeyClient {
     );
   }
 
+  /// Create a session for a user through stamping client side (api key, wallet client, or passkey client)
+  ///
+  /// Sign the provided `TStampLoginBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/stamp_login).
+  ///
+  /// See also: `stampStampLogin`.
+
+  Future<TStampLoginResponse> stampLogin({
+    required TStampLoginBody input,
+  }) async {
+    return await request<TStampLoginBody, TStampLoginResponse>(
+        "/public/v1/submit/stamp_login",
+        input,
+        (json) => TStampLoginResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TStampLoginBody` by using the client's `stamp` function.
+  ///
+  /// See also: `StampLogin`.
+
+  Future<TSignedRequest> stampStampLogin({
+    required TStampLoginBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/stamp_login';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
   /// Update an existing Policy
   ///
   /// Sign the provided `TUpdatePolicyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_policy).
@@ -2545,6 +2677,39 @@ class TurnkeyClient {
     required TUpdateWalletBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_wallet';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Verify a Generic OTP
+  ///
+  /// Sign the provided `TVerifyOtpBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/verify_otp).
+  ///
+  /// See also: `stampVerifyOtp`.
+
+  Future<TVerifyOtpResponse> verifyOtp({
+    required TVerifyOtpBody input,
+  }) async {
+    return await request<TVerifyOtpBody, TVerifyOtpResponse>(
+        "/public/v1/submit/verify_otp",
+        input,
+        (json) => TVerifyOtpResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TVerifyOtpBody` by using the client's `stamp` function.
+  ///
+  /// See also: `VerifyOtp`.
+
+  Future<TSignedRequest> stampVerifyOtp({
+    required TVerifyOtpBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/verify_otp';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 

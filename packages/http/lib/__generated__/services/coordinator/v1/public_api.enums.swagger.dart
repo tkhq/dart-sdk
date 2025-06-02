@@ -209,7 +209,23 @@ enum ActivityType {
   activityTypeCreateSubOrganizationV7(
       'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7'),
   @JsonValue('ACTIVITY_TYPE_UPDATE_WALLET')
-  activityTypeUpdateWallet('ACTIVITY_TYPE_UPDATE_WALLET');
+  activityTypeUpdateWallet('ACTIVITY_TYPE_UPDATE_WALLET'),
+  @JsonValue('ACTIVITY_TYPE_UPDATE_POLICY_V2')
+  activityTypeUpdatePolicyV2('ACTIVITY_TYPE_UPDATE_POLICY_V2'),
+  @JsonValue('ACTIVITY_TYPE_CREATE_USERS_V3')
+  activityTypeCreateUsersV3('ACTIVITY_TYPE_CREATE_USERS_V3'),
+  @JsonValue('ACTIVITY_TYPE_INIT_OTP_AUTH_V2')
+  activityTypeInitOtpAuthV2('ACTIVITY_TYPE_INIT_OTP_AUTH_V2'),
+  @JsonValue('ACTIVITY_TYPE_INIT_OTP')
+  activityTypeInitOtp('ACTIVITY_TYPE_INIT_OTP'),
+  @JsonValue('ACTIVITY_TYPE_VERIFY_OTP')
+  activityTypeVerifyOtp('ACTIVITY_TYPE_VERIFY_OTP'),
+  @JsonValue('ACTIVITY_TYPE_OTP_LOGIN')
+  activityTypeOtpLogin('ACTIVITY_TYPE_OTP_LOGIN'),
+  @JsonValue('ACTIVITY_TYPE_STAMP_LOGIN')
+  activityTypeStampLogin('ACTIVITY_TYPE_STAMP_LOGIN'),
+  @JsonValue('ACTIVITY_TYPE_OAUTH_LOGIN')
+  activityTypeOauthLogin('ACTIVITY_TYPE_OAUTH_LOGIN');
 
   final String? value;
 
@@ -288,6 +304,8 @@ enum AddressFormat {
   addressFormatTonV3r2('ADDRESS_FORMAT_TON_V3R2'),
   @JsonValue('ADDRESS_FORMAT_TON_V4R2')
   addressFormatTonV4r2('ADDRESS_FORMAT_TON_V4R2'),
+  @JsonValue('ADDRESS_FORMAT_TON_V5R1')
+  addressFormatTonV5r1('ADDRESS_FORMAT_TON_V5R1'),
   @JsonValue('ADDRESS_FORMAT_XRP')
   addressFormatXrp('ADDRESS_FORMAT_XRP');
 
@@ -508,8 +526,8 @@ enum CreateUsersRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
-  @JsonValue('ACTIVITY_TYPE_CREATE_USERS_V2')
-  activityTypeCreateUsersV2('ACTIVITY_TYPE_CREATE_USERS_V2');
+  @JsonValue('ACTIVITY_TYPE_CREATE_USERS_V3')
+  activityTypeCreateUsersV3('ACTIVITY_TYPE_CREATE_USERS_V3');
 
   final String? value;
 
@@ -557,7 +575,14 @@ enum CredentialType {
   @JsonValue('CREDENTIAL_TYPE_API_KEY_ED25519')
   credentialTypeApiKeyEd25519('CREDENTIAL_TYPE_API_KEY_ED25519'),
   @JsonValue('CREDENTIAL_TYPE_OTP_AUTH_KEY_P256')
-  credentialTypeOtpAuthKeyP256('CREDENTIAL_TYPE_OTP_AUTH_KEY_P256');
+  credentialTypeOtpAuthKeyP256('CREDENTIAL_TYPE_OTP_AUTH_KEY_P256'),
+  @JsonValue('CREDENTIAL_TYPE_READ_WRITE_SESSION_KEY_P256')
+  credentialTypeReadWriteSessionKeyP256(
+      'CREDENTIAL_TYPE_READ_WRITE_SESSION_KEY_P256'),
+  @JsonValue('CREDENTIAL_TYPE_OAUTH_KEY_P256')
+  credentialTypeOauthKeyP256('CREDENTIAL_TYPE_OAUTH_KEY_P256'),
+  @JsonValue('CREDENTIAL_TYPE_LOGIN')
+  credentialTypeLogin('CREDENTIAL_TYPE_LOGIN');
 
   final String? value;
 
@@ -866,12 +891,24 @@ enum InitOtpAuthRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
-  @JsonValue('ACTIVITY_TYPE_INIT_OTP_AUTH')
-  activityTypeInitOtpAuth('ACTIVITY_TYPE_INIT_OTP_AUTH');
+  @JsonValue('ACTIVITY_TYPE_INIT_OTP_AUTH_V2')
+  activityTypeInitOtpAuthV2('ACTIVITY_TYPE_INIT_OTP_AUTH_V2');
 
   final String? value;
 
   const InitOtpAuthRequestType(this.value);
+}
+
+enum InitOtpRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_INIT_OTP')
+  activityTypeInitOtp('ACTIVITY_TYPE_INIT_OTP');
+
+  final String? value;
+
+  const InitOtpRequestType(this.value);
 }
 
 enum InitUserEmailRecoveryRequestType {
@@ -912,6 +949,18 @@ enum MnemonicLanguage {
   final String? value;
 
   const MnemonicLanguage(this.value);
+}
+
+enum OauthLoginRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_OAUTH_LOGIN')
+  activityTypeOauthLogin('ACTIVITY_TYPE_OAUTH_LOGIN');
+
+  final String? value;
+
+  const OauthLoginRequestType(this.value);
 }
 
 enum OauthRequestType {
@@ -968,6 +1017,18 @@ enum OtpAuthRequestType {
   final String? value;
 
   const OtpAuthRequestType(this.value);
+}
+
+enum OtpLoginRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_OTP_LOGIN')
+  activityTypeOtpLogin('ACTIVITY_TYPE_OTP_LOGIN');
+
+  final String? value;
+
+  const OtpLoginRequestType(this.value);
 }
 
 enum PathFormat {
@@ -1107,6 +1168,18 @@ enum SignTransactionRequestType {
   const SignTransactionRequestType(this.value);
 }
 
+enum StampLoginRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_STAMP_LOGIN')
+  activityTypeStampLogin('ACTIVITY_TYPE_STAMP_LOGIN');
+
+  final String? value;
+
+  const StampLoginRequestType(this.value);
+}
+
 enum TagType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -1128,7 +1201,9 @@ enum TransactionType {
   @JsonValue('TRANSACTION_TYPE_ETHEREUM')
   transactionTypeEthereum('TRANSACTION_TYPE_ETHEREUM'),
   @JsonValue('TRANSACTION_TYPE_SOLANA')
-  transactionTypeSolana('TRANSACTION_TYPE_SOLANA');
+  transactionTypeSolana('TRANSACTION_TYPE_SOLANA'),
+  @JsonValue('TRANSACTION_TYPE_TRON')
+  transactionTypeTron('TRANSACTION_TYPE_TRON');
 
   final String? value;
 
@@ -1139,8 +1214,8 @@ enum UpdatePolicyRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
 
-  @JsonValue('ACTIVITY_TYPE_UPDATE_POLICY')
-  activityTypeUpdatePolicy('ACTIVITY_TYPE_UPDATE_POLICY');
+  @JsonValue('ACTIVITY_TYPE_UPDATE_POLICY_V2')
+  activityTypeUpdatePolicyV2('ACTIVITY_TYPE_UPDATE_POLICY_V2');
 
   final String? value;
 
@@ -1205,6 +1280,18 @@ enum UpdateWalletRequestType {
   final String? value;
 
   const UpdateWalletRequestType(this.value);
+}
+
+enum VerifyOtpRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_VERIFY_OTP')
+  activityTypeVerifyOtp('ACTIVITY_TYPE_VERIFY_OTP');
+
+  final String? value;
+
+  const VerifyOtpRequestType(this.value);
 }
 
 enum VoteSelection {

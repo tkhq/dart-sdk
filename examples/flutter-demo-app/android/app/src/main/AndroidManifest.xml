@@ -32,7 +32,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.googleusercontent.apps.1234567890-abcdef" android:host="" />
+                <data android:scheme="flutter-demo-app" android:host="" />
             </intent-filter>
         </activity>
 

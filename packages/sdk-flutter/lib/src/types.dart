@@ -170,6 +170,7 @@ class TurnkeyConfig {
   final void Function(Session session)? onSessionSelected;
   final void Function(Session session)? onSessionExpired;
   final void Function(Session session)? onSessionCleared;
+  final void Function(Session session)? onSessionRefreshed;
 
   TurnkeyConfig({
     required this.apiBaseUrl,
@@ -178,5 +179,6 @@ class TurnkeyConfig {
     this.onSessionSelected,
     this.onSessionExpired,
     this.onSessionCleared,
+    this.onSessionRefreshed,
   });
 }

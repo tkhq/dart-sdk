@@ -2,6 +2,7 @@ name: turnkey_sdk_flutter
 description: A complete SDK for building Flutter apps with Turnkey's packages
 version: 0.1.0
 repository: https://github.com/tkhq/dart-sdk
+publish_to: none
 
 environment:
   sdk: ^3.6.1
@@ -12,9 +13,14 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   turnkey_crypto: ^0.1.1
   turnkey_encoding: ^0.1.0
-  turnkey_flutter_passkey_stamper: ^0.1.0
-  turnkey_api_key_stamper: ^0.1.0
-  turnkey_http: ^0.1.1
+  turnkey_flutter_passkey_stamper:
+    path: ../passkey-stamper
+  turnkey_api_key_stamper:
+    path: ../api-key-stamper
+  turnkey_http:
+    path: ../http
+  app_links: ^6.3.3
+  flutter_inappwebview: ^6.1.5
 
 dev_dependencies:
   flutter_test:

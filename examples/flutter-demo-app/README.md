@@ -3,11 +3,12 @@
 This demo app leverages Turnkey's Dart/Flutter packages to demonstrate how they can be used to create a fully functional application. It includes a simple Node.js backend API server to facilitate server-side operations.
 
 ## Demo
+
 https://github.com/user-attachments/assets/3d583ed8-1eff-4101-ae43-3c76c655e635
 
 ## Prerequisites
 
-_Note: version numbers are approximated. Older or newer versions may or may not work correctly._
+> **Note**: version numbers are approximated. Older or newer versions may or may not work correctly.
 
 | Requirement    | Version  |
 | -------------- | -------- |
@@ -30,14 +31,13 @@ ORGANIZATION_ID="<YOUR_ORGANIZATION_ID>"
 RP_ID="<YOUR_RP_ID>"                    # This is the relying party ID that hosts your .well-known file
 
 # GOOGLE AUTH ENV VARIABLES
-GOOGLE_CLIENT_ID="<YOUR_GOOGLE_CLIENT_ID>"
-GOOGLE_REDIRECT_SCHEME="<YOUR_GOOGLE_REDIRECT_SCHEME>"
+GOOGLE_CLIENT_ID="<YOUR_GOOGLE_WEB_CLIENT_ID>"
+APP_SCHEME="flutter-demo-app" # This is the scheme used for OAuth redirects in the app. It should match the one used in the iOS and Android projects.
 
 #NODE SERVER ENV VARIABLES (Only used for the Node server in /api-server)
 TURNKEY_API_PUBLIC_KEY="<YOUR_TURNKEY_API_PUBLIC_KEY>"
 TURNKEY_API_PRIVATE_KEY="<YOUR_TURNKEY_API_PRIVATE_KEY>"
 BACKEND_API_PORT="3000"
-
 ```
 
 ## Backend API Server
@@ -86,44 +86,28 @@ This app includes an example for authenticating with Turnkey using a Google or A
 
 ### Sign in with Google
 
-Signing in with Google uses the [openid_client](https://pub.dev/packages/openid_client) package which can be configured to authenticate using most OIDC providers.
+To configure Google OAuth, follow these steps:
 
-Add your Google client id and redirect scheme to your .env file. These can be retrieved from your [Google Devloper Console](https://console.cloud.google.com/)
+#### 1. Create a Google Web Client ID:
 
-```python
-GOOGLE_CLIENT_ID="<YOUR_GOOGLE_CLIENT_ID>"
-GOOGLE_REDIRECT_SCHEME="<YOUR_GOOGLE_REDIRECT_SCHEME>"
-```
+- Go to [Google Cloud Console](https://console.cloud.google.com/).
+- Create a new OAuth client ID.
+- Set the authorized origin to:
+  ```
+  https://oauth-origin.turnkey.com
+  ```
+- Set the authorized redirect URI to:
+  ```
+  https://oauth-redirect.turnkey.com?scheme=flutter-demo-app
+  ```
+  > **Note**: If you change your app's scheme, you must update this link and your `.env` file with your new scheme
 
-Update your [info.plist](ios/Runner/Info.plist) file to add your redirect scheme on iOS:
+#### 2. Set your Client ID in `.env`:
 
-_Replace com.googleusercontent.apps.1234567890-abcdef with your actual redirect scheme_
+In your project's `.env` file, add the following:
 
-```html
-<array>
-  <dict>
-    <key>CFBundleURLName</key>
-    <string>com.googleusercontent.apps.1234567890-abcdef</string>
-    <key>CFBundleURLSchemes</key>
-    <array>
-      <string>com.googleusercontent.apps.1234567890-abcdef</string>
-    </array>
-  </dict>
-</array>
-```
-
-Update your main [AndroidManifest.xml](android/app/src/main/AndroidManifest.xml) to include this scheme as well:
-
-```html
-<intent-filter>
-  <action android:name="android.intent.action.VIEW" />
-  <category android:name="android.intent.category.DEFAULT" />
-  <category android:name="android.intent.category.BROWSABLE" />
-  <data
-    android:scheme="com.googleusercontent.apps.1234567890-abcdef"
-    android:host=""
-  />
-</intent-filter>
+```ini
+GOOGLE_CLIENT_ID="<YOUR_GOOGLE_WEB_CLIENT_ID>"
 ```
 
 ### Sign in with Apple

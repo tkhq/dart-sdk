@@ -8,6 +8,7 @@ The `turnkey_sdk_flutter` package simplifies the integration of the Turnkey API 
 
 - Install the following dependencies in your Flutter project:
   - [`provider`](https://pub.dev/packages/provider)
+  - [`flutter_inappwebview`](https://pub.dev/packages/flutter_inappwebview)
   - [`turnkey_crypto`](../crypto/)
   - [`turnkey_api_key_stamper`](../api-key-stamper/)
   - [`turnkey_http`](../http/)
@@ -123,11 +124,19 @@ To enable secure authentication, the following storage keys are used:
 - `importWallet({ walletName, mnemonic, accounts })`: Imports a wallet. [(API Docs)](https://docs.turnkey.com/api#tag/Wallets/operation/ImportWallet)
 - `exportWallet({ walletId })`: Exports a wallet mnemonic. [(API Docs)](https://docs.turnkey.com/api#tag/Wallets/operation/ExportWallet)
 
+---
+
 ### **Transaction Signing**
 
 - `signRawPayload({ signWith, payload, encoding, hashFunction })`: Signs a payload. [(API Docs)](https://docs.turnkey.com/api#tag/Signing/operation/SignRawPayload)
 
 - `signTransaction({ signWith, unsignedTransaction, type})` Signs a transaction. [(API Docs)](https://docs.turnkey.com/api#tag/Signing/operation/SignTransaction)
+
+---
+
+### **OAuth**
+
+- `handleGoogleOAuth({ clientId, redirectUri, nonce, scheme, onIdToken })`: Handles the Google OAuth authentication flow.
 
 ---
 
