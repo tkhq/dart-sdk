@@ -11,27 +11,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
-
-Packages with other changes:
-
- - [`turnkey_flutter_passkey_stamper` - `v0.1.1`](#turnkey_flutter_passkey_stamper---v011)
-
----
-
-#### `turnkey_flutter_passkey_stamper` - `v0.1.1`
-
- - Update turnkey_http
-
-
-## 2025-06-02
-
-### Changes
-
----
-
-Packages with breaking changes:
-
 - [`turnkey_sdk_flutter` - `v0.2.0`](#turnkey_sdk_flutter---v020)
 
 Packages with other changes:
@@ -39,6 +18,10 @@ Packages with other changes:
 - [`turnkey_sdk_flutter` - `v0.2.0`](#turnkey_sdk_flutter---v020)
 
 - [`turnkey_http` - `v0.2.0`](#turnkey_http---v020)
+
+- [`turnkey_api_key_stamper` - `v0.1.1`](#turnkey_api_key_stamper---v011)
+
+- [`turnkey_flutter_passkey_stamper` - `v0.1.1`](#turnkey_flutter_passkey_stamper---v011)
 
 ---
 
@@ -53,6 +36,14 @@ Packages with other changes:
 #### `turnkey_http` - `v0.2.0`
 
 - Update per mono v2025.5.5
+
+#### `turnkey_api_key_stamper` - `v0.1.1`
+
+- Update turnkey_http
+
+#### `turnkey_flutter_passkey_stamper` - `v0.1.1`
+
+- Update turnkey_http
 
 ## 2025-03-11
 
