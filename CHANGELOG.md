@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`turnkey_http` - `v0.2.0`](#turnkey_http---v020)
+
+---
+
+#### `turnkey_http` - `v0.2.0`
+
+ - Update per mono v2025.5.5
+
+
 ## 2025-03-11
 
 ### Changes
