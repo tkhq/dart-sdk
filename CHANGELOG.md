@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- [`turnkey_sdk_flutter` - `v0.2.0`](#turnkey_sdk_flutter---v020)
+
+Packages with other changes:
+
+- [`turnkey_sdk_flutter` - `v0.2.0`](#turnkey_sdk_flutter---v020)
+
+- [`turnkey_http` - `v0.2.0`](#turnkey_http---v020)
+
+- [`turnkey_api_key_stamper` - `v0.1.1`](#turnkey_api_key_stamper---v011)
+
+- [`turnkey_flutter_passkey_stamper` - `v0.1.1`](#turnkey_flutter_passkey_stamper---v011)
+
+---
+
+#### `turnkey_sdk_flutter` - `v0.2.0`
+
+- Added `createSessionFromEmbeddedKey`: Creates a new session using an embedded private key and securely stores it (Useful for "one-tap-passkey" sign ups. See demo app for more details).
+- Added `refreshSession`: Refreshes an existing session by creating a new read/write session.
+- Added optional param `sessionKey: string` to `createEmbeddedKey`. Key to use for storing the embedded key. Defaults to `StorageKeys.EmbeddedKey`.
+- Added optional param `isCompressed: bool`. Whether to return the compressed or uncompressed public key. Defaults to false.
+- Added `handleGoogleOAuth`: New abstraction for Google OAuth authentication flow. Initiates an in-app browser OAuth flow with the provided credentials and parameters. After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL and invokes the provided onSuccess callback.
+
+#### `turnkey_http` - `v0.2.0`
+
+- Update per mono v2025.5.5
+
+#### `turnkey_api_key_stamper` - `v0.1.1`
+
+- Update turnkey_http
+
+#### `turnkey_flutter_passkey_stamper` - `v0.1.1`
+
+- Update turnkey_http
+
 ## 2025-03-11
 
 ### Changes
@@ -11,18 +53,17 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 Packages with breaking changes:
 
- - There are no breaking changes in this release.
+- There are no breaking changes in this release.
 
 Packages with other changes:
 
- - [`turnkey_sdk_flutter` - `v0.1.0`](#turnkey_sdk_flutter---v010)
+- [`turnkey_sdk_flutter` - `v0.1.0`](#turnkey_sdk_flutter---v010)
 
 ---
 
 #### `turnkey_sdk_flutter` - `v0.1.0`
 
- - Initial release. Client side abstracted functions for Turnkey-powered Flutter apps
-
+- Initial release. Client side abstracted functions for Turnkey-powered Flutter apps
 
 ## 2025-02-18
 
