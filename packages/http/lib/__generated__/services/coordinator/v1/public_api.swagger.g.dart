@@ -1022,6 +1022,7 @@ CreateReadWriteSessionIntentV2 _$CreateReadWriteSessionIntentV2FromJson(
       userId: json['userId'] as String?,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
+      invalidateExisting: json['invalidateExisting'] as bool?,
     );
 
 Map<String, dynamic> _$CreateReadWriteSessionIntentV2ToJson(
@@ -1031,6 +1032,7 @@ Map<String, dynamic> _$CreateReadWriteSessionIntentV2ToJson(
       'userId': instance.userId,
       'apiKeyName': instance.apiKeyName,
       'expirationSeconds': instance.expirationSeconds,
+      'invalidateExisting': instance.invalidateExisting,
     };
 
 CreateReadWriteSessionRequest _$CreateReadWriteSessionRequestFromJson(
@@ -1486,12 +1488,26 @@ Map<String, dynamic> _$CreateUsersIntentV2ToJson(
       'users': instance.users.map((e) => e.toJson()).toList(),
     };
 
+CreateUsersIntentV3 _$CreateUsersIntentV3FromJson(Map<String, dynamic> json) =>
+    CreateUsersIntentV3(
+      users: (json['users'] as List<dynamic>?)
+              ?.map((e) => UserParamsV3.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$CreateUsersIntentV3ToJson(
+        CreateUsersIntentV3 instance) =>
+    <String, dynamic>{
+      'users': instance.users.map((e) => e.toJson()).toList(),
+    };
+
 CreateUsersRequest _$CreateUsersRequestFromJson(Map<String, dynamic> json) =>
     CreateUsersRequest(
       type: createUsersRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: CreateUsersIntentV2.fromJson(
+      parameters: CreateUsersIntentV3.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
@@ -2242,6 +2258,8 @@ EmailAuthIntent _$EmailAuthIntentFromJson(Map<String, dynamic> json) =>
               json['emailCustomization'] as Map<String, dynamic>),
       invalidateExisting: json['invalidateExisting'] as bool?,
       sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
+      sendFromEmailSenderName: json['sendFromEmailSenderName'] as String?,
+      replyToEmailAddress: json['replyToEmailAddress'] as String?,
     );
 
 Map<String, dynamic> _$EmailAuthIntentToJson(EmailAuthIntent instance) =>
@@ -2253,6 +2271,8 @@ Map<String, dynamic> _$EmailAuthIntentToJson(EmailAuthIntent instance) =>
       'emailCustomization': instance.emailCustomization?.toJson(),
       'invalidateExisting': instance.invalidateExisting,
       'sendFromEmailAddress': instance.sendFromEmailAddress,
+      'sendFromEmailSenderName': instance.sendFromEmailSenderName,
+      'replyToEmailAddress': instance.replyToEmailAddress,
     };
 
 EmailAuthIntentV2 _$EmailAuthIntentV2FromJson(Map<String, dynamic> json) =>
@@ -2267,6 +2287,8 @@ EmailAuthIntentV2 _$EmailAuthIntentV2FromJson(Map<String, dynamic> json) =>
               json['emailCustomization'] as Map<String, dynamic>),
       invalidateExisting: json['invalidateExisting'] as bool?,
       sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
+      sendFromEmailSenderName: json['sendFromEmailSenderName'] as String?,
+      replyToEmailAddress: json['replyToEmailAddress'] as String?,
     );
 
 Map<String, dynamic> _$EmailAuthIntentV2ToJson(EmailAuthIntentV2 instance) =>
@@ -2278,6 +2300,8 @@ Map<String, dynamic> _$EmailAuthIntentV2ToJson(EmailAuthIntentV2 instance) =>
       'emailCustomization': instance.emailCustomization?.toJson(),
       'invalidateExisting': instance.invalidateExisting,
       'sendFromEmailAddress': instance.sendFromEmailAddress,
+      'sendFromEmailSenderName': instance.sendFromEmailSenderName,
+      'replyToEmailAddress': instance.replyToEmailAddress,
     };
 
 EmailAuthRequest _$EmailAuthRequestFromJson(Map<String, dynamic> json) =>
@@ -3244,6 +3268,8 @@ InitOtpAuthIntent _$InitOtpAuthIntentFromJson(Map<String, dynamic> json) =>
               json['smsCustomization'] as Map<String, dynamic>),
       userIdentifier: json['userIdentifier'] as String?,
       sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
+      sendFromEmailSenderName: json['sendFromEmailSenderName'] as String?,
+      replyToEmailAddress: json['replyToEmailAddress'] as String?,
     );
 
 Map<String, dynamic> _$InitOtpAuthIntentToJson(InitOtpAuthIntent instance) =>
@@ -3254,6 +3280,43 @@ Map<String, dynamic> _$InitOtpAuthIntentToJson(InitOtpAuthIntent instance) =>
       'smsCustomization': instance.smsCustomization?.toJson(),
       'userIdentifier': instance.userIdentifier,
       'sendFromEmailAddress': instance.sendFromEmailAddress,
+      'sendFromEmailSenderName': instance.sendFromEmailSenderName,
+      'replyToEmailAddress': instance.replyToEmailAddress,
+    };
+
+InitOtpAuthIntentV2 _$InitOtpAuthIntentV2FromJson(Map<String, dynamic> json) =>
+    InitOtpAuthIntentV2(
+      otpType: json['otpType'] as String,
+      contact: json['contact'] as String,
+      otpLength: (json['otpLength'] as num?)?.toInt(),
+      emailCustomization: json['emailCustomization'] == null
+          ? null
+          : EmailCustomizationParams.fromJson(
+              json['emailCustomization'] as Map<String, dynamic>),
+      smsCustomization: json['smsCustomization'] == null
+          ? null
+          : SmsCustomizationParams.fromJson(
+              json['smsCustomization'] as Map<String, dynamic>),
+      userIdentifier: json['userIdentifier'] as String?,
+      sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
+      alphanumeric: json['alphanumeric'] as bool?,
+      sendFromEmailSenderName: json['sendFromEmailSenderName'] as String?,
+      replyToEmailAddress: json['replyToEmailAddress'] as String?,
+    );
+
+Map<String, dynamic> _$InitOtpAuthIntentV2ToJson(
+        InitOtpAuthIntentV2 instance) =>
+    <String, dynamic>{
+      'otpType': instance.otpType,
+      'contact': instance.contact,
+      'otpLength': instance.otpLength,
+      'emailCustomization': instance.emailCustomization?.toJson(),
+      'smsCustomization': instance.smsCustomization?.toJson(),
+      'userIdentifier': instance.userIdentifier,
+      'sendFromEmailAddress': instance.sendFromEmailAddress,
+      'alphanumeric': instance.alphanumeric,
+      'sendFromEmailSenderName': instance.sendFromEmailSenderName,
+      'replyToEmailAddress': instance.replyToEmailAddress,
     };
 
 InitOtpAuthRequest _$InitOtpAuthRequestFromJson(Map<String, dynamic> json) =>
@@ -3261,7 +3324,7 @@ InitOtpAuthRequest _$InitOtpAuthRequestFromJson(Map<String, dynamic> json) =>
       type: initOtpAuthRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: InitOtpAuthIntent.fromJson(
+      parameters: InitOtpAuthIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
@@ -3279,6 +3342,80 @@ InitOtpAuthResult _$InitOtpAuthResultFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$InitOtpAuthResultToJson(InitOtpAuthResult instance) =>
+    <String, dynamic>{
+      'otpId': instance.otpId,
+    };
+
+InitOtpAuthResultV2 _$InitOtpAuthResultV2FromJson(Map<String, dynamic> json) =>
+    InitOtpAuthResultV2(
+      otpId: json['otpId'] as String,
+    );
+
+Map<String, dynamic> _$InitOtpAuthResultV2ToJson(
+        InitOtpAuthResultV2 instance) =>
+    <String, dynamic>{
+      'otpId': instance.otpId,
+    };
+
+InitOtpIntent _$InitOtpIntentFromJson(Map<String, dynamic> json) =>
+    InitOtpIntent(
+      otpType: json['otpType'] as String,
+      contact: json['contact'] as String,
+      otpLength: (json['otpLength'] as num?)?.toInt(),
+      emailCustomization: json['emailCustomization'] == null
+          ? null
+          : EmailCustomizationParams.fromJson(
+              json['emailCustomization'] as Map<String, dynamic>),
+      smsCustomization: json['smsCustomization'] == null
+          ? null
+          : SmsCustomizationParams.fromJson(
+              json['smsCustomization'] as Map<String, dynamic>),
+      userIdentifier: json['userIdentifier'] as String?,
+      sendFromEmailAddress: json['sendFromEmailAddress'] as String?,
+      alphanumeric: json['alphanumeric'] as bool?,
+      sendFromEmailSenderName: json['sendFromEmailSenderName'] as String?,
+      expirationSeconds: json['expirationSeconds'] as String?,
+      replyToEmailAddress: json['replyToEmailAddress'] as String?,
+    );
+
+Map<String, dynamic> _$InitOtpIntentToJson(InitOtpIntent instance) =>
+    <String, dynamic>{
+      'otpType': instance.otpType,
+      'contact': instance.contact,
+      'otpLength': instance.otpLength,
+      'emailCustomization': instance.emailCustomization?.toJson(),
+      'smsCustomization': instance.smsCustomization?.toJson(),
+      'userIdentifier': instance.userIdentifier,
+      'sendFromEmailAddress': instance.sendFromEmailAddress,
+      'alphanumeric': instance.alphanumeric,
+      'sendFromEmailSenderName': instance.sendFromEmailSenderName,
+      'expirationSeconds': instance.expirationSeconds,
+      'replyToEmailAddress': instance.replyToEmailAddress,
+    };
+
+InitOtpRequest _$InitOtpRequestFromJson(Map<String, dynamic> json) =>
+    InitOtpRequest(
+      type: initOtpRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters:
+          InitOtpIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$InitOtpRequestToJson(InitOtpRequest instance) =>
+    <String, dynamic>{
+      'type': initOtpRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+InitOtpResult _$InitOtpResultFromJson(Map<String, dynamic> json) =>
+    InitOtpResult(
+      otpId: json['otpId'] as String,
+    );
+
+Map<String, dynamic> _$InitOtpResultToJson(InitOtpResult instance) =>
     <String, dynamic>{
       'otpId': instance.otpId,
     };
@@ -3664,6 +3801,38 @@ Intent _$IntentFromJson(Map<String, dynamic> json) => Intent(
           ? null
           : UpdateWalletIntent.fromJson(
               json['updateWalletIntent'] as Map<String, dynamic>),
+      updatePolicyIntentV2: json['updatePolicyIntentV2'] == null
+          ? null
+          : UpdatePolicyIntentV2.fromJson(
+              json['updatePolicyIntentV2'] as Map<String, dynamic>),
+      createUsersIntentV3: json['createUsersIntentV3'] == null
+          ? null
+          : CreateUsersIntentV3.fromJson(
+              json['createUsersIntentV3'] as Map<String, dynamic>),
+      initOtpAuthIntentV2: json['initOtpAuthIntentV2'] == null
+          ? null
+          : InitOtpAuthIntentV2.fromJson(
+              json['initOtpAuthIntentV2'] as Map<String, dynamic>),
+      initOtpIntent: json['initOtpIntent'] == null
+          ? null
+          : InitOtpIntent.fromJson(
+              json['initOtpIntent'] as Map<String, dynamic>),
+      verifyOtpIntent: json['verifyOtpIntent'] == null
+          ? null
+          : VerifyOtpIntent.fromJson(
+              json['verifyOtpIntent'] as Map<String, dynamic>),
+      otpLoginIntent: json['otpLoginIntent'] == null
+          ? null
+          : OtpLoginIntent.fromJson(
+              json['otpLoginIntent'] as Map<String, dynamic>),
+      stampLoginIntent: json['stampLoginIntent'] == null
+          ? null
+          : StampLoginIntent.fromJson(
+              json['stampLoginIntent'] as Map<String, dynamic>),
+      oauthLoginIntent: json['oauthLoginIntent'] == null
+          ? null
+          : OauthLoginIntent.fromJson(
+              json['oauthLoginIntent'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$IntentToJson(Intent instance) => <String, dynamic>{
@@ -3771,6 +3940,14 @@ Map<String, dynamic> _$IntentToJson(Intent instance) => <String, dynamic>{
       'createSubOrganizationIntentV7':
           instance.createSubOrganizationIntentV7?.toJson(),
       'updateWalletIntent': instance.updateWalletIntent?.toJson(),
+      'updatePolicyIntentV2': instance.updatePolicyIntentV2?.toJson(),
+      'createUsersIntentV3': instance.createUsersIntentV3?.toJson(),
+      'initOtpAuthIntentV2': instance.initOtpAuthIntentV2?.toJson(),
+      'initOtpIntent': instance.initOtpIntent?.toJson(),
+      'verifyOtpIntent': instance.verifyOtpIntent?.toJson(),
+      'otpLoginIntent': instance.otpLoginIntent?.toJson(),
+      'stampLoginIntent': instance.stampLoginIntent?.toJson(),
+      'oauthLoginIntent': instance.oauthLoginIntent?.toJson(),
     };
 
 InvitationParams _$InvitationParamsFromJson(Map<String, dynamic> json) =>
@@ -3852,6 +4029,7 @@ OauthIntent _$OauthIntentFromJson(Map<String, dynamic> json) => OauthIntent(
       targetPublicKey: json['targetPublicKey'] as String,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
+      invalidateExisting: json['invalidateExisting'] as bool?,
     );
 
 Map<String, dynamic> _$OauthIntentToJson(OauthIntent instance) =>
@@ -3860,6 +4038,50 @@ Map<String, dynamic> _$OauthIntentToJson(OauthIntent instance) =>
       'targetPublicKey': instance.targetPublicKey,
       'apiKeyName': instance.apiKeyName,
       'expirationSeconds': instance.expirationSeconds,
+      'invalidateExisting': instance.invalidateExisting,
+    };
+
+OauthLoginIntent _$OauthLoginIntentFromJson(Map<String, dynamic> json) =>
+    OauthLoginIntent(
+      oidcToken: json['oidcToken'] as String,
+      publicKey: json['publicKey'] as String,
+      expirationSeconds: json['expirationSeconds'] as String?,
+      invalidateExisting: json['invalidateExisting'] as bool?,
+    );
+
+Map<String, dynamic> _$OauthLoginIntentToJson(OauthLoginIntent instance) =>
+    <String, dynamic>{
+      'oidcToken': instance.oidcToken,
+      'publicKey': instance.publicKey,
+      'expirationSeconds': instance.expirationSeconds,
+      'invalidateExisting': instance.invalidateExisting,
+    };
+
+OauthLoginRequest _$OauthLoginRequestFromJson(Map<String, dynamic> json) =>
+    OauthLoginRequest(
+      type: oauthLoginRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters:
+          OauthLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$OauthLoginRequestToJson(OauthLoginRequest instance) =>
+    <String, dynamic>{
+      'type': oauthLoginRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+OauthLoginResult _$OauthLoginResultFromJson(Map<String, dynamic> json) =>
+    OauthLoginResult(
+      session: json['session'] as String,
+    );
+
+Map<String, dynamic> _$OauthLoginResultToJson(OauthLoginResult instance) =>
+    <String, dynamic>{
+      'session': instance.session,
     };
 
 OauthProvider _$OauthProviderFromJson(Map<String, dynamic> json) =>
@@ -3932,7 +4154,7 @@ OtpAuthIntent _$OtpAuthIntentFromJson(Map<String, dynamic> json) =>
     OtpAuthIntent(
       otpId: json['otpId'] as String,
       otpCode: json['otpCode'] as String,
-      targetPublicKey: json['targetPublicKey'] as String?,
+      targetPublicKey: json['targetPublicKey'] as String,
       apiKeyName: json['apiKeyName'] as String?,
       expirationSeconds: json['expirationSeconds'] as String?,
       invalidateExisting: json['invalidateExisting'] as bool?,
@@ -3977,6 +4199,49 @@ Map<String, dynamic> _$OtpAuthResultToJson(OtpAuthResult instance) =>
       'userId': instance.userId,
       'apiKeyId': instance.apiKeyId,
       'credentialBundle': instance.credentialBundle,
+    };
+
+OtpLoginIntent _$OtpLoginIntentFromJson(Map<String, dynamic> json) =>
+    OtpLoginIntent(
+      verificationToken: json['verificationToken'] as String,
+      publicKey: json['publicKey'] as String,
+      expirationSeconds: json['expirationSeconds'] as String?,
+      invalidateExisting: json['invalidateExisting'] as bool?,
+    );
+
+Map<String, dynamic> _$OtpLoginIntentToJson(OtpLoginIntent instance) =>
+    <String, dynamic>{
+      'verificationToken': instance.verificationToken,
+      'publicKey': instance.publicKey,
+      'expirationSeconds': instance.expirationSeconds,
+      'invalidateExisting': instance.invalidateExisting,
+    };
+
+OtpLoginRequest _$OtpLoginRequestFromJson(Map<String, dynamic> json) =>
+    OtpLoginRequest(
+      type: otpLoginRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters:
+          OtpLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$OtpLoginRequestToJson(OtpLoginRequest instance) =>
+    <String, dynamic>{
+      'type': otpLoginRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+OtpLoginResult _$OtpLoginResultFromJson(Map<String, dynamic> json) =>
+    OtpLoginResult(
+      session: json['session'] as String,
+    );
+
+Map<String, dynamic> _$OtpLoginResultToJson(OtpLoginResult instance) =>
+    <String, dynamic>{
+      'session': instance.session,
     };
 
 Pagination _$PaginationFromJson(Map<String, dynamic> json) => Pagination(
@@ -4507,6 +4772,34 @@ Result _$ResultFromJson(Map<String, dynamic> json) => Result(
           ? null
           : UpdateWalletResult.fromJson(
               json['updateWalletResult'] as Map<String, dynamic>),
+      updatePolicyResultV2: json['updatePolicyResultV2'] == null
+          ? null
+          : UpdatePolicyResultV2.fromJson(
+              json['updatePolicyResultV2'] as Map<String, dynamic>),
+      initOtpAuthResultV2: json['initOtpAuthResultV2'] == null
+          ? null
+          : InitOtpAuthResultV2.fromJson(
+              json['initOtpAuthResultV2'] as Map<String, dynamic>),
+      initOtpResult: json['initOtpResult'] == null
+          ? null
+          : InitOtpResult.fromJson(
+              json['initOtpResult'] as Map<String, dynamic>),
+      verifyOtpResult: json['verifyOtpResult'] == null
+          ? null
+          : VerifyOtpResult.fromJson(
+              json['verifyOtpResult'] as Map<String, dynamic>),
+      otpLoginResult: json['otpLoginResult'] == null
+          ? null
+          : OtpLoginResult.fromJson(
+              json['otpLoginResult'] as Map<String, dynamic>),
+      stampLoginResult: json['stampLoginResult'] == null
+          ? null
+          : StampLoginResult.fromJson(
+              json['stampLoginResult'] as Map<String, dynamic>),
+      oauthLoginResult: json['oauthLoginResult'] == null
+          ? null
+          : OauthLoginResult.fromJson(
+              json['oauthLoginResult'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
@@ -4597,6 +4890,13 @@ Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
       'createSubOrganizationResultV7':
           instance.createSubOrganizationResultV7?.toJson(),
       'updateWalletResult': instance.updateWalletResult?.toJson(),
+      'updatePolicyResultV2': instance.updatePolicyResultV2?.toJson(),
+      'initOtpAuthResultV2': instance.initOtpAuthResultV2?.toJson(),
+      'initOtpResult': instance.initOtpResult?.toJson(),
+      'verifyOtpResult': instance.verifyOtpResult?.toJson(),
+      'otpLoginResult': instance.otpLoginResult?.toJson(),
+      'stampLoginResult': instance.stampLoginResult?.toJson(),
+      'oauthLoginResult': instance.oauthLoginResult?.toJson(),
     };
 
 RootUserParams _$RootUserParamsFromJson(Map<String, dynamic> json) =>
@@ -5062,6 +5362,47 @@ Map<String, dynamic> _$SmsCustomizationParamsToJson(
       'template': instance.template,
     };
 
+StampLoginIntent _$StampLoginIntentFromJson(Map<String, dynamic> json) =>
+    StampLoginIntent(
+      publicKey: json['publicKey'] as String,
+      expirationSeconds: json['expirationSeconds'] as String?,
+      invalidateExisting: json['invalidateExisting'] as bool?,
+    );
+
+Map<String, dynamic> _$StampLoginIntentToJson(StampLoginIntent instance) =>
+    <String, dynamic>{
+      'publicKey': instance.publicKey,
+      'expirationSeconds': instance.expirationSeconds,
+      'invalidateExisting': instance.invalidateExisting,
+    };
+
+StampLoginRequest _$StampLoginRequestFromJson(Map<String, dynamic> json) =>
+    StampLoginRequest(
+      type: stampLoginRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters:
+          StampLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StampLoginRequestToJson(StampLoginRequest instance) =>
+    <String, dynamic>{
+      'type': stampLoginRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+StampLoginResult _$StampLoginResultFromJson(Map<String, dynamic> json) =>
+    StampLoginResult(
+      session: json['session'] as String,
+    );
+
+Map<String, dynamic> _$StampLoginResultToJson(StampLoginResult instance) =>
+    <String, dynamic>{
+      'session': instance.session,
+    };
+
 Status _$StatusFromJson(Map<String, dynamic> json) => Status(
       code: (json['code'] as num?)?.toInt(),
       message: json['message'] as String?,
@@ -5120,12 +5461,34 @@ Map<String, dynamic> _$UpdatePolicyIntentToJson(UpdatePolicyIntent instance) =>
       'policyNotes': instance.policyNotes,
     };
 
+UpdatePolicyIntentV2 _$UpdatePolicyIntentV2FromJson(
+        Map<String, dynamic> json) =>
+    UpdatePolicyIntentV2(
+      policyId: json['policyId'] as String,
+      policyName: json['policyName'] as String?,
+      policyEffect: effectNullableFromJson(json['policyEffect']),
+      policyCondition: json['policyCondition'] as String?,
+      policyConsensus: json['policyConsensus'] as String?,
+      policyNotes: json['policyNotes'] as String?,
+    );
+
+Map<String, dynamic> _$UpdatePolicyIntentV2ToJson(
+        UpdatePolicyIntentV2 instance) =>
+    <String, dynamic>{
+      'policyId': instance.policyId,
+      'policyName': instance.policyName,
+      'policyEffect': effectNullableToJson(instance.policyEffect),
+      'policyCondition': instance.policyCondition,
+      'policyConsensus': instance.policyConsensus,
+      'policyNotes': instance.policyNotes,
+    };
+
 UpdatePolicyRequest _$UpdatePolicyRequestFromJson(Map<String, dynamic> json) =>
     UpdatePolicyRequest(
       type: updatePolicyRequestTypeFromJson(json['type']),
       timestampMs: json['timestampMs'] as String,
       organizationId: json['organizationId'] as String,
-      parameters: UpdatePolicyIntent.fromJson(
+      parameters: UpdatePolicyIntentV2.fromJson(
           json['parameters'] as Map<String, dynamic>),
     );
 
@@ -5144,6 +5507,18 @@ UpdatePolicyResult _$UpdatePolicyResultFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$UpdatePolicyResultToJson(UpdatePolicyResult instance) =>
+    <String, dynamic>{
+      'policyId': instance.policyId,
+    };
+
+UpdatePolicyResultV2 _$UpdatePolicyResultV2FromJson(
+        Map<String, dynamic> json) =>
+    UpdatePolicyResultV2(
+      policyId: json['policyId'] as String,
+    );
+
+Map<String, dynamic> _$UpdatePolicyResultV2ToJson(
+        UpdatePolicyResultV2 instance) =>
     <String, dynamic>{
       'policyId': instance.policyId,
     };
@@ -5484,6 +5859,82 @@ Map<String, dynamic> _$UserParamsV2ToJson(UserParamsV2 instance) =>
       'userTags': instance.userTags,
     };
 
+UserParamsV3 _$UserParamsV3FromJson(Map<String, dynamic> json) => UserParamsV3(
+      userName: json['userName'] as String,
+      userEmail: json['userEmail'] as String?,
+      userPhoneNumber: json['userPhoneNumber'] as String?,
+      apiKeys: (json['apiKeys'] as List<dynamic>?)
+              ?.map((e) => ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      authenticators: (json['authenticators'] as List<dynamic>?)
+              ?.map((e) =>
+                  AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      oauthProviders: (json['oauthProviders'] as List<dynamic>?)
+              ?.map((e) =>
+                  OauthProviderParams.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      userTags: (json['userTags'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$UserParamsV3ToJson(UserParamsV3 instance) =>
+    <String, dynamic>{
+      'userName': instance.userName,
+      'userEmail': instance.userEmail,
+      'userPhoneNumber': instance.userPhoneNumber,
+      'apiKeys': instance.apiKeys.map((e) => e.toJson()).toList(),
+      'authenticators': instance.authenticators.map((e) => e.toJson()).toList(),
+      'oauthProviders': instance.oauthProviders.map((e) => e.toJson()).toList(),
+      'userTags': instance.userTags,
+    };
+
+VerifyOtpIntent _$VerifyOtpIntentFromJson(Map<String, dynamic> json) =>
+    VerifyOtpIntent(
+      otpId: json['otpId'] as String,
+      otpCode: json['otpCode'] as String,
+      expirationSeconds: json['expirationSeconds'] as String?,
+    );
+
+Map<String, dynamic> _$VerifyOtpIntentToJson(VerifyOtpIntent instance) =>
+    <String, dynamic>{
+      'otpId': instance.otpId,
+      'otpCode': instance.otpCode,
+      'expirationSeconds': instance.expirationSeconds,
+    };
+
+VerifyOtpRequest _$VerifyOtpRequestFromJson(Map<String, dynamic> json) =>
+    VerifyOtpRequest(
+      type: verifyOtpRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters:
+          VerifyOtpIntent.fromJson(json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$VerifyOtpRequestToJson(VerifyOtpRequest instance) =>
+    <String, dynamic>{
+      'type': verifyOtpRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+VerifyOtpResult _$VerifyOtpResultFromJson(Map<String, dynamic> json) =>
+    VerifyOtpResult(
+      verificationToken: json['verificationToken'] as String,
+    );
+
+Map<String, dynamic> _$VerifyOtpResultToJson(VerifyOtpResult instance) =>
+    <String, dynamic>{
+      'verificationToken': instance.verificationToken,
+    };
+
 Vote _$VoteFromJson(Map<String, dynamic> json) => Vote(
       id: json['id'] as String,
       userId: json['userId'] as String,
@@ -5494,9 +5945,8 @@ Vote _$VoteFromJson(Map<String, dynamic> json) => Vote(
       publicKey: json['publicKey'] as String,
       signature: json['signature'] as String,
       scheme: json['scheme'] as String,
-      createdAt: json['createdAt'] != null
-          ? ExternalDataV1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>)
-          : ExternalDataV1Timestamp(seconds: '0', nanos: '0'),
+      createdAt: ExternalDataV1Timestamp.fromJson(
+          json['createdAt'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$VoteToJson(Vote instance) => <String, dynamic>{
@@ -5546,6 +5996,7 @@ WalletAccount _$WalletAccountFromJson(Map<String, dynamic> json) =>
           json['createdAt'] as Map<String, dynamic>),
       updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
+      publicKey: json['publicKey'] as String?,
     );
 
 Map<String, dynamic> _$WalletAccountToJson(WalletAccount instance) =>
@@ -5560,6 +6011,7 @@ Map<String, dynamic> _$WalletAccountToJson(WalletAccount instance) =>
       'address': instance.address,
       'createdAt': instance.createdAt.toJson(),
       'updatedAt': instance.updatedAt.toJson(),
+      'publicKey': instance.publicKey,
     };
 
 WalletAccountParams _$WalletAccountParamsFromJson(Map<String, dynamic> json) =>

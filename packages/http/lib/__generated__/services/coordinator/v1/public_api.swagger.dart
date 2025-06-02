@@ -4132,6 +4132,7 @@ class CreateReadWriteSessionIntentV2 {
     this.userId,
     this.apiKeyName,
     this.expirationSeconds,
+    this.invalidateExisting,
   });
 
   factory CreateReadWriteSessionIntentV2.fromJson(Map<String, dynamic> json) =>
@@ -4148,6 +4149,8 @@ class CreateReadWriteSessionIntentV2 {
   final String? apiKeyName;
   @JsonKey(name: 'expirationSeconds')
   final String? expirationSeconds;
+  @JsonKey(name: 'invalidateExisting')
+  final bool? invalidateExisting;
   static const fromJsonFactory = _$CreateReadWriteSessionIntentV2FromJson;
 
   @override
@@ -4164,7 +4167,10 @@ class CreateReadWriteSessionIntentV2 {
                     .equals(other.apiKeyName, apiKeyName)) &&
             (identical(other.expirationSeconds, expirationSeconds) ||
                 const DeepCollectionEquality()
-                    .equals(other.expirationSeconds, expirationSeconds)));
+                    .equals(other.expirationSeconds, expirationSeconds)) &&
+            (identical(other.invalidateExisting, invalidateExisting) ||
+                const DeepCollectionEquality()
+                    .equals(other.invalidateExisting, invalidateExisting)));
   }
 
   @override
@@ -4176,6 +4182,7 @@ class CreateReadWriteSessionIntentV2 {
       const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(apiKeyName) ^
       const DeepCollectionEquality().hash(expirationSeconds) ^
+      const DeepCollectionEquality().hash(invalidateExisting) ^
       runtimeType.hashCode;
 }
 
@@ -4185,19 +4192,22 @@ extension $CreateReadWriteSessionIntentV2Extension
       {String? targetPublicKey,
       String? userId,
       String? apiKeyName,
-      String? expirationSeconds}) {
+      String? expirationSeconds,
+      bool? invalidateExisting}) {
     return CreateReadWriteSessionIntentV2(
         targetPublicKey: targetPublicKey ?? this.targetPublicKey,
         userId: userId ?? this.userId,
         apiKeyName: apiKeyName ?? this.apiKeyName,
-        expirationSeconds: expirationSeconds ?? this.expirationSeconds);
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds,
+        invalidateExisting: invalidateExisting ?? this.invalidateExisting);
   }
 
   CreateReadWriteSessionIntentV2 copyWithWrapped(
       {Wrapped<String>? targetPublicKey,
       Wrapped<String?>? userId,
       Wrapped<String?>? apiKeyName,
-      Wrapped<String?>? expirationSeconds}) {
+      Wrapped<String?>? expirationSeconds,
+      Wrapped<bool?>? invalidateExisting}) {
     return CreateReadWriteSessionIntentV2(
         targetPublicKey: (targetPublicKey != null
             ? targetPublicKey.value
@@ -4206,7 +4216,10 @@ extension $CreateReadWriteSessionIntentV2Extension
         apiKeyName: (apiKeyName != null ? apiKeyName.value : this.apiKeyName),
         expirationSeconds: (expirationSeconds != null
             ? expirationSeconds.value
-            : this.expirationSeconds));
+            : this.expirationSeconds),
+        invalidateExisting: (invalidateExisting != null
+            ? invalidateExisting.value
+            : this.invalidateExisting));
   }
 }
 
@@ -6007,6 +6020,49 @@ extension $CreateUsersIntentV2Extension on CreateUsersIntentV2 {
 }
 
 @JsonSerializable(explicitToJson: true)
+class CreateUsersIntentV3 {
+  const CreateUsersIntentV3({
+    required this.users,
+  });
+
+  factory CreateUsersIntentV3.fromJson(Map<String, dynamic> json) =>
+      _$CreateUsersIntentV3FromJson(json);
+
+  static const toJsonFactory = _$CreateUsersIntentV3ToJson;
+  Map<String, dynamic> toJson() => _$CreateUsersIntentV3ToJson(this);
+
+  @JsonKey(name: 'users', defaultValue: <UserParamsV3>[])
+  final List<UserParamsV3> users;
+  static const fromJsonFactory = _$CreateUsersIntentV3FromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CreateUsersIntentV3 &&
+            (identical(other.users, users) ||
+                const DeepCollectionEquality().equals(other.users, users)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(users) ^ runtimeType.hashCode;
+}
+
+extension $CreateUsersIntentV3Extension on CreateUsersIntentV3 {
+  CreateUsersIntentV3 copyWith({List<UserParamsV3>? users}) {
+    return CreateUsersIntentV3(users: users ?? this.users);
+  }
+
+  CreateUsersIntentV3 copyWithWrapped({Wrapped<List<UserParamsV3>>? users}) {
+    return CreateUsersIntentV3(
+        users: (users != null ? users.value : this.users));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CreateUsersRequest {
   const CreateUsersRequest({
     required this.type,
@@ -6032,7 +6088,7 @@ class CreateUsersRequest {
   @JsonKey(name: 'organizationId')
   final String organizationId;
   @JsonKey(name: 'parameters')
-  final CreateUsersIntentV2 parameters;
+  final CreateUsersIntentV3 parameters;
   static const fromJsonFactory = _$CreateUsersRequestFromJson;
 
   @override
@@ -6069,7 +6125,7 @@ extension $CreateUsersRequestExtension on CreateUsersRequest {
       {enums.CreateUsersRequestType? type,
       String? timestampMs,
       String? organizationId,
-      CreateUsersIntentV2? parameters}) {
+      CreateUsersIntentV3? parameters}) {
     return CreateUsersRequest(
         type: type ?? this.type,
         timestampMs: timestampMs ?? this.timestampMs,
@@ -6081,7 +6137,7 @@ extension $CreateUsersRequestExtension on CreateUsersRequest {
       {Wrapped<enums.CreateUsersRequestType>? type,
       Wrapped<String>? timestampMs,
       Wrapped<String>? organizationId,
-      Wrapped<CreateUsersIntentV2>? parameters}) {
+      Wrapped<CreateUsersIntentV3>? parameters}) {
     return CreateUsersRequest(
         type: (type != null ? type.value : this.type),
         timestampMs:
@@ -8938,6 +8994,8 @@ class EmailAuthIntent {
     this.emailCustomization,
     this.invalidateExisting,
     this.sendFromEmailAddress,
+    this.sendFromEmailSenderName,
+    this.replyToEmailAddress,
   });
 
   factory EmailAuthIntent.fromJson(Map<String, dynamic> json) =>
@@ -8960,6 +9018,10 @@ class EmailAuthIntent {
   final bool? invalidateExisting;
   @JsonKey(name: 'sendFromEmailAddress')
   final String? sendFromEmailAddress;
+  @JsonKey(name: 'sendFromEmailSenderName')
+  final String? sendFromEmailSenderName;
+  @JsonKey(name: 'replyToEmailAddress')
+  final String? replyToEmailAddress;
   static const fromJsonFactory = _$EmailAuthIntentFromJson;
 
   @override
@@ -8984,8 +9046,15 @@ class EmailAuthIntent {
                 const DeepCollectionEquality()
                     .equals(other.invalidateExisting, invalidateExisting)) &&
             (identical(other.sendFromEmailAddress, sendFromEmailAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailAddress, sendFromEmailAddress)) &&
+            (identical(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName)) &&
+            (identical(other.replyToEmailAddress, replyToEmailAddress) ||
                 const DeepCollectionEquality()
-                    .equals(other.sendFromEmailAddress, sendFromEmailAddress)));
+                    .equals(other.replyToEmailAddress, replyToEmailAddress)));
   }
 
   @override
@@ -9000,6 +9069,8 @@ class EmailAuthIntent {
       const DeepCollectionEquality().hash(emailCustomization) ^
       const DeepCollectionEquality().hash(invalidateExisting) ^
       const DeepCollectionEquality().hash(sendFromEmailAddress) ^
+      const DeepCollectionEquality().hash(sendFromEmailSenderName) ^
+      const DeepCollectionEquality().hash(replyToEmailAddress) ^
       runtimeType.hashCode;
 }
 
@@ -9011,7 +9082,9 @@ extension $EmailAuthIntentExtension on EmailAuthIntent {
       String? expirationSeconds,
       EmailCustomizationParams? emailCustomization,
       bool? invalidateExisting,
-      String? sendFromEmailAddress}) {
+      String? sendFromEmailAddress,
+      String? sendFromEmailSenderName,
+      String? replyToEmailAddress}) {
     return EmailAuthIntent(
         email: email ?? this.email,
         targetPublicKey: targetPublicKey ?? this.targetPublicKey,
@@ -9019,8 +9092,10 @@ extension $EmailAuthIntentExtension on EmailAuthIntent {
         expirationSeconds: expirationSeconds ?? this.expirationSeconds,
         emailCustomization: emailCustomization ?? this.emailCustomization,
         invalidateExisting: invalidateExisting ?? this.invalidateExisting,
-        sendFromEmailAddress:
-            sendFromEmailAddress ?? this.sendFromEmailAddress);
+        sendFromEmailAddress: sendFromEmailAddress ?? this.sendFromEmailAddress,
+        sendFromEmailSenderName:
+            sendFromEmailSenderName ?? this.sendFromEmailSenderName,
+        replyToEmailAddress: replyToEmailAddress ?? this.replyToEmailAddress);
   }
 
   EmailAuthIntent copyWithWrapped(
@@ -9030,7 +9105,9 @@ extension $EmailAuthIntentExtension on EmailAuthIntent {
       Wrapped<String?>? expirationSeconds,
       Wrapped<EmailCustomizationParams?>? emailCustomization,
       Wrapped<bool?>? invalidateExisting,
-      Wrapped<String?>? sendFromEmailAddress}) {
+      Wrapped<String?>? sendFromEmailAddress,
+      Wrapped<String?>? sendFromEmailSenderName,
+      Wrapped<String?>? replyToEmailAddress}) {
     return EmailAuthIntent(
         email: (email != null ? email.value : this.email),
         targetPublicKey: (targetPublicKey != null
@@ -9048,7 +9125,13 @@ extension $EmailAuthIntentExtension on EmailAuthIntent {
             : this.invalidateExisting),
         sendFromEmailAddress: (sendFromEmailAddress != null
             ? sendFromEmailAddress.value
-            : this.sendFromEmailAddress));
+            : this.sendFromEmailAddress),
+        sendFromEmailSenderName: (sendFromEmailSenderName != null
+            ? sendFromEmailSenderName.value
+            : this.sendFromEmailSenderName),
+        replyToEmailAddress: (replyToEmailAddress != null
+            ? replyToEmailAddress.value
+            : this.replyToEmailAddress));
   }
 }
 
@@ -9062,6 +9145,8 @@ class EmailAuthIntentV2 {
     this.emailCustomization,
     this.invalidateExisting,
     this.sendFromEmailAddress,
+    this.sendFromEmailSenderName,
+    this.replyToEmailAddress,
   });
 
   factory EmailAuthIntentV2.fromJson(Map<String, dynamic> json) =>
@@ -9084,6 +9169,10 @@ class EmailAuthIntentV2 {
   final bool? invalidateExisting;
   @JsonKey(name: 'sendFromEmailAddress')
   final String? sendFromEmailAddress;
+  @JsonKey(name: 'sendFromEmailSenderName')
+  final String? sendFromEmailSenderName;
+  @JsonKey(name: 'replyToEmailAddress')
+  final String? replyToEmailAddress;
   static const fromJsonFactory = _$EmailAuthIntentV2FromJson;
 
   @override
@@ -9108,8 +9197,15 @@ class EmailAuthIntentV2 {
                 const DeepCollectionEquality()
                     .equals(other.invalidateExisting, invalidateExisting)) &&
             (identical(other.sendFromEmailAddress, sendFromEmailAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailAddress, sendFromEmailAddress)) &&
+            (identical(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName)) &&
+            (identical(other.replyToEmailAddress, replyToEmailAddress) ||
                 const DeepCollectionEquality()
-                    .equals(other.sendFromEmailAddress, sendFromEmailAddress)));
+                    .equals(other.replyToEmailAddress, replyToEmailAddress)));
   }
 
   @override
@@ -9124,6 +9220,8 @@ class EmailAuthIntentV2 {
       const DeepCollectionEquality().hash(emailCustomization) ^
       const DeepCollectionEquality().hash(invalidateExisting) ^
       const DeepCollectionEquality().hash(sendFromEmailAddress) ^
+      const DeepCollectionEquality().hash(sendFromEmailSenderName) ^
+      const DeepCollectionEquality().hash(replyToEmailAddress) ^
       runtimeType.hashCode;
 }
 
@@ -9135,7 +9233,9 @@ extension $EmailAuthIntentV2Extension on EmailAuthIntentV2 {
       String? expirationSeconds,
       EmailCustomizationParams? emailCustomization,
       bool? invalidateExisting,
-      String? sendFromEmailAddress}) {
+      String? sendFromEmailAddress,
+      String? sendFromEmailSenderName,
+      String? replyToEmailAddress}) {
     return EmailAuthIntentV2(
         email: email ?? this.email,
         targetPublicKey: targetPublicKey ?? this.targetPublicKey,
@@ -9143,8 +9243,10 @@ extension $EmailAuthIntentV2Extension on EmailAuthIntentV2 {
         expirationSeconds: expirationSeconds ?? this.expirationSeconds,
         emailCustomization: emailCustomization ?? this.emailCustomization,
         invalidateExisting: invalidateExisting ?? this.invalidateExisting,
-        sendFromEmailAddress:
-            sendFromEmailAddress ?? this.sendFromEmailAddress);
+        sendFromEmailAddress: sendFromEmailAddress ?? this.sendFromEmailAddress,
+        sendFromEmailSenderName:
+            sendFromEmailSenderName ?? this.sendFromEmailSenderName,
+        replyToEmailAddress: replyToEmailAddress ?? this.replyToEmailAddress);
   }
 
   EmailAuthIntentV2 copyWithWrapped(
@@ -9154,7 +9256,9 @@ extension $EmailAuthIntentV2Extension on EmailAuthIntentV2 {
       Wrapped<String?>? expirationSeconds,
       Wrapped<EmailCustomizationParams?>? emailCustomization,
       Wrapped<bool?>? invalidateExisting,
-      Wrapped<String?>? sendFromEmailAddress}) {
+      Wrapped<String?>? sendFromEmailAddress,
+      Wrapped<String?>? sendFromEmailSenderName,
+      Wrapped<String?>? replyToEmailAddress}) {
     return EmailAuthIntentV2(
         email: (email != null ? email.value : this.email),
         targetPublicKey: (targetPublicKey != null
@@ -9172,7 +9276,13 @@ extension $EmailAuthIntentV2Extension on EmailAuthIntentV2 {
             : this.invalidateExisting),
         sendFromEmailAddress: (sendFromEmailAddress != null
             ? sendFromEmailAddress.value
-            : this.sendFromEmailAddress));
+            : this.sendFromEmailAddress),
+        sendFromEmailSenderName: (sendFromEmailSenderName != null
+            ? sendFromEmailSenderName.value
+            : this.sendFromEmailSenderName),
+        replyToEmailAddress: (replyToEmailAddress != null
+            ? replyToEmailAddress.value
+            : this.replyToEmailAddress));
   }
 }
 
@@ -13166,6 +13276,8 @@ class InitOtpAuthIntent {
     this.smsCustomization,
     this.userIdentifier,
     this.sendFromEmailAddress,
+    this.sendFromEmailSenderName,
+    this.replyToEmailAddress,
   });
 
   factory InitOtpAuthIntent.fromJson(Map<String, dynamic> json) =>
@@ -13186,6 +13298,10 @@ class InitOtpAuthIntent {
   final String? userIdentifier;
   @JsonKey(name: 'sendFromEmailAddress')
   final String? sendFromEmailAddress;
+  @JsonKey(name: 'sendFromEmailSenderName')
+  final String? sendFromEmailSenderName;
+  @JsonKey(name: 'replyToEmailAddress')
+  final String? replyToEmailAddress;
   static const fromJsonFactory = _$InitOtpAuthIntentFromJson;
 
   @override
@@ -13208,8 +13324,15 @@ class InitOtpAuthIntent {
                 const DeepCollectionEquality()
                     .equals(other.userIdentifier, userIdentifier)) &&
             (identical(other.sendFromEmailAddress, sendFromEmailAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailAddress, sendFromEmailAddress)) &&
+            (identical(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName)) &&
+            (identical(other.replyToEmailAddress, replyToEmailAddress) ||
                 const DeepCollectionEquality()
-                    .equals(other.sendFromEmailAddress, sendFromEmailAddress)));
+                    .equals(other.replyToEmailAddress, replyToEmailAddress)));
   }
 
   @override
@@ -13223,6 +13346,8 @@ class InitOtpAuthIntent {
       const DeepCollectionEquality().hash(smsCustomization) ^
       const DeepCollectionEquality().hash(userIdentifier) ^
       const DeepCollectionEquality().hash(sendFromEmailAddress) ^
+      const DeepCollectionEquality().hash(sendFromEmailSenderName) ^
+      const DeepCollectionEquality().hash(replyToEmailAddress) ^
       runtimeType.hashCode;
 }
 
@@ -13233,15 +13358,19 @@ extension $InitOtpAuthIntentExtension on InitOtpAuthIntent {
       EmailCustomizationParams? emailCustomization,
       SmsCustomizationParams? smsCustomization,
       String? userIdentifier,
-      String? sendFromEmailAddress}) {
+      String? sendFromEmailAddress,
+      String? sendFromEmailSenderName,
+      String? replyToEmailAddress}) {
     return InitOtpAuthIntent(
         otpType: otpType ?? this.otpType,
         contact: contact ?? this.contact,
         emailCustomization: emailCustomization ?? this.emailCustomization,
         smsCustomization: smsCustomization ?? this.smsCustomization,
         userIdentifier: userIdentifier ?? this.userIdentifier,
-        sendFromEmailAddress:
-            sendFromEmailAddress ?? this.sendFromEmailAddress);
+        sendFromEmailAddress: sendFromEmailAddress ?? this.sendFromEmailAddress,
+        sendFromEmailSenderName:
+            sendFromEmailSenderName ?? this.sendFromEmailSenderName,
+        replyToEmailAddress: replyToEmailAddress ?? this.replyToEmailAddress);
   }
 
   InitOtpAuthIntent copyWithWrapped(
@@ -13250,7 +13379,9 @@ extension $InitOtpAuthIntentExtension on InitOtpAuthIntent {
       Wrapped<EmailCustomizationParams?>? emailCustomization,
       Wrapped<SmsCustomizationParams?>? smsCustomization,
       Wrapped<String?>? userIdentifier,
-      Wrapped<String?>? sendFromEmailAddress}) {
+      Wrapped<String?>? sendFromEmailAddress,
+      Wrapped<String?>? sendFromEmailSenderName,
+      Wrapped<String?>? replyToEmailAddress}) {
     return InitOtpAuthIntent(
         otpType: (otpType != null ? otpType.value : this.otpType),
         contact: (contact != null ? contact.value : this.contact),
@@ -13265,7 +13396,175 @@ extension $InitOtpAuthIntentExtension on InitOtpAuthIntent {
             : this.userIdentifier),
         sendFromEmailAddress: (sendFromEmailAddress != null
             ? sendFromEmailAddress.value
-            : this.sendFromEmailAddress));
+            : this.sendFromEmailAddress),
+        sendFromEmailSenderName: (sendFromEmailSenderName != null
+            ? sendFromEmailSenderName.value
+            : this.sendFromEmailSenderName),
+        replyToEmailAddress: (replyToEmailAddress != null
+            ? replyToEmailAddress.value
+            : this.replyToEmailAddress));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitOtpAuthIntentV2 {
+  const InitOtpAuthIntentV2({
+    required this.otpType,
+    required this.contact,
+    this.otpLength,
+    this.emailCustomization,
+    this.smsCustomization,
+    this.userIdentifier,
+    this.sendFromEmailAddress,
+    this.alphanumeric,
+    this.sendFromEmailSenderName,
+    this.replyToEmailAddress,
+  });
+
+  factory InitOtpAuthIntentV2.fromJson(Map<String, dynamic> json) =>
+      _$InitOtpAuthIntentV2FromJson(json);
+
+  static const toJsonFactory = _$InitOtpAuthIntentV2ToJson;
+  Map<String, dynamic> toJson() => _$InitOtpAuthIntentV2ToJson(this);
+
+  @JsonKey(name: 'otpType')
+  final String otpType;
+  @JsonKey(name: 'contact')
+  final String contact;
+  @JsonKey(name: 'otpLength')
+  final int? otpLength;
+  @JsonKey(name: 'emailCustomization')
+  final EmailCustomizationParams? emailCustomization;
+  @JsonKey(name: 'smsCustomization')
+  final SmsCustomizationParams? smsCustomization;
+  @JsonKey(name: 'userIdentifier')
+  final String? userIdentifier;
+  @JsonKey(name: 'sendFromEmailAddress')
+  final String? sendFromEmailAddress;
+  @JsonKey(name: 'alphanumeric')
+  final bool? alphanumeric;
+  @JsonKey(name: 'sendFromEmailSenderName')
+  final String? sendFromEmailSenderName;
+  @JsonKey(name: 'replyToEmailAddress')
+  final String? replyToEmailAddress;
+  static const fromJsonFactory = _$InitOtpAuthIntentV2FromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitOtpAuthIntentV2 &&
+            (identical(other.otpType, otpType) ||
+                const DeepCollectionEquality()
+                    .equals(other.otpType, otpType)) &&
+            (identical(other.contact, contact) ||
+                const DeepCollectionEquality()
+                    .equals(other.contact, contact)) &&
+            (identical(other.otpLength, otpLength) ||
+                const DeepCollectionEquality()
+                    .equals(other.otpLength, otpLength)) &&
+            (identical(other.emailCustomization, emailCustomization) ||
+                const DeepCollectionEquality()
+                    .equals(other.emailCustomization, emailCustomization)) &&
+            (identical(other.smsCustomization, smsCustomization) ||
+                const DeepCollectionEquality()
+                    .equals(other.smsCustomization, smsCustomization)) &&
+            (identical(other.userIdentifier, userIdentifier) ||
+                const DeepCollectionEquality()
+                    .equals(other.userIdentifier, userIdentifier)) &&
+            (identical(other.sendFromEmailAddress, sendFromEmailAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailAddress, sendFromEmailAddress)) &&
+            (identical(other.alphanumeric, alphanumeric) ||
+                const DeepCollectionEquality()
+                    .equals(other.alphanumeric, alphanumeric)) &&
+            (identical(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName)) &&
+            (identical(other.replyToEmailAddress, replyToEmailAddress) ||
+                const DeepCollectionEquality()
+                    .equals(other.replyToEmailAddress, replyToEmailAddress)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(otpType) ^
+      const DeepCollectionEquality().hash(contact) ^
+      const DeepCollectionEquality().hash(otpLength) ^
+      const DeepCollectionEquality().hash(emailCustomization) ^
+      const DeepCollectionEquality().hash(smsCustomization) ^
+      const DeepCollectionEquality().hash(userIdentifier) ^
+      const DeepCollectionEquality().hash(sendFromEmailAddress) ^
+      const DeepCollectionEquality().hash(alphanumeric) ^
+      const DeepCollectionEquality().hash(sendFromEmailSenderName) ^
+      const DeepCollectionEquality().hash(replyToEmailAddress) ^
+      runtimeType.hashCode;
+}
+
+extension $InitOtpAuthIntentV2Extension on InitOtpAuthIntentV2 {
+  InitOtpAuthIntentV2 copyWith(
+      {String? otpType,
+      String? contact,
+      int? otpLength,
+      EmailCustomizationParams? emailCustomization,
+      SmsCustomizationParams? smsCustomization,
+      String? userIdentifier,
+      String? sendFromEmailAddress,
+      bool? alphanumeric,
+      String? sendFromEmailSenderName,
+      String? replyToEmailAddress}) {
+    return InitOtpAuthIntentV2(
+        otpType: otpType ?? this.otpType,
+        contact: contact ?? this.contact,
+        otpLength: otpLength ?? this.otpLength,
+        emailCustomization: emailCustomization ?? this.emailCustomization,
+        smsCustomization: smsCustomization ?? this.smsCustomization,
+        userIdentifier: userIdentifier ?? this.userIdentifier,
+        sendFromEmailAddress: sendFromEmailAddress ?? this.sendFromEmailAddress,
+        alphanumeric: alphanumeric ?? this.alphanumeric,
+        sendFromEmailSenderName:
+            sendFromEmailSenderName ?? this.sendFromEmailSenderName,
+        replyToEmailAddress: replyToEmailAddress ?? this.replyToEmailAddress);
+  }
+
+  InitOtpAuthIntentV2 copyWithWrapped(
+      {Wrapped<String>? otpType,
+      Wrapped<String>? contact,
+      Wrapped<int?>? otpLength,
+      Wrapped<EmailCustomizationParams?>? emailCustomization,
+      Wrapped<SmsCustomizationParams?>? smsCustomization,
+      Wrapped<String?>? userIdentifier,
+      Wrapped<String?>? sendFromEmailAddress,
+      Wrapped<bool?>? alphanumeric,
+      Wrapped<String?>? sendFromEmailSenderName,
+      Wrapped<String?>? replyToEmailAddress}) {
+    return InitOtpAuthIntentV2(
+        otpType: (otpType != null ? otpType.value : this.otpType),
+        contact: (contact != null ? contact.value : this.contact),
+        otpLength: (otpLength != null ? otpLength.value : this.otpLength),
+        emailCustomization: (emailCustomization != null
+            ? emailCustomization.value
+            : this.emailCustomization),
+        smsCustomization: (smsCustomization != null
+            ? smsCustomization.value
+            : this.smsCustomization),
+        userIdentifier: (userIdentifier != null
+            ? userIdentifier.value
+            : this.userIdentifier),
+        sendFromEmailAddress: (sendFromEmailAddress != null
+            ? sendFromEmailAddress.value
+            : this.sendFromEmailAddress),
+        alphanumeric:
+            (alphanumeric != null ? alphanumeric.value : this.alphanumeric),
+        sendFromEmailSenderName: (sendFromEmailSenderName != null
+            ? sendFromEmailSenderName.value
+            : this.sendFromEmailSenderName),
+        replyToEmailAddress: (replyToEmailAddress != null
+            ? replyToEmailAddress.value
+            : this.replyToEmailAddress));
   }
 }
 
@@ -13295,7 +13594,7 @@ class InitOtpAuthRequest {
   @JsonKey(name: 'organizationId')
   final String organizationId;
   @JsonKey(name: 'parameters')
-  final InitOtpAuthIntent parameters;
+  final InitOtpAuthIntentV2 parameters;
   static const fromJsonFactory = _$InitOtpAuthRequestFromJson;
 
   @override
@@ -13332,7 +13631,7 @@ extension $InitOtpAuthRequestExtension on InitOtpAuthRequest {
       {enums.InitOtpAuthRequestType? type,
       String? timestampMs,
       String? organizationId,
-      InitOtpAuthIntent? parameters}) {
+      InitOtpAuthIntentV2? parameters}) {
     return InitOtpAuthRequest(
         type: type ?? this.type,
         timestampMs: timestampMs ?? this.timestampMs,
@@ -13344,7 +13643,7 @@ extension $InitOtpAuthRequestExtension on InitOtpAuthRequest {
       {Wrapped<enums.InitOtpAuthRequestType>? type,
       Wrapped<String>? timestampMs,
       Wrapped<String>? organizationId,
-      Wrapped<InitOtpAuthIntent>? parameters}) {
+      Wrapped<InitOtpAuthIntentV2>? parameters}) {
     return InitOtpAuthRequest(
         type: (type != null ? type.value : this.type),
         timestampMs:
@@ -13395,6 +13694,353 @@ extension $InitOtpAuthResultExtension on InitOtpAuthResult {
 
   InitOtpAuthResult copyWithWrapped({Wrapped<String>? otpId}) {
     return InitOtpAuthResult(otpId: (otpId != null ? otpId.value : this.otpId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitOtpAuthResultV2 {
+  const InitOtpAuthResultV2({
+    required this.otpId,
+  });
+
+  factory InitOtpAuthResultV2.fromJson(Map<String, dynamic> json) =>
+      _$InitOtpAuthResultV2FromJson(json);
+
+  static const toJsonFactory = _$InitOtpAuthResultV2ToJson;
+  Map<String, dynamic> toJson() => _$InitOtpAuthResultV2ToJson(this);
+
+  @JsonKey(name: 'otpId')
+  final String otpId;
+  static const fromJsonFactory = _$InitOtpAuthResultV2FromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitOtpAuthResultV2 &&
+            (identical(other.otpId, otpId) ||
+                const DeepCollectionEquality().equals(other.otpId, otpId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(otpId) ^ runtimeType.hashCode;
+}
+
+extension $InitOtpAuthResultV2Extension on InitOtpAuthResultV2 {
+  InitOtpAuthResultV2 copyWith({String? otpId}) {
+    return InitOtpAuthResultV2(otpId: otpId ?? this.otpId);
+  }
+
+  InitOtpAuthResultV2 copyWithWrapped({Wrapped<String>? otpId}) {
+    return InitOtpAuthResultV2(
+        otpId: (otpId != null ? otpId.value : this.otpId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitOtpIntent {
+  const InitOtpIntent({
+    required this.otpType,
+    required this.contact,
+    this.otpLength,
+    this.emailCustomization,
+    this.smsCustomization,
+    this.userIdentifier,
+    this.sendFromEmailAddress,
+    this.alphanumeric,
+    this.sendFromEmailSenderName,
+    this.expirationSeconds,
+    this.replyToEmailAddress,
+  });
+
+  factory InitOtpIntent.fromJson(Map<String, dynamic> json) =>
+      _$InitOtpIntentFromJson(json);
+
+  static const toJsonFactory = _$InitOtpIntentToJson;
+  Map<String, dynamic> toJson() => _$InitOtpIntentToJson(this);
+
+  @JsonKey(name: 'otpType')
+  final String otpType;
+  @JsonKey(name: 'contact')
+  final String contact;
+  @JsonKey(name: 'otpLength')
+  final int? otpLength;
+  @JsonKey(name: 'emailCustomization')
+  final EmailCustomizationParams? emailCustomization;
+  @JsonKey(name: 'smsCustomization')
+  final SmsCustomizationParams? smsCustomization;
+  @JsonKey(name: 'userIdentifier')
+  final String? userIdentifier;
+  @JsonKey(name: 'sendFromEmailAddress')
+  final String? sendFromEmailAddress;
+  @JsonKey(name: 'alphanumeric')
+  final bool? alphanumeric;
+  @JsonKey(name: 'sendFromEmailSenderName')
+  final String? sendFromEmailSenderName;
+  @JsonKey(name: 'expirationSeconds')
+  final String? expirationSeconds;
+  @JsonKey(name: 'replyToEmailAddress')
+  final String? replyToEmailAddress;
+  static const fromJsonFactory = _$InitOtpIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitOtpIntent &&
+            (identical(other.otpType, otpType) ||
+                const DeepCollectionEquality()
+                    .equals(other.otpType, otpType)) &&
+            (identical(other.contact, contact) ||
+                const DeepCollectionEquality()
+                    .equals(other.contact, contact)) &&
+            (identical(other.otpLength, otpLength) ||
+                const DeepCollectionEquality()
+                    .equals(other.otpLength, otpLength)) &&
+            (identical(other.emailCustomization, emailCustomization) ||
+                const DeepCollectionEquality()
+                    .equals(other.emailCustomization, emailCustomization)) &&
+            (identical(other.smsCustomization, smsCustomization) ||
+                const DeepCollectionEquality()
+                    .equals(other.smsCustomization, smsCustomization)) &&
+            (identical(other.userIdentifier, userIdentifier) ||
+                const DeepCollectionEquality()
+                    .equals(other.userIdentifier, userIdentifier)) &&
+            (identical(other.sendFromEmailAddress, sendFromEmailAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailAddress, sendFromEmailAddress)) &&
+            (identical(other.alphanumeric, alphanumeric) ||
+                const DeepCollectionEquality()
+                    .equals(other.alphanumeric, alphanumeric)) &&
+            (identical(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName) ||
+                const DeepCollectionEquality().equals(
+                    other.sendFromEmailSenderName, sendFromEmailSenderName)) &&
+            (identical(other.expirationSeconds, expirationSeconds) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationSeconds, expirationSeconds)) &&
+            (identical(other.replyToEmailAddress, replyToEmailAddress) ||
+                const DeepCollectionEquality()
+                    .equals(other.replyToEmailAddress, replyToEmailAddress)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(otpType) ^
+      const DeepCollectionEquality().hash(contact) ^
+      const DeepCollectionEquality().hash(otpLength) ^
+      const DeepCollectionEquality().hash(emailCustomization) ^
+      const DeepCollectionEquality().hash(smsCustomization) ^
+      const DeepCollectionEquality().hash(userIdentifier) ^
+      const DeepCollectionEquality().hash(sendFromEmailAddress) ^
+      const DeepCollectionEquality().hash(alphanumeric) ^
+      const DeepCollectionEquality().hash(sendFromEmailSenderName) ^
+      const DeepCollectionEquality().hash(expirationSeconds) ^
+      const DeepCollectionEquality().hash(replyToEmailAddress) ^
+      runtimeType.hashCode;
+}
+
+extension $InitOtpIntentExtension on InitOtpIntent {
+  InitOtpIntent copyWith(
+      {String? otpType,
+      String? contact,
+      int? otpLength,
+      EmailCustomizationParams? emailCustomization,
+      SmsCustomizationParams? smsCustomization,
+      String? userIdentifier,
+      String? sendFromEmailAddress,
+      bool? alphanumeric,
+      String? sendFromEmailSenderName,
+      String? expirationSeconds,
+      String? replyToEmailAddress}) {
+    return InitOtpIntent(
+        otpType: otpType ?? this.otpType,
+        contact: contact ?? this.contact,
+        otpLength: otpLength ?? this.otpLength,
+        emailCustomization: emailCustomization ?? this.emailCustomization,
+        smsCustomization: smsCustomization ?? this.smsCustomization,
+        userIdentifier: userIdentifier ?? this.userIdentifier,
+        sendFromEmailAddress: sendFromEmailAddress ?? this.sendFromEmailAddress,
+        alphanumeric: alphanumeric ?? this.alphanumeric,
+        sendFromEmailSenderName:
+            sendFromEmailSenderName ?? this.sendFromEmailSenderName,
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds,
+        replyToEmailAddress: replyToEmailAddress ?? this.replyToEmailAddress);
+  }
+
+  InitOtpIntent copyWithWrapped(
+      {Wrapped<String>? otpType,
+      Wrapped<String>? contact,
+      Wrapped<int?>? otpLength,
+      Wrapped<EmailCustomizationParams?>? emailCustomization,
+      Wrapped<SmsCustomizationParams?>? smsCustomization,
+      Wrapped<String?>? userIdentifier,
+      Wrapped<String?>? sendFromEmailAddress,
+      Wrapped<bool?>? alphanumeric,
+      Wrapped<String?>? sendFromEmailSenderName,
+      Wrapped<String?>? expirationSeconds,
+      Wrapped<String?>? replyToEmailAddress}) {
+    return InitOtpIntent(
+        otpType: (otpType != null ? otpType.value : this.otpType),
+        contact: (contact != null ? contact.value : this.contact),
+        otpLength: (otpLength != null ? otpLength.value : this.otpLength),
+        emailCustomization: (emailCustomization != null
+            ? emailCustomization.value
+            : this.emailCustomization),
+        smsCustomization: (smsCustomization != null
+            ? smsCustomization.value
+            : this.smsCustomization),
+        userIdentifier: (userIdentifier != null
+            ? userIdentifier.value
+            : this.userIdentifier),
+        sendFromEmailAddress: (sendFromEmailAddress != null
+            ? sendFromEmailAddress.value
+            : this.sendFromEmailAddress),
+        alphanumeric:
+            (alphanumeric != null ? alphanumeric.value : this.alphanumeric),
+        sendFromEmailSenderName: (sendFromEmailSenderName != null
+            ? sendFromEmailSenderName.value
+            : this.sendFromEmailSenderName),
+        expirationSeconds: (expirationSeconds != null
+            ? expirationSeconds.value
+            : this.expirationSeconds),
+        replyToEmailAddress: (replyToEmailAddress != null
+            ? replyToEmailAddress.value
+            : this.replyToEmailAddress));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitOtpRequest {
+  const InitOtpRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory InitOtpRequest.fromJson(Map<String, dynamic> json) =>
+      _$InitOtpRequestFromJson(json);
+
+  static const toJsonFactory = _$InitOtpRequestToJson;
+  Map<String, dynamic> toJson() => _$InitOtpRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: initOtpRequestTypeToJson,
+    fromJson: initOtpRequestTypeFromJson,
+  )
+  final enums.InitOtpRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final InitOtpIntent parameters;
+  static const fromJsonFactory = _$InitOtpRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitOtpRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $InitOtpRequestExtension on InitOtpRequest {
+  InitOtpRequest copyWith(
+      {enums.InitOtpRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      InitOtpIntent? parameters}) {
+    return InitOtpRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  InitOtpRequest copyWithWrapped(
+      {Wrapped<enums.InitOtpRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<InitOtpIntent>? parameters}) {
+    return InitOtpRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitOtpResult {
+  const InitOtpResult({
+    required this.otpId,
+  });
+
+  factory InitOtpResult.fromJson(Map<String, dynamic> json) =>
+      _$InitOtpResultFromJson(json);
+
+  static const toJsonFactory = _$InitOtpResultToJson;
+  Map<String, dynamic> toJson() => _$InitOtpResultToJson(this);
+
+  @JsonKey(name: 'otpId')
+  final String otpId;
+  static const fromJsonFactory = _$InitOtpResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitOtpResult &&
+            (identical(other.otpId, otpId) ||
+                const DeepCollectionEquality().equals(other.otpId, otpId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(otpId) ^ runtimeType.hashCode;
+}
+
+extension $InitOtpResultExtension on InitOtpResult {
+  InitOtpResult copyWith({String? otpId}) {
+    return InitOtpResult(otpId: otpId ?? this.otpId);
+  }
+
+  InitOtpResult copyWithWrapped({Wrapped<String>? otpId}) {
+    return InitOtpResult(otpId: (otpId != null ? otpId.value : this.otpId));
   }
 }
 
@@ -13698,6 +14344,14 @@ class Intent {
     this.otpAuthIntent,
     this.createSubOrganizationIntentV7,
     this.updateWalletIntent,
+    this.updatePolicyIntentV2,
+    this.createUsersIntentV3,
+    this.initOtpAuthIntentV2,
+    this.initOtpIntent,
+    this.verifyOtpIntent,
+    this.otpLoginIntent,
+    this.stampLoginIntent,
+    this.oauthLoginIntent,
   });
 
   factory Intent.fromJson(Map<String, dynamic> json) => _$IntentFromJson(json);
@@ -13865,6 +14519,22 @@ class Intent {
   final CreateSubOrganizationIntentV7? createSubOrganizationIntentV7;
   @JsonKey(name: 'updateWalletIntent')
   final UpdateWalletIntent? updateWalletIntent;
+  @JsonKey(name: 'updatePolicyIntentV2')
+  final UpdatePolicyIntentV2? updatePolicyIntentV2;
+  @JsonKey(name: 'createUsersIntentV3')
+  final CreateUsersIntentV3? createUsersIntentV3;
+  @JsonKey(name: 'initOtpAuthIntentV2')
+  final InitOtpAuthIntentV2? initOtpAuthIntentV2;
+  @JsonKey(name: 'initOtpIntent')
+  final InitOtpIntent? initOtpIntent;
+  @JsonKey(name: 'verifyOtpIntent')
+  final VerifyOtpIntent? verifyOtpIntent;
+  @JsonKey(name: 'otpLoginIntent')
+  final OtpLoginIntent? otpLoginIntent;
+  @JsonKey(name: 'stampLoginIntent')
+  final StampLoginIntent? stampLoginIntent;
+  @JsonKey(name: 'oauthLoginIntent')
+  final OauthLoginIntent? oauthLoginIntent;
   static const fromJsonFactory = _$IntentFromJson;
 
   @override
@@ -13972,7 +14642,15 @@ class Intent {
             (identical(other.initOtpAuthIntent, initOtpAuthIntent) || const DeepCollectionEquality().equals(other.initOtpAuthIntent, initOtpAuthIntent)) &&
             (identical(other.otpAuthIntent, otpAuthIntent) || const DeepCollectionEquality().equals(other.otpAuthIntent, otpAuthIntent)) &&
             (identical(other.createSubOrganizationIntentV7, createSubOrganizationIntentV7) || const DeepCollectionEquality().equals(other.createSubOrganizationIntentV7, createSubOrganizationIntentV7)) &&
-            (identical(other.updateWalletIntent, updateWalletIntent) || const DeepCollectionEquality().equals(other.updateWalletIntent, updateWalletIntent)));
+            (identical(other.updateWalletIntent, updateWalletIntent) || const DeepCollectionEquality().equals(other.updateWalletIntent, updateWalletIntent)) &&
+            (identical(other.updatePolicyIntentV2, updatePolicyIntentV2) || const DeepCollectionEquality().equals(other.updatePolicyIntentV2, updatePolicyIntentV2)) &&
+            (identical(other.createUsersIntentV3, createUsersIntentV3) || const DeepCollectionEquality().equals(other.createUsersIntentV3, createUsersIntentV3)) &&
+            (identical(other.initOtpAuthIntentV2, initOtpAuthIntentV2) || const DeepCollectionEquality().equals(other.initOtpAuthIntentV2, initOtpAuthIntentV2)) &&
+            (identical(other.initOtpIntent, initOtpIntent) || const DeepCollectionEquality().equals(other.initOtpIntent, initOtpIntent)) &&
+            (identical(other.verifyOtpIntent, verifyOtpIntent) || const DeepCollectionEquality().equals(other.verifyOtpIntent, verifyOtpIntent)) &&
+            (identical(other.otpLoginIntent, otpLoginIntent) || const DeepCollectionEquality().equals(other.otpLoginIntent, otpLoginIntent)) &&
+            (identical(other.stampLoginIntent, stampLoginIntent) || const DeepCollectionEquality().equals(other.stampLoginIntent, stampLoginIntent)) &&
+            (identical(other.oauthLoginIntent, oauthLoginIntent) || const DeepCollectionEquality().equals(other.oauthLoginIntent, oauthLoginIntent)));
   }
 
   @override
@@ -14060,6 +14738,14 @@ class Intent {
       const DeepCollectionEquality().hash(otpAuthIntent) ^
       const DeepCollectionEquality().hash(createSubOrganizationIntentV7) ^
       const DeepCollectionEquality().hash(updateWalletIntent) ^
+      const DeepCollectionEquality().hash(updatePolicyIntentV2) ^
+      const DeepCollectionEquality().hash(createUsersIntentV3) ^
+      const DeepCollectionEquality().hash(initOtpAuthIntentV2) ^
+      const DeepCollectionEquality().hash(initOtpIntent) ^
+      const DeepCollectionEquality().hash(verifyOtpIntent) ^
+      const DeepCollectionEquality().hash(otpLoginIntent) ^
+      const DeepCollectionEquality().hash(stampLoginIntent) ^
+      const DeepCollectionEquality().hash(oauthLoginIntent) ^
       runtimeType.hashCode;
 }
 
@@ -14144,7 +14830,15 @@ extension $IntentExtension on Intent {
       InitOtpAuthIntent? initOtpAuthIntent,
       OtpAuthIntent? otpAuthIntent,
       CreateSubOrganizationIntentV7? createSubOrganizationIntentV7,
-      UpdateWalletIntent? updateWalletIntent}) {
+      UpdateWalletIntent? updateWalletIntent,
+      UpdatePolicyIntentV2? updatePolicyIntentV2,
+      CreateUsersIntentV3? createUsersIntentV3,
+      InitOtpAuthIntentV2? initOtpAuthIntentV2,
+      InitOtpIntent? initOtpIntent,
+      VerifyOtpIntent? verifyOtpIntent,
+      OtpLoginIntent? otpLoginIntent,
+      StampLoginIntent? stampLoginIntent,
+      OauthLoginIntent? oauthLoginIntent}) {
     return Intent(
         createOrganizationIntent:
             createOrganizationIntent ?? this.createOrganizationIntent,
@@ -14277,7 +14971,15 @@ extension $IntentExtension on Intent {
         otpAuthIntent: otpAuthIntent ?? this.otpAuthIntent,
         createSubOrganizationIntentV7:
             createSubOrganizationIntentV7 ?? this.createSubOrganizationIntentV7,
-        updateWalletIntent: updateWalletIntent ?? this.updateWalletIntent);
+        updateWalletIntent: updateWalletIntent ?? this.updateWalletIntent,
+        updatePolicyIntentV2: updatePolicyIntentV2 ?? this.updatePolicyIntentV2,
+        createUsersIntentV3: createUsersIntentV3 ?? this.createUsersIntentV3,
+        initOtpAuthIntentV2: initOtpAuthIntentV2 ?? this.initOtpAuthIntentV2,
+        initOtpIntent: initOtpIntent ?? this.initOtpIntent,
+        verifyOtpIntent: verifyOtpIntent ?? this.verifyOtpIntent,
+        otpLoginIntent: otpLoginIntent ?? this.otpLoginIntent,
+        stampLoginIntent: stampLoginIntent ?? this.stampLoginIntent,
+        oauthLoginIntent: oauthLoginIntent ?? this.oauthLoginIntent);
   }
 
   Intent copyWithWrapped(
@@ -14361,7 +15063,15 @@ extension $IntentExtension on Intent {
       Wrapped<InitOtpAuthIntent?>? initOtpAuthIntent,
       Wrapped<OtpAuthIntent?>? otpAuthIntent,
       Wrapped<CreateSubOrganizationIntentV7?>? createSubOrganizationIntentV7,
-      Wrapped<UpdateWalletIntent?>? updateWalletIntent}) {
+      Wrapped<UpdateWalletIntent?>? updateWalletIntent,
+      Wrapped<UpdatePolicyIntentV2?>? updatePolicyIntentV2,
+      Wrapped<CreateUsersIntentV3?>? createUsersIntentV3,
+      Wrapped<InitOtpAuthIntentV2?>? initOtpAuthIntentV2,
+      Wrapped<InitOtpIntent?>? initOtpIntent,
+      Wrapped<VerifyOtpIntent?>? verifyOtpIntent,
+      Wrapped<OtpLoginIntent?>? otpLoginIntent,
+      Wrapped<StampLoginIntent?>? stampLoginIntent,
+      Wrapped<OauthLoginIntent?>? oauthLoginIntent}) {
     return Intent(
         createOrganizationIntent: (createOrganizationIntent != null
             ? createOrganizationIntent.value
@@ -14555,7 +15265,15 @@ extension $IntentExtension on Intent {
         initOtpAuthIntent: (initOtpAuthIntent != null ? initOtpAuthIntent.value : this.initOtpAuthIntent),
         otpAuthIntent: (otpAuthIntent != null ? otpAuthIntent.value : this.otpAuthIntent),
         createSubOrganizationIntentV7: (createSubOrganizationIntentV7 != null ? createSubOrganizationIntentV7.value : this.createSubOrganizationIntentV7),
-        updateWalletIntent: (updateWalletIntent != null ? updateWalletIntent.value : this.updateWalletIntent));
+        updateWalletIntent: (updateWalletIntent != null ? updateWalletIntent.value : this.updateWalletIntent),
+        updatePolicyIntentV2: (updatePolicyIntentV2 != null ? updatePolicyIntentV2.value : this.updatePolicyIntentV2),
+        createUsersIntentV3: (createUsersIntentV3 != null ? createUsersIntentV3.value : this.createUsersIntentV3),
+        initOtpAuthIntentV2: (initOtpAuthIntentV2 != null ? initOtpAuthIntentV2.value : this.initOtpAuthIntentV2),
+        initOtpIntent: (initOtpIntent != null ? initOtpIntent.value : this.initOtpIntent),
+        verifyOtpIntent: (verifyOtpIntent != null ? verifyOtpIntent.value : this.verifyOtpIntent),
+        otpLoginIntent: (otpLoginIntent != null ? otpLoginIntent.value : this.otpLoginIntent),
+        stampLoginIntent: (stampLoginIntent != null ? stampLoginIntent.value : this.stampLoginIntent),
+        oauthLoginIntent: (oauthLoginIntent != null ? oauthLoginIntent.value : this.oauthLoginIntent));
   }
 }
 
@@ -14858,6 +15576,7 @@ class OauthIntent {
     required this.targetPublicKey,
     this.apiKeyName,
     this.expirationSeconds,
+    this.invalidateExisting,
   });
 
   factory OauthIntent.fromJson(Map<String, dynamic> json) =>
@@ -14874,6 +15593,8 @@ class OauthIntent {
   final String? apiKeyName;
   @JsonKey(name: 'expirationSeconds')
   final String? expirationSeconds;
+  @JsonKey(name: 'invalidateExisting')
+  final bool? invalidateExisting;
   static const fromJsonFactory = _$OauthIntentFromJson;
 
   @override
@@ -14891,7 +15612,10 @@ class OauthIntent {
                     .equals(other.apiKeyName, apiKeyName)) &&
             (identical(other.expirationSeconds, expirationSeconds) ||
                 const DeepCollectionEquality()
-                    .equals(other.expirationSeconds, expirationSeconds)));
+                    .equals(other.expirationSeconds, expirationSeconds)) &&
+            (identical(other.invalidateExisting, invalidateExisting) ||
+                const DeepCollectionEquality()
+                    .equals(other.invalidateExisting, invalidateExisting)));
   }
 
   @override
@@ -14903,6 +15627,7 @@ class OauthIntent {
       const DeepCollectionEquality().hash(targetPublicKey) ^
       const DeepCollectionEquality().hash(apiKeyName) ^
       const DeepCollectionEquality().hash(expirationSeconds) ^
+      const DeepCollectionEquality().hash(invalidateExisting) ^
       runtimeType.hashCode;
 }
 
@@ -14911,19 +15636,22 @@ extension $OauthIntentExtension on OauthIntent {
       {String? oidcToken,
       String? targetPublicKey,
       String? apiKeyName,
-      String? expirationSeconds}) {
+      String? expirationSeconds,
+      bool? invalidateExisting}) {
     return OauthIntent(
         oidcToken: oidcToken ?? this.oidcToken,
         targetPublicKey: targetPublicKey ?? this.targetPublicKey,
         apiKeyName: apiKeyName ?? this.apiKeyName,
-        expirationSeconds: expirationSeconds ?? this.expirationSeconds);
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds,
+        invalidateExisting: invalidateExisting ?? this.invalidateExisting);
   }
 
   OauthIntent copyWithWrapped(
       {Wrapped<String>? oidcToken,
       Wrapped<String>? targetPublicKey,
       Wrapped<String?>? apiKeyName,
-      Wrapped<String?>? expirationSeconds}) {
+      Wrapped<String?>? expirationSeconds,
+      Wrapped<bool?>? invalidateExisting}) {
     return OauthIntent(
         oidcToken: (oidcToken != null ? oidcToken.value : this.oidcToken),
         targetPublicKey: (targetPublicKey != null
@@ -14932,7 +15660,225 @@ extension $OauthIntentExtension on OauthIntent {
         apiKeyName: (apiKeyName != null ? apiKeyName.value : this.apiKeyName),
         expirationSeconds: (expirationSeconds != null
             ? expirationSeconds.value
-            : this.expirationSeconds));
+            : this.expirationSeconds),
+        invalidateExisting: (invalidateExisting != null
+            ? invalidateExisting.value
+            : this.invalidateExisting));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class OauthLoginIntent {
+  const OauthLoginIntent({
+    required this.oidcToken,
+    required this.publicKey,
+    this.expirationSeconds,
+    this.invalidateExisting,
+  });
+
+  factory OauthLoginIntent.fromJson(Map<String, dynamic> json) =>
+      _$OauthLoginIntentFromJson(json);
+
+  static const toJsonFactory = _$OauthLoginIntentToJson;
+  Map<String, dynamic> toJson() => _$OauthLoginIntentToJson(this);
+
+  @JsonKey(name: 'oidcToken')
+  final String oidcToken;
+  @JsonKey(name: 'publicKey')
+  final String publicKey;
+  @JsonKey(name: 'expirationSeconds')
+  final String? expirationSeconds;
+  @JsonKey(name: 'invalidateExisting')
+  final bool? invalidateExisting;
+  static const fromJsonFactory = _$OauthLoginIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OauthLoginIntent &&
+            (identical(other.oidcToken, oidcToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.oidcToken, oidcToken)) &&
+            (identical(other.publicKey, publicKey) ||
+                const DeepCollectionEquality()
+                    .equals(other.publicKey, publicKey)) &&
+            (identical(other.expirationSeconds, expirationSeconds) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationSeconds, expirationSeconds)) &&
+            (identical(other.invalidateExisting, invalidateExisting) ||
+                const DeepCollectionEquality()
+                    .equals(other.invalidateExisting, invalidateExisting)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(oidcToken) ^
+      const DeepCollectionEquality().hash(publicKey) ^
+      const DeepCollectionEquality().hash(expirationSeconds) ^
+      const DeepCollectionEquality().hash(invalidateExisting) ^
+      runtimeType.hashCode;
+}
+
+extension $OauthLoginIntentExtension on OauthLoginIntent {
+  OauthLoginIntent copyWith(
+      {String? oidcToken,
+      String? publicKey,
+      String? expirationSeconds,
+      bool? invalidateExisting}) {
+    return OauthLoginIntent(
+        oidcToken: oidcToken ?? this.oidcToken,
+        publicKey: publicKey ?? this.publicKey,
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds,
+        invalidateExisting: invalidateExisting ?? this.invalidateExisting);
+  }
+
+  OauthLoginIntent copyWithWrapped(
+      {Wrapped<String>? oidcToken,
+      Wrapped<String>? publicKey,
+      Wrapped<String?>? expirationSeconds,
+      Wrapped<bool?>? invalidateExisting}) {
+    return OauthLoginIntent(
+        oidcToken: (oidcToken != null ? oidcToken.value : this.oidcToken),
+        publicKey: (publicKey != null ? publicKey.value : this.publicKey),
+        expirationSeconds: (expirationSeconds != null
+            ? expirationSeconds.value
+            : this.expirationSeconds),
+        invalidateExisting: (invalidateExisting != null
+            ? invalidateExisting.value
+            : this.invalidateExisting));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class OauthLoginRequest {
+  const OauthLoginRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory OauthLoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$OauthLoginRequestFromJson(json);
+
+  static const toJsonFactory = _$OauthLoginRequestToJson;
+  Map<String, dynamic> toJson() => _$OauthLoginRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: oauthLoginRequestTypeToJson,
+    fromJson: oauthLoginRequestTypeFromJson,
+  )
+  final enums.OauthLoginRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final OauthLoginIntent parameters;
+  static const fromJsonFactory = _$OauthLoginRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OauthLoginRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $OauthLoginRequestExtension on OauthLoginRequest {
+  OauthLoginRequest copyWith(
+      {enums.OauthLoginRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      OauthLoginIntent? parameters}) {
+    return OauthLoginRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  OauthLoginRequest copyWithWrapped(
+      {Wrapped<enums.OauthLoginRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<OauthLoginIntent>? parameters}) {
+    return OauthLoginRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class OauthLoginResult {
+  const OauthLoginResult({
+    required this.session,
+  });
+
+  factory OauthLoginResult.fromJson(Map<String, dynamic> json) =>
+      _$OauthLoginResultFromJson(json);
+
+  static const toJsonFactory = _$OauthLoginResultToJson;
+  Map<String, dynamic> toJson() => _$OauthLoginResultToJson(this);
+
+  @JsonKey(name: 'session')
+  final String session;
+  static const fromJsonFactory = _$OauthLoginResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OauthLoginResult &&
+            (identical(other.session, session) ||
+                const DeepCollectionEquality().equals(other.session, session)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(session) ^ runtimeType.hashCode;
+}
+
+extension $OauthLoginResultExtension on OauthLoginResult {
+  OauthLoginResult copyWith({String? session}) {
+    return OauthLoginResult(session: session ?? this.session);
+  }
+
+  OauthLoginResult copyWithWrapped({Wrapped<String>? session}) {
+    return OauthLoginResult(
+        session: (session != null ? session.value : this.session));
   }
 }
 
@@ -15268,7 +16214,7 @@ class OtpAuthIntent {
   const OtpAuthIntent({
     required this.otpId,
     required this.otpCode,
-    this.targetPublicKey,
+    required this.targetPublicKey,
     this.apiKeyName,
     this.expirationSeconds,
     this.invalidateExisting,
@@ -15285,7 +16231,7 @@ class OtpAuthIntent {
   @JsonKey(name: 'otpCode')
   final String otpCode;
   @JsonKey(name: 'targetPublicKey')
-  final String? targetPublicKey;
+  final String targetPublicKey;
   @JsonKey(name: 'apiKeyName')
   final String? apiKeyName;
   @JsonKey(name: 'expirationSeconds')
@@ -15351,7 +16297,7 @@ extension $OtpAuthIntentExtension on OtpAuthIntent {
   OtpAuthIntent copyWithWrapped(
       {Wrapped<String>? otpId,
       Wrapped<String>? otpCode,
-      Wrapped<String?>? targetPublicKey,
+      Wrapped<String>? targetPublicKey,
       Wrapped<String?>? apiKeyName,
       Wrapped<String?>? expirationSeconds,
       Wrapped<bool?>? invalidateExisting}) {
@@ -15524,6 +16470,223 @@ extension $OtpAuthResultExtension on OtpAuthResult {
         credentialBundle: (credentialBundle != null
             ? credentialBundle.value
             : this.credentialBundle));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class OtpLoginIntent {
+  const OtpLoginIntent({
+    required this.verificationToken,
+    required this.publicKey,
+    this.expirationSeconds,
+    this.invalidateExisting,
+  });
+
+  factory OtpLoginIntent.fromJson(Map<String, dynamic> json) =>
+      _$OtpLoginIntentFromJson(json);
+
+  static const toJsonFactory = _$OtpLoginIntentToJson;
+  Map<String, dynamic> toJson() => _$OtpLoginIntentToJson(this);
+
+  @JsonKey(name: 'verificationToken')
+  final String verificationToken;
+  @JsonKey(name: 'publicKey')
+  final String publicKey;
+  @JsonKey(name: 'expirationSeconds')
+  final String? expirationSeconds;
+  @JsonKey(name: 'invalidateExisting')
+  final bool? invalidateExisting;
+  static const fromJsonFactory = _$OtpLoginIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OtpLoginIntent &&
+            (identical(other.verificationToken, verificationToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.verificationToken, verificationToken)) &&
+            (identical(other.publicKey, publicKey) ||
+                const DeepCollectionEquality()
+                    .equals(other.publicKey, publicKey)) &&
+            (identical(other.expirationSeconds, expirationSeconds) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationSeconds, expirationSeconds)) &&
+            (identical(other.invalidateExisting, invalidateExisting) ||
+                const DeepCollectionEquality()
+                    .equals(other.invalidateExisting, invalidateExisting)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(verificationToken) ^
+      const DeepCollectionEquality().hash(publicKey) ^
+      const DeepCollectionEquality().hash(expirationSeconds) ^
+      const DeepCollectionEquality().hash(invalidateExisting) ^
+      runtimeType.hashCode;
+}
+
+extension $OtpLoginIntentExtension on OtpLoginIntent {
+  OtpLoginIntent copyWith(
+      {String? verificationToken,
+      String? publicKey,
+      String? expirationSeconds,
+      bool? invalidateExisting}) {
+    return OtpLoginIntent(
+        verificationToken: verificationToken ?? this.verificationToken,
+        publicKey: publicKey ?? this.publicKey,
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds,
+        invalidateExisting: invalidateExisting ?? this.invalidateExisting);
+  }
+
+  OtpLoginIntent copyWithWrapped(
+      {Wrapped<String>? verificationToken,
+      Wrapped<String>? publicKey,
+      Wrapped<String?>? expirationSeconds,
+      Wrapped<bool?>? invalidateExisting}) {
+    return OtpLoginIntent(
+        verificationToken: (verificationToken != null
+            ? verificationToken.value
+            : this.verificationToken),
+        publicKey: (publicKey != null ? publicKey.value : this.publicKey),
+        expirationSeconds: (expirationSeconds != null
+            ? expirationSeconds.value
+            : this.expirationSeconds),
+        invalidateExisting: (invalidateExisting != null
+            ? invalidateExisting.value
+            : this.invalidateExisting));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class OtpLoginRequest {
+  const OtpLoginRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory OtpLoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$OtpLoginRequestFromJson(json);
+
+  static const toJsonFactory = _$OtpLoginRequestToJson;
+  Map<String, dynamic> toJson() => _$OtpLoginRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: otpLoginRequestTypeToJson,
+    fromJson: otpLoginRequestTypeFromJson,
+  )
+  final enums.OtpLoginRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final OtpLoginIntent parameters;
+  static const fromJsonFactory = _$OtpLoginRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OtpLoginRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $OtpLoginRequestExtension on OtpLoginRequest {
+  OtpLoginRequest copyWith(
+      {enums.OtpLoginRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      OtpLoginIntent? parameters}) {
+    return OtpLoginRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  OtpLoginRequest copyWithWrapped(
+      {Wrapped<enums.OtpLoginRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<OtpLoginIntent>? parameters}) {
+    return OtpLoginRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class OtpLoginResult {
+  const OtpLoginResult({
+    required this.session,
+  });
+
+  factory OtpLoginResult.fromJson(Map<String, dynamic> json) =>
+      _$OtpLoginResultFromJson(json);
+
+  static const toJsonFactory = _$OtpLoginResultToJson;
+  Map<String, dynamic> toJson() => _$OtpLoginResultToJson(this);
+
+  @JsonKey(name: 'session')
+  final String session;
+  static const fromJsonFactory = _$OtpLoginResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is OtpLoginResult &&
+            (identical(other.session, session) ||
+                const DeepCollectionEquality().equals(other.session, session)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(session) ^ runtimeType.hashCode;
+}
+
+extension $OtpLoginResultExtension on OtpLoginResult {
+  OtpLoginResult copyWith({String? session}) {
+    return OtpLoginResult(session: session ?? this.session);
+  }
+
+  OtpLoginResult copyWithWrapped({Wrapped<String>? session}) {
+    return OtpLoginResult(
+        session: (session != null ? session.value : this.session));
   }
 }
 
@@ -16729,6 +17892,13 @@ class Result {
     this.otpAuthResult,
     this.createSubOrganizationResultV7,
     this.updateWalletResult,
+    this.updatePolicyResultV2,
+    this.initOtpAuthResultV2,
+    this.initOtpResult,
+    this.verifyOtpResult,
+    this.otpLoginResult,
+    this.stampLoginResult,
+    this.oauthLoginResult,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
@@ -16868,6 +18038,20 @@ class Result {
   final CreateSubOrganizationResultV7? createSubOrganizationResultV7;
   @JsonKey(name: 'updateWalletResult')
   final UpdateWalletResult? updateWalletResult;
+  @JsonKey(name: 'updatePolicyResultV2')
+  final UpdatePolicyResultV2? updatePolicyResultV2;
+  @JsonKey(name: 'initOtpAuthResultV2')
+  final InitOtpAuthResultV2? initOtpAuthResultV2;
+  @JsonKey(name: 'initOtpResult')
+  final InitOtpResult? initOtpResult;
+  @JsonKey(name: 'verifyOtpResult')
+  final VerifyOtpResult? verifyOtpResult;
+  @JsonKey(name: 'otpLoginResult')
+  final OtpLoginResult? otpLoginResult;
+  @JsonKey(name: 'stampLoginResult')
+  final StampLoginResult? stampLoginResult;
+  @JsonKey(name: 'oauthLoginResult')
+  final OauthLoginResult? oauthLoginResult;
   static const fromJsonFactory = _$ResultFromJson;
 
   @override
@@ -16960,7 +18144,14 @@ class Result {
             (identical(other.initOtpAuthResult, initOtpAuthResult) || const DeepCollectionEquality().equals(other.initOtpAuthResult, initOtpAuthResult)) &&
             (identical(other.otpAuthResult, otpAuthResult) || const DeepCollectionEquality().equals(other.otpAuthResult, otpAuthResult)) &&
             (identical(other.createSubOrganizationResultV7, createSubOrganizationResultV7) || const DeepCollectionEquality().equals(other.createSubOrganizationResultV7, createSubOrganizationResultV7)) &&
-            (identical(other.updateWalletResult, updateWalletResult) || const DeepCollectionEquality().equals(other.updateWalletResult, updateWalletResult)));
+            (identical(other.updateWalletResult, updateWalletResult) || const DeepCollectionEquality().equals(other.updateWalletResult, updateWalletResult)) &&
+            (identical(other.updatePolicyResultV2, updatePolicyResultV2) || const DeepCollectionEquality().equals(other.updatePolicyResultV2, updatePolicyResultV2)) &&
+            (identical(other.initOtpAuthResultV2, initOtpAuthResultV2) || const DeepCollectionEquality().equals(other.initOtpAuthResultV2, initOtpAuthResultV2)) &&
+            (identical(other.initOtpResult, initOtpResult) || const DeepCollectionEquality().equals(other.initOtpResult, initOtpResult)) &&
+            (identical(other.verifyOtpResult, verifyOtpResult) || const DeepCollectionEquality().equals(other.verifyOtpResult, verifyOtpResult)) &&
+            (identical(other.otpLoginResult, otpLoginResult) || const DeepCollectionEquality().equals(other.otpLoginResult, otpLoginResult)) &&
+            (identical(other.stampLoginResult, stampLoginResult) || const DeepCollectionEquality().equals(other.stampLoginResult, stampLoginResult)) &&
+            (identical(other.oauthLoginResult, oauthLoginResult) || const DeepCollectionEquality().equals(other.oauthLoginResult, oauthLoginResult)));
   }
 
   @override
@@ -17034,6 +18225,13 @@ class Result {
       const DeepCollectionEquality().hash(otpAuthResult) ^
       const DeepCollectionEquality().hash(createSubOrganizationResultV7) ^
       const DeepCollectionEquality().hash(updateWalletResult) ^
+      const DeepCollectionEquality().hash(updatePolicyResultV2) ^
+      const DeepCollectionEquality().hash(initOtpAuthResultV2) ^
+      const DeepCollectionEquality().hash(initOtpResult) ^
+      const DeepCollectionEquality().hash(verifyOtpResult) ^
+      const DeepCollectionEquality().hash(otpLoginResult) ^
+      const DeepCollectionEquality().hash(stampLoginResult) ^
+      const DeepCollectionEquality().hash(oauthLoginResult) ^
       runtimeType.hashCode;
 }
 
@@ -17104,7 +18302,14 @@ extension $ResultExtension on Result {
       InitOtpAuthResult? initOtpAuthResult,
       OtpAuthResult? otpAuthResult,
       CreateSubOrganizationResultV7? createSubOrganizationResultV7,
-      UpdateWalletResult? updateWalletResult}) {
+      UpdateWalletResult? updateWalletResult,
+      UpdatePolicyResultV2? updatePolicyResultV2,
+      InitOtpAuthResultV2? initOtpAuthResultV2,
+      InitOtpResult? initOtpResult,
+      VerifyOtpResult? verifyOtpResult,
+      OtpLoginResult? otpLoginResult,
+      StampLoginResult? stampLoginResult,
+      OauthLoginResult? oauthLoginResult}) {
     return Result(
         createOrganizationResult:
             createOrganizationResult ?? this.createOrganizationResult,
@@ -17214,7 +18419,14 @@ extension $ResultExtension on Result {
         otpAuthResult: otpAuthResult ?? this.otpAuthResult,
         createSubOrganizationResultV7:
             createSubOrganizationResultV7 ?? this.createSubOrganizationResultV7,
-        updateWalletResult: updateWalletResult ?? this.updateWalletResult);
+        updateWalletResult: updateWalletResult ?? this.updateWalletResult,
+        updatePolicyResultV2: updatePolicyResultV2 ?? this.updatePolicyResultV2,
+        initOtpAuthResultV2: initOtpAuthResultV2 ?? this.initOtpAuthResultV2,
+        initOtpResult: initOtpResult ?? this.initOtpResult,
+        verifyOtpResult: verifyOtpResult ?? this.verifyOtpResult,
+        otpLoginResult: otpLoginResult ?? this.otpLoginResult,
+        stampLoginResult: stampLoginResult ?? this.stampLoginResult,
+        oauthLoginResult: oauthLoginResult ?? this.oauthLoginResult);
   }
 
   Result copyWithWrapped(
@@ -17284,7 +18496,14 @@ extension $ResultExtension on Result {
       Wrapped<InitOtpAuthResult?>? initOtpAuthResult,
       Wrapped<OtpAuthResult?>? otpAuthResult,
       Wrapped<CreateSubOrganizationResultV7?>? createSubOrganizationResultV7,
-      Wrapped<UpdateWalletResult?>? updateWalletResult}) {
+      Wrapped<UpdateWalletResult?>? updateWalletResult,
+      Wrapped<UpdatePolicyResultV2?>? updatePolicyResultV2,
+      Wrapped<InitOtpAuthResultV2?>? initOtpAuthResultV2,
+      Wrapped<InitOtpResult?>? initOtpResult,
+      Wrapped<VerifyOtpResult?>? verifyOtpResult,
+      Wrapped<OtpLoginResult?>? otpLoginResult,
+      Wrapped<StampLoginResult?>? stampLoginResult,
+      Wrapped<OauthLoginResult?>? oauthLoginResult}) {
     return Result(
         createOrganizationResult: (createOrganizationResult != null
             ? createOrganizationResult.value
@@ -17459,7 +18678,14 @@ extension $ResultExtension on Result {
         initOtpAuthResult: (initOtpAuthResult != null ? initOtpAuthResult.value : this.initOtpAuthResult),
         otpAuthResult: (otpAuthResult != null ? otpAuthResult.value : this.otpAuthResult),
         createSubOrganizationResultV7: (createSubOrganizationResultV7 != null ? createSubOrganizationResultV7.value : this.createSubOrganizationResultV7),
-        updateWalletResult: (updateWalletResult != null ? updateWalletResult.value : this.updateWalletResult));
+        updateWalletResult: (updateWalletResult != null ? updateWalletResult.value : this.updateWalletResult),
+        updatePolicyResultV2: (updatePolicyResultV2 != null ? updatePolicyResultV2.value : this.updatePolicyResultV2),
+        initOtpAuthResultV2: (initOtpAuthResultV2 != null ? initOtpAuthResultV2.value : this.initOtpAuthResultV2),
+        initOtpResult: (initOtpResult != null ? initOtpResult.value : this.initOtpResult),
+        verifyOtpResult: (verifyOtpResult != null ? verifyOtpResult.value : this.verifyOtpResult),
+        otpLoginResult: (otpLoginResult != null ? otpLoginResult.value : this.otpLoginResult),
+        stampLoginResult: (stampLoginResult != null ? stampLoginResult.value : this.stampLoginResult),
+        oauthLoginResult: (oauthLoginResult != null ? oauthLoginResult.value : this.oauthLoginResult));
   }
 }
 
@@ -19387,6 +20613,210 @@ extension $SmsCustomizationParamsExtension on SmsCustomizationParams {
 }
 
 @JsonSerializable(explicitToJson: true)
+class StampLoginIntent {
+  const StampLoginIntent({
+    required this.publicKey,
+    this.expirationSeconds,
+    this.invalidateExisting,
+  });
+
+  factory StampLoginIntent.fromJson(Map<String, dynamic> json) =>
+      _$StampLoginIntentFromJson(json);
+
+  static const toJsonFactory = _$StampLoginIntentToJson;
+  Map<String, dynamic> toJson() => _$StampLoginIntentToJson(this);
+
+  @JsonKey(name: 'publicKey')
+  final String publicKey;
+  @JsonKey(name: 'expirationSeconds')
+  final String? expirationSeconds;
+  @JsonKey(name: 'invalidateExisting')
+  final bool? invalidateExisting;
+  static const fromJsonFactory = _$StampLoginIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StampLoginIntent &&
+            (identical(other.publicKey, publicKey) ||
+                const DeepCollectionEquality()
+                    .equals(other.publicKey, publicKey)) &&
+            (identical(other.expirationSeconds, expirationSeconds) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationSeconds, expirationSeconds)) &&
+            (identical(other.invalidateExisting, invalidateExisting) ||
+                const DeepCollectionEquality()
+                    .equals(other.invalidateExisting, invalidateExisting)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(publicKey) ^
+      const DeepCollectionEquality().hash(expirationSeconds) ^
+      const DeepCollectionEquality().hash(invalidateExisting) ^
+      runtimeType.hashCode;
+}
+
+extension $StampLoginIntentExtension on StampLoginIntent {
+  StampLoginIntent copyWith(
+      {String? publicKey,
+      String? expirationSeconds,
+      bool? invalidateExisting}) {
+    return StampLoginIntent(
+        publicKey: publicKey ?? this.publicKey,
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds,
+        invalidateExisting: invalidateExisting ?? this.invalidateExisting);
+  }
+
+  StampLoginIntent copyWithWrapped(
+      {Wrapped<String>? publicKey,
+      Wrapped<String?>? expirationSeconds,
+      Wrapped<bool?>? invalidateExisting}) {
+    return StampLoginIntent(
+        publicKey: (publicKey != null ? publicKey.value : this.publicKey),
+        expirationSeconds: (expirationSeconds != null
+            ? expirationSeconds.value
+            : this.expirationSeconds),
+        invalidateExisting: (invalidateExisting != null
+            ? invalidateExisting.value
+            : this.invalidateExisting));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class StampLoginRequest {
+  const StampLoginRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory StampLoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$StampLoginRequestFromJson(json);
+
+  static const toJsonFactory = _$StampLoginRequestToJson;
+  Map<String, dynamic> toJson() => _$StampLoginRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: stampLoginRequestTypeToJson,
+    fromJson: stampLoginRequestTypeFromJson,
+  )
+  final enums.StampLoginRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final StampLoginIntent parameters;
+  static const fromJsonFactory = _$StampLoginRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StampLoginRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $StampLoginRequestExtension on StampLoginRequest {
+  StampLoginRequest copyWith(
+      {enums.StampLoginRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      StampLoginIntent? parameters}) {
+    return StampLoginRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  StampLoginRequest copyWithWrapped(
+      {Wrapped<enums.StampLoginRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<StampLoginIntent>? parameters}) {
+    return StampLoginRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class StampLoginResult {
+  const StampLoginResult({
+    required this.session,
+  });
+
+  factory StampLoginResult.fromJson(Map<String, dynamic> json) =>
+      _$StampLoginResultFromJson(json);
+
+  static const toJsonFactory = _$StampLoginResultToJson;
+  Map<String, dynamic> toJson() => _$StampLoginResultToJson(this);
+
+  @JsonKey(name: 'session')
+  final String session;
+  static const fromJsonFactory = _$StampLoginResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is StampLoginResult &&
+            (identical(other.session, session) ||
+                const DeepCollectionEquality().equals(other.session, session)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(session) ^ runtimeType.hashCode;
+}
+
+extension $StampLoginResultExtension on StampLoginResult {
+  StampLoginResult copyWith({String? session}) {
+    return StampLoginResult(session: session ?? this.session);
+  }
+
+  StampLoginResult copyWithWrapped({Wrapped<String>? session}) {
+    return StampLoginResult(
+        session: (session != null ? session.value : this.session));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Status {
   const Status({
     this.code,
@@ -19632,6 +21062,119 @@ extension $UpdatePolicyIntentExtension on UpdatePolicyIntent {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdatePolicyIntentV2 {
+  const UpdatePolicyIntentV2({
+    required this.policyId,
+    this.policyName,
+    this.policyEffect,
+    this.policyCondition,
+    this.policyConsensus,
+    this.policyNotes,
+  });
+
+  factory UpdatePolicyIntentV2.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePolicyIntentV2FromJson(json);
+
+  static const toJsonFactory = _$UpdatePolicyIntentV2ToJson;
+  Map<String, dynamic> toJson() => _$UpdatePolicyIntentV2ToJson(this);
+
+  @JsonKey(name: 'policyId')
+  final String policyId;
+  @JsonKey(name: 'policyName')
+  final String? policyName;
+  @JsonKey(
+    name: 'policyEffect',
+    toJson: effectNullableToJson,
+    fromJson: effectNullableFromJson,
+  )
+  final enums.Effect? policyEffect;
+  @JsonKey(name: 'policyCondition')
+  final String? policyCondition;
+  @JsonKey(name: 'policyConsensus')
+  final String? policyConsensus;
+  @JsonKey(name: 'policyNotes')
+  final String? policyNotes;
+  static const fromJsonFactory = _$UpdatePolicyIntentV2FromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdatePolicyIntentV2 &&
+            (identical(other.policyId, policyId) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyId, policyId)) &&
+            (identical(other.policyName, policyName) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyName, policyName)) &&
+            (identical(other.policyEffect, policyEffect) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyEffect, policyEffect)) &&
+            (identical(other.policyCondition, policyCondition) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyCondition, policyCondition)) &&
+            (identical(other.policyConsensus, policyConsensus) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyConsensus, policyConsensus)) &&
+            (identical(other.policyNotes, policyNotes) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyNotes, policyNotes)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(policyId) ^
+      const DeepCollectionEquality().hash(policyName) ^
+      const DeepCollectionEquality().hash(policyEffect) ^
+      const DeepCollectionEquality().hash(policyCondition) ^
+      const DeepCollectionEquality().hash(policyConsensus) ^
+      const DeepCollectionEquality().hash(policyNotes) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdatePolicyIntentV2Extension on UpdatePolicyIntentV2 {
+  UpdatePolicyIntentV2 copyWith(
+      {String? policyId,
+      String? policyName,
+      enums.Effect? policyEffect,
+      String? policyCondition,
+      String? policyConsensus,
+      String? policyNotes}) {
+    return UpdatePolicyIntentV2(
+        policyId: policyId ?? this.policyId,
+        policyName: policyName ?? this.policyName,
+        policyEffect: policyEffect ?? this.policyEffect,
+        policyCondition: policyCondition ?? this.policyCondition,
+        policyConsensus: policyConsensus ?? this.policyConsensus,
+        policyNotes: policyNotes ?? this.policyNotes);
+  }
+
+  UpdatePolicyIntentV2 copyWithWrapped(
+      {Wrapped<String>? policyId,
+      Wrapped<String?>? policyName,
+      Wrapped<enums.Effect?>? policyEffect,
+      Wrapped<String?>? policyCondition,
+      Wrapped<String?>? policyConsensus,
+      Wrapped<String?>? policyNotes}) {
+    return UpdatePolicyIntentV2(
+        policyId: (policyId != null ? policyId.value : this.policyId),
+        policyName: (policyName != null ? policyName.value : this.policyName),
+        policyEffect:
+            (policyEffect != null ? policyEffect.value : this.policyEffect),
+        policyCondition: (policyCondition != null
+            ? policyCondition.value
+            : this.policyCondition),
+        policyConsensus: (policyConsensus != null
+            ? policyConsensus.value
+            : this.policyConsensus),
+        policyNotes:
+            (policyNotes != null ? policyNotes.value : this.policyNotes));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdatePolicyRequest {
   const UpdatePolicyRequest({
     required this.type,
@@ -19657,7 +21200,7 @@ class UpdatePolicyRequest {
   @JsonKey(name: 'organizationId')
   final String organizationId;
   @JsonKey(name: 'parameters')
-  final UpdatePolicyIntent parameters;
+  final UpdatePolicyIntentV2 parameters;
   static const fromJsonFactory = _$UpdatePolicyRequestFromJson;
 
   @override
@@ -19694,7 +21237,7 @@ extension $UpdatePolicyRequestExtension on UpdatePolicyRequest {
       {enums.UpdatePolicyRequestType? type,
       String? timestampMs,
       String? organizationId,
-      UpdatePolicyIntent? parameters}) {
+      UpdatePolicyIntentV2? parameters}) {
     return UpdatePolicyRequest(
         type: type ?? this.type,
         timestampMs: timestampMs ?? this.timestampMs,
@@ -19706,7 +21249,7 @@ extension $UpdatePolicyRequestExtension on UpdatePolicyRequest {
       {Wrapped<enums.UpdatePolicyRequestType>? type,
       Wrapped<String>? timestampMs,
       Wrapped<String>? organizationId,
-      Wrapped<UpdatePolicyIntent>? parameters}) {
+      Wrapped<UpdatePolicyIntentV2>? parameters}) {
     return UpdatePolicyRequest(
         type: (type != null ? type.value : this.type),
         timestampMs:
@@ -19758,6 +21301,50 @@ extension $UpdatePolicyResultExtension on UpdatePolicyResult {
 
   UpdatePolicyResult copyWithWrapped({Wrapped<String>? policyId}) {
     return UpdatePolicyResult(
+        policyId: (policyId != null ? policyId.value : this.policyId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdatePolicyResultV2 {
+  const UpdatePolicyResultV2({
+    required this.policyId,
+  });
+
+  factory UpdatePolicyResultV2.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePolicyResultV2FromJson(json);
+
+  static const toJsonFactory = _$UpdatePolicyResultV2ToJson;
+  Map<String, dynamic> toJson() => _$UpdatePolicyResultV2ToJson(this);
+
+  @JsonKey(name: 'policyId')
+  final String policyId;
+  static const fromJsonFactory = _$UpdatePolicyResultV2FromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdatePolicyResultV2 &&
+            (identical(other.policyId, policyId) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyId, policyId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(policyId) ^ runtimeType.hashCode;
+}
+
+extension $UpdatePolicyResultV2Extension on UpdatePolicyResultV2 {
+  UpdatePolicyResultV2 copyWith({String? policyId}) {
+    return UpdatePolicyResultV2(policyId: policyId ?? this.policyId);
+  }
+
+  UpdatePolicyResultV2 copyWithWrapped({Wrapped<String>? policyId}) {
+    return UpdatePolicyResultV2(
         policyId: (policyId != null ? policyId.value : this.policyId));
   }
 }
@@ -21128,6 +22715,330 @@ extension $UserParamsV2Extension on UserParamsV2 {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UserParamsV3 {
+  const UserParamsV3({
+    required this.userName,
+    this.userEmail,
+    this.userPhoneNumber,
+    required this.apiKeys,
+    required this.authenticators,
+    required this.oauthProviders,
+    required this.userTags,
+  });
+
+  factory UserParamsV3.fromJson(Map<String, dynamic> json) =>
+      _$UserParamsV3FromJson(json);
+
+  static const toJsonFactory = _$UserParamsV3ToJson;
+  Map<String, dynamic> toJson() => _$UserParamsV3ToJson(this);
+
+  @JsonKey(name: 'userName')
+  final String userName;
+  @JsonKey(name: 'userEmail')
+  final String? userEmail;
+  @JsonKey(name: 'userPhoneNumber')
+  final String? userPhoneNumber;
+  @JsonKey(name: 'apiKeys', defaultValue: <ApiKeyParamsV2>[])
+  final List<ApiKeyParamsV2> apiKeys;
+  @JsonKey(name: 'authenticators', defaultValue: <AuthenticatorParamsV2>[])
+  final List<AuthenticatorParamsV2> authenticators;
+  @JsonKey(name: 'oauthProviders', defaultValue: <OauthProviderParams>[])
+  final List<OauthProviderParams> oauthProviders;
+  @JsonKey(name: 'userTags', defaultValue: <String>[])
+  final List<String> userTags;
+  static const fromJsonFactory = _$UserParamsV3FromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UserParamsV3 &&
+            (identical(other.userName, userName) ||
+                const DeepCollectionEquality()
+                    .equals(other.userName, userName)) &&
+            (identical(other.userEmail, userEmail) ||
+                const DeepCollectionEquality()
+                    .equals(other.userEmail, userEmail)) &&
+            (identical(other.userPhoneNumber, userPhoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.userPhoneNumber, userPhoneNumber)) &&
+            (identical(other.apiKeys, apiKeys) ||
+                const DeepCollectionEquality()
+                    .equals(other.apiKeys, apiKeys)) &&
+            (identical(other.authenticators, authenticators) ||
+                const DeepCollectionEquality()
+                    .equals(other.authenticators, authenticators)) &&
+            (identical(other.oauthProviders, oauthProviders) ||
+                const DeepCollectionEquality()
+                    .equals(other.oauthProviders, oauthProviders)) &&
+            (identical(other.userTags, userTags) ||
+                const DeepCollectionEquality()
+                    .equals(other.userTags, userTags)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userName) ^
+      const DeepCollectionEquality().hash(userEmail) ^
+      const DeepCollectionEquality().hash(userPhoneNumber) ^
+      const DeepCollectionEquality().hash(apiKeys) ^
+      const DeepCollectionEquality().hash(authenticators) ^
+      const DeepCollectionEquality().hash(oauthProviders) ^
+      const DeepCollectionEquality().hash(userTags) ^
+      runtimeType.hashCode;
+}
+
+extension $UserParamsV3Extension on UserParamsV3 {
+  UserParamsV3 copyWith(
+      {String? userName,
+      String? userEmail,
+      String? userPhoneNumber,
+      List<ApiKeyParamsV2>? apiKeys,
+      List<AuthenticatorParamsV2>? authenticators,
+      List<OauthProviderParams>? oauthProviders,
+      List<String>? userTags}) {
+    return UserParamsV3(
+        userName: userName ?? this.userName,
+        userEmail: userEmail ?? this.userEmail,
+        userPhoneNumber: userPhoneNumber ?? this.userPhoneNumber,
+        apiKeys: apiKeys ?? this.apiKeys,
+        authenticators: authenticators ?? this.authenticators,
+        oauthProviders: oauthProviders ?? this.oauthProviders,
+        userTags: userTags ?? this.userTags);
+  }
+
+  UserParamsV3 copyWithWrapped(
+      {Wrapped<String>? userName,
+      Wrapped<String?>? userEmail,
+      Wrapped<String?>? userPhoneNumber,
+      Wrapped<List<ApiKeyParamsV2>>? apiKeys,
+      Wrapped<List<AuthenticatorParamsV2>>? authenticators,
+      Wrapped<List<OauthProviderParams>>? oauthProviders,
+      Wrapped<List<String>>? userTags}) {
+    return UserParamsV3(
+        userName: (userName != null ? userName.value : this.userName),
+        userEmail: (userEmail != null ? userEmail.value : this.userEmail),
+        userPhoneNumber: (userPhoneNumber != null
+            ? userPhoneNumber.value
+            : this.userPhoneNumber),
+        apiKeys: (apiKeys != null ? apiKeys.value : this.apiKeys),
+        authenticators: (authenticators != null
+            ? authenticators.value
+            : this.authenticators),
+        oauthProviders: (oauthProviders != null
+            ? oauthProviders.value
+            : this.oauthProviders),
+        userTags: (userTags != null ? userTags.value : this.userTags));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VerifyOtpIntent {
+  const VerifyOtpIntent({
+    required this.otpId,
+    required this.otpCode,
+    this.expirationSeconds,
+  });
+
+  factory VerifyOtpIntent.fromJson(Map<String, dynamic> json) =>
+      _$VerifyOtpIntentFromJson(json);
+
+  static const toJsonFactory = _$VerifyOtpIntentToJson;
+  Map<String, dynamic> toJson() => _$VerifyOtpIntentToJson(this);
+
+  @JsonKey(name: 'otpId')
+  final String otpId;
+  @JsonKey(name: 'otpCode')
+  final String otpCode;
+  @JsonKey(name: 'expirationSeconds')
+  final String? expirationSeconds;
+  static const fromJsonFactory = _$VerifyOtpIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is VerifyOtpIntent &&
+            (identical(other.otpId, otpId) ||
+                const DeepCollectionEquality().equals(other.otpId, otpId)) &&
+            (identical(other.otpCode, otpCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.otpCode, otpCode)) &&
+            (identical(other.expirationSeconds, expirationSeconds) ||
+                const DeepCollectionEquality()
+                    .equals(other.expirationSeconds, expirationSeconds)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(otpId) ^
+      const DeepCollectionEquality().hash(otpCode) ^
+      const DeepCollectionEquality().hash(expirationSeconds) ^
+      runtimeType.hashCode;
+}
+
+extension $VerifyOtpIntentExtension on VerifyOtpIntent {
+  VerifyOtpIntent copyWith(
+      {String? otpId, String? otpCode, String? expirationSeconds}) {
+    return VerifyOtpIntent(
+        otpId: otpId ?? this.otpId,
+        otpCode: otpCode ?? this.otpCode,
+        expirationSeconds: expirationSeconds ?? this.expirationSeconds);
+  }
+
+  VerifyOtpIntent copyWithWrapped(
+      {Wrapped<String>? otpId,
+      Wrapped<String>? otpCode,
+      Wrapped<String?>? expirationSeconds}) {
+    return VerifyOtpIntent(
+        otpId: (otpId != null ? otpId.value : this.otpId),
+        otpCode: (otpCode != null ? otpCode.value : this.otpCode),
+        expirationSeconds: (expirationSeconds != null
+            ? expirationSeconds.value
+            : this.expirationSeconds));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VerifyOtpRequest {
+  const VerifyOtpRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory VerifyOtpRequest.fromJson(Map<String, dynamic> json) =>
+      _$VerifyOtpRequestFromJson(json);
+
+  static const toJsonFactory = _$VerifyOtpRequestToJson;
+  Map<String, dynamic> toJson() => _$VerifyOtpRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: verifyOtpRequestTypeToJson,
+    fromJson: verifyOtpRequestTypeFromJson,
+  )
+  final enums.VerifyOtpRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final VerifyOtpIntent parameters;
+  static const fromJsonFactory = _$VerifyOtpRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is VerifyOtpRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $VerifyOtpRequestExtension on VerifyOtpRequest {
+  VerifyOtpRequest copyWith(
+      {enums.VerifyOtpRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      VerifyOtpIntent? parameters}) {
+    return VerifyOtpRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  VerifyOtpRequest copyWithWrapped(
+      {Wrapped<enums.VerifyOtpRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<VerifyOtpIntent>? parameters}) {
+    return VerifyOtpRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class VerifyOtpResult {
+  const VerifyOtpResult({
+    required this.verificationToken,
+  });
+
+  factory VerifyOtpResult.fromJson(Map<String, dynamic> json) =>
+      _$VerifyOtpResultFromJson(json);
+
+  static const toJsonFactory = _$VerifyOtpResultToJson;
+  Map<String, dynamic> toJson() => _$VerifyOtpResultToJson(this);
+
+  @JsonKey(name: 'verificationToken')
+  final String verificationToken;
+  static const fromJsonFactory = _$VerifyOtpResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is VerifyOtpResult &&
+            (identical(other.verificationToken, verificationToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.verificationToken, verificationToken)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(verificationToken) ^
+      runtimeType.hashCode;
+}
+
+extension $VerifyOtpResultExtension on VerifyOtpResult {
+  VerifyOtpResult copyWith({String? verificationToken}) {
+    return VerifyOtpResult(
+        verificationToken: verificationToken ?? this.verificationToken);
+  }
+
+  VerifyOtpResult copyWithWrapped({Wrapped<String>? verificationToken}) {
+    return VerifyOtpResult(
+        verificationToken: (verificationToken != null
+            ? verificationToken.value
+            : this.verificationToken));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class Vote {
   const Vote({
     required this.id,
@@ -21388,6 +23299,7 @@ class WalletAccount {
     required this.address,
     required this.createdAt,
     required this.updatedAt,
+    this.publicKey,
   });
 
   factory WalletAccount.fromJson(Map<String, dynamic> json) =>
@@ -21428,6 +23340,8 @@ class WalletAccount {
   final ExternalDataV1Timestamp createdAt;
   @JsonKey(name: 'updatedAt')
   final ExternalDataV1Timestamp updatedAt;
+  @JsonKey(name: 'publicKey')
+  final String? publicKey;
   static const fromJsonFactory = _$WalletAccountFromJson;
 
   @override
@@ -21461,7 +23375,10 @@ class WalletAccount {
                     .equals(other.createdAt, createdAt)) &&
             (identical(other.updatedAt, updatedAt) ||
                 const DeepCollectionEquality()
-                    .equals(other.updatedAt, updatedAt)));
+                    .equals(other.updatedAt, updatedAt)) &&
+            (identical(other.publicKey, publicKey) ||
+                const DeepCollectionEquality()
+                    .equals(other.publicKey, publicKey)));
   }
 
   @override
@@ -21479,6 +23396,7 @@ class WalletAccount {
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(createdAt) ^
       const DeepCollectionEquality().hash(updatedAt) ^
+      const DeepCollectionEquality().hash(publicKey) ^
       runtimeType.hashCode;
 }
 
@@ -21493,7 +23411,8 @@ extension $WalletAccountExtension on WalletAccount {
       enums.AddressFormat? addressFormat,
       String? address,
       ExternalDataV1Timestamp? createdAt,
-      ExternalDataV1Timestamp? updatedAt}) {
+      ExternalDataV1Timestamp? updatedAt,
+      String? publicKey}) {
     return WalletAccount(
         walletAccountId: walletAccountId ?? this.walletAccountId,
         organizationId: organizationId ?? this.organizationId,
@@ -21504,7 +23423,8 @@ extension $WalletAccountExtension on WalletAccount {
         addressFormat: addressFormat ?? this.addressFormat,
         address: address ?? this.address,
         createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt);
+        updatedAt: updatedAt ?? this.updatedAt,
+        publicKey: publicKey ?? this.publicKey);
   }
 
   WalletAccount copyWithWrapped(
@@ -21517,7 +23437,8 @@ extension $WalletAccountExtension on WalletAccount {
       Wrapped<enums.AddressFormat>? addressFormat,
       Wrapped<String>? address,
       Wrapped<ExternalDataV1Timestamp>? createdAt,
-      Wrapped<ExternalDataV1Timestamp>? updatedAt}) {
+      Wrapped<ExternalDataV1Timestamp>? updatedAt,
+      Wrapped<String?>? publicKey}) {
     return WalletAccount(
         walletAccountId: (walletAccountId != null
             ? walletAccountId.value
@@ -21533,7 +23454,8 @@ extension $WalletAccountExtension on WalletAccount {
             (addressFormat != null ? addressFormat.value : this.addressFormat),
         address: (address != null ? address.value : this.address),
         createdAt: (createdAt != null ? createdAt.value : this.createdAt),
-        updatedAt: (updatedAt != null ? updatedAt.value : this.updatedAt));
+        updatedAt: (updatedAt != null ? updatedAt.value : this.updatedAt),
+        publicKey: (publicKey != null ? publicKey.value : this.publicKey));
   }
 }
 
@@ -25636,6 +27558,77 @@ List<enums.InitOtpAuthRequestType>? initOtpAuthRequestTypeNullableListFromJson(
       .toList();
 }
 
+String? initOtpRequestTypeNullableToJson(
+    enums.InitOtpRequestType? initOtpRequestType) {
+  return initOtpRequestType?.value;
+}
+
+String? initOtpRequestTypeToJson(enums.InitOtpRequestType initOtpRequestType) {
+  return initOtpRequestType.value;
+}
+
+enums.InitOtpRequestType initOtpRequestTypeFromJson(
+  Object? initOtpRequestType, [
+  enums.InitOtpRequestType? defaultValue,
+]) {
+  return enums.InitOtpRequestType.values
+          .firstWhereOrNull((e) => e.value == initOtpRequestType) ??
+      defaultValue ??
+      enums.InitOtpRequestType.swaggerGeneratedUnknown;
+}
+
+enums.InitOtpRequestType? initOtpRequestTypeNullableFromJson(
+  Object? initOtpRequestType, [
+  enums.InitOtpRequestType? defaultValue,
+]) {
+  if (initOtpRequestType == null) {
+    return null;
+  }
+  return enums.InitOtpRequestType.values
+          .firstWhereOrNull((e) => e.value == initOtpRequestType) ??
+      defaultValue;
+}
+
+String initOtpRequestTypeExplodedListToJson(
+    List<enums.InitOtpRequestType>? initOtpRequestType) {
+  return initOtpRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> initOtpRequestTypeListToJson(
+    List<enums.InitOtpRequestType>? initOtpRequestType) {
+  if (initOtpRequestType == null) {
+    return [];
+  }
+
+  return initOtpRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.InitOtpRequestType> initOtpRequestTypeListFromJson(
+  List? initOtpRequestType, [
+  List<enums.InitOtpRequestType>? defaultValue,
+]) {
+  if (initOtpRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return initOtpRequestType
+      .map((e) => initOtpRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.InitOtpRequestType>? initOtpRequestTypeNullableListFromJson(
+  List? initOtpRequestType, [
+  List<enums.InitOtpRequestType>? defaultValue,
+]) {
+  if (initOtpRequestType == null) {
+    return defaultValue;
+  }
+
+  return initOtpRequestType
+      .map((e) => initOtpRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? initUserEmailRecoveryRequestTypeNullableToJson(
     enums.InitUserEmailRecoveryRequestType? initUserEmailRecoveryRequestType) {
   return initUserEmailRecoveryRequestType?.value;
@@ -25781,6 +27774,78 @@ List<enums.MnemonicLanguage>? mnemonicLanguageNullableListFromJson(
 
   return mnemonicLanguage
       .map((e) => mnemonicLanguageFromJson(e.toString()))
+      .toList();
+}
+
+String? oauthLoginRequestTypeNullableToJson(
+    enums.OauthLoginRequestType? oauthLoginRequestType) {
+  return oauthLoginRequestType?.value;
+}
+
+String? oauthLoginRequestTypeToJson(
+    enums.OauthLoginRequestType oauthLoginRequestType) {
+  return oauthLoginRequestType.value;
+}
+
+enums.OauthLoginRequestType oauthLoginRequestTypeFromJson(
+  Object? oauthLoginRequestType, [
+  enums.OauthLoginRequestType? defaultValue,
+]) {
+  return enums.OauthLoginRequestType.values
+          .firstWhereOrNull((e) => e.value == oauthLoginRequestType) ??
+      defaultValue ??
+      enums.OauthLoginRequestType.swaggerGeneratedUnknown;
+}
+
+enums.OauthLoginRequestType? oauthLoginRequestTypeNullableFromJson(
+  Object? oauthLoginRequestType, [
+  enums.OauthLoginRequestType? defaultValue,
+]) {
+  if (oauthLoginRequestType == null) {
+    return null;
+  }
+  return enums.OauthLoginRequestType.values
+          .firstWhereOrNull((e) => e.value == oauthLoginRequestType) ??
+      defaultValue;
+}
+
+String oauthLoginRequestTypeExplodedListToJson(
+    List<enums.OauthLoginRequestType>? oauthLoginRequestType) {
+  return oauthLoginRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> oauthLoginRequestTypeListToJson(
+    List<enums.OauthLoginRequestType>? oauthLoginRequestType) {
+  if (oauthLoginRequestType == null) {
+    return [];
+  }
+
+  return oauthLoginRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.OauthLoginRequestType> oauthLoginRequestTypeListFromJson(
+  List? oauthLoginRequestType, [
+  List<enums.OauthLoginRequestType>? defaultValue,
+]) {
+  if (oauthLoginRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return oauthLoginRequestType
+      .map((e) => oauthLoginRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.OauthLoginRequestType>? oauthLoginRequestTypeNullableListFromJson(
+  List? oauthLoginRequestType, [
+  List<enums.OauthLoginRequestType>? defaultValue,
+]) {
+  if (oauthLoginRequestType == null) {
+    return defaultValue;
+  }
+
+  return oauthLoginRequestType
+      .map((e) => oauthLoginRequestTypeFromJson(e.toString()))
       .toList();
 }
 
@@ -25985,6 +28050,78 @@ List<enums.OtpAuthRequestType>? otpAuthRequestTypeNullableListFromJson(
 
   return otpAuthRequestType
       .map((e) => otpAuthRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? otpLoginRequestTypeNullableToJson(
+    enums.OtpLoginRequestType? otpLoginRequestType) {
+  return otpLoginRequestType?.value;
+}
+
+String? otpLoginRequestTypeToJson(
+    enums.OtpLoginRequestType otpLoginRequestType) {
+  return otpLoginRequestType.value;
+}
+
+enums.OtpLoginRequestType otpLoginRequestTypeFromJson(
+  Object? otpLoginRequestType, [
+  enums.OtpLoginRequestType? defaultValue,
+]) {
+  return enums.OtpLoginRequestType.values
+          .firstWhereOrNull((e) => e.value == otpLoginRequestType) ??
+      defaultValue ??
+      enums.OtpLoginRequestType.swaggerGeneratedUnknown;
+}
+
+enums.OtpLoginRequestType? otpLoginRequestTypeNullableFromJson(
+  Object? otpLoginRequestType, [
+  enums.OtpLoginRequestType? defaultValue,
+]) {
+  if (otpLoginRequestType == null) {
+    return null;
+  }
+  return enums.OtpLoginRequestType.values
+          .firstWhereOrNull((e) => e.value == otpLoginRequestType) ??
+      defaultValue;
+}
+
+String otpLoginRequestTypeExplodedListToJson(
+    List<enums.OtpLoginRequestType>? otpLoginRequestType) {
+  return otpLoginRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> otpLoginRequestTypeListToJson(
+    List<enums.OtpLoginRequestType>? otpLoginRequestType) {
+  if (otpLoginRequestType == null) {
+    return [];
+  }
+
+  return otpLoginRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.OtpLoginRequestType> otpLoginRequestTypeListFromJson(
+  List? otpLoginRequestType, [
+  List<enums.OtpLoginRequestType>? defaultValue,
+]) {
+  if (otpLoginRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return otpLoginRequestType
+      .map((e) => otpLoginRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.OtpLoginRequestType>? otpLoginRequestTypeNullableListFromJson(
+  List? otpLoginRequestType, [
+  List<enums.OtpLoginRequestType>? defaultValue,
+]) {
+  if (otpLoginRequestType == null) {
+    return defaultValue;
+  }
+
+  return otpLoginRequestType
+      .map((e) => otpLoginRequestTypeFromJson(e.toString()))
       .toList();
 }
 
@@ -26828,6 +28965,78 @@ List<enums.SignTransactionRequestType>?
       .toList();
 }
 
+String? stampLoginRequestTypeNullableToJson(
+    enums.StampLoginRequestType? stampLoginRequestType) {
+  return stampLoginRequestType?.value;
+}
+
+String? stampLoginRequestTypeToJson(
+    enums.StampLoginRequestType stampLoginRequestType) {
+  return stampLoginRequestType.value;
+}
+
+enums.StampLoginRequestType stampLoginRequestTypeFromJson(
+  Object? stampLoginRequestType, [
+  enums.StampLoginRequestType? defaultValue,
+]) {
+  return enums.StampLoginRequestType.values
+          .firstWhereOrNull((e) => e.value == stampLoginRequestType) ??
+      defaultValue ??
+      enums.StampLoginRequestType.swaggerGeneratedUnknown;
+}
+
+enums.StampLoginRequestType? stampLoginRequestTypeNullableFromJson(
+  Object? stampLoginRequestType, [
+  enums.StampLoginRequestType? defaultValue,
+]) {
+  if (stampLoginRequestType == null) {
+    return null;
+  }
+  return enums.StampLoginRequestType.values
+          .firstWhereOrNull((e) => e.value == stampLoginRequestType) ??
+      defaultValue;
+}
+
+String stampLoginRequestTypeExplodedListToJson(
+    List<enums.StampLoginRequestType>? stampLoginRequestType) {
+  return stampLoginRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> stampLoginRequestTypeListToJson(
+    List<enums.StampLoginRequestType>? stampLoginRequestType) {
+  if (stampLoginRequestType == null) {
+    return [];
+  }
+
+  return stampLoginRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.StampLoginRequestType> stampLoginRequestTypeListFromJson(
+  List? stampLoginRequestType, [
+  List<enums.StampLoginRequestType>? defaultValue,
+]) {
+  if (stampLoginRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return stampLoginRequestType
+      .map((e) => stampLoginRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.StampLoginRequestType>? stampLoginRequestTypeNullableListFromJson(
+  List? stampLoginRequestType, [
+  List<enums.StampLoginRequestType>? defaultValue,
+]) {
+  if (stampLoginRequestType == null) {
+    return defaultValue;
+  }
+
+  return stampLoginRequestType
+      .map((e) => stampLoginRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? tagTypeNullableToJson(enums.TagType? tagType) {
   return tagType?.value;
 }
@@ -27398,6 +29607,78 @@ List<enums.UpdateWalletRequestType>?
 
   return updateWalletRequestType
       .map((e) => updateWalletRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? verifyOtpRequestTypeNullableToJson(
+    enums.VerifyOtpRequestType? verifyOtpRequestType) {
+  return verifyOtpRequestType?.value;
+}
+
+String? verifyOtpRequestTypeToJson(
+    enums.VerifyOtpRequestType verifyOtpRequestType) {
+  return verifyOtpRequestType.value;
+}
+
+enums.VerifyOtpRequestType verifyOtpRequestTypeFromJson(
+  Object? verifyOtpRequestType, [
+  enums.VerifyOtpRequestType? defaultValue,
+]) {
+  return enums.VerifyOtpRequestType.values
+          .firstWhereOrNull((e) => e.value == verifyOtpRequestType) ??
+      defaultValue ??
+      enums.VerifyOtpRequestType.swaggerGeneratedUnknown;
+}
+
+enums.VerifyOtpRequestType? verifyOtpRequestTypeNullableFromJson(
+  Object? verifyOtpRequestType, [
+  enums.VerifyOtpRequestType? defaultValue,
+]) {
+  if (verifyOtpRequestType == null) {
+    return null;
+  }
+  return enums.VerifyOtpRequestType.values
+          .firstWhereOrNull((e) => e.value == verifyOtpRequestType) ??
+      defaultValue;
+}
+
+String verifyOtpRequestTypeExplodedListToJson(
+    List<enums.VerifyOtpRequestType>? verifyOtpRequestType) {
+  return verifyOtpRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> verifyOtpRequestTypeListToJson(
+    List<enums.VerifyOtpRequestType>? verifyOtpRequestType) {
+  if (verifyOtpRequestType == null) {
+    return [];
+  }
+
+  return verifyOtpRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.VerifyOtpRequestType> verifyOtpRequestTypeListFromJson(
+  List? verifyOtpRequestType, [
+  List<enums.VerifyOtpRequestType>? defaultValue,
+]) {
+  if (verifyOtpRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return verifyOtpRequestType
+      .map((e) => verifyOtpRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.VerifyOtpRequestType>? verifyOtpRequestTypeNullableListFromJson(
+  List? verifyOtpRequestType, [
+  List<enums.VerifyOtpRequestType>? defaultValue,
+]) {
+  if (verifyOtpRequestType == null) {
+    return defaultValue;
+  }
+
+  return verifyOtpRequestType
+      .map((e) => verifyOtpRequestTypeFromJson(e.toString()))
       .toList();
 }
 

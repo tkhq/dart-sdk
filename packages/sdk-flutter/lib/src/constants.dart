@@ -23,7 +23,7 @@ const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
 const MAX_SESSIONS = 15;
 
 const TURNKEY_OAUTH_ORIGIN_URL = "https://oauth-origin.turnkey.com";
-const TURNKEY__OAUTH_REDIRECT_URL = "https://oauth-redirect.turnkey.com";
+const TURNKEY_OAUTH_REDIRECT_URL = "https://oauth-redirect.turnkey.com";
 
 final DEFAULT_ETHEREUM_ACCOUNT = WalletAccountParams(
   curve: Curve.curveSecp256k1,

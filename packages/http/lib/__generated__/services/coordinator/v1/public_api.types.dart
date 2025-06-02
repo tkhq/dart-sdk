@@ -872,6 +872,21 @@ class TInitImportWalletInput {
 /// `POST /public/v1/submit/init_import_wallet`
 typedef TInitImportWalletBody = InitImportWalletRequest;
 
+/// `POST /public/v1/submit/init_otp`
+typedef TInitOtpResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/init_otp`
+class TInitOtpInput {
+  final TInitOtpBody body;
+
+  TInitOtpInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/init_otp`
+typedef TInitOtpBody = InitOtpRequest;
+
 /// `POST /public/v1/submit/init_otp_auth`
 typedef TInitOtpAuthResponse = ActivityResponse;
 
@@ -917,6 +932,21 @@ class TOauthInput {
 /// `POST /public/v1/submit/oauth`
 typedef TOauthBody = OauthRequest;
 
+/// `POST /public/v1/submit/oauth_login`
+typedef TOauthLoginResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/oauth_login`
+class TOauthLoginInput {
+  final TOauthLoginBody body;
+
+  TOauthLoginInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/oauth_login`
+typedef TOauthLoginBody = OauthLoginRequest;
+
 /// `POST /public/v1/submit/otp_auth`
 typedef TOtpAuthResponse = ActivityResponse;
 
@@ -931,6 +961,21 @@ class TOtpAuthInput {
 
 /// `POST /public/v1/submit/otp_auth`
 typedef TOtpAuthBody = OtpAuthRequest;
+
+/// `POST /public/v1/submit/otp_login`
+typedef TOtpLoginResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/otp_login`
+class TOtpLoginInput {
+  final TOtpLoginBody body;
+
+  TOtpLoginInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/otp_login`
+typedef TOtpLoginBody = OtpLoginRequest;
 
 /// `POST /public/v1/submit/recover_user`
 typedef TRecoverUserResponse = ActivityResponse;
@@ -1037,6 +1082,21 @@ class TSignTransactionInput {
 /// `POST /public/v1/submit/sign_transaction`
 typedef TSignTransactionBody = SignTransactionRequest;
 
+/// `POST /public/v1/submit/stamp_login`
+typedef TStampLoginResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/stamp_login`
+class TStampLoginInput {
+  final TStampLoginBody body;
+
+  TStampLoginInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/stamp_login`
+typedef TStampLoginBody = StampLoginRequest;
+
 /// `POST /public/v1/submit/update_policy`
 typedef TUpdatePolicyResponse = ActivityResponse;
 
@@ -1126,3 +1186,18 @@ class TUpdateWalletInput {
 
 /// `POST /public/v1/submit/update_wallet`
 typedef TUpdateWalletBody = UpdateWalletRequest;
+
+/// `POST /public/v1/submit/verify_otp`
+typedef TVerifyOtpResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/verify_otp`
+class TVerifyOtpInput {
+  final TVerifyOtpBody body;
+
+  TVerifyOtpInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/verify_otp`
+typedef TVerifyOtpBody = VerifyOtpRequest;

@@ -809,7 +809,7 @@ class TurnkeyProvider with ChangeNotifier {
     final AppLinks appLinks = AppLinks();
 
     redirectUri ??=
-        '${TURNKEY__OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
+        '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
     final oauthUrl = originUri! +
         '?provider=google' +
