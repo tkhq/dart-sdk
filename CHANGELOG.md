@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-06-20
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+- There are no breaking changes in this release.
+
+Packages with other changes:
+
+- [`turnkey_sdk_flutter` - `v0.2.1`](#turnkey_sdk_flutter---v021)
+
+---
+
+#### `turnkey_sdk_flutter` - `v0.2.1`
+
+- Added `onSessionEmpty` callback. Runs when the app first launches and there is no active session.
+
 ## 2025-06-02
 
 ### Changes
