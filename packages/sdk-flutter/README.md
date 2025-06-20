@@ -49,11 +49,15 @@ void main() {
   }
 
   void onSessionCreated(Session session){
-    print('Session ${session.key} has been created!')
+    print('Session ${session.key} has been created!');
   }
 
   void onSessionExpired(Session session){
-    print('Session ${session.key} has expired!')
+    print('Session ${session.key} has expired!');
+  }
+
+  void onSessionEmpty(){
+    print('There is no active session!');
   }
 
   runApp(
@@ -66,7 +70,8 @@ void main() {
                     onSessionSelected: onSessionSelected,
                     onSessionCleared: onSessionCleared,
                     onSessionCreated: onSessionCreated,
-                    onSessionExpired: onSessionExpired))),
+                    onSessionExpired: onSessionExpired,
+                    onSessionEmpty:   onSessionEmpty))),
       ],
       child: MyApp(),
     ),
@@ -155,6 +160,7 @@ This SDK supports **multiple sessions**, allowing you to create and switch betwe
   - `onSessionSelected`: Called when a session is selected.
   - `onSessionExpired`: Called when a session expires.
   - `onSessionCleared`: Called when a session is cleared.
+  - `onSessionEmpty`: Called when the app launches and there is no active session.
 
 ### When are multiple sessions useful?
 
