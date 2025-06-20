@@ -1,3 +1,7 @@
+## 0.2.1
+
+ - **FEAT**: added onSessionEmpty callback.
+
 ## 0.2.0
 
 - Added `createSessionFromEmbeddedKey`: Creates a new session using an embedded private key and securely stores it (Useful for "one-tap-passkey" sign ups. See demo app for more details).
