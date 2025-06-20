@@ -82,6 +82,8 @@ class TurnkeyProvider with ChangeNotifier {
                   expiry: 0)),
         );
       }
+    } else {
+      config.onSessionEmpty?.call();
     }
   }
 
