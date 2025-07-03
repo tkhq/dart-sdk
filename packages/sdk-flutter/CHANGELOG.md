@@ -1,3 +1,9 @@
+## 0.2.2
+
+- Added `onInitialized` callback. Runs when initialization is complete and carries an error
+- Added `ready` state. A state that can be listened to if session initialization is completes succesfully or fails.
+- Exposed `initializeSessions` method. Called automatically when the app launches. Retrieves all stored session keys, validates their expiration status, removes expired sessions, and schedules expiration timers for active ones.
+
 ## 0.2.1
 
 - Added `onSessionEmpty` callback. Runs when the app first launches and there is no active session.
