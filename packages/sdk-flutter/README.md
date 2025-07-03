@@ -60,6 +60,14 @@ void main() {
     print('There is no active session!');
   }
 
+  void onInitialized(Object? error) {
+    if (error != null) {
+      print('Turnkey initialization failed: $error');
+    } else {
+      print('Turnkey initialized successfully');
+    }
+  }
+
   runApp(
     MultiProvider(
       providers: [
@@ -71,7 +79,8 @@ void main() {
                     onSessionCleared: onSessionCleared,
                     onSessionCreated: onSessionCreated,
                     onSessionExpired: onSessionExpired,
-                    onSessionEmpty:   onSessionEmpty))),
+                    onSessionEmpty:   onSessionEmpty,
+                    onInitialized:    onInitialized))),
       ],
       child: MyApp(),
     ),
@@ -113,6 +122,8 @@ To enable secure authentication, the following storage keys are used:
 - `setSelectedSession({ sessionKey })`: Selects a session by its key (Used when handling multiple sessions).
 - `clearSession({ sessionKey? })`: Removes the specified session from secure storage. If no `sessionKey` is provided, the currently selected session is removed.
 - `clearAllSessions()`: Clears all sessions from secure storage.
+- `initializeSessions()`: Called automatically when the app launches. Retrieves all stored session keys, validates their expiration status, removes expired sessions, and schedules expiration timers for active ones.
+- `ready`: A state that can be listened to if session initialization is completes succesfully or fails.
 
 ---
 
@@ -161,6 +172,7 @@ This SDK supports **multiple sessions**, allowing you to create and switch betwe
   - `onSessionExpired`: Called when a session expires.
   - `onSessionCleared`: Called when a session is cleared.
   - `onSessionEmpty`: Called when the app launches and there is no active session.
+  - `onInitialized`: Called when the TurnkeyProvider's initialization is complete. An error is carried in the parameters if something goes wrong.
 
 ### When are multiple sessions useful?
 

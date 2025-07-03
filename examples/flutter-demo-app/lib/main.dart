@@ -9,6 +9,7 @@ import 'screens/dashboard.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
+  // Load the environment variables from the .env file
   WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
 
@@ -43,7 +44,7 @@ void main() async {
       if (context != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to initialize Turnkey: ${error}'),
+            content: Text('Failed to initialize Turnkey: $error'),
           ),
         );
       }
@@ -71,7 +72,7 @@ void main() async {
     if (context != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error during Turnkey initialization: ${error}'),
+          content: Text('Error during Turnkey initialization: $error'),
         ),
       );
     }
@@ -130,7 +131,7 @@ class HomePage extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'An error has occurred:\n${authRelayerProvider.errorMessage}',
+              'An error has occurred:\n${authRelayerProvider.errorMessage.toString()}',
             ),
           ),
         );
