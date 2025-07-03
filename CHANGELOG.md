@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-07-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`turnkey_sdk_flutter` - `v0.2.2`](#turnkey_sdk_flutter---v022)
+
+---
+
+#### `turnkey_sdk_flutter` - `v0.2.2`
+
+ - **FEAT**: expose onInitialized, ready state and initializeSessions.
+
+
 ## 2025-06-20
 
 ### Changes

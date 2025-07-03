@@ -1,3 +1,7 @@
+## 0.2.2
+
+ - **FEAT**: expose onInitialized, ready state and initializeSessions.
+
 ## 0.2.1
 
 - Added `onSessionEmpty` callback. Runs when the app first launches and there is no active session.
