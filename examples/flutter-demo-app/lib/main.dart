@@ -37,25 +37,61 @@ void main() async {
     );
   }
 
+  void onInitialized(Object? error) {
+    if (error != null) {
+      debugPrint('Turnkey initialization failed: $error');
+      final context = navigatorKey.currentContext;
+      if (context != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to initialize Turnkey: $error'),
+          ),
+        );
+      }
+    } else {
+      debugPrint('Turnkey initialized successfully');
+    }
+  }
+
+  final turnkeyProvider = TurnkeyProvider(
+    config: TurnkeyConfig(
+      apiBaseUrl: EnvConfig.turnkeyApiUrl,
+      organizationId: EnvConfig.organizationId,
+      onSessionSelected: onSessionSelected,
+      onSessionCleared: onSessionCleared,
+      onInitialized: onInitialized,
+    ),
+  );
+
+  // This serves the same purpose as the `onInitialized` callback.
+  turnkeyProvider.ready.then((_) {
+    debugPrint('Turnkey is ready');
+  }).catchError((error) {
+    debugPrint('Caught from .ready: $error');
+    final context = navigatorKey.currentContext;
+    if (context != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error during Turnkey initialization: $error'),
+        ),
+      );
+    }
+  });
+
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-            create: (context) => TurnkeyProvider(
-                config: TurnkeyConfig(
-                    apiBaseUrl: EnvConfig.turnkeyApiUrl,
-                    organizationId: EnvConfig.organizationId,
-                    onSessionSelected: onSessionSelected,
-                    onSessionCleared: onSessionCleared))),
+        ChangeNotifierProvider(create: (_) => turnkeyProvider),
         ChangeNotifierProxyProvider<TurnkeyProvider, AuthRelayerProvider>(
           create: (context) => AuthRelayerProvider(
-              turnkeyProvider:
-                  Provider.of<TurnkeyProvider>(context, listen: false)),
+            turnkeyProvider:
+                Provider.of<TurnkeyProvider>(context, listen: false),
+          ),
           update: (context, turnkeyProvider, previous) =>
               AuthRelayerProvider(turnkeyProvider: turnkeyProvider),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -70,7 +106,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 0, 26, 255)),
+          seedColor: const Color.fromARGB(255, 0, 26, 255),
+        ),
         useMaterial3: true,
       ),
       home: const HomePage(title: 'Turnkey Flutter Demo App'),
@@ -94,10 +131,10 @@ class HomePage extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-                'An error has occurred: \n${authRelayerProvider.errorMessage.toString()}'),
+              'An error has occurred:\n${authRelayerProvider.errorMessage.toString()}',
+            ),
           ),
         );
-
         authRelayerProvider.setError(null);
       }
     }
@@ -105,9 +142,10 @@ class HomePage extends StatelessWidget {
     authRelayerProvider.addListener(showAuthRelayerProviderErrors);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: LoginScreen());
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: const LoginScreen(),
+    );
   }
 }

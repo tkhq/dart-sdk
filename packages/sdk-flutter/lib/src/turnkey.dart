@@ -15,8 +15,11 @@ class TurnkeyProvider with ChangeNotifier {
 
   final TurnkeyConfig config;
 
+  final Completer<void> _initCompleter = Completer<void>();
+  Future<void> get ready => _initCompleter.future;
+
   TurnkeyProvider({required this.config}) {
-    _initializeSessions();
+    initializeSessions();
   }
 
   Session? get session => _session;
@@ -38,52 +41,62 @@ class TurnkeyProvider with ChangeNotifier {
   /// removes expired sessions, and schedules expiration timers for active ones.
   /// Additionally, it loads the last selected session if it is still valid,
   /// otherwise it clears the session and triggers the session expiration callback.
-  Future<void> _initializeSessions() async {
-    final sessionKeys = await getSessionKeys();
+  Future<void> initializeSessions() async {
+    try {
+      final sessionKeys = await getSessionKeys();
 
-    await Future.wait(sessionKeys.map((sessionKey) async {
-      final session = await getSession(sessionKey);
+      await Future.wait(sessionKeys.map((sessionKey) async {
+        final session = await getSession(sessionKey);
 
-      if (!isValidSession(session)) {
-        await clearSession(sessionKey: sessionKey);
-        await removeSessionKey(sessionKey);
-        return;
-      }
+        if (!isValidSession(session)) {
+          await clearSession(sessionKey: sessionKey);
+          await removeSessionKey(sessionKey);
+          return;
+        }
 
-      await _scheduleSessionExpiration(sessionKey, session!.expiry);
-    }));
+        await _scheduleSessionExpiration(sessionKey, session!.expiry);
+      }));
 
-    final selectedSessionKey = await getSelectedSessionKey();
+      final selectedSessionKey = await getSelectedSessionKey();
 
-    if (selectedSessionKey != null) {
-      var selectedSession = await getSession(selectedSessionKey);
+      if (selectedSessionKey != null) {
+        var selectedSession = await getSession(selectedSessionKey);
 
-      if (isValidSession(selectedSession)) {
-        selectedSession = selectedSession!;
-        final clientInstance = createClient(
-          selectedSession.publicKey,
-          selectedSession.privateKey,
-          config.apiBaseUrl,
-        );
+        if (isValidSession(selectedSession)) {
+          selectedSession = selectedSession!;
+          final clientInstance = createClient(
+            selectedSession.publicKey,
+            selectedSession.privateKey,
+            config.apiBaseUrl,
+          );
 
-        session = selectedSession;
-        client = clientInstance;
+          session = selectedSession;
+          client = clientInstance;
 
-        config.onSessionSelected?.call(selectedSession);
-      } else {
-        await clearSession(sessionKey: selectedSessionKey);
+          config.onSessionSelected?.call(selectedSession);
+        } else {
+          await clearSession(sessionKey: selectedSessionKey);
 
-        config.onSessionExpired?.call(
-          selectedSession ??
-              (Session(
+          config.onSessionExpired?.call(
+            selectedSession ??
+                Session(
                   key: selectedSessionKey,
                   publicKey: "",
                   privateKey: "",
-                  expiry: 0)),
-        );
+                  expiry: 0,
+                ),
+          );
+        }
+      } else {
+        config.onSessionEmpty?.call();
       }
-    } else {
-      config.onSessionEmpty?.call();
+
+      _initCompleter.complete();
+      config.onInitialized?.call(null);
+    } catch (e, st) {
+      debugPrint("TurnkeyProvider failed to initialize: $e\n$st");
+      _initCompleter.completeError(e, st);
+      config.onInitialized?.call(e);
     }
   }
 
