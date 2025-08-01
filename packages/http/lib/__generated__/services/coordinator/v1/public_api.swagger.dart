@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -4530,6 +4531,252 @@ extension $CreateReadWriteSessionResultV2Extension
 }
 
 @JsonSerializable(explicitToJson: true)
+class CreateSmartContractInterfaceIntent {
+  const CreateSmartContractInterfaceIntent({
+    required this.smartContractAddress,
+    required this.smartContractInterface,
+    required this.type,
+    required this.label,
+    this.notes,
+  });
+
+  factory CreateSmartContractInterfaceIntent.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateSmartContractInterfaceIntentFromJson(json);
+
+  static const toJsonFactory = _$CreateSmartContractInterfaceIntentToJson;
+  Map<String, dynamic> toJson() =>
+      _$CreateSmartContractInterfaceIntentToJson(this);
+
+  @JsonKey(name: 'smartContractAddress')
+  final String smartContractAddress;
+  @JsonKey(name: 'smartContractInterface')
+  final String smartContractInterface;
+  @JsonKey(
+    name: 'type',
+    toJson: smartContractInterfaceTypeToJson,
+    fromJson: smartContractInterfaceTypeFromJson,
+  )
+  final enums.SmartContractInterfaceType type;
+  @JsonKey(name: 'label')
+  final String label;
+  @JsonKey(name: 'notes')
+  final String? notes;
+  static const fromJsonFactory = _$CreateSmartContractInterfaceIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CreateSmartContractInterfaceIntent &&
+            (identical(other.smartContractAddress, smartContractAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractAddress, smartContractAddress)) &&
+            (identical(other.smartContractInterface, smartContractInterface) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterface, smartContractInterface)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)) &&
+            (identical(other.notes, notes) ||
+                const DeepCollectionEquality().equals(other.notes, notes)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(smartContractAddress) ^
+      const DeepCollectionEquality().hash(smartContractInterface) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(label) ^
+      const DeepCollectionEquality().hash(notes) ^
+      runtimeType.hashCode;
+}
+
+extension $CreateSmartContractInterfaceIntentExtension
+    on CreateSmartContractInterfaceIntent {
+  CreateSmartContractInterfaceIntent copyWith(
+      {String? smartContractAddress,
+      String? smartContractInterface,
+      enums.SmartContractInterfaceType? type,
+      String? label,
+      String? notes}) {
+    return CreateSmartContractInterfaceIntent(
+        smartContractAddress: smartContractAddress ?? this.smartContractAddress,
+        smartContractInterface:
+            smartContractInterface ?? this.smartContractInterface,
+        type: type ?? this.type,
+        label: label ?? this.label,
+        notes: notes ?? this.notes);
+  }
+
+  CreateSmartContractInterfaceIntent copyWithWrapped(
+      {Wrapped<String>? smartContractAddress,
+      Wrapped<String>? smartContractInterface,
+      Wrapped<enums.SmartContractInterfaceType>? type,
+      Wrapped<String>? label,
+      Wrapped<String?>? notes}) {
+    return CreateSmartContractInterfaceIntent(
+        smartContractAddress: (smartContractAddress != null
+            ? smartContractAddress.value
+            : this.smartContractAddress),
+        smartContractInterface: (smartContractInterface != null
+            ? smartContractInterface.value
+            : this.smartContractInterface),
+        type: (type != null ? type.value : this.type),
+        label: (label != null ? label.value : this.label),
+        notes: (notes != null ? notes.value : this.notes));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateSmartContractInterfaceRequest {
+  const CreateSmartContractInterfaceRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory CreateSmartContractInterfaceRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateSmartContractInterfaceRequestFromJson(json);
+
+  static const toJsonFactory = _$CreateSmartContractInterfaceRequestToJson;
+  Map<String, dynamic> toJson() =>
+      _$CreateSmartContractInterfaceRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: createSmartContractInterfaceRequestTypeToJson,
+    fromJson: createSmartContractInterfaceRequestTypeFromJson,
+  )
+  final enums.CreateSmartContractInterfaceRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final CreateSmartContractInterfaceIntent parameters;
+  static const fromJsonFactory = _$CreateSmartContractInterfaceRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CreateSmartContractInterfaceRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $CreateSmartContractInterfaceRequestExtension
+    on CreateSmartContractInterfaceRequest {
+  CreateSmartContractInterfaceRequest copyWith(
+      {enums.CreateSmartContractInterfaceRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      CreateSmartContractInterfaceIntent? parameters}) {
+    return CreateSmartContractInterfaceRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  CreateSmartContractInterfaceRequest copyWithWrapped(
+      {Wrapped<enums.CreateSmartContractInterfaceRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<CreateSmartContractInterfaceIntent>? parameters}) {
+    return CreateSmartContractInterfaceRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class CreateSmartContractInterfaceResult {
+  const CreateSmartContractInterfaceResult({
+    required this.smartContractInterfaceId,
+  });
+
+  factory CreateSmartContractInterfaceResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateSmartContractInterfaceResultFromJson(json);
+
+  static const toJsonFactory = _$CreateSmartContractInterfaceResultToJson;
+  Map<String, dynamic> toJson() =>
+      _$CreateSmartContractInterfaceResultToJson(this);
+
+  @JsonKey(name: 'smartContractInterfaceId')
+  final String smartContractInterfaceId;
+  static const fromJsonFactory = _$CreateSmartContractInterfaceResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is CreateSmartContractInterfaceResult &&
+            (identical(
+                    other.smartContractInterfaceId, smartContractInterfaceId) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterfaceId, smartContractInterfaceId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(smartContractInterfaceId) ^
+      runtimeType.hashCode;
+}
+
+extension $CreateSmartContractInterfaceResultExtension
+    on CreateSmartContractInterfaceResult {
+  CreateSmartContractInterfaceResult copyWith(
+      {String? smartContractInterfaceId}) {
+    return CreateSmartContractInterfaceResult(
+        smartContractInterfaceId:
+            smartContractInterfaceId ?? this.smartContractInterfaceId);
+  }
+
+  CreateSmartContractInterfaceResult copyWithWrapped(
+      {Wrapped<String>? smartContractInterfaceId}) {
+    return CreateSmartContractInterfaceResult(
+        smartContractInterfaceId: (smartContractInterfaceId != null
+            ? smartContractInterfaceId.value
+            : this.smartContractInterfaceId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class CreateSubOrganizationIntent {
   const CreateSubOrganizationIntent({
     required this.name,
@@ -7494,7 +7741,7 @@ extension $DeleteOrganizationResultExtension on DeleteOrganizationResult {
 @JsonSerializable(explicitToJson: true)
 class DeletePaymentMethodIntent {
   const DeletePaymentMethodIntent({
-    required this.paymentMethodId,
+    this.paymentMethodId,
   });
 
   factory DeletePaymentMethodIntent.fromJson(Map<String, dynamic> json) =>
@@ -7504,7 +7751,7 @@ class DeletePaymentMethodIntent {
   Map<String, dynamic> toJson() => _$DeletePaymentMethodIntentToJson(this);
 
   @JsonKey(name: 'paymentMethodId')
-  final String paymentMethodId;
+  final String? paymentMethodId;
   static const fromJsonFactory = _$DeletePaymentMethodIntentFromJson;
 
   @override
@@ -7532,7 +7779,7 @@ extension $DeletePaymentMethodIntentExtension on DeletePaymentMethodIntent {
   }
 
   DeletePaymentMethodIntent copyWithWrapped(
-      {Wrapped<String>? paymentMethodId}) {
+      {Wrapped<String?>? paymentMethodId}) {
     return DeletePaymentMethodIntent(
         paymentMethodId: (paymentMethodId != null
             ? paymentMethodId.value
@@ -8153,6 +8400,206 @@ extension $DeletePrivateKeysResultExtension on DeletePrivateKeysResult {
     return DeletePrivateKeysResult(
         privateKeyIds:
             (privateKeyIds != null ? privateKeyIds.value : this.privateKeyIds));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteSmartContractInterfaceIntent {
+  const DeleteSmartContractInterfaceIntent({
+    required this.smartContractInterfaceId,
+  });
+
+  factory DeleteSmartContractInterfaceIntent.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteSmartContractInterfaceIntentFromJson(json);
+
+  static const toJsonFactory = _$DeleteSmartContractInterfaceIntentToJson;
+  Map<String, dynamic> toJson() =>
+      _$DeleteSmartContractInterfaceIntentToJson(this);
+
+  @JsonKey(name: 'smartContractInterfaceId')
+  final String smartContractInterfaceId;
+  static const fromJsonFactory = _$DeleteSmartContractInterfaceIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DeleteSmartContractInterfaceIntent &&
+            (identical(
+                    other.smartContractInterfaceId, smartContractInterfaceId) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterfaceId, smartContractInterfaceId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(smartContractInterfaceId) ^
+      runtimeType.hashCode;
+}
+
+extension $DeleteSmartContractInterfaceIntentExtension
+    on DeleteSmartContractInterfaceIntent {
+  DeleteSmartContractInterfaceIntent copyWith(
+      {String? smartContractInterfaceId}) {
+    return DeleteSmartContractInterfaceIntent(
+        smartContractInterfaceId:
+            smartContractInterfaceId ?? this.smartContractInterfaceId);
+  }
+
+  DeleteSmartContractInterfaceIntent copyWithWrapped(
+      {Wrapped<String>? smartContractInterfaceId}) {
+    return DeleteSmartContractInterfaceIntent(
+        smartContractInterfaceId: (smartContractInterfaceId != null
+            ? smartContractInterfaceId.value
+            : this.smartContractInterfaceId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteSmartContractInterfaceRequest {
+  const DeleteSmartContractInterfaceRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory DeleteSmartContractInterfaceRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteSmartContractInterfaceRequestFromJson(json);
+
+  static const toJsonFactory = _$DeleteSmartContractInterfaceRequestToJson;
+  Map<String, dynamic> toJson() =>
+      _$DeleteSmartContractInterfaceRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: deleteSmartContractInterfaceRequestTypeToJson,
+    fromJson: deleteSmartContractInterfaceRequestTypeFromJson,
+  )
+  final enums.DeleteSmartContractInterfaceRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final DeleteSmartContractInterfaceIntent parameters;
+  static const fromJsonFactory = _$DeleteSmartContractInterfaceRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DeleteSmartContractInterfaceRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $DeleteSmartContractInterfaceRequestExtension
+    on DeleteSmartContractInterfaceRequest {
+  DeleteSmartContractInterfaceRequest copyWith(
+      {enums.DeleteSmartContractInterfaceRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      DeleteSmartContractInterfaceIntent? parameters}) {
+    return DeleteSmartContractInterfaceRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  DeleteSmartContractInterfaceRequest copyWithWrapped(
+      {Wrapped<enums.DeleteSmartContractInterfaceRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<DeleteSmartContractInterfaceIntent>? parameters}) {
+    return DeleteSmartContractInterfaceRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DeleteSmartContractInterfaceResult {
+  const DeleteSmartContractInterfaceResult({
+    required this.smartContractInterfaceId,
+  });
+
+  factory DeleteSmartContractInterfaceResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteSmartContractInterfaceResultFromJson(json);
+
+  static const toJsonFactory = _$DeleteSmartContractInterfaceResultToJson;
+  Map<String, dynamic> toJson() =>
+      _$DeleteSmartContractInterfaceResultToJson(this);
+
+  @JsonKey(name: 'smartContractInterfaceId')
+  final String smartContractInterfaceId;
+  static const fromJsonFactory = _$DeleteSmartContractInterfaceResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DeleteSmartContractInterfaceResult &&
+            (identical(
+                    other.smartContractInterfaceId, smartContractInterfaceId) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterfaceId, smartContractInterfaceId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(smartContractInterfaceId) ^
+      runtimeType.hashCode;
+}
+
+extension $DeleteSmartContractInterfaceResultExtension
+    on DeleteSmartContractInterfaceResult {
+  DeleteSmartContractInterfaceResult copyWith(
+      {String? smartContractInterfaceId}) {
+    return DeleteSmartContractInterfaceResult(
+        smartContractInterfaceId:
+            smartContractInterfaceId ?? this.smartContractInterfaceId);
+  }
+
+  DeleteSmartContractInterfaceResult copyWithWrapped(
+      {Wrapped<String>? smartContractInterfaceId}) {
+    return DeleteSmartContractInterfaceResult(
+        smartContractInterfaceId: (smartContractInterfaceId != null
+            ? smartContractInterfaceId.value
+            : this.smartContractInterfaceId));
   }
 }
 
@@ -11114,6 +11561,117 @@ extension $GetPoliciesResponseExtension on GetPoliciesResponse {
 }
 
 @JsonSerializable(explicitToJson: true)
+class GetPolicyEvaluationsRequest {
+  const GetPolicyEvaluationsRequest({
+    required this.organizationId,
+    required this.activityId,
+  });
+
+  factory GetPolicyEvaluationsRequest.fromJson(Map<String, dynamic> json) =>
+      _$GetPolicyEvaluationsRequestFromJson(json);
+
+  static const toJsonFactory = _$GetPolicyEvaluationsRequestToJson;
+  Map<String, dynamic> toJson() => _$GetPolicyEvaluationsRequestToJson(this);
+
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'activityId')
+  final String activityId;
+  static const fromJsonFactory = _$GetPolicyEvaluationsRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GetPolicyEvaluationsRequest &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.activityId, activityId) ||
+                const DeepCollectionEquality()
+                    .equals(other.activityId, activityId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(activityId) ^
+      runtimeType.hashCode;
+}
+
+extension $GetPolicyEvaluationsRequestExtension on GetPolicyEvaluationsRequest {
+  GetPolicyEvaluationsRequest copyWith(
+      {String? organizationId, String? activityId}) {
+    return GetPolicyEvaluationsRequest(
+        organizationId: organizationId ?? this.organizationId,
+        activityId: activityId ?? this.activityId);
+  }
+
+  GetPolicyEvaluationsRequest copyWithWrapped(
+      {Wrapped<String>? organizationId, Wrapped<String>? activityId}) {
+    return GetPolicyEvaluationsRequest(
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        activityId: (activityId != null ? activityId.value : this.activityId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetPolicyEvaluationsResponse {
+  const GetPolicyEvaluationsResponse({
+    required this.policyEvaluations,
+  });
+
+  factory GetPolicyEvaluationsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetPolicyEvaluationsResponseFromJson(json);
+
+  static const toJsonFactory = _$GetPolicyEvaluationsResponseToJson;
+  Map<String, dynamic> toJson() => _$GetPolicyEvaluationsResponseToJson(this);
+
+  @JsonKey(
+      name: 'policyEvaluations', defaultValue: <ActivityV1PolicyEvaluation>[])
+  final List<ActivityV1PolicyEvaluation> policyEvaluations;
+  static const fromJsonFactory = _$GetPolicyEvaluationsResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GetPolicyEvaluationsResponse &&
+            (identical(other.policyEvaluations, policyEvaluations) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyEvaluations, policyEvaluations)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(policyEvaluations) ^
+      runtimeType.hashCode;
+}
+
+extension $GetPolicyEvaluationsResponseExtension
+    on GetPolicyEvaluationsResponse {
+  GetPolicyEvaluationsResponse copyWith(
+      {List<ActivityV1PolicyEvaluation>? policyEvaluations}) {
+    return GetPolicyEvaluationsResponse(
+        policyEvaluations: policyEvaluations ?? this.policyEvaluations);
+  }
+
+  GetPolicyEvaluationsResponse copyWithWrapped(
+      {Wrapped<List<ActivityV1PolicyEvaluation>>? policyEvaluations}) {
+    return GetPolicyEvaluationsResponse(
+        policyEvaluations: (policyEvaluations != null
+            ? policyEvaluations.value
+            : this.policyEvaluations));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class GetPolicyRequest {
   const GetPolicyRequest({
     required this.organizationId,
@@ -11409,6 +11967,236 @@ extension $GetPrivateKeysResponseExtension on GetPrivateKeysResponse {
     return GetPrivateKeysResponse(
         privateKeys:
             (privateKeys != null ? privateKeys.value : this.privateKeys));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetSmartContractInterfaceRequest {
+  const GetSmartContractInterfaceRequest({
+    required this.organizationId,
+    required this.smartContractInterfaceId,
+  });
+
+  factory GetSmartContractInterfaceRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetSmartContractInterfaceRequestFromJson(json);
+
+  static const toJsonFactory = _$GetSmartContractInterfaceRequestToJson;
+  Map<String, dynamic> toJson() =>
+      _$GetSmartContractInterfaceRequestToJson(this);
+
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'smartContractInterfaceId')
+  final String smartContractInterfaceId;
+  static const fromJsonFactory = _$GetSmartContractInterfaceRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GetSmartContractInterfaceRequest &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(
+                    other.smartContractInterfaceId, smartContractInterfaceId) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterfaceId, smartContractInterfaceId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(smartContractInterfaceId) ^
+      runtimeType.hashCode;
+}
+
+extension $GetSmartContractInterfaceRequestExtension
+    on GetSmartContractInterfaceRequest {
+  GetSmartContractInterfaceRequest copyWith(
+      {String? organizationId, String? smartContractInterfaceId}) {
+    return GetSmartContractInterfaceRequest(
+        organizationId: organizationId ?? this.organizationId,
+        smartContractInterfaceId:
+            smartContractInterfaceId ?? this.smartContractInterfaceId);
+  }
+
+  GetSmartContractInterfaceRequest copyWithWrapped(
+      {Wrapped<String>? organizationId,
+      Wrapped<String>? smartContractInterfaceId}) {
+    return GetSmartContractInterfaceRequest(
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        smartContractInterfaceId: (smartContractInterfaceId != null
+            ? smartContractInterfaceId.value
+            : this.smartContractInterfaceId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetSmartContractInterfaceResponse {
+  const GetSmartContractInterfaceResponse({
+    required this.smartContractInterface,
+  });
+
+  factory GetSmartContractInterfaceResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetSmartContractInterfaceResponseFromJson(json);
+
+  static const toJsonFactory = _$GetSmartContractInterfaceResponseToJson;
+  Map<String, dynamic> toJson() =>
+      _$GetSmartContractInterfaceResponseToJson(this);
+
+  @JsonKey(name: 'smartContractInterface')
+  final DataV1SmartContractInterface smartContractInterface;
+  static const fromJsonFactory = _$GetSmartContractInterfaceResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GetSmartContractInterfaceResponse &&
+            (identical(other.smartContractInterface, smartContractInterface) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterface, smartContractInterface)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(smartContractInterface) ^
+      runtimeType.hashCode;
+}
+
+extension $GetSmartContractInterfaceResponseExtension
+    on GetSmartContractInterfaceResponse {
+  GetSmartContractInterfaceResponse copyWith(
+      {DataV1SmartContractInterface? smartContractInterface}) {
+    return GetSmartContractInterfaceResponse(
+        smartContractInterface:
+            smartContractInterface ?? this.smartContractInterface);
+  }
+
+  GetSmartContractInterfaceResponse copyWithWrapped(
+      {Wrapped<DataV1SmartContractInterface>? smartContractInterface}) {
+    return GetSmartContractInterfaceResponse(
+        smartContractInterface: (smartContractInterface != null
+            ? smartContractInterface.value
+            : this.smartContractInterface));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetSmartContractInterfacesRequest {
+  const GetSmartContractInterfacesRequest({
+    required this.organizationId,
+  });
+
+  factory GetSmartContractInterfacesRequest.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetSmartContractInterfacesRequestFromJson(json);
+
+  static const toJsonFactory = _$GetSmartContractInterfacesRequestToJson;
+  Map<String, dynamic> toJson() =>
+      _$GetSmartContractInterfacesRequestToJson(this);
+
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  static const fromJsonFactory = _$GetSmartContractInterfacesRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GetSmartContractInterfacesRequest &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(organizationId) ^
+      runtimeType.hashCode;
+}
+
+extension $GetSmartContractInterfacesRequestExtension
+    on GetSmartContractInterfacesRequest {
+  GetSmartContractInterfacesRequest copyWith({String? organizationId}) {
+    return GetSmartContractInterfacesRequest(
+        organizationId: organizationId ?? this.organizationId);
+  }
+
+  GetSmartContractInterfacesRequest copyWithWrapped(
+      {Wrapped<String>? organizationId}) {
+    return GetSmartContractInterfacesRequest(
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class GetSmartContractInterfacesResponse {
+  const GetSmartContractInterfacesResponse({
+    required this.smartContractInterfaces,
+  });
+
+  factory GetSmartContractInterfacesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetSmartContractInterfacesResponseFromJson(json);
+
+  static const toJsonFactory = _$GetSmartContractInterfacesResponseToJson;
+  Map<String, dynamic> toJson() =>
+      _$GetSmartContractInterfacesResponseToJson(this);
+
+  @JsonKey(
+      name: 'smartContractInterfaces',
+      defaultValue: <DataV1SmartContractInterface>[])
+  final List<DataV1SmartContractInterface> smartContractInterfaces;
+  static const fromJsonFactory = _$GetSmartContractInterfacesResponseFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is GetSmartContractInterfacesResponse &&
+            (identical(
+                    other.smartContractInterfaces, smartContractInterfaces) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterfaces, smartContractInterfaces)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(smartContractInterfaces) ^
+      runtimeType.hashCode;
+}
+
+extension $GetSmartContractInterfacesResponseExtension
+    on GetSmartContractInterfacesResponse {
+  GetSmartContractInterfacesResponse copyWith(
+      {List<DataV1SmartContractInterface>? smartContractInterfaces}) {
+    return GetSmartContractInterfacesResponse(
+        smartContractInterfaces:
+            smartContractInterfaces ?? this.smartContractInterfaces);
+  }
+
+  GetSmartContractInterfacesResponse copyWithWrapped(
+      {Wrapped<List<DataV1SmartContractInterface>>? smartContractInterfaces}) {
+    return GetSmartContractInterfacesResponse(
+        smartContractInterfaces: (smartContractInterfaces != null
+            ? smartContractInterfaces.value
+            : this.smartContractInterfaces));
   }
 }
 
@@ -12001,7 +12789,7 @@ extension $GetWalletAccountResponseExtension on GetWalletAccountResponse {
 class GetWalletAccountsRequest {
   const GetWalletAccountsRequest({
     required this.organizationId,
-    required this.walletId,
+    this.walletId,
     this.paginationOptions,
   });
 
@@ -12014,7 +12802,7 @@ class GetWalletAccountsRequest {
   @JsonKey(name: 'organizationId')
   final String organizationId;
   @JsonKey(name: 'walletId')
-  final String walletId;
+  final String? walletId;
   @JsonKey(name: 'paginationOptions')
   final Pagination? paginationOptions;
   static const fromJsonFactory = _$GetWalletAccountsRequestFromJson;
@@ -12058,7 +12846,7 @@ extension $GetWalletAccountsRequestExtension on GetWalletAccountsRequest {
 
   GetWalletAccountsRequest copyWithWrapped(
       {Wrapped<String>? organizationId,
-      Wrapped<String>? walletId,
+      Wrapped<String?>? walletId,
       Wrapped<Pagination?>? paginationOptions}) {
     return GetWalletAccountsRequest(
         organizationId: (organizationId != null
@@ -12912,6 +13700,334 @@ extension $ImportWalletResultExtension on ImportWalletResult {
     return ImportWalletResult(
         walletId: (walletId != null ? walletId.value : this.walletId),
         addresses: (addresses != null ? addresses.value : this.addresses));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitFiatOnRampIntent {
+  const InitFiatOnRampIntent({
+    required this.onrampProvider,
+    required this.walletAddress,
+    required this.network,
+    required this.cryptoCurrencyCode,
+    this.fiatCurrencyCode,
+    this.fiatCurrencyAmount,
+    this.paymentMethod,
+    this.countryCode,
+    this.countrySubdivisionCode,
+    this.sandboxMode,
+  });
+
+  factory InitFiatOnRampIntent.fromJson(Map<String, dynamic> json) =>
+      _$InitFiatOnRampIntentFromJson(json);
+
+  static const toJsonFactory = _$InitFiatOnRampIntentToJson;
+  Map<String, dynamic> toJson() => _$InitFiatOnRampIntentToJson(this);
+
+  @JsonKey(
+    name: 'onrampProvider',
+    toJson: fiatOnRampProviderToJson,
+    fromJson: fiatOnRampProviderFromJson,
+  )
+  final enums.FiatOnRampProvider onrampProvider;
+  @JsonKey(name: 'walletAddress')
+  final String walletAddress;
+  @JsonKey(
+    name: 'network',
+    toJson: fiatOnRampBlockchainNetworkToJson,
+    fromJson: fiatOnRampBlockchainNetworkFromJson,
+  )
+  final enums.FiatOnRampBlockchainNetwork network;
+  @JsonKey(
+    name: 'cryptoCurrencyCode',
+    toJson: fiatOnRampCryptoCurrencyToJson,
+    fromJson: fiatOnRampCryptoCurrencyFromJson,
+  )
+  final enums.FiatOnRampCryptoCurrency cryptoCurrencyCode;
+  @JsonKey(
+    name: 'fiatCurrencyCode',
+    toJson: fiatOnRampCurrencyNullableToJson,
+    fromJson: fiatOnRampCurrencyNullableFromJson,
+  )
+  final enums.FiatOnRampCurrency? fiatCurrencyCode;
+  @JsonKey(name: 'fiatCurrencyAmount')
+  final String? fiatCurrencyAmount;
+  @JsonKey(
+    name: 'paymentMethod',
+    toJson: fiatOnRampPaymentMethodNullableToJson,
+    fromJson: fiatOnRampPaymentMethodNullableFromJson,
+  )
+  final enums.FiatOnRampPaymentMethod? paymentMethod;
+  @JsonKey(name: 'countryCode')
+  final String? countryCode;
+  @JsonKey(name: 'countrySubdivisionCode')
+  final String? countrySubdivisionCode;
+  @JsonKey(name: 'sandboxMode')
+  final bool? sandboxMode;
+  static const fromJsonFactory = _$InitFiatOnRampIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitFiatOnRampIntent &&
+            (identical(other.onrampProvider, onrampProvider) ||
+                const DeepCollectionEquality()
+                    .equals(other.onrampProvider, onrampProvider)) &&
+            (identical(other.walletAddress, walletAddress) ||
+                const DeepCollectionEquality()
+                    .equals(other.walletAddress, walletAddress)) &&
+            (identical(other.network, network) ||
+                const DeepCollectionEquality()
+                    .equals(other.network, network)) &&
+            (identical(other.cryptoCurrencyCode, cryptoCurrencyCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.cryptoCurrencyCode, cryptoCurrencyCode)) &&
+            (identical(other.fiatCurrencyCode, fiatCurrencyCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.fiatCurrencyCode, fiatCurrencyCode)) &&
+            (identical(other.fiatCurrencyAmount, fiatCurrencyAmount) ||
+                const DeepCollectionEquality()
+                    .equals(other.fiatCurrencyAmount, fiatCurrencyAmount)) &&
+            (identical(other.paymentMethod, paymentMethod) ||
+                const DeepCollectionEquality()
+                    .equals(other.paymentMethod, paymentMethod)) &&
+            (identical(other.countryCode, countryCode) ||
+                const DeepCollectionEquality()
+                    .equals(other.countryCode, countryCode)) &&
+            (identical(other.countrySubdivisionCode, countrySubdivisionCode) ||
+                const DeepCollectionEquality().equals(
+                    other.countrySubdivisionCode, countrySubdivisionCode)) &&
+            (identical(other.sandboxMode, sandboxMode) ||
+                const DeepCollectionEquality()
+                    .equals(other.sandboxMode, sandboxMode)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(onrampProvider) ^
+      const DeepCollectionEquality().hash(walletAddress) ^
+      const DeepCollectionEquality().hash(network) ^
+      const DeepCollectionEquality().hash(cryptoCurrencyCode) ^
+      const DeepCollectionEquality().hash(fiatCurrencyCode) ^
+      const DeepCollectionEquality().hash(fiatCurrencyAmount) ^
+      const DeepCollectionEquality().hash(paymentMethod) ^
+      const DeepCollectionEquality().hash(countryCode) ^
+      const DeepCollectionEquality().hash(countrySubdivisionCode) ^
+      const DeepCollectionEquality().hash(sandboxMode) ^
+      runtimeType.hashCode;
+}
+
+extension $InitFiatOnRampIntentExtension on InitFiatOnRampIntent {
+  InitFiatOnRampIntent copyWith(
+      {enums.FiatOnRampProvider? onrampProvider,
+      String? walletAddress,
+      enums.FiatOnRampBlockchainNetwork? network,
+      enums.FiatOnRampCryptoCurrency? cryptoCurrencyCode,
+      enums.FiatOnRampCurrency? fiatCurrencyCode,
+      String? fiatCurrencyAmount,
+      enums.FiatOnRampPaymentMethod? paymentMethod,
+      String? countryCode,
+      String? countrySubdivisionCode,
+      bool? sandboxMode}) {
+    return InitFiatOnRampIntent(
+        onrampProvider: onrampProvider ?? this.onrampProvider,
+        walletAddress: walletAddress ?? this.walletAddress,
+        network: network ?? this.network,
+        cryptoCurrencyCode: cryptoCurrencyCode ?? this.cryptoCurrencyCode,
+        fiatCurrencyCode: fiatCurrencyCode ?? this.fiatCurrencyCode,
+        fiatCurrencyAmount: fiatCurrencyAmount ?? this.fiatCurrencyAmount,
+        paymentMethod: paymentMethod ?? this.paymentMethod,
+        countryCode: countryCode ?? this.countryCode,
+        countrySubdivisionCode:
+            countrySubdivisionCode ?? this.countrySubdivisionCode,
+        sandboxMode: sandboxMode ?? this.sandboxMode);
+  }
+
+  InitFiatOnRampIntent copyWithWrapped(
+      {Wrapped<enums.FiatOnRampProvider>? onrampProvider,
+      Wrapped<String>? walletAddress,
+      Wrapped<enums.FiatOnRampBlockchainNetwork>? network,
+      Wrapped<enums.FiatOnRampCryptoCurrency>? cryptoCurrencyCode,
+      Wrapped<enums.FiatOnRampCurrency?>? fiatCurrencyCode,
+      Wrapped<String?>? fiatCurrencyAmount,
+      Wrapped<enums.FiatOnRampPaymentMethod?>? paymentMethod,
+      Wrapped<String?>? countryCode,
+      Wrapped<String?>? countrySubdivisionCode,
+      Wrapped<bool?>? sandboxMode}) {
+    return InitFiatOnRampIntent(
+        onrampProvider: (onrampProvider != null
+            ? onrampProvider.value
+            : this.onrampProvider),
+        walletAddress:
+            (walletAddress != null ? walletAddress.value : this.walletAddress),
+        network: (network != null ? network.value : this.network),
+        cryptoCurrencyCode: (cryptoCurrencyCode != null
+            ? cryptoCurrencyCode.value
+            : this.cryptoCurrencyCode),
+        fiatCurrencyCode: (fiatCurrencyCode != null
+            ? fiatCurrencyCode.value
+            : this.fiatCurrencyCode),
+        fiatCurrencyAmount: (fiatCurrencyAmount != null
+            ? fiatCurrencyAmount.value
+            : this.fiatCurrencyAmount),
+        paymentMethod:
+            (paymentMethod != null ? paymentMethod.value : this.paymentMethod),
+        countryCode:
+            (countryCode != null ? countryCode.value : this.countryCode),
+        countrySubdivisionCode: (countrySubdivisionCode != null
+            ? countrySubdivisionCode.value
+            : this.countrySubdivisionCode),
+        sandboxMode:
+            (sandboxMode != null ? sandboxMode.value : this.sandboxMode));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitFiatOnRampRequest {
+  const InitFiatOnRampRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory InitFiatOnRampRequest.fromJson(Map<String, dynamic> json) =>
+      _$InitFiatOnRampRequestFromJson(json);
+
+  static const toJsonFactory = _$InitFiatOnRampRequestToJson;
+  Map<String, dynamic> toJson() => _$InitFiatOnRampRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: initFiatOnRampRequestTypeToJson,
+    fromJson: initFiatOnRampRequestTypeFromJson,
+  )
+  final enums.InitFiatOnRampRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final InitFiatOnRampIntent parameters;
+  static const fromJsonFactory = _$InitFiatOnRampRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitFiatOnRampRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $InitFiatOnRampRequestExtension on InitFiatOnRampRequest {
+  InitFiatOnRampRequest copyWith(
+      {enums.InitFiatOnRampRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      InitFiatOnRampIntent? parameters}) {
+    return InitFiatOnRampRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  InitFiatOnRampRequest copyWithWrapped(
+      {Wrapped<enums.InitFiatOnRampRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<InitFiatOnRampIntent>? parameters}) {
+    return InitFiatOnRampRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class InitFiatOnRampResult {
+  const InitFiatOnRampResult({
+    required this.onRampUrl,
+    required this.onRampTransactionId,
+  });
+
+  factory InitFiatOnRampResult.fromJson(Map<String, dynamic> json) =>
+      _$InitFiatOnRampResultFromJson(json);
+
+  static const toJsonFactory = _$InitFiatOnRampResultToJson;
+  Map<String, dynamic> toJson() => _$InitFiatOnRampResultToJson(this);
+
+  @JsonKey(name: 'onRampUrl')
+  final String onRampUrl;
+  @JsonKey(name: 'onRampTransactionId')
+  final String onRampTransactionId;
+  static const fromJsonFactory = _$InitFiatOnRampResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is InitFiatOnRampResult &&
+            (identical(other.onRampUrl, onRampUrl) ||
+                const DeepCollectionEquality()
+                    .equals(other.onRampUrl, onRampUrl)) &&
+            (identical(other.onRampTransactionId, onRampTransactionId) ||
+                const DeepCollectionEquality()
+                    .equals(other.onRampTransactionId, onRampTransactionId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(onRampUrl) ^
+      const DeepCollectionEquality().hash(onRampTransactionId) ^
+      runtimeType.hashCode;
+}
+
+extension $InitFiatOnRampResultExtension on InitFiatOnRampResult {
+  InitFiatOnRampResult copyWith(
+      {String? onRampUrl, String? onRampTransactionId}) {
+    return InitFiatOnRampResult(
+        onRampUrl: onRampUrl ?? this.onRampUrl,
+        onRampTransactionId: onRampTransactionId ?? this.onRampTransactionId);
+  }
+
+  InitFiatOnRampResult copyWithWrapped(
+      {Wrapped<String>? onRampUrl, Wrapped<String>? onRampTransactionId}) {
+    return InitFiatOnRampResult(
+        onRampUrl: (onRampUrl != null ? onRampUrl.value : this.onRampUrl),
+        onRampTransactionId: (onRampTransactionId != null
+            ? onRampTransactionId.value
+            : this.onRampTransactionId));
   }
 }
 
@@ -14352,6 +15468,12 @@ class Intent {
     this.otpLoginIntent,
     this.stampLoginIntent,
     this.oauthLoginIntent,
+    this.updateUserNameIntent,
+    this.updateUserEmailIntent,
+    this.updateUserPhoneNumberIntent,
+    this.initFiatOnRampIntent,
+    this.createSmartContractInterfaceIntent,
+    this.deleteSmartContractInterfaceIntent,
   });
 
   factory Intent.fromJson(Map<String, dynamic> json) => _$IntentFromJson(json);
@@ -14535,6 +15657,18 @@ class Intent {
   final StampLoginIntent? stampLoginIntent;
   @JsonKey(name: 'oauthLoginIntent')
   final OauthLoginIntent? oauthLoginIntent;
+  @JsonKey(name: 'updateUserNameIntent')
+  final UpdateUserNameIntent? updateUserNameIntent;
+  @JsonKey(name: 'updateUserEmailIntent')
+  final UpdateUserEmailIntent? updateUserEmailIntent;
+  @JsonKey(name: 'updateUserPhoneNumberIntent')
+  final UpdateUserPhoneNumberIntent? updateUserPhoneNumberIntent;
+  @JsonKey(name: 'initFiatOnRampIntent')
+  final InitFiatOnRampIntent? initFiatOnRampIntent;
+  @JsonKey(name: 'createSmartContractInterfaceIntent')
+  final CreateSmartContractInterfaceIntent? createSmartContractInterfaceIntent;
+  @JsonKey(name: 'deleteSmartContractInterfaceIntent')
+  final DeleteSmartContractInterfaceIntent? deleteSmartContractInterfaceIntent;
   static const fromJsonFactory = _$IntentFromJson;
 
   @override
@@ -14650,7 +15784,13 @@ class Intent {
             (identical(other.verifyOtpIntent, verifyOtpIntent) || const DeepCollectionEquality().equals(other.verifyOtpIntent, verifyOtpIntent)) &&
             (identical(other.otpLoginIntent, otpLoginIntent) || const DeepCollectionEquality().equals(other.otpLoginIntent, otpLoginIntent)) &&
             (identical(other.stampLoginIntent, stampLoginIntent) || const DeepCollectionEquality().equals(other.stampLoginIntent, stampLoginIntent)) &&
-            (identical(other.oauthLoginIntent, oauthLoginIntent) || const DeepCollectionEquality().equals(other.oauthLoginIntent, oauthLoginIntent)));
+            (identical(other.oauthLoginIntent, oauthLoginIntent) || const DeepCollectionEquality().equals(other.oauthLoginIntent, oauthLoginIntent)) &&
+            (identical(other.updateUserNameIntent, updateUserNameIntent) || const DeepCollectionEquality().equals(other.updateUserNameIntent, updateUserNameIntent)) &&
+            (identical(other.updateUserEmailIntent, updateUserEmailIntent) || const DeepCollectionEquality().equals(other.updateUserEmailIntent, updateUserEmailIntent)) &&
+            (identical(other.updateUserPhoneNumberIntent, updateUserPhoneNumberIntent) || const DeepCollectionEquality().equals(other.updateUserPhoneNumberIntent, updateUserPhoneNumberIntent)) &&
+            (identical(other.initFiatOnRampIntent, initFiatOnRampIntent) || const DeepCollectionEquality().equals(other.initFiatOnRampIntent, initFiatOnRampIntent)) &&
+            (identical(other.createSmartContractInterfaceIntent, createSmartContractInterfaceIntent) || const DeepCollectionEquality().equals(other.createSmartContractInterfaceIntent, createSmartContractInterfaceIntent)) &&
+            (identical(other.deleteSmartContractInterfaceIntent, deleteSmartContractInterfaceIntent) || const DeepCollectionEquality().equals(other.deleteSmartContractInterfaceIntent, deleteSmartContractInterfaceIntent)));
   }
 
   @override
@@ -14746,6 +15886,12 @@ class Intent {
       const DeepCollectionEquality().hash(otpLoginIntent) ^
       const DeepCollectionEquality().hash(stampLoginIntent) ^
       const DeepCollectionEquality().hash(oauthLoginIntent) ^
+      const DeepCollectionEquality().hash(updateUserNameIntent) ^
+      const DeepCollectionEquality().hash(updateUserEmailIntent) ^
+      const DeepCollectionEquality().hash(updateUserPhoneNumberIntent) ^
+      const DeepCollectionEquality().hash(initFiatOnRampIntent) ^
+      const DeepCollectionEquality().hash(createSmartContractInterfaceIntent) ^
+      const DeepCollectionEquality().hash(deleteSmartContractInterfaceIntent) ^
       runtimeType.hashCode;
 }
 
@@ -14838,7 +15984,13 @@ extension $IntentExtension on Intent {
       VerifyOtpIntent? verifyOtpIntent,
       OtpLoginIntent? otpLoginIntent,
       StampLoginIntent? stampLoginIntent,
-      OauthLoginIntent? oauthLoginIntent}) {
+      OauthLoginIntent? oauthLoginIntent,
+      UpdateUserNameIntent? updateUserNameIntent,
+      UpdateUserEmailIntent? updateUserEmailIntent,
+      UpdateUserPhoneNumberIntent? updateUserPhoneNumberIntent,
+      InitFiatOnRampIntent? initFiatOnRampIntent,
+      CreateSmartContractInterfaceIntent? createSmartContractInterfaceIntent,
+      DeleteSmartContractInterfaceIntent? deleteSmartContractInterfaceIntent}) {
     return Intent(
         createOrganizationIntent:
             createOrganizationIntent ?? this.createOrganizationIntent,
@@ -14979,7 +16131,19 @@ extension $IntentExtension on Intent {
         verifyOtpIntent: verifyOtpIntent ?? this.verifyOtpIntent,
         otpLoginIntent: otpLoginIntent ?? this.otpLoginIntent,
         stampLoginIntent: stampLoginIntent ?? this.stampLoginIntent,
-        oauthLoginIntent: oauthLoginIntent ?? this.oauthLoginIntent);
+        oauthLoginIntent: oauthLoginIntent ?? this.oauthLoginIntent,
+        updateUserNameIntent: updateUserNameIntent ?? this.updateUserNameIntent,
+        updateUserEmailIntent:
+            updateUserEmailIntent ?? this.updateUserEmailIntent,
+        updateUserPhoneNumberIntent:
+            updateUserPhoneNumberIntent ?? this.updateUserPhoneNumberIntent,
+        initFiatOnRampIntent: initFiatOnRampIntent ?? this.initFiatOnRampIntent,
+        createSmartContractInterfaceIntent:
+            createSmartContractInterfaceIntent ??
+                this.createSmartContractInterfaceIntent,
+        deleteSmartContractInterfaceIntent:
+            deleteSmartContractInterfaceIntent ??
+                this.deleteSmartContractInterfaceIntent);
   }
 
   Intent copyWithWrapped(
@@ -15071,7 +16235,15 @@ extension $IntentExtension on Intent {
       Wrapped<VerifyOtpIntent?>? verifyOtpIntent,
       Wrapped<OtpLoginIntent?>? otpLoginIntent,
       Wrapped<StampLoginIntent?>? stampLoginIntent,
-      Wrapped<OauthLoginIntent?>? oauthLoginIntent}) {
+      Wrapped<OauthLoginIntent?>? oauthLoginIntent,
+      Wrapped<UpdateUserNameIntent?>? updateUserNameIntent,
+      Wrapped<UpdateUserEmailIntent?>? updateUserEmailIntent,
+      Wrapped<UpdateUserPhoneNumberIntent?>? updateUserPhoneNumberIntent,
+      Wrapped<InitFiatOnRampIntent?>? initFiatOnRampIntent,
+      Wrapped<CreateSmartContractInterfaceIntent?>?
+          createSmartContractInterfaceIntent,
+      Wrapped<DeleteSmartContractInterfaceIntent?>?
+          deleteSmartContractInterfaceIntent}) {
     return Intent(
         createOrganizationIntent: (createOrganizationIntent != null
             ? createOrganizationIntent.value
@@ -15273,7 +16445,13 @@ extension $IntentExtension on Intent {
         verifyOtpIntent: (verifyOtpIntent != null ? verifyOtpIntent.value : this.verifyOtpIntent),
         otpLoginIntent: (otpLoginIntent != null ? otpLoginIntent.value : this.otpLoginIntent),
         stampLoginIntent: (stampLoginIntent != null ? stampLoginIntent.value : this.stampLoginIntent),
-        oauthLoginIntent: (oauthLoginIntent != null ? oauthLoginIntent.value : this.oauthLoginIntent));
+        oauthLoginIntent: (oauthLoginIntent != null ? oauthLoginIntent.value : this.oauthLoginIntent),
+        updateUserNameIntent: (updateUserNameIntent != null ? updateUserNameIntent.value : this.updateUserNameIntent),
+        updateUserEmailIntent: (updateUserEmailIntent != null ? updateUserEmailIntent.value : this.updateUserEmailIntent),
+        updateUserPhoneNumberIntent: (updateUserPhoneNumberIntent != null ? updateUserPhoneNumberIntent.value : this.updateUserPhoneNumberIntent),
+        initFiatOnRampIntent: (initFiatOnRampIntent != null ? initFiatOnRampIntent.value : this.initFiatOnRampIntent),
+        createSmartContractInterfaceIntent: (createSmartContractInterfaceIntent != null ? createSmartContractInterfaceIntent.value : this.createSmartContractInterfaceIntent),
+        deleteSmartContractInterfaceIntent: (deleteSmartContractInterfaceIntent != null ? deleteSmartContractInterfaceIntent.value : this.deleteSmartContractInterfaceIntent));
   }
 }
 
@@ -16763,8 +17941,8 @@ class Policy {
     required this.createdAt,
     required this.updatedAt,
     required this.notes,
-    required this.consensus,
-    required this.condition,
+    this.consensus,
+    this.condition,
   });
 
   factory Policy.fromJson(Map<String, dynamic> json) => _$PolicyFromJson(json);
@@ -16789,9 +17967,9 @@ class Policy {
   @JsonKey(name: 'notes')
   final String notes;
   @JsonKey(name: 'consensus')
-  final String consensus;
+  final String? consensus;
   @JsonKey(name: 'condition')
-  final String condition;
+  final String? condition;
   static const fromJsonFactory = _$PolicyFromJson;
 
   @override
@@ -16866,8 +18044,8 @@ extension $PolicyExtension on Policy {
       Wrapped<ExternalDataV1Timestamp>? createdAt,
       Wrapped<ExternalDataV1Timestamp>? updatedAt,
       Wrapped<String>? notes,
-      Wrapped<String>? consensus,
-      Wrapped<String>? condition}) {
+      Wrapped<String?>? consensus,
+      Wrapped<String?>? condition}) {
     return Policy(
         policyId: (policyId != null ? policyId.value : this.policyId),
         policyName: (policyName != null ? policyName.value : this.policyName),
@@ -17899,6 +19077,12 @@ class Result {
     this.otpLoginResult,
     this.stampLoginResult,
     this.oauthLoginResult,
+    this.updateUserNameResult,
+    this.updateUserEmailResult,
+    this.updateUserPhoneNumberResult,
+    this.initFiatOnRampResult,
+    this.createSmartContractInterfaceResult,
+    this.deleteSmartContractInterfaceResult,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
@@ -18052,6 +19236,18 @@ class Result {
   final StampLoginResult? stampLoginResult;
   @JsonKey(name: 'oauthLoginResult')
   final OauthLoginResult? oauthLoginResult;
+  @JsonKey(name: 'updateUserNameResult')
+  final UpdateUserNameResult? updateUserNameResult;
+  @JsonKey(name: 'updateUserEmailResult')
+  final UpdateUserEmailResult? updateUserEmailResult;
+  @JsonKey(name: 'updateUserPhoneNumberResult')
+  final UpdateUserPhoneNumberResult? updateUserPhoneNumberResult;
+  @JsonKey(name: 'initFiatOnRampResult')
+  final InitFiatOnRampResult? initFiatOnRampResult;
+  @JsonKey(name: 'createSmartContractInterfaceResult')
+  final CreateSmartContractInterfaceResult? createSmartContractInterfaceResult;
+  @JsonKey(name: 'deleteSmartContractInterfaceResult')
+  final DeleteSmartContractInterfaceResult? deleteSmartContractInterfaceResult;
   static const fromJsonFactory = _$ResultFromJson;
 
   @override
@@ -18151,7 +19347,13 @@ class Result {
             (identical(other.verifyOtpResult, verifyOtpResult) || const DeepCollectionEquality().equals(other.verifyOtpResult, verifyOtpResult)) &&
             (identical(other.otpLoginResult, otpLoginResult) || const DeepCollectionEquality().equals(other.otpLoginResult, otpLoginResult)) &&
             (identical(other.stampLoginResult, stampLoginResult) || const DeepCollectionEquality().equals(other.stampLoginResult, stampLoginResult)) &&
-            (identical(other.oauthLoginResult, oauthLoginResult) || const DeepCollectionEquality().equals(other.oauthLoginResult, oauthLoginResult)));
+            (identical(other.oauthLoginResult, oauthLoginResult) || const DeepCollectionEquality().equals(other.oauthLoginResult, oauthLoginResult)) &&
+            (identical(other.updateUserNameResult, updateUserNameResult) || const DeepCollectionEquality().equals(other.updateUserNameResult, updateUserNameResult)) &&
+            (identical(other.updateUserEmailResult, updateUserEmailResult) || const DeepCollectionEquality().equals(other.updateUserEmailResult, updateUserEmailResult)) &&
+            (identical(other.updateUserPhoneNumberResult, updateUserPhoneNumberResult) || const DeepCollectionEquality().equals(other.updateUserPhoneNumberResult, updateUserPhoneNumberResult)) &&
+            (identical(other.initFiatOnRampResult, initFiatOnRampResult) || const DeepCollectionEquality().equals(other.initFiatOnRampResult, initFiatOnRampResult)) &&
+            (identical(other.createSmartContractInterfaceResult, createSmartContractInterfaceResult) || const DeepCollectionEquality().equals(other.createSmartContractInterfaceResult, createSmartContractInterfaceResult)) &&
+            (identical(other.deleteSmartContractInterfaceResult, deleteSmartContractInterfaceResult) || const DeepCollectionEquality().equals(other.deleteSmartContractInterfaceResult, deleteSmartContractInterfaceResult)));
   }
 
   @override
@@ -18232,6 +19434,12 @@ class Result {
       const DeepCollectionEquality().hash(otpLoginResult) ^
       const DeepCollectionEquality().hash(stampLoginResult) ^
       const DeepCollectionEquality().hash(oauthLoginResult) ^
+      const DeepCollectionEquality().hash(updateUserNameResult) ^
+      const DeepCollectionEquality().hash(updateUserEmailResult) ^
+      const DeepCollectionEquality().hash(updateUserPhoneNumberResult) ^
+      const DeepCollectionEquality().hash(initFiatOnRampResult) ^
+      const DeepCollectionEquality().hash(createSmartContractInterfaceResult) ^
+      const DeepCollectionEquality().hash(deleteSmartContractInterfaceResult) ^
       runtimeType.hashCode;
 }
 
@@ -18309,7 +19517,13 @@ extension $ResultExtension on Result {
       VerifyOtpResult? verifyOtpResult,
       OtpLoginResult? otpLoginResult,
       StampLoginResult? stampLoginResult,
-      OauthLoginResult? oauthLoginResult}) {
+      OauthLoginResult? oauthLoginResult,
+      UpdateUserNameResult? updateUserNameResult,
+      UpdateUserEmailResult? updateUserEmailResult,
+      UpdateUserPhoneNumberResult? updateUserPhoneNumberResult,
+      InitFiatOnRampResult? initFiatOnRampResult,
+      CreateSmartContractInterfaceResult? createSmartContractInterfaceResult,
+      DeleteSmartContractInterfaceResult? deleteSmartContractInterfaceResult}) {
     return Result(
         createOrganizationResult:
             createOrganizationResult ?? this.createOrganizationResult,
@@ -18426,7 +19640,19 @@ extension $ResultExtension on Result {
         verifyOtpResult: verifyOtpResult ?? this.verifyOtpResult,
         otpLoginResult: otpLoginResult ?? this.otpLoginResult,
         stampLoginResult: stampLoginResult ?? this.stampLoginResult,
-        oauthLoginResult: oauthLoginResult ?? this.oauthLoginResult);
+        oauthLoginResult: oauthLoginResult ?? this.oauthLoginResult,
+        updateUserNameResult: updateUserNameResult ?? this.updateUserNameResult,
+        updateUserEmailResult:
+            updateUserEmailResult ?? this.updateUserEmailResult,
+        updateUserPhoneNumberResult:
+            updateUserPhoneNumberResult ?? this.updateUserPhoneNumberResult,
+        initFiatOnRampResult: initFiatOnRampResult ?? this.initFiatOnRampResult,
+        createSmartContractInterfaceResult:
+            createSmartContractInterfaceResult ??
+                this.createSmartContractInterfaceResult,
+        deleteSmartContractInterfaceResult:
+            deleteSmartContractInterfaceResult ??
+                this.deleteSmartContractInterfaceResult);
   }
 
   Result copyWithWrapped(
@@ -18503,7 +19729,15 @@ extension $ResultExtension on Result {
       Wrapped<VerifyOtpResult?>? verifyOtpResult,
       Wrapped<OtpLoginResult?>? otpLoginResult,
       Wrapped<StampLoginResult?>? stampLoginResult,
-      Wrapped<OauthLoginResult?>? oauthLoginResult}) {
+      Wrapped<OauthLoginResult?>? oauthLoginResult,
+      Wrapped<UpdateUserNameResult?>? updateUserNameResult,
+      Wrapped<UpdateUserEmailResult?>? updateUserEmailResult,
+      Wrapped<UpdateUserPhoneNumberResult?>? updateUserPhoneNumberResult,
+      Wrapped<InitFiatOnRampResult?>? initFiatOnRampResult,
+      Wrapped<CreateSmartContractInterfaceResult?>?
+          createSmartContractInterfaceResult,
+      Wrapped<DeleteSmartContractInterfaceResult?>?
+          deleteSmartContractInterfaceResult}) {
     return Result(
         createOrganizationResult: (createOrganizationResult != null
             ? createOrganizationResult.value
@@ -18685,7 +19919,13 @@ extension $ResultExtension on Result {
         verifyOtpResult: (verifyOtpResult != null ? verifyOtpResult.value : this.verifyOtpResult),
         otpLoginResult: (otpLoginResult != null ? otpLoginResult.value : this.otpLoginResult),
         stampLoginResult: (stampLoginResult != null ? stampLoginResult.value : this.stampLoginResult),
-        oauthLoginResult: (oauthLoginResult != null ? oauthLoginResult.value : this.oauthLoginResult));
+        oauthLoginResult: (oauthLoginResult != null ? oauthLoginResult.value : this.oauthLoginResult),
+        updateUserNameResult: (updateUserNameResult != null ? updateUserNameResult.value : this.updateUserNameResult),
+        updateUserEmailResult: (updateUserEmailResult != null ? updateUserEmailResult.value : this.updateUserEmailResult),
+        updateUserPhoneNumberResult: (updateUserPhoneNumberResult != null ? updateUserPhoneNumberResult.value : this.updateUserPhoneNumberResult),
+        initFiatOnRampResult: (initFiatOnRampResult != null ? initFiatOnRampResult.value : this.initFiatOnRampResult),
+        createSmartContractInterfaceResult: (createSmartContractInterfaceResult != null ? createSmartContractInterfaceResult.value : this.createSmartContractInterfaceResult),
+        deleteSmartContractInterfaceResult: (deleteSmartContractInterfaceResult != null ? deleteSmartContractInterfaceResult.value : this.deleteSmartContractInterfaceResult));
   }
 }
 
@@ -19219,7 +20459,7 @@ extension $SelectorV2Extension on SelectorV2 {
 class SetOrganizationFeatureIntent {
   const SetOrganizationFeatureIntent({
     required this.name,
-    required this.$value,
+    this.$value,
   });
 
   factory SetOrganizationFeatureIntent.fromJson(Map<String, dynamic> json) =>
@@ -19235,7 +20475,7 @@ class SetOrganizationFeatureIntent {
   )
   final enums.FeatureName name;
   @JsonKey(name: 'value')
-  final String $value;
+  final String? $value;
   static const fromJsonFactory = _$SetOrganizationFeatureIntentFromJson;
 
   @override
@@ -19267,7 +20507,7 @@ extension $SetOrganizationFeatureIntentExtension
   }
 
   SetOrganizationFeatureIntent copyWithWrapped(
-      {Wrapped<enums.FeatureName>? name, Wrapped<String>? $value}) {
+      {Wrapped<enums.FeatureName>? name, Wrapped<String?>? $value}) {
     return SetOrganizationFeatureIntent(
         name: (name != null ? name.value : this.name),
         $value: ($value != null ? $value.value : this.$value));
@@ -21736,6 +22976,205 @@ class UpdateRootQuorumResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class UpdateUserEmailIntent {
+  const UpdateUserEmailIntent({
+    required this.userId,
+    required this.userEmail,
+    this.verificationToken,
+  });
+
+  factory UpdateUserEmailIntent.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserEmailIntentFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserEmailIntentToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserEmailIntentToJson(this);
+
+  @JsonKey(name: 'userId')
+  final String userId;
+  @JsonKey(name: 'userEmail')
+  final String userEmail;
+  @JsonKey(name: 'verificationToken')
+  final String? verificationToken;
+  static const fromJsonFactory = _$UpdateUserEmailIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserEmailIntent &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.userEmail, userEmail) ||
+                const DeepCollectionEquality()
+                    .equals(other.userEmail, userEmail)) &&
+            (identical(other.verificationToken, verificationToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.verificationToken, verificationToken)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(userEmail) ^
+      const DeepCollectionEquality().hash(verificationToken) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateUserEmailIntentExtension on UpdateUserEmailIntent {
+  UpdateUserEmailIntent copyWith(
+      {String? userId, String? userEmail, String? verificationToken}) {
+    return UpdateUserEmailIntent(
+        userId: userId ?? this.userId,
+        userEmail: userEmail ?? this.userEmail,
+        verificationToken: verificationToken ?? this.verificationToken);
+  }
+
+  UpdateUserEmailIntent copyWithWrapped(
+      {Wrapped<String>? userId,
+      Wrapped<String>? userEmail,
+      Wrapped<String?>? verificationToken}) {
+    return UpdateUserEmailIntent(
+        userId: (userId != null ? userId.value : this.userId),
+        userEmail: (userEmail != null ? userEmail.value : this.userEmail),
+        verificationToken: (verificationToken != null
+            ? verificationToken.value
+            : this.verificationToken));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserEmailRequest {
+  const UpdateUserEmailRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory UpdateUserEmailRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserEmailRequestFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserEmailRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserEmailRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: updateUserEmailRequestTypeToJson,
+    fromJson: updateUserEmailRequestTypeFromJson,
+  )
+  final enums.UpdateUserEmailRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final UpdateUserEmailIntent parameters;
+  static const fromJsonFactory = _$UpdateUserEmailRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserEmailRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateUserEmailRequestExtension on UpdateUserEmailRequest {
+  UpdateUserEmailRequest copyWith(
+      {enums.UpdateUserEmailRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      UpdateUserEmailIntent? parameters}) {
+    return UpdateUserEmailRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  UpdateUserEmailRequest copyWithWrapped(
+      {Wrapped<enums.UpdateUserEmailRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<UpdateUserEmailIntent>? parameters}) {
+    return UpdateUserEmailRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserEmailResult {
+  const UpdateUserEmailResult({
+    required this.userId,
+  });
+
+  factory UpdateUserEmailResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserEmailResultFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserEmailResultToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserEmailResultToJson(this);
+
+  @JsonKey(name: 'userId')
+  final String userId;
+  static const fromJsonFactory = _$UpdateUserEmailResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserEmailResult &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
+}
+
+extension $UpdateUserEmailResultExtension on UpdateUserEmailResult {
+  UpdateUserEmailResult copyWith({String? userId}) {
+    return UpdateUserEmailResult(userId: userId ?? this.userId);
+  }
+
+  UpdateUserEmailResult copyWithWrapped({Wrapped<String>? userId}) {
+    return UpdateUserEmailResult(
+        userId: (userId != null ? userId.value : this.userId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UpdateUserIntent {
   const UpdateUserIntent({
     required this.userId,
@@ -21825,6 +23264,392 @@ extension $UpdateUserIntentExtension on UpdateUserIntent {
         userPhoneNumber: (userPhoneNumber != null
             ? userPhoneNumber.value
             : this.userPhoneNumber));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNameIntent {
+  const UpdateUserNameIntent({
+    required this.userId,
+    required this.userName,
+  });
+
+  factory UpdateUserNameIntent.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserNameIntentFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserNameIntentToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserNameIntentToJson(this);
+
+  @JsonKey(name: 'userId')
+  final String userId;
+  @JsonKey(name: 'userName')
+  final String userName;
+  static const fromJsonFactory = _$UpdateUserNameIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserNameIntent &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.userName, userName) ||
+                const DeepCollectionEquality()
+                    .equals(other.userName, userName)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(userName) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateUserNameIntentExtension on UpdateUserNameIntent {
+  UpdateUserNameIntent copyWith({String? userId, String? userName}) {
+    return UpdateUserNameIntent(
+        userId: userId ?? this.userId, userName: userName ?? this.userName);
+  }
+
+  UpdateUserNameIntent copyWithWrapped(
+      {Wrapped<String>? userId, Wrapped<String>? userName}) {
+    return UpdateUserNameIntent(
+        userId: (userId != null ? userId.value : this.userId),
+        userName: (userName != null ? userName.value : this.userName));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNameRequest {
+  const UpdateUserNameRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory UpdateUserNameRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserNameRequestFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserNameRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserNameRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: updateUserNameRequestTypeToJson,
+    fromJson: updateUserNameRequestTypeFromJson,
+  )
+  final enums.UpdateUserNameRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final UpdateUserNameIntent parameters;
+  static const fromJsonFactory = _$UpdateUserNameRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserNameRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateUserNameRequestExtension on UpdateUserNameRequest {
+  UpdateUserNameRequest copyWith(
+      {enums.UpdateUserNameRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      UpdateUserNameIntent? parameters}) {
+    return UpdateUserNameRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  UpdateUserNameRequest copyWithWrapped(
+      {Wrapped<enums.UpdateUserNameRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<UpdateUserNameIntent>? parameters}) {
+    return UpdateUserNameRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserNameResult {
+  const UpdateUserNameResult({
+    required this.userId,
+  });
+
+  factory UpdateUserNameResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserNameResultFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserNameResultToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserNameResultToJson(this);
+
+  @JsonKey(name: 'userId')
+  final String userId;
+  static const fromJsonFactory = _$UpdateUserNameResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserNameResult &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
+}
+
+extension $UpdateUserNameResultExtension on UpdateUserNameResult {
+  UpdateUserNameResult copyWith({String? userId}) {
+    return UpdateUserNameResult(userId: userId ?? this.userId);
+  }
+
+  UpdateUserNameResult copyWithWrapped({Wrapped<String>? userId}) {
+    return UpdateUserNameResult(
+        userId: (userId != null ? userId.value : this.userId));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserPhoneNumberIntent {
+  const UpdateUserPhoneNumberIntent({
+    required this.userId,
+    required this.userPhoneNumber,
+    this.verificationToken,
+  });
+
+  factory UpdateUserPhoneNumberIntent.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserPhoneNumberIntentFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserPhoneNumberIntentToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserPhoneNumberIntentToJson(this);
+
+  @JsonKey(name: 'userId')
+  final String userId;
+  @JsonKey(name: 'userPhoneNumber')
+  final String userPhoneNumber;
+  @JsonKey(name: 'verificationToken')
+  final String? verificationToken;
+  static const fromJsonFactory = _$UpdateUserPhoneNumberIntentFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserPhoneNumberIntent &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.userPhoneNumber, userPhoneNumber) ||
+                const DeepCollectionEquality()
+                    .equals(other.userPhoneNumber, userPhoneNumber)) &&
+            (identical(other.verificationToken, verificationToken) ||
+                const DeepCollectionEquality()
+                    .equals(other.verificationToken, verificationToken)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(userPhoneNumber) ^
+      const DeepCollectionEquality().hash(verificationToken) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateUserPhoneNumberIntentExtension on UpdateUserPhoneNumberIntent {
+  UpdateUserPhoneNumberIntent copyWith(
+      {String? userId, String? userPhoneNumber, String? verificationToken}) {
+    return UpdateUserPhoneNumberIntent(
+        userId: userId ?? this.userId,
+        userPhoneNumber: userPhoneNumber ?? this.userPhoneNumber,
+        verificationToken: verificationToken ?? this.verificationToken);
+  }
+
+  UpdateUserPhoneNumberIntent copyWithWrapped(
+      {Wrapped<String>? userId,
+      Wrapped<String>? userPhoneNumber,
+      Wrapped<String?>? verificationToken}) {
+    return UpdateUserPhoneNumberIntent(
+        userId: (userId != null ? userId.value : this.userId),
+        userPhoneNumber: (userPhoneNumber != null
+            ? userPhoneNumber.value
+            : this.userPhoneNumber),
+        verificationToken: (verificationToken != null
+            ? verificationToken.value
+            : this.verificationToken));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserPhoneNumberRequest {
+  const UpdateUserPhoneNumberRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory UpdateUserPhoneNumberRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserPhoneNumberRequestFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserPhoneNumberRequestToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserPhoneNumberRequestToJson(this);
+
+  @JsonKey(
+    name: 'type',
+    toJson: updateUserPhoneNumberRequestTypeToJson,
+    fromJson: updateUserPhoneNumberRequestTypeFromJson,
+  )
+  final enums.UpdateUserPhoneNumberRequestType type;
+  @JsonKey(name: 'timestampMs')
+  final String timestampMs;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'parameters')
+  final UpdateUserPhoneNumberIntent parameters;
+  static const fromJsonFactory = _$UpdateUserPhoneNumberRequestFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserPhoneNumberRequest &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.timestampMs, timestampMs) ||
+                const DeepCollectionEquality()
+                    .equals(other.timestampMs, timestampMs)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.parameters, parameters) ||
+                const DeepCollectionEquality()
+                    .equals(other.parameters, parameters)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(timestampMs) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(parameters) ^
+      runtimeType.hashCode;
+}
+
+extension $UpdateUserPhoneNumberRequestExtension
+    on UpdateUserPhoneNumberRequest {
+  UpdateUserPhoneNumberRequest copyWith(
+      {enums.UpdateUserPhoneNumberRequestType? type,
+      String? timestampMs,
+      String? organizationId,
+      UpdateUserPhoneNumberIntent? parameters}) {
+    return UpdateUserPhoneNumberRequest(
+        type: type ?? this.type,
+        timestampMs: timestampMs ?? this.timestampMs,
+        organizationId: organizationId ?? this.organizationId,
+        parameters: parameters ?? this.parameters);
+  }
+
+  UpdateUserPhoneNumberRequest copyWithWrapped(
+      {Wrapped<enums.UpdateUserPhoneNumberRequestType>? type,
+      Wrapped<String>? timestampMs,
+      Wrapped<String>? organizationId,
+      Wrapped<UpdateUserPhoneNumberIntent>? parameters}) {
+    return UpdateUserPhoneNumberRequest(
+        type: (type != null ? type.value : this.type),
+        timestampMs:
+            (timestampMs != null ? timestampMs.value : this.timestampMs),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        parameters: (parameters != null ? parameters.value : this.parameters));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UpdateUserPhoneNumberResult {
+  const UpdateUserPhoneNumberResult({
+    required this.userId,
+  });
+
+  factory UpdateUserPhoneNumberResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserPhoneNumberResultFromJson(json);
+
+  static const toJsonFactory = _$UpdateUserPhoneNumberResultToJson;
+  Map<String, dynamic> toJson() => _$UpdateUserPhoneNumberResultToJson(this);
+
+  @JsonKey(name: 'userId')
+  final String userId;
+  static const fromJsonFactory = _$UpdateUserPhoneNumberResultFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UpdateUserPhoneNumberResult &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^ runtimeType.hashCode;
+}
+
+extension $UpdateUserPhoneNumberResultExtension on UpdateUserPhoneNumberResult {
+  UpdateUserPhoneNumberResult copyWith({String? userId}) {
+    return UpdateUserPhoneNumberResult(userId: userId ?? this.userId);
+  }
+
+  UpdateUserPhoneNumberResult copyWithWrapped({Wrapped<String>? userId}) {
+    return UpdateUserPhoneNumberResult(
+        userId: (userId != null ? userId.value : this.userId));
   }
 }
 
@@ -23737,6 +25562,111 @@ extension $ActivityV1AddressExtension on ActivityV1Address {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ActivityV1PolicyEvaluation {
+  const ActivityV1PolicyEvaluation({
+    required this.id,
+    required this.activityId,
+    required this.organizationId,
+    required this.voteId,
+    required this.policyEvaluations,
+    required this.createdAt,
+  });
+
+  factory ActivityV1PolicyEvaluation.fromJson(Map<String, dynamic> json) =>
+      _$ActivityV1PolicyEvaluationFromJson(json);
+
+  static const toJsonFactory = _$ActivityV1PolicyEvaluationToJson;
+  Map<String, dynamic> toJson() => _$ActivityV1PolicyEvaluationToJson(this);
+
+  @JsonKey(name: 'id')
+  final String id;
+  @JsonKey(name: 'activityId')
+  final String activityId;
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'voteId')
+  final String voteId;
+  @JsonKey(name: 'policyEvaluations', defaultValue: <UmpV1PolicyEvaluation>[])
+  final List<UmpV1PolicyEvaluation> policyEvaluations;
+  @JsonKey(name: 'createdAt')
+  final ExternalDataV1Timestamp createdAt;
+  static const fromJsonFactory = _$ActivityV1PolicyEvaluationFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ActivityV1PolicyEvaluation &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.activityId, activityId) ||
+                const DeepCollectionEquality()
+                    .equals(other.activityId, activityId)) &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(other.voteId, voteId) ||
+                const DeepCollectionEquality().equals(other.voteId, voteId)) &&
+            (identical(other.policyEvaluations, policyEvaluations) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyEvaluations, policyEvaluations)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(activityId) ^
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(voteId) ^
+      const DeepCollectionEquality().hash(policyEvaluations) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      runtimeType.hashCode;
+}
+
+extension $ActivityV1PolicyEvaluationExtension on ActivityV1PolicyEvaluation {
+  ActivityV1PolicyEvaluation copyWith(
+      {String? id,
+      String? activityId,
+      String? organizationId,
+      String? voteId,
+      List<UmpV1PolicyEvaluation>? policyEvaluations,
+      ExternalDataV1Timestamp? createdAt}) {
+    return ActivityV1PolicyEvaluation(
+        id: id ?? this.id,
+        activityId: activityId ?? this.activityId,
+        organizationId: organizationId ?? this.organizationId,
+        voteId: voteId ?? this.voteId,
+        policyEvaluations: policyEvaluations ?? this.policyEvaluations,
+        createdAt: createdAt ?? this.createdAt);
+  }
+
+  ActivityV1PolicyEvaluation copyWithWrapped(
+      {Wrapped<String>? id,
+      Wrapped<String>? activityId,
+      Wrapped<String>? organizationId,
+      Wrapped<String>? voteId,
+      Wrapped<List<UmpV1PolicyEvaluation>>? policyEvaluations,
+      Wrapped<ExternalDataV1Timestamp>? createdAt}) {
+    return ActivityV1PolicyEvaluation(
+        id: (id != null ? id.value : this.id),
+        activityId: (activityId != null ? activityId.value : this.activityId),
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        voteId: (voteId != null ? voteId.value : this.voteId),
+        policyEvaluations: (policyEvaluations != null
+            ? policyEvaluations.value
+            : this.policyEvaluations),
+        createdAt: (createdAt != null ? createdAt.value : this.createdAt));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class DataV1Address {
   const DataV1Address({
     this.format,
@@ -23790,6 +25720,152 @@ extension $DataV1AddressExtension on DataV1Address {
     return DataV1Address(
         format: (format != null ? format.value : this.format),
         address: (address != null ? address.value : this.address));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DataV1SmartContractInterface {
+  const DataV1SmartContractInterface({
+    required this.organizationId,
+    required this.smartContractInterfaceId,
+    required this.smartContractAddress,
+    required this.smartContractInterface,
+    required this.type,
+    required this.label,
+    required this.notes,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory DataV1SmartContractInterface.fromJson(Map<String, dynamic> json) =>
+      _$DataV1SmartContractInterfaceFromJson(json);
+
+  static const toJsonFactory = _$DataV1SmartContractInterfaceToJson;
+  Map<String, dynamic> toJson() => _$DataV1SmartContractInterfaceToJson(this);
+
+  @JsonKey(name: 'organizationId')
+  final String organizationId;
+  @JsonKey(name: 'smartContractInterfaceId')
+  final String smartContractInterfaceId;
+  @JsonKey(name: 'smartContractAddress')
+  final String smartContractAddress;
+  @JsonKey(name: 'smartContractInterface')
+  final String smartContractInterface;
+  @JsonKey(name: 'type')
+  final String type;
+  @JsonKey(name: 'label')
+  final String label;
+  @JsonKey(name: 'notes')
+  final String notes;
+  @JsonKey(name: 'createdAt')
+  final ExternalDataV1Timestamp createdAt;
+  @JsonKey(name: 'updatedAt')
+  final ExternalDataV1Timestamp updatedAt;
+  static const fromJsonFactory = _$DataV1SmartContractInterfaceFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DataV1SmartContractInterface &&
+            (identical(other.organizationId, organizationId) ||
+                const DeepCollectionEquality()
+                    .equals(other.organizationId, organizationId)) &&
+            (identical(
+                    other.smartContractInterfaceId, smartContractInterfaceId) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterfaceId,
+                    smartContractInterfaceId)) &&
+            (identical(other.smartContractAddress, smartContractAddress) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractAddress, smartContractAddress)) &&
+            (identical(other.smartContractInterface, smartContractInterface) ||
+                const DeepCollectionEquality().equals(
+                    other.smartContractInterface, smartContractInterface)) &&
+            (identical(other.type, type) ||
+                const DeepCollectionEquality().equals(other.type, type)) &&
+            (identical(other.label, label) ||
+                const DeepCollectionEquality().equals(other.label, label)) &&
+            (identical(other.notes, notes) ||
+                const DeepCollectionEquality().equals(other.notes, notes)) &&
+            (identical(other.createdAt, createdAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.createdAt, createdAt)) &&
+            (identical(other.updatedAt, updatedAt) ||
+                const DeepCollectionEquality()
+                    .equals(other.updatedAt, updatedAt)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(organizationId) ^
+      const DeepCollectionEquality().hash(smartContractInterfaceId) ^
+      const DeepCollectionEquality().hash(smartContractAddress) ^
+      const DeepCollectionEquality().hash(smartContractInterface) ^
+      const DeepCollectionEquality().hash(type) ^
+      const DeepCollectionEquality().hash(label) ^
+      const DeepCollectionEquality().hash(notes) ^
+      const DeepCollectionEquality().hash(createdAt) ^
+      const DeepCollectionEquality().hash(updatedAt) ^
+      runtimeType.hashCode;
+}
+
+extension $DataV1SmartContractInterfaceExtension
+    on DataV1SmartContractInterface {
+  DataV1SmartContractInterface copyWith(
+      {String? organizationId,
+      String? smartContractInterfaceId,
+      String? smartContractAddress,
+      String? smartContractInterface,
+      String? type,
+      String? label,
+      String? notes,
+      ExternalDataV1Timestamp? createdAt,
+      ExternalDataV1Timestamp? updatedAt}) {
+    return DataV1SmartContractInterface(
+        organizationId: organizationId ?? this.organizationId,
+        smartContractInterfaceId:
+            smartContractInterfaceId ?? this.smartContractInterfaceId,
+        smartContractAddress: smartContractAddress ?? this.smartContractAddress,
+        smartContractInterface:
+            smartContractInterface ?? this.smartContractInterface,
+        type: type ?? this.type,
+        label: label ?? this.label,
+        notes: notes ?? this.notes,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt);
+  }
+
+  DataV1SmartContractInterface copyWithWrapped(
+      {Wrapped<String>? organizationId,
+      Wrapped<String>? smartContractInterfaceId,
+      Wrapped<String>? smartContractAddress,
+      Wrapped<String>? smartContractInterface,
+      Wrapped<String>? type,
+      Wrapped<String>? label,
+      Wrapped<String>? notes,
+      Wrapped<ExternalDataV1Timestamp>? createdAt,
+      Wrapped<ExternalDataV1Timestamp>? updatedAt}) {
+    return DataV1SmartContractInterface(
+        organizationId: (organizationId != null
+            ? organizationId.value
+            : this.organizationId),
+        smartContractInterfaceId: (smartContractInterfaceId != null
+            ? smartContractInterfaceId.value
+            : this.smartContractInterfaceId),
+        smartContractAddress: (smartContractAddress != null
+            ? smartContractAddress.value
+            : this.smartContractAddress),
+        smartContractInterface: (smartContractInterface != null
+            ? smartContractInterface.value
+            : this.smartContractInterface),
+        type: (type != null ? type.value : this.type),
+        label: (label != null ? label.value : this.label),
+        notes: (notes != null ? notes.value : this.notes),
+        createdAt: (createdAt != null ? createdAt.value : this.createdAt),
+        updatedAt: (updatedAt != null ? updatedAt.value : this.updatedAt));
   }
 }
 
@@ -23958,6 +26034,64 @@ extension $ExternalDataV1TimestampExtension on ExternalDataV1Timestamp {
     return ExternalDataV1Timestamp(
         seconds: (seconds != null ? seconds.value : this.seconds),
         nanos: (nanos != null ? nanos.value : this.nanos));
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class UmpV1PolicyEvaluation {
+  const UmpV1PolicyEvaluation({
+    this.policyId,
+    this.outcome,
+  });
+
+  factory UmpV1PolicyEvaluation.fromJson(Map<String, dynamic> json) =>
+      _$UmpV1PolicyEvaluationFromJson(json);
+
+  static const toJsonFactory = _$UmpV1PolicyEvaluationToJson;
+  Map<String, dynamic> toJson() => _$UmpV1PolicyEvaluationToJson(this);
+
+  @JsonKey(name: 'policyId')
+  final String? policyId;
+  @JsonKey(
+    name: 'outcome',
+    toJson: outcomeNullableToJson,
+    fromJson: outcomeNullableFromJson,
+  )
+  final enums.Outcome? outcome;
+  static const fromJsonFactory = _$UmpV1PolicyEvaluationFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is UmpV1PolicyEvaluation &&
+            (identical(other.policyId, policyId) ||
+                const DeepCollectionEquality()
+                    .equals(other.policyId, policyId)) &&
+            (identical(other.outcome, outcome) ||
+                const DeepCollectionEquality().equals(other.outcome, outcome)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(policyId) ^
+      const DeepCollectionEquality().hash(outcome) ^
+      runtimeType.hashCode;
+}
+
+extension $UmpV1PolicyEvaluationExtension on UmpV1PolicyEvaluation {
+  UmpV1PolicyEvaluation copyWith({String? policyId, enums.Outcome? outcome}) {
+    return UmpV1PolicyEvaluation(
+        policyId: policyId ?? this.policyId, outcome: outcome ?? this.outcome);
+  }
+
+  UmpV1PolicyEvaluation copyWithWrapped(
+      {Wrapped<String?>? policyId, Wrapped<enums.Outcome?>? outcome}) {
+    return UmpV1PolicyEvaluation(
+        policyId: (policyId != null ? policyId.value : this.policyId),
+        outcome: (outcome != null ? outcome.value : this.outcome));
   }
 }
 
@@ -25381,6 +27515,89 @@ List<enums.CreateReadWriteSessionRequestType>?
       .toList();
 }
 
+String? createSmartContractInterfaceRequestTypeNullableToJson(
+    enums.CreateSmartContractInterfaceRequestType?
+        createSmartContractInterfaceRequestType) {
+  return createSmartContractInterfaceRequestType?.value;
+}
+
+String? createSmartContractInterfaceRequestTypeToJson(
+    enums.CreateSmartContractInterfaceRequestType
+        createSmartContractInterfaceRequestType) {
+  return createSmartContractInterfaceRequestType.value;
+}
+
+enums.CreateSmartContractInterfaceRequestType
+    createSmartContractInterfaceRequestTypeFromJson(
+  Object? createSmartContractInterfaceRequestType, [
+  enums.CreateSmartContractInterfaceRequestType? defaultValue,
+]) {
+  return enums.CreateSmartContractInterfaceRequestType.values.firstWhereOrNull(
+          (e) => e.value == createSmartContractInterfaceRequestType) ??
+      defaultValue ??
+      enums.CreateSmartContractInterfaceRequestType.swaggerGeneratedUnknown;
+}
+
+enums.CreateSmartContractInterfaceRequestType?
+    createSmartContractInterfaceRequestTypeNullableFromJson(
+  Object? createSmartContractInterfaceRequestType, [
+  enums.CreateSmartContractInterfaceRequestType? defaultValue,
+]) {
+  if (createSmartContractInterfaceRequestType == null) {
+    return null;
+  }
+  return enums.CreateSmartContractInterfaceRequestType.values.firstWhereOrNull(
+          (e) => e.value == createSmartContractInterfaceRequestType) ??
+      defaultValue;
+}
+
+String createSmartContractInterfaceRequestTypeExplodedListToJson(
+    List<enums.CreateSmartContractInterfaceRequestType>?
+        createSmartContractInterfaceRequestType) {
+  return createSmartContractInterfaceRequestType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> createSmartContractInterfaceRequestTypeListToJson(
+    List<enums.CreateSmartContractInterfaceRequestType>?
+        createSmartContractInterfaceRequestType) {
+  if (createSmartContractInterfaceRequestType == null) {
+    return [];
+  }
+
+  return createSmartContractInterfaceRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.CreateSmartContractInterfaceRequestType>
+    createSmartContractInterfaceRequestTypeListFromJson(
+  List? createSmartContractInterfaceRequestType, [
+  List<enums.CreateSmartContractInterfaceRequestType>? defaultValue,
+]) {
+  if (createSmartContractInterfaceRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return createSmartContractInterfaceRequestType
+      .map((e) => createSmartContractInterfaceRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.CreateSmartContractInterfaceRequestType>?
+    createSmartContractInterfaceRequestTypeNullableListFromJson(
+  List? createSmartContractInterfaceRequestType, [
+  List<enums.CreateSmartContractInterfaceRequestType>? defaultValue,
+]) {
+  if (createSmartContractInterfaceRequestType == null) {
+    return defaultValue;
+  }
+
+  return createSmartContractInterfaceRequestType
+      .map((e) => createSmartContractInterfaceRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? createSubOrganizationRequestTypeNullableToJson(
     enums.CreateSubOrganizationRequestType? createSubOrganizationRequestType) {
   return createSubOrganizationRequestType?.value;
@@ -26410,6 +28627,89 @@ List<enums.DeletePrivateKeysRequestType>?
       .toList();
 }
 
+String? deleteSmartContractInterfaceRequestTypeNullableToJson(
+    enums.DeleteSmartContractInterfaceRequestType?
+        deleteSmartContractInterfaceRequestType) {
+  return deleteSmartContractInterfaceRequestType?.value;
+}
+
+String? deleteSmartContractInterfaceRequestTypeToJson(
+    enums.DeleteSmartContractInterfaceRequestType
+        deleteSmartContractInterfaceRequestType) {
+  return deleteSmartContractInterfaceRequestType.value;
+}
+
+enums.DeleteSmartContractInterfaceRequestType
+    deleteSmartContractInterfaceRequestTypeFromJson(
+  Object? deleteSmartContractInterfaceRequestType, [
+  enums.DeleteSmartContractInterfaceRequestType? defaultValue,
+]) {
+  return enums.DeleteSmartContractInterfaceRequestType.values.firstWhereOrNull(
+          (e) => e.value == deleteSmartContractInterfaceRequestType) ??
+      defaultValue ??
+      enums.DeleteSmartContractInterfaceRequestType.swaggerGeneratedUnknown;
+}
+
+enums.DeleteSmartContractInterfaceRequestType?
+    deleteSmartContractInterfaceRequestTypeNullableFromJson(
+  Object? deleteSmartContractInterfaceRequestType, [
+  enums.DeleteSmartContractInterfaceRequestType? defaultValue,
+]) {
+  if (deleteSmartContractInterfaceRequestType == null) {
+    return null;
+  }
+  return enums.DeleteSmartContractInterfaceRequestType.values.firstWhereOrNull(
+          (e) => e.value == deleteSmartContractInterfaceRequestType) ??
+      defaultValue;
+}
+
+String deleteSmartContractInterfaceRequestTypeExplodedListToJson(
+    List<enums.DeleteSmartContractInterfaceRequestType>?
+        deleteSmartContractInterfaceRequestType) {
+  return deleteSmartContractInterfaceRequestType
+          ?.map((e) => e.value!)
+          .join(',') ??
+      '';
+}
+
+List<String> deleteSmartContractInterfaceRequestTypeListToJson(
+    List<enums.DeleteSmartContractInterfaceRequestType>?
+        deleteSmartContractInterfaceRequestType) {
+  if (deleteSmartContractInterfaceRequestType == null) {
+    return [];
+  }
+
+  return deleteSmartContractInterfaceRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.DeleteSmartContractInterfaceRequestType>
+    deleteSmartContractInterfaceRequestTypeListFromJson(
+  List? deleteSmartContractInterfaceRequestType, [
+  List<enums.DeleteSmartContractInterfaceRequestType>? defaultValue,
+]) {
+  if (deleteSmartContractInterfaceRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return deleteSmartContractInterfaceRequestType
+      .map((e) => deleteSmartContractInterfaceRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.DeleteSmartContractInterfaceRequestType>?
+    deleteSmartContractInterfaceRequestTypeNullableListFromJson(
+  List? deleteSmartContractInterfaceRequestType, [
+  List<enums.DeleteSmartContractInterfaceRequestType>? defaultValue,
+]) {
+  if (deleteSmartContractInterfaceRequestType == null) {
+    return defaultValue;
+  }
+
+  return deleteSmartContractInterfaceRequestType
+      .map((e) => deleteSmartContractInterfaceRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? deleteSubOrganizationRequestTypeNullableToJson(
     enums.DeleteSubOrganizationRequestType? deleteSubOrganizationRequestType) {
   return deleteSubOrganizationRequestType?.value;
@@ -27126,6 +29426,367 @@ List<enums.FeatureName>? featureNameNullableListFromJson(
   return featureName.map((e) => featureNameFromJson(e.toString())).toList();
 }
 
+String? fiatOnRampBlockchainNetworkNullableToJson(
+    enums.FiatOnRampBlockchainNetwork? fiatOnRampBlockchainNetwork) {
+  return fiatOnRampBlockchainNetwork?.value;
+}
+
+String? fiatOnRampBlockchainNetworkToJson(
+    enums.FiatOnRampBlockchainNetwork fiatOnRampBlockchainNetwork) {
+  return fiatOnRampBlockchainNetwork.value;
+}
+
+enums.FiatOnRampBlockchainNetwork fiatOnRampBlockchainNetworkFromJson(
+  Object? fiatOnRampBlockchainNetwork, [
+  enums.FiatOnRampBlockchainNetwork? defaultValue,
+]) {
+  return enums.FiatOnRampBlockchainNetwork.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampBlockchainNetwork) ??
+      defaultValue ??
+      enums.FiatOnRampBlockchainNetwork.swaggerGeneratedUnknown;
+}
+
+enums.FiatOnRampBlockchainNetwork? fiatOnRampBlockchainNetworkNullableFromJson(
+  Object? fiatOnRampBlockchainNetwork, [
+  enums.FiatOnRampBlockchainNetwork? defaultValue,
+]) {
+  if (fiatOnRampBlockchainNetwork == null) {
+    return null;
+  }
+  return enums.FiatOnRampBlockchainNetwork.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampBlockchainNetwork) ??
+      defaultValue;
+}
+
+String fiatOnRampBlockchainNetworkExplodedListToJson(
+    List<enums.FiatOnRampBlockchainNetwork>? fiatOnRampBlockchainNetwork) {
+  return fiatOnRampBlockchainNetwork?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> fiatOnRampBlockchainNetworkListToJson(
+    List<enums.FiatOnRampBlockchainNetwork>? fiatOnRampBlockchainNetwork) {
+  if (fiatOnRampBlockchainNetwork == null) {
+    return [];
+  }
+
+  return fiatOnRampBlockchainNetwork.map((e) => e.value!).toList();
+}
+
+List<enums.FiatOnRampBlockchainNetwork> fiatOnRampBlockchainNetworkListFromJson(
+  List? fiatOnRampBlockchainNetwork, [
+  List<enums.FiatOnRampBlockchainNetwork>? defaultValue,
+]) {
+  if (fiatOnRampBlockchainNetwork == null) {
+    return defaultValue ?? [];
+  }
+
+  return fiatOnRampBlockchainNetwork
+      .map((e) => fiatOnRampBlockchainNetworkFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FiatOnRampBlockchainNetwork>?
+    fiatOnRampBlockchainNetworkNullableListFromJson(
+  List? fiatOnRampBlockchainNetwork, [
+  List<enums.FiatOnRampBlockchainNetwork>? defaultValue,
+]) {
+  if (fiatOnRampBlockchainNetwork == null) {
+    return defaultValue;
+  }
+
+  return fiatOnRampBlockchainNetwork
+      .map((e) => fiatOnRampBlockchainNetworkFromJson(e.toString()))
+      .toList();
+}
+
+String? fiatOnRampCryptoCurrencyNullableToJson(
+    enums.FiatOnRampCryptoCurrency? fiatOnRampCryptoCurrency) {
+  return fiatOnRampCryptoCurrency?.value;
+}
+
+String? fiatOnRampCryptoCurrencyToJson(
+    enums.FiatOnRampCryptoCurrency fiatOnRampCryptoCurrency) {
+  return fiatOnRampCryptoCurrency.value;
+}
+
+enums.FiatOnRampCryptoCurrency fiatOnRampCryptoCurrencyFromJson(
+  Object? fiatOnRampCryptoCurrency, [
+  enums.FiatOnRampCryptoCurrency? defaultValue,
+]) {
+  return enums.FiatOnRampCryptoCurrency.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampCryptoCurrency) ??
+      defaultValue ??
+      enums.FiatOnRampCryptoCurrency.swaggerGeneratedUnknown;
+}
+
+enums.FiatOnRampCryptoCurrency? fiatOnRampCryptoCurrencyNullableFromJson(
+  Object? fiatOnRampCryptoCurrency, [
+  enums.FiatOnRampCryptoCurrency? defaultValue,
+]) {
+  if (fiatOnRampCryptoCurrency == null) {
+    return null;
+  }
+  return enums.FiatOnRampCryptoCurrency.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampCryptoCurrency) ??
+      defaultValue;
+}
+
+String fiatOnRampCryptoCurrencyExplodedListToJson(
+    List<enums.FiatOnRampCryptoCurrency>? fiatOnRampCryptoCurrency) {
+  return fiatOnRampCryptoCurrency?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> fiatOnRampCryptoCurrencyListToJson(
+    List<enums.FiatOnRampCryptoCurrency>? fiatOnRampCryptoCurrency) {
+  if (fiatOnRampCryptoCurrency == null) {
+    return [];
+  }
+
+  return fiatOnRampCryptoCurrency.map((e) => e.value!).toList();
+}
+
+List<enums.FiatOnRampCryptoCurrency> fiatOnRampCryptoCurrencyListFromJson(
+  List? fiatOnRampCryptoCurrency, [
+  List<enums.FiatOnRampCryptoCurrency>? defaultValue,
+]) {
+  if (fiatOnRampCryptoCurrency == null) {
+    return defaultValue ?? [];
+  }
+
+  return fiatOnRampCryptoCurrency
+      .map((e) => fiatOnRampCryptoCurrencyFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FiatOnRampCryptoCurrency>?
+    fiatOnRampCryptoCurrencyNullableListFromJson(
+  List? fiatOnRampCryptoCurrency, [
+  List<enums.FiatOnRampCryptoCurrency>? defaultValue,
+]) {
+  if (fiatOnRampCryptoCurrency == null) {
+    return defaultValue;
+  }
+
+  return fiatOnRampCryptoCurrency
+      .map((e) => fiatOnRampCryptoCurrencyFromJson(e.toString()))
+      .toList();
+}
+
+String? fiatOnRampCurrencyNullableToJson(
+    enums.FiatOnRampCurrency? fiatOnRampCurrency) {
+  return fiatOnRampCurrency?.value;
+}
+
+String? fiatOnRampCurrencyToJson(enums.FiatOnRampCurrency fiatOnRampCurrency) {
+  return fiatOnRampCurrency.value;
+}
+
+enums.FiatOnRampCurrency fiatOnRampCurrencyFromJson(
+  Object? fiatOnRampCurrency, [
+  enums.FiatOnRampCurrency? defaultValue,
+]) {
+  return enums.FiatOnRampCurrency.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampCurrency) ??
+      defaultValue ??
+      enums.FiatOnRampCurrency.swaggerGeneratedUnknown;
+}
+
+enums.FiatOnRampCurrency? fiatOnRampCurrencyNullableFromJson(
+  Object? fiatOnRampCurrency, [
+  enums.FiatOnRampCurrency? defaultValue,
+]) {
+  if (fiatOnRampCurrency == null) {
+    return null;
+  }
+  return enums.FiatOnRampCurrency.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampCurrency) ??
+      defaultValue;
+}
+
+String fiatOnRampCurrencyExplodedListToJson(
+    List<enums.FiatOnRampCurrency>? fiatOnRampCurrency) {
+  return fiatOnRampCurrency?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> fiatOnRampCurrencyListToJson(
+    List<enums.FiatOnRampCurrency>? fiatOnRampCurrency) {
+  if (fiatOnRampCurrency == null) {
+    return [];
+  }
+
+  return fiatOnRampCurrency.map((e) => e.value!).toList();
+}
+
+List<enums.FiatOnRampCurrency> fiatOnRampCurrencyListFromJson(
+  List? fiatOnRampCurrency, [
+  List<enums.FiatOnRampCurrency>? defaultValue,
+]) {
+  if (fiatOnRampCurrency == null) {
+    return defaultValue ?? [];
+  }
+
+  return fiatOnRampCurrency
+      .map((e) => fiatOnRampCurrencyFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FiatOnRampCurrency>? fiatOnRampCurrencyNullableListFromJson(
+  List? fiatOnRampCurrency, [
+  List<enums.FiatOnRampCurrency>? defaultValue,
+]) {
+  if (fiatOnRampCurrency == null) {
+    return defaultValue;
+  }
+
+  return fiatOnRampCurrency
+      .map((e) => fiatOnRampCurrencyFromJson(e.toString()))
+      .toList();
+}
+
+String? fiatOnRampPaymentMethodNullableToJson(
+    enums.FiatOnRampPaymentMethod? fiatOnRampPaymentMethod) {
+  return fiatOnRampPaymentMethod?.value;
+}
+
+String? fiatOnRampPaymentMethodToJson(
+    enums.FiatOnRampPaymentMethod fiatOnRampPaymentMethod) {
+  return fiatOnRampPaymentMethod.value;
+}
+
+enums.FiatOnRampPaymentMethod fiatOnRampPaymentMethodFromJson(
+  Object? fiatOnRampPaymentMethod, [
+  enums.FiatOnRampPaymentMethod? defaultValue,
+]) {
+  return enums.FiatOnRampPaymentMethod.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampPaymentMethod) ??
+      defaultValue ??
+      enums.FiatOnRampPaymentMethod.swaggerGeneratedUnknown;
+}
+
+enums.FiatOnRampPaymentMethod? fiatOnRampPaymentMethodNullableFromJson(
+  Object? fiatOnRampPaymentMethod, [
+  enums.FiatOnRampPaymentMethod? defaultValue,
+]) {
+  if (fiatOnRampPaymentMethod == null) {
+    return null;
+  }
+  return enums.FiatOnRampPaymentMethod.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampPaymentMethod) ??
+      defaultValue;
+}
+
+String fiatOnRampPaymentMethodExplodedListToJson(
+    List<enums.FiatOnRampPaymentMethod>? fiatOnRampPaymentMethod) {
+  return fiatOnRampPaymentMethod?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> fiatOnRampPaymentMethodListToJson(
+    List<enums.FiatOnRampPaymentMethod>? fiatOnRampPaymentMethod) {
+  if (fiatOnRampPaymentMethod == null) {
+    return [];
+  }
+
+  return fiatOnRampPaymentMethod.map((e) => e.value!).toList();
+}
+
+List<enums.FiatOnRampPaymentMethod> fiatOnRampPaymentMethodListFromJson(
+  List? fiatOnRampPaymentMethod, [
+  List<enums.FiatOnRampPaymentMethod>? defaultValue,
+]) {
+  if (fiatOnRampPaymentMethod == null) {
+    return defaultValue ?? [];
+  }
+
+  return fiatOnRampPaymentMethod
+      .map((e) => fiatOnRampPaymentMethodFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FiatOnRampPaymentMethod>?
+    fiatOnRampPaymentMethodNullableListFromJson(
+  List? fiatOnRampPaymentMethod, [
+  List<enums.FiatOnRampPaymentMethod>? defaultValue,
+]) {
+  if (fiatOnRampPaymentMethod == null) {
+    return defaultValue;
+  }
+
+  return fiatOnRampPaymentMethod
+      .map((e) => fiatOnRampPaymentMethodFromJson(e.toString()))
+      .toList();
+}
+
+String? fiatOnRampProviderNullableToJson(
+    enums.FiatOnRampProvider? fiatOnRampProvider) {
+  return fiatOnRampProvider?.value;
+}
+
+String? fiatOnRampProviderToJson(enums.FiatOnRampProvider fiatOnRampProvider) {
+  return fiatOnRampProvider.value;
+}
+
+enums.FiatOnRampProvider fiatOnRampProviderFromJson(
+  Object? fiatOnRampProvider, [
+  enums.FiatOnRampProvider? defaultValue,
+]) {
+  return enums.FiatOnRampProvider.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampProvider) ??
+      defaultValue ??
+      enums.FiatOnRampProvider.swaggerGeneratedUnknown;
+}
+
+enums.FiatOnRampProvider? fiatOnRampProviderNullableFromJson(
+  Object? fiatOnRampProvider, [
+  enums.FiatOnRampProvider? defaultValue,
+]) {
+  if (fiatOnRampProvider == null) {
+    return null;
+  }
+  return enums.FiatOnRampProvider.values
+          .firstWhereOrNull((e) => e.value == fiatOnRampProvider) ??
+      defaultValue;
+}
+
+String fiatOnRampProviderExplodedListToJson(
+    List<enums.FiatOnRampProvider>? fiatOnRampProvider) {
+  return fiatOnRampProvider?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> fiatOnRampProviderListToJson(
+    List<enums.FiatOnRampProvider>? fiatOnRampProvider) {
+  if (fiatOnRampProvider == null) {
+    return [];
+  }
+
+  return fiatOnRampProvider.map((e) => e.value!).toList();
+}
+
+List<enums.FiatOnRampProvider> fiatOnRampProviderListFromJson(
+  List? fiatOnRampProvider, [
+  List<enums.FiatOnRampProvider>? defaultValue,
+]) {
+  if (fiatOnRampProvider == null) {
+    return defaultValue ?? [];
+  }
+
+  return fiatOnRampProvider
+      .map((e) => fiatOnRampProviderFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.FiatOnRampProvider>? fiatOnRampProviderNullableListFromJson(
+  List? fiatOnRampProvider, [
+  List<enums.FiatOnRampProvider>? defaultValue,
+]) {
+  if (fiatOnRampProvider == null) {
+    return defaultValue;
+  }
+
+  return fiatOnRampProvider
+      .map((e) => fiatOnRampProviderFromJson(e.toString()))
+      .toList();
+}
+
 String? hashFunctionNullableToJson(enums.HashFunction? hashFunction) {
   return hashFunction?.value;
 }
@@ -27333,6 +29994,79 @@ List<enums.ImportWalletRequestType>?
 
   return importWalletRequestType
       .map((e) => importWalletRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? initFiatOnRampRequestTypeNullableToJson(
+    enums.InitFiatOnRampRequestType? initFiatOnRampRequestType) {
+  return initFiatOnRampRequestType?.value;
+}
+
+String? initFiatOnRampRequestTypeToJson(
+    enums.InitFiatOnRampRequestType initFiatOnRampRequestType) {
+  return initFiatOnRampRequestType.value;
+}
+
+enums.InitFiatOnRampRequestType initFiatOnRampRequestTypeFromJson(
+  Object? initFiatOnRampRequestType, [
+  enums.InitFiatOnRampRequestType? defaultValue,
+]) {
+  return enums.InitFiatOnRampRequestType.values
+          .firstWhereOrNull((e) => e.value == initFiatOnRampRequestType) ??
+      defaultValue ??
+      enums.InitFiatOnRampRequestType.swaggerGeneratedUnknown;
+}
+
+enums.InitFiatOnRampRequestType? initFiatOnRampRequestTypeNullableFromJson(
+  Object? initFiatOnRampRequestType, [
+  enums.InitFiatOnRampRequestType? defaultValue,
+]) {
+  if (initFiatOnRampRequestType == null) {
+    return null;
+  }
+  return enums.InitFiatOnRampRequestType.values
+          .firstWhereOrNull((e) => e.value == initFiatOnRampRequestType) ??
+      defaultValue;
+}
+
+String initFiatOnRampRequestTypeExplodedListToJson(
+    List<enums.InitFiatOnRampRequestType>? initFiatOnRampRequestType) {
+  return initFiatOnRampRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> initFiatOnRampRequestTypeListToJson(
+    List<enums.InitFiatOnRampRequestType>? initFiatOnRampRequestType) {
+  if (initFiatOnRampRequestType == null) {
+    return [];
+  }
+
+  return initFiatOnRampRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.InitFiatOnRampRequestType> initFiatOnRampRequestTypeListFromJson(
+  List? initFiatOnRampRequestType, [
+  List<enums.InitFiatOnRampRequestType>? defaultValue,
+]) {
+  if (initFiatOnRampRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return initFiatOnRampRequestType
+      .map((e) => initFiatOnRampRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.InitFiatOnRampRequestType>?
+    initFiatOnRampRequestTypeNullableListFromJson(
+  List? initFiatOnRampRequestType, [
+  List<enums.InitFiatOnRampRequestType>? defaultValue,
+]) {
+  if (initFiatOnRampRequestType == null) {
+    return defaultValue;
+  }
+
+  return initFiatOnRampRequestType
+      .map((e) => initFiatOnRampRequestTypeFromJson(e.toString()))
       .toList();
 }
 
@@ -28123,6 +30857,68 @@ List<enums.OtpLoginRequestType>? otpLoginRequestTypeNullableListFromJson(
   return otpLoginRequestType
       .map((e) => otpLoginRequestTypeFromJson(e.toString()))
       .toList();
+}
+
+String? outcomeNullableToJson(enums.Outcome? outcome) {
+  return outcome?.value;
+}
+
+String? outcomeToJson(enums.Outcome outcome) {
+  return outcome.value;
+}
+
+enums.Outcome outcomeFromJson(
+  Object? outcome, [
+  enums.Outcome? defaultValue,
+]) {
+  return enums.Outcome.values.firstWhereOrNull((e) => e.value == outcome) ??
+      defaultValue ??
+      enums.Outcome.swaggerGeneratedUnknown;
+}
+
+enums.Outcome? outcomeNullableFromJson(
+  Object? outcome, [
+  enums.Outcome? defaultValue,
+]) {
+  if (outcome == null) {
+    return null;
+  }
+  return enums.Outcome.values.firstWhereOrNull((e) => e.value == outcome) ??
+      defaultValue;
+}
+
+String outcomeExplodedListToJson(List<enums.Outcome>? outcome) {
+  return outcome?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> outcomeListToJson(List<enums.Outcome>? outcome) {
+  if (outcome == null) {
+    return [];
+  }
+
+  return outcome.map((e) => e.value!).toList();
+}
+
+List<enums.Outcome> outcomeListFromJson(
+  List? outcome, [
+  List<enums.Outcome>? defaultValue,
+]) {
+  if (outcome == null) {
+    return defaultValue ?? [];
+  }
+
+  return outcome.map((e) => outcomeFromJson(e.toString())).toList();
+}
+
+List<enums.Outcome>? outcomeNullableListFromJson(
+  List? outcome, [
+  List<enums.Outcome>? defaultValue,
+]) {
+  if (outcome == null) {
+    return defaultValue;
+  }
+
+  return outcome.map((e) => outcomeFromJson(e.toString())).toList();
 }
 
 String? pathFormatNullableToJson(enums.PathFormat? pathFormat) {
@@ -28965,6 +31761,79 @@ List<enums.SignTransactionRequestType>?
       .toList();
 }
 
+String? smartContractInterfaceTypeNullableToJson(
+    enums.SmartContractInterfaceType? smartContractInterfaceType) {
+  return smartContractInterfaceType?.value;
+}
+
+String? smartContractInterfaceTypeToJson(
+    enums.SmartContractInterfaceType smartContractInterfaceType) {
+  return smartContractInterfaceType.value;
+}
+
+enums.SmartContractInterfaceType smartContractInterfaceTypeFromJson(
+  Object? smartContractInterfaceType, [
+  enums.SmartContractInterfaceType? defaultValue,
+]) {
+  return enums.SmartContractInterfaceType.values
+          .firstWhereOrNull((e) => e.value == smartContractInterfaceType) ??
+      defaultValue ??
+      enums.SmartContractInterfaceType.swaggerGeneratedUnknown;
+}
+
+enums.SmartContractInterfaceType? smartContractInterfaceTypeNullableFromJson(
+  Object? smartContractInterfaceType, [
+  enums.SmartContractInterfaceType? defaultValue,
+]) {
+  if (smartContractInterfaceType == null) {
+    return null;
+  }
+  return enums.SmartContractInterfaceType.values
+          .firstWhereOrNull((e) => e.value == smartContractInterfaceType) ??
+      defaultValue;
+}
+
+String smartContractInterfaceTypeExplodedListToJson(
+    List<enums.SmartContractInterfaceType>? smartContractInterfaceType) {
+  return smartContractInterfaceType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> smartContractInterfaceTypeListToJson(
+    List<enums.SmartContractInterfaceType>? smartContractInterfaceType) {
+  if (smartContractInterfaceType == null) {
+    return [];
+  }
+
+  return smartContractInterfaceType.map((e) => e.value!).toList();
+}
+
+List<enums.SmartContractInterfaceType> smartContractInterfaceTypeListFromJson(
+  List? smartContractInterfaceType, [
+  List<enums.SmartContractInterfaceType>? defaultValue,
+]) {
+  if (smartContractInterfaceType == null) {
+    return defaultValue ?? [];
+  }
+
+  return smartContractInterfaceType
+      .map((e) => smartContractInterfaceTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.SmartContractInterfaceType>?
+    smartContractInterfaceTypeNullableListFromJson(
+  List? smartContractInterfaceType, [
+  List<enums.SmartContractInterfaceType>? defaultValue,
+]) {
+  if (smartContractInterfaceType == null) {
+    return defaultValue;
+  }
+
+  return smartContractInterfaceType
+      .map((e) => smartContractInterfaceTypeFromJson(e.toString()))
+      .toList();
+}
+
 String? stampLoginRequestTypeNullableToJson(
     enums.StampLoginRequestType? stampLoginRequestType) {
   return stampLoginRequestType?.value;
@@ -29389,6 +32258,229 @@ List<enums.UpdateRootQuorumRequestType>?
 
   return updateRootQuorumRequestType
       .map((e) => updateRootQuorumRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? updateUserEmailRequestTypeNullableToJson(
+    enums.UpdateUserEmailRequestType? updateUserEmailRequestType) {
+  return updateUserEmailRequestType?.value;
+}
+
+String? updateUserEmailRequestTypeToJson(
+    enums.UpdateUserEmailRequestType updateUserEmailRequestType) {
+  return updateUserEmailRequestType.value;
+}
+
+enums.UpdateUserEmailRequestType updateUserEmailRequestTypeFromJson(
+  Object? updateUserEmailRequestType, [
+  enums.UpdateUserEmailRequestType? defaultValue,
+]) {
+  return enums.UpdateUserEmailRequestType.values
+          .firstWhereOrNull((e) => e.value == updateUserEmailRequestType) ??
+      defaultValue ??
+      enums.UpdateUserEmailRequestType.swaggerGeneratedUnknown;
+}
+
+enums.UpdateUserEmailRequestType? updateUserEmailRequestTypeNullableFromJson(
+  Object? updateUserEmailRequestType, [
+  enums.UpdateUserEmailRequestType? defaultValue,
+]) {
+  if (updateUserEmailRequestType == null) {
+    return null;
+  }
+  return enums.UpdateUserEmailRequestType.values
+          .firstWhereOrNull((e) => e.value == updateUserEmailRequestType) ??
+      defaultValue;
+}
+
+String updateUserEmailRequestTypeExplodedListToJson(
+    List<enums.UpdateUserEmailRequestType>? updateUserEmailRequestType) {
+  return updateUserEmailRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> updateUserEmailRequestTypeListToJson(
+    List<enums.UpdateUserEmailRequestType>? updateUserEmailRequestType) {
+  if (updateUserEmailRequestType == null) {
+    return [];
+  }
+
+  return updateUserEmailRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.UpdateUserEmailRequestType> updateUserEmailRequestTypeListFromJson(
+  List? updateUserEmailRequestType, [
+  List<enums.UpdateUserEmailRequestType>? defaultValue,
+]) {
+  if (updateUserEmailRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return updateUserEmailRequestType
+      .map((e) => updateUserEmailRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.UpdateUserEmailRequestType>?
+    updateUserEmailRequestTypeNullableListFromJson(
+  List? updateUserEmailRequestType, [
+  List<enums.UpdateUserEmailRequestType>? defaultValue,
+]) {
+  if (updateUserEmailRequestType == null) {
+    return defaultValue;
+  }
+
+  return updateUserEmailRequestType
+      .map((e) => updateUserEmailRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? updateUserNameRequestTypeNullableToJson(
+    enums.UpdateUserNameRequestType? updateUserNameRequestType) {
+  return updateUserNameRequestType?.value;
+}
+
+String? updateUserNameRequestTypeToJson(
+    enums.UpdateUserNameRequestType updateUserNameRequestType) {
+  return updateUserNameRequestType.value;
+}
+
+enums.UpdateUserNameRequestType updateUserNameRequestTypeFromJson(
+  Object? updateUserNameRequestType, [
+  enums.UpdateUserNameRequestType? defaultValue,
+]) {
+  return enums.UpdateUserNameRequestType.values
+          .firstWhereOrNull((e) => e.value == updateUserNameRequestType) ??
+      defaultValue ??
+      enums.UpdateUserNameRequestType.swaggerGeneratedUnknown;
+}
+
+enums.UpdateUserNameRequestType? updateUserNameRequestTypeNullableFromJson(
+  Object? updateUserNameRequestType, [
+  enums.UpdateUserNameRequestType? defaultValue,
+]) {
+  if (updateUserNameRequestType == null) {
+    return null;
+  }
+  return enums.UpdateUserNameRequestType.values
+          .firstWhereOrNull((e) => e.value == updateUserNameRequestType) ??
+      defaultValue;
+}
+
+String updateUserNameRequestTypeExplodedListToJson(
+    List<enums.UpdateUserNameRequestType>? updateUserNameRequestType) {
+  return updateUserNameRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> updateUserNameRequestTypeListToJson(
+    List<enums.UpdateUserNameRequestType>? updateUserNameRequestType) {
+  if (updateUserNameRequestType == null) {
+    return [];
+  }
+
+  return updateUserNameRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.UpdateUserNameRequestType> updateUserNameRequestTypeListFromJson(
+  List? updateUserNameRequestType, [
+  List<enums.UpdateUserNameRequestType>? defaultValue,
+]) {
+  if (updateUserNameRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return updateUserNameRequestType
+      .map((e) => updateUserNameRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.UpdateUserNameRequestType>?
+    updateUserNameRequestTypeNullableListFromJson(
+  List? updateUserNameRequestType, [
+  List<enums.UpdateUserNameRequestType>? defaultValue,
+]) {
+  if (updateUserNameRequestType == null) {
+    return defaultValue;
+  }
+
+  return updateUserNameRequestType
+      .map((e) => updateUserNameRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+String? updateUserPhoneNumberRequestTypeNullableToJson(
+    enums.UpdateUserPhoneNumberRequestType? updateUserPhoneNumberRequestType) {
+  return updateUserPhoneNumberRequestType?.value;
+}
+
+String? updateUserPhoneNumberRequestTypeToJson(
+    enums.UpdateUserPhoneNumberRequestType updateUserPhoneNumberRequestType) {
+  return updateUserPhoneNumberRequestType.value;
+}
+
+enums.UpdateUserPhoneNumberRequestType updateUserPhoneNumberRequestTypeFromJson(
+  Object? updateUserPhoneNumberRequestType, [
+  enums.UpdateUserPhoneNumberRequestType? defaultValue,
+]) {
+  return enums.UpdateUserPhoneNumberRequestType.values.firstWhereOrNull(
+          (e) => e.value == updateUserPhoneNumberRequestType) ??
+      defaultValue ??
+      enums.UpdateUserPhoneNumberRequestType.swaggerGeneratedUnknown;
+}
+
+enums.UpdateUserPhoneNumberRequestType?
+    updateUserPhoneNumberRequestTypeNullableFromJson(
+  Object? updateUserPhoneNumberRequestType, [
+  enums.UpdateUserPhoneNumberRequestType? defaultValue,
+]) {
+  if (updateUserPhoneNumberRequestType == null) {
+    return null;
+  }
+  return enums.UpdateUserPhoneNumberRequestType.values.firstWhereOrNull(
+          (e) => e.value == updateUserPhoneNumberRequestType) ??
+      defaultValue;
+}
+
+String updateUserPhoneNumberRequestTypeExplodedListToJson(
+    List<enums.UpdateUserPhoneNumberRequestType>?
+        updateUserPhoneNumberRequestType) {
+  return updateUserPhoneNumberRequestType?.map((e) => e.value!).join(',') ?? '';
+}
+
+List<String> updateUserPhoneNumberRequestTypeListToJson(
+    List<enums.UpdateUserPhoneNumberRequestType>?
+        updateUserPhoneNumberRequestType) {
+  if (updateUserPhoneNumberRequestType == null) {
+    return [];
+  }
+
+  return updateUserPhoneNumberRequestType.map((e) => e.value!).toList();
+}
+
+List<enums.UpdateUserPhoneNumberRequestType>
+    updateUserPhoneNumberRequestTypeListFromJson(
+  List? updateUserPhoneNumberRequestType, [
+  List<enums.UpdateUserPhoneNumberRequestType>? defaultValue,
+]) {
+  if (updateUserPhoneNumberRequestType == null) {
+    return defaultValue ?? [];
+  }
+
+  return updateUserPhoneNumberRequestType
+      .map((e) => updateUserPhoneNumberRequestTypeFromJson(e.toString()))
+      .toList();
+}
+
+List<enums.UpdateUserPhoneNumberRequestType>?
+    updateUserPhoneNumberRequestTypeNullableListFromJson(
+  List? updateUserPhoneNumberRequestType, [
+  List<enums.UpdateUserPhoneNumberRequestType>? defaultValue,
+]) {
+  if (updateUserPhoneNumberRequestType == null) {
+    return defaultValue;
+  }
+
+  return updateUserPhoneNumberRequestType
+      .map((e) => updateUserPhoneNumberRequestTypeFromJson(e.toString()))
       .toList();
 }
 

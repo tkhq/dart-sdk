@@ -122,6 +122,21 @@ class TGetPolicyInput {
 /// `POST /public/v1/query/get_policy`
 typedef TGetPolicyBody = GetPolicyRequest;
 
+/// `POST /public/v1/query/get_policy_evaluations`
+typedef TGetPolicyEvaluationsResponse = GetPolicyEvaluationsResponse;
+
+/// `POST /public/v1/query/get_policy_evaluations`
+class TGetPolicyEvaluationsInput {
+  final TGetPolicyEvaluationsBody body;
+
+  TGetPolicyEvaluationsInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/query/get_policy_evaluations`
+typedef TGetPolicyEvaluationsBody = GetPolicyEvaluationsRequest;
+
 /// `POST /public/v1/query/get_private_key`
 typedef TGetPrivateKeyResponse = GetPrivateKeyResponse;
 
@@ -136,6 +151,21 @@ class TGetPrivateKeyInput {
 
 /// `POST /public/v1/query/get_private_key`
 typedef TGetPrivateKeyBody = GetPrivateKeyRequest;
+
+/// `POST /public/v1/query/get_smart_contract_interface`
+typedef TGetSmartContractInterfaceResponse = GetSmartContractInterfaceResponse;
+
+/// `POST /public/v1/query/get_smart_contract_interface`
+class TGetSmartContractInterfaceInput {
+  final TGetSmartContractInterfaceBody body;
+
+  TGetSmartContractInterfaceInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/query/get_smart_contract_interface`
+typedef TGetSmartContractInterfaceBody = GetSmartContractInterfaceRequest;
 
 /// `POST /public/v1/query/get_user`
 typedef TGetUserResponse = GetUserResponse;
@@ -241,6 +271,22 @@ class TGetPrivateKeysInput {
 
 /// `POST /public/v1/query/list_private_keys`
 typedef TGetPrivateKeysBody = GetPrivateKeysRequest;
+
+/// `POST /public/v1/query/list_smart_contract_interfaces`
+typedef TGetSmartContractInterfacesResponse
+    = GetSmartContractInterfacesResponse;
+
+/// `POST /public/v1/query/list_smart_contract_interfaces`
+class TGetSmartContractInterfacesInput {
+  final TGetSmartContractInterfacesBody body;
+
+  TGetSmartContractInterfacesInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/query/list_smart_contract_interfaces`
+typedef TGetSmartContractInterfacesBody = GetSmartContractInterfacesRequest;
 
 /// `POST /public/v1/query/list_suborgs`
 typedef TGetSubOrgIdsResponse = GetSubOrgIdsResponse;
@@ -512,6 +558,21 @@ class TCreateReadWriteSessionInput {
 /// `POST /public/v1/submit/create_read_write_session`
 typedef TCreateReadWriteSessionBody = CreateReadWriteSessionRequest;
 
+/// `POST /public/v1/submit/create_smart_contract_interface`
+typedef TCreateSmartContractInterfaceResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/create_smart_contract_interface`
+class TCreateSmartContractInterfaceInput {
+  final TCreateSmartContractInterfaceBody body;
+
+  TCreateSmartContractInterfaceInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/create_smart_contract_interface`
+typedef TCreateSmartContractInterfaceBody = CreateSmartContractInterfaceRequest;
+
 /// `POST /public/v1/submit/create_sub_organization`
 typedef TCreateSubOrganizationResponse = ActivityResponse;
 
@@ -692,6 +753,21 @@ class TDeletePrivateKeysInput {
 /// `POST /public/v1/submit/delete_private_keys`
 typedef TDeletePrivateKeysBody = DeletePrivateKeysRequest;
 
+/// `POST /public/v1/submit/delete_smart_contract_interface`
+typedef TDeleteSmartContractInterfaceResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/delete_smart_contract_interface`
+class TDeleteSmartContractInterfaceInput {
+  final TDeleteSmartContractInterfaceBody body;
+
+  TDeleteSmartContractInterfaceInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/delete_smart_contract_interface`
+typedef TDeleteSmartContractInterfaceBody = DeleteSmartContractInterfaceRequest;
+
 /// `POST /public/v1/submit/delete_sub_organization`
 typedef TDeleteSubOrganizationResponse = ActivityResponse;
 
@@ -841,6 +917,21 @@ class TImportWalletInput {
 
 /// `POST /public/v1/submit/import_wallet`
 typedef TImportWalletBody = ImportWalletRequest;
+
+/// `POST /public/v1/submit/init_fiat_on_ramp`
+typedef TInitFiatOnRampResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/init_fiat_on_ramp`
+class TInitFiatOnRampInput {
+  final TInitFiatOnRampBody body;
+
+  TInitFiatOnRampInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/init_fiat_on_ramp`
+typedef TInitFiatOnRampBody = InitFiatOnRampRequest;
 
 /// `POST /public/v1/submit/init_import_private_key`
 typedef TInitImportPrivateKeyResponse = ActivityResponse;
@@ -1156,6 +1247,51 @@ class TUpdateUserInput {
 
 /// `POST /public/v1/submit/update_user`
 typedef TUpdateUserBody = UpdateUserRequest;
+
+/// `POST /public/v1/submit/update_user_email`
+typedef TUpdateUserEmailResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/update_user_email`
+class TUpdateUserEmailInput {
+  final TUpdateUserEmailBody body;
+
+  TUpdateUserEmailInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/update_user_email`
+typedef TUpdateUserEmailBody = UpdateUserEmailRequest;
+
+/// `POST /public/v1/submit/update_user_name`
+typedef TUpdateUserNameResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/update_user_name`
+class TUpdateUserNameInput {
+  final TUpdateUserNameBody body;
+
+  TUpdateUserNameInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/update_user_name`
+typedef TUpdateUserNameBody = UpdateUserNameRequest;
+
+/// `POST /public/v1/submit/update_user_phone_number`
+typedef TUpdateUserPhoneNumberResponse = ActivityResponse;
+
+/// `POST /public/v1/submit/update_user_phone_number`
+class TUpdateUserPhoneNumberInput {
+  final TUpdateUserPhoneNumberBody body;
+
+  TUpdateUserPhoneNumberInput({
+    required this.body,
+  });
+}
+
+/// `POST /public/v1/submit/update_user_phone_number`
+typedef TUpdateUserPhoneNumberBody = UpdateUserPhoneNumberRequest;
 
 /// `POST /public/v1/submit/update_user_tag`
 typedef TUpdateUserTagResponse = ActivityResponse;

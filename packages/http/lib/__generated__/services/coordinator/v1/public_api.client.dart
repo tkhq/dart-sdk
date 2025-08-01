@@ -53,7 +53,7 @@ class TurnkeyClient {
     }
   }
 
-  /// Get details about an Activity
+  /// Get details about an activity.
   ///
   /// Sign the provided `TGetActivityBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_activity).
   ///
@@ -86,7 +86,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about an API key
+  /// Get details about an API key.
   ///
   /// Sign the provided `TGetApiKeyBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_api_key).
   ///
@@ -119,7 +119,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about API keys for a user
+  /// Get details about API keys for a user.
   ///
   /// Sign the provided `TGetApiKeysBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_api_keys).
   ///
@@ -152,7 +152,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about an authenticator
+  /// Get details about an authenticator.
   ///
   /// Sign the provided `TGetAuthenticatorBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_authenticator).
   ///
@@ -185,7 +185,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about authenticators for a user
+  /// Get details about authenticators for a user.
   ///
   /// Sign the provided `TGetAuthenticatorsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_authenticators).
   ///
@@ -218,7 +218,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about Oauth providers for a user
+  /// Get details about Oauth providers for a user.
   ///
   /// Sign the provided `TGetOauthProvidersBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_oauth_providers).
   ///
@@ -251,7 +251,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get quorum settings and features for an organization
+  /// Get quorum settings and features for an organization.
   ///
   /// Sign the provided `TGetOrganizationConfigsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_organization_configs).
   ///
@@ -286,7 +286,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about a Policy
+  /// Get details about a policy.
   ///
   /// Sign the provided `TGetPolicyBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_policy).
   ///
@@ -319,7 +319,41 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about a Private Key
+  /// Get the policy evaluations for an activity.
+  ///
+  /// Sign the provided `TGetPolicyEvaluationsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_policy_evaluations).
+  ///
+  /// See also: `stampGetPolicyEvaluations`.
+
+  Future<TGetPolicyEvaluationsResponse> getPolicyEvaluations({
+    required TGetPolicyEvaluationsBody input,
+  }) async {
+    return await request<TGetPolicyEvaluationsBody,
+            TGetPolicyEvaluationsResponse>(
+        "/public/v1/query/get_policy_evaluations",
+        input,
+        (json) => TGetPolicyEvaluationsResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetPolicyEvaluationsBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetPolicyEvaluations`.
+
+  Future<TSignedRequest> stampGetPolicyEvaluations({
+    required TGetPolicyEvaluationsBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/query/get_policy_evaluations';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Get details about a private key.
   ///
   /// Sign the provided `TGetPrivateKeyBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_private_key).
   ///
@@ -352,7 +386,42 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about a User
+  /// Get details about a smart contract interface.
+  ///
+  /// Sign the provided `TGetSmartContractInterfaceBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_smart_contract_interface).
+  ///
+  /// See also: `stampGetSmartContractInterface`.
+
+  Future<TGetSmartContractInterfaceResponse> getSmartContractInterface({
+    required TGetSmartContractInterfaceBody input,
+  }) async {
+    return await request<TGetSmartContractInterfaceBody,
+            TGetSmartContractInterfaceResponse>(
+        "/public/v1/query/get_smart_contract_interface",
+        input,
+        (json) => TGetSmartContractInterfaceResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetSmartContractInterfaceBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetSmartContractInterface`.
+
+  Future<TSignedRequest> stampGetSmartContractInterface({
+    required TGetSmartContractInterfaceBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/query/get_smart_contract_interface';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Get details about a user.
   ///
   /// Sign the provided `TGetUserBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_user).
   ///
@@ -385,7 +454,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get details about a Wallet
+  /// Get details about a wallet.
   ///
   /// Sign the provided `TGetWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_wallet).
   ///
@@ -418,7 +487,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get a single wallet account
+  /// Get a single wallet account.
   ///
   /// Sign the provided `TGetWalletAccountBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_wallet_account).
   ///
@@ -451,7 +520,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Activities within an Organization
+  /// List all activities within an organization.
   ///
   /// Sign the provided `TGetActivitiesBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_activities).
   ///
@@ -484,7 +553,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Policies within an Organization
+  /// List all policies within an organization.
   ///
   /// Sign the provided `TGetPoliciesBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_policies).
   ///
@@ -517,7 +586,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Private Key Tags within an Organization
+  /// List all private key tags within an organization.
   ///
   /// Sign the provided `TListPrivateKeyTagsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_private_key_tags).
   ///
@@ -550,7 +619,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Private Keys within an Organization
+  /// List all private keys within an organization.
   ///
   /// Sign the provided `TGetPrivateKeysBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_private_keys).
   ///
@@ -573,6 +642,41 @@ class TurnkeyClient {
     required TGetPrivateKeysBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/list_private_keys';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// List all smart contract interfaces within an organization.
+  ///
+  /// Sign the provided `TGetSmartContractInterfacesBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_smart_contract_interfaces).
+  ///
+  /// See also: `stampGetSmartContractInterfaces`.
+
+  Future<TGetSmartContractInterfacesResponse> getSmartContractInterfaces({
+    required TGetSmartContractInterfacesBody input,
+  }) async {
+    return await request<TGetSmartContractInterfacesBody,
+            TGetSmartContractInterfacesResponse>(
+        "/public/v1/query/list_smart_contract_interfaces",
+        input,
+        (json) => TGetSmartContractInterfacesResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetSmartContractInterfacesBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetSmartContractInterfaces`.
+
+  Future<TSignedRequest> stampGetSmartContractInterfaces({
+    required TGetSmartContractInterfacesBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/query/list_smart_contract_interfaces';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -616,7 +720,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all User Tags within an Organization
+  /// List all user tags within an organization.
   ///
   /// Sign the provided `TListUserTagsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_user_tags).
   ///
@@ -649,7 +753,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Users within an Organization
+  /// List all users within an organization.
   ///
   /// Sign the provided `TGetUsersBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_users).
   ///
@@ -716,7 +820,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Accounts within a Wallet
+  /// List all accounts within a wallet.
   ///
   /// Sign the provided `TGetWalletAccountsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_wallet_accounts).
   ///
@@ -749,7 +853,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List all Wallets within an Organization
+  /// List all wallets within an organization.
   ///
   /// Sign the provided `TGetWalletsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_wallets).
   ///
@@ -782,7 +886,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get basic information about your current API or WebAuthN user and their organization. Affords Sub-Organization look ups via Parent Organization for WebAuthN or API key users.
+  /// Get basic information about your current API or WebAuthN user and their organization. Affords sub-organization look ups via parent organization for WebAuthN or API key users.
   ///
   /// Sign the provided `TGetWhoamiBody` with the client's `stamp` function and submit the request (POST /public/v1/query/whoami).
   ///
@@ -815,7 +919,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Approve an Activity
+  /// Approve an activity.
   ///
   /// Sign the provided `TApproveActivityBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/approve_activity).
   ///
@@ -848,7 +952,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Add api keys to an existing User
+  /// Add API keys to an existing user.
   ///
   /// Sign the provided `TCreateApiKeysBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_api_keys).
   ///
@@ -881,7 +985,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create Authenticators to authenticate requests to Turnkey
+  /// Create authenticators to authenticate requests to Turnkey.
   ///
   /// Sign the provided `TCreateAuthenticatorsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_authenticators).
   ///
@@ -915,7 +1019,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create Invitations to join an existing Organization
+  /// Create invitations to join an existing organization.
   ///
   /// Sign the provided `TCreateInvitationsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_invitations).
   ///
@@ -948,7 +1052,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Creates Oauth providers for a specified user - BETA
+  /// Create Oauth providers for a specified user.
   ///
   /// Sign the provided `TCreateOauthProvidersBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_oauth_providers).
   ///
@@ -982,7 +1086,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create new Policies
+  /// Create new policies.
   ///
   /// Sign the provided `TCreatePoliciesBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_policies).
   ///
@@ -1015,7 +1119,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create a new Policy
+  /// Create a new policy.
   ///
   /// Sign the provided `TCreatePolicyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_policy).
   ///
@@ -1082,7 +1186,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create new Private Keys
+  /// Create new private keys.
   ///
   /// Sign the provided `TCreatePrivateKeysBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_private_keys).
   ///
@@ -1115,7 +1219,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create a read only session for a user (valid for 1 hour)
+  /// Create a read only session for a user (valid for 1 hour).
   ///
   /// Sign the provided `TCreateReadOnlySessionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_read_only_session).
   ///
@@ -1150,7 +1254,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create a read write session for a user
+  /// Create a read write session for a user.
   ///
   /// Sign the provided `TCreateReadWriteSessionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_read_write_session).
   ///
@@ -1185,7 +1289,42 @@ class TurnkeyClient {
     );
   }
 
-  /// Create a new Sub-Organization
+  /// Create an ABI/IDL in JSON.
+  ///
+  /// Sign the provided `TCreateSmartContractInterfaceBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_smart_contract_interface).
+  ///
+  /// See also: `stampCreateSmartContractInterface`.
+
+  Future<TCreateSmartContractInterfaceResponse> createSmartContractInterface({
+    required TCreateSmartContractInterfaceBody input,
+  }) async {
+    return await request<TCreateSmartContractInterfaceBody,
+            TCreateSmartContractInterfaceResponse>(
+        "/public/v1/submit/create_smart_contract_interface",
+        input,
+        (json) => TCreateSmartContractInterfaceResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TCreateSmartContractInterfaceBody` by using the client's `stamp` function.
+  ///
+  /// See also: `CreateSmartContractInterface`.
+
+  Future<TSignedRequest> stampCreateSmartContractInterface({
+    required TCreateSmartContractInterfaceBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/create_smart_contract_interface';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Create a new sub-organization.
   ///
   /// Sign the provided `TCreateSubOrganizationBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_sub_organization).
   ///
@@ -1253,7 +1392,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create Users in an existing Organization
+  /// Create users in an existing organization.
   ///
   /// Sign the provided `TCreateUsersBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_users).
   ///
@@ -1286,7 +1425,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create a Wallet and derive addresses
+  /// Create a wallet and derive addresses.
   ///
   /// Sign the provided `TCreateWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_wallet).
   ///
@@ -1319,7 +1458,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Derive additional addresses using an existing wallet
+  /// Derive additional addresses using an existing wallet.
   ///
   /// Sign the provided `TCreateWalletAccountsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_wallet_accounts).
   ///
@@ -1353,7 +1492,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Remove api keys from a User
+  /// Remove api keys from a user.
   ///
   /// Sign the provided `TDeleteApiKeysBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_api_keys).
   ///
@@ -1386,7 +1525,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Remove authenticators from a User
+  /// Remove authenticators from a user.
   ///
   /// Sign the provided `TDeleteAuthenticatorsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_authenticators).
   ///
@@ -1420,7 +1559,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Delete an existing Invitation
+  /// Delete an existing invitation.
   ///
   /// Sign the provided `TDeleteInvitationBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_invitation).
   ///
@@ -1453,7 +1592,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Removes Oauth providers for a specified user - BETA
+  /// Remove Oauth providers for a specified user.
   ///
   /// Sign the provided `TDeleteOauthProvidersBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_oauth_providers).
   ///
@@ -1487,7 +1626,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Delete an existing Policy
+  /// Delete an existing policy.
   ///
   /// Sign the provided `TDeletePolicyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_policy).
   ///
@@ -1520,7 +1659,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Delete Private Key Tags within an Organization
+  /// Delete private key tags within an organization.
   ///
   /// Sign the provided `TDeletePrivateKeyTagsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_private_key_tags).
   ///
@@ -1555,7 +1694,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Deletes private keys for an organization
+  /// Delete private keys for an organization.
   ///
   /// Sign the provided `TDeletePrivateKeysBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_private_keys).
   ///
@@ -1588,7 +1727,42 @@ class TurnkeyClient {
     );
   }
 
-  /// Deletes a sub organization
+  /// Delete a smart contract interface.
+  ///
+  /// Sign the provided `TDeleteSmartContractInterfaceBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_smart_contract_interface).
+  ///
+  /// See also: `stampDeleteSmartContractInterface`.
+
+  Future<TDeleteSmartContractInterfaceResponse> deleteSmartContractInterface({
+    required TDeleteSmartContractInterfaceBody input,
+  }) async {
+    return await request<TDeleteSmartContractInterfaceBody,
+            TDeleteSmartContractInterfaceResponse>(
+        "/public/v1/submit/delete_smart_contract_interface",
+        input,
+        (json) => TDeleteSmartContractInterfaceResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TDeleteSmartContractInterfaceBody` by using the client's `stamp` function.
+  ///
+  /// See also: `DeleteSmartContractInterface`.
+
+  Future<TSignedRequest> stampDeleteSmartContractInterface({
+    required TDeleteSmartContractInterfaceBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/delete_smart_contract_interface';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Delete a sub-organization.
   ///
   /// Sign the provided `TDeleteSubOrganizationBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_sub_organization).
   ///
@@ -1623,7 +1797,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Delete User Tags within an Organization
+  /// Delete user tags within an organization.
   ///
   /// Sign the provided `TDeleteUserTagsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_user_tags).
   ///
@@ -1656,7 +1830,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Delete Users within an Organization
+  /// Delete users within an organization.
   ///
   /// Sign the provided `TDeleteUsersBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_users).
   ///
@@ -1689,7 +1863,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Deletes wallets for an organization
+  /// Delete wallets for an organization.
   ///
   /// Sign the provided `TDeleteWalletsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_wallets).
   ///
@@ -1722,7 +1896,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Authenticate a user via Email
+  /// Authenticate a user via email.
   ///
   /// Sign the provided `TEmailAuthBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/email_auth).
   ///
@@ -1755,7 +1929,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Exports a Private Key
+  /// Export a private key.
   ///
   /// Sign the provided `TExportPrivateKeyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/export_private_key).
   ///
@@ -1788,7 +1962,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Exports a Wallet
+  /// Export a wallet.
   ///
   /// Sign the provided `TExportWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/export_wallet).
   ///
@@ -1821,7 +1995,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Exports a Wallet Account
+  /// Export a wallet account.
   ///
   /// Sign the provided `TExportWalletAccountBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/export_wallet_account).
   ///
@@ -1855,7 +2029,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Imports a private key
+  /// Import a private key.
   ///
   /// Sign the provided `TImportPrivateKeyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/import_private_key).
   ///
@@ -1888,7 +2062,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Imports a wallet
+  /// Import a wallet.
   ///
   /// Sign the provided `TImportWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/import_wallet).
   ///
@@ -1921,7 +2095,40 @@ class TurnkeyClient {
     );
   }
 
-  /// Initializes a new private key import
+  /// Initiate a fiat on ramp flow.
+  ///
+  /// Sign the provided `TInitFiatOnRampBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_fiat_on_ramp).
+  ///
+  /// See also: `stampInitFiatOnRamp`.
+
+  Future<TInitFiatOnRampResponse> initFiatOnRamp({
+    required TInitFiatOnRampBody input,
+  }) async {
+    return await request<TInitFiatOnRampBody, TInitFiatOnRampResponse>(
+        "/public/v1/submit/init_fiat_on_ramp",
+        input,
+        (json) => TInitFiatOnRampResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TInitFiatOnRampBody` by using the client's `stamp` function.
+  ///
+  /// See also: `InitFiatOnRamp`.
+
+  Future<TSignedRequest> stampInitFiatOnRamp({
+    required TInitFiatOnRampBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/init_fiat_on_ramp';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Initialize a new private key import.
   ///
   /// Sign the provided `TInitImportPrivateKeyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_import_private_key).
   ///
@@ -1956,7 +2163,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Initializes a new wallet import
+  /// Initialize a new wallet import.
   ///
   /// Sign the provided `TInitImportWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_import_wallet).
   ///
@@ -1989,7 +2196,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Initiate a Generic OTP activity
+  /// Initiate a generic OTP activity.
   ///
   /// Sign the provided `TInitOtpBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_otp).
   ///
@@ -2022,7 +2229,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Initiate an OTP auth activity
+  /// Initiate an OTP auth activity.
   ///
   /// Sign the provided `TInitOtpAuthBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_otp_auth).
   ///
@@ -2055,7 +2262,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Initializes a new email recovery
+  /// Initialize a new email recovery.
   ///
   /// Sign the provided `TInitUserEmailRecoveryBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/init_user_email_recovery).
   ///
@@ -2090,7 +2297,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Authenticate a user with an Oidc token (Oauth) - BETA
+  /// Authenticate a user with an OIDC token (Oauth).
   ///
   /// Sign the provided `TOauthBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/oauth).
   ///
@@ -2121,7 +2328,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create an Oauth session for a user
+  /// Create an Oauth session for a user.
   ///
   /// Sign the provided `TOauthLoginBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/oauth_login).
   ///
@@ -2154,7 +2361,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Authenticate a user with an OTP code sent via email or SMS
+  /// Authenticate a user with an OTP code sent via email or SMS.
   ///
   /// Sign the provided `TOtpAuthBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/otp_auth).
   ///
@@ -2187,7 +2394,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create an OTP session for a user
+  /// Create an OTP session for a user.
   ///
   /// Sign the provided `TOtpLoginBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/otp_login).
   ///
@@ -2220,7 +2427,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Completes the process of recovering a user by adding an authenticator
+  /// Complete the process of recovering a user by adding an authenticator.
   ///
   /// Sign the provided `TRecoverUserBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/recover_user).
   ///
@@ -2253,7 +2460,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Reject an Activity
+  /// Reject an activity.
   ///
   /// Sign the provided `TRejectActivityBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/reject_activity).
   ///
@@ -2286,7 +2493,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Removes an organization feature. This activity must be approved by the current root quorum.
+  /// Remove an organization feature. This activity must be approved by the current root quorum.
   ///
   /// Sign the provided `TRemoveOrganizationFeatureBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/remove_organization_feature).
   ///
@@ -2321,7 +2528,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Sets an organization feature. This activity must be approved by the current root quorum.
+  /// Set an organization feature. This activity must be approved by the current root quorum.
   ///
   /// Sign the provided `TSetOrganizationFeatureBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/set_organization_feature).
   ///
@@ -2356,7 +2563,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Sign a raw payload
+  /// Sign a raw payload.
   ///
   /// Sign the provided `TSignRawPayloadBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/sign_raw_payload).
   ///
@@ -2389,7 +2596,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Sign multiple raw payloads with the same signing parameters
+  /// Sign multiple raw payloads with the same signing parameters.
   ///
   /// Sign the provided `TSignRawPayloadsBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/sign_raw_payloads).
   ///
@@ -2422,7 +2629,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Sign a transaction
+  /// Sign a transaction.
   ///
   /// Sign the provided `TSignTransactionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/sign_transaction).
   ///
@@ -2455,7 +2662,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Create a session for a user through stamping client side (api key, wallet client, or passkey client)
+  /// Create a session for a user through stamping client side (API key, wallet client, or passkey client).
   ///
   /// Sign the provided `TStampLoginBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/stamp_login).
   ///
@@ -2488,7 +2695,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Update an existing Policy
+  /// Update an existing policy.
   ///
   /// Sign the provided `TUpdatePolicyBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_policy).
   ///
@@ -2588,7 +2795,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Update a User in an existing Organization
+  /// Update a user in an existing organization.
   ///
   /// Sign the provided `TUpdateUserBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_user).
   ///
@@ -2611,6 +2818,107 @@ class TurnkeyClient {
     required TUpdateUserBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Update a user's email in an existing organization.
+  ///
+  /// Sign the provided `TUpdateUserEmailBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_user_email).
+  ///
+  /// See also: `stampUpdateUserEmail`.
+
+  Future<TUpdateUserEmailResponse> updateUserEmail({
+    required TUpdateUserEmailBody input,
+  }) async {
+    return await request<TUpdateUserEmailBody, TUpdateUserEmailResponse>(
+        "/public/v1/submit/update_user_email",
+        input,
+        (json) => TUpdateUserEmailResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TUpdateUserEmailBody` by using the client's `stamp` function.
+  ///
+  /// See also: `UpdateUserEmail`.
+
+  Future<TSignedRequest> stampUpdateUserEmail({
+    required TUpdateUserEmailBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_email';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Update a user's name in an existing organization.
+  ///
+  /// Sign the provided `TUpdateUserNameBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_user_name).
+  ///
+  /// See also: `stampUpdateUserName`.
+
+  Future<TUpdateUserNameResponse> updateUserName({
+    required TUpdateUserNameBody input,
+  }) async {
+    return await request<TUpdateUserNameBody, TUpdateUserNameResponse>(
+        "/public/v1/submit/update_user_name",
+        input,
+        (json) => TUpdateUserNameResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TUpdateUserNameBody` by using the client's `stamp` function.
+  ///
+  /// See also: `UpdateUserName`.
+
+  Future<TSignedRequest> stampUpdateUserName({
+    required TUpdateUserNameBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_name';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Update a user's phone number in an existing organization.
+  ///
+  /// Sign the provided `TUpdateUserPhoneNumberBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_user_phone_number).
+  ///
+  /// See also: `stampUpdateUserPhoneNumber`.
+
+  Future<TUpdateUserPhoneNumberResponse> updateUserPhoneNumber({
+    required TUpdateUserPhoneNumberBody input,
+  }) async {
+    return await request<TUpdateUserPhoneNumberBody,
+            TUpdateUserPhoneNumberResponse>(
+        "/public/v1/submit/update_user_phone_number",
+        input,
+        (json) => TUpdateUserPhoneNumberResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TUpdateUserPhoneNumberBody` by using the client's `stamp` function.
+  ///
+  /// See also: `UpdateUserPhoneNumber`.
+
+  Future<TSignedRequest> stampUpdateUserPhoneNumber({
+    required TUpdateUserPhoneNumberBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/update_user_phone_number';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -2654,7 +2962,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Update a wallet for an organization
+  /// Update a wallet for an organization.
   ///
   /// Sign the provided `TUpdateWalletBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_wallet).
   ///
@@ -2687,7 +2995,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Verify a Generic OTP
+  /// Verify a generic OTP.
   ///
   /// Sign the provided `TVerifyOtpBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/verify_otp).
   ///

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:collection/collection.dart';
 
 enum AccessType {
   @JsonValue(null)
@@ -225,7 +226,21 @@ enum ActivityType {
   @JsonValue('ACTIVITY_TYPE_STAMP_LOGIN')
   activityTypeStampLogin('ACTIVITY_TYPE_STAMP_LOGIN'),
   @JsonValue('ACTIVITY_TYPE_OAUTH_LOGIN')
-  activityTypeOauthLogin('ACTIVITY_TYPE_OAUTH_LOGIN');
+  activityTypeOauthLogin('ACTIVITY_TYPE_OAUTH_LOGIN'),
+  @JsonValue('ACTIVITY_TYPE_UPDATE_USER_NAME')
+  activityTypeUpdateUserName('ACTIVITY_TYPE_UPDATE_USER_NAME'),
+  @JsonValue('ACTIVITY_TYPE_UPDATE_USER_EMAIL')
+  activityTypeUpdateUserEmail('ACTIVITY_TYPE_UPDATE_USER_EMAIL'),
+  @JsonValue('ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER')
+  activityTypeUpdateUserPhoneNumber('ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER'),
+  @JsonValue('ACTIVITY_TYPE_INIT_FIAT_ON_RAMP')
+  activityTypeInitFiatOnRamp('ACTIVITY_TYPE_INIT_FIAT_ON_RAMP'),
+  @JsonValue('ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE')
+  activityTypeCreateSmartContractInterface(
+      'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE'),
+  @JsonValue('ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE')
+  activityTypeDeleteSmartContractInterface(
+      'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE');
 
   final String? value;
 
@@ -497,6 +512,19 @@ enum CreateReadWriteSessionRequestType {
   const CreateReadWriteSessionRequestType(this.value);
 }
 
+enum CreateSmartContractInterfaceRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE')
+  activityTypeCreateSmartContractInterface(
+      'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE');
+
+  final String? value;
+
+  const CreateSmartContractInterfaceRequestType(this.value);
+}
+
 enum CreateSubOrganizationRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -687,6 +715,19 @@ enum DeletePrivateKeysRequestType {
   const DeletePrivateKeysRequestType(this.value);
 }
 
+enum DeleteSmartContractInterfaceRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE')
+  activityTypeDeleteSmartContractInterface(
+      'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE');
+
+  final String? value;
+
+  const DeleteSmartContractInterfaceRequestType(this.value);
+}
+
 enum DeleteSubOrganizationRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -821,6 +862,179 @@ enum FeatureName {
   const FeatureName(this.value);
 }
 
+enum FiatOnRampBlockchainNetwork {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_BITCOIN')
+  fiatOnRampBlockchainNetworkBitcoin('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_BITCOIN'),
+  @JsonValue('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_ETHEREUM')
+  fiatOnRampBlockchainNetworkEthereum(
+      'FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_ETHEREUM'),
+  @JsonValue('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_SOLANA')
+  fiatOnRampBlockchainNetworkSolana('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_SOLANA'),
+  @JsonValue('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_BASE')
+  fiatOnRampBlockchainNetworkBase('FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_BASE');
+
+  final String? value;
+
+  const FiatOnRampBlockchainNetwork(this.value);
+}
+
+enum FiatOnRampCryptoCurrency {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('FIAT_ON_RAMP_CRYPTO_CURRENCY_BTC')
+  fiatOnRampCryptoCurrencyBtc('FIAT_ON_RAMP_CRYPTO_CURRENCY_BTC'),
+  @JsonValue('FIAT_ON_RAMP_CRYPTO_CURRENCY_ETH')
+  fiatOnRampCryptoCurrencyEth('FIAT_ON_RAMP_CRYPTO_CURRENCY_ETH'),
+  @JsonValue('FIAT_ON_RAMP_CRYPTO_CURRENCY_SOL')
+  fiatOnRampCryptoCurrencySol('FIAT_ON_RAMP_CRYPTO_CURRENCY_SOL'),
+  @JsonValue('FIAT_ON_RAMP_CRYPTO_CURRENCY_USDC')
+  fiatOnRampCryptoCurrencyUsdc('FIAT_ON_RAMP_CRYPTO_CURRENCY_USDC');
+
+  final String? value;
+
+  const FiatOnRampCryptoCurrency(this.value);
+}
+
+enum FiatOnRampCurrency {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_AUD')
+  fiatOnRampCurrencyAud('FIAT_ON_RAMP_CURRENCY_AUD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_BGN')
+  fiatOnRampCurrencyBgn('FIAT_ON_RAMP_CURRENCY_BGN'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_BRL')
+  fiatOnRampCurrencyBrl('FIAT_ON_RAMP_CURRENCY_BRL'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_CAD')
+  fiatOnRampCurrencyCad('FIAT_ON_RAMP_CURRENCY_CAD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_CHF')
+  fiatOnRampCurrencyChf('FIAT_ON_RAMP_CURRENCY_CHF'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_COP')
+  fiatOnRampCurrencyCop('FIAT_ON_RAMP_CURRENCY_COP'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_CZK')
+  fiatOnRampCurrencyCzk('FIAT_ON_RAMP_CURRENCY_CZK'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_DKK')
+  fiatOnRampCurrencyDkk('FIAT_ON_RAMP_CURRENCY_DKK'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_DOP')
+  fiatOnRampCurrencyDop('FIAT_ON_RAMP_CURRENCY_DOP'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_EGP')
+  fiatOnRampCurrencyEgp('FIAT_ON_RAMP_CURRENCY_EGP'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_EUR')
+  fiatOnRampCurrencyEur('FIAT_ON_RAMP_CURRENCY_EUR'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_GBP')
+  fiatOnRampCurrencyGbp('FIAT_ON_RAMP_CURRENCY_GBP'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_HKD')
+  fiatOnRampCurrencyHkd('FIAT_ON_RAMP_CURRENCY_HKD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_IDR')
+  fiatOnRampCurrencyIdr('FIAT_ON_RAMP_CURRENCY_IDR'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_ILS')
+  fiatOnRampCurrencyIls('FIAT_ON_RAMP_CURRENCY_ILS'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_JOD')
+  fiatOnRampCurrencyJod('FIAT_ON_RAMP_CURRENCY_JOD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_KES')
+  fiatOnRampCurrencyKes('FIAT_ON_RAMP_CURRENCY_KES'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_KWD')
+  fiatOnRampCurrencyKwd('FIAT_ON_RAMP_CURRENCY_KWD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_LKR')
+  fiatOnRampCurrencyLkr('FIAT_ON_RAMP_CURRENCY_LKR'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_MXN')
+  fiatOnRampCurrencyMxn('FIAT_ON_RAMP_CURRENCY_MXN'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_NGN')
+  fiatOnRampCurrencyNgn('FIAT_ON_RAMP_CURRENCY_NGN'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_NOK')
+  fiatOnRampCurrencyNok('FIAT_ON_RAMP_CURRENCY_NOK'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_NZD')
+  fiatOnRampCurrencyNzd('FIAT_ON_RAMP_CURRENCY_NZD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_OMR')
+  fiatOnRampCurrencyOmr('FIAT_ON_RAMP_CURRENCY_OMR'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_PEN')
+  fiatOnRampCurrencyPen('FIAT_ON_RAMP_CURRENCY_PEN'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_PLN')
+  fiatOnRampCurrencyPln('FIAT_ON_RAMP_CURRENCY_PLN'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_RON')
+  fiatOnRampCurrencyRon('FIAT_ON_RAMP_CURRENCY_RON'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_SEK')
+  fiatOnRampCurrencySek('FIAT_ON_RAMP_CURRENCY_SEK'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_THB')
+  fiatOnRampCurrencyThb('FIAT_ON_RAMP_CURRENCY_THB'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_TRY')
+  fiatOnRampCurrencyTry('FIAT_ON_RAMP_CURRENCY_TRY'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_TWD')
+  fiatOnRampCurrencyTwd('FIAT_ON_RAMP_CURRENCY_TWD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_USD')
+  fiatOnRampCurrencyUsd('FIAT_ON_RAMP_CURRENCY_USD'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_VND')
+  fiatOnRampCurrencyVnd('FIAT_ON_RAMP_CURRENCY_VND'),
+  @JsonValue('FIAT_ON_RAMP_CURRENCY_ZAR')
+  fiatOnRampCurrencyZar('FIAT_ON_RAMP_CURRENCY_ZAR');
+
+  final String? value;
+
+  const FiatOnRampCurrency(this.value);
+}
+
+enum FiatOnRampPaymentMethod {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_CREDIT_DEBIT_CARD')
+  fiatOnRampPaymentMethodCreditDebitCard(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_CREDIT_DEBIT_CARD'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_APPLE_PAY')
+  fiatOnRampPaymentMethodApplePay('FIAT_ON_RAMP_PAYMENT_METHOD_APPLE_PAY'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_GBP_BANK_TRANSFER')
+  fiatOnRampPaymentMethodGbpBankTransfer(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_GBP_BANK_TRANSFER'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_GBP_OPEN_BANKING_PAYMENT')
+  fiatOnRampPaymentMethodGbpOpenBankingPayment(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_GBP_OPEN_BANKING_PAYMENT'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_GOOGLE_PAY')
+  fiatOnRampPaymentMethodGooglePay('FIAT_ON_RAMP_PAYMENT_METHOD_GOOGLE_PAY'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_SEPA_BANK_TRANSFER')
+  fiatOnRampPaymentMethodSepaBankTransfer(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_SEPA_BANK_TRANSFER'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_PIX_INSTANT_PAYMENT')
+  fiatOnRampPaymentMethodPixInstantPayment(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_PIX_INSTANT_PAYMENT'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_PAYPAL')
+  fiatOnRampPaymentMethodPaypal('FIAT_ON_RAMP_PAYMENT_METHOD_PAYPAL'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_VENMO')
+  fiatOnRampPaymentMethodVenmo('FIAT_ON_RAMP_PAYMENT_METHOD_VENMO'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_MOONPAY_BALANCE')
+  fiatOnRampPaymentMethodMoonpayBalance(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_MOONPAY_BALANCE'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_CRYPTO_ACCOUNT')
+  fiatOnRampPaymentMethodCryptoAccount(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_CRYPTO_ACCOUNT'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_FIAT_WALLET')
+  fiatOnRampPaymentMethodFiatWallet('FIAT_ON_RAMP_PAYMENT_METHOD_FIAT_WALLET'),
+  @JsonValue('FIAT_ON_RAMP_PAYMENT_METHOD_ACH_BANK_ACCOUNT')
+  fiatOnRampPaymentMethodAchBankAccount(
+      'FIAT_ON_RAMP_PAYMENT_METHOD_ACH_BANK_ACCOUNT');
+
+  final String? value;
+
+  const FiatOnRampPaymentMethod(this.value);
+}
+
+enum FiatOnRampProvider {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('FIAT_ON_RAMP_PROVIDER_COINBASE')
+  fiatOnRampProviderCoinbase('FIAT_ON_RAMP_PROVIDER_COINBASE'),
+  @JsonValue('FIAT_ON_RAMP_PROVIDER_MOONPAY')
+  fiatOnRampProviderMoonpay('FIAT_ON_RAMP_PROVIDER_MOONPAY');
+
+  final String? value;
+
+  const FiatOnRampProvider(this.value);
+}
+
 enum HashFunction {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -861,6 +1075,18 @@ enum ImportWalletRequestType {
   final String? value;
 
   const ImportWalletRequestType(this.value);
+}
+
+enum InitFiatOnRampRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_INIT_FIAT_ON_RAMP')
+  activityTypeInitFiatOnRamp('ACTIVITY_TYPE_INIT_FIAT_ON_RAMP');
+
+  final String? value;
+
+  const InitFiatOnRampRequestType(this.value);
 }
 
 enum InitImportPrivateKeyRequestType {
@@ -1031,6 +1257,28 @@ enum OtpLoginRequestType {
   const OtpLoginRequestType(this.value);
 }
 
+enum Outcome {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('OUTCOME_ALLOW')
+  outcomeAllow('OUTCOME_ALLOW'),
+  @JsonValue('OUTCOME_DENY_EXPLICIT')
+  outcomeDenyExplicit('OUTCOME_DENY_EXPLICIT'),
+  @JsonValue('OUTCOME_DENY_IMPLICIT')
+  outcomeDenyImplicit('OUTCOME_DENY_IMPLICIT'),
+  @JsonValue('OUTCOME_REQUIRES_CONSENSUS')
+  outcomeRequiresConsensus('OUTCOME_REQUIRES_CONSENSUS'),
+  @JsonValue('OUTCOME_REJECTED')
+  outcomeRejected('OUTCOME_REJECTED'),
+  @JsonValue('OUTCOME_ERROR')
+  outcomeError('OUTCOME_ERROR');
+
+  final String? value;
+
+  const Outcome(this.value);
+}
+
 enum PathFormat {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -1050,7 +1298,9 @@ enum PayloadEncoding {
   @JsonValue('PAYLOAD_ENCODING_HEXADECIMAL')
   payloadEncodingHexadecimal('PAYLOAD_ENCODING_HEXADECIMAL'),
   @JsonValue('PAYLOAD_ENCODING_TEXT_UTF8')
-  payloadEncodingTextUtf8('PAYLOAD_ENCODING_TEXT_UTF8');
+  payloadEncodingTextUtf8('PAYLOAD_ENCODING_TEXT_UTF8'),
+  @JsonValue('PAYLOAD_ENCODING_EIP712')
+  payloadEncodingEip712('PAYLOAD_ENCODING_EIP712');
 
   final String? value;
 
@@ -1168,6 +1418,20 @@ enum SignTransactionRequestType {
   const SignTransactionRequestType(this.value);
 }
 
+enum SmartContractInterfaceType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('SMART_CONTRACT_INTERFACE_TYPE_ETHEREUM')
+  smartContractInterfaceTypeEthereum('SMART_CONTRACT_INTERFACE_TYPE_ETHEREUM'),
+  @JsonValue('SMART_CONTRACT_INTERFACE_TYPE_SOLANA')
+  smartContractInterfaceTypeSolana('SMART_CONTRACT_INTERFACE_TYPE_SOLANA');
+
+  final String? value;
+
+  const SmartContractInterfaceType(this.value);
+}
+
 enum StampLoginRequestType {
   @JsonValue(null)
   swaggerGeneratedUnknown(null),
@@ -1244,6 +1508,42 @@ enum UpdateRootQuorumRequestType {
   final String? value;
 
   const UpdateRootQuorumRequestType(this.value);
+}
+
+enum UpdateUserEmailRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_UPDATE_USER_EMAIL')
+  activityTypeUpdateUserEmail('ACTIVITY_TYPE_UPDATE_USER_EMAIL');
+
+  final String? value;
+
+  const UpdateUserEmailRequestType(this.value);
+}
+
+enum UpdateUserNameRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_UPDATE_USER_NAME')
+  activityTypeUpdateUserName('ACTIVITY_TYPE_UPDATE_USER_NAME');
+
+  final String? value;
+
+  const UpdateUserNameRequestType(this.value);
+}
+
+enum UpdateUserPhoneNumberRequestType {
+  @JsonValue(null)
+  swaggerGeneratedUnknown(null),
+
+  @JsonValue('ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER')
+  activityTypeUpdateUserPhoneNumber('ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER');
+
+  final String? value;
+
+  const UpdateUserPhoneNumberRequestType(this.value);
 }
 
 enum UpdateUserRequestType {
