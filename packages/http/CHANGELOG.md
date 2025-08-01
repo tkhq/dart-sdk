@@ -1,3 +1,7 @@
+## 0.2.1
+
+ - **FEAT**: update http to latest Turnkey release.
+
 ## 0.2.0
 
  - Update per mono v2025.5.5
