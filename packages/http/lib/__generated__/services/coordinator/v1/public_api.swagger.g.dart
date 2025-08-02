@@ -1098,6 +1098,57 @@ Map<String, dynamic> _$CreateReadWriteSessionResultV2ToJson(
       'credentialBundle': instance.credentialBundle,
     };
 
+CreateSmartContractInterfaceIntent _$CreateSmartContractInterfaceIntentFromJson(
+        Map<String, dynamic> json) =>
+    CreateSmartContractInterfaceIntent(
+      smartContractAddress: json['smartContractAddress'] as String,
+      smartContractInterface: json['smartContractInterface'] as String,
+      type: smartContractInterfaceTypeFromJson(json['type']),
+      label: json['label'] as String,
+      notes: json['notes'] as String?,
+    );
+
+Map<String, dynamic> _$CreateSmartContractInterfaceIntentToJson(
+        CreateSmartContractInterfaceIntent instance) =>
+    <String, dynamic>{
+      'smartContractAddress': instance.smartContractAddress,
+      'smartContractInterface': instance.smartContractInterface,
+      'type': smartContractInterfaceTypeToJson(instance.type),
+      'label': instance.label,
+      'notes': instance.notes,
+    };
+
+CreateSmartContractInterfaceRequest
+    _$CreateSmartContractInterfaceRequestFromJson(Map<String, dynamic> json) =>
+        CreateSmartContractInterfaceRequest(
+          type: createSmartContractInterfaceRequestTypeFromJson(json['type']),
+          timestampMs: json['timestampMs'] as String,
+          organizationId: json['organizationId'] as String,
+          parameters: CreateSmartContractInterfaceIntent.fromJson(
+              json['parameters'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$CreateSmartContractInterfaceRequestToJson(
+        CreateSmartContractInterfaceRequest instance) =>
+    <String, dynamic>{
+      'type': createSmartContractInterfaceRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+CreateSmartContractInterfaceResult _$CreateSmartContractInterfaceResultFromJson(
+        Map<String, dynamic> json) =>
+    CreateSmartContractInterfaceResult(
+      smartContractInterfaceId: json['smartContractInterfaceId'] as String,
+    );
+
+Map<String, dynamic> _$CreateSmartContractInterfaceResultToJson(
+        CreateSmartContractInterfaceResult instance) =>
+    <String, dynamic>{
+      'smartContractInterfaceId': instance.smartContractInterfaceId,
+    };
+
 CreateSubOrganizationIntent _$CreateSubOrganizationIntentFromJson(
         Map<String, dynamic> json) =>
     CreateSubOrganizationIntent(
@@ -1869,7 +1920,7 @@ Map<String, dynamic> _$DeleteOrganizationResultToJson(
 DeletePaymentMethodIntent _$DeletePaymentMethodIntentFromJson(
         Map<String, dynamic> json) =>
     DeletePaymentMethodIntent(
-      paymentMethodId: json['paymentMethodId'] as String,
+      paymentMethodId: json['paymentMethodId'] as String?,
     );
 
 Map<String, dynamic> _$DeletePaymentMethodIntentToJson(
@@ -2031,6 +2082,49 @@ Map<String, dynamic> _$DeletePrivateKeysResultToJson(
         DeletePrivateKeysResult instance) =>
     <String, dynamic>{
       'privateKeyIds': instance.privateKeyIds,
+    };
+
+DeleteSmartContractInterfaceIntent _$DeleteSmartContractInterfaceIntentFromJson(
+        Map<String, dynamic> json) =>
+    DeleteSmartContractInterfaceIntent(
+      smartContractInterfaceId: json['smartContractInterfaceId'] as String,
+    );
+
+Map<String, dynamic> _$DeleteSmartContractInterfaceIntentToJson(
+        DeleteSmartContractInterfaceIntent instance) =>
+    <String, dynamic>{
+      'smartContractInterfaceId': instance.smartContractInterfaceId,
+    };
+
+DeleteSmartContractInterfaceRequest
+    _$DeleteSmartContractInterfaceRequestFromJson(Map<String, dynamic> json) =>
+        DeleteSmartContractInterfaceRequest(
+          type: deleteSmartContractInterfaceRequestTypeFromJson(json['type']),
+          timestampMs: json['timestampMs'] as String,
+          organizationId: json['organizationId'] as String,
+          parameters: DeleteSmartContractInterfaceIntent.fromJson(
+              json['parameters'] as Map<String, dynamic>),
+        );
+
+Map<String, dynamic> _$DeleteSmartContractInterfaceRequestToJson(
+        DeleteSmartContractInterfaceRequest instance) =>
+    <String, dynamic>{
+      'type': deleteSmartContractInterfaceRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+DeleteSmartContractInterfaceResult _$DeleteSmartContractInterfaceResultFromJson(
+        Map<String, dynamic> json) =>
+    DeleteSmartContractInterfaceResult(
+      smartContractInterfaceId: json['smartContractInterfaceId'] as String,
+    );
+
+Map<String, dynamic> _$DeleteSmartContractInterfaceResultToJson(
+        DeleteSmartContractInterfaceResult instance) =>
+    <String, dynamic>{
+      'smartContractInterfaceId': instance.smartContractInterfaceId,
     };
 
 DeleteSubOrganizationIntent _$DeleteSubOrganizationIntentFromJson(
@@ -2730,6 +2824,37 @@ Map<String, dynamic> _$GetPoliciesResponseToJson(
       'policies': instance.policies.map((e) => e.toJson()).toList(),
     };
 
+GetPolicyEvaluationsRequest _$GetPolicyEvaluationsRequestFromJson(
+        Map<String, dynamic> json) =>
+    GetPolicyEvaluationsRequest(
+      organizationId: json['organizationId'] as String,
+      activityId: json['activityId'] as String,
+    );
+
+Map<String, dynamic> _$GetPolicyEvaluationsRequestToJson(
+        GetPolicyEvaluationsRequest instance) =>
+    <String, dynamic>{
+      'organizationId': instance.organizationId,
+      'activityId': instance.activityId,
+    };
+
+GetPolicyEvaluationsResponse _$GetPolicyEvaluationsResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetPolicyEvaluationsResponse(
+      policyEvaluations: (json['policyEvaluations'] as List<dynamic>?)
+              ?.map((e) => ActivityV1PolicyEvaluation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+
+Map<String, dynamic> _$GetPolicyEvaluationsResponseToJson(
+        GetPolicyEvaluationsResponse instance) =>
+    <String, dynamic>{
+      'policyEvaluations':
+          instance.policyEvaluations.map((e) => e.toJson()).toList(),
+    };
+
 GetPolicyRequest _$GetPolicyRequestFromJson(Map<String, dynamic> json) =>
     GetPolicyRequest(
       organizationId: json['organizationId'] as String,
@@ -2804,6 +2929,63 @@ Map<String, dynamic> _$GetPrivateKeysResponseToJson(
         GetPrivateKeysResponse instance) =>
     <String, dynamic>{
       'privateKeys': instance.privateKeys.map((e) => e.toJson()).toList(),
+    };
+
+GetSmartContractInterfaceRequest _$GetSmartContractInterfaceRequestFromJson(
+        Map<String, dynamic> json) =>
+    GetSmartContractInterfaceRequest(
+      organizationId: json['organizationId'] as String,
+      smartContractInterfaceId: json['smartContractInterfaceId'] as String,
+    );
+
+Map<String, dynamic> _$GetSmartContractInterfaceRequestToJson(
+        GetSmartContractInterfaceRequest instance) =>
+    <String, dynamic>{
+      'organizationId': instance.organizationId,
+      'smartContractInterfaceId': instance.smartContractInterfaceId,
+    };
+
+GetSmartContractInterfaceResponse _$GetSmartContractInterfaceResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetSmartContractInterfaceResponse(
+      smartContractInterface: DataV1SmartContractInterface.fromJson(
+          json['smartContractInterface'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetSmartContractInterfaceResponseToJson(
+        GetSmartContractInterfaceResponse instance) =>
+    <String, dynamic>{
+      'smartContractInterface': instance.smartContractInterface.toJson(),
+    };
+
+GetSmartContractInterfacesRequest _$GetSmartContractInterfacesRequestFromJson(
+        Map<String, dynamic> json) =>
+    GetSmartContractInterfacesRequest(
+      organizationId: json['organizationId'] as String,
+    );
+
+Map<String, dynamic> _$GetSmartContractInterfacesRequestToJson(
+        GetSmartContractInterfacesRequest instance) =>
+    <String, dynamic>{
+      'organizationId': instance.organizationId,
+    };
+
+GetSmartContractInterfacesResponse _$GetSmartContractInterfacesResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetSmartContractInterfacesResponse(
+      smartContractInterfaces:
+          (json['smartContractInterfaces'] as List<dynamic>?)
+                  ?.map((e) => DataV1SmartContractInterface.fromJson(
+                      e as Map<String, dynamic>))
+                  .toList() ??
+              [],
+    );
+
+Map<String, dynamic> _$GetSmartContractInterfacesResponseToJson(
+        GetSmartContractInterfacesResponse instance) =>
+    <String, dynamic>{
+      'smartContractInterfaces':
+          instance.smartContractInterfaces.map((e) => e.toJson()).toList(),
     };
 
 GetSubOrgIdsRequest _$GetSubOrgIdsRequestFromJson(Map<String, dynamic> json) =>
@@ -2956,7 +3138,7 @@ GetWalletAccountsRequest _$GetWalletAccountsRequestFromJson(
         Map<String, dynamic> json) =>
     GetWalletAccountsRequest(
       organizationId: json['organizationId'] as String,
-      walletId: json['walletId'] as String,
+      walletId: json['walletId'] as String?,
       paginationOptions: json['paginationOptions'] == null
           ? null
           : Pagination.fromJson(
@@ -3166,6 +3348,75 @@ Map<String, dynamic> _$ImportWalletResultToJson(ImportWalletResult instance) =>
     <String, dynamic>{
       'walletId': instance.walletId,
       'addresses': instance.addresses,
+    };
+
+InitFiatOnRampIntent _$InitFiatOnRampIntentFromJson(
+        Map<String, dynamic> json) =>
+    InitFiatOnRampIntent(
+      onrampProvider: fiatOnRampProviderFromJson(json['onrampProvider']),
+      walletAddress: json['walletAddress'] as String,
+      network: fiatOnRampBlockchainNetworkFromJson(json['network']),
+      cryptoCurrencyCode:
+          fiatOnRampCryptoCurrencyFromJson(json['cryptoCurrencyCode']),
+      fiatCurrencyCode:
+          fiatOnRampCurrencyNullableFromJson(json['fiatCurrencyCode']),
+      fiatCurrencyAmount: json['fiatCurrencyAmount'] as String?,
+      paymentMethod:
+          fiatOnRampPaymentMethodNullableFromJson(json['paymentMethod']),
+      countryCode: json['countryCode'] as String?,
+      countrySubdivisionCode: json['countrySubdivisionCode'] as String?,
+      sandboxMode: json['sandboxMode'] as bool?,
+    );
+
+Map<String, dynamic> _$InitFiatOnRampIntentToJson(
+        InitFiatOnRampIntent instance) =>
+    <String, dynamic>{
+      'onrampProvider': fiatOnRampProviderToJson(instance.onrampProvider),
+      'walletAddress': instance.walletAddress,
+      'network': fiatOnRampBlockchainNetworkToJson(instance.network),
+      'cryptoCurrencyCode':
+          fiatOnRampCryptoCurrencyToJson(instance.cryptoCurrencyCode),
+      'fiatCurrencyCode':
+          fiatOnRampCurrencyNullableToJson(instance.fiatCurrencyCode),
+      'fiatCurrencyAmount': instance.fiatCurrencyAmount,
+      'paymentMethod':
+          fiatOnRampPaymentMethodNullableToJson(instance.paymentMethod),
+      'countryCode': instance.countryCode,
+      'countrySubdivisionCode': instance.countrySubdivisionCode,
+      'sandboxMode': instance.sandboxMode,
+    };
+
+InitFiatOnRampRequest _$InitFiatOnRampRequestFromJson(
+        Map<String, dynamic> json) =>
+    InitFiatOnRampRequest(
+      type: initFiatOnRampRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters: InitFiatOnRampIntent.fromJson(
+          json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$InitFiatOnRampRequestToJson(
+        InitFiatOnRampRequest instance) =>
+    <String, dynamic>{
+      'type': initFiatOnRampRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+InitFiatOnRampResult _$InitFiatOnRampResultFromJson(
+        Map<String, dynamic> json) =>
+    InitFiatOnRampResult(
+      onRampUrl: json['onRampUrl'] as String,
+      onRampTransactionId: json['onRampTransactionId'] as String,
+    );
+
+Map<String, dynamic> _$InitFiatOnRampResultToJson(
+        InitFiatOnRampResult instance) =>
+    <String, dynamic>{
+      'onRampUrl': instance.onRampUrl,
+      'onRampTransactionId': instance.onRampTransactionId,
     };
 
 InitImportPrivateKeyIntent _$InitImportPrivateKeyIntentFromJson(
@@ -3833,6 +4084,34 @@ Intent _$IntentFromJson(Map<String, dynamic> json) => Intent(
           ? null
           : OauthLoginIntent.fromJson(
               json['oauthLoginIntent'] as Map<String, dynamic>),
+      updateUserNameIntent: json['updateUserNameIntent'] == null
+          ? null
+          : UpdateUserNameIntent.fromJson(
+              json['updateUserNameIntent'] as Map<String, dynamic>),
+      updateUserEmailIntent: json['updateUserEmailIntent'] == null
+          ? null
+          : UpdateUserEmailIntent.fromJson(
+              json['updateUserEmailIntent'] as Map<String, dynamic>),
+      updateUserPhoneNumberIntent: json['updateUserPhoneNumberIntent'] == null
+          ? null
+          : UpdateUserPhoneNumberIntent.fromJson(
+              json['updateUserPhoneNumberIntent'] as Map<String, dynamic>),
+      initFiatOnRampIntent: json['initFiatOnRampIntent'] == null
+          ? null
+          : InitFiatOnRampIntent.fromJson(
+              json['initFiatOnRampIntent'] as Map<String, dynamic>),
+      createSmartContractInterfaceIntent:
+          json['createSmartContractInterfaceIntent'] == null
+              ? null
+              : CreateSmartContractInterfaceIntent.fromJson(
+                  json['createSmartContractInterfaceIntent']
+                      as Map<String, dynamic>),
+      deleteSmartContractInterfaceIntent:
+          json['deleteSmartContractInterfaceIntent'] == null
+              ? null
+              : DeleteSmartContractInterfaceIntent.fromJson(
+                  json['deleteSmartContractInterfaceIntent']
+                      as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$IntentToJson(Intent instance) => <String, dynamic>{
@@ -3948,6 +4227,15 @@ Map<String, dynamic> _$IntentToJson(Intent instance) => <String, dynamic>{
       'otpLoginIntent': instance.otpLoginIntent?.toJson(),
       'stampLoginIntent': instance.stampLoginIntent?.toJson(),
       'oauthLoginIntent': instance.oauthLoginIntent?.toJson(),
+      'updateUserNameIntent': instance.updateUserNameIntent?.toJson(),
+      'updateUserEmailIntent': instance.updateUserEmailIntent?.toJson(),
+      'updateUserPhoneNumberIntent':
+          instance.updateUserPhoneNumberIntent?.toJson(),
+      'initFiatOnRampIntent': instance.initFiatOnRampIntent?.toJson(),
+      'createSmartContractInterfaceIntent':
+          instance.createSmartContractInterfaceIntent?.toJson(),
+      'deleteSmartContractInterfaceIntent':
+          instance.deleteSmartContractInterfaceIntent?.toJson(),
     };
 
 InvitationParams _$InvitationParamsFromJson(Map<String, dynamic> json) =>
@@ -4266,8 +4554,8 @@ Policy _$PolicyFromJson(Map<String, dynamic> json) => Policy(
       updatedAt: ExternalDataV1Timestamp.fromJson(
           json['updatedAt'] as Map<String, dynamic>),
       notes: json['notes'] as String,
-      consensus: json['consensus'] as String,
-      condition: json['condition'] as String,
+      consensus: json['consensus'] as String?,
+      condition: json['condition'] as String?,
     );
 
 Map<String, dynamic> _$PolicyToJson(Policy instance) => <String, dynamic>{
@@ -4800,6 +5088,34 @@ Result _$ResultFromJson(Map<String, dynamic> json) => Result(
           ? null
           : OauthLoginResult.fromJson(
               json['oauthLoginResult'] as Map<String, dynamic>),
+      updateUserNameResult: json['updateUserNameResult'] == null
+          ? null
+          : UpdateUserNameResult.fromJson(
+              json['updateUserNameResult'] as Map<String, dynamic>),
+      updateUserEmailResult: json['updateUserEmailResult'] == null
+          ? null
+          : UpdateUserEmailResult.fromJson(
+              json['updateUserEmailResult'] as Map<String, dynamic>),
+      updateUserPhoneNumberResult: json['updateUserPhoneNumberResult'] == null
+          ? null
+          : UpdateUserPhoneNumberResult.fromJson(
+              json['updateUserPhoneNumberResult'] as Map<String, dynamic>),
+      initFiatOnRampResult: json['initFiatOnRampResult'] == null
+          ? null
+          : InitFiatOnRampResult.fromJson(
+              json['initFiatOnRampResult'] as Map<String, dynamic>),
+      createSmartContractInterfaceResult:
+          json['createSmartContractInterfaceResult'] == null
+              ? null
+              : CreateSmartContractInterfaceResult.fromJson(
+                  json['createSmartContractInterfaceResult']
+                      as Map<String, dynamic>),
+      deleteSmartContractInterfaceResult:
+          json['deleteSmartContractInterfaceResult'] == null
+              ? null
+              : DeleteSmartContractInterfaceResult.fromJson(
+                  json['deleteSmartContractInterfaceResult']
+                      as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
@@ -4897,6 +5213,15 @@ Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
       'otpLoginResult': instance.otpLoginResult?.toJson(),
       'stampLoginResult': instance.stampLoginResult?.toJson(),
       'oauthLoginResult': instance.oauthLoginResult?.toJson(),
+      'updateUserNameResult': instance.updateUserNameResult?.toJson(),
+      'updateUserEmailResult': instance.updateUserEmailResult?.toJson(),
+      'updateUserPhoneNumberResult':
+          instance.updateUserPhoneNumberResult?.toJson(),
+      'initFiatOnRampResult': instance.initFiatOnRampResult?.toJson(),
+      'createSmartContractInterfaceResult':
+          instance.createSmartContractInterfaceResult?.toJson(),
+      'deleteSmartContractInterfaceResult':
+          instance.deleteSmartContractInterfaceResult?.toJson(),
     };
 
 RootUserParams _$RootUserParamsFromJson(Map<String, dynamic> json) =>
@@ -5043,7 +5368,7 @@ SetOrganizationFeatureIntent _$SetOrganizationFeatureIntentFromJson(
         Map<String, dynamic> json) =>
     SetOrganizationFeatureIntent(
       name: featureNameFromJson(json['name']),
-      $value: json['value'] as String,
+      $value: json['value'] as String?,
     );
 
 Map<String, dynamic> _$SetOrganizationFeatureIntentToJson(
@@ -5622,6 +5947,53 @@ Map<String, dynamic> _$UpdateRootQuorumResultToJson(
         UpdateRootQuorumResult instance) =>
     <String, dynamic>{};
 
+UpdateUserEmailIntent _$UpdateUserEmailIntentFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserEmailIntent(
+      userId: json['userId'] as String,
+      userEmail: json['userEmail'] as String,
+      verificationToken: json['verificationToken'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateUserEmailIntentToJson(
+        UpdateUserEmailIntent instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userEmail': instance.userEmail,
+      'verificationToken': instance.verificationToken,
+    };
+
+UpdateUserEmailRequest _$UpdateUserEmailRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserEmailRequest(
+      type: updateUserEmailRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters: UpdateUserEmailIntent.fromJson(
+          json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateUserEmailRequestToJson(
+        UpdateUserEmailRequest instance) =>
+    <String, dynamic>{
+      'type': updateUserEmailRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+UpdateUserEmailResult _$UpdateUserEmailResultFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserEmailResult(
+      userId: json['userId'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserEmailResultToJson(
+        UpdateUserEmailResult instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+    };
+
 UpdateUserIntent _$UpdateUserIntentFromJson(Map<String, dynamic> json) =>
     UpdateUserIntent(
       userId: json['userId'] as String,
@@ -5641,6 +6013,98 @@ Map<String, dynamic> _$UpdateUserIntentToJson(UpdateUserIntent instance) =>
       'userEmail': instance.userEmail,
       'userTagIds': instance.userTagIds,
       'userPhoneNumber': instance.userPhoneNumber,
+    };
+
+UpdateUserNameIntent _$UpdateUserNameIntentFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserNameIntent(
+      userId: json['userId'] as String,
+      userName: json['userName'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserNameIntentToJson(
+        UpdateUserNameIntent instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userName': instance.userName,
+    };
+
+UpdateUserNameRequest _$UpdateUserNameRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserNameRequest(
+      type: updateUserNameRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters: UpdateUserNameIntent.fromJson(
+          json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateUserNameRequestToJson(
+        UpdateUserNameRequest instance) =>
+    <String, dynamic>{
+      'type': updateUserNameRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+UpdateUserNameResult _$UpdateUserNameResultFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserNameResult(
+      userId: json['userId'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserNameResultToJson(
+        UpdateUserNameResult instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+    };
+
+UpdateUserPhoneNumberIntent _$UpdateUserPhoneNumberIntentFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserPhoneNumberIntent(
+      userId: json['userId'] as String,
+      userPhoneNumber: json['userPhoneNumber'] as String,
+      verificationToken: json['verificationToken'] as String?,
+    );
+
+Map<String, dynamic> _$UpdateUserPhoneNumberIntentToJson(
+        UpdateUserPhoneNumberIntent instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
+      'userPhoneNumber': instance.userPhoneNumber,
+      'verificationToken': instance.verificationToken,
+    };
+
+UpdateUserPhoneNumberRequest _$UpdateUserPhoneNumberRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserPhoneNumberRequest(
+      type: updateUserPhoneNumberRequestTypeFromJson(json['type']),
+      timestampMs: json['timestampMs'] as String,
+      organizationId: json['organizationId'] as String,
+      parameters: UpdateUserPhoneNumberIntent.fromJson(
+          json['parameters'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateUserPhoneNumberRequestToJson(
+        UpdateUserPhoneNumberRequest instance) =>
+    <String, dynamic>{
+      'type': updateUserPhoneNumberRequestTypeToJson(instance.type),
+      'timestampMs': instance.timestampMs,
+      'organizationId': instance.organizationId,
+      'parameters': instance.parameters.toJson(),
+    };
+
+UpdateUserPhoneNumberResult _$UpdateUserPhoneNumberResultFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserPhoneNumberResult(
+      userId: json['userId'] as String,
+    );
+
+Map<String, dynamic> _$UpdateUserPhoneNumberResultToJson(
+        UpdateUserPhoneNumberResult instance) =>
+    <String, dynamic>{
+      'userId': instance.userId,
     };
 
 UpdateUserRequest _$UpdateUserRequestFromJson(Map<String, dynamic> json) =>
@@ -6074,6 +6538,34 @@ Map<String, dynamic> _$ActivityV1AddressToJson(ActivityV1Address instance) =>
       'address': instance.address,
     };
 
+ActivityV1PolicyEvaluation _$ActivityV1PolicyEvaluationFromJson(
+        Map<String, dynamic> json) =>
+    ActivityV1PolicyEvaluation(
+      id: json['id'] as String,
+      activityId: json['activityId'] as String,
+      organizationId: json['organizationId'] as String,
+      voteId: json['voteId'] as String,
+      policyEvaluations: (json['policyEvaluations'] as List<dynamic>?)
+              ?.map((e) =>
+                  UmpV1PolicyEvaluation.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+      createdAt: ExternalDataV1Timestamp.fromJson(
+          json['createdAt'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ActivityV1PolicyEvaluationToJson(
+        ActivityV1PolicyEvaluation instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'activityId': instance.activityId,
+      'organizationId': instance.organizationId,
+      'voteId': instance.voteId,
+      'policyEvaluations':
+          instance.policyEvaluations.map((e) => e.toJson()).toList(),
+      'createdAt': instance.createdAt.toJson(),
+    };
+
 DataV1Address _$DataV1AddressFromJson(Map<String, dynamic> json) =>
     DataV1Address(
       format: addressFormatNullableFromJson(json['format']),
@@ -6084,6 +6576,36 @@ Map<String, dynamic> _$DataV1AddressToJson(DataV1Address instance) =>
     <String, dynamic>{
       'format': addressFormatNullableToJson(instance.format),
       'address': instance.address,
+    };
+
+DataV1SmartContractInterface _$DataV1SmartContractInterfaceFromJson(
+        Map<String, dynamic> json) =>
+    DataV1SmartContractInterface(
+      organizationId: json['organizationId'] as String,
+      smartContractInterfaceId: json['smartContractInterfaceId'] as String,
+      smartContractAddress: json['smartContractAddress'] as String,
+      smartContractInterface: json['smartContractInterface'] as String,
+      type: json['type'] as String,
+      label: json['label'] as String,
+      notes: json['notes'] as String,
+      createdAt: ExternalDataV1Timestamp.fromJson(
+          json['createdAt'] as Map<String, dynamic>),
+      updatedAt: ExternalDataV1Timestamp.fromJson(
+          json['updatedAt'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$DataV1SmartContractInterfaceToJson(
+        DataV1SmartContractInterface instance) =>
+    <String, dynamic>{
+      'organizationId': instance.organizationId,
+      'smartContractInterfaceId': instance.smartContractInterfaceId,
+      'smartContractAddress': instance.smartContractAddress,
+      'smartContractInterface': instance.smartContractInterface,
+      'type': instance.type,
+      'label': instance.label,
+      'notes': instance.notes,
+      'createdAt': instance.createdAt.toJson(),
+      'updatedAt': instance.updatedAt.toJson(),
     };
 
 ExternalDataV1Credential _$ExternalDataV1CredentialFromJson(
@@ -6129,6 +6651,20 @@ Map<String, dynamic> _$ExternalDataV1TimestampToJson(
     <String, dynamic>{
       'seconds': instance.seconds,
       'nanos': instance.nanos,
+    };
+
+UmpV1PolicyEvaluation _$UmpV1PolicyEvaluationFromJson(
+        Map<String, dynamic> json) =>
+    UmpV1PolicyEvaluation(
+      policyId: json['policyId'] as String?,
+      outcome: outcomeNullableFromJson(json['outcome']),
+    );
+
+Map<String, dynamic> _$UmpV1PolicyEvaluationToJson(
+        UmpV1PolicyEvaluation instance) =>
+    <String, dynamic>{
+      'policyId': instance.policyId,
+      'outcome': outcomeNullableToJson(instance.outcome),
     };
 
 V1Tag _$V1TagFromJson(Map<String, dynamic> json) => V1Tag(

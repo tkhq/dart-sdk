@@ -1,3 +1,7 @@
+## 0.2.2+1
+
+ - Update a dependency to the latest release.
+
 ## 0.2.2
 
 - Added `onInitialized` callback. Runs when initialization is complete and carries an error
