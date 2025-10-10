@@ -21,3 +21,8 @@ workspace:
 
 dev_dependencies:
   melos: 7.1.1
+
+scripts:
+  test: melos exec -- dart test
+  test:flutter: melos exec -- flutter test
+
