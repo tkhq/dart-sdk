@@ -237,7 +237,7 @@ Future<void> generateClientFromSwagger({
 
       if (mType == 'activityDecision' || mType == 'command') {
         codeBuffer.add('''
-      Future<$responseType> $prefix$methodName({
+      Future<$responseType> ${prefix.toLowerCase()}${prefix.isEmpty ? methodName : methodName.capitalize()}({
         required $inputType input,
       }) async {
         final body = packActivityBody(
@@ -253,7 +253,7 @@ Future<void> generateClientFromSwagger({
     ''');
       } else if (mType == 'noop' || mType == 'query') {
         codeBuffer.add('''
-      Future<$responseType> $prefix$methodName({
+      Future<$responseType> ${prefix.toLowerCase()}${prefix.isEmpty ? methodName : methodName.capitalize()}({
         required $inputType input,
       }) async {
         return await request<$inputType, $responseType>(
@@ -265,7 +265,7 @@ Future<void> generateClientFromSwagger({
     ''');
       } else if (mType == 'proxy') {
         codeBuffer.add('''
-      Future<$responseType> $prefix$methodName({
+      Future<$responseType> ${prefix.toLowerCase()}${prefix.isEmpty ? methodName : methodName.capitalize()}({
         required $inputType input,
       }) async {
         return await authProxyRequest<$inputType, $responseType>(

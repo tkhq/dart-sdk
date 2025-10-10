@@ -219,6 +219,8 @@ class WalletAccount {
 class TurnkeyConfig {
   final String apiBaseUrl;
   final String organizationId;
+  final String? authProxyBaseUrl;
+  final String? authProxyConfigId;
 
   final void Function(Session session)? onSessionCreated;
   final void Function(Session session)? onSessionSelected;
@@ -231,6 +233,8 @@ class TurnkeyConfig {
   TurnkeyConfig({
     required this.apiBaseUrl,
     required this.organizationId,
+    this.authProxyBaseUrl,
+    this.authProxyConfigId,
     this.onSessionCreated,
     this.onSessionSelected,
     this.onSessionExpired,

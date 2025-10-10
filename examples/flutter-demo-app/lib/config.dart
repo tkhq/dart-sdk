@@ -9,6 +9,8 @@ class EnvConfig {
   static String get organizationId => dotenv.env['ORGANIZATION_ID'] ?? '';
   static String get googleClientId => dotenv.env['GOOGLE_CLIENT_ID'] ?? '';
   static String get appScheme => dotenv.env['APP_SCHEME'] ?? '';
+  static String? get authProxyUrl => dotenv.env['AUTH_PROXY_URL'];
+  static String? get authProxyConfigId => dotenv.env['AUTH_PROXY_CONFIG_ID'];
 }
 
 Future<void> loadEnv() async {

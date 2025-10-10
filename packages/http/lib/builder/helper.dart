@@ -205,3 +205,9 @@ Future<List<TFileInfo>> resolveFileList(String rootPath) async {
 
   return fileList;
 }
+
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
