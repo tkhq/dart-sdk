@@ -20,3 +20,53 @@ For the quickest and easiest way to create a Turnkey-powered Flutter app, check 
 ## Example App
 
 For a fully functional Flutter demo app that leverages Turnkey's Dart/Flutter packages, check out our [Turnkey Flutter Demo App](./examples/flutter-demo-app).
+
+## 🧑‍💻 Development
+
+Guidelines for setting up the workspace, running tests, and contributing code to the Turnkey Dart SDK
+
+### Commit Conventions
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/) to ensure automated versioning works correctly.
+
+| Type                                    | Description                                            | Version bump                                                           |
+| --------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
+| `fix:`                                  | Bug fixes, dependency updates, or non-breaking changes | **Patch** (`0.3.0 → 0.3.1`)                                            |
+| `feat:`                                 | New features or functionality additions                | **Minor** (`0.3.0 → 0.4.0` pre-1.0)                                    |
+| `feat!:` / `BREAKING CHANGE:`           | Backward-incompatible changes                          | **Breaking / Major** (`0.3.x → 0.4.0` pre-1.0, `1.x → 2.0.0` post-1.0) |
+| `chore:`, `docs:`, `test:`, `refactor:` | Internal or documentation changes                      | *No bump*                                                              |
+
+> 🧮 **Pre-1.0 rule:** Dart treats a *minor* bump as breaking (`0.3.x → 0.4.0`).
+
+---
+
+### 🚀 Releasing
+
+1. **Bootstrap workspace**
+
+   ```bash
+   melos bootstrap
+   ```
+
+2. **Version packages**
+
+   ```bash
+   melos version
+   ```
+
+   Auto-bumps versions and updates changelogs from commit history.
+   Use `--prerelease --preid=beta` for beta tags.
+
+3. **Dry-run publish**
+
+   ```bash
+   melos publish
+   ```
+
+4. **Publish for real**
+
+   ```bash
+   melos publish --no-dry-run
+   ```
+
+> Melos publishes in dependency order and only releases packages with new versions.
