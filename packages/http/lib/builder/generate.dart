@@ -22,6 +22,7 @@ import 'package:swagger_dart_code_generator/src/swagger_models/requests/swagger_
 Future<void> generateMappedSwaggerTypes({
   required List<TFileInfo> fileList,
   required String targetPath,
+  String prefix = '',
 }) async {
   for (final fileInfo in fileList) {
     final SwaggerRoot spec = SwaggerRoot.fromJson(fileInfo.parsedData);
@@ -78,7 +79,7 @@ Future<void> generateMappedSwaggerTypes({
             extractRefsFromOperation(operation.responses, operation.parameters);
 
         final TBinding responseTypeBinding = TBinding(
-          name: 'T${operationId}Response',
+          name: '${prefix}T${operationId}Response',
           isBound: true,
           value: !operation.responses.containsKey('200')
               ? 'void'
@@ -86,20 +87,20 @@ Future<void> generateMappedSwaggerTypes({
         );
 
         final TBinding queryTypeBinding = TBinding(
-          name: 'T${operationId}Query',
+          name: '${prefix}T${operationId}Query',
           isBound: parameterList.any((item) => item.inParameter == 'query'),
           value: 'operations["$operationId"]["parameters"]["query"]',
         );
 
         final TBinding bodyTypeBinding = TBinding(
-          name: 'T${operationId}Body',
+          name: '${prefix}T${operationId}Body',
           isBound: method == 'post' &&
               parameterList.any((item) => item.inParameter == 'body'),
           value: refs['parameter'] ?? "Never",
         );
 
         final TBinding substitutionTypeBinding = TBinding(
-          name: 'T${operationId}Substitution',
+          name: 'T${prefix}${operationId}Substitution',
           isBound: parameterList.any((item) => item.inParameter == 'path'),
           value: 'operations["$operationId"]["parameters"]["path"]',
         );
@@ -113,7 +114,7 @@ Future<void> generateMappedSwaggerTypes({
         );
 
         final TBinding inputTypeBinding = TBinding(
-          name: 'T${operationId}Input',
+          name: '${prefix}T${operationId}Input',
           isBound: bodyTypeBinding.isBound ||
               queryTypeBinding.isBound ||
               substitutionTypeBinding.isBound ||
