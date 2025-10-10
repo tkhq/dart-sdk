@@ -40,6 +40,7 @@ export async function POST(req: Request, res: Response) {
         return res.json({ error: "Method not found", status: 404 });
     }
   } catch (error: any) {
+    console.log("error", error);
     console.error("server error", { ...error }, JSON.stringify(error));
     return res.json({
       error: error.message || "An unknown error occurred",

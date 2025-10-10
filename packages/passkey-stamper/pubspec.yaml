@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   crypto: ^3.0.6
-  passkeys: ^2.4.0
+  passkeys: ^2.15.1
   turnkey_http:
     path: ../http
   turnkey_encoding:

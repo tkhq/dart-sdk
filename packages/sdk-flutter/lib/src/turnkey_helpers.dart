@@ -67,26 +67,6 @@ Future<User?> fetchUser(TurnkeyClient client, String organizationId) async {
   return null;
 }
 
-/// Creates an authenticated Turnkey client instance.
-///
-/// Generates an `ApiKeyStamper` using the provided public and private keys.
-/// Instantiates a `TurnkeyClient` with the configured API base URL.
-///
-/// [publicKey] The public key used for authentication.
-/// [privateKey] The private key used for authentication.
-/// [apiBaseUrl] The base URL of the Turnkey API.
-/// Returns a new `TurnkeyClient` instance.
-TurnkeyClient createClient(String publicKey, String privateKey, apiBaseUrl) {
-  final stamper = ApiKeyStamper(
-    ApiKeyStamperConfig(apiPrivateKey: privateKey, apiPublicKey: publicKey),
-  );
-
-  return TurnkeyClient(
-    config: THttpConfig(baseUrl: apiBaseUrl),
-    stamper: stamper,
-  );
-}
-
 /// Checks if a given [session] is valid.
 ///
 /// A session is considered valid if it has a defined expiry time
@@ -95,5 +75,5 @@ TurnkeyClient createClient(String publicKey, String privateKey, apiBaseUrl) {
 /// Returns `true` if the session is valid, otherwise `false`.
 bool isValidSession(Session? session) {
   return session != null &&
-      session.expiry > DateTime.now().millisecondsSinceEpoch;
+      session.expiry * 1000 > DateTime.now().millisecondsSinceEpoch;
 }
