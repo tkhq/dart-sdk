@@ -59,9 +59,7 @@ class TurnkeyProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      createClient(
-        config.apiBaseUrl,
-      );
+      createClient();
       // 1. Get all stored sessions
       final allSessions = await getAllSessions();
       if (allSessions == null || allSessions.isEmpty) {
@@ -99,8 +97,9 @@ class TurnkeyProvider with ChangeNotifier {
         if (activeSession != null) {
           // 5. Swap public key
           createClient(
-            config.apiBaseUrl,
+
             publicKey: activeSession.publicKey,
+  
           );
           _session = activeSession;
 
@@ -138,7 +137,6 @@ class TurnkeyProvider with ChangeNotifier {
       print("🔑 calling callback: $_session");
       config.onSessionSelected?.call(session);
       createClient(
-        config.apiBaseUrl,
         publicKey: session.publicKey,
       );
     }
@@ -204,7 +202,6 @@ class TurnkeyProvider with ChangeNotifier {
     if (storeOverride) {
       // Swap the client to use this new key
       createClient(
-        config.apiBaseUrl,
         publicKey: publicKey,
       );
     }
@@ -307,11 +304,22 @@ class TurnkeyProvider with ChangeNotifier {
     return session;
   }
 
-  TurnkeyClient createClient(String apiBaseUrl, {String? publicKey}) {
+  TurnkeyClient createClient(
+      {String? publicKey,
+      String? apiBaseUrl ,
+      String? authProxyConfigId,
+      String? authProxyBaseUrl}) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
-
+    apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
+    authProxyBaseUrl ??= config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
+    authProxyConfigId ??= config.authProxyConfigId;
+  
     final newClient = TurnkeyClient(
-      config: THttpConfig(baseUrl: apiBaseUrl),
+      config: THttpConfig(
+        baseUrl: apiBaseUrl,
+        authProxyConfigId: authProxyConfigId,
+        authProxyBaseUrl: authProxyBaseUrl,
+      ),
       stamper: secureStorageStamper,
     );
 
@@ -749,6 +757,75 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception('Google OAuth failed: $e');
     }
   }
+
+
+  Future verifyOtp({
+    required String otpCode,
+    required String otpId,
+    required String contact,
+    required OtpType otpType
+  }) async {
+     final verifyOtpRes = await client!.proxyVerifyOtp(input: ProxyTVerifyOtpBody(
+      otpCode: otpCode,
+      otpId: otpId,
+      ));
+
+      if (verifyOtpRes.verificationToken.isEmpty) {
+        throw Exception("Failed to verify OTP");
+      }
+
+      print(otpTypeToFilterTypeMap[otpType]);
+
+      final accountRes = await client!.proxyGetAccount(input: ProxyTGetAccountBody(filterType: otpTypeToFilterTypeMap[otpType]!.value, filterValue: contact));
+
+      final subOrganizationId = accountRes.organizationId;
+      return (
+        subOrganizationId: subOrganizationId,
+        verificationToken: verifyOtpRes.verificationToken
+      );
+  }
+
+  Future loginWithOtp({
+    required String verificationToken,
+    String? organizationId,
+    bool invalidateExisting = false,
+    String? publicKey,
+    String? sessionKey,
+  }) async {
+     final pubKey = publicKey ?? await createApiKeyPair();
+     final res = await client!.proxyOtpLogin(input: ProxyTOtpLoginBody(
+      organizationId: organizationId,
+      publicKey: pubKey,
+      verificationToken: verificationToken,
+      invalidateExisting: invalidateExisting,
+     ));
+
+     await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
+     return (
+      sessionToken: res.session,
+     );
+  }
+
+  // Future signUpWithOtp({
+  //   required String verificationToken,
+  //   required String contact,
+  //   required OtpType otpType,
+  //   String? publicKey,
+  //   String? sessionKey,
+  // }) async {
+  //    final pubKey = publicKey ?? await createApiKeyPair();
+  //    final res = await client!.proxyOtpSignUp(input: ProxyTOtpSignUpBody(
+  //     organizationId: organizationId,
+  //     publicKey: pubKey,
+  //     contact: contact,
+  //     contactType: otpTypeToContactTypeMap[otpType]!,
+  //    ));
+
+  //    await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
+  //    return (
+  //     sessionToken: res.session,
+  //    );
+  // }
 }
 
 // We create a custom browser class to handle the onClosed event

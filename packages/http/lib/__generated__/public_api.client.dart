@@ -3921,7 +3921,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetAccount`.
 
-  Future<ProxyTGetAccountResponse> ProxygetAccount({
+  Future<ProxyTGetAccountResponse> proxyGetAccount({
     required ProxyTGetAccountBody input,
   }) async {
     return await authProxyRequest<ProxyTGetAccountBody,
@@ -3939,7 +3939,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampOAuth2Authenticate`.
 
-  Future<ProxyTOAuth2AuthenticateResponse> ProxyoAuth2Authenticate({
+  Future<ProxyTOAuth2AuthenticateResponse> proxyOAuth2Authenticate({
     required ProxyTOAuth2AuthenticateBody input,
   }) async {
     return await authProxyRequest<ProxyTOAuth2AuthenticateBody,
@@ -3957,7 +3957,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampOAuthLogin`.
 
-  Future<ProxyTOAuthLoginResponse> ProxyoAuthLogin({
+  Future<ProxyTOAuthLoginResponse> proxyOAuthLogin({
     required ProxyTOAuthLoginBody input,
   }) async {
     return await authProxyRequest<ProxyTOAuthLoginBody,
@@ -3975,7 +3975,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampInitOtp`.
 
-  Future<ProxyTInitOtpResponse> ProxyinitOtp({
+  Future<ProxyTInitOtpResponse> proxyInitOtp({
     required ProxyTInitOtpBody input,
   }) async {
     return await authProxyRequest<ProxyTInitOtpBody, ProxyTInitOtpResponse>(
@@ -3992,7 +3992,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampOtpLogin`.
 
-  Future<ProxyTOtpLoginResponse> ProxyotpLogin({
+  Future<ProxyTOtpLoginResponse> proxyOtpLogin({
     required ProxyTOtpLoginBody input,
   }) async {
     return await authProxyRequest<ProxyTOtpLoginBody, ProxyTOtpLoginResponse>(
@@ -4011,7 +4011,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampVerifyOtp`.
 
-  Future<ProxyTVerifyOtpResponse> ProxyverifyOtp({
+  Future<ProxyTVerifyOtpResponse> proxyVerifyOtp({
     required ProxyTVerifyOtpBody input,
   }) async {
     return await authProxyRequest<ProxyTVerifyOtpBody, ProxyTVerifyOtpResponse>(
@@ -4030,7 +4030,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampSignup`.
 
-  Future<ProxyTSignupResponse> Proxysignup({
+  Future<ProxyTSignupResponse> proxySignup({
     required ProxyTSignupBody input,
   }) async {
     return await authProxyRequest<ProxyTSignupBody, ProxyTSignupResponse>(
@@ -4047,7 +4047,7 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetWalletKitConfig`.
 
-  Future<ProxyTGetWalletKitConfigResponse> ProxygetWalletKitConfig({
+  Future<ProxyTGetWalletKitConfigResponse> proxyGetWalletKitConfig({
     required ProxyTGetWalletKitConfigBody input,
   }) async {
     return await authProxyRequest<ProxyTGetWalletKitConfigBody,

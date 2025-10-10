@@ -18,6 +18,19 @@ enum OtpType {
   const OtpType(this.value);
 }
 
+enum FilterType {
+  Email("EMAIL"),
+  SMS("PHONE_NUMBER");
+
+  final String value;
+  const FilterType(this.value);
+}
+
+const Map<OtpType, FilterType> otpTypeToFilterTypeMap = {
+  OtpType.Email: FilterType.Email,
+  OtpType.SMS: FilterType.SMS,
+};
+
 const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
 
 const MAX_SESSIONS = 15;

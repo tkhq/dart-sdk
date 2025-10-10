@@ -41,18 +41,19 @@ class AuthRelayerProvider with ChangeNotifier {
     setError(null);
 
     try {
-      final response = await initOTPAuth({
-        'otpType': otpType.value,
-        'contact': contact,
-      });
+      final response = await turnkeyProvider.client!.proxyInitOtp(input: ProxyTInitOtpBody(
+        contact: contact,
+        otpType: otpType == OtpType.Email ? 'OTP_TYPE_EMAIL' : 'OTP_TYPE_SMS',
+      ));
 
       if (response != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => OTPScreen(
-              otpId: response['otpId'],
-              organizationId: response['organizationId'],
+              otpId: response.otpId,
+              contact: contact,
+              otpType: otpType,
             ),
           ),
         );
@@ -68,34 +69,13 @@ class AuthRelayerProvider with ChangeNotifier {
   Future<void> completeOtpAuth({
     required String otpId,
     required String otpCode,
-    required String organizationId,
+    required String contact,
+    required OtpType otpType,
   }) async {
-    // if (otpCode.isNotEmpty) {
-    //   setLoading('completeOtpAuth', true);
-    //   setError(null);
+    final (suborganizationId, verificationToken) = await turnkeyProvider.verifyOtp(otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType);
 
-    //   try {
-    //     final targetPublicKey = await turnkeyProvider.createEmbeddedKey();
-
-    //     final response = await otpAuth({
-    //       'otpId': otpId,
-    //       'otpCode': otpCode,
-    //       'organizationId': organizationId,
-    //       'targetPublicKey': targetPublicKey,
-    //       'expirationSeconds': OTP_AUTH_DEFAULT_EXPIRATION_SECONDS.toString(),
-    //       'invalidateExisting': false,
-    //     });
-
-    //     if (response['credentialBundle'] != null) {
-    //       await turnkeyProvider.storeSession(
-    //           bundle: response['credentialBundle']);
-    //     }
-    //   } catch (error) {
-    //     setError(error.toString());
-    //   } finally {
-    //     setLoading('completeOtpAuth', false);
-    //   }
-    // }
+    final loginRes = await turnkeyProvider.loginWithOtp(verificationToken: verificationToken);
+    print("Login res: $loginRes");
   }
 
   Future<void> signUpWithPasskey({

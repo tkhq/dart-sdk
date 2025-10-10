@@ -56,6 +56,8 @@ void main() async {
   final turnkeyProvider = TurnkeyProvider(
     config: TurnkeyConfig(
       apiBaseUrl: EnvConfig.turnkeyApiUrl,
+      authProxyBaseUrl: EnvConfig.authProxyUrl,
+      authProxyConfigId: EnvConfig.authProxyConfigId,
       organizationId: EnvConfig.organizationId,
       onSessionSelected: onSessionSelected,
       onSessionCleared: onSessionCleared,

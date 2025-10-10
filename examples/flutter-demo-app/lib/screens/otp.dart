@@ -3,19 +3,23 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/widgets/buttons.dart';
+import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 import '../providers/auth.dart';
 
 class OTPScreen extends StatelessWidget {
   final String otpId;
-  final String organizationId;
+  final String? contact;
+  final OtpType? otpType;
 
   const OTPScreen(
-      {super.key, required this.otpId, required this.organizationId});
+      {super.key, required this.otpId, this.contact, this.otpType});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController otpController = TextEditingController();
+
+  final turnkeyProvider = Provider.of<TurnkeyProvider>(context, listen: false);
 
     return Scaffold(
         body: Center(
@@ -97,7 +101,8 @@ class OTPScreen extends StatelessWidget {
                                 await authRelayerProvider.completeOtpAuth(
                                   otpId: otpId,
                                   otpCode: otpCode,
-                                  organizationId: organizationId,
+                                  contact: contact!,
+                                  otpType: otpType!,
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
