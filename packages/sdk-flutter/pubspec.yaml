@@ -23,6 +23,7 @@ dependencies:
     path: ../http
   app_links: ^6.3.3
   flutter_inappwebview: ^6.1.5
+  hive: ^2.2.3
 
 
 dev_dependencies:

@@ -1,10 +1,10 @@
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
 enum StorageKeys {
+  AllSessionKeys("@turnkey/all-session-keys"),
+  ActiveSessionKey("@turnkey/active-session-key"),
   DefaultSession("@turnkey/session"),
-  EmbeddedKey("@turnkey/embedded-key"),
-  SessionKeys("@turnkey/session-keys"),
-  SelectedSession("@turnkey/selected-session");
+  EmbeddedKey("@turnkey/embedded-key");
 
   final String value;
   const StorageKeys(this.value);

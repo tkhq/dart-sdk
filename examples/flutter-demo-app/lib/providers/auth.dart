@@ -84,7 +84,7 @@ class AuthRelayerProvider with ChangeNotifier {
         });
 
         if (response['credentialBundle'] != null) {
-          await turnkeyProvider.createSession(
+          await turnkeyProvider.storeSession(
               bundle: response['credentialBundle']);
         }
       } catch (error) {
@@ -172,7 +172,7 @@ class AuthRelayerProvider with ChangeNotifier {
           .activity.result.createReadWriteSessionResultV2?.credentialBundle;
 
       if (credentialBundle != null) {
-        await turnkeyProvider.createSession(bundle: credentialBundle);
+        await turnkeyProvider.storeSession(bundle: credentialBundle);
       }
     } catch (error) {
       setError(error.toString());
@@ -198,7 +198,7 @@ class AuthRelayerProvider with ChangeNotifier {
         'expirationSeconds': expirationSeconds,
       });
       if (response['credentialBundle'] != null) {
-        await turnkeyProvider.createSession(
+        await turnkeyProvider.storeSession(
             bundle: response['credentialBundle']);
       }
     } catch (error) {
@@ -252,7 +252,7 @@ class AuthRelayerProvider with ChangeNotifier {
       });
 
       if (oAuthResponse['credentialBundle'] != null) {
-        await turnkeyProvider.createSession(
+        await turnkeyProvider.storeSession(
             bundle: oAuthResponse['credentialBundle']);
         return;
       } else {

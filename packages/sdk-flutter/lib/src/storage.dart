@@ -1,213 +1,91 @@
 import 'dart:convert';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
+import 'package:hive/hive.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
-final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+class SessionStorageManager {
+  static Box get _box => Hive.box('turnkey_sessions');
 
-/// Retrieves the stored embedded key from secure storage.
-/// Optionally deletes the key from storage after retrieval.
-///
-/// [deleteKey] Whether to remove the embedded key after retrieval. Defaults to `true`.
-/// Returns the embedded private key if found, otherwise `null`.
-/// Throws if retrieving or deleting the key fails.
-Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
-  final key = await _secureStorage.read(key: StorageKeys.EmbeddedKey.value);
-  if (deleteKey) {
-    await _secureStorage.delete(key: StorageKeys.EmbeddedKey.value);
+  /// Generic: store any JSON-serializable value
+  static Future<void> setStorageValue(String key, dynamic value) async {
+    await _box.put(key, jsonEncode(value));
   }
 
-  return key;
-}
-
-/// Saves an embedded key securely in storage.
-///
-/// [key] The private key to store securely.
-/// [sessionKey] Optional key to use for storing the embedded key. Defaults to [StorageKeys.EmbeddedKey].
-/// Throws if saving the key fails.
-Future<void> saveEmbeddedKey(String key, [String? sessionKey]) async {
-  try {
-    sessionKey ??= StorageKeys.EmbeddedKey.value;
-    await _secureStorage.write(key: sessionKey, value: key);
-  } catch (e) {
-    throw Exception("Could not save the embedded key: $e");
+  /// Generic: retrieve a stored JSON value
+  static Future<dynamic> getStorageValue(String key) async {
+    final raw = _box.get(key);
+    return raw != null ? jsonDecode(raw) : null;
   }
-}
 
-/// Retrieves a stored session from secure storage.
-///
-/// [sessionKey] The unique key identifying the session.
-/// Returns the session object if found, otherwise `null`.
-/// Throws if retrieving the session fails.
-Future<Session?> getSession(String sessionKey) async {
-  final sessionJson = await _secureStorage.read(key: sessionKey);
-
-  if (sessionJson != null) {
-    return Session.fromJson(jsonDecode(sessionJson));
+  /// Remove any storage value
+  static Future<void> removeStorageValue(String key) async {
+    await _box.delete(key);
   }
-  return null;
-}
 
-/// Saves a session securely in storage.
-///
-/// [session] The session object to store securely.
-/// [sessionKey] The unique key under which the session is stored.
-/// Throws if saving the session fails.
-Future<void> saveSession(
-  Session session,
-  String sessionKey,
-) async {
-  try {
-    await _secureStorage.write(
-        key: sessionKey, value: jsonEncode(session.toJson()));
-  } catch (e) {
-    throw Exception("Failed to save session: $e");
-  }
-}
+  /// ✅ Store a session from a JWT string
+  static Future<void> storeSession(String jwtToken,
+      {String? sessionKey}) async {
+    sessionKey ??= StorageKeys.DefaultSession.value;
+    final sessionWithMetadata = Session.fromJwt(jwtToken);
+    await setStorageValue(sessionKey, sessionWithMetadata.toJson());
 
-/// Deletes a session from secure storage.
-///
-/// [sessionKey] The unique key identifying the session to reset.
-/// Throws if deleting the session fails.
-Future<void> deleteSession(String sessionKey) async {
-  try {
-    await _secureStorage.delete(key: sessionKey);
-  } catch (e) {
-    throw Exception("Failed to reset session: $e");
-  }
-}
-
-/// Retrieves the selected session key from secure storage.
-///
-/// Returns the selected session key as a string, or `null` if not found.
-/// Throws if retrieving the session key fails.
-Future<String?> getSelectedSessionKey() async {
-  try {
-    return await _secureStorage.read(key: StorageKeys.SelectedSession.value);
-  } catch (e) {
-    throw Exception("Failed to get selected session: $e");
-  }
-}
-
-/// Saves the selected session key to secure storage.
-///
-/// [sessionKey] The session key to mark as selected.
-/// Throws if saving the session key fails.
-Future<void> saveSelectedSessionKey(String sessionKey) async {
-  try {
-    await _secureStorage.write(
-      key: StorageKeys.SelectedSession.value,
-      value: sessionKey,
-    );
-  } catch (e) {
-    throw Exception("Failed to save selected session: $e");
-  }
-}
-
-/// Clears the selected session key from secure storage.
-///
-/// Throws if deleting the session key fails.
-Future<void> clearSelectedSessionKey() async {
-  try {
-    await _secureStorage.delete(key: StorageKeys.SelectedSession.value);
-  } catch (e) {
-    throw Exception("Failed to clear selected session: $e");
-  }
-}
-
-/// Adds a session key to the session index in secure storage.
-///
-/// - Retrieves the existing session key index.
-/// - Appends the new session key if it does not already exist.
-/// - Stores the updated session index.
-///
-/// [sessionKey] The session key to add to the index.
-/// Throws if the session key already exists or saving fails.
-Future<void> addSessionKey(String sessionKey) async {
-  try {
-    final indexStr =
-        await _secureStorage.read(key: StorageKeys.SessionKeys.value);
-
-    List<String> keys = [];
-
-    if (indexStr != null) {
-      try {
-        keys = List<String>.from(jsonDecode(indexStr));
-      } catch (e) {
-        throw Exception("Failed to parse session list: $e");
-      }
+    final keys = await listSessionKeys();
+    if (!keys.contains(sessionKey)) {
+      keys.add(sessionKey);
+      await setStorageValue(StorageKeys.AllSessionKeys.value, keys);
     }
 
-    if (keys.contains(sessionKey)) {
-      return;
-    }
-
-    keys.add(sessionKey);
-    await _secureStorage.write(
-      key: StorageKeys.SessionKeys.value,
-      value: jsonEncode(keys),
-    );
-  } catch (e) {
-    throw Exception("Failed to add session key: $e");
+    await setActiveSessionKey(sessionKey);
   }
-}
 
-/// Retrieves all session keys stored in the session index.
-///
-/// Returns an array of session keys stored in secure storage.
-/// Throws if retrieving the session list fails.
-Future<List<String>> getSessionKeys() async {
-  try {
-    final indexStr =
-        await _secureStorage.read(key: StorageKeys.SessionKeys.value);
-
-    if (indexStr == null) {
-      return [];
-    }
-
-    try {
-      final keys = List<String>.from(jsonDecode(indexStr));
-
-      return keys;
-    } catch (e) {
-      throw Exception("Failed to parse session list: $e");
-    }
-  } catch (e) {
-    throw Exception("Failed to retrieve session list: $e");
+  /// ✅ Get a session by key (returns a `Session`)
+  static Future<Session?> getSession(String sessionKey) async {
+    final raw = await getStorageValue(sessionKey);
+    return raw != null ? Session.fromJson(raw) : null;
   }
-}
 
-/// Removes a session key from the session index in secure storage.
-///
-/// - Fetches the existing session key index.
-/// - Removes the specified session key.
-/// - Saves the updated session index back to secure storage.
-///
-/// [sessionKey] The session key to remove from the index.
-/// Throws if removing the session key fails.
-Future<void> removeSessionKey(String sessionKey) async {
-  try {
-    final indexStr =
-        await _secureStorage.read(key: StorageKeys.SessionKeys.value);
+  /// ✅ Set the active session key
+  static Future<void> setActiveSessionKey(String sessionKey) async {
+    await setStorageValue(StorageKeys.ActiveSessionKey.value, sessionKey);
+  }
 
-    List<String> keys = [];
+  /// ✅ Get the active session key
+  static Future<String?> getActiveSessionKey() async {
+    return await getStorageValue(StorageKeys.ActiveSessionKey.value);
+  }
 
-    if (indexStr != null) {
-      try {
-        keys = List<String>.from(jsonDecode(indexStr));
-      } catch (e) {
-        throw Exception("Failed to parse session list: $e");
-      }
+  /// ✅ Get the active session
+  static Future<Session?> getActiveSession() async {
+    final key = await getActiveSessionKey();
+    return key != null ? getSession(key) : null;
+  }
+
+  /// ✅ List all stored session keys
+  static Future<List<String>> listSessionKeys() async {
+    final raw = await getStorageValue(StorageKeys.AllSessionKeys.value);
+    return raw is List ? raw.cast<String>() : [];
+  }
+
+  /// ✅ Clear a single session
+  static Future<void> clearSession(String sessionKey) async {
+    await removeStorageValue(sessionKey);
+
+    final keys = await listSessionKeys();
+    final updated = keys.where((k) => k != sessionKey).toList();
+    await setStorageValue(StorageKeys.AllSessionKeys.value, updated);
+
+    final active = await getActiveSessionKey();
+    if (active == sessionKey) {
+      await removeStorageValue(StorageKeys.ActiveSessionKey.value);
     }
+  }
 
-    final updatedKeys = keys.where((key) => key != sessionKey).toList();
-
-    await _secureStorage.write(
-      key: StorageKeys.SessionKeys.value,
-      value: jsonEncode(updatedKeys),
-    );
-  } catch (e) {
-    throw Exception("Failed to remove session key: $e");
+  /// ✅ Clear all sessions
+  static Future<void> clearAllSessions() async {
+    final keys = await listSessionKeys();
+    for (final k in keys) {
+      await removeStorageValue(k);
+    }
+    await removeStorageValue(StorageKeys.AllSessionKeys.value);
+    await removeStorageValue(StorageKeys.ActiveSessionKey.value);
   }
 }

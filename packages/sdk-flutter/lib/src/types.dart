@@ -1,38 +1,92 @@
+import 'dart:convert';
+
 import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
-  final String key;
-  final String publicKey;
-  final String privateKey;
+  final String sessionType;
+  final String userId;
+  final String organizationId;
   final int expiry;
-  final User? user;
+  final String expirationSeconds;
+  final String publicKey;
+  final String token;
 
-  Session({
-    required this.key,
-    required this.publicKey,
-    required this.privateKey,
+  const Session({
+    required this.sessionType,
+    required this.userId,
+    required this.organizationId,
     required this.expiry,
-    this.user,
+    required this.expirationSeconds,
+    required this.publicKey,
+    required this.token,
   });
 
-  /// Converts the session to a JSON map.
-  Map<String, dynamic> toJson() => {
-        'key': key,
-        'publicKey': publicKey,
-        'privateKey': privateKey,
-        'expiry': expiry,
-        'user': user?.toJson(),
-      };
-
-  /// Creates a session from a JSON map.
+  /// Construct from JSON (used when retrieving from storage)
   factory Session.fromJson(Map<String, dynamic> json) {
     return Session(
-      key: json['key'],
-      publicKey: json['publicKey'],
-      privateKey: json['privateKey'],
-      expiry: json['expiry'],
-      user: json['user'] != null ? User.fromJson(json['user']) : null,
+      sessionType: json['sessionType'] as String,
+      userId: json['userId'] as String,
+      organizationId: json['organizationId'] as String,
+      expiry: json['expiry'] as int,
+      expirationSeconds: json['expirationSeconds'] as String,
+      publicKey: json['publicKey'] as String,
+      token: json['token'] as String,
+    );
+  }
+
+  /// Convert back to JSON (used for storage)
+  Map<String, dynamic> toJson() {
+    return {
+      'sessionType': sessionType,
+      'userId': userId,
+      'organizationId': organizationId,
+      'expiry': expiry,
+      'expirationSeconds': expirationSeconds,
+      'publicKey': publicKey,
+      'token': token,
+    };
+  }
+
+  /// Helper: create Session from a JWT string
+  static Session fromJwt(String token) {
+    final parts = token.split(".");
+    if (parts.length < 2) {
+      throw Exception("Invalid JWT: Missing payload");
+    }
+
+    final payload = parts[1];
+    final normalized =
+        base64.normalize(payload.replaceAll('-', '+').replaceAll('_', '/'));
+    final decodedBytes = base64.decode(normalized);
+    final decoded =
+        jsonDecode(utf8.decode(decodedBytes)) as Map<String, dynamic>;
+
+    final exp = decoded["exp"];
+    final publicKey = decoded["public_key"];
+    final sessionType = decoded["session_type"];
+    final userId = decoded["user_id"];
+    final organizationId = decoded["organization_id"];
+
+    if (exp == null ||
+        publicKey == null ||
+        sessionType == null ||
+        userId == null ||
+        organizationId == null) {
+      throw Exception("JWT payload missing required fields");
+    }
+
+    final expirySeconds =
+        ((exp * 1000 - DateTime.now().millisecondsSinceEpoch) / 1000).ceil();
+
+    return Session(
+      sessionType: sessionType,
+      userId: userId,
+      organizationId: organizationId,
+      expiry: exp,
+      expirationSeconds: expirySeconds.toString(),
+      publicKey: publicKey,
+      token: token,
     );
   }
 }
