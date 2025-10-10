@@ -4,14 +4,14 @@ description: |
   particularly primitives related to keys, encryption, and decryption in a pure Dart implementation.
 version: 0.1.1
 repository: https://github.com/tkhq/dart-sdk
-publish_to: none
 
 environment:
   sdk: ^3.6.1
 
+resolution: workspace
+
 dependencies:
-  turnkey_encoding:
-    path: ../encoding
+  turnkey_encoding: ^0.1.0
   pointycastle: ^3.9.0
   base58check: ^2.0.0
   bs58: ^1.0.2

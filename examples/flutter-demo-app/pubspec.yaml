@@ -3,7 +3,7 @@ description: A demo app using Turnkey's Flutter packages
 publish_to: none
 repository: https://github.com/tkhq/dart-sdk
 
-version: 1.0.0+1
+version: 1.0.0
 
 environment:
   sdk: ^3.6.1
@@ -31,7 +31,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
-  build_runner: ^2.9.0
+  build_runner: ^2.3.3
 
 flutter:
   uses-material-design: true
