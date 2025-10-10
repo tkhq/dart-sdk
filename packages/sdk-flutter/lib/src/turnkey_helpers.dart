@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+import 'package:turnkey_http/__generated__/models.dart';
 
 /// Fetches user details and associated wallets from the Turnkey API.
 ///
@@ -15,16 +15,16 @@ import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 /// Throws if any API request fails.
 Future<User?> fetchUser(TurnkeyClient client, String organizationId) async {
   final whoami = await client.getWhoami(
-      input: GetWhoamiRequest(
+      input: TGetWhoamiBody(
     organizationId: organizationId,
   ));
 
   if (whoami.userId != null && whoami.organizationId != null) {
     final walletsResponse = await client.getWallets(
-      input: GetWalletsRequest(organizationId: whoami.organizationId),
+      input: TGetWalletsBody(organizationId: whoami.organizationId),
     );
     final userResponse = await client.getUser(
-      input: GetUserRequest(
+      input: TGetUserBody(
         organizationId: whoami.organizationId,
         userId: whoami.userId,
       ),
@@ -33,7 +33,7 @@ Future<User?> fetchUser(TurnkeyClient client, String organizationId) async {
     final wallets =
         await Future.wait(walletsResponse.wallets.map((wallet) async {
       final accountsResponse = await client.getWalletAccounts(
-          input: GetWalletAccountsRequest(
+          input: TGetWalletAccountsBody(
               organizationId: whoami.organizationId,
               walletId: wallet.walletId));
       return Wallet(

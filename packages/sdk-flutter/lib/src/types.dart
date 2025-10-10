@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:turnkey_http/__generated__/services/coordinator/v1/public_api.swagger.dart';
+import 'package:turnkey_http/__generated__/models.dart';
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
@@ -168,13 +168,13 @@ class Wallet {
 /// A class representing a wallet account with various attributes.
 class WalletAccount {
   final String id;
-  final Curve curve;
-  final PathFormat pathFormat;
+  final v1Curve curve;
+  final v1PathFormat pathFormat;
   final String path;
-  final AddressFormat addressFormat;
+  final v1AddressFormat addressFormat;
   final String address;
-  final ExternalDataV1Timestamp createdAt;
-  final ExternalDataV1Timestamp updatedAt;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
 
   WalletAccount({
     required this.id,
@@ -203,15 +203,15 @@ class WalletAccount {
   factory WalletAccount.fromJson(Map<String, dynamic> json) {
     return WalletAccount(
       id: json['id'],
-      curve: Curve.values.firstWhere((e) => e.toString() == json['curve']),
-      pathFormat: PathFormat.values
+      curve: v1Curve.values.firstWhere((e) => e.toString() == json['curve']),
+      pathFormat: v1PathFormat.values
           .firstWhere((e) => e.toString() == json['pathFormat']),
       path: json['path'],
-      addressFormat: AddressFormat.values
+      addressFormat: v1AddressFormat.values
           .firstWhere((e) => e.toString() == json['addressFormat']),
       address: json['address'],
-      createdAt: ExternalDataV1Timestamp.fromJson(json['createdAt']),
-      updatedAt: ExternalDataV1Timestamp.fromJson(json['updatedAt']),
+      createdAt: externaldatav1Timestamp.fromJson(json['createdAt']),
+      updatedAt: externaldatav1Timestamp.fromJson(json['updatedAt']),
     );
   }
 }
