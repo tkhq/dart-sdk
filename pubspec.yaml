@@ -4,7 +4,16 @@ version: 0.1.0
 publish_to: none
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+
+workspace:
+  - packages/api-key-stamper
+  - packages/crypto
+  - packages/encoding
+  - packages/http
+  - packages/passkey-stamper
+  - packages/sdk-flutter
+  - packages/sessions
 
 dev_dependencies:
-  melos: 6.3.0
+  melos: 7.1.1
