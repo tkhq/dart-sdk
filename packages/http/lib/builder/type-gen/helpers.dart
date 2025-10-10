@@ -29,7 +29,7 @@ String methodTypeFromMethodName(String methodName, String prefix) {
   if (['approveactivity', 'rejectactivity'].contains(lower)) {
     return 'activityDecision';
   }
-  if (lower.startsWith('noop')) return 'noop';
+  if (lower.startsWith('tnoop')) return 'noop';
   if (prefix.toLowerCase() == 'proxy') return 'proxy';
   if (lower.startsWith('tget') || lower.startsWith('tlist') || lower.startsWith('ttest')) {
     return 'query';

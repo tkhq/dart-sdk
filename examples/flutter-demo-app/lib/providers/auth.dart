@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
+import 'package:turnkey_http/__generated__/models.dart';
 import 'package:uuid/uuid.dart';
 import 'package:turnkey_flutter_demo_app/config.dart';
 import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
@@ -165,14 +166,10 @@ class AuthRelayerProvider with ChangeNotifier {
 
       // 5. Stamp a login for the session
       final loginResponse = await turnkeyProvider.client!.stampLogin(
-        input: StampLoginRequest(
-          type: StampLoginRequestType.activityTypeStampLogin,
-          timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+        input: TStampLoginBody(
           organizationId: subOrgId,
-          parameters: StampLoginIntent(
-            publicKey: newGeneratedKeyPair,
-            expirationSeconds: expirationSeconds.toString(),
-          ),
+          publicKey: newGeneratedKeyPair,
+          expirationSeconds: expirationSeconds.toString(),
         ),
       );
 
@@ -228,15 +225,10 @@ class AuthRelayerProvider with ChangeNotifier {
 
       // 2. Stamp a login request
       final loginResponse = await passkeyClient.stampLogin(
-        input: StampLoginRequest(
-          type: StampLoginRequestType.activityTypeStampLogin,
-          timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-          organizationId:
-              organizationId ?? turnkeyProvider.config.organizationId,
-          parameters: StampLoginIntent(
+        input: TStampLoginBody(
+          organizationId: organizationId ?? turnkeyProvider.config.organizationId,
             publicKey: generatedPublicKey,
             expirationSeconds: expirationSeconds.toString(),
-          ),
         ),
       );
 

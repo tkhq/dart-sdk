@@ -24142,16 +24142,39 @@ class TVerifyOtpInput {
 }
 
 class TNOOPCodegenAnchorResponse {
-  final v1Activity activity;
-  const TNOOPCodegenAnchorResponse({required this.activity, });
+  final v1WebAuthnStamp stamp;
+
+  const TNOOPCodegenAnchorResponse({
+    required  this.stamp,
+  });
+
   factory TNOOPCodegenAnchorResponse.fromJson(Map<String, dynamic> json) {
+    final _stamp = v1WebAuthnStamp.fromJson(json['stamp'] as Map<String, dynamic>);
     return TNOOPCodegenAnchorResponse(
-      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      stamp: _stamp,
     );
   }
-  Map<String, dynamic> toJson() => {
-    'activity': activity.toJson(),
-  };
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (stamp != null || true) {
+      _json['stamp'] = stamp.toJson();
+    }
+    return _json;
+  }
+}
+
+class TNOOPCodegenAnchorBody {
+  const TNOOPCodegenAnchorBody();
+  factory TNOOPCodegenAnchorBody.fromJson(Map<String, dynamic> json) => const TNOOPCodegenAnchorBody();
+  Map<String, dynamic> toJson() => {};
+}
+
+class TNOOPCodegenAnchorInput {
+  final TNOOPCodegenAnchorBody body;
+  const TNOOPCodegenAnchorInput({required this.body});
+  factory TNOOPCodegenAnchorInput.fromJson(Map<String, dynamic> json) => TNOOPCodegenAnchorInput(body: json['body'] is Map<String, dynamic> ? TNOOPCodegenAnchorBody.fromJson(json['body'] as Map<String, dynamic>) : const TNOOPCodegenAnchorBody());
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TTestRateLimitsResponse {

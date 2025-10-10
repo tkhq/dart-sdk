@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:turnkey_http/__generated__/models.dart';
 
 import 'package:turnkey_sdk_flutter/src/stamper.dart';
 import 'package:turnkey_sdk_flutter/src/storage.dart';
@@ -318,7 +319,7 @@ class TurnkeyProvider with ChangeNotifier {
     return newClient;
   }
 
-  Future<StampLoginResult?> refreshSession({
+  Future<v1StampLoginResult?> refreshSession({
     String? sessionKey,
     int expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
     String? publicKey,
@@ -338,15 +339,11 @@ class TurnkeyProvider with ChangeNotifier {
 
     // 2. Stamp login to refresh the session
     final response = await _client!.stampLogin(
-      input: StampLoginRequest(
-        type: StampLoginRequestType.activityTypeStampLogin,
-        timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
+      input: TStampLoginBody(
         organizationId: session.organizationId,
-        parameters: StampLoginIntent(
-          publicKey: newPublicKey,
-          expirationSeconds: expirationSeconds.toString(),
-          invalidateExisting: invalidateExisting,
-        ),
+        publicKey: newPublicKey,
+        expirationSeconds: expirationSeconds.toString(),
+        invalidateExisting: invalidateExisting,
       ),
     );
 

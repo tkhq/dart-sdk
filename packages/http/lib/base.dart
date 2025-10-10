@@ -41,9 +41,15 @@ Future<Map<String, String>> sealAndStampRequestBody({
 
 class THttpConfig {
   final String baseUrl;
+  final String? organizationId;
+  final String? authProxyBaseUrl;
+  final String? authProxyConfigId;
 
   THttpConfig({
     required this.baseUrl,
+    this.organizationId,
+    this.authProxyBaseUrl,
+    this.authProxyConfigId,
   });
 }
 

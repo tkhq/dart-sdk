@@ -1,5 +1,5 @@
 PODS:
-  - app_links (0.0.2):
+  - app_links (6.4.1):
     - Flutter
   - device_info_plus (0.0.1):
     - Flutter
@@ -16,9 +16,6 @@ PODS:
     - PhoneNumberKit/PhoneNumberKitCore (= 3.8.0)
   - flutter_secure_storage (6.0.0):
     - Flutter
-  - libphonenumber_plugin (0.0.1):
-    - Flutter
-    - PhoneNumberKit
   - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
@@ -28,12 +25,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - PhoneNumberKit (3.8.0):
-    - PhoneNumberKit/PhoneNumberKitCore (= 3.8.0)
-    - PhoneNumberKit/UIKit (= 3.8.0)
   - PhoneNumberKit/PhoneNumberKitCore (3.8.0)
-  - PhoneNumberKit/UIKit (3.8.0):
-    - PhoneNumberKit/PhoneNumberKitCore
   - sign_in_with_apple (0.0.1):
     - Flutter
   - ua_client_hints (1.4.1):
@@ -46,7 +38,6 @@ DEPENDENCIES:
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_libphonenumber_ios (from `.symlinks/plugins/flutter_libphonenumber_ios/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - passkeys_darwin (from `.symlinks/plugins/passkeys_darwin/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -71,8 +62,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_libphonenumber_ios/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  libphonenumber_plugin:
-    :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   passkeys_darwin:
@@ -85,20 +74,19 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/ua_client_hints/ios"
 
 SPEC CHECKSUMS:
-  app_links: e7a6750a915a9e161c58d91bc610e8cd1d4d0ad0
-  device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
+  app_links: 3dbc685f76b1693c66a6d9dd1e9ab6f73d97dc0a
+  device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
-  flutter_libphonenumber_ios: 5ad8620197bff91dd159d828b7544ec6956e86a1
-  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  libphonenumber_plugin: 48bf4078546377eedaab4aa54978cd0f6fa23072
+  flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
+  flutter_libphonenumber_ios: 6bd2fac9dfb8f37c5732451fb7c9a992f1088d86
+  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
-  passkeys_darwin: f4f6e544121eca3fe6c6ad2a4cdbde61b6c00dac
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
+  passkeys_darwin: 0a09d3b26cea8de1ec3bb8f8c7c159981f63bbc7
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   PhoneNumberKit: ec00ab8cef5342c1dc49fadb99d23fa7e66cf0ef
-  sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
-  ua_client_hints: aeabd123262c087f0ce151ef96fa3ab77bfc8b38
+  sign_in_with_apple: c5dcc141574c8c54d5ac99dd2163c0c72ad22418
+  ua_client_hints: 92fe0d139619b73ec9fcb46cc7e079a26178f586
 
 PODFILE CHECKSUM: 4f1c12611da7338d21589c0b2ecd6bd20b109694
 
