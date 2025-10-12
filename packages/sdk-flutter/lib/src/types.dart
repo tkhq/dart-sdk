@@ -275,7 +275,7 @@ class CreateSubOrgParams {
   final CustomWallet? customWallet;
 
   /// list of oauth providers
-  final List<Provider>? oauthProviders;
+  final List<OauthProvider>? oauthProviders;
 
   const CreateSubOrgParams({
     this.userName,
@@ -300,7 +300,7 @@ class CreateSubOrgParams {
     Object? verificationToken = _no,
     List<CreateSubOrgApiKey>? apiKeys,
     CustomWallet? customWallet,
-    List<Provider>? oauthProviders,
+    List<OauthProvider>? oauthProviders,
   }) {
     return CreateSubOrgParams(
       userName: userName ?? this.userName,
@@ -374,11 +374,11 @@ class CustomWallet {
 }
 
 /// Provider (internal)
-class Provider {
+class OauthProvider {
   final String providerName;
   final String oidcToken;
 
-  const Provider({
+  const OauthProvider({
     required this.providerName,
     required this.oidcToken,
   });
@@ -418,6 +418,22 @@ class SignUpBody {
     this.customWallet,
     this.oauthProviders,
   });
+}
+
+class LoginWithOtpResult {
+    final String sessionToken;
+    LoginWithOtpResult({required this.sessionToken});
+}
+
+class CompleteOtpResult {
+    final String sessionToken;
+    CompleteOtpResult({required this.sessionToken});
+}
+
+class VerifyOtpResult {
+  final String verificationToken;
+  final String? subOrganizationId;
+  VerifyOtpResult({required this.verificationToken, this.subOrganizationId});
 }
 
 

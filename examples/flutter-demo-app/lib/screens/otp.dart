@@ -98,7 +98,7 @@ class OTPScreen extends StatelessWidget {
                             onPressed: () async {
                               final otpCode = otpController.text;
                               if (otpCode.isNotEmpty) {
-                                await authRelayerProvider.completeOtpAuth(
+                                await turnkeyProvider.completeOtpAuth(
                                   otpId: otpId,
                                   otpCode: otpCode,
                                   contact: contact!,
