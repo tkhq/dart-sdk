@@ -816,26 +816,47 @@ class TurnkeyProvider with ChangeNotifier {
      );
   }
 
-  // Future signUpWithOtp({
-  //   required String verificationToken,
-  //   required String contact,
-  //   required OtpType otpType,
-  //   String? publicKey,
-  //   String? sessionKey,
-  // }) async {
-  //    final pubKey = publicKey ?? await createApiKeyPair();
-  //    final res = await client!.proxyOtpSignUp(input: ProxyTOtpSignUpBody(
-  //     organizationId: organizationId,
-  //     publicKey: pubKey,
-  //     contact: contact,
-  //     contactType: otpTypeToContactTypeMap[otpType]!,
-  //    ));
+  Future signUpWithOtp({
+    required String verificationToken,
+    required String contact,
+    required OtpType otpType,
+    String? publicKey,
+    String? sessionKey,
+    CreateSubOrgParams? createSubOrgParams,
+    bool invalidateExisting = false,
+  }) async {
+    final updatedCreateSubOrgParams = (createSubOrgParams != null)
+        ? createSubOrgParams.copyWith(
+            userEmail: otpType == OtpType.Email ? contact : null,
+            userPhoneNumber: otpType == OtpType.SMS ? contact : null,
+            verificationToken: verificationToken,
+          )
+        : CreateSubOrgParams(
+            userEmail: otpType == OtpType.Email ? contact : null,
+            userPhoneNumber: otpType == OtpType.SMS ? contact : null,
+            verificationToken: verificationToken,
+          );
 
-  //    await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
-  //    return (
-  //     sessionToken: res.session,
-  //    );
-  // }
+     final signUpBody = buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+
+     try {
+      final generatedPublicKey = createApiKeyPair();
+      final res = await client!.proxySignup(input: signUpBody);
+
+      if (res.organizationId.isEmpty) {
+        throw Exception("Sign up failed: No organizationId returned");
+      }
+
+      return await loginWithOtp(
+        verificationToken: verificationToken,
+        publicKey: await generatedPublicKey,
+        sessionKey: sessionKey,
+        invalidateExisting: invalidateExisting,
+      );
+    } catch (e) {
+      throw Exception("Sign up failed: $e");
+     }
+  }
 }
 
 // We create a custom browser class to handle the onClosed event

@@ -244,3 +244,180 @@ class TurnkeyConfig {
     this.onInitialized,
   });
 }
+
+/// CreateSubOrgParams defines the parameters to pass on sub-organization creation.
+class CreateSubOrgParams {
+  /// name of the user
+  final String? userName;
+
+  /// name of the sub-organization
+  final String? subOrgName;
+
+  /// email of the user
+  final String? userEmail;
+
+  /// tag of the user
+  final String? userTag;
+
+  /// list of authenticators
+  final List<CreateSubOrgAuthenticator>? authenticators;
+
+  /// phone number of the user
+  final String? userPhoneNumber;
+
+  /// verification token if email or phone number is provided
+  final String? verificationToken;
+
+  /// list of api keys
+  final List<CreateSubOrgApiKey>? apiKeys;
+
+  /// custom wallets to create during sub-org creation time
+  final CustomWallet? customWallet;
+
+  /// list of oauth providers
+  final List<Provider>? oauthProviders;
+
+  const CreateSubOrgParams({
+    this.userName,
+    this.subOrgName,
+    this.userEmail,
+    this.userTag,
+    this.authenticators,
+    this.userPhoneNumber,
+    this.verificationToken,
+    this.apiKeys,
+    this.customWallet,
+    this.oauthProviders,
+  });
+
+   CreateSubOrgParams copyWith({
+    String? userName,
+    String? subOrgName,
+    Object? userEmail = _no,        // use sentinel for nullable overwrite
+    String? userTag,
+    List<CreateSubOrgAuthenticator>? authenticators,
+    Object? userPhoneNumber = _no,  // sentinel again
+    Object? verificationToken = _no,
+    List<CreateSubOrgApiKey>? apiKeys,
+    CustomWallet? customWallet,
+    List<Provider>? oauthProviders,
+  }) {
+    return CreateSubOrgParams(
+      userName: userName ?? this.userName,
+      subOrgName: subOrgName ?? this.subOrgName,
+      userEmail: identical(userEmail, _no) ? this.userEmail : userEmail as String?,
+      userTag: userTag ?? this.userTag,
+      authenticators: authenticators ?? this.authenticators,
+      userPhoneNumber: identical(userPhoneNumber, _no) ? this.userPhoneNumber : userPhoneNumber as String?,
+      verificationToken: identical(verificationToken, _no) ? this.verificationToken : verificationToken as String?,
+      apiKeys: apiKeys ?? this.apiKeys,
+      customWallet: customWallet ?? this.customWallet,
+      oauthProviders: oauthProviders ?? this.oauthProviders,
+    );
+  }
+}
+
+const _no = Object(); // sentinel
+
+/// Authenticator item used in CreateSubOrgParams.authenticators
+class CreateSubOrgAuthenticator {
+  /// name of the authenticator
+  final String? authenticatorName;
+
+  /// challenge string to use for passkey registration (required)
+  final String challenge;
+
+  /// attestation object returned from the passkey creation process (required)
+  final v1Attestation attestation;
+
+  const CreateSubOrgAuthenticator({
+    this.authenticatorName,
+    required this.challenge,
+    required this.attestation,
+  });
+}
+
+/// API key item used in CreateSubOrgParams.apiKeys
+class CreateSubOrgApiKey {
+  /// name of the api key
+  final String? apiKeyName;
+
+  /// public key in hex format (required)
+  final String publicKey;
+
+  /// expiration in seconds
+  final String? expirationSeconds;
+
+  /// curve type
+  final v1ApiKeyCurve? curveType;
+
+  const CreateSubOrgApiKey({
+    this.apiKeyName,
+    required this.publicKey,
+    this.expirationSeconds,
+    this.curveType,
+  });
+}
+
+/// CustomWallet
+class CustomWallet {
+  /// name of the wallet created (required)
+  final String walletName;
+
+  /// list of wallet accounts to create (required)
+  final List<v1WalletAccountParams> walletAccounts;
+
+  const CustomWallet({
+    required this.walletName,
+    required this.walletAccounts,
+  });
+}
+
+/// Provider (internal)
+class Provider {
+  final String providerName;
+  final String oidcToken;
+
+  const Provider({
+    required this.providerName,
+    required this.oidcToken,
+  });
+}
+
+/// SignUpBody (internal)
+class SignUpBody {
+  final String userName;       // required
+  final String subOrgName;     // required
+  final String? userEmail;
+  final String? userTag;
+
+  /// list of authenticators (each item has required fields)
+  final List<v1AuthenticatorParamsV2>? authenticators;
+
+  final String? userPhoneNumber;
+  final String? verificationToken;
+
+  /// list of api keys (each item has required fields)
+  final List<v1ApiKeyParamsV2>? apiKeys;
+
+  /// custom wallet (optional)
+  final CustomWallet? customWallet;
+
+  /// list of oauth providers
+  final List<v1OauthProviderParams>? oauthProviders;
+
+  const SignUpBody({
+    required this.userName,
+    required this.subOrgName,
+    this.userEmail,
+    this.userTag,
+    this.authenticators,
+    this.userPhoneNumber,
+    this.verificationToken,
+    this.apiKeys,
+    this.customWallet,
+    this.oauthProviders,
+  });
+}
+
+
