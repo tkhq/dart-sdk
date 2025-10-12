@@ -774,8 +774,6 @@ class TurnkeyProvider with ChangeNotifier {
         throw Exception("Failed to verify OTP");
       }
 
-      print(otpTypeToFilterTypeMap[otpType]);
-
       final accountRes = await client!.proxyGetAccount(input: ProxyTGetAccountBody(filterType: otpTypeToFilterTypeMap[otpType]!.value, filterValue: contact));
 
       final subOrganizationId = accountRes.organizationId;
@@ -783,6 +781,18 @@ class TurnkeyProvider with ChangeNotifier {
         subOrganizationId: subOrganizationId,
         verificationToken: verifyOtpRes.verificationToken
       );
+  }
+
+  Future<String> initOtp({
+    required OtpType otpType,
+    required String contact
+  }) async {
+     final res = await client!.proxyInitOtp(input: ProxyTInitOtpBody(
+        contact: contact,
+        otpType: otpType.value,
+      ));
+
+     return res.otpId;
   }
 
   Future loginWithOtp({
