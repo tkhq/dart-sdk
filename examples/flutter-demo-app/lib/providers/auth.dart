@@ -34,38 +34,6 @@ class AuthRelayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> initOtpLogin(BuildContext context,
-      {required OtpType otpType, required String contact}) async {
-    setLoading(
-        otpType == OtpType.Email ? 'initEmailLogin' : 'initPhoneLogin', true);
-    setError(null);
-
-    try {
-      final response = await turnkeyProvider.client!.proxyInitOtp(input: ProxyTInitOtpBody(
-        contact: contact,
-        otpType: otpType == OtpType.Email ? 'OTP_TYPE_EMAIL' : 'OTP_TYPE_SMS',
-      ));
-
-      if (response != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => OTPScreen(
-              otpId: response.otpId,
-              contact: contact,
-              otpType: otpType,
-            ),
-          ),
-        );
-      }
-    } catch (error) {
-      setError(error.toString());
-    } finally {
-      setLoading(otpType == OtpType.Email ? 'initEmailLogin' : 'initPhoneLogin',
-          false);
-    }
-  }
-
   Future<void> completeOtpAuth({
     required String otpId,
     required String otpCode,
