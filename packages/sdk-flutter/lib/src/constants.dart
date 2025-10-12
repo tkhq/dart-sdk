@@ -26,6 +26,17 @@ enum FilterType {
   const FilterType(this.value);
 }
 
+enum AuthAction {
+  login("LOGIN"),
+  signup("SIGNUP");
+
+  final String value;
+  const AuthAction(this.value);
+
+  bool get isLogin => this == AuthAction.login;
+  bool get isSignup => this == AuthAction.signup;
+}
+
 const Map<OtpType, FilterType> otpTypeToFilterTypeMap = {
   OtpType.Email: FilterType.Email,
   OtpType.SMS: FilterType.SMS,

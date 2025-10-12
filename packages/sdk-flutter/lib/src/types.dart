@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:turnkey_http/__generated__/models.dart';
+import 'package:turnkey_sdk_flutter/src/constants.dart';
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
@@ -420,20 +421,30 @@ class SignUpBody {
   });
 }
 
-class LoginWithOtpResult {
-    final String sessionToken;
-    LoginWithOtpResult({required this.sessionToken});
-}
-
-class CompleteOtpResult {
-    final String sessionToken;
-    CompleteOtpResult({required this.sessionToken});
-}
-
 class VerifyOtpResult {
   final String verificationToken;
   final String? subOrganizationId;
   VerifyOtpResult({required this.verificationToken, this.subOrganizationId});
+}
+
+class BaseOtpResult {
+  final String sessionToken;
+  const BaseOtpResult({required this.sessionToken});
+}
+
+class LoginWithOtpResult extends BaseOtpResult {
+  const LoginWithOtpResult({required super.sessionToken});
+}
+
+class SignUpWithOtpResult extends BaseOtpResult {
+  const SignUpWithOtpResult({required super.sessionToken});
+}
+
+class CompleteOtpResult extends BaseOtpResult {
+  final AuthAction action;
+  const CompleteOtpResult( {required super.sessionToken,
+    required this.action,
+  });
 }
 
 

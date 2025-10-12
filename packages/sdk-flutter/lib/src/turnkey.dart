@@ -128,16 +128,17 @@ class TurnkeyProvider with ChangeNotifier {
     await SessionStorageManager.setActiveSessionKey(sessionKey);
     final session = await SessionStorageManager.getSession(sessionKey);
     print("🔑 Active session loaded: $session");
-    if (session == null)
+    
+    if (session == null) {
       throw Exception("No session found with key: $sessionKey");
-    else {
+    }
+
       _session = session;
-      print("🔑 calling callback: $_session");
+      print("🔑 calling callback: $session");
       config.onSessionSelected?.call(session);
       createClient(
         publicKey: session.publicKey,
       );
-    }
   }
 
   Future<String?> getActiveSessionKey() async {
@@ -255,25 +256,24 @@ class TurnkeyProvider with ChangeNotifier {
     required String sessionJwt,
     String? sessionKey,
   }) async {
-    print("entering storeSession");
     sessionKey ??= StorageKeys.DefaultSession.value;
 
-    // 1. Enforce session limit
+    // we enforce a session limit
     final existingSessionKeys = await SessionStorageManager.listSessionKeys();
     if (existingSessionKeys.length >= MAX_SESSIONS) {
       throw Exception(
         'Maximum session limit of $MAX_SESSIONS reached. Please clear an existing session before creating a new one.',
       );
     }
+
+    // we make sure the session key is unique
     if (existingSessionKeys.contains(sessionKey)) {
       throw Exception(
         'Session key "$sessionKey" already exists. Please choose a unique session key or clear the existing session.',
       );
     }
 
-    print("i made it here 1");
-
-    // 2. Store and parse session JWT
+    // we store and parse the session JWT
     await SessionStorageManager.storeSession(sessionJwt,
         sessionKey: sessionKey);
     final session = await SessionStorageManager.getSession(sessionKey);
@@ -281,31 +281,24 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Failed to store or parse session");
     }
 
-    print("i made it here 2");
+    // we mark the session as active if this is the first session
+    final isFirstSession = existingSessionKeys.isEmpty;
+    if (isFirstSession) {
+      await setActiveSession(sessionKey: sessionKey);
+    }
 
-    // 4. Fetch user information
+    // we fetch the user information
     final user = await fetchUser(
         _client!, config.organizationId); // TODO (Amir): This does nothing atm
     if (user == null) {
       throw Exception("Failed to fetch user");
     }
 
-    print("i made it here 3");
-
-    // 5. Schedule session expiration
+    // we schedule the session expiration
     await _scheduleSessionExpiration(sessionKey, session.expiry);
-
-    print("i made it here 4");
-
-    // 6. Mark as active if this is the first session
-    final isFirstSession = existingSessionKeys.isEmpty;
-    if (isFirstSession) {
-      await setActiveSession(sessionKey: sessionKey);
-    }
 
     await clearUnusedKeyPairs();
 
-    // 7. Invoke callback
     config.onSessionCreated?.call(session);
 
     return session;
@@ -811,7 +804,6 @@ class TurnkeyProvider with ChangeNotifier {
     String? publicKey,
     String? sessionKey,
   }) async {
-    print("HERERERE");
     final pubKey = publicKey ?? await createApiKeyPair();
     final res = await client!.proxyOtpLogin(
         input: ProxyTOtpLoginBody(
@@ -827,7 +819,7 @@ class TurnkeyProvider with ChangeNotifier {
     );
   }
 
-  Future signUpWithOtp({
+  Future<SignUpWithOtpResult> signUpWithOtp({
     required String verificationToken,
     required String contact,
     required OtpType otpType,
@@ -852,19 +844,19 @@ class TurnkeyProvider with ChangeNotifier {
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
     try {
-      final generatedPublicKey = createApiKeyPair();
       final res = await client!.proxySignup(input: signUpBody);
 
       if (res.organizationId.isEmpty) {
         throw Exception("Sign up failed: No organizationId returned");
       }
 
-      return await loginWithOtp(
+      final response =  await loginWithOtp(
         verificationToken: verificationToken,
-        publicKey: await generatedPublicKey,
         sessionKey: sessionKey,
         invalidateExisting: invalidateExisting,
       );
+
+      return SignUpWithOtpResult( sessionToken: response.sessionToken);
     } catch (e) {
       throw Exception("Sign up failed: $e");
     }
@@ -885,15 +877,20 @@ class TurnkeyProvider with ChangeNotifier {
           otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType);
 
       if (result.subOrganizationId != null && result.subOrganizationId!.isNotEmpty) {
-        return await loginWithOtp(
+        final loginResp =  await loginWithOtp(
           verificationToken: result.verificationToken,
           organizationId: result.subOrganizationId,
           invalidateExisting: invalidateExisting,
           publicKey: publicKey,
           sessionKey: sessionKey,
-        ) as CompleteOtpResult;
+        );
+
+        return CompleteOtpResult(
+          sessionToken: loginResp.sessionToken,
+          action: AuthAction.login
+        );
       } else {
-        return await signUpWithOtp(
+        final signUpRes =  await signUpWithOtp(
           verificationToken: result.verificationToken,
           contact: contact,
           otpType: otpType,
@@ -901,6 +898,11 @@ class TurnkeyProvider with ChangeNotifier {
           sessionKey: sessionKey,
           createSubOrgParams: createSubOrgParams,
           invalidateExisting: invalidateExisting
+        );
+
+        return CompleteOtpResult(
+          sessionToken: signUpRes.sessionToken,
+          action: AuthAction.signup
         );
       }
     } catch (e) {
