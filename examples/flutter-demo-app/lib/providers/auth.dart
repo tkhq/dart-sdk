@@ -34,18 +34,6 @@ class AuthRelayerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> completeOtpAuth({
-    required String otpId,
-    required String otpCode,
-    required String contact,
-    required OtpType otpType,
-  }) async {
-    final (suborganizationId, verificationToken) = await turnkeyProvider.verifyOtp(otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType);
-
-    final loginRes = await turnkeyProvider.loginWithOtp(verificationToken: verificationToken);
-    print("Login res: $loginRes");
-  }
-
   Future<void> signUpWithPasskey({
     String? sessionKey,
     int expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,

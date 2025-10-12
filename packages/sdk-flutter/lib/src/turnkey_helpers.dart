@@ -77,3 +77,100 @@ bool isValidSession(Session? session) {
   return session != null &&
       session.expiry * 1000 > DateTime.now().millisecondsSinceEpoch;
 }
+
+ProxyTSignupBody buildSignUpBody({
+  required CreateSubOrgParams? createSubOrgParams,
+
+  /// Set this to true when calling from Web; used only to build a default authenticator name.
+  bool isWeb = false,
+
+  /// Optional hostname to use when [isWeb] = true. If omitted,
+  /// a generic 'web' string is used.
+  String? webHostname,
+}) {
+  final now = DateTime.now().millisecondsSinceEpoch;
+  final defaultAuthenticatorName =
+      isWeb ? '${(webHostname ?? 'web')}-$now' : 'passkey-$now';
+
+  // --- authenticators ---
+  final List<v1AuthenticatorParamsV2> authenticators = (createSubOrgParams?.authenticators ?? const [])
+      .map((a) => v1AuthenticatorParamsV2(
+            authenticatorName: (a.authenticatorName == null || a.authenticatorName!.isEmpty)
+                ? defaultAuthenticatorName
+                : a.authenticatorName!,
+            challenge: a.challenge,
+            attestation: a.attestation,
+          ))
+      .toList();
+
+  // If original TS returned [] when none were provided, mirror that:
+  final List<v1AuthenticatorParamsV2> authenticatorsOrEmpty =
+      (createSubOrgParams?.authenticators?.isNotEmpty ?? false)
+          ? authenticators
+          : <v1AuthenticatorParamsV2>[];
+
+  // --- apiKeys ---
+  final List<v1ApiKeyParamsV2> apiKeys = (createSubOrgParams?.apiKeys ?? const [])
+      .where((k) => k.curveType != null)
+      .map((k) => v1ApiKeyParamsV2(
+            apiKeyName: (k.apiKeyName == null || k.apiKeyName!.isEmpty)
+                ? 'api-key-$now'
+                : k.apiKeyName!,
+            publicKey: k.publicKey,
+            curveType: k.curveType!, // safe due to where(...)
+            expirationSeconds: k.expirationSeconds, // nullable -> omitted in toJson if you drop nulls
+          ))
+      .toList();
+
+  final List<v1ApiKeyParamsV2> apiKeysOrEmpty =
+      (createSubOrgParams?.apiKeys?.isNotEmpty ?? false)
+          ? apiKeys
+          : <v1ApiKeyParamsV2>[];
+
+  // --- oauth providers ---
+  // If your ProxyTSignupBody expects v1OauthProviderParams instead of Provider,
+  // map them here accordingly.
+  final List<v1OauthProviderParams> oauthProvidersOrEmpty =
+      (createSubOrgParams?.oauthProviders?.isNotEmpty ?? false)
+          ? createSubOrgParams!.oauthProviders as List<v1OauthProviderParams>
+          : const [];
+
+  // --- wallet mapping ---
+  // TS: wallet: { walletName, accounts } from customWallet { walletName, walletAccounts }
+  final wallet = (createSubOrgParams?.customWallet != null)
+      ? v1WalletParams(
+          walletName: createSubOrgParams!.customWallet!.walletName,
+          accounts: createSubOrgParams.customWallet!.walletAccounts,
+        )
+      : null;
+
+  // --- userName defaulting (TS: userName || userEmail || `user-${now}`) ---
+  final userName = createSubOrgParams?.userName?.isNotEmpty == true
+      ? createSubOrgParams!.userName!
+      : (createSubOrgParams?.userEmail?.isNotEmpty == true
+          ? createSubOrgParams!.userEmail!
+          : 'user-$now');
+
+  // --- organizationName defaulting (TS: subOrgName || `sub-org-${now}`) ---
+  final orgName = createSubOrgParams?.subOrgName?.isNotEmpty == true
+      ? createSubOrgParams!.subOrgName!
+      : 'sub-org-$now';
+
+  return ProxyTSignupBody(
+    userName: userName,
+    // include only if present in TS (null will be omitted by toJson if you drop nulls)
+    userEmail: createSubOrgParams?.userEmail,
+    // TS forces [] when not provided
+    authenticators: authenticatorsOrEmpty,
+    userPhoneNumber: createSubOrgParams?.userPhoneNumber,
+    userTag: createSubOrgParams?.userTag,
+    organizationName: orgName,
+    verificationToken: createSubOrgParams?.verificationToken,
+    // TS forces [] when not provided
+    apiKeys: apiKeysOrEmpty,
+    // TS forces [] when not provided
+    oauthProviders: oauthProvidersOrEmpty,
+    // TS includes wallet only if provided
+    wallet: wallet,
+  );
+}

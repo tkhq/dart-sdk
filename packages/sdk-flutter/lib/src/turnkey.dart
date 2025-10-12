@@ -97,9 +97,7 @@ class TurnkeyProvider with ChangeNotifier {
         if (activeSession != null) {
           // 5. Swap public key
           createClient(
-
             publicKey: activeSession.publicKey,
-  
           );
           _session = activeSession;
 
@@ -257,6 +255,7 @@ class TurnkeyProvider with ChangeNotifier {
     required String sessionJwt,
     String? sessionKey,
   }) async {
+    print("entering storeSession");
     sessionKey ??= StorageKeys.DefaultSession.value;
 
     // 1. Enforce session limit
@@ -272,6 +271,8 @@ class TurnkeyProvider with ChangeNotifier {
       );
     }
 
+    print("i made it here 1");
+
     // 2. Store and parse session JWT
     await SessionStorageManager.storeSession(sessionJwt,
         sessionKey: sessionKey);
@@ -280,6 +281,8 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Failed to store or parse session");
     }
 
+    print("i made it here 2");
+
     // 4. Fetch user information
     final user = await fetchUser(
         _client!, config.organizationId); // TODO (Amir): This does nothing atm
@@ -287,8 +290,12 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Failed to fetch user");
     }
 
+    print("i made it here 3");
+
     // 5. Schedule session expiration
     await _scheduleSessionExpiration(sessionKey, session.expiry);
+
+    print("i made it here 4");
 
     // 6. Mark as active if this is the first session
     final isFirstSession = existingSessionKeys.isEmpty;
@@ -306,14 +313,15 @@ class TurnkeyProvider with ChangeNotifier {
 
   TurnkeyClient createClient(
       {String? publicKey,
-      String? apiBaseUrl ,
+      String? apiBaseUrl,
       String? authProxyConfigId,
       String? authProxyBaseUrl}) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
     apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
-    authProxyBaseUrl ??= config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
+    authProxyBaseUrl ??=
+        config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
     authProxyConfigId ??= config.authProxyConfigId;
-  
+
     final newClient = TurnkeyClient(
       config: THttpConfig(
         baseUrl: apiBaseUrl,
@@ -758,84 +766,147 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
-
-  Future verifyOtp({
-    required String otpCode,
-    required String otpId,
-    required String contact,
-    required OtpType otpType
-  }) async {
-     final verifyOtpRes = await client!.proxyVerifyOtp(input: ProxyTVerifyOtpBody(
+  Future<VerifyOtpResult> verifyOtp(
+      {required String otpCode,
+      required String otpId,
+      required String contact,
+      required OtpType otpType}) async {
+    final verifyOtpRes = await client!.proxyVerifyOtp(
+        input: ProxyTVerifyOtpBody(
       otpCode: otpCode,
       otpId: otpId,
-      ));
+    ));
 
-      if (verifyOtpRes.verificationToken.isEmpty) {
-        throw Exception("Failed to verify OTP");
-      }
+    if (verifyOtpRes.verificationToken.isEmpty) {
+      throw Exception("Failed to verify OTP");
+    }
 
-      final accountRes = await client!.proxyGetAccount(input: ProxyTGetAccountBody(filterType: otpTypeToFilterTypeMap[otpType]!.value, filterValue: contact));
+    final accountRes = await client!.proxyGetAccount(
+        input: ProxyTGetAccountBody(
+            filterType: otpTypeToFilterTypeMap[otpType]!.value,
+            filterValue: contact));
 
-      final subOrganizationId = accountRes.organizationId;
-      return (
-        subOrganizationId: subOrganizationId,
-        verificationToken: verifyOtpRes.verificationToken
-      );
+    final subOrganizationId = accountRes.organizationId;
+    return VerifyOtpResult(
+      subOrganizationId: subOrganizationId,
+      verificationToken: verifyOtpRes.verificationToken
+    );
   }
 
-  Future<String> initOtp({
-    required OtpType otpType,
-    required String contact
-  }) async {
-     final res = await client!.proxyInitOtp(input: ProxyTInitOtpBody(
-        contact: contact,
-        otpType: otpType.value,
-      ));
+  Future<String> initOtp(
+      {required OtpType otpType, required String contact}) async {
+    final res = await client!.proxyInitOtp(
+        input: ProxyTInitOtpBody(
+      contact: contact,
+      otpType: otpType.value,
+    ));
 
-     return res.otpId;
+    return res.otpId;
   }
 
-  Future loginWithOtp({
+  Future<LoginWithOtpResult> loginWithOtp({
     required String verificationToken,
     String? organizationId,
     bool invalidateExisting = false,
     String? publicKey,
     String? sessionKey,
   }) async {
-     final pubKey = publicKey ?? await createApiKeyPair();
-     final res = await client!.proxyOtpLogin(input: ProxyTOtpLoginBody(
+    print("HERERERE");
+    final pubKey = publicKey ?? await createApiKeyPair();
+    final res = await client!.proxyOtpLogin(
+        input: ProxyTOtpLoginBody(
       organizationId: organizationId,
       publicKey: pubKey,
       verificationToken: verificationToken,
       invalidateExisting: invalidateExisting,
-     ));
+    ));
 
-     await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
-     return (
+    await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
+    return LoginWithOtpResult(
       sessionToken: res.session,
-     );
+    );
   }
 
-  // Future signUpWithOtp({
-  //   required String verificationToken,
-  //   required String contact,
-  //   required OtpType otpType,
-  //   String? publicKey,
-  //   String? sessionKey,
-  // }) async {
-  //    final pubKey = publicKey ?? await createApiKeyPair();
-  //    final res = await client!.proxyOtpSignUp(input: ProxyTOtpSignUpBody(
-  //     organizationId: organizationId,
-  //     publicKey: pubKey,
-  //     contact: contact,
-  //     contactType: otpTypeToContactTypeMap[otpType]!,
-  //    ));
+  Future signUpWithOtp({
+    required String verificationToken,
+    required String contact,
+    required OtpType otpType,
+    String? publicKey,
+    String? sessionKey,
+    CreateSubOrgParams? createSubOrgParams,
+    bool invalidateExisting = false,
+  }) async {
+    final updatedCreateSubOrgParams = (createSubOrgParams != null)
+        ? createSubOrgParams.copyWith(
+            userEmail: otpType == OtpType.Email ? contact : null,
+            userPhoneNumber: otpType == OtpType.SMS ? contact : null,
+            verificationToken: verificationToken,
+          )
+        : CreateSubOrgParams(
+            userEmail: otpType == OtpType.Email ? contact : null,
+            userPhoneNumber: otpType == OtpType.SMS ? contact : null,
+            verificationToken: verificationToken,
+          );
 
-  //    await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
-  //    return (
-  //     sessionToken: res.session,
-  //    );
-  // }
+    final signUpBody =
+        buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+
+    try {
+      final generatedPublicKey = createApiKeyPair();
+      final res = await client!.proxySignup(input: signUpBody);
+
+      if (res.organizationId.isEmpty) {
+        throw Exception("Sign up failed: No organizationId returned");
+      }
+
+      return await loginWithOtp(
+        verificationToken: verificationToken,
+        publicKey: await generatedPublicKey,
+        sessionKey: sessionKey,
+        invalidateExisting: invalidateExisting,
+      );
+    } catch (e) {
+      throw Exception("Sign up failed: $e");
+    }
+  }
+
+  Future<CompleteOtpResult> completeOtpAuth({
+    required String otpId,
+    required String otpCode,
+    required String contact,
+    required OtpType otpType,
+    String? publicKey = null,
+    bool invalidateExisting = false,
+    String? sessionKey = null,
+    CreateSubOrgParams? createSubOrgParams,
+  }) async {
+    try {
+      final result = await verifyOtp(
+          otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType);
+
+      if (result.subOrganizationId != null && result.subOrganizationId!.isNotEmpty) {
+        return await loginWithOtp(
+          verificationToken: result.verificationToken,
+          organizationId: result.subOrganizationId,
+          invalidateExisting: invalidateExisting,
+          publicKey: publicKey,
+          sessionKey: sessionKey,
+        ) as CompleteOtpResult;
+      } else {
+        return await signUpWithOtp(
+          verificationToken: result.verificationToken,
+          contact: contact,
+          otpType: otpType,
+          publicKey: publicKey,
+          sessionKey: sessionKey,
+          createSubOrgParams: createSubOrgParams,
+          invalidateExisting: invalidateExisting
+        );
+      }
+    } catch (e) {
+      throw Exception("OTP authentication failed: $e");
+    }
+  }
 }
 
 // We create a custom browser class to handle the onClosed event
