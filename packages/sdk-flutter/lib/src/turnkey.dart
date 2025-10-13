@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/models.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:turnkey_sdk_flutter/src/stamper.dart';
 import 'package:turnkey_sdk_flutter/src/storage.dart';
@@ -128,17 +130,17 @@ class TurnkeyProvider with ChangeNotifier {
     await SessionStorageManager.setActiveSessionKey(sessionKey);
     final session = await SessionStorageManager.getSession(sessionKey);
     print("🔑 Active session loaded: $session");
-    
+
     if (session == null) {
       throw Exception("No session found with key: $sessionKey");
     }
 
-      _session = session;
-      print("🔑 calling callback: $session");
-      config.onSessionSelected?.call(session);
-      createClient(
-        publicKey: session.publicKey,
-      );
+    _session = session;
+    print("🔑 calling callback: $session");
+    config.onSessionSelected?.call(session);
+    createClient(
+      publicKey: session.publicKey,
+    );
   }
 
   Future<String?> getActiveSessionKey() async {
@@ -330,7 +332,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   Future<v1StampLoginResult?> refreshSession({
     String? sessionKey,
-    int expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+    String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
@@ -351,7 +353,7 @@ class TurnkeyProvider with ChangeNotifier {
       input: TStampLoginBody(
         organizationId: session.organizationId,
         publicKey: newPublicKey,
-        expirationSeconds: expirationSeconds.toString(),
+        expirationSeconds: expirationSeconds,
         invalidateExisting: invalidateExisting,
       ),
     );
@@ -781,9 +783,207 @@ class TurnkeyProvider with ChangeNotifier {
 
     final subOrganizationId = accountRes.organizationId;
     return VerifyOtpResult(
-      subOrganizationId: subOrganizationId,
-      verificationToken: verifyOtpRes.verificationToken
-    );
+        subOrganizationId: subOrganizationId,
+        verificationToken: verifyOtpRes.verificationToken);
+  }
+
+  Future<LoginWithPasskeyResult> loginWithPasskey({
+    required String rpId,
+    String? sessionKey,
+    String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+    String? organizationId,
+    String? publicKey,
+  }) async {
+    sessionKey ??= StorageKeys.DefaultSession.value;
+    final apiBaseUrl = config.apiBaseUrl;
+
+    String? generatedPublicKey;
+
+    try {
+      generatedPublicKey =
+          publicKey ?? await createApiKeyPair(storeOverride: true);
+
+      // TODO (Amir): We need to make it easier to create a passkeyclient. Maybe just expose it thru the turnkeyProvider?
+      final passkeyStamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
+      final passkeyClient = TurnkeyClient(
+          config: THttpConfig(baseUrl: apiBaseUrl), stamper: passkeyStamper);
+
+      final loginResponse = await passkeyClient.stampLogin(
+        input: TStampLoginBody(
+          organizationId: organizationId ?? config.organizationId,
+          publicKey: generatedPublicKey,
+          expirationSeconds: expirationSeconds,
+        ),
+      );
+
+      final sessionToken = loginResponse.result?.session;
+      if (sessionToken == null) {
+        throw Exception('No session returned from stampLogin');
+      }
+
+      await storeSession(
+        sessionJwt: sessionToken,
+        sessionKey: sessionKey,
+      );
+
+      // the key pair was successfully used, so we set this to null in order to prevent cleanup
+      generatedPublicKey = null;
+
+      return LoginWithPasskeyResult(sessionToken: sessionToken);
+    } finally {
+      // we delete this only if an error occurred before this key became a session key pair
+      if (generatedPublicKey != null) {
+        try {
+          await deleteApiKeyPair(generatedPublicKey);
+        } catch (e) {
+          debugPrint('Failed to cleanup generated key pair: $e');
+        }
+      }
+    }
+  }
+
+  Future<SignUpWithPasskeyResult> signUpWithPasskey({
+    required String rpId,
+    String? sessionKey,
+    String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+    String? organizationId,
+    String? passkeyDisplayName,
+    CreateSubOrgParams? createSubOrgParams,
+    bool invalidateExisting = false,
+  }) async {
+    sessionKey ??= StorageKeys.DefaultSession.value;
+
+    String? generatedPublicKey;
+    String? temporaryPublicKey;
+
+    try {
+      // for one-tap passkey sign-up, we generate a temporary API key pair
+      // which is added as an authentication method for the new sub-org user
+      // this allows us to stamp the session creation request immediately after
+      // without prompting the user
+      temporaryPublicKey = await createApiKeyPair(storeOverride: true);
+      final passkeyName = passkeyDisplayName ??
+          'passkey-${DateTime.now().millisecondsSinceEpoch}';
+
+      // create a passkey
+      final passkey = await createPasskey(
+        PasskeyRegistrationConfig(
+          rp: {
+            'id': rpId,
+            'name': 'Flutter App',
+          },
+          user: {
+            'id': const Uuid().v4(),
+            'name': 'Anonymous User',
+            'displayName': 'Anonymous User',
+          },
+          authenticatorName: passkeyName,
+        ),
+      );
+
+      final encodedChallenge = passkey['challenge'];
+      final attestation = passkey['attestation'];
+
+      if (encodedChallenge == null || attestation == null) {
+        throw Exception(
+            'Failed to create passkey: missing challenge or attestation.');
+      }
+
+      final updatedCreateSubOrgParams = (createSubOrgParams != null)
+          ? createSubOrgParams.copyWith(
+              authenticators: [
+                CreateSubOrgAuthenticator(
+                  authenticatorName: passkeyName,
+                  challenge: encodedChallenge,
+                  attestation: attestation,
+                ),
+              ],
+              apiKeys: [
+                CreateSubOrgApiKey(
+                  apiKeyName: 'passkey-auth-$temporaryPublicKey',
+                  publicKey: temporaryPublicKey!,
+                  curveType: v1ApiKeyCurve.api_key_curve_p256,
+
+                  // we set a short expiration since this is a temporary key
+                  expirationSeconds: "15",
+                ),
+              ],
+            )
+          : CreateSubOrgParams(
+              authenticators: [
+                CreateSubOrgAuthenticator(
+                  authenticatorName: passkeyName,
+                  challenge: encodedChallenge,
+                  attestation: attestation,
+                ),
+              ],
+              apiKeys: [
+                CreateSubOrgApiKey(
+                  apiKeyName: 'passkey-auth-$temporaryPublicKey',
+                  publicKey: temporaryPublicKey!,
+                  curveType: v1ApiKeyCurve.api_key_curve_p256,
+
+                  // we set a short expiration since this is a temporary key
+                  expirationSeconds: "15",
+                ),
+              ],
+            );
+
+      final signUpBody =
+          buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+
+      final res = await client!.proxySignup(input: signUpBody);
+
+      final orgId = res.organizationId;
+      if (orgId.isEmpty) {
+        throw Exception("Sign up failed: No organizationId returned");
+      }
+
+      // now we generate a second key pair that will become the session keypair
+      generatedPublicKey = await createApiKeyPair();
+
+      final loginResponse = await client!.stampLogin(
+        input: TStampLoginBody(
+          organizationId: orgId,
+          publicKey: generatedPublicKey,
+          expirationSeconds: expirationSeconds.toString(),
+          invalidateExisting: invalidateExisting,
+        ),
+      );
+
+      final sessionToken = loginResponse.result?.session;
+      if (sessionToken == null) {
+        throw Exception('No session returned from stampLogin');
+      }
+
+      await storeSession(sessionJwt: sessionToken, sessionKey: sessionKey);
+
+      // the key pair was successfully used, so we set this to null in order to prevent cleanup
+      generatedPublicKey = null;
+
+      return SignUpWithPasskeyResult(
+        sessionToken: sessionToken,
+        credentialId: passkey['credentialId'],
+      );
+    } finally {
+      // we delete this only if an error occurred before this key became a session key pair
+      if (generatedPublicKey != null) {
+        try {
+          await deleteApiKeyPair(generatedPublicKey);
+        } catch (e) {
+          debugPrint('Failed to cleanup generated key pair: $e');
+        }
+      }
+
+      // we cleanup the temporary keypair we generated
+      if (temporaryPublicKey != null) {
+        try {
+          await deleteApiKeyPair(temporaryPublicKey);
+        } catch (e) {
+          debugPrint('Failed to cleanup temporary key pair: $e');
+        }
+      }
+    }
   }
 
   Future<String> initOtp(
@@ -797,27 +997,47 @@ class TurnkeyProvider with ChangeNotifier {
     return res.otpId;
   }
 
-  Future<LoginWithOtpResult> loginWithOtp({
-    required String verificationToken,
-    String? organizationId,
-    bool invalidateExisting = false,
-    String? publicKey,
-    String? sessionKey,
-  }) async {
-    final pubKey = publicKey ?? await createApiKeyPair();
+ Future<LoginWithOtpResult> loginWithOtp({
+  required String verificationToken,
+  String? organizationId,
+  bool invalidateExisting = false,
+  String? publicKey,
+  String? sessionKey,
+}) async {
+  String? generatedPublicKey;
+
+  try {
+    generatedPublicKey = publicKey ?? await createApiKeyPair();
+
     final res = await client!.proxyOtpLogin(
-        input: ProxyTOtpLoginBody(
-      organizationId: organizationId,
-      publicKey: pubKey,
-      verificationToken: verificationToken,
-      invalidateExisting: invalidateExisting,
-    ));
+      input: ProxyTOtpLoginBody(
+        organizationId: organizationId,
+        publicKey: generatedPublicKey,
+        verificationToken: verificationToken,
+        invalidateExisting: invalidateExisting,
+      ),
+    );
 
     await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
+
+    // the key pair was successfully used, so we set this to null in order to prevent cleanup
+    generatedPublicKey = null;
+
     return LoginWithOtpResult(
       sessionToken: res.session,
     );
+  } finally {
+    // we delete this only if an error occurred before this key became a session key pair
+    if (generatedPublicKey != null) {
+      try {
+        await deleteApiKeyPair(generatedPublicKey);
+      } catch (e) {
+        debugPrint('Failed to cleanup generated key pair: $e');
+      }
+    }
   }
+}
+
 
   Future<SignUpWithOtpResult> signUpWithOtp({
     required String verificationToken,
@@ -846,17 +1066,19 @@ class TurnkeyProvider with ChangeNotifier {
     try {
       final res = await client!.proxySignup(input: signUpBody);
 
-      if (res.organizationId.isEmpty) {
+      final organizationId = res.organizationId;
+      if (organizationId.isEmpty) {
         throw Exception("Sign up failed: No organizationId returned");
       }
 
-      final response =  await loginWithOtp(
+      final response = await loginWithOtp(
+        organizationId: organizationId,
         verificationToken: verificationToken,
         sessionKey: sessionKey,
         invalidateExisting: invalidateExisting,
       );
 
-      return SignUpWithOtpResult( sessionToken: response.sessionToken);
+      return SignUpWithOtpResult(sessionToken: response.sessionToken);
     } catch (e) {
       throw Exception("Sign up failed: $e");
     }
@@ -876,8 +1098,9 @@ class TurnkeyProvider with ChangeNotifier {
       final result = await verifyOtp(
           otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType);
 
-      if (result.subOrganizationId != null && result.subOrganizationId!.isNotEmpty) {
-        final loginResp =  await loginWithOtp(
+      if (result.subOrganizationId != null &&
+          result.subOrganizationId!.isNotEmpty) {
+        final loginResp = await loginWithOtp(
           verificationToken: result.verificationToken,
           organizationId: result.subOrganizationId,
           invalidateExisting: invalidateExisting,
@@ -886,24 +1109,19 @@ class TurnkeyProvider with ChangeNotifier {
         );
 
         return CompleteOtpResult(
-          sessionToken: loginResp.sessionToken,
-          action: AuthAction.login
-        );
+            sessionToken: loginResp.sessionToken, action: AuthAction.login);
       } else {
-        final signUpRes =  await signUpWithOtp(
-          verificationToken: result.verificationToken,
-          contact: contact,
-          otpType: otpType,
-          publicKey: publicKey,
-          sessionKey: sessionKey,
-          createSubOrgParams: createSubOrgParams,
-          invalidateExisting: invalidateExisting
-        );
+        final signUpRes = await signUpWithOtp(
+            verificationToken: result.verificationToken,
+            contact: contact,
+            otpType: otpType,
+            publicKey: publicKey,
+            sessionKey: sessionKey,
+            createSubOrgParams: createSubOrgParams,
+            invalidateExisting: invalidateExisting);
 
         return CompleteOtpResult(
-          sessionToken: signUpRes.sessionToken,
-          action: AuthAction.signup
-        );
+            sessionToken: signUpRes.sessionToken, action: AuthAction.signup);
       }
     } catch (e) {
       throw Exception("OTP authentication failed: $e");

@@ -42,7 +42,7 @@ const Map<OtpType, FilterType> otpTypeToFilterTypeMap = {
   OtpType.SMS: FilterType.SMS,
 };
 
-const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = 15 * 60;
+const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = "900";
 
 const MAX_SESSIONS = 15;
 

@@ -291,13 +291,13 @@ class CreateSubOrgParams {
     this.oauthProviders,
   });
 
-   CreateSubOrgParams copyWith({
+  CreateSubOrgParams copyWith({
     String? userName,
     String? subOrgName,
-    Object? userEmail = _no,        // use sentinel for nullable overwrite
+    Object? userEmail = _no, // use sentinel for nullable overwrite
     String? userTag,
     List<CreateSubOrgAuthenticator>? authenticators,
-    Object? userPhoneNumber = _no,  // sentinel again
+    Object? userPhoneNumber = _no, // sentinel again
     Object? verificationToken = _no,
     List<CreateSubOrgApiKey>? apiKeys,
     CustomWallet? customWallet,
@@ -306,11 +306,16 @@ class CreateSubOrgParams {
     return CreateSubOrgParams(
       userName: userName ?? this.userName,
       subOrgName: subOrgName ?? this.subOrgName,
-      userEmail: identical(userEmail, _no) ? this.userEmail : userEmail as String?,
+      userEmail:
+          identical(userEmail, _no) ? this.userEmail : userEmail as String?,
       userTag: userTag ?? this.userTag,
       authenticators: authenticators ?? this.authenticators,
-      userPhoneNumber: identical(userPhoneNumber, _no) ? this.userPhoneNumber : userPhoneNumber as String?,
-      verificationToken: identical(verificationToken, _no) ? this.verificationToken : verificationToken as String?,
+      userPhoneNumber: identical(userPhoneNumber, _no)
+          ? this.userPhoneNumber
+          : userPhoneNumber as String?,
+      verificationToken: identical(verificationToken, _no)
+          ? this.verificationToken
+          : verificationToken as String?,
       apiKeys: apiKeys ?? this.apiKeys,
       customWallet: customWallet ?? this.customWallet,
       oauthProviders: oauthProviders ?? this.oauthProviders,
@@ -387,8 +392,8 @@ class OauthProvider {
 
 /// SignUpBody (internal)
 class SignUpBody {
-  final String userName;       // required
-  final String subOrgName;     // required
+  final String userName; // required
+  final String subOrgName; // required
   final String? userEmail;
   final String? userTag;
 
@@ -427,24 +432,33 @@ class VerifyOtpResult {
   VerifyOtpResult({required this.verificationToken, this.subOrganizationId});
 }
 
-class BaseOtpResult {
+class BaseAuthResult {
   final String sessionToken;
-  const BaseOtpResult({required this.sessionToken});
+  const BaseAuthResult({required this.sessionToken});
 }
 
-class LoginWithOtpResult extends BaseOtpResult {
+class LoginWithPasskeyResult extends BaseAuthResult {
+  const LoginWithPasskeyResult({required super.sessionToken});
+}
+
+class SignUpWithPasskeyResult extends BaseAuthResult {
+  final String credentialId;
+  const SignUpWithPasskeyResult(
+      {required super.sessionToken, required this.credentialId});
+}
+
+class LoginWithOtpResult extends BaseAuthResult {
   const LoginWithOtpResult({required super.sessionToken});
 }
 
-class SignUpWithOtpResult extends BaseOtpResult {
+class SignUpWithOtpResult extends BaseAuthResult {
   const SignUpWithOtpResult({required super.sessionToken});
 }
 
-class CompleteOtpResult extends BaseOtpResult {
+class CompleteOtpResult extends BaseAuthResult {
   final AuthAction action;
-  const CompleteOtpResult( {required super.sessionToken,
+  const CompleteOtpResult({
+    required super.sessionToken,
     required this.action,
   });
 }
-
-
