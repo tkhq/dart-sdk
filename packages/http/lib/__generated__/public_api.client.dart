@@ -93,11 +93,13 @@ class TurnkeyClient {
 
   /// Build the server envelope.
   Map<String, dynamic> makeEnvelope({
+    required String type,
     required String organizationId,
     String? timestampMs,
     required Map<String, dynamic> parameters,
   }) {
     return {
+      'type': type,
       'organizationId': organizationId,
       'timestampMs':
           timestampMs ?? DateTime.now().millisecondsSinceEpoch.toString(),
@@ -127,6 +129,7 @@ class TurnkeyClient {
   Map<String, dynamic> packActivityBody({
     required Map<String, dynamic> bodyJson,
     required String fallbackOrganizationId,
+    required String activityType,
   }) {
     final orgId =
         (bodyJson['organizationId'] as String?) ?? fallbackOrganizationId;
@@ -135,14 +138,36 @@ class TurnkeyClient {
     // Exclude envelope keys (and guard against accidental nesting)
     final params = paramsFromBody(
       bodyJson,
-      exclude: const ['organizationId', 'timestampMs', 'parameters'],
+      exclude: const ['organizationId', 'timestampMs', 'parameters', 'type'],
     );
 
     return makeEnvelope(
+      type: activityType,
       organizationId: orgId,
       timestampMs: ts,
       parameters: params,
     );
+  }
+
+  /// Transforms activity response to flatten specific result from activity.result.{specificResult} to top-level result
+  Map<String, dynamic> transformActivityResponse(
+      Map<String, dynamic> json, String operationId) {
+    // Convert operationId to the expected result field name (e.g., "StampLogin" -> "stampLoginResult")
+    final resultFieldName =
+        '${operationId[0].toLowerCase()}${operationId.substring(1)}Result';
+
+    final result = <String, dynamic>{
+      'activity': json['activity'],
+    };
+
+    // Extract specific result from activity.result.{specificResult} and flatten to top level
+    if (json['activity'] != null &&
+        json['activity']['result'] != null &&
+        json['activity']['result'][resultFieldName] != null) {
+      result['result'] = json['activity']['result'][resultFieldName];
+    }
+
+    return result;
   }
 
   /// Get details about an activity.
@@ -1254,12 +1279,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_APPROVE_ACTIVITY',
     );
     return await request<Map<String, dynamic>, TApproveActivityResponse>(
         "/public/v1/submit/approve_activity",
         body,
-        (json) => TApproveActivityResponse.fromJson(json));
+        (json) => TApproveActivityResponse.fromJson(
+            transformActivityResponse(json, 'ApproveActivity')));
   }
 
   /// Produce a `SignedRequest` from `TApproveActivityBody` by using the client's `stamp` function.
@@ -1291,12 +1318,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_API_KEYS_V2',
     );
     return await request<Map<String, dynamic>, TCreateApiKeysResponse>(
         "/public/v1/submit/create_api_keys",
         body,
-        (json) => TCreateApiKeysResponse.fromJson(json));
+        (json) => TCreateApiKeysResponse.fromJson(
+            transformActivityResponse(json, 'CreateApiKeys')));
   }
 
   /// Produce a `SignedRequest` from `TCreateApiKeysBody` by using the client's `stamp` function.
@@ -1328,12 +1357,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_API_ONLY_USERS',
     );
     return await request<Map<String, dynamic>, TCreateApiOnlyUsersResponse>(
         "/public/v1/submit/create_api_only_users",
         body,
-        (json) => TCreateApiOnlyUsersResponse.fromJson(json));
+        (json) => TCreateApiOnlyUsersResponse.fromJson(
+            transformActivityResponse(json, 'CreateApiOnlyUsers')));
   }
 
   /// Produce a `SignedRequest` from `TCreateApiOnlyUsersBody` by using the client's `stamp` function.
@@ -1365,12 +1396,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
     );
     return await request<Map<String, dynamic>, TCreateAuthenticatorsResponse>(
         "/public/v1/submit/create_authenticators",
         body,
-        (json) => TCreateAuthenticatorsResponse.fromJson(json));
+        (json) => TCreateAuthenticatorsResponse.fromJson(
+            transformActivityResponse(json, 'CreateAuthenticators')));
   }
 
   /// Produce a `SignedRequest` from `TCreateAuthenticatorsBody` by using the client's `stamp` function.
@@ -1402,12 +1435,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_INVITATIONS',
     );
     return await request<Map<String, dynamic>, TCreateInvitationsResponse>(
         "/public/v1/submit/create_invitations",
         body,
-        (json) => TCreateInvitationsResponse.fromJson(json));
+        (json) => TCreateInvitationsResponse.fromJson(
+            transformActivityResponse(json, 'CreateInvitations')));
   }
 
   /// Produce a `SignedRequest` from `TCreateInvitationsBody` by using the client's `stamp` function.
@@ -1439,12 +1474,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_OAUTH2_CREDENTIAL',
     );
     return await request<Map<String, dynamic>, TCreateOauth2CredentialResponse>(
         "/public/v1/submit/create_oauth2_credential",
         body,
-        (json) => TCreateOauth2CredentialResponse.fromJson(json));
+        (json) => TCreateOauth2CredentialResponse.fromJson(
+            transformActivityResponse(json, 'CreateOauth2Credential')));
   }
 
   /// Produce a `SignedRequest` from `TCreateOauth2CredentialBody` by using the client's `stamp` function.
@@ -1477,12 +1514,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS',
     );
     return await request<Map<String, dynamic>, TCreateOauthProvidersResponse>(
         "/public/v1/submit/create_oauth_providers",
         body,
-        (json) => TCreateOauthProvidersResponse.fromJson(json));
+        (json) => TCreateOauthProvidersResponse.fromJson(
+            transformActivityResponse(json, 'CreateOauthProviders')));
   }
 
   /// Produce a `SignedRequest` from `TCreateOauthProvidersBody` by using the client's `stamp` function.
@@ -1514,12 +1553,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_POLICIES',
     );
     return await request<Map<String, dynamic>, TCreatePoliciesResponse>(
         "/public/v1/submit/create_policies",
         body,
-        (json) => TCreatePoliciesResponse.fromJson(json));
+        (json) => TCreatePoliciesResponse.fromJson(
+            transformActivityResponse(json, 'CreatePolicies')));
   }
 
   /// Produce a `SignedRequest` from `TCreatePoliciesBody` by using the client's `stamp` function.
@@ -1551,12 +1592,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_POLICY_V3',
     );
     return await request<Map<String, dynamic>, TCreatePolicyResponse>(
         "/public/v1/submit/create_policy",
         body,
-        (json) => TCreatePolicyResponse.fromJson(json));
+        (json) => TCreatePolicyResponse.fromJson(
+            transformActivityResponse(json, 'CreatePolicy')));
   }
 
   /// Produce a `SignedRequest` from `TCreatePolicyBody` by using the client's `stamp` function.
@@ -1588,12 +1631,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEY_TAG',
     );
     return await request<Map<String, dynamic>, TCreatePrivateKeyTagResponse>(
         "/public/v1/submit/create_private_key_tag",
         body,
-        (json) => TCreatePrivateKeyTagResponse.fromJson(json));
+        (json) => TCreatePrivateKeyTagResponse.fromJson(
+            transformActivityResponse(json, 'CreatePrivateKeyTag')));
   }
 
   /// Produce a `SignedRequest` from `TCreatePrivateKeyTagBody` by using the client's `stamp` function.
@@ -1625,12 +1670,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS_V2',
     );
     return await request<Map<String, dynamic>, TCreatePrivateKeysResponse>(
         "/public/v1/submit/create_private_keys",
         body,
-        (json) => TCreatePrivateKeysResponse.fromJson(json));
+        (json) => TCreatePrivateKeysResponse.fromJson(
+            transformActivityResponse(json, 'CreatePrivateKeys')));
   }
 
   /// Produce a `SignedRequest` from `TCreatePrivateKeysBody` by using the client's `stamp` function.
@@ -1662,12 +1709,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_READ_ONLY_SESSION',
     );
     return await request<Map<String, dynamic>, TCreateReadOnlySessionResponse>(
         "/public/v1/submit/create_read_only_session",
         body,
-        (json) => TCreateReadOnlySessionResponse.fromJson(json));
+        (json) => TCreateReadOnlySessionResponse.fromJson(
+            transformActivityResponse(json, 'CreateReadOnlySession')));
   }
 
   /// Produce a `SignedRequest` from `TCreateReadOnlySessionBody` by using the client's `stamp` function.
@@ -1700,12 +1749,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION_V2',
     );
     return await request<Map<String, dynamic>, TCreateReadWriteSessionResponse>(
         "/public/v1/submit/create_read_write_session",
         body,
-        (json) => TCreateReadWriteSessionResponse.fromJson(json));
+        (json) => TCreateReadWriteSessionResponse.fromJson(
+            transformActivityResponse(json, 'CreateReadWriteSession')));
   }
 
   /// Produce a `SignedRequest` from `TCreateReadWriteSessionBody` by using the client's `stamp` function.
@@ -1738,13 +1789,15 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE',
     );
     return await request<Map<String, dynamic>,
             TCreateSmartContractInterfaceResponse>(
         "/public/v1/submit/create_smart_contract_interface",
         body,
-        (json) => TCreateSmartContractInterfaceResponse.fromJson(json));
+        (json) => TCreateSmartContractInterfaceResponse.fromJson(
+            transformActivityResponse(json, 'CreateSmartContractInterface')));
   }
 
   /// Produce a `SignedRequest` from `TCreateSmartContractInterfaceBody` by using the client's `stamp` function.
@@ -1777,12 +1830,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7',
     );
     return await request<Map<String, dynamic>, TCreateSubOrganizationResponse>(
         "/public/v1/submit/create_sub_organization",
         body,
-        (json) => TCreateSubOrganizationResponse.fromJson(json));
+        (json) => TCreateSubOrganizationResponse.fromJson(
+            transformActivityResponse(json, 'CreateSubOrganization')));
   }
 
   /// Produce a `SignedRequest` from `TCreateSubOrganizationBody` by using the client's `stamp` function.
@@ -1815,12 +1870,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_USER_TAG',
     );
     return await request<Map<String, dynamic>, TCreateUserTagResponse>(
         "/public/v1/submit/create_user_tag",
         body,
-        (json) => TCreateUserTagResponse.fromJson(json));
+        (json) => TCreateUserTagResponse.fromJson(
+            transformActivityResponse(json, 'CreateUserTag')));
   }
 
   /// Produce a `SignedRequest` from `TCreateUserTagBody` by using the client's `stamp` function.
@@ -1852,12 +1909,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_USERS_V3',
     );
     return await request<Map<String, dynamic>, TCreateUsersResponse>(
         "/public/v1/submit/create_users",
         body,
-        (json) => TCreateUsersResponse.fromJson(json));
+        (json) => TCreateUsersResponse.fromJson(
+            transformActivityResponse(json, 'CreateUsers')));
   }
 
   /// Produce a `SignedRequest` from `TCreateUsersBody` by using the client's `stamp` function.
@@ -1889,12 +1948,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_WALLET',
     );
     return await request<Map<String, dynamic>, TCreateWalletResponse>(
         "/public/v1/submit/create_wallet",
         body,
-        (json) => TCreateWalletResponse.fromJson(json));
+        (json) => TCreateWalletResponse.fromJson(
+            transformActivityResponse(json, 'CreateWallet')));
   }
 
   /// Produce a `SignedRequest` from `TCreateWalletBody` by using the client's `stamp` function.
@@ -1926,12 +1987,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_CREATE_WALLET_ACCOUNTS',
     );
     return await request<Map<String, dynamic>, TCreateWalletAccountsResponse>(
         "/public/v1/submit/create_wallet_accounts",
         body,
-        (json) => TCreateWalletAccountsResponse.fromJson(json));
+        (json) => TCreateWalletAccountsResponse.fromJson(
+            transformActivityResponse(json, 'CreateWalletAccounts')));
   }
 
   /// Produce a `SignedRequest` from `TCreateWalletAccountsBody` by using the client's `stamp` function.
@@ -1963,12 +2026,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_API_KEYS',
     );
     return await request<Map<String, dynamic>, TDeleteApiKeysResponse>(
         "/public/v1/submit/delete_api_keys",
         body,
-        (json) => TDeleteApiKeysResponse.fromJson(json));
+        (json) => TDeleteApiKeysResponse.fromJson(
+            transformActivityResponse(json, 'DeleteApiKeys')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteApiKeysBody` by using the client's `stamp` function.
@@ -2000,12 +2065,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_AUTHENTICATORS',
     );
     return await request<Map<String, dynamic>, TDeleteAuthenticatorsResponse>(
         "/public/v1/submit/delete_authenticators",
         body,
-        (json) => TDeleteAuthenticatorsResponse.fromJson(json));
+        (json) => TDeleteAuthenticatorsResponse.fromJson(
+            transformActivityResponse(json, 'DeleteAuthenticators')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteAuthenticatorsBody` by using the client's `stamp` function.
@@ -2037,12 +2104,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_INVITATION',
     );
     return await request<Map<String, dynamic>, TDeleteInvitationResponse>(
         "/public/v1/submit/delete_invitation",
         body,
-        (json) => TDeleteInvitationResponse.fromJson(json));
+        (json) => TDeleteInvitationResponse.fromJson(
+            transformActivityResponse(json, 'DeleteInvitation')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteInvitationBody` by using the client's `stamp` function.
@@ -2074,12 +2143,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_OAUTH2_CREDENTIAL',
     );
     return await request<Map<String, dynamic>, TDeleteOauth2CredentialResponse>(
         "/public/v1/submit/delete_oauth2_credential",
         body,
-        (json) => TDeleteOauth2CredentialResponse.fromJson(json));
+        (json) => TDeleteOauth2CredentialResponse.fromJson(
+            transformActivityResponse(json, 'DeleteOauth2Credential')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteOauth2CredentialBody` by using the client's `stamp` function.
@@ -2112,12 +2183,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_OAUTH_PROVIDERS',
     );
     return await request<Map<String, dynamic>, TDeleteOauthProvidersResponse>(
         "/public/v1/submit/delete_oauth_providers",
         body,
-        (json) => TDeleteOauthProvidersResponse.fromJson(json));
+        (json) => TDeleteOauthProvidersResponse.fromJson(
+            transformActivityResponse(json, 'DeleteOauthProviders')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteOauthProvidersBody` by using the client's `stamp` function.
@@ -2149,12 +2222,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_POLICIES',
     );
     return await request<Map<String, dynamic>, TDeletePoliciesResponse>(
         "/public/v1/submit/delete_policies",
         body,
-        (json) => TDeletePoliciesResponse.fromJson(json));
+        (json) => TDeletePoliciesResponse.fromJson(
+            transformActivityResponse(json, 'DeletePolicies')));
   }
 
   /// Produce a `SignedRequest` from `TDeletePoliciesBody` by using the client's `stamp` function.
@@ -2186,12 +2261,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_POLICY',
     );
     return await request<Map<String, dynamic>, TDeletePolicyResponse>(
         "/public/v1/submit/delete_policy",
         body,
-        (json) => TDeletePolicyResponse.fromJson(json));
+        (json) => TDeletePolicyResponse.fromJson(
+            transformActivityResponse(json, 'DeletePolicy')));
   }
 
   /// Produce a `SignedRequest` from `TDeletePolicyBody` by using the client's `stamp` function.
@@ -2223,12 +2300,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEY_TAGS',
     );
     return await request<Map<String, dynamic>, TDeletePrivateKeyTagsResponse>(
         "/public/v1/submit/delete_private_key_tags",
         body,
-        (json) => TDeletePrivateKeyTagsResponse.fromJson(json));
+        (json) => TDeletePrivateKeyTagsResponse.fromJson(
+            transformActivityResponse(json, 'DeletePrivateKeyTags')));
   }
 
   /// Produce a `SignedRequest` from `TDeletePrivateKeyTagsBody` by using the client's `stamp` function.
@@ -2261,12 +2340,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEYS',
     );
     return await request<Map<String, dynamic>, TDeletePrivateKeysResponse>(
         "/public/v1/submit/delete_private_keys",
         body,
-        (json) => TDeletePrivateKeysResponse.fromJson(json));
+        (json) => TDeletePrivateKeysResponse.fromJson(
+            transformActivityResponse(json, 'DeletePrivateKeys')));
   }
 
   /// Produce a `SignedRequest` from `TDeletePrivateKeysBody` by using the client's `stamp` function.
@@ -2298,13 +2379,15 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE',
     );
     return await request<Map<String, dynamic>,
             TDeleteSmartContractInterfaceResponse>(
         "/public/v1/submit/delete_smart_contract_interface",
         body,
-        (json) => TDeleteSmartContractInterfaceResponse.fromJson(json));
+        (json) => TDeleteSmartContractInterfaceResponse.fromJson(
+            transformActivityResponse(json, 'DeleteSmartContractInterface')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteSmartContractInterfaceBody` by using the client's `stamp` function.
@@ -2337,12 +2420,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_SUB_ORGANIZATION',
     );
     return await request<Map<String, dynamic>, TDeleteSubOrganizationResponse>(
         "/public/v1/submit/delete_sub_organization",
         body,
-        (json) => TDeleteSubOrganizationResponse.fromJson(json));
+        (json) => TDeleteSubOrganizationResponse.fromJson(
+            transformActivityResponse(json, 'DeleteSubOrganization')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteSubOrganizationBody` by using the client's `stamp` function.
@@ -2375,12 +2460,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_USER_TAGS',
     );
     return await request<Map<String, dynamic>, TDeleteUserTagsResponse>(
         "/public/v1/submit/delete_user_tags",
         body,
-        (json) => TDeleteUserTagsResponse.fromJson(json));
+        (json) => TDeleteUserTagsResponse.fromJson(
+            transformActivityResponse(json, 'DeleteUserTags')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteUserTagsBody` by using the client's `stamp` function.
@@ -2412,12 +2499,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_USERS',
     );
     return await request<Map<String, dynamic>, TDeleteUsersResponse>(
         "/public/v1/submit/delete_users",
         body,
-        (json) => TDeleteUsersResponse.fromJson(json));
+        (json) => TDeleteUsersResponse.fromJson(
+            transformActivityResponse(json, 'DeleteUsers')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteUsersBody` by using the client's `stamp` function.
@@ -2449,12 +2538,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS',
     );
     return await request<Map<String, dynamic>, TDeleteWalletAccountsResponse>(
         "/public/v1/submit/delete_wallet_accounts",
         body,
-        (json) => TDeleteWalletAccountsResponse.fromJson(json));
+        (json) => TDeleteWalletAccountsResponse.fromJson(
+            transformActivityResponse(json, 'DeleteWalletAccounts')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteWalletAccountsBody` by using the client's `stamp` function.
@@ -2486,12 +2577,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_DELETE_WALLETS',
     );
     return await request<Map<String, dynamic>, TDeleteWalletsResponse>(
         "/public/v1/submit/delete_wallets",
         body,
-        (json) => TDeleteWalletsResponse.fromJson(json));
+        (json) => TDeleteWalletsResponse.fromJson(
+            transformActivityResponse(json, 'DeleteWallets')));
   }
 
   /// Produce a `SignedRequest` from `TDeleteWalletsBody` by using the client's `stamp` function.
@@ -2523,12 +2616,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_EMAIL_AUTH_V2',
     );
     return await request<Map<String, dynamic>, TEmailAuthResponse>(
         "/public/v1/submit/email_auth",
         body,
-        (json) => TEmailAuthResponse.fromJson(json));
+        (json) => TEmailAuthResponse.fromJson(
+            transformActivityResponse(json, 'EmailAuth')));
   }
 
   /// Produce a `SignedRequest` from `TEmailAuthBody` by using the client's `stamp` function.
@@ -2560,12 +2655,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_EXPORT_PRIVATE_KEY',
     );
     return await request<Map<String, dynamic>, TExportPrivateKeyResponse>(
         "/public/v1/submit/export_private_key",
         body,
-        (json) => TExportPrivateKeyResponse.fromJson(json));
+        (json) => TExportPrivateKeyResponse.fromJson(
+            transformActivityResponse(json, 'ExportPrivateKey')));
   }
 
   /// Produce a `SignedRequest` from `TExportPrivateKeyBody` by using the client's `stamp` function.
@@ -2597,12 +2694,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_EXPORT_WALLET',
     );
     return await request<Map<String, dynamic>, TExportWalletResponse>(
         "/public/v1/submit/export_wallet",
         body,
-        (json) => TExportWalletResponse.fromJson(json));
+        (json) => TExportWalletResponse.fromJson(
+            transformActivityResponse(json, 'ExportWallet')));
   }
 
   /// Produce a `SignedRequest` from `TExportWalletBody` by using the client's `stamp` function.
@@ -2634,12 +2733,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_EXPORT_WALLET_ACCOUNT',
     );
     return await request<Map<String, dynamic>, TExportWalletAccountResponse>(
         "/public/v1/submit/export_wallet_account",
         body,
-        (json) => TExportWalletAccountResponse.fromJson(json));
+        (json) => TExportWalletAccountResponse.fromJson(
+            transformActivityResponse(json, 'ExportWalletAccount')));
   }
 
   /// Produce a `SignedRequest` from `TExportWalletAccountBody` by using the client's `stamp` function.
@@ -2671,12 +2772,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_IMPORT_PRIVATE_KEY',
     );
     return await request<Map<String, dynamic>, TImportPrivateKeyResponse>(
         "/public/v1/submit/import_private_key",
         body,
-        (json) => TImportPrivateKeyResponse.fromJson(json));
+        (json) => TImportPrivateKeyResponse.fromJson(
+            transformActivityResponse(json, 'ImportPrivateKey')));
   }
 
   /// Produce a `SignedRequest` from `TImportPrivateKeyBody` by using the client's `stamp` function.
@@ -2708,12 +2811,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_IMPORT_WALLET',
     );
     return await request<Map<String, dynamic>, TImportWalletResponse>(
         "/public/v1/submit/import_wallet",
         body,
-        (json) => TImportWalletResponse.fromJson(json));
+        (json) => TImportWalletResponse.fromJson(
+            transformActivityResponse(json, 'ImportWallet')));
   }
 
   /// Produce a `SignedRequest` from `TImportWalletBody` by using the client's `stamp` function.
@@ -2745,12 +2850,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_INIT_FIAT_ON_RAMP',
     );
     return await request<Map<String, dynamic>, TInitFiatOnRampResponse>(
         "/public/v1/submit/init_fiat_on_ramp",
         body,
-        (json) => TInitFiatOnRampResponse.fromJson(json));
+        (json) => TInitFiatOnRampResponse.fromJson(
+            transformActivityResponse(json, 'InitFiatOnRamp')));
   }
 
   /// Produce a `SignedRequest` from `TInitFiatOnRampBody` by using the client's `stamp` function.
@@ -2782,12 +2889,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_INIT_IMPORT_PRIVATE_KEY',
     );
     return await request<Map<String, dynamic>, TInitImportPrivateKeyResponse>(
         "/public/v1/submit/init_import_private_key",
         body,
-        (json) => TInitImportPrivateKeyResponse.fromJson(json));
+        (json) => TInitImportPrivateKeyResponse.fromJson(
+            transformActivityResponse(json, 'InitImportPrivateKey')));
   }
 
   /// Produce a `SignedRequest` from `TInitImportPrivateKeyBody` by using the client's `stamp` function.
@@ -2820,12 +2929,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_INIT_IMPORT_WALLET',
     );
     return await request<Map<String, dynamic>, TInitImportWalletResponse>(
         "/public/v1/submit/init_import_wallet",
         body,
-        (json) => TInitImportWalletResponse.fromJson(json));
+        (json) => TInitImportWalletResponse.fromJson(
+            transformActivityResponse(json, 'InitImportWallet')));
   }
 
   /// Produce a `SignedRequest` from `TInitImportWalletBody` by using the client's `stamp` function.
@@ -2857,12 +2968,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_INIT_OTP',
     );
     return await request<Map<String, dynamic>, TInitOtpResponse>(
         "/public/v1/submit/init_otp",
         body,
-        (json) => TInitOtpResponse.fromJson(json));
+        (json) => TInitOtpResponse.fromJson(
+            transformActivityResponse(json, 'InitOtp')));
   }
 
   /// Produce a `SignedRequest` from `TInitOtpBody` by using the client's `stamp` function.
@@ -2894,12 +3007,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_INIT_OTP_AUTH_V2',
     );
     return await request<Map<String, dynamic>, TInitOtpAuthResponse>(
         "/public/v1/submit/init_otp_auth",
         body,
-        (json) => TInitOtpAuthResponse.fromJson(json));
+        (json) => TInitOtpAuthResponse.fromJson(
+            transformActivityResponse(json, 'InitOtpAuth')));
   }
 
   /// Produce a `SignedRequest` from `TInitOtpAuthBody` by using the client's `stamp` function.
@@ -2931,12 +3046,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
     );
     return await request<Map<String, dynamic>, TInitUserEmailRecoveryResponse>(
         "/public/v1/submit/init_user_email_recovery",
         body,
-        (json) => TInitUserEmailRecoveryResponse.fromJson(json));
+        (json) => TInitUserEmailRecoveryResponse.fromJson(
+            transformActivityResponse(json, 'InitUserEmailRecovery')));
   }
 
   /// Produce a `SignedRequest` from `TInitUserEmailRecoveryBody` by using the client's `stamp` function.
@@ -2969,12 +3086,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_OAUTH',
     );
     return await request<Map<String, dynamic>, TOauthResponse>(
         "/public/v1/submit/oauth",
         body,
-        (json) => TOauthResponse.fromJson(json));
+        (json) =>
+            TOauthResponse.fromJson(transformActivityResponse(json, 'Oauth')));
   }
 
   /// Produce a `SignedRequest` from `TOauthBody` by using the client's `stamp` function.
@@ -3006,12 +3125,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_OAUTH2_AUTHENTICATE',
     );
     return await request<Map<String, dynamic>, TOauth2AuthenticateResponse>(
         "/public/v1/submit/oauth2_authenticate",
         body,
-        (json) => TOauth2AuthenticateResponse.fromJson(json));
+        (json) => TOauth2AuthenticateResponse.fromJson(
+            transformActivityResponse(json, 'Oauth2Authenticate')));
   }
 
   /// Produce a `SignedRequest` from `TOauth2AuthenticateBody` by using the client's `stamp` function.
@@ -3043,12 +3164,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_OAUTH_LOGIN',
     );
     return await request<Map<String, dynamic>, TOauthLoginResponse>(
         "/public/v1/submit/oauth_login",
         body,
-        (json) => TOauthLoginResponse.fromJson(json));
+        (json) => TOauthLoginResponse.fromJson(
+            transformActivityResponse(json, 'OauthLogin')));
   }
 
   /// Produce a `SignedRequest` from `TOauthLoginBody` by using the client's `stamp` function.
@@ -3080,12 +3203,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_OTP_AUTH',
     );
     return await request<Map<String, dynamic>, TOtpAuthResponse>(
         "/public/v1/submit/otp_auth",
         body,
-        (json) => TOtpAuthResponse.fromJson(json));
+        (json) => TOtpAuthResponse.fromJson(
+            transformActivityResponse(json, 'OtpAuth')));
   }
 
   /// Produce a `SignedRequest` from `TOtpAuthBody` by using the client's `stamp` function.
@@ -3117,12 +3242,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_OTP_LOGIN',
     );
     return await request<Map<String, dynamic>, TOtpLoginResponse>(
         "/public/v1/submit/otp_login",
         body,
-        (json) => TOtpLoginResponse.fromJson(json));
+        (json) => TOtpLoginResponse.fromJson(
+            transformActivityResponse(json, 'OtpLogin')));
   }
 
   /// Produce a `SignedRequest` from `TOtpLoginBody` by using the client's `stamp` function.
@@ -3154,12 +3281,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_RECOVER_USER',
     );
     return await request<Map<String, dynamic>, TRecoverUserResponse>(
         "/public/v1/submit/recover_user",
         body,
-        (json) => TRecoverUserResponse.fromJson(json));
+        (json) => TRecoverUserResponse.fromJson(
+            transformActivityResponse(json, 'RecoverUser')));
   }
 
   /// Produce a `SignedRequest` from `TRecoverUserBody` by using the client's `stamp` function.
@@ -3191,12 +3320,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_REJECT_ACTIVITY',
     );
     return await request<Map<String, dynamic>, TRejectActivityResponse>(
         "/public/v1/submit/reject_activity",
         body,
-        (json) => TRejectActivityResponse.fromJson(json));
+        (json) => TRejectActivityResponse.fromJson(
+            transformActivityResponse(json, 'RejectActivity')));
   }
 
   /// Produce a `SignedRequest` from `TRejectActivityBody` by using the client's `stamp` function.
@@ -3228,13 +3359,15 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_REMOVE_ORGANIZATION_FEATURE',
     );
     return await request<Map<String, dynamic>,
             TRemoveOrganizationFeatureResponse>(
         "/public/v1/submit/remove_organization_feature",
         body,
-        (json) => TRemoveOrganizationFeatureResponse.fromJson(json));
+        (json) => TRemoveOrganizationFeatureResponse.fromJson(
+            transformActivityResponse(json, 'RemoveOrganizationFeature')));
   }
 
   /// Produce a `SignedRequest` from `TRemoveOrganizationFeatureBody` by using the client's `stamp` function.
@@ -3267,12 +3400,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_SET_ORGANIZATION_FEATURE',
     );
     return await request<Map<String, dynamic>, TSetOrganizationFeatureResponse>(
         "/public/v1/submit/set_organization_feature",
         body,
-        (json) => TSetOrganizationFeatureResponse.fromJson(json));
+        (json) => TSetOrganizationFeatureResponse.fromJson(
+            transformActivityResponse(json, 'SetOrganizationFeature')));
   }
 
   /// Produce a `SignedRequest` from `TSetOrganizationFeatureBody` by using the client's `stamp` function.
@@ -3305,12 +3440,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2',
     );
     return await request<Map<String, dynamic>, TSignRawPayloadResponse>(
         "/public/v1/submit/sign_raw_payload",
         body,
-        (json) => TSignRawPayloadResponse.fromJson(json));
+        (json) => TSignRawPayloadResponse.fromJson(
+            transformActivityResponse(json, 'SignRawPayload')));
   }
 
   /// Produce a `SignedRequest` from `TSignRawPayloadBody` by using the client's `stamp` function.
@@ -3342,12 +3479,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOADS',
     );
     return await request<Map<String, dynamic>, TSignRawPayloadsResponse>(
         "/public/v1/submit/sign_raw_payloads",
         body,
-        (json) => TSignRawPayloadsResponse.fromJson(json));
+        (json) => TSignRawPayloadsResponse.fromJson(
+            transformActivityResponse(json, 'SignRawPayloads')));
   }
 
   /// Produce a `SignedRequest` from `TSignRawPayloadsBody` by using the client's `stamp` function.
@@ -3379,12 +3518,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_SIGN_TRANSACTION_V2',
     );
     return await request<Map<String, dynamic>, TSignTransactionResponse>(
         "/public/v1/submit/sign_transaction",
         body,
-        (json) => TSignTransactionResponse.fromJson(json));
+        (json) => TSignTransactionResponse.fromJson(
+            transformActivityResponse(json, 'SignTransaction')));
   }
 
   /// Produce a `SignedRequest` from `TSignTransactionBody` by using the client's `stamp` function.
@@ -3416,12 +3557,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_STAMP_LOGIN',
     );
     return await request<Map<String, dynamic>, TStampLoginResponse>(
         "/public/v1/submit/stamp_login",
         body,
-        (json) => TStampLoginResponse.fromJson(json));
+        (json) => TStampLoginResponse.fromJson(
+            transformActivityResponse(json, 'StampLogin')));
   }
 
   /// Produce a `SignedRequest` from `TStampLoginBody` by using the client's `stamp` function.
@@ -3453,12 +3596,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_OAUTH2_CREDENTIAL',
     );
     return await request<Map<String, dynamic>, TUpdateOauth2CredentialResponse>(
         "/public/v1/submit/update_oauth2_credential",
         body,
-        (json) => TUpdateOauth2CredentialResponse.fromJson(json));
+        (json) => TUpdateOauth2CredentialResponse.fromJson(
+            transformActivityResponse(json, 'UpdateOauth2Credential')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateOauth2CredentialBody` by using the client's `stamp` function.
@@ -3491,12 +3636,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_POLICY_V2',
     );
     return await request<Map<String, dynamic>, TUpdatePolicyResponse>(
         "/public/v1/submit/update_policy",
         body,
-        (json) => TUpdatePolicyResponse.fromJson(json));
+        (json) => TUpdatePolicyResponse.fromJson(
+            transformActivityResponse(json, 'UpdatePolicy')));
   }
 
   /// Produce a `SignedRequest` from `TUpdatePolicyBody` by using the client's `stamp` function.
@@ -3528,12 +3675,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_PRIVATE_KEY_TAG',
     );
     return await request<Map<String, dynamic>, TUpdatePrivateKeyTagResponse>(
         "/public/v1/submit/update_private_key_tag",
         body,
-        (json) => TUpdatePrivateKeyTagResponse.fromJson(json));
+        (json) => TUpdatePrivateKeyTagResponse.fromJson(
+            transformActivityResponse(json, 'UpdatePrivateKeyTag')));
   }
 
   /// Produce a `SignedRequest` from `TUpdatePrivateKeyTagBody` by using the client's `stamp` function.
@@ -3565,12 +3714,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_ROOT_QUORUM',
     );
     return await request<Map<String, dynamic>, TUpdateRootQuorumResponse>(
         "/public/v1/submit/update_root_quorum",
         body,
-        (json) => TUpdateRootQuorumResponse.fromJson(json));
+        (json) => TUpdateRootQuorumResponse.fromJson(
+            transformActivityResponse(json, 'UpdateRootQuorum')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateRootQuorumBody` by using the client's `stamp` function.
@@ -3602,12 +3753,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_USER',
     );
     return await request<Map<String, dynamic>, TUpdateUserResponse>(
         "/public/v1/submit/update_user",
         body,
-        (json) => TUpdateUserResponse.fromJson(json));
+        (json) => TUpdateUserResponse.fromJson(
+            transformActivityResponse(json, 'UpdateUser')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserBody` by using the client's `stamp` function.
@@ -3639,12 +3792,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_USER_EMAIL',
     );
     return await request<Map<String, dynamic>, TUpdateUserEmailResponse>(
         "/public/v1/submit/update_user_email",
         body,
-        (json) => TUpdateUserEmailResponse.fromJson(json));
+        (json) => TUpdateUserEmailResponse.fromJson(
+            transformActivityResponse(json, 'UpdateUserEmail')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserEmailBody` by using the client's `stamp` function.
@@ -3676,12 +3831,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_USER_NAME',
     );
     return await request<Map<String, dynamic>, TUpdateUserNameResponse>(
         "/public/v1/submit/update_user_name",
         body,
-        (json) => TUpdateUserNameResponse.fromJson(json));
+        (json) => TUpdateUserNameResponse.fromJson(
+            transformActivityResponse(json, 'UpdateUserName')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserNameBody` by using the client's `stamp` function.
@@ -3713,12 +3870,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER',
     );
     return await request<Map<String, dynamic>, TUpdateUserPhoneNumberResponse>(
         "/public/v1/submit/update_user_phone_number",
         body,
-        (json) => TUpdateUserPhoneNumberResponse.fromJson(json));
+        (json) => TUpdateUserPhoneNumberResponse.fromJson(
+            transformActivityResponse(json, 'UpdateUserPhoneNumber')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserPhoneNumberBody` by using the client's `stamp` function.
@@ -3751,12 +3910,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_USER_TAG',
     );
     return await request<Map<String, dynamic>, TUpdateUserTagResponse>(
         "/public/v1/submit/update_user_tag",
         body,
-        (json) => TUpdateUserTagResponse.fromJson(json));
+        (json) => TUpdateUserTagResponse.fromJson(
+            transformActivityResponse(json, 'UpdateUserTag')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserTagBody` by using the client's `stamp` function.
@@ -3788,12 +3949,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_UPDATE_WALLET',
     );
     return await request<Map<String, dynamic>, TUpdateWalletResponse>(
         "/public/v1/submit/update_wallet",
         body,
-        (json) => TUpdateWalletResponse.fromJson(json));
+        (json) => TUpdateWalletResponse.fromJson(
+            transformActivityResponse(json, 'UpdateWallet')));
   }
 
   /// Produce a `SignedRequest` from `TUpdateWalletBody` by using the client's `stamp` function.
@@ -3825,12 +3988,14 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId!,
+      fallbackOrganizationId: config.organizationId,
+      activityType: 'ACTIVITY_TYPE_VERIFY_OTP',
     );
     return await request<Map<String, dynamic>, TVerifyOtpResponse>(
         "/public/v1/submit/verify_otp",
         body,
-        (json) => TVerifyOtpResponse.fromJson(json));
+        (json) => TVerifyOtpResponse.fromJson(
+            transformActivityResponse(json, 'VerifyOtp')));
   }
 
   /// Produce a `SignedRequest` from `TVerifyOtpBody` by using the client's `stamp` function.

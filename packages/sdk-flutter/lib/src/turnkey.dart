@@ -307,7 +307,8 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   TurnkeyClient createClient(
-      {String? publicKey,
+      {String? organizationId,
+      String? publicKey,
       String? apiBaseUrl,
       String? authProxyConfigId,
       String? authProxyBaseUrl}) {
@@ -316,9 +317,11 @@ class TurnkeyProvider with ChangeNotifier {
     authProxyBaseUrl ??=
         config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
     authProxyConfigId ??= config.authProxyConfigId;
+    organizationId ??= config.organizationId;
 
     final newClient = TurnkeyClient(
       config: THttpConfig(
+        organizationId: organizationId,
         baseUrl: apiBaseUrl,
         authProxyConfigId: authProxyConfigId,
         authProxyBaseUrl: authProxyBaseUrl,
@@ -806,11 +809,15 @@ class TurnkeyProvider with ChangeNotifier {
       // TODO (Amir): We need to make it easier to create a passkeyclient. Maybe just expose it thru the turnkeyProvider?
       final passkeyStamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
       final passkeyClient = TurnkeyClient(
-          config: THttpConfig(baseUrl: apiBaseUrl), stamper: passkeyStamper);
+          config: THttpConfig(
+            baseUrl: apiBaseUrl,
+            organizationId: organizationId ?? config.organizationId,
+          ),
+          stamper: passkeyStamper);
 
       final loginResponse = await passkeyClient.stampLogin(
         input: TStampLoginBody(
-          organizationId: organizationId ?? config.organizationId,
+          organizationId: organizationId,
           publicKey: generatedPublicKey,
           expirationSeconds: expirationSeconds,
         ),
@@ -865,29 +872,24 @@ class TurnkeyProvider with ChangeNotifier {
       final passkeyName = passkeyDisplayName ??
           'passkey-${DateTime.now().millisecondsSinceEpoch}';
 
-      // create a passkey
+      // Create a passkey
       final passkey = await createPasskey(
         PasskeyRegistrationConfig(
-          rp: {
-            'id': rpId,
-            'name': 'Flutter App',
-          },
-          user: {
-            'id': const Uuid().v4(),
-            'name': 'Anonymous User',
-            'displayName': 'Anonymous User',
-          },
+          rp: RelyingParty(
+            id: rpId,
+            name: 'Flutter App',
+          ),
+          user: WebAuthnUser(
+            id: const Uuid().v4(),
+            name: 'Anonymous User',
+            displayName: 'Anonymous User',
+          ),
           authenticatorName: passkeyName,
         ),
       );
 
-      final encodedChallenge = passkey['challenge'];
-      final attestation = passkey['attestation'];
-
-      if (encodedChallenge == null || attestation == null) {
-        throw Exception(
-            'Failed to create passkey: missing challenge or attestation.');
-      }
+      final encodedChallenge = passkey.encodedChallenge;
+      final attestation = passkey.attestation;
 
       final updatedCreateSubOrgParams = (createSubOrgParams != null)
           ? createSubOrgParams.copyWith(
@@ -963,7 +965,7 @@ class TurnkeyProvider with ChangeNotifier {
 
       return SignUpWithPasskeyResult(
         sessionToken: sessionToken,
-        credentialId: passkey['credentialId'],
+        credentialId: attestation.credentialId,
       );
     } finally {
       // we delete this only if an error occurred before this key became a session key pair
@@ -997,47 +999,46 @@ class TurnkeyProvider with ChangeNotifier {
     return res.otpId;
   }
 
- Future<LoginWithOtpResult> loginWithOtp({
-  required String verificationToken,
-  String? organizationId,
-  bool invalidateExisting = false,
-  String? publicKey,
-  String? sessionKey,
-}) async {
-  String? generatedPublicKey;
+  Future<LoginWithOtpResult> loginWithOtp({
+    required String verificationToken,
+    String? organizationId,
+    bool invalidateExisting = false,
+    String? publicKey,
+    String? sessionKey,
+  }) async {
+    String? generatedPublicKey;
 
-  try {
-    generatedPublicKey = publicKey ?? await createApiKeyPair();
+    try {
+      generatedPublicKey = publicKey ?? await createApiKeyPair();
 
-    final res = await client!.proxyOtpLogin(
-      input: ProxyTOtpLoginBody(
-        organizationId: organizationId,
-        publicKey: generatedPublicKey,
-        verificationToken: verificationToken,
-        invalidateExisting: invalidateExisting,
-      ),
-    );
+      final res = await client!.proxyOtpLogin(
+        input: ProxyTOtpLoginBody(
+          organizationId: organizationId,
+          publicKey: generatedPublicKey,
+          verificationToken: verificationToken,
+          invalidateExisting: invalidateExisting,
+        ),
+      );
 
-    await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
+      await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
 
-    // the key pair was successfully used, so we set this to null in order to prevent cleanup
-    generatedPublicKey = null;
+      // the key pair was successfully used, so we set this to null in order to prevent cleanup
+      generatedPublicKey = null;
 
-    return LoginWithOtpResult(
-      sessionToken: res.session,
-    );
-  } finally {
-    // we delete this only if an error occurred before this key became a session key pair
-    if (generatedPublicKey != null) {
-      try {
-        await deleteApiKeyPair(generatedPublicKey);
-      } catch (e) {
-        debugPrint('Failed to cleanup generated key pair: $e');
+      return LoginWithOtpResult(
+        sessionToken: res.session,
+      );
+    } finally {
+      // we delete this only if an error occurred before this key became a session key pair
+      if (generatedPublicKey != null) {
+        try {
+          await deleteApiKeyPair(generatedPublicKey);
+        } catch (e) {
+          debugPrint('Failed to cleanup generated key pair: $e');
+        }
       }
     }
   }
-}
-
 
   Future<SignUpWithOtpResult> signUpWithOtp({
     required String verificationToken,

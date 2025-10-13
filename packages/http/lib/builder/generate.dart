@@ -5,6 +5,18 @@ import 'type-gen/helpers.dart';
 import 'package:swagger_dart_code_generator/src/swagger_models/swagger_root.dart';
 // import 'package:swagger_dart_code_generator/src/swagger_models/requests/swagger_request_parameter.dart';
 
+/// Determines the activity type from operation ID
+String getActivityTypeFromOperationId(String operationId) {
+  // Convert operationId to activity type format
+  final activityTypeName = 'ACTIVITY_TYPE_${operationId.replaceAllMapped(
+    RegExp(r'([A-Z])'),
+    (match) => '_${match.group(1)}',
+  ).toUpperCase().substring(1)}';
+  
+  // Return versioned activity type if available, otherwise return the base type
+  return VERSIONED_ACTIVITY_TYPES[activityTypeName] ?? activityTypeName;
+}
+
 /// Generates a Dart HTTP client class from a Swagger specification.
 ///
 /// Parameters:
@@ -123,11 +135,13 @@ Future<void> generateClientFromSwagger({
 
         /// Build the server envelope.
         Map<String, dynamic> makeEnvelope({
+          required String type,
           required String organizationId,
           String? timestampMs,
           required Map<String, dynamic> parameters,
         }) {
           return {
+            'type': type,
             'organizationId': organizationId,
             'timestampMs': timestampMs ?? DateTime.now().millisecondsSinceEpoch.toString(),
             'parameters': parameters,
@@ -156,6 +170,7 @@ Future<void> generateClientFromSwagger({
         Map<String, dynamic> packActivityBody({
           required Map<String, dynamic> bodyJson,
           required String fallbackOrganizationId,
+          required String activityType,
         }) {
           final orgId = (bodyJson['organizationId'] as String?) ?? fallbackOrganizationId;
           final ts = bodyJson['timestampMs'] as String?;
@@ -163,14 +178,34 @@ Future<void> generateClientFromSwagger({
           // Exclude envelope keys (and guard against accidental nesting)
           final params = paramsFromBody(
             bodyJson,
-            exclude: const ['organizationId', 'timestampMs', 'parameters'],
+            exclude: const ['organizationId', 'timestampMs', 'parameters', 'type'],
           );
 
           return makeEnvelope(
+            type: activityType,
             organizationId: orgId,
             timestampMs: ts,
             parameters: params,
           );
+        }
+
+        /// Transforms activity response to flatten specific result from activity.result.{specificResult} to top-level result
+        Map<String, dynamic> transformActivityResponse(Map<String, dynamic> json, String operationId) {
+          // Convert operationId to the expected result field name (e.g., "StampLogin" -> "stampLoginResult")
+          final resultFieldName = '\${operationId[0].toLowerCase()}\${operationId.substring(1)}Result';
+          
+          final result = <String, dynamic>{
+            'activity': json['activity'],
+          };
+
+          // Extract specific result from activity.result.{specificResult} and flatten to top level
+          if (json['activity'] != null && 
+              json['activity']['result'] != null && 
+              json['activity']['result'][resultFieldName] != null) {
+            result['result'] = json['activity']['result'][resultFieldName];
+          }
+
+          return result;
         }
       
     ''');
@@ -236,18 +271,20 @@ Future<void> generateClientFromSwagger({
       ]));
 
       if (mType == 'activityDecision' || mType == 'command') {
+        final activityType = getActivityTypeFromOperationId(operationId);
         codeBuffer.add('''
       Future<$responseType> ${prefix.toLowerCase()}${prefix.isEmpty ? methodName : methodName.capitalize()}({
         required $inputType input,
       }) async {
         final body = packActivityBody(
           bodyJson: input.toJson(),
-          fallbackOrganizationId: config.organizationId!,
+          fallbackOrganizationId: config.organizationId,
+          activityType: '$activityType',
         );
         return await request<Map<String, dynamic>, $responseType>(
           "$endpointPath",
           body,
-          (json) => $responseType.fromJson(json)
+          (json) => $responseType.fromJson(transformActivityResponse(json, '$operationId'))
         );
       }
     ''');

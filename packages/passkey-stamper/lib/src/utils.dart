@@ -4,15 +4,10 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 
 String getChallengeFromPayload(String payload) {
-  var bytes = utf8.encode(payload);
-  var digest = sha256.convert(bytes);
+  final bytes = utf8.encode(payload);
+  final digest = sha256.convert(bytes);
 
-  String hexString = digest.toString();
-
-  Uint8List hexBytes = Uint8List.fromList(hexString.codeUnits);
-  String base64String = base64Encode(hexBytes);
-
-  return base64String;
+  return base64UrlEncode(digest.bytes).replaceAll('=', '');
 }
 
 String generateChallenge() {
