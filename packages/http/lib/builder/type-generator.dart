@@ -246,7 +246,7 @@ String _jsonReadExpr(
 
   // Enum?
   if (_isEnum(allDefs, typeStr)) {
-    return "$typeStr" "FromJson($read)";
+    return isRequired ? "$typeStr" "FromJson($read)" : "$read == null ? null : $typeStr" "FromJson($read)";
   }
 
   // Otherwise assume it is a class we generate.

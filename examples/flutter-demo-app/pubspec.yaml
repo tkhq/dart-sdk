@@ -40,4 +40,6 @@ flutter:
     - assets/images/logo.svg
     - assets/images/google.svg
     - assets/images/apple.svg
+    - assets/images/discord.svg
+    - assets/images/xtwitter.svg
     - .env

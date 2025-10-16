@@ -11,7 +11,7 @@ class OAuthButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 20,
+      spacing: 8,
       children: <Widget>[
         Expanded(
           child: Consumer<AuthRelayerProvider>(
@@ -39,6 +39,38 @@ class OAuthButtons extends StatelessWidget {
                 isLoading: authRelayerProvider.isLoading('signInWithApple'),
                 child: SvgPicture.asset(
                   'assets/images/apple.svg',
+                  height: 20,
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
+              return LoadingButton(
+                onPressed: () {
+                  authRelayerProvider.signInWithX();
+                },
+                isLoading: authRelayerProvider.isLoading('signInWithX'),
+                child: SvgPicture.asset(
+                  'assets/images/xtwitter.svg',
+                  height: 20,
+                ),
+              );
+            },
+          ),
+        ),
+        Expanded(
+          child: Consumer<AuthRelayerProvider>(
+            builder: (context, authRelayerProvider, child) {
+              return LoadingButton(
+                onPressed: () {
+                  authRelayerProvider.signInWithDiscord();
+                },
+                isLoading: authRelayerProvider.isLoading('signInWithDiscord'),
+                child: SvgPicture.asset(
+                  'assets/images/discord.svg',
                   height: 20,
                 ),
               );

@@ -46,6 +46,8 @@ const OTP_AUTH_DEFAULT_EXPIRATION_SECONDS = "900";
 
 const MAX_SESSIONS = 15;
 
+const X_AUTH_URL = "https://x.com/i/oauth2/authorize";
+const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize";
 const TURNKEY_OAUTH_ORIGIN_URL = "https://oauth-origin.turnkey.com";
 const TURNKEY_OAUTH_REDIRECT_URL = "https://oauth-redirect.turnkey.com";
 

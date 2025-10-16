@@ -1635,7 +1635,7 @@ class externaldatav1Address {
   });
 
   factory externaldatav1Address.fromJson(Map<String, dynamic> json) {
-    final _format = v1AddressFormatFromJson(json['format']);
+    final _format = json['format'] == null ? null : v1AddressFormatFromJson(json['format']);
     final _address = json['address'] as String?;
     return externaldatav1Address(
       format: _format,
@@ -1758,7 +1758,7 @@ class immutableactivityv1Address {
   });
 
   factory immutableactivityv1Address.fromJson(Map<String, dynamic> json) {
-    final _format = v1AddressFormatFromJson(json['format']);
+    final _format = json['format'] == null ? null : v1AddressFormatFromJson(json['format']);
     final _address = json['address'] as String?;
     return immutableactivityv1Address(
       format: _format,
@@ -1789,7 +1789,7 @@ class immutablecommonv1PolicyEvaluation {
 
   factory immutablecommonv1PolicyEvaluation.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String?;
-    final _outcome = v1OutcomeFromJson(json['outcome']);
+    final _outcome = json['outcome'] == null ? null : v1OutcomeFromJson(json['outcome']);
     return immutablecommonv1PolicyEvaluation(
       policyId: _policyId,
       outcome: _outcome,
@@ -8017,7 +8017,7 @@ class v1ExportWalletIntent {
   factory v1ExportWalletIntent.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
-    final _language = v1MnemonicLanguageFromJson(json['language']);
+    final _language = json['language'] == null ? null : v1MnemonicLanguageFromJson(json['language']);
     return v1ExportWalletIntent(
       walletId: _walletId,
       targetPublicKey: _targetPublicKey,
@@ -8128,7 +8128,7 @@ class v1Feature {
   });
 
   factory v1Feature.fromJson(Map<String, dynamic> json) {
-    final _name = v1FeatureNameFromJson(json['name']);
+    final _name = json['name'] == null ? null : v1FeatureNameFromJson(json['name']);
     final _value = json['value'] as String?;
     return v1Feature(
       name: _name,
@@ -10096,9 +10096,9 @@ class v1InitFiatOnRampIntent {
     final _walletAddress = json['walletAddress'] as String;
     final _network = v1FiatOnRampBlockchainNetworkFromJson(json['network']);
     final _cryptoCurrencyCode = v1FiatOnRampCryptoCurrencyFromJson(json['cryptoCurrencyCode']);
-    final _fiatCurrencyCode = v1FiatOnRampCurrencyFromJson(json['fiatCurrencyCode']);
+    final _fiatCurrencyCode = json['fiatCurrencyCode'] == null ? null : v1FiatOnRampCurrencyFromJson(json['fiatCurrencyCode']);
     final _fiatCurrencyAmount = json['fiatCurrencyAmount'] as String?;
-    final _paymentMethod = v1FiatOnRampPaymentMethodFromJson(json['paymentMethod']);
+    final _paymentMethod = json['paymentMethod'] == null ? null : v1FiatOnRampPaymentMethodFromJson(json['paymentMethod']);
     final _countryCode = json['countryCode'] as String?;
     final _countrySubdivisionCode = json['countrySubdivisionCode'] as String?;
     final _sandboxMode = json['sandboxMode'] as bool?;
@@ -14456,7 +14456,7 @@ class v1Selector {
 
   factory v1Selector.fromJson(Map<String, dynamic> json) {
     final _subject = json['subject'] as String?;
-    final _operator = v1OperatorFromJson(json['operator']);
+    final _operator = json['operator'] == null ? null : v1OperatorFromJson(json['operator']);
     final _target = json['target'] as String?;
     return v1Selector(
       subject: _subject,
@@ -14493,7 +14493,7 @@ class v1SelectorV2 {
 
   factory v1SelectorV2.fromJson(Map<String, dynamic> json) {
     final _subject = json['subject'] as String?;
-    final _operator = v1OperatorFromJson(json['operator']);
+    final _operator = json['operator'] == null ? null : v1OperatorFromJson(json['operator']);
     final _targets = (json['targets'] as List?)?.map((e) => e as String).toList();
     return v1SelectorV2(
       subject: _subject,
@@ -15747,7 +15747,7 @@ class v1UpdatePolicyIntent {
   factory v1UpdatePolicyIntent.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
     final _policyName = json['policyName'] as String?;
-    final _policyEffect = v1EffectFromJson(json['policyEffect']);
+    final _policyEffect = json['policyEffect'] == null ? null : v1EffectFromJson(json['policyEffect']);
     final _policyCondition = json['policyCondition'] as String?;
     final _policyConsensus = json['policyConsensus'] as String?;
     final _policyNotes = json['policyNotes'] as String?;
@@ -15811,7 +15811,7 @@ class v1UpdatePolicyIntentV2 {
   factory v1UpdatePolicyIntentV2.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
     final _policyName = json['policyName'] as String?;
-    final _policyEffect = v1EffectFromJson(json['policyEffect']);
+    final _policyEffect = json['policyEffect'] == null ? null : v1EffectFromJson(json['policyEffect']);
     final _policyCondition = json['policyCondition'] as String?;
     final _policyConsensus = json['policyConsensus'] as String?;
     final _policyNotes = json['policyNotes'] as String?;
@@ -21763,7 +21763,7 @@ class TExportWalletBody {
     final _organizationId = json['organizationId'] as String?;
     final _walletId = json['walletId'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
-    final _language = v1MnemonicLanguageFromJson(json['language']);
+    final _language = json['language'] == null ? null : v1MnemonicLanguageFromJson(json['language']);
     return TExportWalletBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -22061,9 +22061,9 @@ class TInitFiatOnRampBody {
     final _walletAddress = json['walletAddress'] as String;
     final _network = v1FiatOnRampBlockchainNetworkFromJson(json['network']);
     final _cryptoCurrencyCode = v1FiatOnRampCryptoCurrencyFromJson(json['cryptoCurrencyCode']);
-    final _fiatCurrencyCode = v1FiatOnRampCurrencyFromJson(json['fiatCurrencyCode']);
+    final _fiatCurrencyCode = json['fiatCurrencyCode'] == null ? null : v1FiatOnRampCurrencyFromJson(json['fiatCurrencyCode']);
     final _fiatCurrencyAmount = json['fiatCurrencyAmount'] as String?;
-    final _paymentMethod = v1FiatOnRampPaymentMethodFromJson(json['paymentMethod']);
+    final _paymentMethod = json['paymentMethod'] == null ? null : v1FiatOnRampPaymentMethodFromJson(json['paymentMethod']);
     final _countryCode = json['countryCode'] as String?;
     final _countrySubdivisionCode = json['countrySubdivisionCode'] as String?;
     final _sandboxMode = json['sandboxMode'] as bool?;
@@ -23508,7 +23508,7 @@ class TUpdatePolicyBody {
     final _organizationId = json['organizationId'] as String?;
     final _policyId = json['policyId'] as String;
     final _policyName = json['policyName'] as String?;
-    final _policyEffect = v1EffectFromJson(json['policyEffect']);
+    final _policyEffect = json['policyEffect'] == null ? null : v1EffectFromJson(json['policyEffect']);
     final _policyCondition = json['policyCondition'] as String?;
     final _policyConsensus = json['policyConsensus'] as String?;
     final _policyNotes = json['policyNotes'] as String?;

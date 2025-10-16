@@ -9,10 +9,10 @@ import 'package:swagger_dart_code_generator/src/swagger_models/swagger_root.dart
 String getActivityTypeFromOperationId(String operationId) {
   // Convert operationId to activity type format
   final activityTypeName = 'ACTIVITY_TYPE_${operationId.replaceAllMapped(
-    RegExp(r'([A-Z])'),
-    (match) => '_${match.group(1)}',
-  ).toUpperCase().substring(1)}';
-  
+        RegExp(r'([A-Z])'),
+        (match) => '_${match.group(1)}',
+      ).toUpperCase().substring(1)}';
+
   // Return versioned activity type if available, otherwise return the base type
   return VERSIONED_ACTIVITY_TYPES[activityTypeName] ?? activityTypeName;
 }
@@ -278,7 +278,7 @@ Future<void> generateClientFromSwagger({
       }) async {
         final body = packActivityBody(
           bodyJson: input.toJson(),
-          fallbackOrganizationId: config.organizationId,
+          fallbackOrganizationId: config.organizationId ?? (throw Exception("Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
           activityType: '$activityType',
         );
         return await request<Map<String, dynamic>, $responseType>(
@@ -324,7 +324,30 @@ Future<void> generateClientFromSwagger({
       ]));
 
       if (!isProxy) {
-        codeBuffer.add('''
+        if (mType == 'activityDecision' || mType == 'command') {
+          final activityType = getActivityTypeFromOperationId(operationId);
+          codeBuffer.add('''
+      Future<TSignedRequest> stamp$operationId({
+        required $inputType input,
+        }) async {
+          final fullUrl = '\${config.baseUrl}$endpointPath';
+           final body = packActivityBody(
+          bodyJson: input.toJson(),
+          fallbackOrganizationId: config.organizationId ?? (throw Exception("Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+          activityType: '$activityType',
+        );
+        final bodyJson = jsonEncode(body);
+        final stamp = await stamper.stamp(bodyJson);
+
+          return TSignedRequest(
+            body: bodyJson,
+            stamp: stamp,
+            url: fullUrl,
+          );
+        }
+    ''');
+        } else if (mType == 'noop' || mType == 'query') {
+          codeBuffer.add('''
       Future<TSignedRequest> stamp$operationId({
         required $inputType input,
         }) async {
@@ -339,6 +362,9 @@ Future<void> generateClientFromSwagger({
           );
         }
     ''');
+        } else {
+          throw Exception('Unknown method type "$mType"');
+        }
       }
     }
   }

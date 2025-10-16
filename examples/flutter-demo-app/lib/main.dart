@@ -59,6 +59,7 @@ void main() async {
       authProxyBaseUrl: EnvConfig.authProxyUrl,
       authProxyConfigId: EnvConfig.authProxyConfigId,
       organizationId: EnvConfig.organizationId,
+      appScheme: EnvConfig.appScheme,
       onSessionSelected: onSessionSelected,
       onSessionCleared: onSessionCleared,
       onInitialized: onInitialized,
