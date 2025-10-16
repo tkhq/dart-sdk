@@ -220,8 +220,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   },
                                   itemBuilder: (BuildContext context) {
                                     List<PopupMenuEntry<Wallet>> items = [];
-                                    if (user?.wallets != null) {
-                                      items.addAll(user!.wallets.map((wallet) {
+                                    if (turnkeyProvider.user?.wallets != null) {
+                                      items.addAll(turnkeyProvider.user!.wallets.map((wallet) {
                                         return PopupMenuItem<Wallet>(
                                           value: wallet,
                                           child: Text(wallet.name),
