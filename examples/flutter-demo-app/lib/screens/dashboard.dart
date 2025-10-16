@@ -32,10 +32,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
 
-    if (turnkeyProvider.user?.id != null) {
-      _selectedWallet = turnkeyProvider.user!.wallets[0];
-      _selectedAccount = turnkeyProvider.user!.wallets[0].accounts[0];
+    final user = turnkeyProvider.user;
+    if (user == null || user.wallets.isEmpty) {
+      return;
     }
+
+    final firstWallet = user.wallets.first;
+    if (firstWallet.accounts.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _selectedWallet = firstWallet;
+      _selectedAccount = firstWallet.accounts.first;
+    });
   }
 
   Future<void> handleSign(BuildContext context, String messageToSign,
