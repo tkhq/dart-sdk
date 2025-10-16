@@ -336,6 +336,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   SizedBox(
                     height: 20,
                   ),
+                  
+                  if (_selectedAccount != null)
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
