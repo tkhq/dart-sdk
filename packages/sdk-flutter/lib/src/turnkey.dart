@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
-import 'package:turnkey_http/__generated__/models.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:turnkey_sdk_flutter/src/stamper.dart';
@@ -58,11 +58,18 @@ class TurnkeyProvider with ChangeNotifier {
 
   Future<void> _init() async {
     await _boot();
-    print("🔑 Initializing TurnkeyProvider...");
     await SessionStorageManager.init();
-    print("🔑 Session storage initialized.");
     await initializeSessions();
-    print("🔑 Sessions initialized.");
+  }
+
+  TurnkeyClient get requireClient {
+    if (_client == null) {
+      throw StateError(
+        'TurnkeyClient is not initialized. Make sure you have an active session '
+        'and that `_client` was properly set before calling this method.',
+      );
+    }
+    return _client!;
   }
 
   TurnkeyConfig _buildConfig({
@@ -87,20 +94,17 @@ class TurnkeyProvider with ChangeNotifier {
     final usingAuthProxy = (config.authProxyConfigId ?? '').isNotEmpty;
     if (usingAuthProxy) {
       if (config.authConfig?.sessionExpirationSeconds != null) {
-        // ignore: avoid_print
-        print(
+        stderr.writeln(
           'Turnkey SDK warning: `sessionExpirationSeconds` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
         );
       }
       if (config.authConfig?.otpAlphanumeric != null) {
-        // ignore: avoid_print
-        print(
+        stderr.writeln(
           'Turnkey SDK warning: `otpAlphanumeric` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
         );
       }
       if (config.authConfig?.otpLength != null) {
-        // ignore: avoid_print
-        print(
+        stderr.writeln(
           'Turnkey SDK warning: `otpLength` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
         );
       }
@@ -188,15 +192,15 @@ class TurnkeyProvider with ChangeNotifier {
           config.authProxyConfigId!,
           config.authProxyBaseUrl,
         );
-        _proxyAuthConfig = proxy; // cache like useRef.current
+        _proxyAuthConfig = proxy; 
         notifyListeners();
       }
 
-      // 2) Build master config from proxy (can be null)
+      // we build the master config from  oAuthproxy (can be null)
       _masterConfig = _buildConfig(proxyAuthConfig: proxy);
       notifyListeners();
     } catch (e) {
-      print("TurnkeyProvider boot failed: $e");
+      stderr.writeln("TurnkeyProvider boot failed: $e");
     }
   }
 
@@ -208,7 +212,8 @@ class TurnkeyProvider with ChangeNotifier {
         authProxyBaseUrl: baseUrl,
       );
     }
-    return await _client!.proxyGetWalletKitConfig(
+
+    return await requireClient.proxyGetWalletKitConfig(
       input: ProxyTGetWalletKitConfigBody(),
     );
   }
@@ -220,13 +225,14 @@ class TurnkeyProvider with ChangeNotifier {
   /// Additionally, it loads the last selected session if it is still valid,
   /// otherwise it clears the session and triggers the session expiration callback.
   Future<void> initializeSessions() async {
-    // Reset current state
+    // reset current state
     _session = null;
     notifyListeners();
 
     try {
       createClient();
-      // 1. Get all stored sessions
+
+      // we get all stored sessions
       final allSessions = await getAllSessions();
       if (allSessions == null || allSessions.isEmpty) {
         config.onSessionEmpty?.call();
@@ -235,7 +241,7 @@ class TurnkeyProvider with ChangeNotifier {
         return;
       }
 
-      // 2. Iterate over all sessions and clean up expired ones
+      // we iterate over all sessions and clean up expired ones
       for (final sessionKey in List<String>.from(allSessions.keys)) {
         final session = allSessions[sessionKey];
 
@@ -256,7 +262,7 @@ class TurnkeyProvider with ChangeNotifier {
         await _scheduleSessionExpiration(sessionKey, session.expiry);
       }
 
-      // 4. Load the active session key (if exists)
+      // we load the active session key (if it exists)
       final activeSessionKey = await getActiveSessionKey();
       if (activeSessionKey != null) {
         final activeSession = allSessions[activeSessionKey];
@@ -273,15 +279,15 @@ class TurnkeyProvider with ChangeNotifier {
           config.onSessionSelected?.call(activeSession);
         }
       } else {
-        // If no active session, fire the empty callback
+        // if no active session, fire the empty callback
         config.onSessionEmpty?.call();
       }
 
-      // 6. Signal initialization complete
+      // we signal initialization complete
       _initCompleter.complete();
       config.onInitialized?.call(null);
     } catch (e, st) {
-      debugPrint("TurnkeyProvider failed to initialize sessions: $e\n$st");
+      stderr.writeln("TurnkeyProvider failed to initialize sessions: $e\n$st");
       _initCompleter.completeError(e, st);
       config.onInitialized?.call(e);
     }
@@ -290,17 +296,14 @@ class TurnkeyProvider with ChangeNotifier {
   /// Sets the active session by its key.
   /// [sessionKey] The key of the session to set as active.
   Future<void> setActiveSession({required String sessionKey}) async {
-    print("🔑 Setting active session: $sessionKey");
     await SessionStorageManager.setActiveSessionKey(sessionKey);
     final session = await SessionStorageManager.getSession(sessionKey);
-    print("🔑 Active session loaded: $session");
 
     if (session == null) {
       throw Exception("No session found with key: $sessionKey");
     }
 
     _session = session;
-    print("🔑 calling callback: $session");
     config.onSessionSelected?.call(session);
     createClient(
       publicKey: session.publicKey,
@@ -380,8 +383,8 @@ class TurnkeyProvider with ChangeNotifier {
       isCompressesd: isCompressed,
     );
 
+    // if `storeOverride` is true, we set the new key as the active key for this client instance
     if (storeOverride) {
-      // Swap the client to use this new key
       createClient(
         publicKey: publicKey,
       );
@@ -424,8 +427,6 @@ class TurnkeyProvider with ChangeNotifier {
 
     final timeUntilExpiry =
         (expiry * 1000) - DateTime.now().millisecondsSinceEpoch;
-    print(
-        "🔑 Scheduling expiration for session $sessionKey in $timeUntilExpiry ms");
 
     if (timeUntilExpiry <= 0) {
       await expireSession();
@@ -558,12 +559,12 @@ class TurnkeyProvider with ChangeNotifier {
 
     if (_client == null) throw Exception("HTTP client not initialized");
 
-    // 1. Generate or use provided public key
+    // generate or use provided public key
     final newPublicKey =
         publicKey ?? await SecureStorageStamper.createKeyPair();
 
-    // 2. Stamp login to refresh the session
-    final response = await _client!.stampLogin(
+    // create a new session using the current session
+    final response = await requireClient.stampLogin(
       input: TStampLoginBody(
         organizationId: session.organizationId,
         publicKey: newPublicKey,
@@ -577,7 +578,7 @@ class TurnkeyProvider with ChangeNotifier {
     if (result?.session == null)
       throw Exception("No session found in refresh response");
 
-    // 3. Store the new session JWT
+    // store the new session JWT
     await SessionStorageManager.storeSession(
       result?.session as String,
       sessionKey: key,
@@ -606,10 +607,10 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("No session found with key: $key");
     }
 
-    // 1. Delete the keypair
+    // delete the keypair
     await SecureStorageStamper.deleteKeyPair(session.publicKey);
 
-    // 2. Remove the session from storage
+    // remove the session from storage
     await SessionStorageManager.clearSession(key);
 
     config.onSessionCleared?.call(session);
@@ -656,9 +657,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Client or user not initialized");
     }
 
-    print(user); 
-
-    final response = await _client!.signRawPayload(
+    final response = await requireClient.signRawPayload(
         input: TSignRawPayloadBody(
       signWith: signWith,
       payload: payload,
@@ -688,7 +687,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Client or user not initialized");
     }
 
-    final response = await _client!.signTransaction(
+    final response = await requireClient.signTransaction(
         input: TSignTransactionBody(
             signWith: signWith,
             unsignedTransaction: unsignedTransaction,
@@ -717,7 +716,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Client or user not initialized");
     }
 
-    final response = await _client!.createWallet(
+    final response = await requireClient.createWallet(
         input: TCreateWalletBody(
       accounts: accounts,
       walletName: walletName,
@@ -762,7 +761,7 @@ class TurnkeyProvider with ChangeNotifier {
       organizationId: user!.organizationId,
     );
 
-    final response = await _client!.importWallet(
+    final response = await requireClient.importWallet(
         input: TImportWalletBody(
             userId: user!.id,
             walletName: walletName,
@@ -786,7 +785,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     final keyPair = await generateP256KeyPair();
 
-    final response = await _client!.exportWallet(
+    final response = await requireClient.exportWallet(
         input: TExportWalletBody(
             walletId: walletId, targetPublicKey: keyPair.publicKeyUncompressed));
     final exportBundle =
@@ -839,14 +838,15 @@ class TurnkeyProvider with ChangeNotifier {
         '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
         '&nonce=${Uri.encodeComponent(nonce)}';
 
-    // Create a completer to wait for the authentication result
+    // we create a completer to wait for the authentication result
     final Completer<void> authCompleter = Completer<void>();
 
-    // Set up a subscription for deep links
+    // set up a subscription for deep links
     StreamSubscription? subscription;
     subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
       if (uri != null && uri.toString().startsWith(scheme)) {
-        // Parse query parameters from the URI
+        
+        // we parse query parameters from the URI
         final idToken = uri.queryParameters['id_token'];
 
         if (idToken != null) {
@@ -860,7 +860,8 @@ class TurnkeyProvider with ChangeNotifier {
             );
           }
 
-          // Complete the auth process. Runs the whenComplete callback
+          // complete the auth process
+          // this runs the `whenComplete()` callback
           if (!authCompleter.isCompleted) {
             authCompleter.complete();
           }
@@ -887,7 +888,7 @@ class TurnkeyProvider with ChangeNotifier {
         ),
       );
 
-      // Set a timeout for the authentication process
+      // set a timeout for the authentication process
       await authCompleter.future.timeout(
         const Duration(minutes: 10),
         onTimeout: () {
@@ -952,14 +953,14 @@ class TurnkeyProvider with ChangeNotifier {
         '&scope=${Uri.encodeComponent("tweet.read users.read")}' +
         '&state=${Uri.encodeComponent(state)}';
 
-    // Create a completer to wait for the authentication result
+    // we create a completer to wait for the authentication result
     final Completer<void> authCompleter = Completer<void>();
 
-    // Set up a subscription for deep links
+    // set up a subscription for deep links
     StreamSubscription? subscription;
     subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
       if (uri != null && uri.toString().startsWith(scheme)) {
-        // Parse query parameters from the URI
+        // we parse query parameters from the URI
         final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
@@ -984,7 +985,8 @@ class TurnkeyProvider with ChangeNotifier {
             );
           }
 
-          // Complete the auth process. Runs the whenComplete callback
+          // complete the auth process
+          // this runs the `whenComplete()` callback
           if (!authCompleter.isCompleted) {
             authCompleter.complete();
           }
@@ -1011,7 +1013,7 @@ class TurnkeyProvider with ChangeNotifier {
         ),
       );
 
-      // Set a timeout for the authentication process
+      // we set a timeout for the authentication process
       await authCompleter.future.timeout(
         const Duration(minutes: 10),
         onTimeout: () {
@@ -1076,14 +1078,15 @@ class TurnkeyProvider with ChangeNotifier {
         '&scope=${Uri.encodeComponent("identify email")}' +
         '&state=${Uri.encodeComponent(state)}';
 
-    // Create a completer to wait for the authentication result
+    // we create a completer to wait for the authentication result
     final Completer<void> authCompleter = Completer<void>();
 
-    // Set up a subscription for deep links
+    // set up a subscription for deep links
     StreamSubscription? subscription;
     subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
       if (uri != null && uri.toString().startsWith(scheme)) {
-        // Parse query parameters from the URI
+        
+        // we parse query parameters from the URI
         final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
@@ -1108,7 +1111,8 @@ class TurnkeyProvider with ChangeNotifier {
             );
           }
 
-          // Complete the auth process. Runs the whenComplete callback
+          // complete the auth process
+          // this runs the `whenComplete()` callback
           if (!authCompleter.isCompleted) {
             authCompleter.complete();
           }
@@ -1135,7 +1139,7 @@ class TurnkeyProvider with ChangeNotifier {
         ),
       );
 
-      // Set a timeout for the authentication process
+      // we set a timeout for the authentication process
       await authCompleter.future.timeout(
         const Duration(minutes: 10),
         onTimeout: () {
@@ -1219,7 +1223,7 @@ class TurnkeyProvider with ChangeNotifier {
       generatedPublicKey =
           publicKey ?? await createApiKeyPair(storeOverride: true);
 
-      // TODO (Amir): We need to make it easier to create a passkeyclient. Maybe just expose it thru the turnkeyProvider?
+      // TODO (Amir): We need to make it easier to create a passkeyclient. Maybe just expose it through the turnkeyProvider?
       final passkeyStamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
       final passkeyClient = TurnkeyClient(
           config: THttpConfig(
@@ -1256,7 +1260,7 @@ class TurnkeyProvider with ChangeNotifier {
         try {
           await deleteApiKeyPair(generatedPublicKey);
         } catch (e) {
-          debugPrint('Failed to cleanup generated key pair: $e');
+          stderr.writeln('Failed to cleanup generated key pair: $e');
         }
       }
     }
@@ -1301,7 +1305,7 @@ class TurnkeyProvider with ChangeNotifier {
       final passkeyName = passkeyDisplayName ??
           'passkey-${DateTime.now().millisecondsSinceEpoch}';
 
-      // Create a passkey
+      // create a passkey
       final passkey = await createPasskey(
         PasskeyRegistrationConfig(
           rp: RelyingParty(
@@ -1332,7 +1336,7 @@ class TurnkeyProvider with ChangeNotifier {
               apiKeys: [
                 CreateSubOrgApiKey(
                   apiKeyName: 'passkey-auth-$temporaryPublicKey',
-                  publicKey: temporaryPublicKey!,
+                  publicKey: temporaryPublicKey,
                   curveType: v1ApiKeyCurve.api_key_curve_p256,
 
                   // we set a short expiration since this is a temporary key
@@ -1351,7 +1355,7 @@ class TurnkeyProvider with ChangeNotifier {
               apiKeys: [
                 CreateSubOrgApiKey(
                   apiKeyName: 'passkey-auth-$temporaryPublicKey',
-                  publicKey: temporaryPublicKey!,
+                  publicKey: temporaryPublicKey,
                   curveType: v1ApiKeyCurve.api_key_curve_p256,
 
                   // we set a short expiration since this is a temporary key
@@ -1402,7 +1406,7 @@ class TurnkeyProvider with ChangeNotifier {
         try {
           await deleteApiKeyPair(generatedPublicKey);
         } catch (e) {
-          debugPrint('Failed to cleanup generated key pair: $e');
+          stderr.writeln('Failed to cleanup generated key pair: $e');
         }
       }
 
@@ -1411,7 +1415,7 @@ class TurnkeyProvider with ChangeNotifier {
         try {
           await deleteApiKeyPair(temporaryPublicKey);
         } catch (e) {
-          debugPrint('Failed to cleanup temporary key pair: $e');
+          stderr.writeln('Failed to cleanup temporary key pair: $e');
         }
       }
     }
@@ -1486,7 +1490,7 @@ class TurnkeyProvider with ChangeNotifier {
         try {
           await deleteApiKeyPair(generatedPublicKey);
         } catch (e) {
-          debugPrint('Failed to cleanup generated key pair: $e');
+          stderr.writeln('Failed to cleanup generated key pair: $e');
         }
       }
     }
@@ -1759,7 +1763,7 @@ class TurnkeyProvider with ChangeNotifier {
   }
 }
 
-// We create a custom browser class to handle the onClosed event
+// we create a custom browser class to handle the onClosed event
 class _OAuthBrowser extends ChromeSafariBrowser {
   final VoidCallback onBrowserClosed;
 
