@@ -33,7 +33,7 @@ class OTPScreen extends StatelessWidget {
                     color: Colors.grey,
                     width: 0.5,
                   ),
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

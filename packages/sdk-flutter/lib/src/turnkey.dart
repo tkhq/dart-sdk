@@ -287,6 +287,8 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Sets the active session by its key.
+  /// [sessionKey] The key of the session to set as active.
   Future<void> setActiveSession({required String sessionKey}) async {
     print("🔑 Setting active session: $sessionKey");
     await SessionStorageManager.setActiveSessionKey(sessionKey);
@@ -305,16 +307,23 @@ class TurnkeyProvider with ChangeNotifier {
     );
   }
 
+  /// Gets the key of the currently active session.
+  /// Returns the active session key if it exists, otherwise `null`.
   Future<String?> getActiveSessionKey() async {
     return await SessionStorageManager.getActiveSessionKey();
   }
 
+  /// Gets a stored session by its key.
+  /// [sessionKey] An optional key to retrieve the session from. If null, uses the default session key.
+  /// Returns the session if found, otherwise `null`.
   Future<Session?> getSession({String? sessionKey}) async {
     final key = sessionKey ?? await SessionStorageManager.getActiveSessionKey();
     if (key == null) return null;
     return await SessionStorageManager.getSession(key);
   }
 
+  /// Retrieves all stored sessions from secure storage.
+  /// Returns a map of session keys to their corresponding session objects.
   Future<Map<String, Session>?> getAllSessions() async {
     final keys = await SessionStorageManager.listSessionKeys();
     if (keys.isEmpty) return null;
@@ -329,6 +338,7 @@ class TurnkeyProvider with ChangeNotifier {
     return sessions;
   }
 
+  /// Clears any key pairs that are not associated with an active session.
   Future<void> clearUnusedKeyPairs() async {
     final publicKeys = await SecureStorageStamper.listKeyPairs();
     if (publicKeys.isEmpty) return;
@@ -350,6 +360,14 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Creates a new API key pair and optionally stores it as the active key.
+  /// If `storeOverride` is true, the new key pair will replace the current active key in the client.
+  /// 
+  /// [externalPublicKey] The external public key to use for the key pair. If null, a new key will be generated.
+  /// [externalPrivateKey] The external private key to use for the key pair. If null, a new key will be generated.
+  /// [isCompressed] Whether to create a key pair off of a compressed key pair. Defaults to true.
+  /// [storeOverride] Whether to store the new key pair as the active key. Defaults to false.
+  /// Returns the public key of the created key pair.
   Future<String> createApiKeyPair({
     String? externalPublicKey,
     String? externalPrivateKey,
@@ -372,6 +390,8 @@ class TurnkeyProvider with ChangeNotifier {
     return publicKey;
   }
 
+  /// Deletes an API key pair from secure storage by its public key.
+  /// [publicKey] The public key of the key pair to delete.
   Future<void> deleteApiKeyPair(String publicKey) async {
     await SecureStorageStamper.deleteKeyPair(publicKey);
   }
@@ -416,6 +436,15 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Stores a new session in secure storage.
+  /// 
+  /// Parses the provided session JWT and stores it under the specified session key.
+  /// Creates a new client instance using the session's organization ID and public key.
+  /// 
+  /// [sessionJwt] The JWT string representing the session to store.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// Returns the stored session if successful.
+  /// Throws an [Exception] if the session cannot be stored or parsed.
   Future<Session> storeSession({
     required String sessionJwt,
     String? sessionKey,
@@ -464,9 +493,19 @@ class TurnkeyProvider with ChangeNotifier {
 
     config.onSessionCreated?.call(session);
 
+    await createClient(organizationId: session.organizationId, publicKey: session.publicKey);
+
     return session;
   }
 
+  /// Creates a new TurnkeyClient instance using the provided parameters.
+  /// 
+  /// [organizationId] The ID of the organization to which the client will be associated.
+  /// [publicKey] The public key to use for the client. If null, the existing public key in the stamper will be used.
+  /// [apiBaseUrl] The base URL for the Turnkey API. If null, the value from the config or the default URL will be used.
+  /// [authProxyConfigId] The configuration ID for the auth proxy. If null, the value from the config will be used.
+  /// [authProxyBaseUrl] The base URL for the auth proxy. If null, the value from the config or the default URL will be used.
+  /// Returns the newly created TurnkeyClient instance.
   TurnkeyClient createClient(
       {String? organizationId,
       String? publicKey,
@@ -493,6 +532,18 @@ class TurnkeyProvider with ChangeNotifier {
     return newClient;
   }
 
+  /// Refreshes current session if possible.
+  /// 
+  /// Stamps a new login session using the existing session to extend its validity.
+  /// Generates a new key pair if no public key is provided.
+  /// Stores the new session JWT and updates the current session state.
+  /// 
+  /// [sessionKey] The key of the session to refresh. If null, uses the active session.
+  /// [expirationSeconds] The desired expiration time for the new session in seconds.
+  /// [publicKey] An optional public key to use for the new session. If null, a new key pair is generated.
+  /// [invalidateExisting] Whether to invalidate existing sessions when refreshing.
+  /// Returns the refreshed session result if successful, otherwise `null`.
+  /// Throws an [Exception] if the session cannot be refreshed.
   Future<v1StampLoginResult?> refreshSession({
     String? sessionKey,
     String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
@@ -756,7 +807,7 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
   /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
-  /// and invokes the provided onSuccess callback.
+  /// and invokes `completeOAuth` or the provided onSuccess callback.
   ///
   /// Throws an [Exception] if the authentication process fails or times out.
   ///
@@ -855,6 +906,18 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Handles the X (formerly Twitter) OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes `completeOAuth` or the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for X OAuth.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to X_AUTH_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
   Future<void> handleXOAuth({
     String? clientId,
     String? originUri = X_AUTH_URL,
@@ -967,6 +1030,18 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Handles the Discord OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes `completeOAuth` or the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Discord OAuth.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to DISCORD_AUTH_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
   Future<void> handleDiscordOAuth({
     String? clientId,
     String? originUri = DISCORD_AUTH_URL,
@@ -1079,6 +1154,15 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Verifies an OTP code and retrieves a verification token and sub-organization ID.
+  /// 
+  /// Throws an [Exception] if the OTP verification fails or if the account cannot be retrieved.
+  /// 
+  /// [otpCode] The OTP code to verify.
+  /// [otpId] The ID of the OTP to verify.
+  /// [contact] The contact information (email or phone number) associated with the OTP.
+  /// [otpType] The type of OTP (email or SMS).
+  /// Returns a [VerifyOtpResult] containing the verification token and sub-organization ID.
   Future<VerifyOtpResult> verifyOtp(
       {required String otpCode,
       required String otpId,
@@ -1105,6 +1189,20 @@ class TurnkeyProvider with ChangeNotifier {
         verificationToken: verifyOtpRes.verificationToken);
   }
 
+  /// Logs in a user using a passkey.
+  /// 
+  /// Generates or uses an existing API key pair for authentication.
+  /// Stamps a login session with the provided relying party ID and optional parameters.
+  /// Stores the session JWT and manages session state.
+  /// Cleans up the generated key pair if it was not used for the session.
+  /// 
+  /// [rpId] The relying party ID for the passkey authentication.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// [expirationSeconds] The desired expiration time for the session in seconds.
+  /// [organizationId] An optional organization ID to associate with the session.
+  /// [publicKey] An optional public key to use for the session. If null, a new key pair is generated.
+  /// Returns a [LoginWithPasskeyResult] containing the session token if successful.
+  /// Throws an [Exception] if the login process fails.
   Future<LoginWithPasskeyResult> loginWithPasskey({
     required String rpId,
     String? sessionKey,
@@ -1163,7 +1261,23 @@ class TurnkeyProvider with ChangeNotifier {
       }
     }
   }
-
+  
+  /// Signs up a new user using a passkey.
+  /// 
+  /// Generates a temporary API key pair for one-tap passkey sign-up.
+  /// Creates a passkey and uses it to create a new sub-organization user.
+  /// Stamps a login session for the new user and stores the session JWT.
+  /// Cleans up the generated key pairs after use.
+  /// 
+  /// [rpId] The relying party ID for the passkey registration.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// [expirationSeconds] The desired expiration time for the session in seconds.
+  /// [organizationId] An optional organization ID to associate with the session.
+  /// [passkeyDisplayName] An optional display name for the passkey.
+  /// [createSubOrgParams] Optional parameters for creating the sub-organization user.
+  /// [invalidateExisting] Whether to invalidate existing sessions when signing up.
+  /// Returns a [SignUpWithPasskeyResult] containing the session token and credential ID if successful.
+  /// Throws an [Exception] if the sign-up process fails.
   Future<SignUpWithPasskeyResult> signUpWithPasskey({
     required String rpId,
     String? sessionKey,
@@ -1303,6 +1417,15 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Initializes an OTP (One-Time Password) request for the specified contact method.
+  /// 
+  /// Sends a request to the backend to generate and send an OTP to the provided contact (email or phone number).
+  /// Returns the OTP ID that can be used for subsequent verification.
+  /// 
+  /// [otpType] The type of OTP to initialize (email or SMS).
+  /// [contact] The contact information (email address or phone number) to send the OTP to.
+  /// Returns a [String] representing the OTP ID.
+  /// Throws an [Exception] if the OTP initialization fails.
   Future<String> initOtp(
       {required OtpType otpType, required String contact}) async {
     final res = await client!.proxyInitOtp(
@@ -1314,6 +1437,20 @@ class TurnkeyProvider with ChangeNotifier {
     return res.otpId;
   }
 
+  /// Logs in a user using an OTP (One-Time Password) verification token.
+  /// 
+  /// Generates or uses an existing API key pair for authentication.
+  /// Sends a login request to the backend with the provided verification token and optional parameters.
+  /// Stores the session JWT and manages session state.
+  /// Cleans up the generated key pair if it was not used for the session.
+  /// 
+  /// [verificationToken] The OTP verification token received after verifying the OTP code.
+  /// [organizationId] An optional organization ID to associate with the session.
+  /// [invalidateExisting] Whether to invalidate existing sessions when logging in.
+  /// [publicKey] An optional public key to use for the session. If null, a new key pair is generated.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// Returns a [LoginWithOtpResult] containing the session token if successful.
+  /// Throws an [Exception] if the login process fails.
   Future<LoginWithOtpResult> loginWithOtp({
     required String verificationToken,
     String? organizationId,
@@ -1355,6 +1492,22 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Signs up a new user using an OTP (One-Time Password) verification token.
+  /// 
+  /// Generates a temporary API key pair for OTP sign-up.
+  /// Creates a new sub-organization user with the provided contact information and verification token.
+  /// Stamps a login session for the new user and stores the session JWT.
+  /// Cleans up the generated key pair after use.
+  /// 
+  /// [verificationToken] The OTP verification token received after verifying the OTP code.
+  /// [contact] The contact information (email address or phone number) associated with the OTP.
+  /// [otpType] The type of OTP (email or SMS).
+  /// [publicKey] An optional public key to use for the session. If null, a new key pair is generated.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// [createSubOrgParams] Optional parameters for creating the sub-organization user.
+  /// [invalidateExisting] Whether to invalidate existing sessions when signing up.
+  /// Returns a [SignUpWithOtpResult] containing the session token if successful.
+  /// Throws an [Exception] if the sign-up process fails.
   Future<SignUpWithOtpResult> signUpWithOtp({
     required String verificationToken,
     required String contact,
@@ -1400,6 +1553,23 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Completes the OTP (One-Time Password) authentication process.
+  /// 
+  /// Verifies the provided OTP code and determines whether to log in an existing user or sign up a new user.
+  /// If the user exists, logs them in and returns the session token.
+  /// If the user does not exist, signs them up and returns the session token.
+  /// Cleans up any generated key pairs after use.
+  /// 
+  /// [otpId] The ID of the OTP to verify.
+  /// [otpCode] The OTP code to verify.
+  /// [contact] The contact information (email or phone number) associated with the OTP.
+  /// [otpType] The type of OTP (email or SMS).
+  /// [publicKey] An optional public key to use for the session. If null, a new key pair is generated.
+  /// [invalidateExisting] Whether to invalidate existing sessions when logging in or signing up.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// [createSubOrgParams] Optional parameters for creating the sub-organization user during sign-up.
+  /// Returns a [CompleteOtpResult] containing the session token and action (login or signup) if successful.
+  /// Throws an [Exception] if the OTP authentication process fails.
   Future<CompleteOtpResult> completeOtpAuth({
     required String otpId,
     required String otpCode,
@@ -1444,6 +1614,17 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Logs in a user using an OAuth token.
+  /// 
+  /// Sends a login request to the backend with the provided OIDC token and public key.
+  /// Stores the session JWT and manages session state.
+  /// 
+  /// [oidcToken] The OIDC token received from the OAuth provider.
+  /// [publicKey] The public key to use for the session.
+  /// [invalidateExisting] Whether to invalidate existing sessions when logging in.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// Returns a [LoginWithOAuthResult] containing the session token if successful.
+  /// Throws an [Exception] if the login process fails.
   Future<LoginWithOAuthResult> loginWithOAuth({
     required String oidcToken,
     required String publicKey,
@@ -1463,6 +1644,20 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Signs up a new user using an OAuth token.
+  /// 
+  /// Generates a temporary API key pair for OAuth sign-up.
+  /// Creates a new sub-organization user with the provided OIDC token and provider name.
+  /// Stamps a login session for the new user and stores the session JWT.
+  /// Cleans up the generated key pair after use.
+  /// 
+  /// [oidcToken] The OIDC token received from the OAuth provider.
+  /// [publicKey] The public key to use for the session.
+  /// [providerName] The name of the OAuth provider (e.g., "google", "x", "discord").
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// [createSubOrgParams] Optional parameters for creating the sub-organization user.
+  /// Returns a [SignUpWithOAuthResult] containing the session token if successful.
+  /// Throws an [Exception] if the sign-up process fails.
   Future<SignUpWithOAuthResult> signUpWithOAuth({
     required String oidcToken,
     required String publicKey,
@@ -1507,6 +1702,21 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Completes the OAuth authentication process.
+  /// 
+  /// Verifies the provided OIDC token and determines whether to log in an existing user or sign up a new user.
+  /// If the user exists, logs them in and returns the session token.
+  /// If the user does not exist, signs them up and returns the session token.
+  /// Cleans up any generated key pairs after use.
+  /// 
+  /// [oidcToken] The OIDC token received from the OAuth provider.
+  /// [publicKey] The public key to use for the session.
+  /// [providerName] The name of the OAuth provider (e.g., "google", "x", "discord"). Required for sign-up.
+  /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
+  /// [invalidateExisting] Whether to invalidate existing sessions when logging in or signing up.
+  /// [createSubOrgParams] Optional parameters for creating the sub-organization user during sign-up.
+  /// Returns a [CompleteOAuthResult] containing the session token and action (login or signup) if successful.
+  /// Throws an [Exception] if the OAuth authentication process fails.
   Future<CompleteOAuthResult> completeOAuth({
     required String oidcToken,
     required String publicKey,
