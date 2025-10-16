@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false, // Prevent resizing when keyboard appears
       body: Padding(
-        padding: const EdgeInsets.all(42),
+        padding: const EdgeInsets.all(12),
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
@@ -35,10 +35,10 @@ class LoginScreen extends StatelessWidget {
                 color: Colors.grey,
                 width: 0.5,
               ),
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[

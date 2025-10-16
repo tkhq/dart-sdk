@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'package:turnkey_http/__generated__/models.dart';
+import 'package:crypto/crypto.dart';
 
 /// Fetches user details and associated wallets from the Turnkey API.
 ///
@@ -80,10 +84,7 @@ bool isValidSession(Session? session) {
 
 ProxyTSignupBody buildSignUpBody({
   required CreateSubOrgParams? createSubOrgParams,
-
-  /// Set this to true when calling from Web; used only to build a default authenticator name.
   bool isWeb = false,
-
   /// Optional hostname to use when [isWeb] = true. If omitted,
   /// a generic 'web' string is used.
   String? webHostname,
@@ -103,7 +104,6 @@ ProxyTSignupBody buildSignUpBody({
           ))
       .toList();
 
-  // If original TS returned [] when none were provided, mirror that:
   final List<v1AuthenticatorParamsV2> authenticatorsOrEmpty =
       (createSubOrgParams?.authenticators?.isNotEmpty ?? false)
           ? authenticators
@@ -117,8 +117,8 @@ ProxyTSignupBody buildSignUpBody({
                 ? 'api-key-$now'
                 : k.apiKeyName!,
             publicKey: k.publicKey,
-            curveType: k.curveType!, // safe due to where(...)
-            expirationSeconds: k.expirationSeconds, // nullable -> omitted in toJson if you drop nulls
+            curveType: k.curveType!,
+            expirationSeconds: k.expirationSeconds,
           ))
       .toList();
 
@@ -127,16 +127,13 @@ ProxyTSignupBody buildSignUpBody({
           ? apiKeys
           : <v1ApiKeyParamsV2>[];
 
-  // --- oauth providers ---
-  // If your ProxyTSignupBody expects v1OauthProviderParams instead of Provider,
-  // map them here accordingly.
+  // --- oauth providers ---  //
   final List<v1OauthProviderParams> oauthProvidersOrEmpty =
       (createSubOrgParams?.oauthProviders?.isNotEmpty ?? false)
           ? createSubOrgParams!.oauthProviders as List<v1OauthProviderParams>
           : const [];
 
   // --- wallet mapping ---
-  // TS: wallet: { walletName, accounts } from customWallet { walletName, walletAccounts }
   final wallet = (createSubOrgParams?.customWallet != null)
       ? v1WalletParams(
           walletName: createSubOrgParams!.customWallet!.walletName,
@@ -144,33 +141,47 @@ ProxyTSignupBody buildSignUpBody({
         )
       : null;
 
-  // --- userName defaulting (TS: userName || userEmail || `user-${now}`) ---
   final userName = createSubOrgParams?.userName?.isNotEmpty == true
       ? createSubOrgParams!.userName!
       : (createSubOrgParams?.userEmail?.isNotEmpty == true
           ? createSubOrgParams!.userEmail!
           : 'user-$now');
 
-  // --- organizationName defaulting (TS: subOrgName || `sub-org-${now}`) ---
   final orgName = createSubOrgParams?.subOrgName?.isNotEmpty == true
       ? createSubOrgParams!.subOrgName!
       : 'sub-org-$now';
 
   return ProxyTSignupBody(
     userName: userName,
-    // include only if present in TS (null will be omitted by toJson if you drop nulls)
     userEmail: createSubOrgParams?.userEmail,
-    // TS forces [] when not provided
     authenticators: authenticatorsOrEmpty,
     userPhoneNumber: createSubOrgParams?.userPhoneNumber,
     userTag: createSubOrgParams?.userTag,
     organizationName: orgName,
     verificationToken: createSubOrgParams?.verificationToken,
-    // TS forces [] when not provided
     apiKeys: apiKeysOrEmpty,
-    // TS forces [] when not provided
     oauthProviders: oauthProvidersOrEmpty,
-    // TS includes wallet only if provided
     wallet: wallet,
   );
+}
+
+
+/// Generate PKCE (S256) verifier + code_challenge pair.
+Future<ChallengePair> generateChallengePair() async {
+  final verifier = _randomVerifier();
+  final digest = sha256.convert(utf8.encode(verifier));
+  final codeChallenge = _base64UrlNoPadding(digest.bytes);
+  return ChallengePair(verifier: verifier, codeChallenge: codeChallenge);
+}
+
+String _randomVerifier({int lengthBytes = 32}) {
+  // 32 random bytes gives a verifier string within the PKCE 43–128 char limit
+  final r = Random.secure();
+  final bytes = List<int>.generate(lengthBytes, (_) => r.nextInt(256));
+  return _base64UrlNoPadding(bytes);
+}
+
+String _base64UrlNoPadding(List<int> bytes) {
+  // base64url and strip '=' padding to match PKCE requirements
+  return base64Url.encode(bytes).replaceAll('=', '');
 }

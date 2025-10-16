@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:uuid/uuid.dart';
@@ -10,15 +12,20 @@ import 'package:uuid/uuid.dart';
 import 'package:turnkey_sdk_flutter/src/stamper.dart';
 import 'package:turnkey_sdk_flutter/src/storage.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+import 'package:crypto/crypto.dart';
 
 class TurnkeyProvider with ChangeNotifier {
   Session? _session;
+  User? _user;
   TurnkeyClient? _client;
-  // TODO (Amir): Maybe we can make these public. Also, do they need to be async initted?
   SecureStorageStamper _secureStorageStamper = SecureStorageStamper();
   Map<String, Timer> _expiryTimers = {};
+  TurnkeyConfig? _masterConfig;
+  ProxyTGetWalletKitConfigResponse? _proxyAuthConfig;
 
   final TurnkeyConfig config;
+
+  TurnkeyConfig? get masterConfig => _masterConfig;
 
   final Completer<void> _initCompleter = Completer<void>();
   Future<void> get ready => _initCompleter.future;
@@ -27,9 +34,12 @@ class TurnkeyProvider with ChangeNotifier {
     _init();
   }
 
+  ProxyTGetWalletKitConfigResponse? get proxyAuthConfig => _proxyAuthConfig;
+
   Session? get session => _session;
   TurnkeyClient? get client => _client;
   SecureStorageStamper get secureStorageStamper => _secureStorageStamper;
+  User? get user => _user;
 
   set session(Session? newSession) {
     _session = newSession;
@@ -41,12 +51,166 @@ class TurnkeyProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  set user(User? newUser) {
+    _user = newUser;
+    notifyListeners();
+  }
+
   Future<void> _init() async {
+    await _boot();
     print("🔑 Initializing TurnkeyProvider...");
     await SessionStorageManager.init();
     print("🔑 Session storage initialized.");
     await initializeSessions();
     print("🔑 Sessions initialized.");
+  }
+
+  TurnkeyConfig _buildConfig({
+    ProxyTGetWalletKitConfigResponse? proxyAuthConfig,
+  }) {
+    bool? _resolveMethod(bool? local, String providerKey) {
+      if (local != null) return local;
+      if (proxyAuthConfig == null) return null;
+      return proxyAuthConfig.enabledProviders.contains(providerKey);
+    }
+
+    String? _resolveClientId(String? local, String proxyKey) {
+      if (local != null && local.isNotEmpty) return local;
+      return proxyAuthConfig?.oauthClientIds?[proxyKey];
+    }
+
+    String? _resolveRedirect(String? local) {
+      if (local != null && local.isNotEmpty) return local;
+      return proxyAuthConfig?.oauthRedirectUrl;
+    }
+
+    final usingAuthProxy = (config.authProxyConfigId ?? '').isNotEmpty;
+    if (usingAuthProxy) {
+      if (config.authConfig?.sessionExpirationSeconds != null) {
+        // ignore: avoid_print
+        print(
+          'Turnkey SDK warning: `sessionExpirationSeconds` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
+        );
+      }
+      if (config.authConfig?.otpAlphanumeric != null) {
+        // ignore: avoid_print
+        print(
+          'Turnkey SDK warning: `otpAlphanumeric` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
+        );
+      }
+      if (config.authConfig?.otpLength != null) {
+        // ignore: avoid_print
+        print(
+          'Turnkey SDK warning: `otpLength` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
+        );
+      }
+    }
+
+    // --- resolved methods ------------------------------------------------------
+    final resolvedMethods = AuthMethods(
+      emailOtpAuthEnabled: _resolveMethod(
+          config.authConfig?.methods?.emailOtpAuthEnabled, 'email'),
+      smsOtpAuthEnabled:
+          _resolveMethod(config.authConfig?.methods?.smsOtpAuthEnabled, 'sms'),
+      passkeyAuthEnabled: _resolveMethod(
+          config.authConfig?.methods?.passkeyAuthEnabled, 'passkey'),
+      walletAuthEnabled: _resolveMethod(
+          config.authConfig?.methods?.walletAuthEnabled, 'wallet'),
+      googleOauthEnabled: _resolveMethod(
+          config.authConfig?.methods?.googleOauthEnabled, 'google'),
+      xOauthEnabled:
+          _resolveMethod(config.authConfig?.methods?.xOauthEnabled, 'x'),
+      discordOauthEnabled: _resolveMethod(
+          config.authConfig?.methods?.discordOauthEnabled, 'discord'),
+      appleOauthEnabled: _resolveMethod(
+          config.authConfig?.methods?.appleOauthEnabled, 'apple'),
+      facebookOauthEnabled: _resolveMethod(
+          config.authConfig?.methods?.facebookOauthEnabled, 'facebook'),
+    );
+
+    // --- resolved OAuth config -------------------------------------------------
+    final resolvedOAuth = OAuthConfig(
+      oauthRedirectUri:
+          _resolveRedirect(config.authConfig?.oAuthConfig?.oauthRedirectUri),
+      googleClientId: _resolveClientId(
+          config.authConfig?.oAuthConfig?.googleClientId, 'google'),
+      appleClientId: _resolveClientId(
+          config.authConfig?.oAuthConfig?.appleClientId, 'apple'),
+      facebookClientId: _resolveClientId(
+          config.authConfig?.oAuthConfig?.facebookClientId, 'facebook'),
+      xClientId:
+          _resolveClientId(config.authConfig?.oAuthConfig?.xClientId, 'x'),
+      discordClientId: _resolveClientId(
+          config.authConfig?.oAuthConfig?.discordClientId, 'discord'),
+    );
+
+    // --- proxy-only settings (read from proxy when available) ------------------
+    final sessionExpirationSeconds = proxyAuthConfig
+            ?.sessionExpirationSeconds ??
+        (usingAuthProxy ? null : config.authConfig?.sessionExpirationSeconds);
+
+    final otpAlphanumeric = proxyAuthConfig?.otpAlphanumeric ??
+        (usingAuthProxy ? null : config.authConfig?.otpAlphanumeric);
+
+    final otpLength = proxyAuthConfig?.otpLength ??
+        (usingAuthProxy ? null : config.authConfig?.otpLength);
+
+    final resolvedAuth = AuthConfig(
+      methods: resolvedMethods,
+      oAuthConfig: resolvedOAuth,
+      sessionExpirationSeconds: sessionExpirationSeconds,
+      otpAlphanumeric: otpAlphanumeric,
+      otpLength: otpLength,
+    );
+
+    return TurnkeyConfig(
+      apiBaseUrl: config.apiBaseUrl,
+      organizationId: config.organizationId,
+      appScheme: config.appScheme,
+      authConfig: resolvedAuth,
+      authProxyBaseUrl: config.authProxyBaseUrl,
+      authProxyConfigId: config.authProxyConfigId,
+      onSessionCreated: config.onSessionCreated,
+      onSessionSelected: config.onSessionSelected,
+      onSessionExpired: config.onSessionExpired,
+      onSessionCleared: config.onSessionCleared,
+      onSessionRefreshed: config.onSessionRefreshed,
+      onSessionEmpty: config.onSessionEmpty,
+      onInitialized: config.onInitialized,
+    );
+  }
+
+  Future<void> _boot() async {
+    try {
+      ProxyTGetWalletKitConfigResponse? proxy;
+      if ((config.authProxyConfigId ?? '').isNotEmpty) {
+        proxy = await _getAuthProxyConfig(
+          config.authProxyConfigId!,
+          config.authProxyBaseUrl,
+        );
+        _proxyAuthConfig = proxy; // cache like useRef.current
+        notifyListeners();
+      }
+
+      // 2) Build master config from proxy (can be null)
+      _masterConfig = _buildConfig(proxyAuthConfig: proxy);
+      notifyListeners();
+    } catch (e) {
+      print("TurnkeyProvider boot failed: $e");
+    }
+  }
+
+  Future<ProxyTGetWalletKitConfigResponse?> _getAuthProxyConfig(
+      String configId, String? baseUrl) async {
+    if (_client == null) {
+      createClient(
+        authProxyConfigId: configId,
+        authProxyBaseUrl: baseUrl,
+      );
+    }
+    return await _client!.proxyGetWalletKitConfig(
+      input: ProxyTGetWalletKitConfigBody(),
+    );
   }
 
   /// Initializes stored sessions on mount.
@@ -100,12 +264,11 @@ class TurnkeyProvider with ChangeNotifier {
           // 5. Swap public key
           createClient(
             publicKey: activeSession.publicKey,
+            organizationId: activeSession.organizationId,
           );
           _session = activeSession;
 
-          await fetchUser(_client!,
-              config.organizationId); // TODO (Amir): Store user if needed
-          // await refreshWallets(); // TODO (Amir): Implement if needed
+          _user = await fetchUser(_client!, config.organizationId);
 
           config.onSessionSelected?.call(activeSession);
         }
@@ -115,8 +278,7 @@ class TurnkeyProvider with ChangeNotifier {
       }
 
       // 6. Signal initialization complete
-      _initCompleter
-          .complete(); // TODO (Amir): I think this should be moved out of this function
+      _initCompleter.complete();
       config.onInitialized?.call(null);
     } catch (e, st) {
       debugPrint("TurnkeyProvider failed to initialize sessions: $e\n$st");
@@ -290,9 +452,8 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     // we fetch the user information
-    final user = await fetchUser(
-        _client!, config.organizationId); // TODO (Amir): This does nothing atm
-    if (user == null) {
+    _user = await fetchUser(_client!, config.organizationId);
+    if (_user == null) {
       throw Exception("Failed to fetch user");
     }
 
@@ -317,7 +478,6 @@ class TurnkeyProvider with ChangeNotifier {
     authProxyBaseUrl ??=
         config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
     authProxyConfigId ??= config.authProxyConfigId;
-    organizationId ??= config.organizationId;
 
     final newClient = TurnkeyClient(
       config: THttpConfig(
@@ -420,65 +580,13 @@ class TurnkeyProvider with ChangeNotifier {
   // /// Saves the updated session and updates the state.
   // ///
   // /// Throws an [Exception] if the session or client is not initialized.
-  // Future<void> refreshUser() async {
-  //   if (_client == null || session == null) {
-  //     throw Exception(
-  //         "Failed to refresh user. Client or sessions not initialized");
-  //   }
-
-  //   final updatedUser = await fetchUser(_client!, config.organizationId);
-
-  //   if (updatedUser != null) {
-  //     final updatedSession = Session(
-  //       key: session!.key,
-  //       publicKey: session!.publicKey,
-  //       privateKey: session!.privateKey,
-  //       expiry: session!.expiry,
-  //       user: updatedUser,
-  //     );
-
-  //     await saveSession(updatedSession, updatedSession.key);
-  //     session = updatedSession;
-  //   }
-  // }
-
-  // /// Updates the current user's information.
-  // ///
-  // /// Sends a request to update the user's email and/or phone number.
-  // /// If the update is successful, refreshes the user data to reflect changes.
-  // ///
-  // /// Throws an [Exception] if the client or session is not initialized.
-  // ///
-  // /// [email] The new email address of the user.
-  // /// [phone] The new phone number of the user.
-  // Future<Activity> updateUser({String? email, String? phone}) async {
-  //   if (_client == null || session == null || session!.user == null) {
-  //     throw Exception("Client or user not initialized");
-  //   }
-
-  //   final parameters = UpdateUserIntent(
-  //     userId: session!.user!.id,
-  //     userTagIds: [],
-  //     userPhoneNumber: phone?.trim().isNotEmpty == true ? phone : null,
-  //     userEmail: email?.trim().isNotEmpty == true ? email : null,
-  //   );
-
-  //   final response = await _client!.updateUser(
-  //     input: UpdateUserRequest(
-  //       type: UpdateUserRequestType.activityTypeUpdateUser,
-  //       timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //       organizationId: session!.user!.organizationId,
-  //       parameters: parameters,
-  //     ),
-  //   );
-
-  //   final activity = response.activity;
-  //   if (activity.result.updateUserResult?.userId != null) {
-  //     await refreshUser();
-  //   }
-
-  //   return activity;
-  // }
+  Future<void> refreshUser() async {
+    if (_client == null || session == null) {
+      throw Exception(
+          "Failed to refresh user. Client or sessions not initialized");
+    }
+    _user = await fetchUser(_client!, config.organizationId);
+  }
 
   // /// Signs a raw payload using the specified signing key and encoding parameters.
   // ///
@@ -488,35 +596,31 @@ class TurnkeyProvider with ChangeNotifier {
   // /// [payload] The payload to sign.
   // /// [encoding] The encoding of the payload.
   // /// [hashFunction] The hash function to use.
-  // Future<SignRawPayloadResult> signRawPayload(
-  //     {required String signWith,
-  //     required String payload,
-  //     required PayloadEncoding encoding,
-  //     required HashFunction hashFunction}) async {
-  //   if (_client == null || session == null || session!.user == null) {
-  //     throw Exception("Client or user not initialized");
-  //   }
+  Future<v1SignRawPayloadResult> signRawPayload(
+      {required String signWith,
+      required String payload,
+      required v1PayloadEncoding encoding,
+      required v1HashFunction hashFunction}) async {
+    if (_client == null || session == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
 
-  //   final parameters = SignRawPayloadIntentV2(
-  //     signWith: signWith,
-  //     payload: payload,
-  //     encoding: encoding,
-  //     hashFunction: hashFunction,
-  //   );
+    print(user); 
 
-  //   final response = await _client!.signRawPayload(
-  //       input: SignRawPayloadRequest(
-  //           type: SignRawPayloadRequestType.activityTypeSignRawPayloadV2,
-  //           timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //           organizationId: session!.user!.organizationId,
-  //           parameters: parameters));
+    final response = await _client!.signRawPayload(
+        input: TSignRawPayloadBody(
+      signWith: signWith,
+      payload: payload,
+      encoding: encoding,
+      hashFunction: hashFunction,
+    ));
 
-  //   final signRawPayloadResult = response.activity.result.signRawPayloadResult;
-  //   if (signRawPayloadResult == null) {
-  //     throw Exception("Failed to sign raw payload");
-  //   }
-  //   return signRawPayloadResult;
-  // }
+    final signRawPayloadResult = response.activity.result.signRawPayloadResult;
+    if (signRawPayloadResult == null) {
+      throw Exception("Failed to sign raw payload");
+    }
+    return signRawPayloadResult;
+  }
 
   // /// Signs a transaction using the specified signing key and transaction parameters.
   // ///
@@ -525,33 +629,27 @@ class TurnkeyProvider with ChangeNotifier {
   // /// [signWith] The key to sign with.
   // /// [unsignedTransaction] The unsigned transaction to sign.
   // /// [type] The type of the transaction from the [TransactionType] enum.
-  // Future<SignTransactionResult> signTransaction(
-  //     {required String signWith,
-  //     required String unsignedTransaction,
-  //     required TransactionType type}) async {
-  //   if (_client == null || session == null || session!.user == null) {
-  //     throw Exception("Client or user not initialized");
-  //   }
+  Future<v1SignTransactionResult> signTransaction(
+      {required String signWith,
+      required String unsignedTransaction,
+      required v1TransactionType type}) async {
+    if (_client == null || session == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
 
-  //   final parameters = SignTransactionIntentV2(
-  //       signWith: signWith,
-  //       unsignedTransaction: unsignedTransaction,
-  //       type: type);
+    final response = await _client!.signTransaction(
+        input: TSignTransactionBody(
+            signWith: signWith,
+            unsignedTransaction: unsignedTransaction,
+            type: type));
 
-  //   final response = await _client!.signTransaction(
-  //       input: SignTransactionRequest(
-  //           type: SignTransactionRequestType.activityTypeSignTransactionV2,
-  //           timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //           organizationId: session!.user!.organizationId,
-  //           parameters: parameters));
-
-  //   final signTransactionResult =
-  //       response.activity.result.signTransactionResult;
-  //   if (signTransactionResult == null) {
-  //     throw Exception("Failed to sign transaction");
-  //   }
-  //   return signTransactionResult;
-  // }
+    final signTransactionResult =
+        response.activity.result.signTransactionResult;
+    if (signTransactionResult == null) {
+      throw Exception("Failed to sign transaction");
+    }
+    return signTransactionResult;
+  }
 
   // /// Creates a new wallet with the specified name and accounts.
   // ///
@@ -560,32 +658,27 @@ class TurnkeyProvider with ChangeNotifier {
   // /// [walletName] The name of the wallet.
   // /// [accounts] The accounts to create in the wallet.
   // /// [mnemonicLength] The length of the mnemonic.
-  // Future<Activity> createWallet(
-  //     {required String walletName,
-  //     required List<WalletAccountParams> accounts,
-  //     int? mnemonicLength}) async {
-  //   if (_client == null || session == null || session!.user == null) {
-  //     throw Exception("Client or user not initialized");
-  //   }
-  //   final parameters = CreateWalletIntent(
-  //     accounts: accounts,
-  //     walletName: walletName,
-  //     mnemonicLength: mnemonicLength,
-  //   );
+  Future<v1Activity> createWallet(
+      {required String walletName,
+      required List<v1WalletAccountParams> accounts,
+      int? mnemonicLength}) async {
+    if (_client == null || session == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
 
-  //   final response = await _client!.createWallet(
-  //       input: CreateWalletRequest(
-  //           type: CreateWalletRequestType.activityTypeCreateWallet,
-  //           timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //           organizationId: session!.user!.organizationId,
-  //           parameters: parameters));
-  //   final activity = response.activity;
-  //   if (activity.result.createWalletResult?.walletId != null) {
-  //     await refreshUser();
-  //   }
+    final response = await _client!.createWallet(
+        input: TCreateWalletBody(
+      accounts: accounts,
+      walletName: walletName,
+      mnemonicLength: mnemonicLength,
+    ));
+    final activity = response.activity;
+    if (activity.result.createWalletResult?.walletId != null) {
+      await refreshUser();
+    }
 
-  //   return activity;
-  // }
+    return activity;
+  }
 
   // /// Imports a wallet using a provided mnemonic and creates accounts.
   // ///
@@ -594,83 +687,70 @@ class TurnkeyProvider with ChangeNotifier {
   // /// [mnemonic] The mnemonic to import.
   // /// [walletName] The name of the wallet.
   // /// [accounts] The accounts to create in the wallet.
-  // Future<void> importWallet(
-  //     {required String mnemonic,
-  //     required String walletName,
-  //     required List<WalletAccountParams> accounts}) async {
-  //   if (_client == null || session == null || session!.user == null) {
-  //     throw Exception("Client or user not initialized");
-  //   }
-  //   final initResponse = await _client!.initImportWallet(
-  //       input: InitImportWalletRequest(
-  //           type: InitImportWalletRequestType.activityTypeInitImportWallet,
-  //           timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //           organizationId: session!.user!.organizationId,
-  //           parameters: InitImportWalletIntent(userId: session!.user!.id)));
+  Future<void> importWallet(
+      {required String mnemonic,
+      required String walletName,
+      required List<v1WalletAccountParams> accounts}) async {
+    if (_client == null || session == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
+    final initResponse = await _client!
+        .initImportWallet(input: TInitImportWalletBody(userId: user!.id));
 
-  //   final importBundle =
-  //       initResponse.activity.result.initImportWalletResult?.importBundle;
+    final importBundle =
+        initResponse.activity.result.initImportWalletResult?.importBundle;
 
-  //   if (importBundle == null) {
-  //     throw Exception("Failed to get import bundle");
-  //   }
+    if (importBundle == null) {
+      throw Exception("Failed to get import bundle");
+    }
 
-  //   final encryptedBundle = await encryptWalletToBundle(
-  //     mnemonic: mnemonic,
-  //     importBundle: importBundle,
-  //     userId: session!.user!.id,
-  //     organizationId: session!.user!.organizationId,
-  //   );
+    final encryptedBundle = await encryptWalletToBundle(
+      mnemonic: mnemonic,
+      importBundle: importBundle,
+      userId: user!.id,
+      organizationId: user!.organizationId,
+    );
 
-  //   final response = await _client!.importWallet(
-  //       input: ImportWalletRequest(
-  //           type: ImportWalletRequestType.activityTypeImportWallet,
-  //           timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //           organizationId: session!.user!.organizationId,
-  //           parameters: ImportWalletIntent(
-  //               userId: session!.user!.id,
-  //               walletName: walletName,
-  //               encryptedBundle: encryptedBundle,
-  //               accounts: accounts)));
-  //   final activity = response.activity;
-  //   if (activity.result.importWalletResult?.walletId != null) {
-  //     await refreshUser();
-  //   }
-  // }
+    final response = await _client!.importWallet(
+        input: TImportWalletBody(
+            userId: user!.id,
+            walletName: walletName,
+            encryptedBundle: encryptedBundle,
+            accounts: accounts));
+    final activity = response.activity;
+    if (activity.result.importWalletResult?.walletId != null) {
+      await refreshUser();
+    }
+  }
 
   // /// Exports an existing wallet by decrypting the stored mnemonic phrase.
   // ///
   // /// Throws an [Exception] if the client, user, or export bundle is not initialized.
   // ///
   // /// [walletId] The ID of the wallet to export.
-  // Future<String> exportWallet({required String walletId}) async {
-  //   if (_client == null || session == null || session!.user == null) {
-  //     throw Exception("Client or user not initialized");
-  //   }
+  Future<String> exportWallet({required String walletId}) async {
+    if (_client == null || session == null || user == null) {
+      throw Exception("Client or user not initialized");
+    }
 
-  //   final targetPublicKey = await createEmbeddedKey();
+    final keyPair = await generateP256KeyPair();
 
-  //   final response = await _client!.exportWallet(
-  //       input: ExportWalletRequest(
-  //           type: ExportWalletRequestType.activityTypeExportWallet,
-  //           timestampMs: DateTime.now().millisecondsSinceEpoch.toString(),
-  //           organizationId: session!.user!.organizationId,
-  //           parameters: ExportWalletIntent(
-  //               walletId: walletId, targetPublicKey: targetPublicKey)));
-  //   final exportBundle =
-  //       response.activity.result.exportWalletResult?.exportBundle;
+    final response = await _client!.exportWallet(
+        input: TExportWalletBody(
+            walletId: walletId, targetPublicKey: keyPair.publicKeyUncompressed));
+    final exportBundle =
+        response.activity.result.exportWalletResult?.exportBundle;
 
-  //   final embeddedKey = await getEmbeddedKey();
-  //   if (exportBundle == null || embeddedKey == null) {
-  //     throw Exception("Export bundle, embedded key, or user not initialized");
-  //   }
+    if (exportBundle == null) {
+      throw Exception("Export bundle, embedded key, or user not initialized");
+    }
 
-  //   return await decryptExportBundle(
-  //       exportBundle: exportBundle,
-  //       embeddedKey: embeddedKey,
-  //       organizationId: session!.user!.organizationId,
-  //       returnMnemonic: true);
-  // }
+    return await decryptExportBundle(
+        exportBundle: exportBundle,
+        embeddedKey: keyPair.privateKey,
+        organizationId: user!.organizationId,
+        returnMnemonic: true);
+  }
 
   /// Handles the Google OAuth authentication flow.
   ///
@@ -680,29 +760,32 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// Throws an [Exception] if the authentication process fails or times out.
   ///
-  /// [clientId] The client ID for Google OAuth.
-  /// [nonce] A random nonce for the OAuth flow.
-  /// [scheme] The app's custom URL scheme.
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Google OAuth.
   /// [originUri] Optional base URI to start the OAuth flow. Defaults to TURNKEY_OAUTH_ORIGIN_URL.
   /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Callback function that receives the oidcToken upon successful authentication.
+  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
   Future<void> handleGoogleOAuth({
-    required String clientId,
-    required String nonce,
-    required String scheme,
+    String? clientId,
     String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
     String? redirectUri,
-    required void Function(String oidcToken) onSuccess,
+    void Function(String oidcToken)? onSuccess,
   }) async {
     final AppLinks appLinks = AppLinks();
 
-    redirectUri ??=
+    final targetPublicKey = await createApiKeyPair();
+    final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+    final scheme = config.appScheme;
+    final googleClientId = clientId ??
+        masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
+        (throw Exception("Google Client ID not configured"));
+    final resolvedRedirectUri = redirectUri ??
+        masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
         '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
     final oauthUrl = originUri! +
         '?provider=google' +
-        '&clientId=${Uri.encodeComponent(clientId)}' +
-        '&redirectUri=${Uri.encodeComponent(redirectUri)}' +
+        '&clientId=${Uri.encodeComponent(googleClientId)}' +
+        '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
         '&nonce=${Uri.encodeComponent(nonce)}';
 
     // Create a completer to wait for the authentication result
@@ -716,7 +799,15 @@ class TurnkeyProvider with ChangeNotifier {
         final idToken = uri.queryParameters['id_token'];
 
         if (idToken != null) {
-          onSuccess(idToken);
+          if (onSuccess != null) {
+            onSuccess(idToken);
+          } else {
+            await completeOAuth(
+              oidcToken: idToken,
+              publicKey: targetPublicKey,
+              providerName: 'google',
+            );
+          }
 
           // Complete the auth process. Runs the whenComplete callback
           if (!authCompleter.isCompleted) {
@@ -761,6 +852,230 @@ class TurnkeyProvider with ChangeNotifier {
     } catch (e) {
       subscription.cancel();
       throw Exception('Google OAuth failed: $e');
+    }
+  }
+
+  Future<void> handleXOAuth({
+    String? clientId,
+    String? originUri = X_AUTH_URL,
+    String? redirectUri,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+    final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+    final scheme = config.appScheme;
+    final xClientId = clientId ??
+        masterConfig?.authConfig?.oAuthConfig?.xClientId ??
+        (throw Exception("X Client ID not configured"));
+    final resolvedRedirectUri = redirectUri ??
+        masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+        '${config.appScheme}://';
+
+    final challengePair = await generateChallengePair();
+    final verifier = challengePair.verifier;
+    final codeChallenge = challengePair.codeChallenge;
+
+    final state =
+        'provider=twitter&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
+
+    final xAuthUrl = originUri! +
+        '?client_id=${Uri.encodeComponent(xClientId)}' +
+        '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+        '&response_type=code' +
+        '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
+        '&code_challenge_method=S256' +
+        '&scope=${Uri.encodeComponent("tweet.read users.read")}' +
+        '&state=${Uri.encodeComponent(state)}';
+
+    // Create a completer to wait for the authentication result
+    final Completer<void> authCompleter = Completer<void>();
+
+    // Set up a subscription for deep links
+    StreamSubscription? subscription;
+    subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+      if (uri != null && uri.toString().startsWith(scheme)) {
+        // Parse query parameters from the URI
+        final authCode = uri.queryParameters['code'];
+
+        if (authCode != null) {
+          final res = await client!.proxyOAuth2Authenticate(
+              input: ProxyTOAuth2AuthenticateBody(
+                  provider: v1Oauth2Provider.oauth2_provider_x,
+                  authCode: authCode,
+                  redirectUri: resolvedRedirectUri,
+                  codeVerifier: verifier,
+                  clientId: xClientId,
+                  nonce: nonce));
+
+          final oidcToken = res.oidcToken;
+
+          if (onSuccess != null) {
+            onSuccess(oidcToken);
+          } else {
+            await completeOAuth(
+              oidcToken: oidcToken,
+              publicKey: targetPublicKey,
+              providerName: 'x',
+            );
+          }
+
+          // Complete the auth process. Runs the whenComplete callback
+          if (!authCompleter.isCompleted) {
+            authCompleter.complete();
+          }
+        }
+      }
+    });
+
+    try {
+      final browser = _OAuthBrowser(
+        onBrowserClosed: () {
+          if (!authCompleter.isCompleted) {
+            subscription?.cancel();
+            authCompleter.complete();
+            return;
+          }
+        },
+      );
+
+      await browser.open(
+        url: WebUri(xAuthUrl),
+        settings: ChromeSafariBrowserSettings(
+          showTitle: true,
+          toolbarBackgroundColor: Colors.white,
+        ),
+      );
+
+      // Set a timeout for the authentication process
+      await authCompleter.future.timeout(
+        const Duration(minutes: 10),
+        onTimeout: () {
+          subscription?.cancel();
+          throw Exception('Authentication timed out');
+        },
+      );
+
+      await authCompleter.future.whenComplete(() async {
+        await browser.close();
+        subscription?.cancel();
+      });
+    } catch (e) {
+      subscription.cancel();
+      throw Exception('X OAuth failed: $e');
+    }
+  }
+
+  Future<void> handleDiscordOAuth({
+    String? clientId,
+    String? originUri = DISCORD_AUTH_URL,
+    String? redirectUri,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+    final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+    final scheme = config.appScheme;
+    final discordClientId = clientId ??
+        masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
+        (throw Exception("Discord Client ID not configured"));
+    final resolvedRedirectUri = redirectUri ??
+        masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+        '${scheme}://';
+
+    final challengePair = await generateChallengePair();
+    final verifier = challengePair.verifier;
+    final codeChallenge = challengePair.codeChallenge;
+
+    final state =
+        'provider=discord&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
+
+    final discordAuthUrl = originUri! +
+        '?client_id=${Uri.encodeComponent(discordClientId)}' +
+        '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+        '&response_type=code' +
+        '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
+        '&code_challenge_method=S256' +
+        '&scope=${Uri.encodeComponent("identify email")}' +
+        '&state=${Uri.encodeComponent(state)}';
+
+    // Create a completer to wait for the authentication result
+    final Completer<void> authCompleter = Completer<void>();
+
+    // Set up a subscription for deep links
+    StreamSubscription? subscription;
+    subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+      if (uri != null && uri.toString().startsWith(scheme)) {
+        // Parse query parameters from the URI
+        final authCode = uri.queryParameters['code'];
+
+        if (authCode != null) {
+          final res = await client!.proxyOAuth2Authenticate(
+              input: ProxyTOAuth2AuthenticateBody(
+                  provider: v1Oauth2Provider.oauth2_provider_discord,
+                  authCode: authCode,
+                  redirectUri: resolvedRedirectUri,
+                  codeVerifier: verifier,
+                  clientId: discordClientId,
+                  nonce: nonce));
+
+          final oidcToken = res.oidcToken;
+
+          if (onSuccess != null) {
+            onSuccess(oidcToken);
+          } else {
+            await completeOAuth(
+              oidcToken: oidcToken,
+              publicKey: targetPublicKey,
+              providerName: 'discord',
+            );
+          }
+
+          // Complete the auth process. Runs the whenComplete callback
+          if (!authCompleter.isCompleted) {
+            authCompleter.complete();
+          }
+        }
+      }
+    });
+
+    try {
+      final browser = _OAuthBrowser(
+        onBrowserClosed: () {
+          if (!authCompleter.isCompleted) {
+            subscription?.cancel();
+            authCompleter.complete();
+            return;
+          }
+        },
+      );
+
+      await browser.open(
+        url: WebUri(discordAuthUrl),
+        settings: ChromeSafariBrowserSettings(
+          showTitle: true,
+          toolbarBackgroundColor: Colors.white,
+        ),
+      );
+
+      // Set a timeout for the authentication process
+      await authCompleter.future.timeout(
+        const Duration(minutes: 10),
+        onTimeout: () {
+          subscription?.cancel();
+          throw Exception('Authentication timed out');
+        },
+      );
+
+      await authCompleter.future.whenComplete(() async {
+        await browser.close();
+        subscription?.cancel();
+      });
+    } catch (e) {
+      subscription.cancel();
+      throw Exception('Discord OAuth failed: $e');
     }
   }
 
@@ -1126,6 +1441,110 @@ class TurnkeyProvider with ChangeNotifier {
       }
     } catch (e) {
       throw Exception("OTP authentication failed: $e");
+    }
+  }
+
+  Future<LoginWithOAuthResult> loginWithOAuth({
+    required String oidcToken,
+    required String publicKey,
+    bool? invalidateExisting = false,
+    String? sessionKey,
+  }) async {
+    try {
+      final loginRes = await client!.proxyOAuthLogin(
+          input: ProxyTOAuthLoginBody(
+              oidcToken: oidcToken,
+              publicKey: publicKey,
+              invalidateExisting: invalidateExisting));
+      await storeSession(sessionJwt: loginRes.session, sessionKey: sessionKey);
+      return LoginWithOAuthResult(sessionToken: loginRes.session);
+    } catch (e) {
+      throw Exception("OAuth login failed: $e");
+    }
+  }
+
+  Future<SignUpWithOAuthResult> signUpWithOAuth({
+    required String oidcToken,
+    required String publicKey,
+    required String providerName,
+    String? sessionKey,
+    CreateSubOrgParams? createSubOrgParams,
+  }) async {
+    final updatedCreateSubOrgParams = (createSubOrgParams != null)
+        ? createSubOrgParams.copyWith(oauthProviders: [
+            v1OauthProviderParams(
+              providerName: providerName,
+              oidcToken: oidcToken,
+            )
+          ])
+        : CreateSubOrgParams(oauthProviders: [
+            v1OauthProviderParams(
+              providerName: providerName,
+              oidcToken: oidcToken,
+            )
+          ]);
+
+    final signUpBody =
+        buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+
+    try {
+      final res = await client!.proxySignup(input: signUpBody);
+
+      final organizationId = res.organizationId;
+      if (organizationId.isEmpty) {
+        throw Exception("Sign up failed: No organizationId returned");
+      }
+
+      final response = await loginWithOAuth(
+        oidcToken: oidcToken,
+        publicKey: publicKey,
+        sessionKey: sessionKey,
+      );
+
+      return SignUpWithOAuthResult(sessionToken: response.sessionToken);
+    } catch (e) {
+      throw Exception("Sign up failed: $e");
+    }
+  }
+
+  Future<CompleteOAuthResult> completeOAuth({
+    required String oidcToken,
+    required String publicKey,
+    String? providerName,
+    String? sessionKey,
+    bool? invalidateExisting,
+    CreateSubOrgParams? createSubOrgParams,
+  }) async {
+    try {
+      final accountRes = await client!.proxyGetAccount(
+          input: ProxyTGetAccountBody(
+              filterType: "OIDC_TOKEN", filterValue: oidcToken));
+
+      if (accountRes.organizationId?.isNotEmpty == true) {
+        final loginRes = await loginWithOAuth(
+          oidcToken: oidcToken,
+          publicKey: publicKey,
+          sessionKey: sessionKey,
+          invalidateExisting: invalidateExisting,
+        );
+        return CompleteOAuthResult(
+            sessionToken: loginRes.sessionToken, action: AuthAction.login);
+      } else {
+        if (providerName == null || providerName.isEmpty) {
+          throw Exception("Provider name is required for sign up");
+        }
+        final signUpRes = await signUpWithOAuth(
+            oidcToken: oidcToken,
+            publicKey: publicKey,
+            providerName: providerName,
+            sessionKey: sessionKey,
+            createSubOrgParams: createSubOrgParams);
+
+        return CompleteOAuthResult(
+            sessionToken: signUpRes.sessionToken, action: AuthAction.signup);
+      }
+    } catch (e) {
+      throw Exception("OAuth authentication failed: $e");
     }
   }
 }

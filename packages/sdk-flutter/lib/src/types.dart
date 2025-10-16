@@ -220,8 +220,10 @@ class WalletAccount {
 class TurnkeyConfig {
   final String apiBaseUrl;
   final String organizationId;
+  final String appScheme;
   final String? authProxyBaseUrl;
   final String? authProxyConfigId;
+  final AuthConfig? authConfig;
 
   final void Function(Session session)? onSessionCreated;
   final void Function(Session session)? onSessionSelected;
@@ -234,6 +236,8 @@ class TurnkeyConfig {
   TurnkeyConfig({
     required this.apiBaseUrl,
     required this.organizationId,
+    required this.appScheme,
+    this.authConfig,
     this.authProxyBaseUrl,
     this.authProxyConfigId,
     this.onSessionCreated,
@@ -243,6 +247,73 @@ class TurnkeyConfig {
     this.onSessionRefreshed,
     this.onSessionEmpty,
     this.onInitialized,
+  });
+}
+
+class AuthConfig {
+  final AuthMethods? methods;
+  final OAuthConfig? oAuthConfig;
+  /** session expiration time in seconds. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
+  final String? sessionExpirationSeconds;
+  /** If otp sent will be alphanumeric. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
+  final bool? otpAlphanumeric;
+  /** length of the OTP. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
+  final String? otpLength;
+
+  const AuthConfig({
+    this.methods,
+    this.oAuthConfig,
+    this.sessionExpirationSeconds,
+    this.otpAlphanumeric,
+    this.otpLength,
+  });
+}
+
+class AuthMethods {
+  final bool? emailOtpAuthEnabled;
+  final bool? smsOtpAuthEnabled;
+  final bool? passkeyAuthEnabled;
+  final bool? walletAuthEnabled;
+  final bool? googleOauthEnabled;
+  final bool? appleOauthEnabled;
+  final bool? xOauthEnabled;
+  final bool? discordOauthEnabled;
+  final bool? facebookOauthEnabled;
+
+  const AuthMethods({
+    this.emailOtpAuthEnabled,
+    this.smsOtpAuthEnabled,
+    this.passkeyAuthEnabled,
+    this.walletAuthEnabled,
+    this.googleOauthEnabled,
+    this.appleOauthEnabled,
+    this.xOauthEnabled,
+    this.discordOauthEnabled,
+    this.facebookOauthEnabled,
+  });
+}
+
+class OAuthConfig {
+  /** redirect URI for OAuth. */
+  final String? oauthRedirectUri;
+  /** client ID for Google OAuth. */
+  final String? googleClientId;
+  /** client ID for Apple OAuth. */
+  final String? appleClientId;
+  /** client ID for Facebook OAuth. */
+  final String? facebookClientId;
+  /** client ID for X (formerly Twitter) OAuth. */
+  final String? xClientId;
+  /** client ID for Discord OAuth. */
+  final String? discordClientId;
+
+  const OAuthConfig({
+    this.oauthRedirectUri,
+    this.googleClientId,
+    this.appleClientId,
+    this.facebookClientId,
+    this.xClientId,
+    this.discordClientId,
   });
 }
 
@@ -276,7 +347,7 @@ class CreateSubOrgParams {
   final CustomWallet? customWallet;
 
   /// list of oauth providers
-  final List<OauthProvider>? oauthProviders;
+  final List<v1OauthProviderParams>? oauthProviders;
 
   const CreateSubOrgParams({
     this.userName,
@@ -301,7 +372,7 @@ class CreateSubOrgParams {
     Object? verificationToken = _no,
     List<CreateSubOrgApiKey>? apiKeys,
     CustomWallet? customWallet,
-    List<OauthProvider>? oauthProviders,
+    List<v1OauthProviderParams>? oauthProviders,
   }) {
     return CreateSubOrgParams(
       userName: userName ?? this.userName,
@@ -379,17 +450,6 @@ class CustomWallet {
   });
 }
 
-/// Provider (internal)
-class OauthProvider {
-  final String providerName;
-  final String oidcToken;
-
-  const OauthProvider({
-    required this.providerName,
-    required this.oidcToken,
-  });
-}
-
 /// SignUpBody (internal)
 class SignUpBody {
   final String userName; // required
@@ -461,4 +521,26 @@ class CompleteOtpResult extends BaseAuthResult {
     required super.sessionToken,
     required this.action,
   });
+}
+
+class LoginWithOAuthResult extends BaseAuthResult {
+  const LoginWithOAuthResult({required super.sessionToken});
+}
+
+class SignUpWithOAuthResult extends BaseAuthResult {
+  const SignUpWithOAuthResult({required super.sessionToken});
+}
+
+class CompleteOAuthResult extends BaseAuthResult {
+  final AuthAction action;
+  const CompleteOAuthResult({
+    required super.sessionToken,
+    required this.action,
+  });
+}
+
+class ChallengePair {
+  final String verifier;
+  final String codeChallenge;
+  ChallengePair({required this.verifier, required this.codeChallenge});
 }
