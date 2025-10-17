@@ -256,11 +256,6 @@ class TurnkeyProvider with ChangeNotifier {
         if (!isValidSession(s)) {
           await clearSession(sessionKey: sessionKey);
 
-          final activeKey = await getActiveSessionKey();
-          if (sessionKey == activeKey) {
-            session = null;
-          }
-
           allSessions.remove(sessionKey);
           continue;
         }
@@ -273,7 +268,7 @@ class TurnkeyProvider with ChangeNotifier {
       if (activeSessionKey != null) {
         final activeSession = allSessions[activeSessionKey];
         if (activeSession != null) {
-          // 5. Swap public key
+          _session = activeSession;
           createClient(
             publicKey: activeSession.publicKey,
             organizationId: activeSession.organizationId,
@@ -390,7 +385,7 @@ class TurnkeyProvider with ChangeNotifier {
     final publicKey = await SecureStorageStamper.createKeyPair(
       externalPublicKey: externalPublicKey,
       externalPrivateKey: externalPrivateKey,
-      isCompressesd: isCompressed,
+      isCompressed: isCompressed,
     );
 
     // if `storeOverride` is true, we set the new key as the active key for this client instance
@@ -563,18 +558,15 @@ class TurnkeyProvider with ChangeNotifier {
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
-    final activeKey = await SessionStorageManager.getActiveSessionKey();
+    final activeKey = await getActiveSessionKey();
     final key = sessionKey ?? activeKey;
     if (key == null) throw Exception("No active session to refresh");
 
-    final session = await SessionStorageManager.getSession(key);
+    final session = await getSession(sessionKey: key);
     if (session == null) throw Exception("Session not found for key: $key");
 
-    if (_client == null) throw Exception("HTTP client not initialized");
-
     // generate or use provided public key
-    final newPublicKey =
-        publicKey ?? await SecureStorageStamper.createKeyPair();
+    final newPublicKey = publicKey ?? await createApiKeyPair();
 
     // create a new session using the current session
     final response = await requireClient.stampLogin(
@@ -633,20 +625,29 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// [sessionKey] The key of the session to clear.
   Future<void> clearSession({String? sessionKey}) async {
-    final key = sessionKey ?? StorageKeys.DefaultSession.value;
+    final activeSessionKey = await getActiveSessionKey();
+    final key = sessionKey ?? activeSessionKey;
+    if (key == null) {
+      throw Exception("No active session to clear");
+    }
 
-    final session = await SessionStorageManager.getSession(key);
-    if (session == null) {
+    final sessionToClear = await SessionStorageManager.getSession(key);
+    if (sessionToClear == null) {
       throw Exception("No session found with key: $key");
     }
 
+    final activeKey = await getActiveSessionKey();
+    if (key == activeKey) {
+      session = null;
+    }
+
     // delete the keypair
-    await SecureStorageStamper.deleteKeyPair(session.publicKey);
+    await deleteApiKeyPair(sessionToClear.publicKey);
 
     // remove the session from storage
     await SessionStorageManager.clearSession(key);
 
-    config.onSessionCleared?.call(session);
+    config.onSessionCleared?.call(sessionToClear);
   }
 
   Future<void> clearAllSessions() async {
@@ -666,19 +667,18 @@ class TurnkeyProvider with ChangeNotifier {
   // ///
   // /// Throws an [Exception] if the session or client is not initialized.
   Future<void> refreshUser() async {
-    if (_client == null || session == null) {
-      throw Exception(
-          "Failed to refresh user. Client or sessions not initialized");
+    if (session == null) {
+      throw Exception("Failed to refresh user. Sessions not initialized");
     }
-    user = await fetchUser(_client!, session!.organizationId, session!.userId);
+    user = await fetchUser(requireClient, session!.organizationId, session!.userId);
   }
 
   Future<void> refreshWallets() async {
-    if (_client == null || session == null || user == null) {
+    if (session == null || user == null) {
       throw Exception(
           "Failed to refresh wallets. Client, session, or user not initialized");
     }
-    wallets = await fetchWallets(_client!, session!.organizationId);
+    wallets = await fetchWallets(requireClient!, session!.organizationId);
   }
 
   // /// Signs a raw payload using the specified signing key and encoding parameters.
@@ -694,8 +694,8 @@ class TurnkeyProvider with ChangeNotifier {
       required String payload,
       required v1PayloadEncoding encoding,
       required v1HashFunction hashFunction}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final response = await requireClient.signRawPayload(
@@ -724,8 +724,8 @@ class TurnkeyProvider with ChangeNotifier {
       {required String signWith,
       required String unsignedTransaction,
       required v1TransactionType type}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final response = await requireClient.signTransaction(
@@ -753,8 +753,8 @@ class TurnkeyProvider with ChangeNotifier {
       {required String walletName,
       required List<v1WalletAccountParams> accounts,
       int? mnemonicLength}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final response = await requireClient.createWallet(
@@ -782,10 +782,10 @@ class TurnkeyProvider with ChangeNotifier {
       {required String mnemonic,
       required String walletName,
       required List<v1WalletAccountParams> accounts}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
-    final initResponse = await _client!
+    final initResponse = await requireClient
         .initImportWallet(input: TInitImportWalletBody(userId: user!.userId));
 
     final importBundle =
@@ -820,8 +820,8 @@ class TurnkeyProvider with ChangeNotifier {
   // ///
   // /// [walletId] The ID of the wallet to export.
   Future<String> exportWallet({required String walletId}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final keyPair = await generateP256KeyPair();
