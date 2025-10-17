@@ -16,7 +16,8 @@ import 'package:crypto/crypto.dart';
 
 class TurnkeyProvider with ChangeNotifier {
   Session? _session;
-  User? _user;
+  v1User? _user;
+  List<Wallet>? _wallets;
   TurnkeyClient? _client;
   SecureStorageStamper _secureStorageStamper = SecureStorageStamper();
   Map<String, Timer> _expiryTimers = {};
@@ -39,7 +40,8 @@ class TurnkeyProvider with ChangeNotifier {
   Session? get session => _session;
   TurnkeyClient? get client => _client;
   SecureStorageStamper get secureStorageStamper => _secureStorageStamper;
-  User? get user => _user;
+  v1User? get user => _user;
+  List<Wallet>? get wallets => _wallets;
 
   set session(Session? newSession) {
     _session = newSession;
@@ -51,8 +53,13 @@ class TurnkeyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set user(User? newUser) {
+  set user(v1User? newUser) {
     _user = newUser;
+    notifyListeners();
+  }
+
+  set wallets(List<Wallet>? newWallets) {
+    _wallets = newWallets;
     notifyListeners();
   }
 
@@ -225,9 +232,8 @@ class TurnkeyProvider with ChangeNotifier {
   /// Additionally, it loads the last selected session if it is still valid,
   /// otherwise it clears the session and triggers the session expiration callback.
   Future<void> initializeSessions() async {
-    // reset current state
-    _session = null;
-    notifyListeners();
+    // Reset current state
+    session = null;
 
     try {
       createClient();
@@ -243,23 +249,23 @@ class TurnkeyProvider with ChangeNotifier {
 
       // we iterate over all sessions and clean up expired ones
       for (final sessionKey in List<String>.from(allSessions.keys)) {
-        final session = allSessions[sessionKey];
+        final s = allSessions[sessionKey];
 
-        if (session == null) continue;
+        if (s == null) continue;
 
-        if (!isValidSession(session)) {
+        if (!isValidSession(s)) {
           await clearSession(sessionKey: sessionKey);
 
           final activeKey = await getActiveSessionKey();
           if (sessionKey == activeKey) {
-            _session = null;
+            session = null;
           }
 
           allSessions.remove(sessionKey);
           continue;
         }
 
-        await _scheduleSessionExpiration(sessionKey, session.expiry);
+        await _scheduleSessionExpiration(sessionKey, s.expiry);
       }
 
       // we load the active session key (if it exists)
@@ -272,9 +278,10 @@ class TurnkeyProvider with ChangeNotifier {
             publicKey: activeSession.publicKey,
             organizationId: activeSession.organizationId,
           );
-          _session = activeSession;
+          session = activeSession;
 
-          _user = await fetchUser(_client!, config.organizationId);
+          await refreshUser();
+          await refreshWallets();
 
           config.onSessionSelected?.call(activeSession);
         }
@@ -297,19 +304,20 @@ class TurnkeyProvider with ChangeNotifier {
   /// [sessionKey] The key of the session to set as active.
   Future<void> setActiveSession({required String sessionKey}) async {
     await SessionStorageManager.setActiveSessionKey(sessionKey);
-    final session = await SessionStorageManager.getSession(sessionKey);
+    final s = await SessionStorageManager.getSession(sessionKey);
+    print("🔑 Active session loaded: $s");
 
-    if (session == null) {
+    if (s == null) {
       throw Exception("No session found with key: $sessionKey");
     }
 
-    _session = session;
+    session = s;
     createClient(
-      organizationId: session.organizationId,
-      publicKey: session.publicKey,
+      publicKey: s.publicKey,
+      organizationId: s.organizationId,
     );
 
-    config.onSessionSelected?.call(session);
+    config.onSessionSelected?.call(s);
   }
 
   /// Gets the key of the currently active session.
@@ -464,6 +472,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     // we make sure the session key is unique
     if (existingSessionKeys.contains(sessionKey)) {
+      clearSession(sessionKey: sessionKey);
       throw Exception(
         'Session key "$sessionKey" already exists. Please choose a unique session key or clear the existing session.',
       );
@@ -484,7 +493,8 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     // we fetch the user information
-    _user = await fetchUser(_client!, config.organizationId);
+    await refreshUser();
+    await refreshWallets();
     if (_user == null) {
       throw Exception("Failed to fetch user");
     }
@@ -518,6 +528,7 @@ class TurnkeyProvider with ChangeNotifier {
     authProxyBaseUrl ??=
         config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
     authProxyConfigId ??= config.authProxyConfigId;
+    organizationId ??= config.organizationId;
 
     final newClient = TurnkeyClient(
       config: THttpConfig(
@@ -659,7 +670,15 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception(
           "Failed to refresh user. Client or sessions not initialized");
     }
-    _user = await fetchUser(_client!, config.organizationId);
+    user = await fetchUser(_client!, session!.organizationId, session!.userId);
+  }
+
+  Future<void> refreshWallets() async {
+    if (_client == null || session == null || user == null) {
+      throw Exception(
+          "Failed to refresh wallets. Client, session, or user not initialized");
+    }
+    wallets = await fetchWallets(_client!, session!.organizationId);
   }
 
   // /// Signs a raw payload using the specified signing key and encoding parameters.
@@ -746,7 +765,7 @@ class TurnkeyProvider with ChangeNotifier {
     ));
     final activity = response.activity;
     if (activity.result.createWalletResult?.walletId != null) {
-      await refreshUser();
+      await refreshWallets();
     }
 
     return activity;
@@ -767,7 +786,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Client or user not initialized");
     }
     final initResponse = await _client!
-        .initImportWallet(input: TInitImportWalletBody(userId: user!.id));
+        .initImportWallet(input: TInitImportWalletBody(userId: user!.userId));
 
     final importBundle =
         initResponse.activity.result.initImportWalletResult?.importBundle;
@@ -779,19 +798,19 @@ class TurnkeyProvider with ChangeNotifier {
     final encryptedBundle = await encryptWalletToBundle(
       mnemonic: mnemonic,
       importBundle: importBundle,
-      userId: user!.id,
-      organizationId: user!.organizationId,
+      userId: user!.userId,
+      organizationId: session!.organizationId,
     );
 
     final response = await requireClient.importWallet(
         input: TImportWalletBody(
-            userId: user!.id,
+            userId: user!.userId,
             walletName: walletName,
             encryptedBundle: encryptedBundle,
             accounts: accounts));
     final activity = response.activity;
     if (activity.result.importWalletResult?.walletId != null) {
-      await refreshUser();
+      await refreshWallets();
     }
   }
 
@@ -818,10 +837,12 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Export bundle, embedded key, or user not initialized");
     }
 
+    await refreshWallets();
+
     return await decryptExportBundle(
         exportBundle: exportBundle,
         embeddedKey: keyPair.privateKey,
-        organizationId: user!.organizationId,
+        organizationId: session!.organizationId,
         returnMnemonic: true);
   }
 
@@ -1345,45 +1366,8 @@ class TurnkeyProvider with ChangeNotifier {
       final encodedChallenge = passkey.encodedChallenge;
       final attestation = passkey.attestation;
 
-      final updatedCreateSubOrgParams = (createSubOrgParams != null)
-          ? createSubOrgParams.copyWith(
-              authenticators: [
-                CreateSubOrgAuthenticator(
-                  authenticatorName: passkeyName,
-                  challenge: encodedChallenge,
-                  attestation: attestation,
-                ),
-              ],
-              apiKeys: [
-                CreateSubOrgApiKey(
-                  apiKeyName: 'passkey-auth-$temporaryPublicKey',
-                  publicKey: temporaryPublicKey,
-                  curveType: v1ApiKeyCurve.api_key_curve_p256,
-
-                  // we set a short expiration since this is a temporary key
-                  expirationSeconds: "15",
-                ),
-              ],
-            )
-          : CreateSubOrgParams(
-              authenticators: [
-                CreateSubOrgAuthenticator(
-                  authenticatorName: passkeyName,
-                  challenge: encodedChallenge,
-                  attestation: attestation,
-                ),
-              ],
-              apiKeys: [
-                CreateSubOrgApiKey(
-                  apiKeyName: 'passkey-auth-$temporaryPublicKey',
-                  publicKey: temporaryPublicKey,
-                  curveType: v1ApiKeyCurve.api_key_curve_p256,
-
-                  // we set a short expiration since this is a temporary key
-                  expirationSeconds: "15",
-                ),
-              ],
-            );
+      final overrideParams = PasskeyOverridedParams(passkeyName: passkeyName, attestation: attestation, encodedChallenge: encodedChallenge, temporaryPublicKey: temporaryPublicKey);
+      final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
       final signUpBody =
           buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
@@ -1488,6 +1472,8 @@ class TurnkeyProvider with ChangeNotifier {
     try {
       generatedPublicKey = publicKey ?? await createApiKeyPair();
 
+      print("Passed-in orgId: $organizationId");
+
       final res = await client!.proxyOtpLogin(
         input: ProxyTOtpLoginBody(
           organizationId: organizationId,
@@ -1542,17 +1528,12 @@ class TurnkeyProvider with ChangeNotifier {
     CreateSubOrgParams? createSubOrgParams,
     bool invalidateExisting = false,
   }) async {
-    final updatedCreateSubOrgParams = (createSubOrgParams != null)
-        ? createSubOrgParams.copyWith(
-            userEmail: otpType == OtpType.Email ? contact : null,
-            userPhoneNumber: otpType == OtpType.SMS ? contact : null,
-            verificationToken: verificationToken,
-          )
-        : CreateSubOrgParams(
-            userEmail: otpType == OtpType.Email ? contact : null,
-            userPhoneNumber: otpType == OtpType.SMS ? contact : null,
-            verificationToken: verificationToken,
-          );
+    final overrideParams = OtpOverriredParams(
+      otpType: otpType,
+      contact: contact,
+      verificationToken: verificationToken,
+    );
+    final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
@@ -1560,13 +1541,14 @@ class TurnkeyProvider with ChangeNotifier {
     try {
       final res = await client!.proxySignup(input: signUpBody);
 
-      final organizationId = res.organizationId;
-      if (organizationId.isEmpty) {
+      print("Signup response: ${res.organizationId}");
+      final orgId = res.organizationId;
+      if (orgId.isEmpty) {
         throw Exception("Sign up failed: No organizationId returned");
       }
 
       final response = await loginWithOtp(
-        organizationId: organizationId,
+        organizationId: orgId,
         verificationToken: verificationToken,
         sessionKey: sessionKey,
         invalidateExisting: invalidateExisting,
@@ -1690,19 +1672,11 @@ class TurnkeyProvider with ChangeNotifier {
     String? sessionKey,
     CreateSubOrgParams? createSubOrgParams,
   }) async {
-    final updatedCreateSubOrgParams = (createSubOrgParams != null)
-        ? createSubOrgParams.copyWith(oauthProviders: [
-            v1OauthProviderParams(
-              providerName: providerName,
-              oidcToken: oidcToken,
-            )
-          ])
-        : CreateSubOrgParams(oauthProviders: [
-            v1OauthProviderParams(
-              providerName: providerName,
-              oidcToken: oidcToken,
-            )
-          ]);
+    final overrideParams = OAuthOverridedParams(
+      oidcToken: oidcToken,
+      providerName: providerName,
+    );
+    final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);

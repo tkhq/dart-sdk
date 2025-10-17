@@ -92,54 +92,11 @@ class Session {
   }
 }
 
-/// A class representing a user with various attributes.
-class User {
-  final String id;
-  final String? userName;
-  final String? email;
-  final String? phoneNumber;
-  final String organizationId;
-  final List<Wallet> wallets;
-
-  User({
-    required this.id,
-    this.userName,
-    this.email,
-    this.phoneNumber,
-    required this.organizationId,
-    required this.wallets,
-  });
-
-  /// Converts the user to a JSON map.
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'userName': userName,
-        'email': email,
-        'phoneNumber': phoneNumber,
-        'organizationId': organizationId,
-        'wallets': wallets.map((wallet) => wallet.toJson()).toList(),
-      };
-
-  /// Creates a user from a JSON map.
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      userName: json['userName'],
-      email: json['email'],
-      phoneNumber: json['phoneNumber'],
-      organizationId: json['organizationId'],
-      wallets: (json['wallets'] as List<dynamic>)
-          .map((walletJson) => Wallet.fromJson(walletJson))
-          .toList(),
-    );
-  }
-}
-
 /// A class representing a wallet with a name, id, and a list of accounts.
 class Wallet {
   final String name;
   final String id;
-  final List<WalletAccount> accounts;
+  final List<v1WalletAccount> accounts;
 
   Wallet({
     required this.name,
@@ -160,59 +117,8 @@ class Wallet {
       name: json['name'],
       id: json['id'],
       accounts: (json['accounts'] as List<dynamic>)
-          .map((accountJson) => WalletAccount.fromJson(accountJson))
+          .map((accountJson) => v1WalletAccount.fromJson(accountJson))
           .toList(),
-    );
-  }
-}
-
-/// A class representing a wallet account with various attributes.
-class WalletAccount {
-  final String id;
-  final v1Curve curve;
-  final v1PathFormat pathFormat;
-  final String path;
-  final v1AddressFormat addressFormat;
-  final String address;
-  final externaldatav1Timestamp createdAt;
-  final externaldatav1Timestamp updatedAt;
-
-  WalletAccount({
-    required this.id,
-    required this.curve,
-    required this.pathFormat,
-    required this.path,
-    required this.addressFormat,
-    required this.address,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  /// Converts the wallet account to a JSON map.
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'curve': curve.toString(),
-        'pathFormat': pathFormat.toString(),
-        'path': path,
-        'addressFormat': addressFormat.toString(),
-        'address': address,
-        'createdAt': createdAt.toJson(),
-        'updatedAt': updatedAt.toJson(),
-      };
-
-  /// Creates a wallet account from a JSON map.
-  factory WalletAccount.fromJson(Map<String, dynamic> json) {
-    return WalletAccount(
-      id: json['id'],
-      curve: v1Curve.values.firstWhere((e) => e.toString() == json['curve']),
-      pathFormat: v1PathFormat.values
-          .firstWhere((e) => e.toString() == json['pathFormat']),
-      path: json['path'],
-      addressFormat: v1AddressFormat.values
-          .firstWhere((e) => e.toString() == json['addressFormat']),
-      address: json['address'],
-      createdAt: externaldatav1Timestamp.fromJson(json['createdAt']),
-      updatedAt: externaldatav1Timestamp.fromJson(json['updatedAt']),
     );
   }
 }
@@ -259,6 +165,7 @@ class AuthConfig {
   final bool? otpAlphanumeric;
   /** length of the OTP. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
   final String? otpLength;
+  final MethodCreateSubOrgParams? createSubOrgParams;
 
   const AuthConfig({
     this.methods,
@@ -266,6 +173,21 @@ class AuthConfig {
     this.sessionExpirationSeconds,
     this.otpAlphanumeric,
     this.otpLength,
+    this.createSubOrgParams,
+  });
+}
+
+class MethodCreateSubOrgParams {
+  final CreateSubOrgParams? emailOtpAuth;
+  final CreateSubOrgParams? smsOtpAuth;
+  final CreateSubOrgParams? passkeyAuth;
+  final CreateSubOrgParams? oAuth;
+
+  const MethodCreateSubOrgParams({
+    this.emailOtpAuth,
+    this.smsOtpAuth,
+    this.passkeyAuth,
+    this.oAuth,
   });
 }
 

@@ -1279,7 +1279,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_APPROVE_ACTIVITY',
@@ -1301,7 +1302,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/approve_activity';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_APPROVE_ACTIVITY',
@@ -1327,7 +1329,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_API_KEYS_V2',
@@ -1349,7 +1352,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_api_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_API_KEYS_V2',
@@ -1375,7 +1379,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_API_ONLY_USERS',
@@ -1397,7 +1402,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_api_only_users';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_API_ONLY_USERS',
@@ -1423,7 +1429,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
@@ -1445,7 +1452,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_authenticators';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
@@ -1471,7 +1479,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_INVITATIONS',
@@ -1493,7 +1502,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_invitations';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_INVITATIONS',
@@ -1519,7 +1529,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH2_CREDENTIAL',
@@ -1542,7 +1553,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_oauth2_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH2_CREDENTIAL',
@@ -1568,7 +1580,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS',
@@ -1590,7 +1603,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_oauth_providers';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS',
@@ -1616,7 +1630,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICIES',
@@ -1638,7 +1653,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_policies';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICIES',
@@ -1664,7 +1680,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICY_V3',
@@ -1686,7 +1703,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_policy';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICY_V3',
@@ -1712,7 +1730,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEY_TAG',
@@ -1734,7 +1753,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_private_key_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEY_TAG',
@@ -1760,7 +1780,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS_V2',
@@ -1782,7 +1803,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_private_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS_V2',
@@ -1808,7 +1830,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_ONLY_SESSION',
@@ -1831,7 +1854,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_read_only_session';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_ONLY_SESSION',
@@ -1857,7 +1881,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION_V2',
@@ -1880,7 +1905,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_read_write_session';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION_V2',
@@ -1906,7 +1932,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE',
@@ -1930,7 +1957,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_smart_contract_interface';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE',
@@ -1956,7 +1984,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7',
@@ -1979,7 +2008,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_sub_organization';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V7',
@@ -2005,7 +2035,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_USER_TAG',
@@ -2027,7 +2058,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_user_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_USER_TAG',
@@ -2053,7 +2085,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_USERS_V3',
@@ -2075,7 +2108,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_users';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_USERS_V3',
@@ -2101,7 +2135,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET',
@@ -2123,7 +2158,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET',
@@ -2149,7 +2185,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET_ACCOUNTS',
@@ -2171,7 +2208,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_wallet_accounts';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET_ACCOUNTS',
@@ -2197,7 +2235,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_API_KEYS',
@@ -2219,7 +2258,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_api_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_API_KEYS',
@@ -2245,7 +2285,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_AUTHENTICATORS',
@@ -2267,7 +2308,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_authenticators';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_AUTHENTICATORS',
@@ -2293,7 +2335,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_INVITATION',
@@ -2315,7 +2358,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_invitation';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_INVITATION',
@@ -2341,7 +2385,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH2_CREDENTIAL',
@@ -2364,7 +2409,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_oauth2_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH2_CREDENTIAL',
@@ -2390,7 +2436,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH_PROVIDERS',
@@ -2412,7 +2459,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_oauth_providers';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH_PROVIDERS',
@@ -2438,7 +2486,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICIES',
@@ -2460,7 +2509,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_policies';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICIES',
@@ -2486,7 +2536,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICY',
@@ -2508,7 +2559,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_policy';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICY',
@@ -2534,7 +2586,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEY_TAGS',
@@ -2557,7 +2610,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_private_key_tags';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEY_TAGS',
@@ -2583,7 +2637,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEYS',
@@ -2605,7 +2660,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_private_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEYS',
@@ -2631,7 +2687,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE',
@@ -2655,7 +2712,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_smart_contract_interface';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE',
@@ -2681,7 +2739,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_SUB_ORGANIZATION',
@@ -2704,7 +2763,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_sub_organization';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_SUB_ORGANIZATION',
@@ -2730,7 +2790,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_USER_TAGS',
@@ -2752,7 +2813,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_user_tags';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_USER_TAGS',
@@ -2778,7 +2840,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_USERS',
@@ -2800,7 +2863,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_users';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_USERS',
@@ -2826,7 +2890,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS',
@@ -2848,7 +2913,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_wallet_accounts';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS',
@@ -2874,7 +2940,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLETS',
@@ -2896,7 +2963,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_wallets';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLETS',
@@ -2922,7 +2990,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EMAIL_AUTH_V2',
@@ -2944,7 +3013,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/email_auth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EMAIL_AUTH_V2',
@@ -2970,7 +3040,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EXPORT_PRIVATE_KEY',
@@ -2992,7 +3063,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/export_private_key';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EXPORT_PRIVATE_KEY',
@@ -3018,7 +3090,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET',
@@ -3040,7 +3113,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/export_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET',
@@ -3066,7 +3140,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET_ACCOUNT',
@@ -3088,7 +3163,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/export_wallet_account';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET_ACCOUNT',
@@ -3114,7 +3190,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_IMPORT_PRIVATE_KEY',
@@ -3136,7 +3213,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/import_private_key';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_IMPORT_PRIVATE_KEY',
@@ -3162,7 +3240,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_IMPORT_WALLET',
@@ -3184,7 +3263,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/import_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_IMPORT_WALLET',
@@ -3210,7 +3290,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_FIAT_ON_RAMP',
@@ -3232,7 +3313,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_fiat_on_ramp';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_FIAT_ON_RAMP',
@@ -3258,7 +3340,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_PRIVATE_KEY',
@@ -3281,7 +3364,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/init_import_private_key';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_PRIVATE_KEY',
@@ -3307,7 +3391,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_WALLET',
@@ -3329,7 +3414,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_import_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_WALLET',
@@ -3355,7 +3441,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_OTP',
@@ -3377,7 +3464,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_otp';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_OTP',
@@ -3403,7 +3491,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_OTP_AUTH_V2',
@@ -3425,7 +3514,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_otp_auth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_OTP_AUTH_V2',
@@ -3451,7 +3541,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
@@ -3474,7 +3565,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/init_user_email_recovery';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
@@ -3500,7 +3592,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OAUTH',
@@ -3522,7 +3615,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/oauth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OAUTH',
@@ -3548,7 +3642,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OAUTH2_AUTHENTICATE',
@@ -3570,7 +3665,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/oauth2_authenticate';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OAUTH2_AUTHENTICATE',
@@ -3596,7 +3692,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OAUTH_LOGIN',
@@ -3618,7 +3715,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/oauth_login';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OAUTH_LOGIN',
@@ -3644,7 +3742,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OTP_AUTH',
@@ -3666,7 +3765,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/otp_auth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OTP_AUTH',
@@ -3692,7 +3792,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OTP_LOGIN',
@@ -3714,7 +3815,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/otp_login';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_OTP_LOGIN',
@@ -3740,7 +3842,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_RECOVER_USER',
@@ -3762,7 +3865,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/recover_user';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_RECOVER_USER',
@@ -3788,7 +3892,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_REJECT_ACTIVITY',
@@ -3810,7 +3915,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/reject_activity';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_REJECT_ACTIVITY',
@@ -3836,7 +3942,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_REMOVE_ORGANIZATION_FEATURE',
@@ -3860,7 +3967,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/remove_organization_feature';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_REMOVE_ORGANIZATION_FEATURE',
@@ -3886,7 +3994,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SET_ORGANIZATION_FEATURE',
@@ -3909,7 +4018,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/set_organization_feature';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SET_ORGANIZATION_FEATURE',
@@ -3935,7 +4045,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2',
@@ -3957,7 +4068,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sign_raw_payload';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2',
@@ -3983,7 +4095,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOADS',
@@ -4005,7 +4118,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sign_raw_payloads';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOADS',
@@ -4031,7 +4145,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SIGN_TRANSACTION_V2',
@@ -4053,7 +4168,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sign_transaction';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_SIGN_TRANSACTION_V2',
@@ -4079,7 +4195,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_STAMP_LOGIN',
@@ -4101,7 +4218,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/stamp_login';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_STAMP_LOGIN',
@@ -4127,7 +4245,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_OAUTH2_CREDENTIAL',
@@ -4150,7 +4269,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_oauth2_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_OAUTH2_CREDENTIAL',
@@ -4176,7 +4296,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_POLICY_V2',
@@ -4198,7 +4319,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_policy';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_POLICY_V2',
@@ -4224,7 +4346,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_PRIVATE_KEY_TAG',
@@ -4246,7 +4369,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_private_key_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_PRIVATE_KEY_TAG',
@@ -4272,7 +4396,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_ROOT_QUORUM',
@@ -4294,7 +4419,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_root_quorum';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_ROOT_QUORUM',
@@ -4320,7 +4446,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER',
@@ -4342,7 +4469,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER',
@@ -4368,7 +4496,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_EMAIL',
@@ -4390,7 +4519,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_email';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_EMAIL',
@@ -4416,7 +4546,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_NAME',
@@ -4438,7 +4569,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_name';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_NAME',
@@ -4464,7 +4596,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER',
@@ -4487,7 +4620,8 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_user_phone_number';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER',
@@ -4513,7 +4647,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_TAG',
@@ -4535,7 +4670,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_TAG',
@@ -4561,7 +4697,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_WALLET',
@@ -4583,7 +4720,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_UPDATE_WALLET',
@@ -4609,7 +4747,8 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_VERIFY_OTP',
@@ -4631,7 +4770,8 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/verify_otp';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: config.organizationId ??
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_VERIFY_OTP',
