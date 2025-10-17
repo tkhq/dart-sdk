@@ -437,9 +437,9 @@ class SignUpWithOtpResult extends BaseAuthResult {
   const SignUpWithOtpResult({required super.sessionToken});
 }
 
-class CompleteOtpResult extends BaseAuthResult {
+class LoginOrSignUpWithOtpResult extends BaseAuthResult {
   final AuthAction action;
-  const CompleteOtpResult({
+  const LoginOrSignUpWithOtpResult({
     required super.sessionToken,
     required this.action,
   });
@@ -453,9 +453,9 @@ class SignUpWithOAuthResult extends BaseAuthResult {
   const SignUpWithOAuthResult({required super.sessionToken});
 }
 
-class CompleteOAuthResult extends BaseAuthResult {
+class LoginOrSignUpWithOAuthResult extends BaseAuthResult {
   final AuthAction action;
-  const CompleteOAuthResult({
+  const LoginOrSignUpWithOAuthResult({
     required super.sessionToken,
     required this.action,
   });
