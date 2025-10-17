@@ -23,7 +23,6 @@ class TurnkeyProvider with ChangeNotifier {
 
   // these are internal
   TurnkeyConfig? _masterConfig;
-  ProxyTGetWalletKitConfigResponse? _proxyAuthConfig;
 
   // immutable
   final TurnkeyConfig config;
@@ -45,7 +44,6 @@ class TurnkeyProvider with ChangeNotifier {
 
   // these are internally used
   TurnkeyConfig? get masterConfig => _masterConfig;
-  ProxyTGetWalletKitConfigResponse? get proxyAuthConfig => _proxyAuthConfig;
 
   // helper to get client or throw
   TurnkeyClient get requireClient {
@@ -206,7 +204,6 @@ class TurnkeyProvider with ChangeNotifier {
           config.authProxyConfigId!,
           config.authProxyBaseUrl,
         );
-        _proxyAuthConfig = proxy;
         notifyListeners();
       }
 
@@ -649,6 +646,9 @@ class TurnkeyProvider with ChangeNotifier {
     final activeKey = await getActiveSessionKey();
     if (key == activeKey) {
       session = null;
+      user = null;
+      wallets = null;
+      client = _createClient();
     }
 
     // delete the keypair

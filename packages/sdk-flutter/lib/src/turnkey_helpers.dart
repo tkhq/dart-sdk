@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
-import 'package:turnkey_http/__generated__/models.dart';
 import 'package:crypto/crypto.dart';
 
 /// Fetches user details and associated wallets from the Turnkey API.
@@ -32,7 +31,7 @@ Future<v1User?> fetchUser(
 
     return user;
   } catch (e) {
-    print("Error fetching user: $e");
+    stderr.writeln("Error fetching user: $e");
     rethrow;
   }
 }
@@ -60,7 +59,7 @@ Future<List<Wallet>> fetchWallets(
 
     return wallets;
   } catch (e) {
-    print("Error fetching wallets: $e");
+    stderr.writeln("Error fetching wallets: $e");
     rethrow;
   }
 }

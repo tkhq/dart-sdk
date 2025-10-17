@@ -18,38 +18,56 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Wallet? _selectedWallet;
   v1WalletAccount? _selectedAccount;
 
+  late final TurnkeyProvider _turnkeyProvider;
+  late final VoidCallback _providerListener;
+
   @override
   void initState() {
     super.initState();
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
-    turnkeyProvider.addListener(_updateSelectedWallet);
-    _updateSelectedWallet();
+
+    // Capture provider once; no context in listener later.
+    _turnkeyProvider = Provider.of<TurnkeyProvider>(context, listen: false);
+
+    _providerListener = _handleProviderUpdate;
+    _turnkeyProvider.addListener(_providerListener);
+
+    // Initialize local selections from provider.
+    _updateSelectedWalletFromProvider(_turnkeyProvider);
   }
 
-  void _updateSelectedWallet() {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+  @override
+  void dispose() {
+    // Always remove listeners to avoid calling setState on a disposed widget.
+    _turnkeyProvider.removeListener(_providerListener);
+    super.dispose();
+  }
 
-    if (turnkeyProvider.user == null || turnkeyProvider.wallets == null || turnkeyProvider.wallets!.isEmpty) {
-      return;
-    }
+  void _handleProviderUpdate() {
+    if (!mounted) return;
+    _updateSelectedWalletFromProvider(_turnkeyProvider);
+  }
 
-    if (turnkeyProvider.wallets!.first.accounts.isEmpty) {
-      return;
-    }
+  void _updateSelectedWalletFromProvider(TurnkeyProvider provider) {
+    final wallets = provider.wallets;
+    final user = provider.user;
 
+    if (user == null || wallets == null || wallets.isEmpty) return;
+    if (wallets.first.accounts.isEmpty) return;
+
+    if (!mounted) return;
     setState(() {
-      _selectedWallet = turnkeyProvider.wallets!.first;
-      _selectedAccount = turnkeyProvider.wallets!.first.accounts.first;
+      _selectedWallet = wallets.first;
+      _selectedAccount = wallets.first.accounts.first;
     });
   }
 
-  Future<void> handleSign(BuildContext context, String messageToSign,
-      String account, Function onStateUpdated) async {
+  Future<void> handleSign(
+    BuildContext context,
+    String messageToSign,
+    String account,
+    void Function(void Function()) onStateUpdated,
+  ) async {
     try {
-      final turnkeyProvider =
-          Provider.of<TurnkeyProvider>(context, listen: false);
       final addressType = account.startsWith('0x') ? 'ETH' : 'SOL';
       final hashedMessage = addressType == 'ETH'
           ? sha256.convert(utf8.encode(messageToSign)).toString()
@@ -58,21 +76,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
               .map((b) => b.toRadixString(16).padLeft(2, '0'))
               .join();
 
-      final response = await turnkeyProvider.signRawPayload(
-          signWith: account,
-          payload: hashedMessage,
-          encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
-          hashFunction: addressType == 'ETH'
-              ? v1HashFunction.hash_function_no_op
-              : v1HashFunction.hash_function_not_applicable);
+      final response = await _turnkeyProvider.signRawPayload(
+        signWith: account,
+        payload: hashedMessage,
+        encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+        hashFunction: addressType == 'ETH'
+            ? v1HashFunction.hash_function_no_op
+            : v1HashFunction.hash_function_not_applicable,
+      );
+
+      if (!mounted) return;
+
       onStateUpdated(() {
         _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Success! Message signed.')),
+        const SnackBar(content: Text('Success! Message signed.')),
       );
     } catch (error) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error signing message: $error')),
       );
@@ -80,72 +103,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Future<void> handleExportWallet(BuildContext context, Wallet wallet) async {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    try {
+      final export = await _turnkeyProvider.exportWallet(walletId: wallet.id);
 
-    final export = await turnkeyProvider.exportWallet(
-      walletId: wallet.id,
-    );
+      if (!mounted) return;
 
-    _exportedWallet = export;
+      _exportedWallet = export;
 
-    Navigator.of(context).pop();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Exported Wallet'),
-          content: Container(
-            constraints: BoxConstraints(
-              minHeight: 100,
+      if (!mounted) return;
+      Navigator.of(context).pop();
+
+      if (!mounted) return;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Exported Wallet'),
+            content: Container(
+              constraints: const BoxConstraints(minHeight: 100),
+              padding: const EdgeInsets.all(10),
+              transformAlignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.grey,
+                    spreadRadius: 0.8,
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(4),
+              ),
+              child: Text(_exportedWallet ?? 'Exporting...'),
             ),
-            padding: EdgeInsets.all(10),
-            transformAlignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  spreadRadius: 0.8,
-                  blurRadius: 2,
-                  offset: Offset(0, 1),
-                ),
-              ],
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Text(_exportedWallet ?? 'Exporting...'),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _exportedWallet = null;
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _exportedWallet = null;
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Export failed: $e')),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final signMessage = 'I love Turnkey';
+    const signMessage = 'I love Turnkey';
 
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            Provider.of<TurnkeyProvider>(context, listen: false)
-                .clearAllSessions();
+            // Fire and forget; provider handles lifecycle.
+            _turnkeyProvider.clearAllSessions();
           },
-          icon: Icon(
-            Icons.logout,
-            size: 24.0,
-          ),
+          icon: const Icon(Icons.logout, size: 24.0),
         ),
-        title: Text('Dashboard'),
+        title: const Text('Dashboard'),
       ),
       body: Center(
         child: Consumer<TurnkeyProvider>(
@@ -153,27 +178,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
             final walletAccounts = _selectedWallet?.accounts;
 
             return Padding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     'Welcome, ${turnkeyProvider.user?.userName ?? 'User'}!',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   if (walletAccounts != null)
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.grey,
                             spreadRadius: 0.8,
@@ -186,10 +209,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       child: Column(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.grey,
                                   spreadRadius: 0.05,
@@ -203,40 +226,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 PopupMenuButton<Wallet>(
                                   onSelected: (wallet) {
+                                    if (!mounted) return;
                                     setState(() {
                                       _selectedWallet = wallet;
-                                      _selectedAccount = wallet.accounts[0];
+                                      _selectedAccount =
+                                          wallet.accounts.first;
                                     });
                                   },
                                   itemBuilder: (BuildContext context) {
-                                    List<PopupMenuEntry<Wallet>> items = [];
-                                    if (turnkeyProvider.wallets == null || turnkeyProvider.wallets!.isEmpty) {
-                                      return [
+                                    final wallets = turnkeyProvider.wallets;
+                                    if (wallets == null || wallets.isEmpty) {
+                                      return const [
                                         PopupMenuItem<Wallet>(
                                           value: null,
                                           child: Text('No wallets available'),
                                         ),
                                       ];
-                                    } else {
-                                      items.addAll(turnkeyProvider.wallets!.map((wallet) {
-                                        return PopupMenuItem<Wallet>(
+                                    }
+                                    return [
+                                      ...wallets.map(
+                                        (wallet) => PopupMenuItem<Wallet>(
                                           value: wallet,
                                           child: Text(wallet.name),
-                                        );
-                                      }).toList());
-                                    }
-                                    items.add(PopupMenuDivider());
-                                    items.add(
+                                        ),
+                                      ),
+                                      const PopupMenuDivider(),
                                       PopupMenuItem<Wallet>(
                                         onTap: () {
                                           showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return AddWalletDialog();
-                                              });
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                const AddWalletDialog(),
+                                          );
                                         },
                                         value: null,
-                                        child: Row(
+                                        child: const Row(
                                           children: [
                                             Icon(Icons.add),
                                             SizedBox(width: 8),
@@ -244,18 +268,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           ],
                                         ),
                                       ),
-                                    );
-                                    return items;
+                                    ];
                                   },
                                   child: Row(
                                     children: [
                                       Text(
                                         _selectedWallet?.name ?? 'Wallet',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
+                                        style: const TextStyle(fontSize: 18),
                                       ),
-                                      Icon(Icons.arrow_drop_down),
+                                      const Icon(Icons.arrow_drop_down),
                                     ],
                                   ),
                                 ),
@@ -266,12 +287,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            titleTextStyle: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.black),
+                                            titleTextStyle: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black,
+                                            ),
                                             title: Text(
-                                                'Export: ${_selectedWallet?.name ?? 'wallet'}?'),
-                                            content: Text(
+                                              'Export: ${_selectedWallet?.name ?? 'wallet'}?',
+                                            ),
+                                            content: const Text(
                                               'Your seed phrase will be exposed to the screen.',
                                             ),
                                             actions: [
@@ -279,14 +302,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
-                                                child: Text('No'),
+                                                child: const Text('No'),
                                               ),
                                               TextButton(
                                                 onPressed: () {
-                                                  handleExportWallet(context,
-                                                      _selectedWallet!);
+                                                  if (_selectedWallet != null) {
+                                                    handleExportWallet(
+                                                      context,
+                                                      _selectedWallet!,
+                                                    );
+                                                  }
                                                 },
-                                                child: Text('Yes'),
+                                                child: const Text('Yes'),
                                               ),
                                             ],
                                           );
@@ -294,21 +321,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       );
                                     }
                                   },
-                                  itemBuilder: (BuildContext context) {
-                                    return [
-                                      PopupMenuItem<String>(
-                                        value: 'export',
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.upload_file),
-                                            SizedBox(width: 8),
-                                            Text('Export Wallet'),
-                                          ],
-                                        ),
+                                  itemBuilder: (BuildContext context) => const [
+                                    PopupMenuItem<String>(
+                                      value: 'export',
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.upload_file),
+                                          SizedBox(width: 8),
+                                          Text('Export Wallet'),
+                                        ],
                                       ),
-                                    ];
-                                  },
-                                  icon: Icon(Icons.more_vert),
+                                    ),
+                                  ],
+                                  icon: const Icon(Icons.more_vert),
                                 ),
                               ],
                             ),
@@ -317,10 +342,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             return RadioListTile(
                               contentPadding: EdgeInsets.zero,
                               title: Text(
-                                  '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}'),
+                                '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}',
+                              ),
                               onChanged: (Object? value) {
+                                if (!mounted) return;
                                 setState(() {
-                                  _selectedAccount = (value as v1WalletAccount?);
+                                  _selectedAccount =
+                                      (value as v1WalletAccount?);
                                 });
                               },
                               value: account,
@@ -330,74 +358,75 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ],
                       ),
                     ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  
+                  const SizedBox(height: 20),
                   if (_selectedAccount != null)
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return StatefulBuilder(
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return StatefulBuilder(
                                 builder: (context, setState) {
-                              return AlertDialog(
-                                title: Text('Sign message'),
-                                content: Container(
-                                  constraints: BoxConstraints(
-                                    minHeight: 100,
-                                  ),
-                                  padding: EdgeInsets.all(10),
-                                  transformAlignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        spreadRadius: 0.8,
-                                        blurRadius: 2,
-                                        offset: Offset(0, 1),
+                                  return AlertDialog(
+                                    title: const Text('Sign message'),
+                                    content: Container(
+                                      constraints:
+                                          const BoxConstraints(minHeight: 100),
+                                      padding: const EdgeInsets.all(10),
+                                      transformAlignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            spreadRadius: 0.8,
+                                            blurRadius: 2,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                        borderRadius: BorderRadius.circular(4),
                                       ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(_signature ?? signMessage),
-                                ),
-                                actions: <Widget>[
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        _signature = null;
-                                      });
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text(_signature != null
-                                        ? 'Close'
-                                        : 'Cancel'),
-                                  ),
-                                  if (_signature == null)
-                                    TextButton(
-                                      onPressed: () async {
-                                        await handleSign(
-                                            context,
-                                            signMessage,
-                                            _selectedAccount!.address,
-                                            setState);
-                                      },
-                                      child: Text('Sign'),
+                                      child: Text(
+                                          _signature ?? signMessage),
                                     ),
-                                ],
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _signature = null;
+                                          });
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text(
+                                          _signature != null
+                                              ? 'Close'
+                                              : 'Cancel',
+                                        ),
+                                      ),
+                                      if (_signature == null)
+                                        TextButton(
+                                          onPressed: () async {
+                                            await handleSign(
+                                              context,
+                                              signMessage,
+                                              _selectedAccount!.address,
+                                              setState,
+                                            );
+                                          },
+                                          child: const Text('Sign'),
+                                        ),
+                                    ],
+                                  );
+                                },
                               );
-                            });
-                          },
-                        );
-                      },
-                      child: Text('Sign a message'),
+                            },
+                          );
+                        },
+                        child: const Text('Sign a message'),
+                      ),
                     ),
-                  ),
                 ],
               ),
             );
@@ -441,13 +470,14 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
         ],
       );
     }
+    if (!mounted) return;
     Navigator.of(context).pop(_walletNameController.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Add Wallet'),
+      title: const Text('Add Wallet'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -455,9 +485,9 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
         children: [
           TextField(
             controller: _walletNameController,
-            decoration: InputDecoration(hintText: 'Wallet Name'),
+            decoration: const InputDecoration(hintText: 'Wallet Name'),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -469,7 +499,7 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
                   });
                 },
               ),
-              Expanded(
+              const Expanded(
                 child: Text(
                   'Automatically generate seed phrase',
                   softWrap: true,
@@ -483,15 +513,16 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Enter your 12 or 24 word seed phrase:',
-                    style:
-                        TextStyle(fontSize: 10, fontStyle: FontStyle.italic)),
-                SizedBox(height: 5),
+                const Text(
+                  'Enter your 12 or 24 word seed phrase:',
+                  style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic),
+                ),
+                const SizedBox(height: 5),
                 TextField(
                   controller: _seedPhraseController,
                   autocorrect: false,
                   textCapitalization: TextCapitalization.none,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey),
                     ),
@@ -507,15 +538,11 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: Text('Cancel'),
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text('Cancel'),
         ),
         TextButton(
-          onPressed: () async {
-            await handleAddWallet(context);
-          },
+          onPressed: () async => await handleAddWallet(context),
           child: Text(_generateSeedPhrase ? 'Create' : 'Import'),
         ),
       ],

@@ -2,50 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/login.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+
 import 'config.dart';
-import 'providers/auth.dart';
 import 'screens/dashboard.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
-  // Load the environment variables from the .env file
   WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
 
-  void onSessionSelected(Session session) {
-    if (isValidSession(session)) {
+void onSessionSelected(Session session) {
+  if (isValidSession(session)) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       navigatorKey.currentState?.pushReplacement(
-        MaterialPageRoute(builder: (context) => DashboardScreen()),
+        MaterialPageRoute(builder: (context) => const DashboardScreen()),
       );
+      final ctx = navigatorKey.currentContext;
+      if (ctx != null) {
+        ScaffoldMessenger.of(ctx).showSnackBar(
+          const SnackBar(
+            content: Text('Logged in! Redirecting to the dashboard.'),
+          ),
+        );
+      }
+    });
+  }
+}
 
-      ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
-        SnackBar(
-          content: Text('Logged in! Redirecting to the dashboard.'),
+
+  void onSessionCleared(Session session) {
+    navigatorKey.currentState?.pushReplacementNamed('/');
+    final ctx = navigatorKey.currentContext;
+    if (ctx != null) {
+      ScaffoldMessenger.of(ctx).showSnackBar(
+        const SnackBar(
+          content: Text('Logged out. Please login again.'),
         ),
       );
     }
   }
 
-  void onSessionCleared(Session session) {
-    navigatorKey.currentState?.pushReplacementNamed('/');
-
-    ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
-      SnackBar(
-        content: Text('Logged out. Please login again.'),
-      ),
-    );
-  }
-
   void onInitialized(Object? error) {
+    final ctx = navigatorKey.currentContext;
     if (error != null) {
       debugPrint('Turnkey initialization failed: $error');
-      final context = navigatorKey.currentContext;
-      if (context != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to initialize Turnkey: $error'),
-          ),
+      if (ctx != null) {
+        ScaffoldMessenger.of(ctx).showSnackBar(
+          SnackBar(content: Text('Failed to initialize Turnkey: $error')),
         );
       }
     } else {
@@ -54,23 +58,24 @@ void main() async {
   }
 
   final createSubOrgParams = CreateSubOrgParams(
-      customWallet: CustomWallet(
-        walletName: "Wallet 1",
-        walletAccounts: [
-          v1WalletAccountParams(
-            addressFormat: v1AddressFormat.address_format_ethereum,
-            path: "m/44'/60'/0'/0/0",
-            curve: v1Curve.curve_secp256k1,
-            pathFormat: v1PathFormat.path_format_bip32,
-          ),
-          v1WalletAccountParams(
-            addressFormat: v1AddressFormat.address_format_solana,
-            path: "m/44'/501'/0'/0'",
-            curve: v1Curve.curve_ed25519,
-            pathFormat: v1PathFormat.path_format_bip32,
-          ),
-        ],
-  ));
+    customWallet: CustomWallet(
+      walletName: "Wallet 1",
+      walletAccounts: [
+        v1WalletAccountParams(
+          addressFormat: v1AddressFormat.address_format_ethereum,
+          path: "m/44'/60'/0'/0/0",
+          curve: v1Curve.curve_secp256k1,
+          pathFormat: v1PathFormat.path_format_bip32,
+        ),
+        v1WalletAccountParams(
+          addressFormat: v1AddressFormat.address_format_solana,
+          path: "m/44'/501'/0'/0'",
+          curve: v1Curve.curve_ed25519,
+          pathFormat: v1PathFormat.path_format_bip32,
+        ),
+      ],
+    ),
+  );
 
   final turnkeyProvider = TurnkeyProvider(
     config: TurnkeyConfig(
@@ -80,45 +85,45 @@ void main() async {
       organizationId: EnvConfig.organizationId,
       appScheme: EnvConfig.appScheme,
       authConfig: AuthConfig(
-          createSubOrgParams: MethodCreateSubOrgParams(
-              emailOtpAuth: createSubOrgParams,
-              smsOtpAuth: createSubOrgParams,
-              oAuth: createSubOrgParams,
-              passkeyAuth: createSubOrgParams)),
+        createSubOrgParams: MethodCreateSubOrgParams(
+          emailOtpAuth: createSubOrgParams,
+          smsOtpAuth: createSubOrgParams,
+          oAuth: createSubOrgParams,
+          passkeyAuth: createSubOrgParams,
+        ),
+        oAuthConfig: OAuthConfig(
+          googleClientId: EnvConfig.googleClientId,
+          appleClientId: EnvConfig.appleClientId,
+          xClientId: EnvConfig.xClientId,
+          discordClientId: EnvConfig.discordClientId,
+        ),
+      ),
       onSessionSelected: onSessionSelected,
       onSessionCleared: onSessionCleared,
       onInitialized: onInitialized,
     ),
   );
 
-  // This serves the same purpose as the `onInitialized` callback.
   turnkeyProvider.ready.then((_) {
     debugPrint('Turnkey is ready');
   }).catchError((error) {
     debugPrint('Caught from .ready: $error');
-    final context = navigatorKey.currentContext;
-    if (context != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error during Turnkey initialization: $error'),
-        ),
-      );
-    }
+
+    // Schedule the snackbar to show after the current frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final state = navigatorKey.currentState;
+      if (state != null && state.mounted) {
+        ScaffoldMessenger.of(state.context).showSnackBar(
+          SnackBar(
+              content: Text('Error during Turnkey initialization: $error')),
+        );
+      }
+    });
   });
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => turnkeyProvider),
-        ChangeNotifierProxyProvider<TurnkeyProvider, AuthRelayerProvider>(
-          create: (context) => AuthRelayerProvider(
-            turnkeyProvider:
-                Provider.of<TurnkeyProvider>(context, listen: false),
-          ),
-          update: (context, turnkeyProvider, previous) =>
-              AuthRelayerProvider(turnkeyProvider: turnkeyProvider),
-        ),
-      ],
+    ChangeNotifierProvider(
+      create: (_) => turnkeyProvider,
       child: const MyApp(),
     ),
   );
@@ -134,8 +139,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 0, 26, 255),
-        ),
+            seedColor: const Color.fromARGB(255, 0, 26, 255)),
         useMaterial3: true,
       ),
       home: const HomePage(title: 'Turnkey Flutter Demo App'),
@@ -150,29 +154,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authRelayerProvider =
-        Provider.of<AuthRelayerProvider>(context, listen: false);
-
-    void showAuthRelayerProviderErrors() {
-      if (authRelayerProvider.errorMessage != null) {
-        debugPrint(authRelayerProvider.errorMessage.toString());
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'An error has occurred:\n${authRelayerProvider.errorMessage.toString()}',
-            ),
-          ),
-        );
-        authRelayerProvider.setError(null);
-      }
-    }
-
-    authRelayerProvider.addListener(showAuthRelayerProviderErrors);
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: const LoginScreen(),
     );
   }

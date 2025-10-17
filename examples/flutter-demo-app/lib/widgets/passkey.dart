@@ -32,14 +32,10 @@ class PasskeyInputState extends State<PasskeyInput> {
               setState(() => _isLoginLoading = true);
 
               try {
-                print('rpId is ${EnvConfig.rpId}');
                 await turnkeyProvider.loginWithPasskey(rpId: EnvConfig.rpId);
 
                 if (!context.mounted) return;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Logged in successfully!')),
-                );
               } catch (e) {
                 if (!context.mounted) return;
 
@@ -73,14 +69,10 @@ class PasskeyInputState extends State<PasskeyInput> {
               setState(() => _isSignUpLoading = true);
 
               try {
-                print('rpId is ${EnvConfig.rpId}');
                 await turnkeyProvider.signUpWithPasskey(rpId: EnvConfig.rpId);
 
                 if (!context.mounted) return;
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Sign up successful!')),
-                );
               } catch (e) {
                 if (!context.mounted) return;
 
