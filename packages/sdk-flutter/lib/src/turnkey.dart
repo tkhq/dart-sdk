@@ -192,7 +192,7 @@ class TurnkeyProvider with ChangeNotifier {
           config.authProxyConfigId!,
           config.authProxyBaseUrl,
         );
-        _proxyAuthConfig = proxy; 
+        _proxyAuthConfig = proxy;
         notifyListeners();
       }
 
@@ -304,10 +304,12 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     _session = session;
-    config.onSessionSelected?.call(session);
     createClient(
+      organizationId: session.organizationId,
       publicKey: session.publicKey,
     );
+
+    config.onSessionSelected?.call(session);
   }
 
   /// Gets the key of the currently active session.
@@ -365,7 +367,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   /// Creates a new API key pair and optionally stores it as the active key.
   /// If `storeOverride` is true, the new key pair will replace the current active key in the client.
-  /// 
+  ///
   /// [externalPublicKey] The external public key to use for the key pair. If null, a new key will be generated.
   /// [externalPrivateKey] The external private key to use for the key pair. If null, a new key will be generated.
   /// [isCompressed] Whether to create a key pair off of a compressed key pair. Defaults to true.
@@ -438,10 +440,10 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Stores a new session in secure storage.
-  /// 
+  ///
   /// Parses the provided session JWT and stores it under the specified session key.
   /// Creates a new client instance using the session's organization ID and public key.
-  /// 
+  ///
   /// [sessionJwt] The JWT string representing the session to store.
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// Returns the stored session if successful.
@@ -494,13 +496,11 @@ class TurnkeyProvider with ChangeNotifier {
 
     config.onSessionCreated?.call(session);
 
-    await createClient(organizationId: session.organizationId, publicKey: session.publicKey);
-
     return session;
   }
 
   /// Creates a new TurnkeyClient instance using the provided parameters.
-  /// 
+  ///
   /// [organizationId] The ID of the organization to which the client will be associated.
   /// [publicKey] The public key to use for the client. If null, the existing public key in the stamper will be used.
   /// [apiBaseUrl] The base URL for the Turnkey API. If null, the value from the config or the default URL will be used.
@@ -533,12 +533,13 @@ class TurnkeyProvider with ChangeNotifier {
     return newClient;
   }
 
-  /// Refreshes current session if possible.
-  /// 
-  /// Stamps a new login session using the existing session to extend its validity.
+  /// Refreshes the specified or active session.
+  ///
+  /// Uses the existing session to stamp a new login session and extend its validity.
   /// Generates a new key pair if no public key is provided.
-  /// Stores the new session JWT and updates the current session state.
-  /// 
+  /// Stores the refreshed session JWT and updates the current session state only
+  /// if it matches the active session key.
+  ///
   /// [sessionKey] The key of the session to refresh. If null, uses the active session.
   /// [expirationSeconds] The desired expiration time for the new session in seconds.
   /// [publicKey] An optional public key to use for the new session. If null, a new key pair is generated.
@@ -551,7 +552,8 @@ class TurnkeyProvider with ChangeNotifier {
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
-    final key = sessionKey ?? await SessionStorageManager.getActiveSessionKey();
+    final activeKey = await SessionStorageManager.getActiveSessionKey();
+    final key = sessionKey ?? activeKey;
     if (key == null) throw Exception("No active session to refresh");
 
     final session = await SessionStorageManager.getSession(key);
@@ -574,15 +576,35 @@ class TurnkeyProvider with ChangeNotifier {
     );
 
     final result = response.activity.result.stampLoginResult;
-
-    if (result?.session == null)
+    if (result?.session == null) {
       throw Exception("No session found in refresh response");
+    }
 
     // store the new session JWT
     await SessionStorageManager.storeSession(
       result?.session as String,
       sessionKey: key,
     );
+
+    final newSession = await SessionStorageManager.getSession(key);
+    if (newSession == null) {
+      throw Exception("Failed to store or parse new session");
+    }
+
+    // we only update the in-memory client/session if this is the active session
+    if (key == activeKey) {
+      _session = newSession;
+      createClient(
+        organizationId: newSession.organizationId,
+        publicKey: newSession.publicKey,
+      );
+    }
+
+    await _scheduleSessionExpiration(key, newSession.expiry);
+
+    await clearUnusedKeyPairs();
+
+    config.onSessionRefreshed?.call(newSession);
 
     return result;
   }
@@ -787,7 +809,8 @@ class TurnkeyProvider with ChangeNotifier {
 
     final response = await requireClient.exportWallet(
         input: TExportWalletBody(
-            walletId: walletId, targetPublicKey: keyPair.publicKeyUncompressed));
+            walletId: walletId,
+            targetPublicKey: keyPair.publicKeyUncompressed));
     final exportBundle =
         response.activity.result.exportWalletResult?.exportBundle;
 
@@ -845,7 +868,6 @@ class TurnkeyProvider with ChangeNotifier {
     StreamSubscription? subscription;
     subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
       if (uri != null && uri.toString().startsWith(scheme)) {
-        
         // we parse query parameters from the URI
         final idToken = uri.queryParameters['id_token'];
 
@@ -1085,7 +1107,6 @@ class TurnkeyProvider with ChangeNotifier {
     StreamSubscription? subscription;
     subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
       if (uri != null && uri.toString().startsWith(scheme)) {
-        
         // we parse query parameters from the URI
         final authCode = uri.queryParameters['code'];
 
@@ -1159,9 +1180,9 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Verifies an OTP code and retrieves a verification token and sub-organization ID.
-  /// 
+  ///
   /// Throws an [Exception] if the OTP verification fails or if the account cannot be retrieved.
-  /// 
+  ///
   /// [otpCode] The OTP code to verify.
   /// [otpId] The ID of the OTP to verify.
   /// [contact] The contact information (email or phone number) associated with the OTP.
@@ -1194,12 +1215,12 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Logs in a user using a passkey.
-  /// 
+  ///
   /// Generates or uses an existing API key pair for authentication.
   /// Stamps a login session with the provided relying party ID and optional parameters.
   /// Stores the session JWT and manages session state.
   /// Cleans up the generated key pair if it was not used for the session.
-  /// 
+  ///
   /// [rpId] The relying party ID for the passkey authentication.
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [expirationSeconds] The desired expiration time for the session in seconds.
@@ -1265,14 +1286,14 @@ class TurnkeyProvider with ChangeNotifier {
       }
     }
   }
-  
+
   /// Signs up a new user using a passkey.
-  /// 
+  ///
   /// Generates a temporary API key pair for one-tap passkey sign-up.
   /// Creates a passkey and uses it to create a new sub-organization user.
   /// Stamps a login session for the new user and stores the session JWT.
   /// Cleans up the generated key pairs after use.
-  /// 
+  ///
   /// [rpId] The relying party ID for the passkey registration.
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [expirationSeconds] The desired expiration time for the session in seconds.
@@ -1422,10 +1443,10 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Initializes an OTP (One-Time Password) request for the specified contact method.
-  /// 
+  ///
   /// Sends a request to the backend to generate and send an OTP to the provided contact (email or phone number).
   /// Returns the OTP ID that can be used for subsequent verification.
-  /// 
+  ///
   /// [otpType] The type of OTP to initialize (email or SMS).
   /// [contact] The contact information (email address or phone number) to send the OTP to.
   /// Returns a [String] representing the OTP ID.
@@ -1442,12 +1463,12 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Logs in a user using an OTP (One-Time Password) verification token.
-  /// 
+  ///
   /// Generates or uses an existing API key pair for authentication.
   /// Sends a login request to the backend with the provided verification token and optional parameters.
   /// Stores the session JWT and manages session state.
   /// Cleans up the generated key pair if it was not used for the session.
-  /// 
+  ///
   /// [verificationToken] The OTP verification token received after verifying the OTP code.
   /// [organizationId] An optional organization ID to associate with the session.
   /// [invalidateExisting] Whether to invalidate existing sessions when logging in.
@@ -1497,12 +1518,12 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Signs up a new user using an OTP (One-Time Password) verification token.
-  /// 
+  ///
   /// Generates a temporary API key pair for OTP sign-up.
   /// Creates a new sub-organization user with the provided contact information and verification token.
   /// Stamps a login session for the new user and stores the session JWT.
   /// Cleans up the generated key pair after use.
-  /// 
+  ///
   /// [verificationToken] The OTP verification token received after verifying the OTP code.
   /// [contact] The contact information (email address or phone number) associated with the OTP.
   /// [otpType] The type of OTP (email or SMS).
@@ -1558,12 +1579,12 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Completes the OTP (One-Time Password) authentication process.
-  /// 
+  ///
   /// Verifies the provided OTP code and determines whether to log in an existing user or sign up a new user.
   /// If the user exists, logs them in and returns the session token.
   /// If the user does not exist, signs them up and returns the session token.
   /// Cleans up any generated key pairs after use.
-  /// 
+  ///
   /// [otpId] The ID of the OTP to verify.
   /// [otpCode] The OTP code to verify.
   /// [contact] The contact information (email or phone number) associated with the OTP.
@@ -1619,10 +1640,10 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Logs in a user using an OAuth token.
-  /// 
+  ///
   /// Sends a login request to the backend with the provided OIDC token and public key.
   /// Stores the session JWT and manages session state.
-  /// 
+  ///
   /// [oidcToken] The OIDC token received from the OAuth provider.
   /// [publicKey] The public key to use for the session.
   /// [invalidateExisting] Whether to invalidate existing sessions when logging in.
@@ -1649,12 +1670,12 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Signs up a new user using an OAuth token.
-  /// 
+  ///
   /// Generates a temporary API key pair for OAuth sign-up.
   /// Creates a new sub-organization user with the provided OIDC token and provider name.
   /// Stamps a login session for the new user and stores the session JWT.
   /// Cleans up the generated key pair after use.
-  /// 
+  ///
   /// [oidcToken] The OIDC token received from the OAuth provider.
   /// [publicKey] The public key to use for the session.
   /// [providerName] The name of the OAuth provider (e.g., "google", "x", "discord").
@@ -1707,12 +1728,12 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   /// Completes the OAuth authentication process.
-  /// 
+  ///
   /// Verifies the provided OIDC token and determines whether to log in an existing user or sign up a new user.
   /// If the user exists, logs them in and returns the session token.
   /// If the user does not exist, signs them up and returns the session token.
   /// Cleans up any generated key pairs after use.
-  /// 
+  ///
   /// [oidcToken] The OIDC token received from the OAuth provider.
   /// [publicKey] The public key to use for the session.
   /// [providerName] The name of the OAuth provider (e.g., "google", "x", "discord"). Required for sign-up.
