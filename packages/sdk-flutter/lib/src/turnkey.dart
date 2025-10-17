@@ -268,7 +268,7 @@ class TurnkeyProvider with ChangeNotifier {
       if (activeSessionKey != null) {
         final activeSession = allSessions[activeSessionKey];
         if (activeSession != null) {
-          _session = activeSession;
+          session = activeSession;
           createClient(
             publicKey: activeSession.publicKey,
             organizationId: activeSession.organizationId,
@@ -562,8 +562,9 @@ class TurnkeyProvider with ChangeNotifier {
     final key = sessionKey ?? activeKey;
     if (key == null) throw Exception("No active session to refresh");
 
-    final session = await getSession(sessionKey: key);
-    if (session == null) throw Exception("Session not found for key: $key");
+    final currentSession = await getSession(sessionKey: key);
+    if (currentSession == null)
+      throw Exception("Session not found for key: $key");
 
     // generate or use provided public key
     final newPublicKey = publicKey ?? await createApiKeyPair();
@@ -571,7 +572,7 @@ class TurnkeyProvider with ChangeNotifier {
     // create a new session using the current session
     final response = await requireClient.stampLogin(
       input: TStampLoginBody(
-        organizationId: session.organizationId,
+        organizationId: currentSession.organizationId,
         publicKey: newPublicKey,
         expirationSeconds: expirationSeconds,
         invalidateExisting: invalidateExisting,
@@ -596,7 +597,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     // we only update the in-memory client/session if this is the active session
     if (key == activeKey) {
-      _session = newSession;
+      session = newSession;
       createClient(
         organizationId: newSession.organizationId,
         publicKey: newSession.publicKey,
@@ -670,7 +671,8 @@ class TurnkeyProvider with ChangeNotifier {
     if (session == null) {
       throw Exception("Failed to refresh user. Sessions not initialized");
     }
-    user = await fetchUser(requireClient, session!.organizationId, session!.userId);
+    user = await fetchUser(
+        requireClient, session!.organizationId, session!.userId);
   }
 
   Future<void> refreshWallets() async {
@@ -785,8 +787,8 @@ class TurnkeyProvider with ChangeNotifier {
     if (session == null || user == null) {
       throw Exception("Session or user not initialized");
     }
-    final initResponse = await requireClient
-        .initImportWallet(input: TInitImportWalletBody(userId: user!.userId));
+    final initResponse = await requireClient.initImportWallet(
+        input: TInitImportWalletBody(userId: user!.userId));
 
     final importBundle =
         initResponse.activity.result.initImportWalletResult?.importBundle;
@@ -1007,7 +1009,7 @@ class TurnkeyProvider with ChangeNotifier {
         final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
-          final res = await client!.proxyOAuth2Authenticate(
+          final res = await requireClient.proxyOAuth2Authenticate(
               input: ProxyTOAuth2AuthenticateBody(
                   provider: v1Oauth2Provider.oauth2_provider_x,
                   authCode: authCode,
@@ -1132,7 +1134,7 @@ class TurnkeyProvider with ChangeNotifier {
         final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
-          final res = await client!.proxyOAuth2Authenticate(
+          final res = await requireClient.proxyOAuth2Authenticate(
               input: ProxyTOAuth2AuthenticateBody(
                   provider: v1Oauth2Provider.oauth2_provider_discord,
                   authCode: authCode,
@@ -1214,7 +1216,7 @@ class TurnkeyProvider with ChangeNotifier {
       required String otpId,
       required String contact,
       required OtpType otpType}) async {
-    final verifyOtpRes = await client!.proxyVerifyOtp(
+    final verifyOtpRes = await requireClient.proxyVerifyOtp(
         input: ProxyTVerifyOtpBody(
       otpCode: otpCode,
       otpId: otpId,
@@ -1224,7 +1226,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Failed to verify OTP");
     }
 
-    final accountRes = await client!.proxyGetAccount(
+    final accountRes = await requireClient.proxyGetAccount(
         input: ProxyTGetAccountBody(
             filterType: otpTypeToFilterTypeMap[otpType]!.value,
             filterValue: contact));
@@ -1366,13 +1368,18 @@ class TurnkeyProvider with ChangeNotifier {
       final encodedChallenge = passkey.encodedChallenge;
       final attestation = passkey.attestation;
 
-      final overrideParams = PasskeyOverridedParams(passkeyName: passkeyName, attestation: attestation, encodedChallenge: encodedChallenge, temporaryPublicKey: temporaryPublicKey);
-      final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+      final overrideParams = PasskeyOverridedParams(
+          passkeyName: passkeyName,
+          attestation: attestation,
+          encodedChallenge: encodedChallenge,
+          temporaryPublicKey: temporaryPublicKey);
+      final updatedCreateSubOrgParams =
+          getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
       final signUpBody =
           buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
-      final res = await client!.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignup(input: signUpBody);
 
       final orgId = res.organizationId;
       if (orgId.isEmpty) {
@@ -1382,7 +1389,7 @@ class TurnkeyProvider with ChangeNotifier {
       // now we generate a second key pair that will become the session keypair
       generatedPublicKey = await createApiKeyPair();
 
-      final loginResponse = await client!.stampLogin(
+      final loginResponse = await requireClient.stampLogin(
         input: TStampLoginBody(
           organizationId: orgId,
           publicKey: generatedPublicKey,
@@ -1437,7 +1444,7 @@ class TurnkeyProvider with ChangeNotifier {
   /// Throws an [Exception] if the OTP initialization fails.
   Future<String> initOtp(
       {required OtpType otpType, required String contact}) async {
-    final res = await client!.proxyInitOtp(
+    final res = await requireClient.proxyInitOtp(
         input: ProxyTInitOtpBody(
       contact: contact,
       otpType: otpType.value,
@@ -1474,7 +1481,7 @@ class TurnkeyProvider with ChangeNotifier {
 
       print("Passed-in orgId: $organizationId");
 
-      final res = await client!.proxyOtpLogin(
+      final res = await requireClient.proxyOtpLogin(
         input: ProxyTOtpLoginBody(
           organizationId: organizationId,
           publicKey: generatedPublicKey,
@@ -1533,13 +1540,14 @@ class TurnkeyProvider with ChangeNotifier {
       contact: contact,
       verificationToken: verificationToken,
     );
-    final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+    final updatedCreateSubOrgParams =
+        getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
     try {
-      final res = await client!.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignup(input: signUpBody);
 
       print("Signup response: ${res.organizationId}");
       final orgId = res.organizationId;
@@ -1639,7 +1647,7 @@ class TurnkeyProvider with ChangeNotifier {
     String? sessionKey,
   }) async {
     try {
-      final loginRes = await client!.proxyOAuthLogin(
+      final loginRes = await requireClient.proxyOAuthLogin(
           input: ProxyTOAuthLoginBody(
               oidcToken: oidcToken,
               publicKey: publicKey,
@@ -1676,13 +1684,14 @@ class TurnkeyProvider with ChangeNotifier {
       oidcToken: oidcToken,
       providerName: providerName,
     );
-    final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+    final updatedCreateSubOrgParams =
+        getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
     try {
-      final res = await client!.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignup(input: signUpBody);
 
       final organizationId = res.organizationId;
       if (organizationId.isEmpty) {
@@ -1725,7 +1734,7 @@ class TurnkeyProvider with ChangeNotifier {
     CreateSubOrgParams? createSubOrgParams,
   }) async {
     try {
-      final accountRes = await client!.proxyGetAccount(
+      final accountRes = await requireClient.proxyGetAccount(
           input: ProxyTGetAccountBody(
               filterType: "OIDC_TOKEN", filterValue: oidcToken));
 
