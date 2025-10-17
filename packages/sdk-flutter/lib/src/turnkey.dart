@@ -37,8 +37,6 @@ class TurnkeyProvider with ChangeNotifier {
     _init();
   }
 
-  ProxyTGetWalletKitConfigResponse? get proxyAuthConfig => _proxyAuthConfig;
-
   // these are externally used
   Session? get session => _session;
   TurnkeyClient? get client => _client;
@@ -47,6 +45,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   // these are internally used
   TurnkeyConfig? get masterConfig => _masterConfig;
+  ProxyTGetWalletKitConfigResponse? get proxyAuthConfig => _proxyAuthConfig;
 
   // helper to get client or throw
   TurnkeyClient get requireClient {
@@ -84,7 +83,7 @@ class TurnkeyProvider with ChangeNotifier {
   Future<void> _init() async {
     await _boot();
     await SessionStorageManager.init();
-    await initializeSessions();
+    await _initializeSessions();
   }
 
   TurnkeyConfig _buildConfig({
@@ -222,7 +221,7 @@ class TurnkeyProvider with ChangeNotifier {
   Future<ProxyTGetWalletKitConfigResponse?> _getAuthProxyConfig(
       String configId, String? baseUrl) async {
     if (client == null) {
-      createClient(
+      _createClient(
         authProxyConfigId: configId,
         authProxyBaseUrl: baseUrl,
       );
@@ -233,18 +232,53 @@ class TurnkeyProvider with ChangeNotifier {
     );
   }
 
+  /// Creates a new TurnkeyClient instance using the provided parameters.
+  ///
+  /// [organizationId] The ID of the organization to which the client will be associated.
+  /// [publicKey] The public key to use for the client. If null, the existing public key in the stamper will be used.
+  /// [apiBaseUrl] The base URL for the Turnkey API. If null, the value from the config or the default URL will be used.
+  /// [authProxyConfigId] The configuration ID for the auth proxy. If null, the value from the config will be used.
+  /// [authProxyBaseUrl] The base URL for the auth proxy. If null, the value from the config or the default URL will be used.
+  /// Returns the newly created TurnkeyClient instance.
+  TurnkeyClient _createClient(
+      {String? organizationId,
+      String? publicKey,
+      String? apiBaseUrl,
+      String? authProxyConfigId,
+      String? authProxyBaseUrl}) {
+    if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
+    apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
+    authProxyBaseUrl ??=
+        config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
+    authProxyConfigId ??= config.authProxyConfigId;
+    organizationId ??= config.organizationId;
+
+    final newClient = TurnkeyClient(
+      config: THttpConfig(
+        organizationId: organizationId,
+        baseUrl: apiBaseUrl,
+        authProxyConfigId: authProxyConfigId,
+        authProxyBaseUrl: authProxyBaseUrl,
+      ),
+      stamper: secureStorageStamper,
+    );
+
+    client = newClient;
+    return newClient;
+  }
+
   /// Initializes stored sessions on mount.
   ///
   /// This function retrieves all stored session keys, validates their expiration status,
   /// removes expired sessions, and schedules expiration timers for active ones.
   /// Additionally, it loads the last selected session if it is still valid,
   /// otherwise it clears the session and triggers the session expiration callback.
-  Future<void> initializeSessions() async {
+  Future<void> _initializeSessions() async {
     // Reset current state
     session = null;
 
     try {
-      createClient();
+      _createClient();
 
       // we get all stored sessions
       final allSessions = await getAllSessions();
@@ -277,7 +311,7 @@ class TurnkeyProvider with ChangeNotifier {
         final activeSession = allSessions[activeSessionKey];
         if (activeSession != null) {
           session = activeSession;
-          createClient(
+          _createClient(
             publicKey: activeSession.publicKey,
             organizationId: activeSession.organizationId,
           );
@@ -301,115 +335,6 @@ class TurnkeyProvider with ChangeNotifier {
       _initCompleter.completeError(e, st);
       config.onInitialized?.call(e);
     }
-  }
-
-  /// Sets the active session by its key.
-  /// [sessionKey] The key of the session to set as active.
-  Future<void> setActiveSession({required String sessionKey}) async {
-    await SessionStorageManager.setActiveSessionKey(sessionKey);
-    final s = await SessionStorageManager.getSession(sessionKey);
-    print("🔑 Active session loaded: $s");
-
-    if (s == null) {
-      throw Exception("No session found with key: $sessionKey");
-    }
-
-    session = s;
-    createClient(
-      publicKey: s.publicKey,
-      organizationId: s.organizationId,
-    );
-
-    config.onSessionSelected?.call(s);
-  }
-
-  /// Gets the key of the currently active session.
-  /// Returns the active session key if it exists, otherwise `null`.
-  Future<String?> getActiveSessionKey() async {
-    return await SessionStorageManager.getActiveSessionKey();
-  }
-
-  /// Gets a stored session by its key.
-  /// [sessionKey] An optional key to retrieve the session from. If null, uses the default session key.
-  /// Returns the session if found, otherwise `null`.
-  Future<Session?> getSession({String? sessionKey}) async {
-    final key = sessionKey ?? await SessionStorageManager.getActiveSessionKey();
-    if (key == null) return null;
-    return await SessionStorageManager.getSession(key);
-  }
-
-  /// Retrieves all stored sessions from secure storage.
-  /// Returns a map of session keys to their corresponding session objects.
-  Future<Map<String, Session>?> getAllSessions() async {
-    final keys = await SessionStorageManager.listSessionKeys();
-    if (keys.isEmpty) return null;
-
-    final sessions = <String, Session>{};
-    for (final key in keys) {
-      final session = await SessionStorageManager.getSession(key);
-      if (session != null) {
-        sessions[key] = session;
-      }
-    }
-    return sessions;
-  }
-
-  /// Clears any key pairs that are not associated with an active session.
-  Future<void> clearUnusedKeyPairs() async {
-    final publicKeys = await SecureStorageStamper.listKeyPairs();
-    if (publicKeys.isEmpty) return;
-
-    final sessionKeys = await SessionStorageManager.listSessionKeys();
-    final activePublicKeys = <String>{};
-
-    for (final key in sessionKeys) {
-      final session = await SessionStorageManager.getSession(key);
-      if (session != null) {
-        activePublicKeys.add(session.publicKey);
-      }
-    }
-
-    for (final pk in publicKeys) {
-      if (!activePublicKeys.contains(pk)) {
-        await SecureStorageStamper.deleteKeyPair(pk);
-      }
-    }
-  }
-
-  /// Creates a new API key pair and optionally stores it as the active key.
-  /// If `storeOverride` is true, the new key pair will replace the current active key in the client.
-  ///
-  /// [externalPublicKey] The external public key to use for the key pair. If null, a new key will be generated.
-  /// [externalPrivateKey] The external private key to use for the key pair. If null, a new key will be generated.
-  /// [isCompressed] Whether to create a key pair off of a compressed key pair. Defaults to true.
-  /// [storeOverride] Whether to store the new key pair as the active key. Defaults to false.
-  /// Returns the public key of the created key pair.
-  Future<String> createApiKeyPair({
-    String? externalPublicKey,
-    String? externalPrivateKey,
-    bool isCompressed = true,
-    bool storeOverride = false,
-  }) async {
-    final publicKey = await SecureStorageStamper.createKeyPair(
-      externalPublicKey: externalPublicKey,
-      externalPrivateKey: externalPrivateKey,
-      isCompressed: isCompressed,
-    );
-
-    // if `storeOverride` is true, we set the new key as the active key for this client instance
-    if (storeOverride) {
-      createClient(
-        publicKey: publicKey,
-      );
-    }
-
-    return publicKey;
-  }
-
-  /// Deletes an API key pair from secure storage by its public key.
-  /// [publicKey] The public key of the key pair to delete.
-  Future<void> deleteApiKeyPair(String publicKey) async {
-    await SecureStorageStamper.deleteKeyPair(publicKey);
   }
 
   /// Schedules the expiration of a session.
@@ -447,6 +372,64 @@ class TurnkeyProvider with ChangeNotifier {
       expiryTimers.putIfAbsent(sessionKey, () {
         return Timer(Duration(milliseconds: timeUntilExpiry), expireSession);
       });
+    }
+  }
+
+  /// Creates a new API key pair and optionally stores it as the active key.
+  /// If `storeOverride` is true, the new key pair will replace the current active key in the client.
+  ///
+  /// [externalPublicKey] The external public key to use for the key pair. If null, a new key will be generated.
+  /// [externalPrivateKey] The external private key to use for the key pair. If null, a new key will be generated.
+  /// [isCompressed] Whether to create a key pair off of a compressed key pair. Defaults to true.
+  /// [storeOverride] Whether to store the new key pair as the active key. Defaults to false.
+  /// Returns the public key of the created key pair.
+  Future<String> createApiKeyPair({
+    String? externalPublicKey,
+    String? externalPrivateKey,
+    bool isCompressed = true,
+    bool storeOverride = false,
+  }) async {
+    final publicKey = await SecureStorageStamper.createKeyPair(
+      externalPublicKey: externalPublicKey,
+      externalPrivateKey: externalPrivateKey,
+      isCompressed: isCompressed,
+    );
+
+    // if `storeOverride` is true, we set the new key as the active key for this client instance
+    if (storeOverride) {
+      _createClient(
+        publicKey: publicKey,
+      );
+    }
+
+    return publicKey;
+  }
+
+  /// Deletes an API key pair from secure storage by its public key.
+  /// [publicKey] The public key of the key pair to delete.
+  Future<void> deleteApiKeyPair(String publicKey) async {
+    await SecureStorageStamper.deleteKeyPair(publicKey);
+  }
+
+  /// Clears any key pairs that are not associated with an active session.
+  Future<void> deleteUnusedKeyPairs() async {
+    final publicKeys = await SecureStorageStamper.listKeyPairs();
+    if (publicKeys.isEmpty) return;
+
+    final sessionKeys = await SessionStorageManager.listSessionKeys();
+    final activePublicKeys = <String>{};
+
+    for (final key in sessionKeys) {
+      final session = await SessionStorageManager.getSession(key);
+      if (session != null) {
+        activePublicKeys.add(session.publicKey);
+      }
+    }
+
+    for (final pk in publicKeys) {
+      if (!activePublicKeys.contains(pk)) {
+        await SecureStorageStamper.deleteKeyPair(pk);
+      }
     }
   }
 
@@ -505,46 +488,61 @@ class TurnkeyProvider with ChangeNotifier {
     // we schedule the session expiration
     await _scheduleSessionExpiration(sessionKey, session.expiry);
 
-    await clearUnusedKeyPairs();
+    await deleteUnusedKeyPairs();
 
     config.onSessionCreated?.call(session);
 
     return session;
   }
 
-  /// Creates a new TurnkeyClient instance using the provided parameters.
-  ///
-  /// [organizationId] The ID of the organization to which the client will be associated.
-  /// [publicKey] The public key to use for the client. If null, the existing public key in the stamper will be used.
-  /// [apiBaseUrl] The base URL for the Turnkey API. If null, the value from the config or the default URL will be used.
-  /// [authProxyConfigId] The configuration ID for the auth proxy. If null, the value from the config will be used.
-  /// [authProxyBaseUrl] The base URL for the auth proxy. If null, the value from the config or the default URL will be used.
-  /// Returns the newly created TurnkeyClient instance.
-  TurnkeyClient createClient(
-      {String? organizationId,
-      String? publicKey,
-      String? apiBaseUrl,
-      String? authProxyConfigId,
-      String? authProxyBaseUrl}) {
-    if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
-    apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
-    authProxyBaseUrl ??=
-        config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
-    authProxyConfigId ??= config.authProxyConfigId;
-    organizationId ??= config.organizationId;
+  /// Sets the active session by its key.
+  /// [sessionKey] The key of the session to set as active.
+  Future<void> setActiveSession({required String sessionKey}) async {
+    await SessionStorageManager.setActiveSessionKey(sessionKey);
+    final s = await SessionStorageManager.getSession(sessionKey);
 
-    final newClient = TurnkeyClient(
-      config: THttpConfig(
-        organizationId: organizationId,
-        baseUrl: apiBaseUrl,
-        authProxyConfigId: authProxyConfigId,
-        authProxyBaseUrl: authProxyBaseUrl,
-      ),
-      stamper: secureStorageStamper,
+    if (s == null) {
+      throw Exception("No session found with key: $sessionKey");
+    }
+
+    session = s;
+    _createClient(
+      publicKey: s.publicKey,
+      organizationId: s.organizationId,
     );
 
-    client = newClient;
-    return newClient;
+    config.onSessionSelected?.call(s);
+  }
+
+  /// Gets the key of the currently active session.
+  /// Returns the active session key if it exists, otherwise `null`.
+  Future<String?> getActiveSessionKey() async {
+    return await SessionStorageManager.getActiveSessionKey();
+  }
+
+  /// Gets a stored session by its key.
+  /// [sessionKey] An optional key to retrieve the session from. If null, uses the default session key.
+  /// Returns the session if found, otherwise `null`.
+  Future<Session?> getSession({String? sessionKey}) async {
+    final key = sessionKey ?? await SessionStorageManager.getActiveSessionKey();
+    if (key == null) return null;
+    return await SessionStorageManager.getSession(key);
+  }
+
+  /// Retrieves all stored sessions from secure storage.
+  /// Returns a map of session keys to their corresponding session objects.
+  Future<Map<String, Session>?> getAllSessions() async {
+    final keys = await SessionStorageManager.listSessionKeys();
+    if (keys.isEmpty) return null;
+
+    final sessions = <String, Session>{};
+    for (final key in keys) {
+      final session = await SessionStorageManager.getSession(key);
+      if (session != null) {
+        sessions[key] = session;
+      }
+    }
+    return sessions;
   }
 
   /// Refreshes the specified or active session.
@@ -566,59 +564,62 @@ class TurnkeyProvider with ChangeNotifier {
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
-    final activeKey = await getActiveSessionKey();
-    final key = sessionKey ?? activeKey;
-    if (key == null) throw Exception("No active session to refresh");
+    try {
+      final activeKey = await getActiveSessionKey();
+      final key = sessionKey ?? activeKey;
+      if (key == null) throw Exception("No active session to refresh");
 
-    final currentSession = await getSession(sessionKey: key);
-    if (currentSession == null)
-      throw Exception("Session not found for key: $key");
+      final currentSession = await getSession(sessionKey: key);
+      if (currentSession == null)
+        throw Exception("Session not found for key: $key");
 
-    // generate or use provided public key
-    final newPublicKey = publicKey ?? await createApiKeyPair();
+      // generate or use provided public key
+      final newPublicKey = publicKey ?? await createApiKeyPair();
 
-    // create a new session using the current session
-    final response = await requireClient.stampLogin(
-      input: TStampLoginBody(
-        organizationId: currentSession.organizationId,
-        publicKey: newPublicKey,
-        expirationSeconds: expirationSeconds,
-        invalidateExisting: invalidateExisting,
-      ),
-    );
-
-    final result = response.activity.result.stampLoginResult;
-    if (result?.session == null) {
-      throw Exception("No session found in refresh response");
-    }
-
-    // store the new session JWT
-    await SessionStorageManager.storeSession(
-      result?.session as String,
-      sessionKey: key,
-    );
-
-    final newSession = await SessionStorageManager.getSession(key);
-    if (newSession == null) {
-      throw Exception("Failed to store or parse new session");
-    }
-
-    // we only update the in-memory client/session if this is the active session
-    if (key == activeKey) {
-      session = newSession;
-      createClient(
-        organizationId: newSession.organizationId,
-        publicKey: newSession.publicKey,
+      // create a new session using the current session
+      final response = await requireClient.stampLogin(
+        input: TStampLoginBody(
+          organizationId: currentSession.organizationId,
+          publicKey: newPublicKey,
+          expirationSeconds: expirationSeconds,
+          invalidateExisting: invalidateExisting,
+        ),
       );
+
+      final result = response.activity.result.stampLoginResult;
+      if (result?.session == null) {
+        throw Exception("No session found in refresh response");
+      }
+
+      // store the new session JWT
+      await SessionStorageManager.storeSession(
+        result?.session as String,
+        sessionKey: key,
+      );
+
+      final newSession = await SessionStorageManager.getSession(key);
+      if (newSession == null) {
+        throw Exception("Failed to store or parse new session");
+      }
+
+      // we only update the in-memory client/session if this is the active session
+      if (key == activeKey) {
+        session = newSession;
+        _createClient(
+          organizationId: newSession.organizationId,
+          publicKey: newSession.publicKey,
+        );
+      }
+
+      await _scheduleSessionExpiration(key, newSession.expiry);
+
+      config.onSessionRefreshed?.call(newSession);
+
+      return result;
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to refresh session: $error');
     }
-
-    await _scheduleSessionExpiration(key, newSession.expiry);
-
-    await clearUnusedKeyPairs();
-
-    config.onSessionRefreshed?.call(newSession);
-
-    return result;
   }
 
   /// Clears the current session from secure storage.
@@ -659,6 +660,12 @@ class TurnkeyProvider with ChangeNotifier {
     config.onSessionCleared?.call(sessionToClear);
   }
 
+  /// Clears all stored sessions from secure storage.
+  ///
+  /// Retrieves all session keys and clears each session individually.
+  /// Calls [clearSession] for each stored session, which handles deletion
+  /// of associated API key pairs and invokes session cleared callbacks.
+  /// If no sessions are found, the method returns without performing any operations.
   Future<void> clearAllSessions() async {
     final sessionKeys = await SessionStorageManager.listSessionKeys();
     if (sessionKeys.isEmpty) return;
@@ -666,734 +673,6 @@ class TurnkeyProvider with ChangeNotifier {
     for (final key in sessionKeys) {
       await clearSession(sessionKey: key);
     }
-  }
-
-  // /// Refreshes the current user data.
-  // ///
-  // /// Fetches the latest user details from the API using the current session's client.
-  // /// If the user data is successfully retrieved, updates the session with the new user details.
-  // /// Saves the updated session and updates the state.
-  // ///
-  // /// Throws an [Exception] if the session or client is not initialized.
-  Future<void> refreshUser() async {
-    if (session == null) {
-      throw Exception("Failed to refresh user. Sessions not initialized");
-    }
-    user = await fetchUser(
-        requireClient, session!.organizationId, session!.userId);
-  }
-
-  Future<void> refreshWallets() async {
-    if (session == null) {
-      throw Exception("Failed to refresh wallets. No session initialized");
-    }
-    wallets = await fetchWallets(requireClient, session!.organizationId);
-  }
-
-  // /// Signs a raw payload using the specified signing key and encoding parameters.
-  // ///
-  // /// Throws an [Exception] if the client or user is not initialized.
-  // ///
-  // /// [signWith] The key to sign with.
-  // /// [payload] The payload to sign.
-  // /// [encoding] The encoding of the payload.
-  // /// [hashFunction] The hash function to use.
-  Future<v1SignRawPayloadResult> signRawPayload(
-      {required String signWith,
-      required String payload,
-      required v1PayloadEncoding encoding,
-      required v1HashFunction hashFunction}) async {
-    if (session == null) {
-      throw Exception("No active session found. Please log in first.");
-    }
-
-    final response = await requireClient.signRawPayload(
-        input: TSignRawPayloadBody(
-      signWith: signWith,
-      payload: payload,
-      encoding: encoding,
-      hashFunction: hashFunction,
-    ));
-
-    final signRawPayloadResult = response.activity.result.signRawPayloadResult;
-    if (signRawPayloadResult == null) {
-      throw Exception("Failed to sign raw payload");
-    }
-    return signRawPayloadResult;
-  }
-
-  // /// Signs a transaction using the specified signing key and transaction parameters.
-  // ///
-  // /// Throws an [Exception] if the client or user is not initialized.
-  // ///
-  // /// [signWith] The key to sign with.
-  // /// [unsignedTransaction] The unsigned transaction to sign.
-  // /// [type] The type of the transaction from the [TransactionType] enum.
-  Future<v1SignTransactionResult> signTransaction(
-      {required String signWith,
-      required String unsignedTransaction,
-      required v1TransactionType type}) async {
-    if (session == null) {
-      throw Exception("No active session found. Please log in first.");
-    }
-
-    final response = await requireClient.signTransaction(
-        input: TSignTransactionBody(
-            signWith: signWith,
-            unsignedTransaction: unsignedTransaction,
-            type: type));
-
-    final signTransactionResult =
-        response.activity.result.signTransactionResult;
-    if (signTransactionResult == null) {
-      throw Exception("Failed to sign transaction");
-    }
-    return signTransactionResult;
-  }
-
-  // /// Creates a new wallet with the specified name and accounts.
-  // ///
-  // /// Throws an [Exception] if the client or user is not initialized.
-  // ///
-  // /// [walletName] The name of the wallet.
-  // /// [accounts] The accounts to create in the wallet.
-  // /// [mnemonicLength] The length of the mnemonic.
-  Future<v1Activity> createWallet(
-      {required String walletName,
-      required List<v1WalletAccountParams> accounts,
-      int? mnemonicLength}) async {
-    if (session == null) {
-      throw Exception("No active session found. Please log in first.");
-    }
-
-    final response = await requireClient.createWallet(
-        input: TCreateWalletBody(
-      accounts: accounts,
-      walletName: walletName,
-      mnemonicLength: mnemonicLength,
-    ));
-    final activity = response.activity;
-    if (activity.result.createWalletResult?.walletId != null) {
-      await refreshWallets();
-    }
-
-    return activity;
-  }
-
-  // /// Imports a wallet using a provided mnemonic and creates accounts.
-  // ///
-  // /// Throws an [Exception] if the client or user is not initialized.
-  // ///
-  // /// [mnemonic] The mnemonic to import.
-  // /// [walletName] The name of the wallet.
-  // /// [accounts] The accounts to create in the wallet.
-  Future<void> importWallet(
-      {required String mnemonic,
-      required String walletName,
-      required List<v1WalletAccountParams> accounts}) async {
-    if (session == null) {
-      throw Exception("No active session found. Please log in first.");
-    }
-
-    // this should never happen
-    if (user == null) {
-      throw Exception("No user found.");
-    }
-
-    final initResponse = await requireClient.initImportWallet(
-        input: TInitImportWalletBody(userId: user!.userId));
-
-    final importBundle =
-        initResponse.activity.result.initImportWalletResult?.importBundle;
-
-    if (importBundle == null) {
-      throw Exception("Failed to get import bundle");
-    }
-
-    final encryptedBundle = await encryptWalletToBundle(
-      mnemonic: mnemonic,
-      importBundle: importBundle,
-      userId: user!.userId,
-      organizationId: session!.organizationId,
-    );
-
-    final response = await requireClient.importWallet(
-        input: TImportWalletBody(
-            userId: user!.userId,
-            walletName: walletName,
-            encryptedBundle: encryptedBundle,
-            accounts: accounts));
-    final activity = response.activity;
-    if (activity.result.importWalletResult?.walletId != null) {
-      await refreshWallets();
-    }
-  }
-
-  // /// Exports an existing wallet by decrypting the stored mnemonic phrase.
-  // ///
-  // /// Throws an [Exception] if the client, user, or export bundle is not initialized.
-  // ///
-  // /// [walletId] The ID of the wallet to export.
-  Future<String> exportWallet({required String walletId}) async {
-    if (session == null) {
-      throw Exception("No active session found. Please log in first.");
-    }
-
-    final keyPair = await generateP256KeyPair();
-
-    final response = await requireClient.exportWallet(
-        input: TExportWalletBody(
-            walletId: walletId,
-            targetPublicKey: keyPair.publicKeyUncompressed));
-    final exportBundle =
-        response.activity.result.exportWalletResult?.exportBundle;
-
-    if (exportBundle == null) {
-      throw Exception("Export bundle, embedded key, or user not initialized");
-    }
-
-    await refreshWallets();
-
-    return await decryptExportBundle(
-        exportBundle: exportBundle,
-        embeddedKey: keyPair.privateKey,
-        organizationId: session!.organizationId,
-        returnMnemonic: true);
-  }
-
-  /// Handles the Google OAuth authentication flow.
-  ///
-  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
-  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
-  /// and invokes `completeOAuth` or the provided onSuccess callback.
-  ///
-  /// Throws an [Exception] if the authentication process fails or times out.
-  ///
-  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Google OAuth.
-  /// [originUri] Optional base URI to start the OAuth flow. Defaults to TURNKEY_OAUTH_ORIGIN_URL.
-  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
-  Future<void> handleGoogleOAuth({
-    String? clientId,
-    String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
-    String? redirectUri,
-    String? sessionKey,
-    bool? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
-  }) async {
-    final scheme = config.appScheme;
-    if (scheme == null) {
-      throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
-    }
-
-    final AppLinks appLinks = AppLinks();
-
-    final targetPublicKey = await createApiKeyPair();
-    try {
-      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final googleClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
-          (throw Exception("Google Client ID not configured"));
-      final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-          '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
-
-      final oauthUrl = originUri! +
-          '?provider=google' +
-          '&clientId=${Uri.encodeComponent(googleClientId)}' +
-          '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-          '&nonce=${Uri.encodeComponent(nonce)}';
-
-      // we create a completer to wait for the authentication result
-      final Completer<void> authCompleter = Completer<void>();
-
-      // set up a subscription for deep links
-      StreamSubscription? subscription;
-      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-        if (uri != null && uri.toString().startsWith(scheme)) {
-          // we parse query parameters from the URI
-          final idToken = uri.queryParameters['id_token'];
-
-          if (idToken != null) {
-            if (onSuccess != null) {
-              onSuccess(idToken);
-            } else {
-              await completeOAuth(
-                oidcToken: idToken,
-                publicKey: targetPublicKey,
-                providerName: 'google',
-                sessionKey: sessionKey,
-                invalidateExisting: invalidateExisting,
-              );
-            }
-
-            // complete the auth process
-            // this runs the `whenComplete()` callback
-            if (!authCompleter.isCompleted) {
-              authCompleter.complete();
-            }
-          }
-        }
-      });
-
-      try {
-        final browser = _OAuthBrowser(
-          onBrowserClosed: () {
-            if (!authCompleter.isCompleted) {
-              subscription?.cancel();
-              authCompleter.complete();
-              return;
-            }
-          },
-        );
-
-        await browser.open(
-          url: WebUri(oauthUrl),
-          settings: ChromeSafariBrowserSettings(
-            showTitle: true,
-            toolbarBackgroundColor: Colors.white,
-          ),
-        );
-
-        // set a timeout for the authentication process
-        await authCompleter.future.timeout(
-          const Duration(minutes: 10),
-          onTimeout: () {
-            subscription?.cancel();
-            throw Exception('Authentication timed out');
-          },
-        );
-
-        await authCompleter.future.whenComplete(() async {
-          await browser.close();
-          subscription?.cancel();
-        });
-      } catch (e) {
-        subscription.cancel();
-        throw Exception('Google OAuth failed in browser: $e');
-      }
-    } catch (e) {
-      SecureStorageStamper.deleteKeyPair(targetPublicKey);
-      throw Exception('Google OAuth failed: $e');
-    }
-  }
-
-  Future<void> handleAppleOAuth({
-    String? clientId,
-    String? originUri = APPLE_AUTH_URL,
-    String? redirectUri,
-    String? sessionKey,
-    bool? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
-  }) async {
-    final scheme = config.appScheme;
-    if (scheme == null) {
-      throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
-    }
-
-    final AppLinks appLinks = AppLinks();
-
-    final targetPublicKey = await createApiKeyPair();
-    try {
-      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final appleClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.appleClientId ??
-          (throw Exception("Apple Client ID not configured"));
-      final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-          '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
-
-      final oauthUrl = originUri! +
-          '?provider=apple' +
-          '&clientId=${Uri.encodeComponent(appleClientId)}' +
-          '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-          '&nonce=${Uri.encodeComponent(nonce)}';
-
-      final Completer<void> authCompleter = Completer<void>();
-
-      // set up a subscription for deep links
-      StreamSubscription? subscription;
-      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-        if (uri != null && uri.toString().startsWith(scheme)) {
-          // we parse query parameters from the URI
-          final idToken = uri.queryParameters['id_token'];
-
-          if (idToken != null) {
-            if (onSuccess != null) {
-              onSuccess(idToken);
-            } else {
-              await completeOAuth(
-                oidcToken: idToken,
-                publicKey: targetPublicKey,
-                providerName: 'apple',
-                sessionKey: sessionKey,
-                invalidateExisting: invalidateExisting,
-              );
-            }
-
-            // complete the auth process
-            // this runs the `whenComplete()` callback
-            if (!authCompleter.isCompleted) {
-              authCompleter.complete();
-            }
-          }
-        }
-      });
-
-      try {
-        final browser = _OAuthBrowser(
-          onBrowserClosed: () {
-            if (!authCompleter.isCompleted) {
-              subscription?.cancel();
-              authCompleter.complete();
-              return;
-            }
-          },
-        );
-
-        await browser.open(
-          url: WebUri(oauthUrl),
-          settings: ChromeSafariBrowserSettings(
-            showTitle: true,
-            toolbarBackgroundColor: Colors.white,
-          ),
-        );
-
-        // set a timeout for the authentication process
-        await authCompleter.future.timeout(
-          const Duration(minutes: 10),
-          onTimeout: () {
-            subscription?.cancel();
-            throw Exception('Authentication timed out');
-          },
-        );
-
-        await authCompleter.future.whenComplete(() async {
-          await browser.close();
-          subscription?.cancel();
-        });
-      } catch (e) {
-        subscription.cancel();
-        throw Exception('Apple OAuth failed in browser: $e');
-      }
-    } catch (e) {
-      SecureStorageStamper.deleteKeyPair(targetPublicKey);
-      throw Exception('Apple OAuth failed: $e');
-    }
-  }
-
-  /// Handles the X (formerly Twitter) OAuth authentication flow.
-  ///
-  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
-  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
-  /// and invokes `completeOAuth` or the provided onSuccess callback.
-  ///
-  /// Throws an [Exception] if the authentication process fails or times out.
-  ///
-  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for X OAuth.
-  /// [originUri] Optional base URI to start the OAuth flow. Defaults to X_AUTH_URL.
-  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
-  Future<void> handleXOAuth({
-    String? clientId,
-    String? originUri = X_AUTH_URL,
-    String? redirectUri,
-    String? sessionKey,
-    bool? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
-  }) async {
-    final scheme = config.appScheme;
-    if (scheme == null) {
-      throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
-    }
-
-    final AppLinks appLinks = AppLinks();
-
-    final targetPublicKey = await createApiKeyPair();
-
-    try {
-      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final xClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.xClientId ??
-          (throw Exception("X Client ID not configured"));
-      final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-          '${config.appScheme}://';
-
-      final challengePair = await generateChallengePair();
-      final verifier = challengePair.verifier;
-      final codeChallenge = challengePair.codeChallenge;
-
-      final state =
-          'provider=twitter&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
-
-      final xAuthUrl = originUri! +
-          '?client_id=${Uri.encodeComponent(xClientId)}' +
-          '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-          '&response_type=code' +
-          '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
-          '&code_challenge_method=S256' +
-          '&scope=${Uri.encodeComponent("tweet.read users.read")}' +
-          '&state=${Uri.encodeComponent(state)}';
-
-      // we create a completer to wait for the authentication result
-      final Completer<void> authCompleter = Completer<void>();
-
-      // set up a subscription for deep links
-      StreamSubscription? subscription;
-      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-        if (uri != null && uri.toString().startsWith(scheme)) {
-          // we parse query parameters from the URI
-          final authCode = uri.queryParameters['code'];
-
-          if (authCode != null) {
-            final res = await requireClient.proxyOAuth2Authenticate(
-                input: ProxyTOAuth2AuthenticateBody(
-                    provider: v1Oauth2Provider.oauth2_provider_x,
-                    authCode: authCode,
-                    redirectUri: resolvedRedirectUri,
-                    codeVerifier: verifier,
-                    clientId: xClientId,
-                    nonce: nonce));
-
-            final oidcToken = res.oidcToken;
-
-            if (onSuccess != null) {
-              onSuccess(oidcToken);
-            } else {
-              await completeOAuth(
-                oidcToken: oidcToken,
-                publicKey: targetPublicKey,
-                providerName: 'x',
-                sessionKey: sessionKey,
-                invalidateExisting: invalidateExisting,
-              );
-            }
-
-            // complete the auth process
-            // this runs the `whenComplete()` callback
-            if (!authCompleter.isCompleted) {
-              authCompleter.complete();
-            }
-          }
-        }
-      });
-
-      try {
-        final browser = _OAuthBrowser(
-          onBrowserClosed: () {
-            if (!authCompleter.isCompleted) {
-              subscription?.cancel();
-              authCompleter.complete();
-              return;
-            }
-          },
-        );
-
-        await browser.open(
-          url: WebUri(xAuthUrl),
-          settings: ChromeSafariBrowserSettings(
-            showTitle: true,
-            toolbarBackgroundColor: Colors.white,
-          ),
-        );
-
-        // we set a timeout for the authentication process
-        await authCompleter.future.timeout(
-          const Duration(minutes: 10),
-          onTimeout: () {
-            subscription?.cancel();
-            throw Exception('Authentication timed out');
-          },
-        );
-
-        await authCompleter.future.whenComplete(() async {
-          await browser.close();
-          subscription?.cancel();
-        });
-      } catch (e) {
-        subscription.cancel();
-        throw Exception('X OAuth failed in browser: $e');
-      }
-    } catch (e) {
-      SecureStorageStamper.deleteKeyPair(targetPublicKey);
-      throw Exception('X OAuth failed: $e');
-    }
-  }
-
-  /// Handles the Discord OAuth authentication flow.
-  ///
-  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
-  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
-  /// and invokes `completeOAuth` or the provided onSuccess callback.
-  ///
-  /// Throws an [Exception] if the authentication process fails or times out.
-  ///
-  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Discord OAuth.
-  /// [originUri] Optional base URI to start the OAuth flow. Defaults to DISCORD_AUTH_URL.
-  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
-  Future<void> handleDiscordOAuth({
-    String? clientId,
-    String? originUri = DISCORD_AUTH_URL,
-    String? redirectUri,
-    String? sessionKey,
-    String? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
-  }) async {
-    final scheme = config.appScheme;
-    if (scheme == null) {
-      throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
-    }
-
-    final AppLinks appLinks = AppLinks();
-
-    final targetPublicKey = await createApiKeyPair();
-    try {
-      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final discordClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
-          (throw Exception("Discord Client ID not configured"));
-      final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-          '${scheme}://';
-
-      final challengePair = await generateChallengePair();
-      final verifier = challengePair.verifier;
-      final codeChallenge = challengePair.codeChallenge;
-
-      final state =
-          'provider=discord&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
-
-      final discordAuthUrl = originUri! +
-          '?client_id=${Uri.encodeComponent(discordClientId)}' +
-          '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-          '&response_type=code' +
-          '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
-          '&code_challenge_method=S256' +
-          '&scope=${Uri.encodeComponent("identify email")}' +
-          '&state=${Uri.encodeComponent(state)}';
-
-      // we create a completer to wait for the authentication result
-      final Completer<void> authCompleter = Completer<void>();
-
-      // set up a subscription for deep links
-      StreamSubscription? subscription;
-      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-        if (uri != null && uri.toString().startsWith(scheme)) {
-          // we parse query parameters from the URI
-          final authCode = uri.queryParameters['code'];
-
-          if (authCode != null) {
-            final res = await requireClient.proxyOAuth2Authenticate(
-                input: ProxyTOAuth2AuthenticateBody(
-                    provider: v1Oauth2Provider.oauth2_provider_discord,
-                    authCode: authCode,
-                    redirectUri: resolvedRedirectUri,
-                    codeVerifier: verifier,
-                    clientId: discordClientId,
-                    nonce: nonce));
-
-            final oidcToken = res.oidcToken;
-
-            if (onSuccess != null) {
-              onSuccess(oidcToken);
-            } else {
-              await completeOAuth(
-                oidcToken: oidcToken,
-                publicKey: targetPublicKey,
-                providerName: 'discord',
-              );
-            }
-
-            // complete the auth process
-            // this runs the `whenComplete()` callback
-            if (!authCompleter.isCompleted) {
-              authCompleter.complete();
-            }
-          }
-        }
-      });
-
-      try {
-        final browser = _OAuthBrowser(
-          onBrowserClosed: () {
-            if (!authCompleter.isCompleted) {
-              subscription?.cancel();
-              authCompleter.complete();
-              return;
-            }
-          },
-        );
-
-        await browser.open(
-          url: WebUri(discordAuthUrl),
-          settings: ChromeSafariBrowserSettings(
-            showTitle: true,
-            toolbarBackgroundColor: Colors.white,
-          ),
-        );
-
-        // we set a timeout for the authentication process
-        await authCompleter.future.timeout(
-          const Duration(minutes: 10),
-          onTimeout: () {
-            subscription?.cancel();
-            throw Exception('Authentication timed out');
-          },
-        );
-
-        await authCompleter.future.whenComplete(() async {
-          await browser.close();
-          subscription?.cancel();
-        });
-      } catch (e) {
-        subscription.cancel();
-        throw Exception('Discord OAuth failed in browser: $e');
-      }
-    } catch (e) {
-      SecureStorageStamper.deleteKeyPair(targetPublicKey);
-      throw Exception('Discord OAuth failed: $e');
-    }
-  }
-
-  /// Verifies an OTP code and retrieves a verification token and sub-organization ID.
-  ///
-  /// Throws an [Exception] if the OTP verification fails or if the account cannot be retrieved.
-  ///
-  /// [otpCode] The OTP code to verify.
-  /// [otpId] The ID of the OTP to verify.
-  /// [contact] The contact information (email or phone number) associated with the OTP.
-  /// [otpType] The type of OTP (email or SMS).
-  /// Returns a [VerifyOtpResult] containing the verification token and sub-organization ID.
-  Future<VerifyOtpResult> verifyOtp(
-      {required String otpCode,
-      required String otpId,
-      required String contact,
-      required OtpType otpType}) async {
-    final verifyOtpRes = await requireClient.proxyVerifyOtp(
-        input: ProxyTVerifyOtpBody(
-      otpCode: otpCode,
-      otpId: otpId,
-    ));
-
-    if (verifyOtpRes.verificationToken.isEmpty) {
-      throw Exception("Failed to verify OTP");
-    }
-
-    final accountRes = await requireClient.proxyGetAccount(
-        input: ProxyTGetAccountBody(
-            filterType: otpTypeToFilterTypeMap[otpType]!.value,
-            filterValue: contact));
-
-    final subOrganizationId = accountRes.organizationId;
-    return VerifyOtpResult(
-        subOrganizationId: subOrganizationId,
-        verificationToken: verifyOtpRes.verificationToken);
   }
 
   /// Logs in a user using a passkey.
@@ -1454,19 +733,10 @@ class TurnkeyProvider with ChangeNotifier {
         sessionKey: sessionKey,
       );
 
-      // the key pair was successfully used, so we set this to null in order to prevent cleanup
-      generatedPublicKey = null;
-
       return LoginWithPasskeyResult(sessionToken: sessionToken);
-    } finally {
-      // we delete this only if an error occurred before this key became a session key pair
-      if (generatedPublicKey != null) {
-        try {
-          await deleteApiKeyPair(generatedPublicKey);
-        } catch (e) {
-          stderr.writeln('Failed to cleanup generated key pair: $e');
-        }
-      }
+    } catch (error) {
+      deleteUnusedKeyPairs();
+      throw Exception('Failed to login with passkey: $error');
     }
   }
 
@@ -1565,31 +835,13 @@ class TurnkeyProvider with ChangeNotifier {
 
       await storeSession(sessionJwt: sessionToken, sessionKey: sessionKey);
 
-      // the key pair was successfully used, so we set this to null in order to prevent cleanup
-      generatedPublicKey = null;
-
       return SignUpWithPasskeyResult(
         sessionToken: sessionToken,
         credentialId: attestation.credentialId,
       );
-    } finally {
-      // we delete this only if an error occurred before this key became a session key pair
-      if (generatedPublicKey != null) {
-        try {
-          await deleteApiKeyPair(generatedPublicKey);
-        } catch (e) {
-          stderr.writeln('Failed to cleanup generated key pair: $e');
-        }
-      }
-
-      // we cleanup the temporary keypair we generated
-      if (temporaryPublicKey != null) {
-        try {
-          await deleteApiKeyPair(temporaryPublicKey);
-        } catch (e) {
-          stderr.writeln('Failed to cleanup temporary key pair: $e');
-        }
-      }
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to sign up with passkey: $error');
     }
   }
 
@@ -1611,6 +863,41 @@ class TurnkeyProvider with ChangeNotifier {
     ));
 
     return res.otpId;
+  }
+
+  /// Verifies an OTP code and retrieves a verification token and sub-organization ID.
+  ///
+  /// Throws an [Exception] if the OTP verification fails or if the account cannot be retrieved.
+  ///
+  /// [otpCode] The OTP code to verify.
+  /// [otpId] The ID of the OTP to verify.
+  /// [contact] The contact information (email or phone number) associated with the OTP.
+  /// [otpType] The type of OTP (email or SMS).
+  /// Returns a [VerifyOtpResult] containing the verification token and sub-organization ID.
+  Future<VerifyOtpResult> verifyOtp(
+      {required String otpCode,
+      required String otpId,
+      required String contact,
+      required OtpType otpType}) async {
+    final verifyOtpRes = await requireClient.proxyVerifyOtp(
+        input: ProxyTVerifyOtpBody(
+      otpCode: otpCode,
+      otpId: otpId,
+    ));
+
+    if (verifyOtpRes.verificationToken.isEmpty) {
+      throw Exception("Failed to verify OTP");
+    }
+
+    final accountRes = await requireClient.proxyGetAccount(
+        input: ProxyTGetAccountBody(
+            filterType: otpTypeToFilterTypeMap[otpType]!.value,
+            filterValue: contact));
+
+    final subOrganizationId = accountRes.organizationId;
+    return VerifyOtpResult(
+        subOrganizationId: subOrganizationId,
+        verificationToken: verifyOtpRes.verificationToken);
   }
 
   /// Logs in a user using an OTP (One-Time Password) verification token.
@@ -1639,8 +926,6 @@ class TurnkeyProvider with ChangeNotifier {
     try {
       generatedPublicKey = publicKey ?? await createApiKeyPair();
 
-      print("Passed-in orgId: $organizationId");
-
       final res = await requireClient.proxyOtpLogin(
         input: ProxyTOtpLoginBody(
           organizationId: organizationId,
@@ -1652,21 +937,12 @@ class TurnkeyProvider with ChangeNotifier {
 
       await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
 
-      // the key pair was successfully used, so we set this to null in order to prevent cleanup
-      generatedPublicKey = null;
-
       return LoginWithOtpResult(
         sessionToken: res.session,
       );
-    } finally {
-      // we delete this only if an error occurred before this key became a session key pair
-      if (generatedPublicKey != null) {
-        try {
-          await deleteApiKeyPair(generatedPublicKey);
-        } catch (e) {
-          stderr.writeln('Failed to cleanup generated key pair: $e');
-        }
-      }
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to login with otp: $error');
     }
   }
 
@@ -1709,7 +985,6 @@ class TurnkeyProvider with ChangeNotifier {
     try {
       final res = await requireClient.proxySignup(input: signUpBody);
 
-      print("Signup response: ${res.organizationId}");
       final orgId = res.organizationId;
       if (orgId.isEmpty) {
         throw Exception("Sign up failed: No organizationId returned");
@@ -1743,9 +1018,9 @@ class TurnkeyProvider with ChangeNotifier {
   /// [invalidateExisting] Whether to invalidate existing sessions when logging in or signing up.
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [createSubOrgParams] Optional parameters for creating the sub-organization user during sign-up.
-  /// Returns a [CompleteOtpResult] containing the session token and action (login or signup) if successful.
+  /// Returns a [LoginOrSignUpOtpResult] containing the session token and action (login or signup) if successful.
   /// Throws an [Exception] if the OTP authentication process fails.
-  Future<CompleteOtpResult> completeOtpAuth({
+  Future<LoginOrSignUpWithOtpResult> loginOrSignUpWithOtp({
     required String otpId,
     required String otpCode,
     required String contact,
@@ -1769,7 +1044,7 @@ class TurnkeyProvider with ChangeNotifier {
           sessionKey: sessionKey,
         );
 
-        return CompleteOtpResult(
+        return LoginOrSignUpWithOtpResult(
             sessionToken: loginResp.sessionToken, action: AuthAction.login);
       } else {
         final signUpRes = await signUpWithOtp(
@@ -1781,7 +1056,7 @@ class TurnkeyProvider with ChangeNotifier {
             createSubOrgParams: createSubOrgParams,
             invalidateExisting: invalidateExisting);
 
-        return CompleteOtpResult(
+        return LoginOrSignUpWithOtpResult(
             sessionToken: signUpRes.sessionToken, action: AuthAction.signup);
       }
     } catch (e) {
@@ -1883,9 +1158,9 @@ class TurnkeyProvider with ChangeNotifier {
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [invalidateExisting] Whether to invalidate existing sessions when logging in or signing up.
   /// [createSubOrgParams] Optional parameters for creating the sub-organization user during sign-up.
-  /// Returns a [CompleteOAuthResult] containing the session token and action (login or signup) if successful.
+  /// Returns a [LoginOrSignUpOAuthResult] containing the session token and action (login or signup) if successful.
   /// Throws an [Exception] if the OAuth authentication process fails.
-  Future<CompleteOAuthResult> completeOAuth({
+  Future<LoginOrSignUpWithOAuthResult> loginOrSignUpWithOAuth({
     required String oidcToken,
     required String publicKey,
     String? providerName,
@@ -1905,7 +1180,7 @@ class TurnkeyProvider with ChangeNotifier {
           sessionKey: sessionKey,
           invalidateExisting: invalidateExisting,
         );
-        return CompleteOAuthResult(
+        return LoginOrSignUpWithOAuthResult(
             sessionToken: loginRes.sessionToken, action: AuthAction.login);
       } else {
         if (providerName == null || providerName.isEmpty) {
@@ -1918,12 +1193,711 @@ class TurnkeyProvider with ChangeNotifier {
             sessionKey: sessionKey,
             createSubOrgParams: createSubOrgParams);
 
-        return CompleteOAuthResult(
+        return LoginOrSignUpWithOAuthResult(
             sessionToken: signUpRes.sessionToken, action: AuthAction.signup);
       }
     } catch (e) {
       throw Exception("OAuth authentication failed: $e");
     }
+  }
+
+  /// Handles the Google OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes `loginOrSignUpWithOAuth` or the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Google OAuth.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to TURNKEY_OAUTH_ORIGIN_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
+  Future<void> handleGoogleOAuth({
+    String? clientId,
+    String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
+    String? redirectUri,
+    String? sessionKey,
+    bool? invalidateExisting,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final googleClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
+          (throw Exception("Google Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
+
+      final oauthUrl = originUri! +
+          '?provider=google' +
+          '&clientId=${Uri.encodeComponent(googleClientId)}' +
+          '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&nonce=${Uri.encodeComponent(nonce)}';
+
+      // we create a completer to wait for the authentication result
+      final Completer<void> authCompleter = Completer<void>();
+
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final idToken = uri.queryParameters['id_token'];
+
+          if (idToken != null) {
+            if (onSuccess != null) {
+              onSuccess(idToken);
+            } else {
+              await loginOrSignUpWithOAuth(
+                oidcToken: idToken,
+                publicKey: targetPublicKey,
+                providerName: 'google',
+                sessionKey: sessionKey,
+                invalidateExisting: invalidateExisting,
+              );
+            }
+
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
+          }
+        }
+      });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(oauthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('Google OAuth failed in browser: $e');
+      }
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to login or signup with Google: $error');
+    }
+  }
+
+  Future<void> handleAppleOAuth({
+    String? clientId,
+    String? originUri = APPLE_AUTH_URL,
+    String? redirectUri,
+    String? sessionKey,
+    bool? invalidateExisting,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final appleClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.appleClientId ??
+          (throw Exception("Apple Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
+
+      final oauthUrl = originUri! +
+          '?provider=apple' +
+          '&clientId=${Uri.encodeComponent(appleClientId)}' +
+          '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&nonce=${Uri.encodeComponent(nonce)}';
+
+      final Completer<void> authCompleter = Completer<void>();
+
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final idToken = uri.queryParameters['id_token'];
+
+          if (idToken != null) {
+            if (onSuccess != null) {
+              onSuccess(idToken);
+            } else {
+              await loginOrSignUpWithOAuth(
+                oidcToken: idToken,
+                publicKey: targetPublicKey,
+                providerName: 'apple',
+                sessionKey: sessionKey,
+                invalidateExisting: invalidateExisting,
+              );
+            }
+
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
+          }
+        }
+      });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(oauthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('Apple OAuth failed in browser: $e');
+      }
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to login or signup with Apple: $error');
+    }
+  }
+
+  /// Handles the X (formerly Twitter) OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes `loginOrSignUpWithOAuth` or the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for X OAuth.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to X_AUTH_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
+  Future<void> handleXOAuth({
+    String? clientId,
+    String? originUri = X_AUTH_URL,
+    String? redirectUri,
+    String? sessionKey,
+    bool? invalidateExisting,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final xClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.xClientId ??
+          (throw Exception("X Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${config.appScheme}://';
+
+      final challengePair = await generateChallengePair();
+      final verifier = challengePair.verifier;
+      final codeChallenge = challengePair.codeChallenge;
+
+      final state =
+          'provider=twitter&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
+
+      final xAuthUrl = originUri! +
+          '?client_id=${Uri.encodeComponent(xClientId)}' +
+          '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&response_type=code' +
+          '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
+          '&code_challenge_method=S256' +
+          '&scope=${Uri.encodeComponent("tweet.read users.read")}' +
+          '&state=${Uri.encodeComponent(state)}';
+
+      // we create a completer to wait for the authentication result
+      final Completer<void> authCompleter = Completer<void>();
+
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final authCode = uri.queryParameters['code'];
+
+          if (authCode != null) {
+            final res = await requireClient.proxyOAuth2Authenticate(
+                input: ProxyTOAuth2AuthenticateBody(
+                    provider: v1Oauth2Provider.oauth2_provider_x,
+                    authCode: authCode,
+                    redirectUri: resolvedRedirectUri,
+                    codeVerifier: verifier,
+                    clientId: xClientId,
+                    nonce: nonce));
+
+            final oidcToken = res.oidcToken;
+
+            if (onSuccess != null) {
+              onSuccess(oidcToken);
+            } else {
+              await loginOrSignUpWithOAuth(
+                oidcToken: oidcToken,
+                publicKey: targetPublicKey,
+                providerName: 'x',
+                sessionKey: sessionKey,
+                invalidateExisting: invalidateExisting,
+              );
+            }
+
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
+          }
+        }
+      });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(xAuthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // we set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('X OAuth failed in browser: $e');
+      }
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to login or signup with X: $error');
+    }
+  }
+
+  /// Handles the Discord OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes `loginOrSignUpWithOAuth` or the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Discord OAuth.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to DISCORD_AUTH_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
+  Future<void> handleDiscordOAuth({
+    String? clientId,
+    String? originUri = DISCORD_AUTH_URL,
+    String? redirectUri,
+    String? sessionKey,
+    String? invalidateExisting,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final discordClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
+          (throw Exception("Discord Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${scheme}://';
+
+      final challengePair = await generateChallengePair();
+      final verifier = challengePair.verifier;
+      final codeChallenge = challengePair.codeChallenge;
+
+      final state =
+          'provider=discord&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
+
+      final discordAuthUrl = originUri! +
+          '?client_id=${Uri.encodeComponent(discordClientId)}' +
+          '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&response_type=code' +
+          '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
+          '&code_challenge_method=S256' +
+          '&scope=${Uri.encodeComponent("identify email")}' +
+          '&state=${Uri.encodeComponent(state)}';
+
+      // we create a completer to wait for the authentication result
+      final Completer<void> authCompleter = Completer<void>();
+
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final authCode = uri.queryParameters['code'];
+
+          if (authCode != null) {
+            final res = await requireClient.proxyOAuth2Authenticate(
+                input: ProxyTOAuth2AuthenticateBody(
+                    provider: v1Oauth2Provider.oauth2_provider_discord,
+                    authCode: authCode,
+                    redirectUri: resolvedRedirectUri,
+                    codeVerifier: verifier,
+                    clientId: discordClientId,
+                    nonce: nonce));
+
+            final oidcToken = res.oidcToken;
+
+            if (onSuccess != null) {
+              onSuccess(oidcToken);
+            } else {
+              await loginOrSignUpWithOAuth(
+                oidcToken: oidcToken,
+                publicKey: targetPublicKey,
+                providerName: 'discord',
+              );
+            }
+
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
+          }
+        }
+      });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(discordAuthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // we set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('Discord OAuth failed in browser: $e');
+      }
+    } catch (error) {
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to login or signup with Discord: $error');
+    }
+  }
+
+  /// Refreshes the current user data.
+  ///
+  /// Fetches the latest user details from the API using the current session's client.
+  /// If the user data is successfully retrieved, updates the session with the new user details.
+  /// Saves the updated session and updates the state.
+  ///
+  /// Throws an [Exception] if the session or client is not initialized.
+  Future<void> refreshUser() async {
+    if (session == null) {
+      throw Exception("Failed to refresh user. Sessions not initialized");
+    }
+    user = await fetchUser(
+        requireClient, session!.organizationId, session!.userId);
+  }
+
+  /// Refreshes the current wallets data.
+  ///
+  /// Fetches the latest wallet details from the API using the current session's client.
+  /// If the wallet data is successfully retrieved, updates the state with the new wallet information.
+  ///
+  /// Throws an [Exception] if the session is not initialized.
+  Future<void> refreshWallets() async {
+    if (session == null) {
+      throw Exception("Failed to refresh wallets. No session initialized");
+    }
+    wallets = await fetchWallets(requireClient, session!.organizationId);
+  }
+
+  /// Creates a new wallet with the specified name and accounts.
+  ///
+  /// Throws an [Exception] if the client or user is not initialized.
+  ///
+  /// [walletName] The name of the wallet.
+  /// [accounts] The accounts to create in the wallet.
+  /// [mnemonicLength] The length of the mnemonic.
+  Future<v1Activity> createWallet(
+      {required String walletName,
+      required List<v1WalletAccountParams> accounts,
+      int? mnemonicLength}) async {
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
+    }
+
+    final response = await requireClient.createWallet(
+        input: TCreateWalletBody(
+      accounts: accounts,
+      walletName: walletName,
+      mnemonicLength: mnemonicLength,
+    ));
+    final activity = response.activity;
+    if (activity.result.createWalletResult?.walletId != null) {
+      await refreshWallets();
+    }
+
+    return activity;
+  }
+
+  /// Imports a wallet using a provided mnemonic and creates accounts.
+  ///
+  /// Throws an [Exception] if the client or user is not initialized.
+  ///
+  /// [mnemonic] The mnemonic to import.
+  /// [walletName] The name of the wallet.
+  /// [accounts] The accounts to create in the wallet.
+  Future<void> importWallet(
+      {required String mnemonic,
+      required String walletName,
+      required List<v1WalletAccountParams> accounts}) async {
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
+    }
+
+    // this should never happen
+    if (user == null) {
+      throw Exception("No user found.");
+    }
+
+    final initResponse = await requireClient.initImportWallet(
+        input: TInitImportWalletBody(userId: user!.userId));
+
+    final importBundle =
+        initResponse.activity.result.initImportWalletResult?.importBundle;
+
+    if (importBundle == null) {
+      throw Exception("Failed to get import bundle");
+    }
+
+    final encryptedBundle = await encryptWalletToBundle(
+      mnemonic: mnemonic,
+      importBundle: importBundle,
+      userId: user!.userId,
+      organizationId: session!.organizationId,
+    );
+
+    final response = await requireClient.importWallet(
+        input: TImportWalletBody(
+            userId: user!.userId,
+            walletName: walletName,
+            encryptedBundle: encryptedBundle,
+            accounts: accounts));
+    final activity = response.activity;
+    if (activity.result.importWalletResult?.walletId != null) {
+      await refreshWallets();
+    }
+  }
+
+  /// Exports an existing wallet by decrypting the stored mnemonic phrase.
+  ///
+  /// Throws an [Exception] if the client, user, or export bundle is not initialized.
+  ///
+  /// [walletId] The ID of the wallet to export.
+  Future<String> exportWallet({required String walletId}) async {
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
+    }
+
+    final keyPair = await generateP256KeyPair();
+
+    final response = await requireClient.exportWallet(
+        input: TExportWalletBody(
+            walletId: walletId,
+            targetPublicKey: keyPair.publicKeyUncompressed));
+    final exportBundle =
+        response.activity.result.exportWalletResult?.exportBundle;
+
+    if (exportBundle == null) {
+      throw Exception("Export bundle, embedded key, or user not initialized");
+    }
+
+    await refreshWallets();
+
+    return await decryptExportBundle(
+        exportBundle: exportBundle,
+        embeddedKey: keyPair.privateKey,
+        organizationId: session!.organizationId,
+        returnMnemonic: true);
+  }
+
+  /// Signs a raw payload using the specified signing key and encoding parameters.
+  ///
+  /// Throws an [Exception] if the client or user is not initialized.
+  ///
+  /// [signWith] The key to sign with.
+  /// [payload] The payload to sign.
+  /// [encoding] The encoding of the payload.
+  /// [hashFunction] The hash function to use.
+  Future<v1SignRawPayloadResult> signRawPayload(
+      {required String signWith,
+      required String payload,
+      required v1PayloadEncoding encoding,
+      required v1HashFunction hashFunction}) async {
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
+    }
+
+    final response = await requireClient.signRawPayload(
+        input: TSignRawPayloadBody(
+      signWith: signWith,
+      payload: payload,
+      encoding: encoding,
+      hashFunction: hashFunction,
+    ));
+
+    final signRawPayloadResult = response.activity.result.signRawPayloadResult;
+    if (signRawPayloadResult == null) {
+      throw Exception("Failed to sign raw payload");
+    }
+    return signRawPayloadResult;
+  }
+
+  /// Signs a transaction using the specified signing key and transaction parameters.
+  ///
+  /// Throws an [Exception] if the client or user is not initialized.
+  ///
+  /// [signWith] The key to sign with.
+  /// [unsignedTransaction] The unsigned transaction to sign.
+  /// [type] The type of the transaction from the [TransactionType] enum.
+  Future<v1SignTransactionResult> signTransaction(
+      {required String signWith,
+      required String unsignedTransaction,
+      required v1TransactionType type}) async {
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
+    }
+
+    final response = await requireClient.signTransaction(
+        input: TSignTransactionBody(
+            signWith: signWith,
+            unsignedTransaction: unsignedTransaction,
+            type: type));
+
+    final signTransactionResult =
+        response.activity.result.signTransactionResult;
+    if (signTransactionResult == null) {
+      throw Exception("Failed to sign transaction");
+    }
+    return signTransactionResult;
   }
 }
 

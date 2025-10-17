@@ -12,14 +12,14 @@ class OTPScreen extends StatelessWidget {
   final String? contact;
   final OtpType? otpType;
 
-  const OTPScreen(
-      {super.key, required this.otpId, this.contact, this.otpType});
+  const OTPScreen({super.key, required this.otpId, this.contact, this.otpType});
 
   @override
   Widget build(BuildContext context) {
     final TextEditingController otpController = TextEditingController();
 
-  final turnkeyProvider = Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
 
     return Scaffold(
         body: Center(
@@ -98,7 +98,7 @@ class OTPScreen extends StatelessWidget {
                             onPressed: () async {
                               final otpCode = otpController.text;
                               if (otpCode.isNotEmpty) {
-                                await turnkeyProvider.completeOtpAuth(
+                                await turnkeyProvider.loginOrSignUpWithOtp(
                                   otpId: otpId,
                                   otpCode: otpCode,
                                   contact: contact!,
