@@ -864,91 +864,200 @@ class TurnkeyProvider with ChangeNotifier {
     String? clientId,
     String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
     String? redirectUri,
+    String? sessionKey,
+    bool? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
-    final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-    final scheme = config.appScheme;
-    final googleClientId = clientId ??
-        masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
-        (throw Exception("Google Client ID not configured"));
-    final resolvedRedirectUri = redirectUri ??
-        masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-        '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final scheme = config.appScheme;
+      final googleClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
+          (throw Exception("Google Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
-    final oauthUrl = originUri! +
-        '?provider=google' +
-        '&clientId=${Uri.encodeComponent(googleClientId)}' +
-        '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-        '&nonce=${Uri.encodeComponent(nonce)}';
+      final oauthUrl = originUri! +
+          '?provider=google' +
+          '&clientId=${Uri.encodeComponent(googleClientId)}' +
+          '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&nonce=${Uri.encodeComponent(nonce)}';
 
-    // we create a completer to wait for the authentication result
-    final Completer<void> authCompleter = Completer<void>();
+      // we create a completer to wait for the authentication result
+      final Completer<void> authCompleter = Completer<void>();
 
-    // set up a subscription for deep links
-    StreamSubscription? subscription;
-    subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-      if (uri != null && uri.toString().startsWith(scheme)) {
-        // we parse query parameters from the URI
-        final idToken = uri.queryParameters['id_token'];
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final idToken = uri.queryParameters['id_token'];
 
-        if (idToken != null) {
-          if (onSuccess != null) {
-            onSuccess(idToken);
-          } else {
-            await completeOAuth(
-              oidcToken: idToken,
-              publicKey: targetPublicKey,
-              providerName: 'google',
-            );
-          }
+          if (idToken != null) {
+            if (onSuccess != null) {
+              onSuccess(idToken);
+            } else {
+              await completeOAuth(
+                oidcToken: idToken,
+                publicKey: targetPublicKey,
+                providerName: 'google',
+                sessionKey: sessionKey,
+                invalidateExisting: invalidateExisting,
+              );
+            }
 
-          // complete the auth process
-          // this runs the `whenComplete()` callback
-          if (!authCompleter.isCompleted) {
-            authCompleter.complete();
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
           }
         }
-      }
-    });
-
-    try {
-      final browser = _OAuthBrowser(
-        onBrowserClosed: () {
-          if (!authCompleter.isCompleted) {
-            subscription?.cancel();
-            authCompleter.complete();
-            return;
-          }
-        },
-      );
-
-      await browser.open(
-        url: WebUri(oauthUrl),
-        settings: ChromeSafariBrowserSettings(
-          showTitle: true,
-          toolbarBackgroundColor: Colors.white,
-        ),
-      );
-
-      // set a timeout for the authentication process
-      await authCompleter.future.timeout(
-        const Duration(minutes: 10),
-        onTimeout: () {
-          subscription?.cancel();
-          throw Exception('Authentication timed out');
-        },
-      );
-
-      await authCompleter.future.whenComplete(() async {
-        await browser.close();
-        subscription?.cancel();
       });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(oauthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('Google OAuth failed in browser: $e');
+      }
     } catch (e) {
-      subscription.cancel();
+      SecureStorageStamper.deleteKeyPair(targetPublicKey);
       throw Exception('Google OAuth failed: $e');
+    }
+  }
+
+  Future<void> handleAppleOAuth({
+    String? clientId,
+    String? originUri = APPLE_AUTH_URL,
+    String? redirectUri,
+    String? sessionKey,
+    bool? invalidateExisting,
+    void Function(String oidcToken)? onSuccess,
+  }) async {
+    final AppLinks appLinks = AppLinks();
+
+    final targetPublicKey = await createApiKeyPair();
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final scheme = config.appScheme;
+      final appleClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.appleClientId ??
+          (throw Exception("Apple Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
+
+      final oauthUrl = originUri! +
+          '?provider=apple' +
+          '&clientId=${Uri.encodeComponent(appleClientId)}' +
+          '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&nonce=${Uri.encodeComponent(nonce)}';
+
+      final Completer<void> authCompleter = Completer<void>();
+
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final idToken = uri.queryParameters['id_token'];
+
+          if (idToken != null) {
+            if (onSuccess != null) {
+              onSuccess(idToken);
+            } else {
+              await completeOAuth(
+                oidcToken: idToken,
+                publicKey: targetPublicKey,
+                providerName: 'apple',
+                sessionKey: sessionKey,
+                invalidateExisting: invalidateExisting,
+              );
+            }
+
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
+          }
+        }
+      });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(oauthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('Apple OAuth failed in browser: $e');
+      }
+    } catch (e) {
+      SecureStorageStamper.deleteKeyPair(targetPublicKey);
+      throw Exception('Apple OAuth failed: $e');
     }
   }
 
@@ -968,111 +1077,121 @@ class TurnkeyProvider with ChangeNotifier {
     String? clientId,
     String? originUri = X_AUTH_URL,
     String? redirectUri,
+    String? sessionKey,
+    bool? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
-    final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-    final scheme = config.appScheme;
-    final xClientId = clientId ??
-        masterConfig?.authConfig?.oAuthConfig?.xClientId ??
-        (throw Exception("X Client ID not configured"));
-    final resolvedRedirectUri = redirectUri ??
-        masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-        '${config.appScheme}://';
-
-    final challengePair = await generateChallengePair();
-    final verifier = challengePair.verifier;
-    final codeChallenge = challengePair.codeChallenge;
-
-    final state =
-        'provider=twitter&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
-
-    final xAuthUrl = originUri! +
-        '?client_id=${Uri.encodeComponent(xClientId)}' +
-        '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-        '&response_type=code' +
-        '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
-        '&code_challenge_method=S256' +
-        '&scope=${Uri.encodeComponent("tweet.read users.read")}' +
-        '&state=${Uri.encodeComponent(state)}';
-
-    // we create a completer to wait for the authentication result
-    final Completer<void> authCompleter = Completer<void>();
-
-    // set up a subscription for deep links
-    StreamSubscription? subscription;
-    subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-      if (uri != null && uri.toString().startsWith(scheme)) {
-        // we parse query parameters from the URI
-        final authCode = uri.queryParameters['code'];
-
-        if (authCode != null) {
-          final res = await requireClient.proxyOAuth2Authenticate(
-              input: ProxyTOAuth2AuthenticateBody(
-                  provider: v1Oauth2Provider.oauth2_provider_x,
-                  authCode: authCode,
-                  redirectUri: resolvedRedirectUri,
-                  codeVerifier: verifier,
-                  clientId: xClientId,
-                  nonce: nonce));
-
-          final oidcToken = res.oidcToken;
-
-          if (onSuccess != null) {
-            onSuccess(oidcToken);
-          } else {
-            await completeOAuth(
-              oidcToken: oidcToken,
-              publicKey: targetPublicKey,
-              providerName: 'x',
-            );
-          }
-
-          // complete the auth process
-          // this runs the `whenComplete()` callback
-          if (!authCompleter.isCompleted) {
-            authCompleter.complete();
-          }
-        }
-      }
-    });
 
     try {
-      final browser = _OAuthBrowser(
-        onBrowserClosed: () {
-          if (!authCompleter.isCompleted) {
-            subscription?.cancel();
-            authCompleter.complete();
-            return;
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final scheme = config.appScheme;
+      final xClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.xClientId ??
+          (throw Exception("X Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${config.appScheme}://';
+
+      final challengePair = await generateChallengePair();
+      final verifier = challengePair.verifier;
+      final codeChallenge = challengePair.codeChallenge;
+
+      final state =
+          'provider=twitter&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
+
+      final xAuthUrl = originUri! +
+          '?client_id=${Uri.encodeComponent(xClientId)}' +
+          '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&response_type=code' +
+          '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
+          '&code_challenge_method=S256' +
+          '&scope=${Uri.encodeComponent("tweet.read users.read")}' +
+          '&state=${Uri.encodeComponent(state)}';
+
+      // we create a completer to wait for the authentication result
+      final Completer<void> authCompleter = Completer<void>();
+
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final authCode = uri.queryParameters['code'];
+
+          if (authCode != null) {
+            final res = await requireClient.proxyOAuth2Authenticate(
+                input: ProxyTOAuth2AuthenticateBody(
+                    provider: v1Oauth2Provider.oauth2_provider_x,
+                    authCode: authCode,
+                    redirectUri: resolvedRedirectUri,
+                    codeVerifier: verifier,
+                    clientId: xClientId,
+                    nonce: nonce));
+
+            final oidcToken = res.oidcToken;
+
+            if (onSuccess != null) {
+              onSuccess(oidcToken);
+            } else {
+              await completeOAuth(
+                oidcToken: oidcToken,
+                publicKey: targetPublicKey,
+                providerName: 'x',
+                sessionKey: sessionKey,
+                invalidateExisting: invalidateExisting,
+              );
+            }
+
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
           }
-        },
-      );
-
-      await browser.open(
-        url: WebUri(xAuthUrl),
-        settings: ChromeSafariBrowserSettings(
-          showTitle: true,
-          toolbarBackgroundColor: Colors.white,
-        ),
-      );
-
-      // we set a timeout for the authentication process
-      await authCompleter.future.timeout(
-        const Duration(minutes: 10),
-        onTimeout: () {
-          subscription?.cancel();
-          throw Exception('Authentication timed out');
-        },
-      );
-
-      await authCompleter.future.whenComplete(() async {
-        await browser.close();
-        subscription?.cancel();
+        }
       });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(xAuthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // we set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('X OAuth failed in browser: $e');
+      }
     } catch (e) {
-      subscription.cancel();
+      SecureStorageStamper.deleteKeyPair(targetPublicKey);
       throw Exception('X OAuth failed: $e');
     }
   }
@@ -1093,45 +1212,48 @@ class TurnkeyProvider with ChangeNotifier {
     String? clientId,
     String? originUri = DISCORD_AUTH_URL,
     String? redirectUri,
+    String? sessionKey,
+    String? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
-    final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-    final scheme = config.appScheme;
-    final discordClientId = clientId ??
-        masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
-        (throw Exception("Discord Client ID not configured"));
-    final resolvedRedirectUri = redirectUri ??
-        masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-        '${scheme}://';
+    try {
+      final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
+      final scheme = config.appScheme;
+      final discordClientId = clientId ??
+          masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
+          (throw Exception("Discord Client ID not configured"));
+      final resolvedRedirectUri = redirectUri ??
+          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          '${scheme}://';
 
-    final challengePair = await generateChallengePair();
-    final verifier = challengePair.verifier;
-    final codeChallenge = challengePair.codeChallenge;
+      final challengePair = await generateChallengePair();
+      final verifier = challengePair.verifier;
+      final codeChallenge = challengePair.codeChallenge;
 
-    final state =
-        'provider=discord&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
+      final state =
+          'provider=discord&flow=redirect&publicKey=${Uri.encodeComponent(targetPublicKey)}&nonce=${nonce}';
 
-    final discordAuthUrl = originUri! +
-        '?client_id=${Uri.encodeComponent(discordClientId)}' +
-        '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
-        '&response_type=code' +
-        '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
-        '&code_challenge_method=S256' +
-        '&scope=${Uri.encodeComponent("identify email")}' +
-        '&state=${Uri.encodeComponent(state)}';
+      final discordAuthUrl = originUri! +
+          '?client_id=${Uri.encodeComponent(discordClientId)}' +
+          '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
+          '&response_type=code' +
+          '&code_challenge=${Uri.encodeComponent(codeChallenge)}' +
+          '&code_challenge_method=S256' +
+          '&scope=${Uri.encodeComponent("identify email")}' +
+          '&state=${Uri.encodeComponent(state)}';
 
-    // we create a completer to wait for the authentication result
-    final Completer<void> authCompleter = Completer<void>();
+      // we create a completer to wait for the authentication result
+      final Completer<void> authCompleter = Completer<void>();
 
-    // set up a subscription for deep links
-    StreamSubscription? subscription;
-    subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
-      if (uri != null && uri.toString().startsWith(scheme)) {
-        // we parse query parameters from the URI
-        final authCode = uri.queryParameters['code'];
+      // set up a subscription for deep links
+      StreamSubscription? subscription;
+      subscription = appLinks.uriLinkStream.listen((Uri? uri) async {
+        if (uri != null && uri.toString().startsWith(scheme)) {
+          // we parse query parameters from the URI
+          final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
           final res = await requireClient.proxyOAuth2Authenticate(
@@ -1143,61 +1265,65 @@ class TurnkeyProvider with ChangeNotifier {
                   clientId: discordClientId,
                   nonce: nonce));
 
-          final oidcToken = res.oidcToken;
+            final oidcToken = res.oidcToken;
 
-          if (onSuccess != null) {
-            onSuccess(oidcToken);
-          } else {
-            await completeOAuth(
-              oidcToken: oidcToken,
-              publicKey: targetPublicKey,
-              providerName: 'discord',
-            );
-          }
+            if (onSuccess != null) {
+              onSuccess(oidcToken);
+            } else {
+              await completeOAuth(
+                oidcToken: oidcToken,
+                publicKey: targetPublicKey,
+                providerName: 'discord',
+              );
+            }
 
-          // complete the auth process
-          // this runs the `whenComplete()` callback
-          if (!authCompleter.isCompleted) {
-            authCompleter.complete();
+            // complete the auth process
+            // this runs the `whenComplete()` callback
+            if (!authCompleter.isCompleted) {
+              authCompleter.complete();
+            }
           }
         }
-      }
-    });
-
-    try {
-      final browser = _OAuthBrowser(
-        onBrowserClosed: () {
-          if (!authCompleter.isCompleted) {
-            subscription?.cancel();
-            authCompleter.complete();
-            return;
-          }
-        },
-      );
-
-      await browser.open(
-        url: WebUri(discordAuthUrl),
-        settings: ChromeSafariBrowserSettings(
-          showTitle: true,
-          toolbarBackgroundColor: Colors.white,
-        ),
-      );
-
-      // we set a timeout for the authentication process
-      await authCompleter.future.timeout(
-        const Duration(minutes: 10),
-        onTimeout: () {
-          subscription?.cancel();
-          throw Exception('Authentication timed out');
-        },
-      );
-
-      await authCompleter.future.whenComplete(() async {
-        await browser.close();
-        subscription?.cancel();
       });
+
+      try {
+        final browser = _OAuthBrowser(
+          onBrowserClosed: () {
+            if (!authCompleter.isCompleted) {
+              subscription?.cancel();
+              authCompleter.complete();
+              return;
+            }
+          },
+        );
+
+        await browser.open(
+          url: WebUri(discordAuthUrl),
+          settings: ChromeSafariBrowserSettings(
+            showTitle: true,
+            toolbarBackgroundColor: Colors.white,
+          ),
+        );
+
+        // we set a timeout for the authentication process
+        await authCompleter.future.timeout(
+          const Duration(minutes: 10),
+          onTimeout: () {
+            subscription?.cancel();
+            throw Exception('Authentication timed out');
+          },
+        );
+
+        await authCompleter.future.whenComplete(() async {
+          await browser.close();
+          subscription?.cancel();
+        });
+      } catch (e) {
+        subscription.cancel();
+        throw Exception('Discord OAuth failed in browser: $e');
+      }
     } catch (e) {
-      subscription.cancel();
+      SecureStorageStamper.deleteKeyPair(targetPublicKey);
       throw Exception('Discord OAuth failed: $e');
     }
   }
