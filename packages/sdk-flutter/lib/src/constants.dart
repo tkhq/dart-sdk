@@ -50,6 +50,8 @@ const X_AUTH_URL = "https://x.com/i/oauth2/authorize";
 const DISCORD_AUTH_URL = "https://discord.com/oauth2/authorize";
 const TURNKEY_OAUTH_ORIGIN_URL = "https://oauth-origin.turnkey.com";
 const TURNKEY_OAUTH_REDIRECT_URL = "https://oauth-redirect.turnkey.com";
+const APPLE_AUTH_URL = "https://account.apple.com/auth/authorize";
+const APPLE_AUTH_SCRIPT_URL = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
 
 final DEFAULT_ETHEREUM_ACCOUNT = v1WalletAccountParams(
   curve: v1Curve.curve_secp256k1,

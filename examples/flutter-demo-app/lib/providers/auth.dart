@@ -32,32 +32,7 @@ class AuthRelayerProvider with ChangeNotifier {
 
   Future<void> signInWithApple() async {
     // Sign in with Apple leverages the sign_in_with_apple flutter package which uses Apple's native "Sign in with Apple" SDK on iOS.
-    setLoading('signInWithApple', true);
-
-    try {
-      final targetPublicKey = await turnkeyProvider.createApiKeyPair();
-
-      final credential = await SignInWithApple.getAppleIDCredential(scopes: [
-        AppleIDAuthorizationScopes.email,
-        AppleIDAuthorizationScopes.fullName,
-      ], nonce: sha256.convert(utf8.encode(targetPublicKey)).toString());
-      final oidcToken = credential.identityToken;
-
-      if (oidcToken == null) {
-        throw Exception('Failed to get OIDC token');
-      }
-
-      final oAuthResponse = await turnkeyProvider.completeOAuth(
-        publicKey: targetPublicKey,
-        oidcToken: oidcToken,
-        providerName: 'Apple',
-      );
-      await turnkeyProvider.storeSession(sessionJwt: oAuthResponse.sessionToken);
-    } catch (error) {
-      setError(error.toString());
-    } finally {
-      setLoading('signInWithApple', false);
-    }
+    await turnkeyProvider.handleAppleOAuth();
   }
 
   Future<void> signInWithX() async {
