@@ -892,7 +892,6 @@ class TurnkeyProvider with ChangeNotifier {
     final targetPublicKey = await createApiKeyPair();
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final scheme = config.appScheme;
       final googleClientId = clientId ??
           masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
           (throw Exception("Google Client ID not configured"));
@@ -988,12 +987,17 @@ class TurnkeyProvider with ChangeNotifier {
     bool? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final scheme = config.appScheme;
       final appleClientId = clientId ??
           masterConfig?.authConfig?.oAuthConfig?.appleClientId ??
           (throw Exception("Apple Client ID not configured"));
@@ -1112,7 +1116,6 @@ class TurnkeyProvider with ChangeNotifier {
 
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final scheme = config.appScheme;
       final xClientId = clientId ??
           masterConfig?.authConfig?.oAuthConfig?.xClientId ??
           (throw Exception("X Client ID not configured"));
@@ -1252,7 +1255,6 @@ class TurnkeyProvider with ChangeNotifier {
     final targetPublicKey = await createApiKeyPair();
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
-      final scheme = config.appScheme;
       final discordClientId = clientId ??
           masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
           (throw Exception("Discord Client ID not configured"));
@@ -1286,15 +1288,15 @@ class TurnkeyProvider with ChangeNotifier {
           // we parse query parameters from the URI
           final authCode = uri.queryParameters['code'];
 
-        if (authCode != null) {
-          final res = await requireClient.proxyOAuth2Authenticate(
-              input: ProxyTOAuth2AuthenticateBody(
-                  provider: v1Oauth2Provider.oauth2_provider_discord,
-                  authCode: authCode,
-                  redirectUri: resolvedRedirectUri,
-                  codeVerifier: verifier,
-                  clientId: discordClientId,
-                  nonce: nonce));
+          if (authCode != null) {
+            final res = await requireClient.proxyOAuth2Authenticate(
+                input: ProxyTOAuth2AuthenticateBody(
+                    provider: v1Oauth2Provider.oauth2_provider_discord,
+                    authCode: authCode,
+                    redirectUri: resolvedRedirectUri,
+                    codeVerifier: verifier,
+                    clientId: discordClientId,
+                    nonce: nonce));
 
             final oidcToken = res.oidcToken;
 
