@@ -256,11 +256,6 @@ class TurnkeyProvider with ChangeNotifier {
         if (!isValidSession(s)) {
           await clearSession(sessionKey: sessionKey);
 
-          final activeKey = await getActiveSessionKey();
-          if (sessionKey == activeKey) {
-            session = null;
-          }
-
           allSessions.remove(sessionKey);
           continue;
         }
@@ -273,7 +268,7 @@ class TurnkeyProvider with ChangeNotifier {
       if (activeSessionKey != null) {
         final activeSession = allSessions[activeSessionKey];
         if (activeSession != null) {
-          // 5. Swap public key
+          session = activeSession;
           createClient(
             publicKey: activeSession.publicKey,
             organizationId: activeSession.organizationId,
@@ -390,7 +385,7 @@ class TurnkeyProvider with ChangeNotifier {
     final publicKey = await SecureStorageStamper.createKeyPair(
       externalPublicKey: externalPublicKey,
       externalPrivateKey: externalPrivateKey,
-      isCompressesd: isCompressed,
+      isCompressed: isCompressed,
     );
 
     // if `storeOverride` is true, we set the new key as the active key for this client instance
@@ -563,23 +558,21 @@ class TurnkeyProvider with ChangeNotifier {
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
-    final activeKey = await SessionStorageManager.getActiveSessionKey();
+    final activeKey = await getActiveSessionKey();
     final key = sessionKey ?? activeKey;
     if (key == null) throw Exception("No active session to refresh");
 
-    final session = await SessionStorageManager.getSession(key);
-    if (session == null) throw Exception("Session not found for key: $key");
-
-    if (_client == null) throw Exception("HTTP client not initialized");
+    final currentSession = await getSession(sessionKey: key);
+    if (currentSession == null)
+      throw Exception("Session not found for key: $key");
 
     // generate or use provided public key
-    final newPublicKey =
-        publicKey ?? await SecureStorageStamper.createKeyPair();
+    final newPublicKey = publicKey ?? await createApiKeyPair();
 
     // create a new session using the current session
     final response = await requireClient.stampLogin(
       input: TStampLoginBody(
-        organizationId: session.organizationId,
+        organizationId: currentSession.organizationId,
         publicKey: newPublicKey,
         expirationSeconds: expirationSeconds,
         invalidateExisting: invalidateExisting,
@@ -604,7 +597,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     // we only update the in-memory client/session if this is the active session
     if (key == activeKey) {
-      _session = newSession;
+      session = newSession;
       createClient(
         organizationId: newSession.organizationId,
         publicKey: newSession.publicKey,
@@ -633,20 +626,29 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// [sessionKey] The key of the session to clear.
   Future<void> clearSession({String? sessionKey}) async {
-    final key = sessionKey ?? StorageKeys.DefaultSession.value;
+    final activeSessionKey = await getActiveSessionKey();
+    final key = sessionKey ?? activeSessionKey;
+    if (key == null) {
+      throw Exception("No active session to clear");
+    }
 
-    final session = await SessionStorageManager.getSession(key);
-    if (session == null) {
+    final sessionToClear = await SessionStorageManager.getSession(key);
+    if (sessionToClear == null) {
       throw Exception("No session found with key: $key");
     }
 
+    final activeKey = await getActiveSessionKey();
+    if (key == activeKey) {
+      session = null;
+    }
+
     // delete the keypair
-    await SecureStorageStamper.deleteKeyPair(session.publicKey);
+    await deleteApiKeyPair(sessionToClear.publicKey);
 
     // remove the session from storage
     await SessionStorageManager.clearSession(key);
 
-    config.onSessionCleared?.call(session);
+    config.onSessionCleared?.call(sessionToClear);
   }
 
   Future<void> clearAllSessions() async {
@@ -666,19 +668,19 @@ class TurnkeyProvider with ChangeNotifier {
   // ///
   // /// Throws an [Exception] if the session or client is not initialized.
   Future<void> refreshUser() async {
-    if (_client == null || session == null) {
-      throw Exception(
-          "Failed to refresh user. Client or sessions not initialized");
+    if (session == null) {
+      throw Exception("Failed to refresh user. Sessions not initialized");
     }
-    user = await fetchUser(_client!, session!.organizationId, session!.userId);
+    user = await fetchUser(
+        requireClient, session!.organizationId, session!.userId);
   }
 
   Future<void> refreshWallets() async {
-    if (_client == null || session == null || user == null) {
+    if (session == null || user == null) {
       throw Exception(
           "Failed to refresh wallets. Client, session, or user not initialized");
     }
-    wallets = await fetchWallets(_client!, session!.organizationId);
+    wallets = await fetchWallets(requireClient!, session!.organizationId);
   }
 
   // /// Signs a raw payload using the specified signing key and encoding parameters.
@@ -694,8 +696,8 @@ class TurnkeyProvider with ChangeNotifier {
       required String payload,
       required v1PayloadEncoding encoding,
       required v1HashFunction hashFunction}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final response = await requireClient.signRawPayload(
@@ -724,8 +726,8 @@ class TurnkeyProvider with ChangeNotifier {
       {required String signWith,
       required String unsignedTransaction,
       required v1TransactionType type}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final response = await requireClient.signTransaction(
@@ -753,8 +755,8 @@ class TurnkeyProvider with ChangeNotifier {
       {required String walletName,
       required List<v1WalletAccountParams> accounts,
       int? mnemonicLength}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final response = await requireClient.createWallet(
@@ -782,11 +784,11 @@ class TurnkeyProvider with ChangeNotifier {
       {required String mnemonic,
       required String walletName,
       required List<v1WalletAccountParams> accounts}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
-    final initResponse = await _client!
-        .initImportWallet(input: TInitImportWalletBody(userId: user!.userId));
+    final initResponse = await requireClient.initImportWallet(
+        input: TInitImportWalletBody(userId: user!.userId));
 
     final importBundle =
         initResponse.activity.result.initImportWalletResult?.importBundle;
@@ -820,8 +822,8 @@ class TurnkeyProvider with ChangeNotifier {
   // ///
   // /// [walletId] The ID of the wallet to export.
   Future<String> exportWallet({required String walletId}) async {
-    if (_client == null || session == null || user == null) {
-      throw Exception("Client or user not initialized");
+    if (session == null || user == null) {
+      throw Exception("Session or user not initialized");
     }
 
     final keyPair = await generateP256KeyPair();
@@ -1007,7 +1009,7 @@ class TurnkeyProvider with ChangeNotifier {
         final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
-          final res = await client!.proxyOAuth2Authenticate(
+          final res = await requireClient.proxyOAuth2Authenticate(
               input: ProxyTOAuth2AuthenticateBody(
                   provider: v1Oauth2Provider.oauth2_provider_x,
                   authCode: authCode,
@@ -1132,7 +1134,7 @@ class TurnkeyProvider with ChangeNotifier {
         final authCode = uri.queryParameters['code'];
 
         if (authCode != null) {
-          final res = await client!.proxyOAuth2Authenticate(
+          final res = await requireClient.proxyOAuth2Authenticate(
               input: ProxyTOAuth2AuthenticateBody(
                   provider: v1Oauth2Provider.oauth2_provider_discord,
                   authCode: authCode,
@@ -1214,7 +1216,7 @@ class TurnkeyProvider with ChangeNotifier {
       required String otpId,
       required String contact,
       required OtpType otpType}) async {
-    final verifyOtpRes = await client!.proxyVerifyOtp(
+    final verifyOtpRes = await requireClient.proxyVerifyOtp(
         input: ProxyTVerifyOtpBody(
       otpCode: otpCode,
       otpId: otpId,
@@ -1224,7 +1226,7 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Failed to verify OTP");
     }
 
-    final accountRes = await client!.proxyGetAccount(
+    final accountRes = await requireClient.proxyGetAccount(
         input: ProxyTGetAccountBody(
             filterType: otpTypeToFilterTypeMap[otpType]!.value,
             filterValue: contact));
@@ -1366,13 +1368,18 @@ class TurnkeyProvider with ChangeNotifier {
       final encodedChallenge = passkey.encodedChallenge;
       final attestation = passkey.attestation;
 
-      final overrideParams = PasskeyOverridedParams(passkeyName: passkeyName, attestation: attestation, encodedChallenge: encodedChallenge, temporaryPublicKey: temporaryPublicKey);
-      final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+      final overrideParams = PasskeyOverridedParams(
+          passkeyName: passkeyName,
+          attestation: attestation,
+          encodedChallenge: encodedChallenge,
+          temporaryPublicKey: temporaryPublicKey);
+      final updatedCreateSubOrgParams =
+          getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
       final signUpBody =
           buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
-      final res = await client!.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignup(input: signUpBody);
 
       final orgId = res.organizationId;
       if (orgId.isEmpty) {
@@ -1382,7 +1389,7 @@ class TurnkeyProvider with ChangeNotifier {
       // now we generate a second key pair that will become the session keypair
       generatedPublicKey = await createApiKeyPair();
 
-      final loginResponse = await client!.stampLogin(
+      final loginResponse = await requireClient.stampLogin(
         input: TStampLoginBody(
           organizationId: orgId,
           publicKey: generatedPublicKey,
@@ -1437,7 +1444,7 @@ class TurnkeyProvider with ChangeNotifier {
   /// Throws an [Exception] if the OTP initialization fails.
   Future<String> initOtp(
       {required OtpType otpType, required String contact}) async {
-    final res = await client!.proxyInitOtp(
+    final res = await requireClient.proxyInitOtp(
         input: ProxyTInitOtpBody(
       contact: contact,
       otpType: otpType.value,
@@ -1474,7 +1481,7 @@ class TurnkeyProvider with ChangeNotifier {
 
       print("Passed-in orgId: $organizationId");
 
-      final res = await client!.proxyOtpLogin(
+      final res = await requireClient.proxyOtpLogin(
         input: ProxyTOtpLoginBody(
           organizationId: organizationId,
           publicKey: generatedPublicKey,
@@ -1533,13 +1540,14 @@ class TurnkeyProvider with ChangeNotifier {
       contact: contact,
       verificationToken: verificationToken,
     );
-    final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+    final updatedCreateSubOrgParams =
+        getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
     try {
-      final res = await client!.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignup(input: signUpBody);
 
       print("Signup response: ${res.organizationId}");
       final orgId = res.organizationId;
@@ -1639,7 +1647,7 @@ class TurnkeyProvider with ChangeNotifier {
     String? sessionKey,
   }) async {
     try {
-      final loginRes = await client!.proxyOAuthLogin(
+      final loginRes = await requireClient.proxyOAuthLogin(
           input: ProxyTOAuthLoginBody(
               oidcToken: oidcToken,
               publicKey: publicKey,
@@ -1676,13 +1684,14 @@ class TurnkeyProvider with ChangeNotifier {
       oidcToken: oidcToken,
       providerName: providerName,
     );
-    final updatedCreateSubOrgParams = getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+    final updatedCreateSubOrgParams =
+        getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
     try {
-      final res = await client!.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignup(input: signUpBody);
 
       final organizationId = res.organizationId;
       if (organizationId.isEmpty) {
@@ -1725,7 +1734,7 @@ class TurnkeyProvider with ChangeNotifier {
     CreateSubOrgParams? createSubOrgParams,
   }) async {
     try {
-      final accountRes = await client!.proxyGetAccount(
+      final accountRes = await requireClient.proxyGetAccount(
           input: ProxyTGetAccountBody(
               filterType: "OIDC_TOKEN", filterValue: oidcToken));
 

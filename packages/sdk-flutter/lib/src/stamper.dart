@@ -36,7 +36,7 @@ class SecureStorageStamper implements TStamper {
   static Future<String> createKeyPair({
     String? externalPublicKey,
     String? externalPrivateKey,
-    isCompressesd = true,
+    isCompressed = true,
   }) async {
     String privateKey;
     String publicKey;
@@ -47,7 +47,7 @@ class SecureStorageStamper implements TStamper {
     } else {
       final pair = await generateP256KeyPair();
       privateKey = pair.privateKey;
-      if (isCompressesd) {
+      if (isCompressed) {
         publicKey = pair.publicKey;
       } else {
         publicKey = pair.publicKeyUncompressed;
