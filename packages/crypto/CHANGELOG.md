@@ -1,6 +1,10 @@
+## 0.1.2
+
+ - Update dependencies.
+
 ## 0.1.1
 
- - Exposed generateP256KeyPair function
+ - Exposed generateP256KeyPair function.
 
 # Changelog
 
