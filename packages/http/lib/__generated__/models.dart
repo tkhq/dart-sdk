@@ -1256,13 +1256,9 @@ class apiApiKeyParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeyName != null || true) {
-      _json['apiKeyName'] = apiKeyName;
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (expirationSeconds != null || false) {
+    _json['apiKeyName'] = apiKeyName;
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
     return _json;
@@ -1286,9 +1282,7 @@ class billingActivateBillingTierIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (productId != null || true) {
-      _json['productId'] = productId;
-    }
+    _json['productId'] = productId;
     return _json;
   }
 }
@@ -1310,9 +1304,7 @@ class billingActivateBillingTierResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (productId != null || true) {
-      _json['productId'] = productId;
-    }
+    _json['productId'] = productId;
     return _json;
   }
 }
@@ -1334,9 +1326,7 @@ class billingDeletePaymentMethodIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (paymentMethodId != null || true) {
-      _json['paymentMethodId'] = paymentMethodId;
-    }
+    _json['paymentMethodId'] = paymentMethodId;
     return _json;
   }
 }
@@ -1358,9 +1348,7 @@ class billingDeletePaymentMethodResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (paymentMethodId != null || true) {
-      _json['paymentMethodId'] = paymentMethodId;
-    }
+    _json['paymentMethodId'] = paymentMethodId;
     return _json;
   }
 }
@@ -1407,24 +1395,12 @@ class billingSetPaymentMethodIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (number != null || true) {
-      _json['number'] = number;
-    }
-    if (cvv != null || true) {
-      _json['cvv'] = cvv;
-    }
-    if (expiryMonth != null || true) {
-      _json['expiryMonth'] = expiryMonth;
-    }
-    if (expiryYear != null || true) {
-      _json['expiryYear'] = expiryYear;
-    }
-    if (cardHolderEmail != null || true) {
-      _json['cardHolderEmail'] = cardHolderEmail;
-    }
-    if (cardHolderName != null || true) {
-      _json['cardHolderName'] = cardHolderName;
-    }
+    _json['number'] = number;
+    _json['cvv'] = cvv;
+    _json['expiryMonth'] = expiryMonth;
+    _json['expiryYear'] = expiryYear;
+    _json['cardHolderEmail'] = cardHolderEmail;
+    _json['cardHolderName'] = cardHolderName;
     return _json;
   }
 }
@@ -1456,15 +1432,9 @@ class billingSetPaymentMethodIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (paymentMethodId != null || true) {
-      _json['paymentMethodId'] = paymentMethodId;
-    }
-    if (cardHolderEmail != null || true) {
-      _json['cardHolderEmail'] = cardHolderEmail;
-    }
-    if (cardHolderName != null || true) {
-      _json['cardHolderName'] = cardHolderName;
-    }
+    _json['paymentMethodId'] = paymentMethodId;
+    _json['cardHolderEmail'] = cardHolderEmail;
+    _json['cardHolderName'] = cardHolderName;
     return _json;
   }
 }
@@ -1496,15 +1466,9 @@ class billingSetPaymentMethodResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (lastFour != null || true) {
-      _json['lastFour'] = lastFour;
-    }
-    if (cardHolderName != null || true) {
-      _json['cardHolderName'] = cardHolderName;
-    }
-    if (cardHolderEmail != null || true) {
-      _json['cardHolderEmail'] = cardHolderEmail;
-    }
+    _json['lastFour'] = lastFour;
+    _json['cardHolderName'] = cardHolderName;
+    _json['cardHolderEmail'] = cardHolderEmail;
     return _json;
   }
 }
@@ -1543,21 +1507,11 @@ class datav1Tag {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (tagId != null || true) {
-      _json['tagId'] = tagId;
-    }
-    if (tagName != null || true) {
-      _json['tagName'] = tagName;
-    }
-    if (tagType != null || true) {
-      _json['tagType'] = v1TagTypeToJson(tagType);
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
+    _json['tagId'] = tagId;
+    _json['tagName'] = tagName;
+    _json['tagType'] = v1TagTypeToJson(tagType);
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -1603,24 +1557,12 @@ class externalactivityv1PolicyEvaluation {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (id != null || true) {
-      _json['id'] = id;
-    }
-    if (activityId != null || true) {
-      _json['activityId'] = activityId;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (voteId != null || true) {
-      _json['voteId'] = voteId;
-    }
-    if (policyEvaluations != null || true) {
-      _json['policyEvaluations'] = policyEvaluations?.map((e) => e.toJson()).toList();
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
+    _json['id'] = id;
+    _json['activityId'] = activityId;
+    _json['organizationId'] = organizationId;
+    _json['voteId'] = voteId;
+    _json['policyEvaluations'] = policyEvaluations.map((e) => e.toJson()).toList();
+    _json['createdAt'] = createdAt.toJson();
     return _json;
   }
 }
@@ -1645,10 +1587,10 @@ class externaldatav1Address {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (format != null || false) {
+    if (format != null) {
       _json['format'] = v1AddressFormatToJson(format!);
     }
-    if (address != null || false) {
+    if (address != null) {
       _json['address'] = address;
     }
     return _json;
@@ -1676,12 +1618,8 @@ class externaldatav1Credential {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (type != null || true) {
-      _json['type'] = v1CredentialTypeToJson(type);
-    }
+    _json['publicKey'] = publicKey;
+    _json['type'] = v1CredentialTypeToJson(type);
     return _json;
   }
 }
@@ -1708,12 +1646,8 @@ class externaldatav1Quorum {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (threshold != null || true) {
-      _json['threshold'] = threshold;
-    }
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['threshold'] = threshold;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -1738,12 +1672,8 @@ class externaldatav1Timestamp {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (seconds != null || true) {
-      _json['seconds'] = seconds;
-    }
-    if (nanos != null || true) {
-      _json['nanos'] = nanos;
-    }
+    _json['seconds'] = seconds;
+    _json['nanos'] = nanos;
     return _json;
   }
 }
@@ -1768,10 +1698,10 @@ class immutableactivityv1Address {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (format != null || false) {
+    if (format != null) {
       _json['format'] = v1AddressFormatToJson(format!);
     }
-    if (address != null || false) {
+    if (address != null) {
       _json['address'] = address;
     }
     return _json;
@@ -1798,10 +1728,10 @@ class immutablecommonv1PolicyEvaluation {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || false) {
+    if (policyId != null) {
       _json['policyId'] = policyId;
     }
-    if (outcome != null || false) {
+    if (outcome != null) {
       _json['outcome'] = v1OutcomeToJson(outcome!);
     }
     return _json;
@@ -1834,7 +1764,7 @@ class protobufAny {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || false) {
+    if (type != null) {
       _json['@type'] = type;
     }
     if (additionalProperties != null) {
@@ -1868,13 +1798,13 @@ class rpcStatus {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (code != null || false) {
+    if (code != null) {
       _json['code'] = code;
     }
-    if (message != null || false) {
+    if (message != null) {
       _json['message'] = message;
     }
-    if (details != null || false) {
+    if (details != null) {
       _json['details'] = details?.map((e) => e.toJson()).toList();
     }
     return _json;
@@ -1908,15 +1838,9 @@ class v1AcceptInvitationIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationId != null || true) {
-      _json['invitationId'] = invitationId;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (authenticator != null || true) {
-      _json['authenticator'] = authenticator.toJson();
-    }
+    _json['invitationId'] = invitationId;
+    _json['userId'] = userId;
+    _json['authenticator'] = authenticator.toJson();
     return _json;
   }
 }
@@ -1948,15 +1872,9 @@ class v1AcceptInvitationIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationId != null || true) {
-      _json['invitationId'] = invitationId;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (authenticator != null || true) {
-      _json['authenticator'] = authenticator.toJson();
-    }
+    _json['invitationId'] = invitationId;
+    _json['userId'] = userId;
+    _json['authenticator'] = authenticator.toJson();
     return _json;
   }
 }
@@ -1983,12 +1901,8 @@ class v1AcceptInvitationResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationId != null || true) {
-      _json['invitationId'] = invitationId;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['invitationId'] = invitationId;
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -2071,46 +1985,22 @@ class v1Activity {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (id != null || true) {
-      _json['id'] = id;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (status != null || true) {
-      _json['status'] = v1ActivityStatusToJson(status);
-    }
-    if (type != null || true) {
-      _json['type'] = v1ActivityTypeToJson(type);
-    }
-    if (intent != null || true) {
-      _json['intent'] = intent.toJson();
-    }
-    if (result != null || true) {
-      _json['result'] = result.toJson();
-    }
-    if (votes != null || true) {
-      _json['votes'] = votes?.map((e) => e.toJson()).toList();
-    }
-    if (appProofs != null || false) {
+    _json['id'] = id;
+    _json['organizationId'] = organizationId;
+    _json['status'] = v1ActivityStatusToJson(status);
+    _json['type'] = v1ActivityTypeToJson(type);
+    _json['intent'] = intent.toJson();
+    _json['result'] = result.toJson();
+    _json['votes'] = votes.map((e) => e.toJson()).toList();
+    if (appProofs != null) {
       _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
     }
-    if (fingerprint != null || true) {
-      _json['fingerprint'] = fingerprint;
-    }
-    if (canApprove != null || true) {
-      _json['canApprove'] = canApprove;
-    }
-    if (canReject != null || true) {
-      _json['canReject'] = canReject;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (failure != null || false) {
+    _json['fingerprint'] = fingerprint;
+    _json['canApprove'] = canApprove;
+    _json['canReject'] = canReject;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    if (failure != null) {
       _json['failure'] = failure?.toJson();
     }
     return _json;
@@ -2134,9 +2024,7 @@ class v1ActivityResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (activity != null || true) {
-      _json['activity'] = activity.toJson();
-    }
+    _json['activity'] = activity.toJson();
     return _json;
   }
 }
@@ -2181,22 +2069,12 @@ class v1ApiKey {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (credential != null || true) {
-      _json['credential'] = credential.toJson();
-    }
-    if (apiKeyId != null || true) {
-      _json['apiKeyId'] = apiKeyId;
-    }
-    if (apiKeyName != null || true) {
-      _json['apiKeyName'] = apiKeyName;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (expirationSeconds != null || false) {
+    _json['credential'] = credential.toJson();
+    _json['apiKeyId'] = apiKeyId;
+    _json['apiKeyName'] = apiKeyName;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
     return _json;
@@ -2235,16 +2113,10 @@ class v1ApiKeyParamsV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeyName != null || true) {
-      _json['apiKeyName'] = apiKeyName;
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (curveType != null || true) {
-      _json['curveType'] = v1ApiKeyCurveToJson(curveType);
-    }
-    if (expirationSeconds != null || false) {
+    _json['apiKeyName'] = apiKeyName;
+    _json['publicKey'] = publicKey;
+    _json['curveType'] = v1ApiKeyCurveToJson(curveType);
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
     return _json;
@@ -2283,18 +2155,12 @@ class v1ApiOnlyUserParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (userTags != null || true) {
-      _json['userTags'] = userTags;
-    }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['userTags'] = userTags;
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -2331,18 +2197,10 @@ class v1AppProof {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (scheme != null || true) {
-      _json['scheme'] = v1SignatureSchemeToJson(scheme);
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (proofPayload != null || true) {
-      _json['proofPayload'] = proofPayload;
-    }
-    if (signature != null || true) {
-      _json['signature'] = signature;
-    }
+    _json['scheme'] = v1SignatureSchemeToJson(scheme);
+    _json['publicKey'] = publicKey;
+    _json['proofPayload'] = proofPayload;
+    _json['signature'] = signature;
     return _json;
   }
 }
@@ -2364,9 +2222,7 @@ class v1ApproveActivityIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (fingerprint != null || true) {
-      _json['fingerprint'] = fingerprint;
-    }
+    _json['fingerprint'] = fingerprint;
     return _json;
   }
 }
@@ -2401,18 +2257,10 @@ class v1ApproveActivityRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -2449,18 +2297,10 @@ class v1Attestation {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (credentialId != null || true) {
-      _json['credentialId'] = credentialId;
-    }
-    if (clientDataJson != null || true) {
-      _json['clientDataJson'] = clientDataJson;
-    }
-    if (attestationObject != null || true) {
-      _json['attestationObject'] = attestationObject;
-    }
-    if (transports != null || true) {
-      _json['transports'] = transports?.map((e) => v1AuthenticatorTransportToJson(e)).toList();
-    }
+    _json['credentialId'] = credentialId;
+    _json['clientDataJson'] = clientDataJson;
+    _json['attestationObject'] = attestationObject;
+    _json['transports'] = transports.map((e) => v1AuthenticatorTransportToJson(e)).toList();
     return _json;
   }
 }
@@ -2524,36 +2364,16 @@ class v1Authenticator {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (transports != null || true) {
-      _json['transports'] = transports?.map((e) => v1AuthenticatorTransportToJson(e)).toList();
-    }
-    if (attestationType != null || true) {
-      _json['attestationType'] = attestationType;
-    }
-    if (aaguid != null || true) {
-      _json['aaguid'] = aaguid;
-    }
-    if (credentialId != null || true) {
-      _json['credentialId'] = credentialId;
-    }
-    if (model != null || true) {
-      _json['model'] = model;
-    }
-    if (credential != null || true) {
-      _json['credential'] = credential.toJson();
-    }
-    if (authenticatorId != null || true) {
-      _json['authenticatorId'] = authenticatorId;
-    }
-    if (authenticatorName != null || true) {
-      _json['authenticatorName'] = authenticatorName;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
+    _json['transports'] = transports.map((e) => v1AuthenticatorTransportToJson(e)).toList();
+    _json['attestationType'] = attestationType;
+    _json['aaguid'] = aaguid;
+    _json['credentialId'] = credentialId;
+    _json['model'] = model;
+    _json['credential'] = credential.toJson();
+    _json['authenticatorId'] = authenticatorId;
+    _json['authenticatorName'] = authenticatorName;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -2586,16 +2406,12 @@ class v1AuthenticatorAttestationResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (clientDataJson != null || true) {
-      _json['clientDataJson'] = clientDataJson;
-    }
-    if (attestationObject != null || true) {
-      _json['attestationObject'] = attestationObject;
-    }
-    if (transports != null || false) {
+    _json['clientDataJson'] = clientDataJson;
+    _json['attestationObject'] = attestationObject;
+    if (transports != null) {
       _json['transports'] = transports?.map((e) => v1AuthenticatorTransportToJson(e)).toList();
     }
-    if (authenticatorAttachment != null || false) {
+    if (authenticatorAttachment != null) {
       _json['authenticatorAttachment'] = authenticatorAttachment;
     }
     return _json;
@@ -2633,18 +2449,10 @@ class v1AuthenticatorParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticatorName != null || true) {
-      _json['authenticatorName'] = authenticatorName;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (attestation != null || true) {
-      _json['attestation'] = attestation.toJson();
-    }
-    if (challenge != null || true) {
-      _json['challenge'] = challenge;
-    }
+    _json['authenticatorName'] = authenticatorName;
+    _json['userId'] = userId;
+    _json['attestation'] = attestation.toJson();
+    _json['challenge'] = challenge;
     return _json;
   }
 }
@@ -2676,15 +2484,9 @@ class v1AuthenticatorParamsV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticatorName != null || true) {
-      _json['authenticatorName'] = authenticatorName;
-    }
-    if (challenge != null || true) {
-      _json['challenge'] = challenge;
-    }
-    if (attestation != null || true) {
-      _json['attestation'] = attestation.toJson();
-    }
+    _json['authenticatorName'] = authenticatorName;
+    _json['challenge'] = challenge;
+    _json['attestation'] = attestation.toJson();
     return _json;
   }
 }
@@ -2740,30 +2542,14 @@ class v1BootProof {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (ephemeralPublicKeyHex != null || true) {
-      _json['ephemeralPublicKeyHex'] = ephemeralPublicKeyHex;
-    }
-    if (awsAttestationDocB64 != null || true) {
-      _json['awsAttestationDocB64'] = awsAttestationDocB64;
-    }
-    if (qosManifestB64 != null || true) {
-      _json['qosManifestB64'] = qosManifestB64;
-    }
-    if (qosManifestEnvelopeB64 != null || true) {
-      _json['qosManifestEnvelopeB64'] = qosManifestEnvelopeB64;
-    }
-    if (deploymentLabel != null || true) {
-      _json['deploymentLabel'] = deploymentLabel;
-    }
-    if (enclaveApp != null || true) {
-      _json['enclaveApp'] = enclaveApp;
-    }
-    if (owner != null || true) {
-      _json['owner'] = owner;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
+    _json['ephemeralPublicKeyHex'] = ephemeralPublicKeyHex;
+    _json['awsAttestationDocB64'] = awsAttestationDocB64;
+    _json['qosManifestB64'] = qosManifestB64;
+    _json['qosManifestEnvelopeB64'] = qosManifestEnvelopeB64;
+    _json['deploymentLabel'] = deploymentLabel;
+    _json['enclaveApp'] = enclaveApp;
+    _json['owner'] = owner;
+    _json['createdAt'] = createdAt.toJson();
     return _json;
   }
 }
@@ -2784,9 +2570,7 @@ class v1BootProofResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (bootProof != null || true) {
-      _json['bootProof'] = bootProof.toJson();
-    }
+    _json['bootProof'] = bootProof.toJson();
     return _json;
   }
 }
@@ -2811,10 +2595,10 @@ class v1Config {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (features != null || false) {
+    if (features != null) {
       _json['features'] = features?.map((e) => e.toJson()).toList();
     }
-    if (quorum != null || false) {
+    if (quorum != null) {
       _json['quorum'] = quorum?.toJson();
     }
     return _json;
@@ -2843,12 +2627,8 @@ class v1CreateApiKeysIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -2875,12 +2655,8 @@ class v1CreateApiKeysIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -2915,18 +2691,10 @@ class v1CreateApiKeysRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -2948,9 +2716,7 @@ class v1CreateApiKeysResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeyIds != null || true) {
-      _json['apiKeyIds'] = apiKeyIds;
-    }
+    _json['apiKeyIds'] = apiKeyIds;
     return _json;
   }
 }
@@ -2972,9 +2738,7 @@ class v1CreateApiOnlyUsersIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiOnlyUsers != null || true) {
-      _json['apiOnlyUsers'] = apiOnlyUsers?.map((e) => e.toJson()).toList();
-    }
+    _json['apiOnlyUsers'] = apiOnlyUsers.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -3009,18 +2773,10 @@ class v1CreateApiOnlyUsersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3042,9 +2798,7 @@ class v1CreateApiOnlyUsersResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -3071,12 +2825,8 @@ class v1CreateAuthenticatorsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -3103,12 +2853,8 @@ class v1CreateAuthenticatorsIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -3143,18 +2889,10 @@ class v1CreateAuthenticatorsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3176,9 +2914,7 @@ class v1CreateAuthenticatorsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticatorIds != null || true) {
-      _json['authenticatorIds'] = authenticatorIds;
-    }
+    _json['authenticatorIds'] = authenticatorIds;
     return _json;
   }
 }
@@ -3200,9 +2936,7 @@ class v1CreateInvitationsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitations != null || true) {
-      _json['invitations'] = invitations?.map((e) => e.toJson()).toList();
-    }
+    _json['invitations'] = invitations.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -3237,18 +2971,10 @@ class v1CreateInvitationsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3270,9 +2996,7 @@ class v1CreateInvitationsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationIds != null || true) {
-      _json['invitationIds'] = invitationIds;
-    }
+    _json['invitationIds'] = invitationIds;
     return _json;
   }
 }
@@ -3304,15 +3028,9 @@ class v1CreateOauth2CredentialIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (provider != null || true) {
-      _json['provider'] = v1Oauth2ProviderToJson(provider);
-    }
-    if (clientId != null || true) {
-      _json['clientId'] = clientId;
-    }
-    if (encryptedClientSecret != null || true) {
-      _json['encryptedClientSecret'] = encryptedClientSecret;
-    }
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['clientId'] = clientId;
+    _json['encryptedClientSecret'] = encryptedClientSecret;
     return _json;
   }
 }
@@ -3347,18 +3065,10 @@ class v1CreateOauth2CredentialRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3380,9 +3090,7 @@ class v1CreateOauth2CredentialResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -3409,12 +3117,8 @@ class v1CreateOauthProvidersIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
+    _json['userId'] = userId;
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -3449,18 +3153,10 @@ class v1CreateOauthProvidersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3482,9 +3178,7 @@ class v1CreateOauthProvidersResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (providerIds != null || true) {
-      _json['providerIds'] = providerIds;
-    }
+    _json['providerIds'] = providerIds;
     return _json;
   }
 }
@@ -3521,16 +3215,10 @@ class v1CreateOrganizationIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (rootEmail != null || true) {
-      _json['rootEmail'] = rootEmail;
-    }
-    if (rootAuthenticator != null || true) {
-      _json['rootAuthenticator'] = rootAuthenticator.toJson();
-    }
-    if (rootUserId != null || false) {
+    _json['organizationName'] = organizationName;
+    _json['rootEmail'] = rootEmail;
+    _json['rootAuthenticator'] = rootAuthenticator.toJson();
+    if (rootUserId != null) {
       _json['rootUserId'] = rootUserId;
     }
     return _json;
@@ -3569,16 +3257,10 @@ class v1CreateOrganizationIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (rootEmail != null || true) {
-      _json['rootEmail'] = rootEmail;
-    }
-    if (rootAuthenticator != null || true) {
-      _json['rootAuthenticator'] = rootAuthenticator.toJson();
-    }
-    if (rootUserId != null || false) {
+    _json['organizationName'] = organizationName;
+    _json['rootEmail'] = rootEmail;
+    _json['rootAuthenticator'] = rootAuthenticator.toJson();
+    if (rootUserId != null) {
       _json['rootUserId'] = rootUserId;
     }
     return _json;
@@ -3602,9 +3284,7 @@ class v1CreateOrganizationResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -3626,9 +3306,7 @@ class v1CreatePoliciesIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policies != null || true) {
-      _json['policies'] = policies?.map((e) => e.toJson()).toList();
-    }
+    _json['policies'] = policies.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -3663,18 +3341,10 @@ class v1CreatePoliciesRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3696,9 +3366,7 @@ class v1CreatePoliciesResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyIds != null || true) {
-      _json['policyIds'] = policyIds;
-    }
+    _json['policyIds'] = policyIds;
     return _json;
   }
 }
@@ -3734,16 +3402,10 @@ class v1CreatePolicyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyName != null || true) {
-      _json['policyName'] = policyName;
-    }
-    if (selectors != null || true) {
-      _json['selectors'] = selectors?.map((e) => e.toJson()).toList();
-    }
-    if (effect != null || true) {
-      _json['effect'] = v1EffectToJson(effect);
-    }
-    if (notes != null || false) {
+    _json['policyName'] = policyName;
+    _json['selectors'] = selectors.map((e) => e.toJson()).toList();
+    _json['effect'] = v1EffectToJson(effect);
+    if (notes != null) {
       _json['notes'] = notes;
     }
     return _json;
@@ -3781,16 +3443,10 @@ class v1CreatePolicyIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyName != null || true) {
-      _json['policyName'] = policyName;
-    }
-    if (selectors != null || true) {
-      _json['selectors'] = selectors?.map((e) => e.toJson()).toList();
-    }
-    if (effect != null || true) {
-      _json['effect'] = v1EffectToJson(effect);
-    }
-    if (notes != null || false) {
+    _json['policyName'] = policyName;
+    _json['selectors'] = selectors.map((e) => e.toJson()).toList();
+    _json['effect'] = v1EffectToJson(effect);
+    if (notes != null) {
       _json['notes'] = notes;
     }
     return _json;
@@ -3833,19 +3489,15 @@ class v1CreatePolicyIntentV3 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyName != null || true) {
-      _json['policyName'] = policyName;
-    }
-    if (effect != null || true) {
-      _json['effect'] = v1EffectToJson(effect);
-    }
-    if (condition != null || false) {
+    _json['policyName'] = policyName;
+    _json['effect'] = v1EffectToJson(effect);
+    if (condition != null) {
       _json['condition'] = condition;
     }
-    if (consensus != null || false) {
+    if (consensus != null) {
       _json['consensus'] = consensus;
     }
-    if (notes != null || false) {
+    if (notes != null) {
       _json['notes'] = notes;
     }
     return _json;
@@ -3882,18 +3534,10 @@ class v1CreatePolicyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -3915,9 +3559,7 @@ class v1CreatePolicyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -3944,12 +3586,8 @@ class v1CreatePrivateKeyTagIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTagName != null || true) {
-      _json['privateKeyTagName'] = privateKeyTagName;
-    }
-    if (privateKeyIds != null || true) {
-      _json['privateKeyIds'] = privateKeyIds;
-    }
+    _json['privateKeyTagName'] = privateKeyTagName;
+    _json['privateKeyIds'] = privateKeyIds;
     return _json;
   }
 }
@@ -3984,18 +3622,10 @@ class v1CreatePrivateKeyTagRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -4022,12 +3652,8 @@ class v1CreatePrivateKeyTagResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTagId != null || true) {
-      _json['privateKeyTagId'] = privateKeyTagId;
-    }
-    if (privateKeyIds != null || true) {
-      _json['privateKeyIds'] = privateKeyIds;
-    }
+    _json['privateKeyTagId'] = privateKeyTagId;
+    _json['privateKeyIds'] = privateKeyIds;
     return _json;
   }
 }
@@ -4049,9 +3675,7 @@ class v1CreatePrivateKeysIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -4073,9 +3697,7 @@ class v1CreatePrivateKeysIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -4110,18 +3732,10 @@ class v1CreatePrivateKeysRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -4143,9 +3757,7 @@ class v1CreatePrivateKeysResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyIds != null || true) {
-      _json['privateKeyIds'] = privateKeyIds;
-    }
+    _json['privateKeyIds'] = privateKeyIds;
     return _json;
   }
 }
@@ -4167,9 +3779,7 @@ class v1CreatePrivateKeysResultV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -4210,18 +3820,10 @@ class v1CreateReadOnlySessionRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -4268,24 +3870,12 @@ class v1CreateReadOnlySessionResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (username != null || true) {
-      _json['username'] = username;
-    }
-    if (session != null || true) {
-      _json['session'] = session;
-    }
-    if (sessionExpiry != null || true) {
-      _json['sessionExpiry'] = sessionExpiry;
-    }
+    _json['organizationId'] = organizationId;
+    _json['organizationName'] = organizationName;
+    _json['userId'] = userId;
+    _json['username'] = username;
+    _json['session'] = session;
+    _json['sessionExpiry'] = sessionExpiry;
     return _json;
   }
 }
@@ -4322,16 +3912,12 @@ class v1CreateReadWriteSessionIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (email != null || true) {
-      _json['email'] = email;
-    }
-    if (apiKeyName != null || false) {
+    _json['targetPublicKey'] = targetPublicKey;
+    _json['email'] = email;
+    if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
     return _json;
@@ -4375,19 +3961,17 @@ class v1CreateReadWriteSessionIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (userId != null || false) {
+    _json['targetPublicKey'] = targetPublicKey;
+    if (userId != null) {
       _json['userId'] = userId;
     }
-    if (apiKeyName != null || false) {
+    if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
     return _json;
@@ -4424,18 +4008,10 @@ class v1CreateReadWriteSessionRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -4482,24 +4058,12 @@ class v1CreateReadWriteSessionResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (username != null || true) {
-      _json['username'] = username;
-    }
-    if (apiKeyId != null || true) {
-      _json['apiKeyId'] = apiKeyId;
-    }
-    if (credentialBundle != null || true) {
-      _json['credentialBundle'] = credentialBundle;
-    }
+    _json['organizationId'] = organizationId;
+    _json['organizationName'] = organizationName;
+    _json['userId'] = userId;
+    _json['username'] = username;
+    _json['apiKeyId'] = apiKeyId;
+    _json['credentialBundle'] = credentialBundle;
     return _json;
   }
 }
@@ -4546,24 +4110,12 @@ class v1CreateReadWriteSessionResultV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (username != null || true) {
-      _json['username'] = username;
-    }
-    if (apiKeyId != null || true) {
-      _json['apiKeyId'] = apiKeyId;
-    }
-    if (credentialBundle != null || true) {
-      _json['credentialBundle'] = credentialBundle;
-    }
+    _json['organizationId'] = organizationId;
+    _json['organizationName'] = organizationName;
+    _json['userId'] = userId;
+    _json['username'] = username;
+    _json['apiKeyId'] = apiKeyId;
+    _json['credentialBundle'] = credentialBundle;
     return _json;
   }
 }
@@ -4604,19 +4156,11 @@ class v1CreateSmartContractInterfaceIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractAddress != null || true) {
-      _json['smartContractAddress'] = smartContractAddress;
-    }
-    if (smartContractInterface != null || true) {
-      _json['smartContractInterface'] = smartContractInterface;
-    }
-    if (type != null || true) {
-      _json['type'] = v1SmartContractInterfaceTypeToJson(type);
-    }
-    if (label != null || true) {
-      _json['label'] = label;
-    }
-    if (notes != null || false) {
+    _json['smartContractAddress'] = smartContractAddress;
+    _json['smartContractInterface'] = smartContractInterface;
+    _json['type'] = v1SmartContractInterfaceTypeToJson(type);
+    _json['label'] = label;
+    if (notes != null) {
       _json['notes'] = notes;
     }
     return _json;
@@ -4653,18 +4197,10 @@ class v1CreateSmartContractInterfaceRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -4686,9 +4222,7 @@ class v1CreateSmartContractInterfaceResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterfaceId != null || true) {
-      _json['smartContractInterfaceId'] = smartContractInterfaceId;
-    }
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
     return _json;
   }
 }
@@ -4715,12 +4249,8 @@ class v1CreateSubOrganizationIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (name != null || true) {
-      _json['name'] = name;
-    }
-    if (rootAuthenticator != null || true) {
-      _json['rootAuthenticator'] = rootAuthenticator.toJson();
-    }
+    _json['name'] = name;
+    _json['rootAuthenticator'] = rootAuthenticator.toJson();
     return _json;
   }
 }
@@ -4752,15 +4282,9 @@ class v1CreateSubOrganizationIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationName != null || true) {
-      _json['subOrganizationName'] = subOrganizationName;
-    }
-    if (rootUsers != null || true) {
-      _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList();
-    }
-    if (rootQuorumThreshold != null || true) {
-      _json['rootQuorumThreshold'] = rootQuorumThreshold;
-    }
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
     return _json;
   }
 }
@@ -4797,18 +4321,10 @@ class v1CreateSubOrganizationIntentV3 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationName != null || true) {
-      _json['subOrganizationName'] = subOrganizationName;
-    }
-    if (rootUsers != null || true) {
-      _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList();
-    }
-    if (rootQuorumThreshold != null || true) {
-      _json['rootQuorumThreshold'] = rootQuorumThreshold;
-    }
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -4855,22 +4371,16 @@ class v1CreateSubOrganizationIntentV4 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationName != null || true) {
-      _json['subOrganizationName'] = subOrganizationName;
-    }
-    if (rootUsers != null || true) {
-      _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList();
-    }
-    if (rootQuorumThreshold != null || true) {
-      _json['rootQuorumThreshold'] = rootQuorumThreshold;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (disableEmailRecovery != null || false) {
+    if (disableEmailRecovery != null) {
       _json['disableEmailRecovery'] = disableEmailRecovery;
     }
-    if (disableEmailAuth != null || false) {
+    if (disableEmailAuth != null) {
       _json['disableEmailAuth'] = disableEmailAuth;
     }
     return _json;
@@ -4919,22 +4429,16 @@ class v1CreateSubOrganizationIntentV5 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationName != null || true) {
-      _json['subOrganizationName'] = subOrganizationName;
-    }
-    if (rootUsers != null || true) {
-      _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList();
-    }
-    if (rootQuorumThreshold != null || true) {
-      _json['rootQuorumThreshold'] = rootQuorumThreshold;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (disableEmailRecovery != null || false) {
+    if (disableEmailRecovery != null) {
       _json['disableEmailRecovery'] = disableEmailRecovery;
     }
-    if (disableEmailAuth != null || false) {
+    if (disableEmailAuth != null) {
       _json['disableEmailAuth'] = disableEmailAuth;
     }
     return _json;
@@ -4983,22 +4487,16 @@ class v1CreateSubOrganizationIntentV6 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationName != null || true) {
-      _json['subOrganizationName'] = subOrganizationName;
-    }
-    if (rootUsers != null || true) {
-      _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList();
-    }
-    if (rootQuorumThreshold != null || true) {
-      _json['rootQuorumThreshold'] = rootQuorumThreshold;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (disableEmailRecovery != null || false) {
+    if (disableEmailRecovery != null) {
       _json['disableEmailRecovery'] = disableEmailRecovery;
     }
-    if (disableEmailAuth != null || false) {
+    if (disableEmailAuth != null) {
       _json['disableEmailAuth'] = disableEmailAuth;
     }
     return _json;
@@ -5062,31 +4560,25 @@ class v1CreateSubOrganizationIntentV7 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationName != null || true) {
-      _json['subOrganizationName'] = subOrganizationName;
-    }
-    if (rootUsers != null || true) {
-      _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList();
-    }
-    if (rootQuorumThreshold != null || true) {
-      _json['rootQuorumThreshold'] = rootQuorumThreshold;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (disableEmailRecovery != null || false) {
+    if (disableEmailRecovery != null) {
       _json['disableEmailRecovery'] = disableEmailRecovery;
     }
-    if (disableEmailAuth != null || false) {
+    if (disableEmailAuth != null) {
       _json['disableEmailAuth'] = disableEmailAuth;
     }
-    if (disableSmsAuth != null || false) {
+    if (disableSmsAuth != null) {
       _json['disableSmsAuth'] = disableSmsAuth;
     }
-    if (disableOtpEmailAuth != null || false) {
+    if (disableOtpEmailAuth != null) {
       _json['disableOtpEmailAuth'] = disableOtpEmailAuth;
     }
-    if (verificationToken != null || false) {
+    if (verificationToken != null) {
       _json['verificationToken'] = verificationToken;
     }
     return _json;
@@ -5123,18 +4615,10 @@ class v1CreateSubOrganizationRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -5159,10 +4643,8 @@ class v1CreateSubOrganizationResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationId != null || true) {
-      _json['subOrganizationId'] = subOrganizationId;
-    }
-    if (rootUserIds != null || false) {
+    _json['subOrganizationId'] = subOrganizationId;
+    if (rootUserIds != null) {
       _json['rootUserIds'] = rootUserIds;
     }
     return _json;
@@ -5194,13 +4676,9 @@ class v1CreateSubOrganizationResultV3 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationId != null || true) {
-      _json['subOrganizationId'] = subOrganizationId;
-    }
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
-    if (rootUserIds != null || false) {
+    _json['subOrganizationId'] = subOrganizationId;
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
+    if (rootUserIds != null) {
       _json['rootUserIds'] = rootUserIds;
     }
     return _json;
@@ -5231,13 +4709,11 @@ class v1CreateSubOrganizationResultV4 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationId != null || true) {
-      _json['subOrganizationId'] = subOrganizationId;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationId'] = subOrganizationId;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (rootUserIds != null || false) {
+    if (rootUserIds != null) {
       _json['rootUserIds'] = rootUserIds;
     }
     return _json;
@@ -5268,13 +4744,11 @@ class v1CreateSubOrganizationResultV5 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationId != null || true) {
-      _json['subOrganizationId'] = subOrganizationId;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationId'] = subOrganizationId;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (rootUserIds != null || false) {
+    if (rootUserIds != null) {
       _json['rootUserIds'] = rootUserIds;
     }
     return _json;
@@ -5305,13 +4779,11 @@ class v1CreateSubOrganizationResultV6 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationId != null || true) {
-      _json['subOrganizationId'] = subOrganizationId;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationId'] = subOrganizationId;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (rootUserIds != null || false) {
+    if (rootUserIds != null) {
       _json['rootUserIds'] = rootUserIds;
     }
     return _json;
@@ -5342,13 +4814,11 @@ class v1CreateSubOrganizationResultV7 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationId != null || true) {
-      _json['subOrganizationId'] = subOrganizationId;
-    }
-    if (wallet != null || false) {
+    _json['subOrganizationId'] = subOrganizationId;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (rootUserIds != null || false) {
+    if (rootUserIds != null) {
       _json['rootUserIds'] = rootUserIds;
     }
     return _json;
@@ -5377,12 +4847,8 @@ class v1CreateUserTagIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTagName != null || true) {
-      _json['userTagName'] = userTagName;
-    }
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userTagName'] = userTagName;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -5417,18 +4883,10 @@ class v1CreateUserTagRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -5455,12 +4913,8 @@ class v1CreateUserTagResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTagId != null || true) {
-      _json['userTagId'] = userTagId;
-    }
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userTagId'] = userTagId;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -5482,9 +4936,7 @@ class v1CreateUsersIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (users != null || true) {
-      _json['users'] = users?.map((e) => e.toJson()).toList();
-    }
+    _json['users'] = users.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -5506,9 +4958,7 @@ class v1CreateUsersIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (users != null || true) {
-      _json['users'] = users?.map((e) => e.toJson()).toList();
-    }
+    _json['users'] = users.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -5530,9 +4980,7 @@ class v1CreateUsersIntentV3 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (users != null || true) {
-      _json['users'] = users?.map((e) => e.toJson()).toList();
-    }
+    _json['users'] = users.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -5567,18 +5015,10 @@ class v1CreateUsersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -5600,9 +5040,7 @@ class v1CreateUsersResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -5634,13 +5072,9 @@ class v1CreateWalletAccountsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (accounts != null || true) {
-      _json['accounts'] = accounts?.map((e) => e.toJson()).toList();
-    }
-    if (persist != null || false) {
+    _json['walletId'] = walletId;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
+    if (persist != null) {
       _json['persist'] = persist;
     }
     return _json;
@@ -5677,18 +5111,10 @@ class v1CreateWalletAccountsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -5710,9 +5136,7 @@ class v1CreateWalletAccountsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (addresses != null || true) {
-      _json['addresses'] = addresses;
-    }
+    _json['addresses'] = addresses;
     return _json;
   }
 }
@@ -5744,13 +5168,9 @@ class v1CreateWalletIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletName != null || true) {
-      _json['walletName'] = walletName;
-    }
-    if (accounts != null || true) {
-      _json['accounts'] = accounts?.map((e) => e.toJson()).toList();
-    }
-    if (mnemonicLength != null || false) {
+    _json['walletName'] = walletName;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
+    if (mnemonicLength != null) {
       _json['mnemonicLength'] = mnemonicLength;
     }
     return _json;
@@ -5787,18 +5207,10 @@ class v1CreateWalletRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -5825,12 +5237,8 @@ class v1CreateWalletResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (addresses != null || true) {
-      _json['addresses'] = addresses;
-    }
+    _json['walletId'] = walletId;
+    _json['addresses'] = addresses;
     return _json;
   }
 }
@@ -5851,9 +5259,7 @@ class v1CredPropsAuthenticationExtensionsClientOutputs {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (rk != null || true) {
-      _json['rk'] = rk;
-    }
+    _json['rk'] = rk;
     return _json;
   }
 }
@@ -5880,12 +5286,8 @@ class v1DeleteApiKeysIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (apiKeyIds != null || true) {
-      _json['apiKeyIds'] = apiKeyIds;
-    }
+    _json['userId'] = userId;
+    _json['apiKeyIds'] = apiKeyIds;
     return _json;
   }
 }
@@ -5920,18 +5322,10 @@ class v1DeleteApiKeysRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -5953,9 +5347,7 @@ class v1DeleteApiKeysResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeyIds != null || true) {
-      _json['apiKeyIds'] = apiKeyIds;
-    }
+    _json['apiKeyIds'] = apiKeyIds;
     return _json;
   }
 }
@@ -5982,12 +5374,8 @@ class v1DeleteAuthenticatorsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (authenticatorIds != null || true) {
-      _json['authenticatorIds'] = authenticatorIds;
-    }
+    _json['userId'] = userId;
+    _json['authenticatorIds'] = authenticatorIds;
     return _json;
   }
 }
@@ -6022,18 +5410,10 @@ class v1DeleteAuthenticatorsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6055,9 +5435,7 @@ class v1DeleteAuthenticatorsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticatorIds != null || true) {
-      _json['authenticatorIds'] = authenticatorIds;
-    }
+    _json['authenticatorIds'] = authenticatorIds;
     return _json;
   }
 }
@@ -6079,9 +5457,7 @@ class v1DeleteInvitationIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationId != null || true) {
-      _json['invitationId'] = invitationId;
-    }
+    _json['invitationId'] = invitationId;
     return _json;
   }
 }
@@ -6116,18 +5492,10 @@ class v1DeleteInvitationRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6149,9 +5517,7 @@ class v1DeleteInvitationResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationId != null || true) {
-      _json['invitationId'] = invitationId;
-    }
+    _json['invitationId'] = invitationId;
     return _json;
   }
 }
@@ -6173,9 +5539,7 @@ class v1DeleteOauth2CredentialIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -6210,18 +5574,10 @@ class v1DeleteOauth2CredentialRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6243,9 +5599,7 @@ class v1DeleteOauth2CredentialResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -6272,12 +5626,8 @@ class v1DeleteOauthProvidersIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (providerIds != null || true) {
-      _json['providerIds'] = providerIds;
-    }
+    _json['userId'] = userId;
+    _json['providerIds'] = providerIds;
     return _json;
   }
 }
@@ -6312,18 +5662,10 @@ class v1DeleteOauthProvidersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6345,9 +5687,7 @@ class v1DeleteOauthProvidersResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (providerIds != null || true) {
-      _json['providerIds'] = providerIds;
-    }
+    _json['providerIds'] = providerIds;
     return _json;
   }
 }
@@ -6369,9 +5709,7 @@ class v1DeleteOrganizationIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -6393,9 +5731,7 @@ class v1DeleteOrganizationResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -6417,9 +5753,7 @@ class v1DeletePoliciesIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyIds != null || true) {
-      _json['policyIds'] = policyIds;
-    }
+    _json['policyIds'] = policyIds;
     return _json;
   }
 }
@@ -6454,18 +5788,10 @@ class v1DeletePoliciesRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6487,9 +5813,7 @@ class v1DeletePoliciesResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyIds != null || true) {
-      _json['policyIds'] = policyIds;
-    }
+    _json['policyIds'] = policyIds;
     return _json;
   }
 }
@@ -6511,9 +5835,7 @@ class v1DeletePolicyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -6548,18 +5870,10 @@ class v1DeletePolicyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6581,9 +5895,7 @@ class v1DeletePolicyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -6605,9 +5917,7 @@ class v1DeletePrivateKeyTagsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTagIds != null || true) {
-      _json['privateKeyTagIds'] = privateKeyTagIds;
-    }
+    _json['privateKeyTagIds'] = privateKeyTagIds;
     return _json;
   }
 }
@@ -6642,18 +5952,10 @@ class v1DeletePrivateKeyTagsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6680,12 +5982,8 @@ class v1DeletePrivateKeyTagsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTagIds != null || true) {
-      _json['privateKeyTagIds'] = privateKeyTagIds;
-    }
-    if (privateKeyIds != null || true) {
-      _json['privateKeyIds'] = privateKeyIds;
-    }
+    _json['privateKeyTagIds'] = privateKeyTagIds;
+    _json['privateKeyIds'] = privateKeyIds;
     return _json;
   }
 }
@@ -6712,10 +6010,8 @@ class v1DeletePrivateKeysIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyIds != null || true) {
-      _json['privateKeyIds'] = privateKeyIds;
-    }
-    if (deleteWithoutExport != null || false) {
+    _json['privateKeyIds'] = privateKeyIds;
+    if (deleteWithoutExport != null) {
       _json['deleteWithoutExport'] = deleteWithoutExport;
     }
     return _json;
@@ -6752,18 +6048,10 @@ class v1DeletePrivateKeysRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6785,9 +6073,7 @@ class v1DeletePrivateKeysResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyIds != null || true) {
-      _json['privateKeyIds'] = privateKeyIds;
-    }
+    _json['privateKeyIds'] = privateKeyIds;
     return _json;
   }
 }
@@ -6809,9 +6095,7 @@ class v1DeleteSmartContractInterfaceIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterfaceId != null || true) {
-      _json['smartContractInterfaceId'] = smartContractInterfaceId;
-    }
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
     return _json;
   }
 }
@@ -6846,18 +6130,10 @@ class v1DeleteSmartContractInterfaceRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6879,9 +6155,7 @@ class v1DeleteSmartContractInterfaceResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterfaceId != null || true) {
-      _json['smartContractInterfaceId'] = smartContractInterfaceId;
-    }
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
     return _json;
   }
 }
@@ -6903,7 +6177,7 @@ class v1DeleteSubOrganizationIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (deleteWithoutExport != null || false) {
+    if (deleteWithoutExport != null) {
       _json['deleteWithoutExport'] = deleteWithoutExport;
     }
     return _json;
@@ -6940,18 +6214,10 @@ class v1DeleteSubOrganizationRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6973,9 +6239,7 @@ class v1DeleteSubOrganizationResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subOrganizationUuid != null || true) {
-      _json['subOrganizationUuid'] = subOrganizationUuid;
-    }
+    _json['subOrganizationUuid'] = subOrganizationUuid;
     return _json;
   }
 }
@@ -6997,9 +6261,7 @@ class v1DeleteUserTagsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTagIds != null || true) {
-      _json['userTagIds'] = userTagIds;
-    }
+    _json['userTagIds'] = userTagIds;
     return _json;
   }
 }
@@ -7034,18 +6296,10 @@ class v1DeleteUserTagsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7072,12 +6326,8 @@ class v1DeleteUserTagsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTagIds != null || true) {
-      _json['userTagIds'] = userTagIds;
-    }
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userTagIds'] = userTagIds;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -7099,9 +6349,7 @@ class v1DeleteUsersIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -7136,18 +6384,10 @@ class v1DeleteUsersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7169,9 +6409,7 @@ class v1DeleteUsersResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -7198,10 +6436,8 @@ class v1DeleteWalletAccountsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletAccountIds != null || true) {
-      _json['walletAccountIds'] = walletAccountIds;
-    }
-    if (deleteWithoutExport != null || false) {
+    _json['walletAccountIds'] = walletAccountIds;
+    if (deleteWithoutExport != null) {
       _json['deleteWithoutExport'] = deleteWithoutExport;
     }
     return _json;
@@ -7238,18 +6474,10 @@ class v1DeleteWalletAccountsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7271,9 +6499,7 @@ class v1DeleteWalletAccountsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletAccountIds != null || true) {
-      _json['walletAccountIds'] = walletAccountIds;
-    }
+    _json['walletAccountIds'] = walletAccountIds;
     return _json;
   }
 }
@@ -7300,10 +6526,8 @@ class v1DeleteWalletsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletIds != null || true) {
-      _json['walletIds'] = walletIds;
-    }
-    if (deleteWithoutExport != null || false) {
+    _json['walletIds'] = walletIds;
+    if (deleteWithoutExport != null) {
       _json['deleteWithoutExport'] = deleteWithoutExport;
     }
     return _json;
@@ -7340,18 +6564,10 @@ class v1DeleteWalletsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7373,9 +6589,7 @@ class v1DeleteWalletsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletIds != null || true) {
-      _json['walletIds'] = walletIds;
-    }
+    _json['walletIds'] = walletIds;
     return _json;
   }
 }
@@ -7409,9 +6623,7 @@ class v1DisablePrivateKeyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
+    _json['privateKeyId'] = privateKeyId;
     return _json;
   }
 }
@@ -7433,9 +6645,7 @@ class v1DisablePrivateKeyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
+    _json['privateKeyId'] = privateKeyId;
     return _json;
   }
 }
@@ -7497,31 +6707,27 @@ class v1EmailAuthIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (email != null || true) {
-      _json['email'] = email;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (apiKeyName != null || false) {
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null || false) {
+    if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
-    if (sendFromEmailAddress != null || false) {
+    if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
-    if (sendFromEmailSenderName != null || false) {
+    if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
     }
-    if (replyToEmailAddress != null || false) {
+    if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
@@ -7585,31 +6791,27 @@ class v1EmailAuthIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (email != null || true) {
-      _json['email'] = email;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (apiKeyName != null || false) {
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null || false) {
+    if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
-    if (sendFromEmailAddress != null || false) {
+    if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
-    if (sendFromEmailSenderName != null || false) {
+    if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
     }
-    if (replyToEmailAddress != null || false) {
+    if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
@@ -7646,18 +6848,10 @@ class v1EmailAuthRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7684,12 +6878,8 @@ class v1EmailAuthResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (apiKeyId != null || true) {
-      _json['apiKeyId'] = apiKeyId;
-    }
+    _json['userId'] = userId;
+    _json['apiKeyId'] = apiKeyId;
     return _json;
   }
 }
@@ -7731,19 +6921,19 @@ class v1EmailCustomizationParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (appName != null || false) {
+    if (appName != null) {
       _json['appName'] = appName;
     }
-    if (logoUrl != null || false) {
+    if (logoUrl != null) {
       _json['logoUrl'] = logoUrl;
     }
-    if (magicLinkTemplate != null || false) {
+    if (magicLinkTemplate != null) {
       _json['magicLinkTemplate'] = magicLinkTemplate;
     }
-    if (templateVariables != null || false) {
+    if (templateVariables != null) {
       _json['templateVariables'] = templateVariables;
     }
-    if (templateId != null || false) {
+    if (templateId != null) {
       _json['templateId'] = templateId;
     }
     return _json;
@@ -7773,9 +6963,7 @@ class v1EnableAuthProxyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -7802,12 +6990,8 @@ class v1ExportPrivateKeyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['targetPublicKey'] = targetPublicKey;
     return _json;
   }
 }
@@ -7842,18 +7026,10 @@ class v1ExportPrivateKeyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7880,12 +7056,8 @@ class v1ExportPrivateKeyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
-    if (exportBundle != null || true) {
-      _json['exportBundle'] = exportBundle;
-    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['exportBundle'] = exportBundle;
     return _json;
   }
 }
@@ -7912,12 +7084,8 @@ class v1ExportWalletAccountIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (address != null || true) {
-      _json['address'] = address;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
+    _json['address'] = address;
+    _json['targetPublicKey'] = targetPublicKey;
     return _json;
   }
 }
@@ -7952,18 +7120,10 @@ class v1ExportWalletAccountRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -7990,12 +7150,8 @@ class v1ExportWalletAccountResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (address != null || true) {
-      _json['address'] = address;
-    }
-    if (exportBundle != null || true) {
-      _json['exportBundle'] = exportBundle;
-    }
+    _json['address'] = address;
+    _json['exportBundle'] = exportBundle;
     return _json;
   }
 }
@@ -8027,13 +7183,9 @@ class v1ExportWalletIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (language != null || false) {
+    _json['walletId'] = walletId;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (language != null) {
       _json['language'] = v1MnemonicLanguageToJson(language!);
     }
     return _json;
@@ -8070,18 +7222,10 @@ class v1ExportWalletRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -8108,12 +7252,8 @@ class v1ExportWalletResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (exportBundle != null || true) {
-      _json['exportBundle'] = exportBundle;
-    }
+    _json['walletId'] = walletId;
+    _json['exportBundle'] = exportBundle;
     return _json;
   }
 }
@@ -8138,10 +7278,10 @@ class v1Feature {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (name != null || false) {
+    if (name != null) {
       _json['name'] = v1FeatureNameToJson(name!);
     }
-    if (value != null || false) {
+    if (value != null) {
       _json['value'] = value;
     }
     return _json;
@@ -8180,16 +7320,14 @@ class v1GetActivitiesRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (filterByStatus != null || false) {
+    _json['organizationId'] = organizationId;
+    if (filterByStatus != null) {
       _json['filterByStatus'] = filterByStatus?.map((e) => v1ActivityStatusToJson(e)).toList();
     }
-    if (paginationOptions != null || false) {
+    if (paginationOptions != null) {
       _json['paginationOptions'] = paginationOptions?.toJson();
     }
-    if (filterByType != null || false) {
+    if (filterByType != null) {
       _json['filterByType'] = filterByType?.map((e) => v1ActivityTypeToJson(e)).toList();
     }
     return _json;
@@ -8213,9 +7351,7 @@ class v1GetActivitiesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (activities != null || true) {
-      _json['activities'] = activities?.map((e) => e.toJson()).toList();
-    }
+    _json['activities'] = activities.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8242,12 +7378,8 @@ class v1GetActivityRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (activityId != null || true) {
-      _json['activityId'] = activityId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['activityId'] = activityId;
     return _json;
   }
 }
@@ -8274,12 +7406,8 @@ class v1GetApiKeyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (apiKeyId != null || true) {
-      _json['apiKeyId'] = apiKeyId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['apiKeyId'] = apiKeyId;
     return _json;
   }
 }
@@ -8301,9 +7429,7 @@ class v1GetApiKeyResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKey != null || true) {
-      _json['apiKey'] = apiKey.toJson();
-    }
+    _json['apiKey'] = apiKey.toJson();
     return _json;
   }
 }
@@ -8330,10 +7456,8 @@ class v1GetApiKeysRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (userId != null || false) {
+    _json['organizationId'] = organizationId;
+    if (userId != null) {
       _json['userId'] = userId;
     }
     return _json;
@@ -8357,9 +7481,7 @@ class v1GetApiKeysResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8386,12 +7508,8 @@ class v1GetAppProofsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (activityId != null || true) {
-      _json['activityId'] = activityId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['activityId'] = activityId;
     return _json;
   }
 }
@@ -8412,9 +7530,7 @@ class v1GetAppProofsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (appProofs != null || true) {
-      _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
-    }
+    _json['appProofs'] = appProofs.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8441,12 +7557,8 @@ class v1GetAttestationDocumentRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (enclaveType != null || true) {
-      _json['enclaveType'] = enclaveType;
-    }
+    _json['organizationId'] = organizationId;
+    _json['enclaveType'] = enclaveType;
     return _json;
   }
 }
@@ -8468,9 +7580,7 @@ class v1GetAttestationDocumentResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (attestationDocument != null || true) {
-      _json['attestationDocument'] = attestationDocument;
-    }
+    _json['attestationDocument'] = attestationDocument;
     return _json;
   }
 }
@@ -8497,12 +7607,8 @@ class v1GetAuthenticatorRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (authenticatorId != null || true) {
-      _json['authenticatorId'] = authenticatorId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['authenticatorId'] = authenticatorId;
     return _json;
   }
 }
@@ -8524,9 +7630,7 @@ class v1GetAuthenticatorResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticator != null || true) {
-      _json['authenticator'] = authenticator.toJson();
-    }
+    _json['authenticator'] = authenticator.toJson();
     return _json;
   }
 }
@@ -8553,12 +7657,8 @@ class v1GetAuthenticatorsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -8580,9 +7680,7 @@ class v1GetAuthenticatorsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8609,12 +7707,8 @@ class v1GetBootProofRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (ephemeralKey != null || true) {
-      _json['ephemeralKey'] = ephemeralKey;
-    }
+    _json['organizationId'] = organizationId;
+    _json['ephemeralKey'] = ephemeralKey;
     return _json;
   }
 }
@@ -8641,12 +7735,8 @@ class v1GetLatestBootProofRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (appName != null || true) {
-      _json['appName'] = appName;
-    }
+    _json['organizationId'] = organizationId;
+    _json['appName'] = appName;
     return _json;
   }
 }
@@ -8673,12 +7763,8 @@ class v1GetOauth2CredentialRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -8699,9 +7785,7 @@ class v1GetOauth2CredentialResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2Credential != null || true) {
-      _json['oauth2Credential'] = oauth2Credential.toJson();
-    }
+    _json['oauth2Credential'] = oauth2Credential.toJson();
     return _json;
   }
 }
@@ -8728,10 +7812,8 @@ class v1GetOauthProvidersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (userId != null || false) {
+    _json['organizationId'] = organizationId;
+    if (userId != null) {
       _json['userId'] = userId;
     }
     return _json;
@@ -8755,9 +7837,7 @@ class v1GetOauthProvidersResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8779,9 +7859,7 @@ class v1GetOrganizationConfigsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -8803,9 +7881,7 @@ class v1GetOrganizationConfigsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (configs != null || true) {
-      _json['configs'] = configs.toJson();
-    }
+    _json['configs'] = configs.toJson();
     return _json;
   }
 }
@@ -8827,9 +7903,7 @@ class v1GetOrganizationRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -8851,9 +7925,7 @@ class v1GetOrganizationResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationData != null || true) {
-      _json['organizationData'] = organizationData.toJson();
-    }
+    _json['organizationData'] = organizationData.toJson();
     return _json;
   }
 }
@@ -8875,9 +7947,7 @@ class v1GetPoliciesRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -8899,9 +7969,7 @@ class v1GetPoliciesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policies != null || true) {
-      _json['policies'] = policies?.map((e) => e.toJson()).toList();
-    }
+    _json['policies'] = policies.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8928,12 +7996,8 @@ class v1GetPolicyEvaluationsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (activityId != null || true) {
-      _json['activityId'] = activityId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['activityId'] = activityId;
     return _json;
   }
 }
@@ -8954,9 +8018,7 @@ class v1GetPolicyEvaluationsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyEvaluations != null || true) {
-      _json['policyEvaluations'] = policyEvaluations?.map((e) => e.toJson()).toList();
-    }
+    _json['policyEvaluations'] = policyEvaluations.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -8983,12 +8045,8 @@ class v1GetPolicyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -9010,9 +8068,7 @@ class v1GetPolicyResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policy != null || true) {
-      _json['policy'] = policy.toJson();
-    }
+    _json['policy'] = policy.toJson();
     return _json;
   }
 }
@@ -9039,12 +8095,8 @@ class v1GetPrivateKeyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['privateKeyId'] = privateKeyId;
     return _json;
   }
 }
@@ -9066,9 +8118,7 @@ class v1GetPrivateKeyResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKey != null || true) {
-      _json['privateKey'] = privateKey.toJson();
-    }
+    _json['privateKey'] = privateKey.toJson();
     return _json;
   }
 }
@@ -9090,9 +8140,7 @@ class v1GetPrivateKeysRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -9114,9 +8162,7 @@ class v1GetPrivateKeysResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -9143,12 +8189,8 @@ class v1GetSmartContractInterfaceRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (smartContractInterfaceId != null || true) {
-      _json['smartContractInterfaceId'] = smartContractInterfaceId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
     return _json;
   }
 }
@@ -9170,9 +8212,7 @@ class v1GetSmartContractInterfaceResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterface != null || true) {
-      _json['smartContractInterface'] = smartContractInterface.toJson();
-    }
+    _json['smartContractInterface'] = smartContractInterface.toJson();
     return _json;
   }
 }
@@ -9194,9 +8234,7 @@ class v1GetSmartContractInterfacesRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -9218,9 +8256,7 @@ class v1GetSmartContractInterfacesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterfaces != null || true) {
-      _json['smartContractInterfaces'] = smartContractInterfaces?.map((e) => e.toJson()).toList();
-    }
+    _json['smartContractInterfaces'] = smartContractInterfaces.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -9257,16 +8293,14 @@ class v1GetSubOrgIdsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (filterType != null || false) {
+    _json['organizationId'] = organizationId;
+    if (filterType != null) {
       _json['filterType'] = filterType;
     }
-    if (filterValue != null || false) {
+    if (filterValue != null) {
       _json['filterValue'] = filterValue;
     }
-    if (paginationOptions != null || false) {
+    if (paginationOptions != null) {
       _json['paginationOptions'] = paginationOptions?.toJson();
     }
     return _json;
@@ -9290,9 +8324,7 @@ class v1GetSubOrgIdsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationIds != null || true) {
-      _json['organizationIds'] = organizationIds;
-    }
+    _json['organizationIds'] = organizationIds;
     return _json;
   }
 }
@@ -9319,12 +8351,8 @@ class v1GetUserRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -9346,9 +8374,7 @@ class v1GetUserResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (user != null || true) {
-      _json['user'] = user.toJson();
-    }
+    _json['user'] = user.toJson();
     return _json;
   }
 }
@@ -9370,9 +8396,7 @@ class v1GetUsersRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -9394,9 +8418,7 @@ class v1GetUsersResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (users != null || true) {
-      _json['users'] = users?.map((e) => e.toJson()).toList();
-    }
+    _json['users'] = users.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -9433,16 +8455,14 @@ class v1GetVerifiedSubOrgIdsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (filterType != null || false) {
+    _json['organizationId'] = organizationId;
+    if (filterType != null) {
       _json['filterType'] = filterType;
     }
-    if (filterValue != null || false) {
+    if (filterValue != null) {
       _json['filterValue'] = filterValue;
     }
-    if (paginationOptions != null || false) {
+    if (paginationOptions != null) {
       _json['paginationOptions'] = paginationOptions?.toJson();
     }
     return _json;
@@ -9466,9 +8486,7 @@ class v1GetVerifiedSubOrgIdsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationIds != null || true) {
-      _json['organizationIds'] = organizationIds;
-    }
+    _json['organizationIds'] = organizationIds;
     return _json;
   }
 }
@@ -9505,16 +8523,12 @@ class v1GetWalletAccountRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (address != null || false) {
+    _json['organizationId'] = organizationId;
+    _json['walletId'] = walletId;
+    if (address != null) {
       _json['address'] = address;
     }
-    if (path != null || false) {
+    if (path != null) {
       _json['path'] = path;
     }
     return _json;
@@ -9538,9 +8552,7 @@ class v1GetWalletAccountResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (account != null || true) {
-      _json['account'] = account.toJson();
-    }
+    _json['account'] = account.toJson();
     return _json;
   }
 }
@@ -9577,16 +8589,14 @@ class v1GetWalletAccountsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (walletId != null || false) {
+    _json['organizationId'] = organizationId;
+    if (walletId != null) {
       _json['walletId'] = walletId;
     }
-    if (includeWalletDetails != null || false) {
+    if (includeWalletDetails != null) {
       _json['includeWalletDetails'] = includeWalletDetails;
     }
-    if (paginationOptions != null || false) {
+    if (paginationOptions != null) {
       _json['paginationOptions'] = paginationOptions?.toJson();
     }
     return _json;
@@ -9610,9 +8620,7 @@ class v1GetWalletAccountsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (accounts != null || true) {
-      _json['accounts'] = accounts?.map((e) => e.toJson()).toList();
-    }
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -9639,12 +8647,8 @@ class v1GetWalletRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
+    _json['organizationId'] = organizationId;
+    _json['walletId'] = walletId;
     return _json;
   }
 }
@@ -9666,9 +8670,7 @@ class v1GetWalletResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (wallet != null || true) {
-      _json['wallet'] = wallet.toJson();
-    }
+    _json['wallet'] = wallet.toJson();
     return _json;
   }
 }
@@ -9690,9 +8692,7 @@ class v1GetWalletsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -9714,9 +8714,7 @@ class v1GetWalletsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (wallets != null || true) {
-      _json['wallets'] = wallets?.map((e) => e.toJson()).toList();
-    }
+    _json['wallets'] = wallets.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -9738,9 +8736,7 @@ class v1GetWhoamiRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -9777,18 +8773,10 @@ class v1GetWhoamiResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (username != null || true) {
-      _json['username'] = username;
-    }
+    _json['organizationId'] = organizationId;
+    _json['organizationName'] = organizationName;
+    _json['userId'] = userId;
+    _json['username'] = username;
     return _json;
   }
 }
@@ -9830,21 +8818,11 @@ class v1ImportPrivateKeyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (privateKeyName != null || true) {
-      _json['privateKeyName'] = privateKeyName;
-    }
-    if (encryptedBundle != null || true) {
-      _json['encryptedBundle'] = encryptedBundle;
-    }
-    if (curve != null || true) {
-      _json['curve'] = v1CurveToJson(curve);
-    }
-    if (addressFormats != null || true) {
-      _json['addressFormats'] = addressFormats?.map((e) => v1AddressFormatToJson(e)).toList();
-    }
+    _json['userId'] = userId;
+    _json['privateKeyName'] = privateKeyName;
+    _json['encryptedBundle'] = encryptedBundle;
+    _json['curve'] = v1CurveToJson(curve);
+    _json['addressFormats'] = addressFormats.map((e) => v1AddressFormatToJson(e)).toList();
     return _json;
   }
 }
@@ -9879,18 +8857,10 @@ class v1ImportPrivateKeyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -9917,12 +8887,8 @@ class v1ImportPrivateKeyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
-    if (addresses != null || true) {
-      _json['addresses'] = addresses?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['addresses'] = addresses.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -9959,18 +8925,10 @@ class v1ImportWalletIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (walletName != null || true) {
-      _json['walletName'] = walletName;
-    }
-    if (encryptedBundle != null || true) {
-      _json['encryptedBundle'] = encryptedBundle;
-    }
-    if (accounts != null || true) {
-      _json['accounts'] = accounts?.map((e) => e.toJson()).toList();
-    }
+    _json['userId'] = userId;
+    _json['walletName'] = walletName;
+    _json['encryptedBundle'] = encryptedBundle;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -10005,18 +8963,10 @@ class v1ImportWalletRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10043,12 +8993,8 @@ class v1ImportWalletResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (addresses != null || true) {
-      _json['addresses'] = addresses;
-    }
+    _json['walletId'] = walletId;
+    _json['addresses'] = addresses;
     return _json;
   }
 }
@@ -10120,37 +9066,29 @@ class v1InitFiatOnRampIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (onrampProvider != null || true) {
-      _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
-    }
-    if (walletAddress != null || true) {
-      _json['walletAddress'] = walletAddress;
-    }
-    if (network != null || true) {
-      _json['network'] = v1FiatOnRampBlockchainNetworkToJson(network);
-    }
-    if (cryptoCurrencyCode != null || true) {
-      _json['cryptoCurrencyCode'] = v1FiatOnRampCryptoCurrencyToJson(cryptoCurrencyCode);
-    }
-    if (fiatCurrencyCode != null || false) {
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    _json['walletAddress'] = walletAddress;
+    _json['network'] = v1FiatOnRampBlockchainNetworkToJson(network);
+    _json['cryptoCurrencyCode'] = v1FiatOnRampCryptoCurrencyToJson(cryptoCurrencyCode);
+    if (fiatCurrencyCode != null) {
       _json['fiatCurrencyCode'] = v1FiatOnRampCurrencyToJson(fiatCurrencyCode!);
     }
-    if (fiatCurrencyAmount != null || false) {
+    if (fiatCurrencyAmount != null) {
       _json['fiatCurrencyAmount'] = fiatCurrencyAmount;
     }
-    if (paymentMethod != null || false) {
+    if (paymentMethod != null) {
       _json['paymentMethod'] = v1FiatOnRampPaymentMethodToJson(paymentMethod!);
     }
-    if (countryCode != null || false) {
+    if (countryCode != null) {
       _json['countryCode'] = countryCode;
     }
-    if (countrySubdivisionCode != null || false) {
+    if (countrySubdivisionCode != null) {
       _json['countrySubdivisionCode'] = countrySubdivisionCode;
     }
-    if (sandboxMode != null || false) {
+    if (sandboxMode != null) {
       _json['sandboxMode'] = sandboxMode;
     }
-    if (urlForSignature != null || false) {
+    if (urlForSignature != null) {
       _json['urlForSignature'] = urlForSignature;
     }
     return _json;
@@ -10187,18 +9125,10 @@ class v1InitFiatOnRampRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10230,13 +9160,9 @@ class v1InitFiatOnRampResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (onRampUrl != null || true) {
-      _json['onRampUrl'] = onRampUrl;
-    }
-    if (onRampTransactionId != null || true) {
-      _json['onRampTransactionId'] = onRampTransactionId;
-    }
-    if (onRampUrlSignature != null || false) {
+    _json['onRampUrl'] = onRampUrl;
+    _json['onRampTransactionId'] = onRampTransactionId;
+    if (onRampUrlSignature != null) {
       _json['onRampUrlSignature'] = onRampUrlSignature;
     }
     return _json;
@@ -10260,9 +9186,7 @@ class v1InitImportPrivateKeyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -10297,18 +9221,10 @@ class v1InitImportPrivateKeyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10330,9 +9246,7 @@ class v1InitImportPrivateKeyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (importBundle != null || true) {
-      _json['importBundle'] = importBundle;
-    }
+    _json['importBundle'] = importBundle;
     return _json;
   }
 }
@@ -10354,9 +9268,7 @@ class v1InitImportWalletIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -10391,18 +9303,10 @@ class v1InitImportWalletRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10424,9 +9328,7 @@ class v1InitImportWalletResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (importBundle != null || true) {
-      _json['importBundle'] = importBundle;
-    }
+    _json['importBundle'] = importBundle;
     return _json;
   }
 }
@@ -10483,28 +9385,24 @@ class v1InitOtpAuthIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpType != null || true) {
-      _json['otpType'] = otpType;
-    }
-    if (contact != null || true) {
-      _json['contact'] = contact;
-    }
-    if (emailCustomization != null || false) {
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
-    if (smsCustomization != null || false) {
+    if (smsCustomization != null) {
       _json['smsCustomization'] = smsCustomization?.toJson();
     }
-    if (userIdentifier != null || false) {
+    if (userIdentifier != null) {
       _json['userIdentifier'] = userIdentifier;
     }
-    if (sendFromEmailAddress != null || false) {
+    if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
-    if (sendFromEmailSenderName != null || false) {
+    if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
     }
-    if (replyToEmailAddress != null || false) {
+    if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
@@ -10573,34 +9471,30 @@ class v1InitOtpAuthIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpType != null || true) {
-      _json['otpType'] = otpType;
-    }
-    if (contact != null || true) {
-      _json['contact'] = contact;
-    }
-    if (otpLength != null || false) {
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
-    if (emailCustomization != null || false) {
+    if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
-    if (smsCustomization != null || false) {
+    if (smsCustomization != null) {
       _json['smsCustomization'] = smsCustomization?.toJson();
     }
-    if (userIdentifier != null || false) {
+    if (userIdentifier != null) {
       _json['userIdentifier'] = userIdentifier;
     }
-    if (sendFromEmailAddress != null || false) {
+    if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
-    if (alphanumeric != null || false) {
+    if (alphanumeric != null) {
       _json['alphanumeric'] = alphanumeric;
     }
-    if (sendFromEmailSenderName != null || false) {
+    if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
     }
-    if (replyToEmailAddress != null || false) {
+    if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
@@ -10637,18 +9531,10 @@ class v1InitOtpAuthRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10670,9 +9556,7 @@ class v1InitOtpAuthResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) {
-      _json['otpId'] = otpId;
-    }
+    _json['otpId'] = otpId;
     return _json;
   }
 }
@@ -10694,9 +9578,7 @@ class v1InitOtpAuthResultV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) {
-      _json['otpId'] = otpId;
-    }
+    _json['otpId'] = otpId;
     return _json;
   }
 }
@@ -10768,37 +9650,33 @@ class v1InitOtpIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpType != null || true) {
-      _json['otpType'] = otpType;
-    }
-    if (contact != null || true) {
-      _json['contact'] = contact;
-    }
-    if (otpLength != null || false) {
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
-    if (emailCustomization != null || false) {
+    if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
-    if (smsCustomization != null || false) {
+    if (smsCustomization != null) {
       _json['smsCustomization'] = smsCustomization?.toJson();
     }
-    if (userIdentifier != null || false) {
+    if (userIdentifier != null) {
       _json['userIdentifier'] = userIdentifier;
     }
-    if (sendFromEmailAddress != null || false) {
+    if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
-    if (alphanumeric != null || false) {
+    if (alphanumeric != null) {
       _json['alphanumeric'] = alphanumeric;
     }
-    if (sendFromEmailSenderName != null || false) {
+    if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (replyToEmailAddress != null || false) {
+    if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
@@ -10835,18 +9713,10 @@ class v1InitOtpRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10868,9 +9738,7 @@ class v1InitOtpResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) {
-      _json['otpId'] = otpId;
-    }
+    _json['otpId'] = otpId;
     return _json;
   }
 }
@@ -10907,16 +9775,12 @@ class v1InitUserEmailRecoveryIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (email != null || true) {
-      _json['email'] = email;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (expirationSeconds != null || false) {
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null || false) {
+    if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
     return _json;
@@ -10953,18 +9817,10 @@ class v1InitUserEmailRecoveryRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -10986,9 +9842,7 @@ class v1InitUserEmailRecoveryResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -11417,313 +10271,313 @@ class v1Intent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (createOrganizationIntent != null || false) {
+    if (createOrganizationIntent != null) {
       _json['createOrganizationIntent'] = createOrganizationIntent?.toJson();
     }
-    if (createAuthenticatorsIntent != null || false) {
+    if (createAuthenticatorsIntent != null) {
       _json['createAuthenticatorsIntent'] = createAuthenticatorsIntent?.toJson();
     }
-    if (createUsersIntent != null || false) {
+    if (createUsersIntent != null) {
       _json['createUsersIntent'] = createUsersIntent?.toJson();
     }
-    if (createPrivateKeysIntent != null || false) {
+    if (createPrivateKeysIntent != null) {
       _json['createPrivateKeysIntent'] = createPrivateKeysIntent?.toJson();
     }
-    if (signRawPayloadIntent != null || false) {
+    if (signRawPayloadIntent != null) {
       _json['signRawPayloadIntent'] = signRawPayloadIntent?.toJson();
     }
-    if (createInvitationsIntent != null || false) {
+    if (createInvitationsIntent != null) {
       _json['createInvitationsIntent'] = createInvitationsIntent?.toJson();
     }
-    if (acceptInvitationIntent != null || false) {
+    if (acceptInvitationIntent != null) {
       _json['acceptInvitationIntent'] = acceptInvitationIntent?.toJson();
     }
-    if (createPolicyIntent != null || false) {
+    if (createPolicyIntent != null) {
       _json['createPolicyIntent'] = createPolicyIntent?.toJson();
     }
-    if (disablePrivateKeyIntent != null || false) {
+    if (disablePrivateKeyIntent != null) {
       _json['disablePrivateKeyIntent'] = disablePrivateKeyIntent?.toJson();
     }
-    if (deleteUsersIntent != null || false) {
+    if (deleteUsersIntent != null) {
       _json['deleteUsersIntent'] = deleteUsersIntent?.toJson();
     }
-    if (deleteAuthenticatorsIntent != null || false) {
+    if (deleteAuthenticatorsIntent != null) {
       _json['deleteAuthenticatorsIntent'] = deleteAuthenticatorsIntent?.toJson();
     }
-    if (deleteInvitationIntent != null || false) {
+    if (deleteInvitationIntent != null) {
       _json['deleteInvitationIntent'] = deleteInvitationIntent?.toJson();
     }
-    if (deleteOrganizationIntent != null || false) {
+    if (deleteOrganizationIntent != null) {
       _json['deleteOrganizationIntent'] = deleteOrganizationIntent?.toJson();
     }
-    if (deletePolicyIntent != null || false) {
+    if (deletePolicyIntent != null) {
       _json['deletePolicyIntent'] = deletePolicyIntent?.toJson();
     }
-    if (createUserTagIntent != null || false) {
+    if (createUserTagIntent != null) {
       _json['createUserTagIntent'] = createUserTagIntent?.toJson();
     }
-    if (deleteUserTagsIntent != null || false) {
+    if (deleteUserTagsIntent != null) {
       _json['deleteUserTagsIntent'] = deleteUserTagsIntent?.toJson();
     }
-    if (signTransactionIntent != null || false) {
+    if (signTransactionIntent != null) {
       _json['signTransactionIntent'] = signTransactionIntent?.toJson();
     }
-    if (createApiKeysIntent != null || false) {
+    if (createApiKeysIntent != null) {
       _json['createApiKeysIntent'] = createApiKeysIntent?.toJson();
     }
-    if (deleteApiKeysIntent != null || false) {
+    if (deleteApiKeysIntent != null) {
       _json['deleteApiKeysIntent'] = deleteApiKeysIntent?.toJson();
     }
-    if (approveActivityIntent != null || false) {
+    if (approveActivityIntent != null) {
       _json['approveActivityIntent'] = approveActivityIntent?.toJson();
     }
-    if (rejectActivityIntent != null || false) {
+    if (rejectActivityIntent != null) {
       _json['rejectActivityIntent'] = rejectActivityIntent?.toJson();
     }
-    if (createPrivateKeyTagIntent != null || false) {
+    if (createPrivateKeyTagIntent != null) {
       _json['createPrivateKeyTagIntent'] = createPrivateKeyTagIntent?.toJson();
     }
-    if (deletePrivateKeyTagsIntent != null || false) {
+    if (deletePrivateKeyTagsIntent != null) {
       _json['deletePrivateKeyTagsIntent'] = deletePrivateKeyTagsIntent?.toJson();
     }
-    if (createPolicyIntentV2 != null || false) {
+    if (createPolicyIntentV2 != null) {
       _json['createPolicyIntentV2'] = createPolicyIntentV2?.toJson();
     }
-    if (setPaymentMethodIntent != null || false) {
+    if (setPaymentMethodIntent != null) {
       _json['setPaymentMethodIntent'] = setPaymentMethodIntent?.toJson();
     }
-    if (activateBillingTierIntent != null || false) {
+    if (activateBillingTierIntent != null) {
       _json['activateBillingTierIntent'] = activateBillingTierIntent?.toJson();
     }
-    if (deletePaymentMethodIntent != null || false) {
+    if (deletePaymentMethodIntent != null) {
       _json['deletePaymentMethodIntent'] = deletePaymentMethodIntent?.toJson();
     }
-    if (createPolicyIntentV3 != null || false) {
+    if (createPolicyIntentV3 != null) {
       _json['createPolicyIntentV3'] = createPolicyIntentV3?.toJson();
     }
-    if (createApiOnlyUsersIntent != null || false) {
+    if (createApiOnlyUsersIntent != null) {
       _json['createApiOnlyUsersIntent'] = createApiOnlyUsersIntent?.toJson();
     }
-    if (updateRootQuorumIntent != null || false) {
+    if (updateRootQuorumIntent != null) {
       _json['updateRootQuorumIntent'] = updateRootQuorumIntent?.toJson();
     }
-    if (updateUserTagIntent != null || false) {
+    if (updateUserTagIntent != null) {
       _json['updateUserTagIntent'] = updateUserTagIntent?.toJson();
     }
-    if (updatePrivateKeyTagIntent != null || false) {
+    if (updatePrivateKeyTagIntent != null) {
       _json['updatePrivateKeyTagIntent'] = updatePrivateKeyTagIntent?.toJson();
     }
-    if (createAuthenticatorsIntentV2 != null || false) {
+    if (createAuthenticatorsIntentV2 != null) {
       _json['createAuthenticatorsIntentV2'] = createAuthenticatorsIntentV2?.toJson();
     }
-    if (acceptInvitationIntentV2 != null || false) {
+    if (acceptInvitationIntentV2 != null) {
       _json['acceptInvitationIntentV2'] = acceptInvitationIntentV2?.toJson();
     }
-    if (createOrganizationIntentV2 != null || false) {
+    if (createOrganizationIntentV2 != null) {
       _json['createOrganizationIntentV2'] = createOrganizationIntentV2?.toJson();
     }
-    if (createUsersIntentV2 != null || false) {
+    if (createUsersIntentV2 != null) {
       _json['createUsersIntentV2'] = createUsersIntentV2?.toJson();
     }
-    if (createSubOrganizationIntent != null || false) {
+    if (createSubOrganizationIntent != null) {
       _json['createSubOrganizationIntent'] = createSubOrganizationIntent?.toJson();
     }
-    if (createSubOrganizationIntentV2 != null || false) {
+    if (createSubOrganizationIntentV2 != null) {
       _json['createSubOrganizationIntentV2'] = createSubOrganizationIntentV2?.toJson();
     }
-    if (updateAllowedOriginsIntent != null || false) {
+    if (updateAllowedOriginsIntent != null) {
       _json['updateAllowedOriginsIntent'] = updateAllowedOriginsIntent?.toJson();
     }
-    if (createPrivateKeysIntentV2 != null || false) {
+    if (createPrivateKeysIntentV2 != null) {
       _json['createPrivateKeysIntentV2'] = createPrivateKeysIntentV2?.toJson();
     }
-    if (updateUserIntent != null || false) {
+    if (updateUserIntent != null) {
       _json['updateUserIntent'] = updateUserIntent?.toJson();
     }
-    if (updatePolicyIntent != null || false) {
+    if (updatePolicyIntent != null) {
       _json['updatePolicyIntent'] = updatePolicyIntent?.toJson();
     }
-    if (setPaymentMethodIntentV2 != null || false) {
+    if (setPaymentMethodIntentV2 != null) {
       _json['setPaymentMethodIntentV2'] = setPaymentMethodIntentV2?.toJson();
     }
-    if (createSubOrganizationIntentV3 != null || false) {
+    if (createSubOrganizationIntentV3 != null) {
       _json['createSubOrganizationIntentV3'] = createSubOrganizationIntentV3?.toJson();
     }
-    if (createWalletIntent != null || false) {
+    if (createWalletIntent != null) {
       _json['createWalletIntent'] = createWalletIntent?.toJson();
     }
-    if (createWalletAccountsIntent != null || false) {
+    if (createWalletAccountsIntent != null) {
       _json['createWalletAccountsIntent'] = createWalletAccountsIntent?.toJson();
     }
-    if (initUserEmailRecoveryIntent != null || false) {
+    if (initUserEmailRecoveryIntent != null) {
       _json['initUserEmailRecoveryIntent'] = initUserEmailRecoveryIntent?.toJson();
     }
-    if (recoverUserIntent != null || false) {
+    if (recoverUserIntent != null) {
       _json['recoverUserIntent'] = recoverUserIntent?.toJson();
     }
-    if (setOrganizationFeatureIntent != null || false) {
+    if (setOrganizationFeatureIntent != null) {
       _json['setOrganizationFeatureIntent'] = setOrganizationFeatureIntent?.toJson();
     }
-    if (removeOrganizationFeatureIntent != null || false) {
+    if (removeOrganizationFeatureIntent != null) {
       _json['removeOrganizationFeatureIntent'] = removeOrganizationFeatureIntent?.toJson();
     }
-    if (signRawPayloadIntentV2 != null || false) {
+    if (signRawPayloadIntentV2 != null) {
       _json['signRawPayloadIntentV2'] = signRawPayloadIntentV2?.toJson();
     }
-    if (signTransactionIntentV2 != null || false) {
+    if (signTransactionIntentV2 != null) {
       _json['signTransactionIntentV2'] = signTransactionIntentV2?.toJson();
     }
-    if (exportPrivateKeyIntent != null || false) {
+    if (exportPrivateKeyIntent != null) {
       _json['exportPrivateKeyIntent'] = exportPrivateKeyIntent?.toJson();
     }
-    if (exportWalletIntent != null || false) {
+    if (exportWalletIntent != null) {
       _json['exportWalletIntent'] = exportWalletIntent?.toJson();
     }
-    if (createSubOrganizationIntentV4 != null || false) {
+    if (createSubOrganizationIntentV4 != null) {
       _json['createSubOrganizationIntentV4'] = createSubOrganizationIntentV4?.toJson();
     }
-    if (emailAuthIntent != null || false) {
+    if (emailAuthIntent != null) {
       _json['emailAuthIntent'] = emailAuthIntent?.toJson();
     }
-    if (exportWalletAccountIntent != null || false) {
+    if (exportWalletAccountIntent != null) {
       _json['exportWalletAccountIntent'] = exportWalletAccountIntent?.toJson();
     }
-    if (initImportWalletIntent != null || false) {
+    if (initImportWalletIntent != null) {
       _json['initImportWalletIntent'] = initImportWalletIntent?.toJson();
     }
-    if (importWalletIntent != null || false) {
+    if (importWalletIntent != null) {
       _json['importWalletIntent'] = importWalletIntent?.toJson();
     }
-    if (initImportPrivateKeyIntent != null || false) {
+    if (initImportPrivateKeyIntent != null) {
       _json['initImportPrivateKeyIntent'] = initImportPrivateKeyIntent?.toJson();
     }
-    if (importPrivateKeyIntent != null || false) {
+    if (importPrivateKeyIntent != null) {
       _json['importPrivateKeyIntent'] = importPrivateKeyIntent?.toJson();
     }
-    if (createPoliciesIntent != null || false) {
+    if (createPoliciesIntent != null) {
       _json['createPoliciesIntent'] = createPoliciesIntent?.toJson();
     }
-    if (signRawPayloadsIntent != null || false) {
+    if (signRawPayloadsIntent != null) {
       _json['signRawPayloadsIntent'] = signRawPayloadsIntent?.toJson();
     }
-    if (createReadOnlySessionIntent != null || false) {
+    if (createReadOnlySessionIntent != null) {
       _json['createReadOnlySessionIntent'] = createReadOnlySessionIntent?.toJson();
     }
-    if (createOauthProvidersIntent != null || false) {
+    if (createOauthProvidersIntent != null) {
       _json['createOauthProvidersIntent'] = createOauthProvidersIntent?.toJson();
     }
-    if (deleteOauthProvidersIntent != null || false) {
+    if (deleteOauthProvidersIntent != null) {
       _json['deleteOauthProvidersIntent'] = deleteOauthProvidersIntent?.toJson();
     }
-    if (createSubOrganizationIntentV5 != null || false) {
+    if (createSubOrganizationIntentV5 != null) {
       _json['createSubOrganizationIntentV5'] = createSubOrganizationIntentV5?.toJson();
     }
-    if (oauthIntent != null || false) {
+    if (oauthIntent != null) {
       _json['oauthIntent'] = oauthIntent?.toJson();
     }
-    if (createApiKeysIntentV2 != null || false) {
+    if (createApiKeysIntentV2 != null) {
       _json['createApiKeysIntentV2'] = createApiKeysIntentV2?.toJson();
     }
-    if (createReadWriteSessionIntent != null || false) {
+    if (createReadWriteSessionIntent != null) {
       _json['createReadWriteSessionIntent'] = createReadWriteSessionIntent?.toJson();
     }
-    if (emailAuthIntentV2 != null || false) {
+    if (emailAuthIntentV2 != null) {
       _json['emailAuthIntentV2'] = emailAuthIntentV2?.toJson();
     }
-    if (createSubOrganizationIntentV6 != null || false) {
+    if (createSubOrganizationIntentV6 != null) {
       _json['createSubOrganizationIntentV6'] = createSubOrganizationIntentV6?.toJson();
     }
-    if (deletePrivateKeysIntent != null || false) {
+    if (deletePrivateKeysIntent != null) {
       _json['deletePrivateKeysIntent'] = deletePrivateKeysIntent?.toJson();
     }
-    if (deleteWalletsIntent != null || false) {
+    if (deleteWalletsIntent != null) {
       _json['deleteWalletsIntent'] = deleteWalletsIntent?.toJson();
     }
-    if (createReadWriteSessionIntentV2 != null || false) {
+    if (createReadWriteSessionIntentV2 != null) {
       _json['createReadWriteSessionIntentV2'] = createReadWriteSessionIntentV2?.toJson();
     }
-    if (deleteSubOrganizationIntent != null || false) {
+    if (deleteSubOrganizationIntent != null) {
       _json['deleteSubOrganizationIntent'] = deleteSubOrganizationIntent?.toJson();
     }
-    if (initOtpAuthIntent != null || false) {
+    if (initOtpAuthIntent != null) {
       _json['initOtpAuthIntent'] = initOtpAuthIntent?.toJson();
     }
-    if (otpAuthIntent != null || false) {
+    if (otpAuthIntent != null) {
       _json['otpAuthIntent'] = otpAuthIntent?.toJson();
     }
-    if (createSubOrganizationIntentV7 != null || false) {
+    if (createSubOrganizationIntentV7 != null) {
       _json['createSubOrganizationIntentV7'] = createSubOrganizationIntentV7?.toJson();
     }
-    if (updateWalletIntent != null || false) {
+    if (updateWalletIntent != null) {
       _json['updateWalletIntent'] = updateWalletIntent?.toJson();
     }
-    if (updatePolicyIntentV2 != null || false) {
+    if (updatePolicyIntentV2 != null) {
       _json['updatePolicyIntentV2'] = updatePolicyIntentV2?.toJson();
     }
-    if (createUsersIntentV3 != null || false) {
+    if (createUsersIntentV3 != null) {
       _json['createUsersIntentV3'] = createUsersIntentV3?.toJson();
     }
-    if (initOtpAuthIntentV2 != null || false) {
+    if (initOtpAuthIntentV2 != null) {
       _json['initOtpAuthIntentV2'] = initOtpAuthIntentV2?.toJson();
     }
-    if (initOtpIntent != null || false) {
+    if (initOtpIntent != null) {
       _json['initOtpIntent'] = initOtpIntent?.toJson();
     }
-    if (verifyOtpIntent != null || false) {
+    if (verifyOtpIntent != null) {
       _json['verifyOtpIntent'] = verifyOtpIntent?.toJson();
     }
-    if (otpLoginIntent != null || false) {
+    if (otpLoginIntent != null) {
       _json['otpLoginIntent'] = otpLoginIntent?.toJson();
     }
-    if (stampLoginIntent != null || false) {
+    if (stampLoginIntent != null) {
       _json['stampLoginIntent'] = stampLoginIntent?.toJson();
     }
-    if (oauthLoginIntent != null || false) {
+    if (oauthLoginIntent != null) {
       _json['oauthLoginIntent'] = oauthLoginIntent?.toJson();
     }
-    if (updateUserNameIntent != null || false) {
+    if (updateUserNameIntent != null) {
       _json['updateUserNameIntent'] = updateUserNameIntent?.toJson();
     }
-    if (updateUserEmailIntent != null || false) {
+    if (updateUserEmailIntent != null) {
       _json['updateUserEmailIntent'] = updateUserEmailIntent?.toJson();
     }
-    if (updateUserPhoneNumberIntent != null || false) {
+    if (updateUserPhoneNumberIntent != null) {
       _json['updateUserPhoneNumberIntent'] = updateUserPhoneNumberIntent?.toJson();
     }
-    if (initFiatOnRampIntent != null || false) {
+    if (initFiatOnRampIntent != null) {
       _json['initFiatOnRampIntent'] = initFiatOnRampIntent?.toJson();
     }
-    if (createSmartContractInterfaceIntent != null || false) {
+    if (createSmartContractInterfaceIntent != null) {
       _json['createSmartContractInterfaceIntent'] = createSmartContractInterfaceIntent?.toJson();
     }
-    if (deleteSmartContractInterfaceIntent != null || false) {
+    if (deleteSmartContractInterfaceIntent != null) {
       _json['deleteSmartContractInterfaceIntent'] = deleteSmartContractInterfaceIntent?.toJson();
     }
-    if (enableAuthProxyIntent != null || false) {
+    if (enableAuthProxyIntent != null) {
       _json['enableAuthProxyIntent'] = enableAuthProxyIntent?.toJson();
     }
-    if (disableAuthProxyIntent != null || false) {
+    if (disableAuthProxyIntent != null) {
       _json['disableAuthProxyIntent'] = disableAuthProxyIntent?.toJson();
     }
-    if (updateAuthProxyConfigIntent != null || false) {
+    if (updateAuthProxyConfigIntent != null) {
       _json['updateAuthProxyConfigIntent'] = updateAuthProxyConfigIntent?.toJson();
     }
-    if (createOauth2CredentialIntent != null || false) {
+    if (createOauth2CredentialIntent != null) {
       _json['createOauth2CredentialIntent'] = createOauth2CredentialIntent?.toJson();
     }
-    if (updateOauth2CredentialIntent != null || false) {
+    if (updateOauth2CredentialIntent != null) {
       _json['updateOauth2CredentialIntent'] = updateOauth2CredentialIntent?.toJson();
     }
-    if (deleteOauth2CredentialIntent != null || false) {
+    if (deleteOauth2CredentialIntent != null) {
       _json['deleteOauth2CredentialIntent'] = deleteOauth2CredentialIntent?.toJson();
     }
-    if (oauth2AuthenticateIntent != null || false) {
+    if (oauth2AuthenticateIntent != null) {
       _json['oauth2AuthenticateIntent'] = oauth2AuthenticateIntent?.toJson();
     }
-    if (deleteWalletAccountsIntent != null || false) {
+    if (deleteWalletAccountsIntent != null) {
       _json['deleteWalletAccountsIntent'] = deleteWalletAccountsIntent?.toJson();
     }
-    if (deletePoliciesIntent != null || false) {
+    if (deletePoliciesIntent != null) {
       _json['deletePoliciesIntent'] = deletePoliciesIntent?.toJson();
     }
     return _json;
@@ -11785,33 +10639,15 @@ class v1Invitation {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (invitationId != null || true) {
-      _json['invitationId'] = invitationId;
-    }
-    if (receiverUserName != null || true) {
-      _json['receiverUserName'] = receiverUserName;
-    }
-    if (receiverEmail != null || true) {
-      _json['receiverEmail'] = receiverEmail;
-    }
-    if (receiverUserTags != null || true) {
-      _json['receiverUserTags'] = receiverUserTags;
-    }
-    if (accessType != null || true) {
-      _json['accessType'] = v1AccessTypeToJson(accessType);
-    }
-    if (status != null || true) {
-      _json['status'] = v1InvitationStatusToJson(status);
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (senderUserId != null || true) {
-      _json['senderUserId'] = senderUserId;
-    }
+    _json['invitationId'] = invitationId;
+    _json['receiverUserName'] = receiverUserName;
+    _json['receiverEmail'] = receiverEmail;
+    _json['receiverUserTags'] = receiverUserTags;
+    _json['accessType'] = v1AccessTypeToJson(accessType);
+    _json['status'] = v1InvitationStatusToJson(status);
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    _json['senderUserId'] = senderUserId;
     return _json;
   }
 }
@@ -11853,21 +10689,11 @@ class v1InvitationParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (receiverUserName != null || true) {
-      _json['receiverUserName'] = receiverUserName;
-    }
-    if (receiverUserEmail != null || true) {
-      _json['receiverUserEmail'] = receiverUserEmail;
-    }
-    if (receiverUserTags != null || true) {
-      _json['receiverUserTags'] = receiverUserTags;
-    }
-    if (accessType != null || true) {
-      _json['accessType'] = v1AccessTypeToJson(accessType);
-    }
-    if (senderUserId != null || true) {
-      _json['senderUserId'] = senderUserId;
-    }
+    _json['receiverUserName'] = receiverUserName;
+    _json['receiverUserEmail'] = receiverUserEmail;
+    _json['receiverUserTags'] = receiverUserTags;
+    _json['accessType'] = v1AccessTypeToJson(accessType);
+    _json['senderUserId'] = senderUserId;
     return _json;
   }
 }
@@ -11889,9 +10715,7 @@ class v1ListOauth2CredentialsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -11912,9 +10736,7 @@ class v1ListOauth2CredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2Credentials != null || true) {
-      _json['oauth2Credentials'] = oauth2Credentials?.map((e) => e.toJson()).toList();
-    }
+    _json['oauth2Credentials'] = oauth2Credentials.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -11936,9 +10758,7 @@ class v1ListPrivateKeyTagsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -11960,9 +10780,7 @@ class v1ListPrivateKeyTagsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTags != null || true) {
-      _json['privateKeyTags'] = privateKeyTags?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeyTags'] = privateKeyTags.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -11984,9 +10802,7 @@ class v1ListUserTagsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
+    _json['organizationId'] = organizationId;
     return _json;
   }
 }
@@ -12008,9 +10824,7 @@ class v1ListUserTagsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTags != null || true) {
-      _json['userTags'] = userTags?.map((e) => e.toJson()).toList();
-    }
+    _json['userTags'] = userTags.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -12031,9 +10845,7 @@ class v1NOOPCodegenAnchorResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (stamp != null || true) {
-      _json['stamp'] = stamp.toJson();
-    }
+    _json['stamp'] = stamp.toJson();
     return _json;
   }
 }
@@ -12080,22 +10892,14 @@ class v1Oauth2AuthenticateIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
-    if (authCode != null || true) {
-      _json['authCode'] = authCode;
-    }
-    if (redirectUri != null || true) {
-      _json['redirectUri'] = redirectUri;
-    }
-    if (codeVerifier != null || true) {
-      _json['codeVerifier'] = codeVerifier;
-    }
-    if (nonce != null || false) {
+    _json['oauth2CredentialId'] = oauth2CredentialId;
+    _json['authCode'] = authCode;
+    _json['redirectUri'] = redirectUri;
+    _json['codeVerifier'] = codeVerifier;
+    if (nonce != null) {
       _json['nonce'] = nonce;
     }
-    if (bearerTokenTargetPublicKey != null || false) {
+    if (bearerTokenTargetPublicKey != null) {
       _json['bearerTokenTargetPublicKey'] = bearerTokenTargetPublicKey;
     }
     return _json;
@@ -12132,18 +10936,10 @@ class v1Oauth2AuthenticateRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -12165,9 +10961,7 @@ class v1Oauth2AuthenticateResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oidcToken != null || true) {
-      _json['oidcToken'] = oidcToken;
-    }
+    _json['oidcToken'] = oidcToken;
     return _json;
   }
 }
@@ -12217,27 +11011,13 @@ class v1Oauth2Credential {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (provider != null || true) {
-      _json['provider'] = v1Oauth2ProviderToJson(provider);
-    }
-    if (clientId != null || true) {
-      _json['clientId'] = clientId;
-    }
-    if (encryptedClientSecret != null || true) {
-      _json['encryptedClientSecret'] = encryptedClientSecret;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
+    _json['organizationId'] = organizationId;
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['clientId'] = clientId;
+    _json['encryptedClientSecret'] = encryptedClientSecret;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -12279,19 +11059,15 @@ class v1OauthIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oidcToken != null || true) {
-      _json['oidcToken'] = oidcToken;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (apiKeyName != null || false) {
+    _json['oidcToken'] = oidcToken;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
     return _json;
@@ -12330,16 +11106,12 @@ class v1OauthLoginIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oidcToken != null || true) {
-      _json['oidcToken'] = oidcToken;
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (expirationSeconds != null || false) {
+    _json['oidcToken'] = oidcToken;
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
     return _json;
@@ -12376,18 +11148,10 @@ class v1OauthLoginRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -12409,9 +11173,7 @@ class v1OauthLoginResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (session != null || true) {
-      _json['session'] = session;
-    }
+    _json['session'] = session;
     return _json;
   }
 }
@@ -12461,27 +11223,13 @@ class v1OauthProvider {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (providerId != null || true) {
-      _json['providerId'] = providerId;
-    }
-    if (providerName != null || true) {
-      _json['providerName'] = providerName;
-    }
-    if (issuer != null || true) {
-      _json['issuer'] = issuer;
-    }
-    if (audience != null || true) {
-      _json['audience'] = audience;
-    }
-    if (subject != null || true) {
-      _json['subject'] = subject;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
+    _json['providerId'] = providerId;
+    _json['providerName'] = providerName;
+    _json['issuer'] = issuer;
+    _json['audience'] = audience;
+    _json['subject'] = subject;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -12508,12 +11256,8 @@ class v1OauthProviderParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (providerName != null || true) {
-      _json['providerName'] = providerName;
-    }
-    if (oidcToken != null || true) {
-      _json['oidcToken'] = oidcToken;
-    }
+    _json['providerName'] = providerName;
+    _json['oidcToken'] = oidcToken;
     return _json;
   }
 }
@@ -12548,18 +11292,10 @@ class v1OauthRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -12591,15 +11327,9 @@ class v1OauthResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (apiKeyId != null || true) {
-      _json['apiKeyId'] = apiKeyId;
-    }
-    if (credentialBundle != null || true) {
-      _json['credentialBundle'] = credentialBundle;
-    }
+    _json['userId'] = userId;
+    _json['apiKeyId'] = apiKeyId;
+    _json['credentialBundle'] = credentialBundle;
     return _json;
   }
 }
@@ -12660,37 +11390,37 @@ class v1OrganizationData {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) {
+    if (organizationId != null) {
       _json['organizationId'] = organizationId;
     }
-    if (name != null || false) {
+    if (name != null) {
       _json['name'] = name;
     }
-    if (users != null || false) {
+    if (users != null) {
       _json['users'] = users?.map((e) => e.toJson()).toList();
     }
-    if (policies != null || false) {
+    if (policies != null) {
       _json['policies'] = policies?.map((e) => e.toJson()).toList();
     }
-    if (privateKeys != null || false) {
+    if (privateKeys != null) {
       _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
     }
-    if (invitations != null || false) {
+    if (invitations != null) {
       _json['invitations'] = invitations?.map((e) => e.toJson()).toList();
     }
-    if (tags != null || false) {
+    if (tags != null) {
       _json['tags'] = tags?.map((e) => e.toJson()).toList();
     }
-    if (rootQuorum != null || false) {
+    if (rootQuorum != null) {
       _json['rootQuorum'] = rootQuorum?.toJson();
     }
-    if (features != null || false) {
+    if (features != null) {
       _json['features'] = features?.map((e) => e.toJson()).toList();
     }
-    if (wallets != null || false) {
+    if (wallets != null) {
       _json['wallets'] = wallets?.map((e) => e.toJson()).toList();
     }
-    if (smartContractInterfaceReferences != null || false) {
+    if (smartContractInterfaceReferences != null) {
       _json['smartContractInterfaceReferences'] = smartContractInterfaceReferences?.map((e) => e.toJson()).toList();
     }
     return _json;
@@ -12739,22 +11469,16 @@ class v1OtpAuthIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) {
-      _json['otpId'] = otpId;
-    }
-    if (otpCode != null || true) {
-      _json['otpCode'] = otpCode;
-    }
-    if (targetPublicKey != null || true) {
-      _json['targetPublicKey'] = targetPublicKey;
-    }
-    if (apiKeyName != null || false) {
+    _json['otpId'] = otpId;
+    _json['otpCode'] = otpCode;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
-    if (expirationSeconds != null || false) {
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
     return _json;
@@ -12791,18 +11515,10 @@ class v1OtpAuthRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -12834,13 +11550,11 @@ class v1OtpAuthResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (apiKeyId != null || false) {
+    _json['userId'] = userId;
+    if (apiKeyId != null) {
       _json['apiKeyId'] = apiKeyId;
     }
-    if (credentialBundle != null || false) {
+    if (credentialBundle != null) {
       _json['credentialBundle'] = credentialBundle;
     }
     return _json;
@@ -12884,19 +11598,15 @@ class v1OtpLoginIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (verificationToken != null || true) {
-      _json['verificationToken'] = verificationToken;
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (expirationSeconds != null || false) {
+    _json['verificationToken'] = verificationToken;
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
-    if (clientSignature != null || false) {
+    if (clientSignature != null) {
       _json['clientSignature'] = clientSignature;
     }
     return _json;
@@ -12933,18 +11643,10 @@ class v1OtpLoginRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -12966,9 +11668,7 @@ class v1OtpLoginResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (session != null || true) {
-      _json['session'] = session;
-    }
+    _json['session'] = session;
     return _json;
   }
 }
@@ -13000,13 +11700,13 @@ class v1Pagination {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (limit != null || false) {
+    if (limit != null) {
       _json['limit'] = limit;
     }
-    if (before != null || false) {
+    if (before != null) {
       _json['before'] = before;
     }
-    if (after != null || false) {
+    if (after != null) {
       _json['after'] = after;
     }
     return _json;
@@ -13063,30 +11763,14 @@ class v1Policy {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
-    if (policyName != null || true) {
-      _json['policyName'] = policyName;
-    }
-    if (effect != null || true) {
-      _json['effect'] = v1EffectToJson(effect);
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (notes != null || true) {
-      _json['notes'] = notes;
-    }
-    if (consensus != null || true) {
-      _json['consensus'] = consensus;
-    }
-    if (condition != null || true) {
-      _json['condition'] = condition;
-    }
+    _json['policyId'] = policyId;
+    _json['policyName'] = policyName;
+    _json['effect'] = v1EffectToJson(effect);
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    _json['notes'] = notes;
+    _json['consensus'] = consensus;
+    _json['condition'] = condition;
     return _json;
   }
 }
@@ -13151,36 +11835,16 @@ class v1PrivateKey {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (privateKeyName != null || true) {
-      _json['privateKeyName'] = privateKeyName;
-    }
-    if (curve != null || true) {
-      _json['curve'] = v1CurveToJson(curve);
-    }
-    if (addresses != null || true) {
-      _json['addresses'] = addresses?.map((e) => e.toJson()).toList();
-    }
-    if (privateKeyTags != null || true) {
-      _json['privateKeyTags'] = privateKeyTags;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (exported != null || true) {
-      _json['exported'] = exported;
-    }
-    if (imported != null || true) {
-      _json['imported'] = imported;
-    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['publicKey'] = publicKey;
+    _json['privateKeyName'] = privateKeyName;
+    _json['curve'] = v1CurveToJson(curve);
+    _json['addresses'] = addresses.map((e) => e.toJson()).toList();
+    _json['privateKeyTags'] = privateKeyTags;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    _json['exported'] = exported;
+    _json['imported'] = imported;
     return _json;
   }
 }
@@ -13217,18 +11881,10 @@ class v1PrivateKeyParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyName != null || true) {
-      _json['privateKeyName'] = privateKeyName;
-    }
-    if (curve != null || true) {
-      _json['curve'] = v1CurveToJson(curve);
-    }
-    if (privateKeyTags != null || true) {
-      _json['privateKeyTags'] = privateKeyTags;
-    }
-    if (addressFormats != null || true) {
-      _json['addressFormats'] = addressFormats?.map((e) => v1AddressFormatToJson(e)).toList();
-    }
+    _json['privateKeyName'] = privateKeyName;
+    _json['curve'] = v1CurveToJson(curve);
+    _json['privateKeyTags'] = privateKeyTags;
+    _json['addressFormats'] = addressFormats.map((e) => v1AddressFormatToJson(e)).toList();
     return _json;
   }
 }
@@ -13253,10 +11909,10 @@ class v1PrivateKeyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || false) {
+    if (privateKeyId != null) {
       _json['privateKeyId'] = privateKeyId;
     }
-    if (addresses != null || false) {
+    if (addresses != null) {
       _json['addresses'] = addresses?.map((e) => e.toJson()).toList();
     }
     return _json;
@@ -13299,24 +11955,14 @@ class v1PublicKeyCredentialWithAttestation {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (id != null || true) {
-      _json['id'] = id;
-    }
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (rawId != null || true) {
-      _json['rawId'] = rawId;
-    }
-    if (authenticatorAttachment != null || false) {
+    _json['id'] = id;
+    _json['type'] = type;
+    _json['rawId'] = rawId;
+    if (authenticatorAttachment != null) {
       _json['authenticatorAttachment'] = authenticatorAttachment;
     }
-    if (response != null || true) {
-      _json['response'] = response.toJson();
-    }
-    if (clientExtensionResults != null || true) {
-      _json['clientExtensionResults'] = clientExtensionResults.toJson();
-    }
+    _json['response'] = response.toJson();
+    _json['clientExtensionResults'] = clientExtensionResults.toJson();
     return _json;
   }
 }
@@ -13343,12 +11989,8 @@ class v1RecoverUserIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticator != null || true) {
-      _json['authenticator'] = authenticator.toJson();
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['authenticator'] = authenticator.toJson();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -13383,18 +12025,10 @@ class v1RecoverUserRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -13416,9 +12050,7 @@ class v1RecoverUserResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticatorId != null || true) {
-      _json['authenticatorId'] = authenticatorId;
-    }
+    _json['authenticatorId'] = authenticatorId;
     return _json;
   }
 }
@@ -13440,9 +12072,7 @@ class v1RejectActivityIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (fingerprint != null || true) {
-      _json['fingerprint'] = fingerprint;
-    }
+    _json['fingerprint'] = fingerprint;
     return _json;
   }
 }
@@ -13477,18 +12107,10 @@ class v1RejectActivityRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -13510,9 +12132,7 @@ class v1RemoveOrganizationFeatureIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (name != null || true) {
-      _json['name'] = v1FeatureNameToJson(name);
-    }
+    _json['name'] = v1FeatureNameToJson(name);
     return _json;
   }
 }
@@ -13547,18 +12167,10 @@ class v1RemoveOrganizationFeatureRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -13580,9 +12192,7 @@ class v1RemoveOrganizationFeatureResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (features != null || true) {
-      _json['features'] = features?.map((e) => e.toJson()).toList();
-    }
+    _json['features'] = features.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -13951,268 +12561,268 @@ class v1Result {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (createOrganizationResult != null || false) {
+    if (createOrganizationResult != null) {
       _json['createOrganizationResult'] = createOrganizationResult?.toJson();
     }
-    if (createAuthenticatorsResult != null || false) {
+    if (createAuthenticatorsResult != null) {
       _json['createAuthenticatorsResult'] = createAuthenticatorsResult?.toJson();
     }
-    if (createUsersResult != null || false) {
+    if (createUsersResult != null) {
       _json['createUsersResult'] = createUsersResult?.toJson();
     }
-    if (createPrivateKeysResult != null || false) {
+    if (createPrivateKeysResult != null) {
       _json['createPrivateKeysResult'] = createPrivateKeysResult?.toJson();
     }
-    if (createInvitationsResult != null || false) {
+    if (createInvitationsResult != null) {
       _json['createInvitationsResult'] = createInvitationsResult?.toJson();
     }
-    if (acceptInvitationResult != null || false) {
+    if (acceptInvitationResult != null) {
       _json['acceptInvitationResult'] = acceptInvitationResult?.toJson();
     }
-    if (signRawPayloadResult != null || false) {
+    if (signRawPayloadResult != null) {
       _json['signRawPayloadResult'] = signRawPayloadResult?.toJson();
     }
-    if (createPolicyResult != null || false) {
+    if (createPolicyResult != null) {
       _json['createPolicyResult'] = createPolicyResult?.toJson();
     }
-    if (disablePrivateKeyResult != null || false) {
+    if (disablePrivateKeyResult != null) {
       _json['disablePrivateKeyResult'] = disablePrivateKeyResult?.toJson();
     }
-    if (deleteUsersResult != null || false) {
+    if (deleteUsersResult != null) {
       _json['deleteUsersResult'] = deleteUsersResult?.toJson();
     }
-    if (deleteAuthenticatorsResult != null || false) {
+    if (deleteAuthenticatorsResult != null) {
       _json['deleteAuthenticatorsResult'] = deleteAuthenticatorsResult?.toJson();
     }
-    if (deleteInvitationResult != null || false) {
+    if (deleteInvitationResult != null) {
       _json['deleteInvitationResult'] = deleteInvitationResult?.toJson();
     }
-    if (deleteOrganizationResult != null || false) {
+    if (deleteOrganizationResult != null) {
       _json['deleteOrganizationResult'] = deleteOrganizationResult?.toJson();
     }
-    if (deletePolicyResult != null || false) {
+    if (deletePolicyResult != null) {
       _json['deletePolicyResult'] = deletePolicyResult?.toJson();
     }
-    if (createUserTagResult != null || false) {
+    if (createUserTagResult != null) {
       _json['createUserTagResult'] = createUserTagResult?.toJson();
     }
-    if (deleteUserTagsResult != null || false) {
+    if (deleteUserTagsResult != null) {
       _json['deleteUserTagsResult'] = deleteUserTagsResult?.toJson();
     }
-    if (signTransactionResult != null || false) {
+    if (signTransactionResult != null) {
       _json['signTransactionResult'] = signTransactionResult?.toJson();
     }
-    if (deleteApiKeysResult != null || false) {
+    if (deleteApiKeysResult != null) {
       _json['deleteApiKeysResult'] = deleteApiKeysResult?.toJson();
     }
-    if (createApiKeysResult != null || false) {
+    if (createApiKeysResult != null) {
       _json['createApiKeysResult'] = createApiKeysResult?.toJson();
     }
-    if (createPrivateKeyTagResult != null || false) {
+    if (createPrivateKeyTagResult != null) {
       _json['createPrivateKeyTagResult'] = createPrivateKeyTagResult?.toJson();
     }
-    if (deletePrivateKeyTagsResult != null || false) {
+    if (deletePrivateKeyTagsResult != null) {
       _json['deletePrivateKeyTagsResult'] = deletePrivateKeyTagsResult?.toJson();
     }
-    if (setPaymentMethodResult != null || false) {
+    if (setPaymentMethodResult != null) {
       _json['setPaymentMethodResult'] = setPaymentMethodResult?.toJson();
     }
-    if (activateBillingTierResult != null || false) {
+    if (activateBillingTierResult != null) {
       _json['activateBillingTierResult'] = activateBillingTierResult?.toJson();
     }
-    if (deletePaymentMethodResult != null || false) {
+    if (deletePaymentMethodResult != null) {
       _json['deletePaymentMethodResult'] = deletePaymentMethodResult?.toJson();
     }
-    if (createApiOnlyUsersResult != null || false) {
+    if (createApiOnlyUsersResult != null) {
       _json['createApiOnlyUsersResult'] = createApiOnlyUsersResult?.toJson();
     }
-    if (updateRootQuorumResult != null || false) {
+    if (updateRootQuorumResult != null) {
       _json['updateRootQuorumResult'] = updateRootQuorumResult?.toJson();
     }
-    if (updateUserTagResult != null || false) {
+    if (updateUserTagResult != null) {
       _json['updateUserTagResult'] = updateUserTagResult?.toJson();
     }
-    if (updatePrivateKeyTagResult != null || false) {
+    if (updatePrivateKeyTagResult != null) {
       _json['updatePrivateKeyTagResult'] = updatePrivateKeyTagResult?.toJson();
     }
-    if (createSubOrganizationResult != null || false) {
+    if (createSubOrganizationResult != null) {
       _json['createSubOrganizationResult'] = createSubOrganizationResult?.toJson();
     }
-    if (updateAllowedOriginsResult != null || false) {
+    if (updateAllowedOriginsResult != null) {
       _json['updateAllowedOriginsResult'] = updateAllowedOriginsResult?.toJson();
     }
-    if (createPrivateKeysResultV2 != null || false) {
+    if (createPrivateKeysResultV2 != null) {
       _json['createPrivateKeysResultV2'] = createPrivateKeysResultV2?.toJson();
     }
-    if (updateUserResult != null || false) {
+    if (updateUserResult != null) {
       _json['updateUserResult'] = updateUserResult?.toJson();
     }
-    if (updatePolicyResult != null || false) {
+    if (updatePolicyResult != null) {
       _json['updatePolicyResult'] = updatePolicyResult?.toJson();
     }
-    if (createSubOrganizationResultV3 != null || false) {
+    if (createSubOrganizationResultV3 != null) {
       _json['createSubOrganizationResultV3'] = createSubOrganizationResultV3?.toJson();
     }
-    if (createWalletResult != null || false) {
+    if (createWalletResult != null) {
       _json['createWalletResult'] = createWalletResult?.toJson();
     }
-    if (createWalletAccountsResult != null || false) {
+    if (createWalletAccountsResult != null) {
       _json['createWalletAccountsResult'] = createWalletAccountsResult?.toJson();
     }
-    if (initUserEmailRecoveryResult != null || false) {
+    if (initUserEmailRecoveryResult != null) {
       _json['initUserEmailRecoveryResult'] = initUserEmailRecoveryResult?.toJson();
     }
-    if (recoverUserResult != null || false) {
+    if (recoverUserResult != null) {
       _json['recoverUserResult'] = recoverUserResult?.toJson();
     }
-    if (setOrganizationFeatureResult != null || false) {
+    if (setOrganizationFeatureResult != null) {
       _json['setOrganizationFeatureResult'] = setOrganizationFeatureResult?.toJson();
     }
-    if (removeOrganizationFeatureResult != null || false) {
+    if (removeOrganizationFeatureResult != null) {
       _json['removeOrganizationFeatureResult'] = removeOrganizationFeatureResult?.toJson();
     }
-    if (exportPrivateKeyResult != null || false) {
+    if (exportPrivateKeyResult != null) {
       _json['exportPrivateKeyResult'] = exportPrivateKeyResult?.toJson();
     }
-    if (exportWalletResult != null || false) {
+    if (exportWalletResult != null) {
       _json['exportWalletResult'] = exportWalletResult?.toJson();
     }
-    if (createSubOrganizationResultV4 != null || false) {
+    if (createSubOrganizationResultV4 != null) {
       _json['createSubOrganizationResultV4'] = createSubOrganizationResultV4?.toJson();
     }
-    if (emailAuthResult != null || false) {
+    if (emailAuthResult != null) {
       _json['emailAuthResult'] = emailAuthResult?.toJson();
     }
-    if (exportWalletAccountResult != null || false) {
+    if (exportWalletAccountResult != null) {
       _json['exportWalletAccountResult'] = exportWalletAccountResult?.toJson();
     }
-    if (initImportWalletResult != null || false) {
+    if (initImportWalletResult != null) {
       _json['initImportWalletResult'] = initImportWalletResult?.toJson();
     }
-    if (importWalletResult != null || false) {
+    if (importWalletResult != null) {
       _json['importWalletResult'] = importWalletResult?.toJson();
     }
-    if (initImportPrivateKeyResult != null || false) {
+    if (initImportPrivateKeyResult != null) {
       _json['initImportPrivateKeyResult'] = initImportPrivateKeyResult?.toJson();
     }
-    if (importPrivateKeyResult != null || false) {
+    if (importPrivateKeyResult != null) {
       _json['importPrivateKeyResult'] = importPrivateKeyResult?.toJson();
     }
-    if (createPoliciesResult != null || false) {
+    if (createPoliciesResult != null) {
       _json['createPoliciesResult'] = createPoliciesResult?.toJson();
     }
-    if (signRawPayloadsResult != null || false) {
+    if (signRawPayloadsResult != null) {
       _json['signRawPayloadsResult'] = signRawPayloadsResult?.toJson();
     }
-    if (createReadOnlySessionResult != null || false) {
+    if (createReadOnlySessionResult != null) {
       _json['createReadOnlySessionResult'] = createReadOnlySessionResult?.toJson();
     }
-    if (createOauthProvidersResult != null || false) {
+    if (createOauthProvidersResult != null) {
       _json['createOauthProvidersResult'] = createOauthProvidersResult?.toJson();
     }
-    if (deleteOauthProvidersResult != null || false) {
+    if (deleteOauthProvidersResult != null) {
       _json['deleteOauthProvidersResult'] = deleteOauthProvidersResult?.toJson();
     }
-    if (createSubOrganizationResultV5 != null || false) {
+    if (createSubOrganizationResultV5 != null) {
       _json['createSubOrganizationResultV5'] = createSubOrganizationResultV5?.toJson();
     }
-    if (oauthResult != null || false) {
+    if (oauthResult != null) {
       _json['oauthResult'] = oauthResult?.toJson();
     }
-    if (createReadWriteSessionResult != null || false) {
+    if (createReadWriteSessionResult != null) {
       _json['createReadWriteSessionResult'] = createReadWriteSessionResult?.toJson();
     }
-    if (createSubOrganizationResultV6 != null || false) {
+    if (createSubOrganizationResultV6 != null) {
       _json['createSubOrganizationResultV6'] = createSubOrganizationResultV6?.toJson();
     }
-    if (deletePrivateKeysResult != null || false) {
+    if (deletePrivateKeysResult != null) {
       _json['deletePrivateKeysResult'] = deletePrivateKeysResult?.toJson();
     }
-    if (deleteWalletsResult != null || false) {
+    if (deleteWalletsResult != null) {
       _json['deleteWalletsResult'] = deleteWalletsResult?.toJson();
     }
-    if (createReadWriteSessionResultV2 != null || false) {
+    if (createReadWriteSessionResultV2 != null) {
       _json['createReadWriteSessionResultV2'] = createReadWriteSessionResultV2?.toJson();
     }
-    if (deleteSubOrganizationResult != null || false) {
+    if (deleteSubOrganizationResult != null) {
       _json['deleteSubOrganizationResult'] = deleteSubOrganizationResult?.toJson();
     }
-    if (initOtpAuthResult != null || false) {
+    if (initOtpAuthResult != null) {
       _json['initOtpAuthResult'] = initOtpAuthResult?.toJson();
     }
-    if (otpAuthResult != null || false) {
+    if (otpAuthResult != null) {
       _json['otpAuthResult'] = otpAuthResult?.toJson();
     }
-    if (createSubOrganizationResultV7 != null || false) {
+    if (createSubOrganizationResultV7 != null) {
       _json['createSubOrganizationResultV7'] = createSubOrganizationResultV7?.toJson();
     }
-    if (updateWalletResult != null || false) {
+    if (updateWalletResult != null) {
       _json['updateWalletResult'] = updateWalletResult?.toJson();
     }
-    if (updatePolicyResultV2 != null || false) {
+    if (updatePolicyResultV2 != null) {
       _json['updatePolicyResultV2'] = updatePolicyResultV2?.toJson();
     }
-    if (initOtpAuthResultV2 != null || false) {
+    if (initOtpAuthResultV2 != null) {
       _json['initOtpAuthResultV2'] = initOtpAuthResultV2?.toJson();
     }
-    if (initOtpResult != null || false) {
+    if (initOtpResult != null) {
       _json['initOtpResult'] = initOtpResult?.toJson();
     }
-    if (verifyOtpResult != null || false) {
+    if (verifyOtpResult != null) {
       _json['verifyOtpResult'] = verifyOtpResult?.toJson();
     }
-    if (otpLoginResult != null || false) {
+    if (otpLoginResult != null) {
       _json['otpLoginResult'] = otpLoginResult?.toJson();
     }
-    if (stampLoginResult != null || false) {
+    if (stampLoginResult != null) {
       _json['stampLoginResult'] = stampLoginResult?.toJson();
     }
-    if (oauthLoginResult != null || false) {
+    if (oauthLoginResult != null) {
       _json['oauthLoginResult'] = oauthLoginResult?.toJson();
     }
-    if (updateUserNameResult != null || false) {
+    if (updateUserNameResult != null) {
       _json['updateUserNameResult'] = updateUserNameResult?.toJson();
     }
-    if (updateUserEmailResult != null || false) {
+    if (updateUserEmailResult != null) {
       _json['updateUserEmailResult'] = updateUserEmailResult?.toJson();
     }
-    if (updateUserPhoneNumberResult != null || false) {
+    if (updateUserPhoneNumberResult != null) {
       _json['updateUserPhoneNumberResult'] = updateUserPhoneNumberResult?.toJson();
     }
-    if (initFiatOnRampResult != null || false) {
+    if (initFiatOnRampResult != null) {
       _json['initFiatOnRampResult'] = initFiatOnRampResult?.toJson();
     }
-    if (createSmartContractInterfaceResult != null || false) {
+    if (createSmartContractInterfaceResult != null) {
       _json['createSmartContractInterfaceResult'] = createSmartContractInterfaceResult?.toJson();
     }
-    if (deleteSmartContractInterfaceResult != null || false) {
+    if (deleteSmartContractInterfaceResult != null) {
       _json['deleteSmartContractInterfaceResult'] = deleteSmartContractInterfaceResult?.toJson();
     }
-    if (enableAuthProxyResult != null || false) {
+    if (enableAuthProxyResult != null) {
       _json['enableAuthProxyResult'] = enableAuthProxyResult?.toJson();
     }
-    if (disableAuthProxyResult != null || false) {
+    if (disableAuthProxyResult != null) {
       _json['disableAuthProxyResult'] = disableAuthProxyResult?.toJson();
     }
-    if (updateAuthProxyConfigResult != null || false) {
+    if (updateAuthProxyConfigResult != null) {
       _json['updateAuthProxyConfigResult'] = updateAuthProxyConfigResult?.toJson();
     }
-    if (createOauth2CredentialResult != null || false) {
+    if (createOauth2CredentialResult != null) {
       _json['createOauth2CredentialResult'] = createOauth2CredentialResult?.toJson();
     }
-    if (updateOauth2CredentialResult != null || false) {
+    if (updateOauth2CredentialResult != null) {
       _json['updateOauth2CredentialResult'] = updateOauth2CredentialResult?.toJson();
     }
-    if (deleteOauth2CredentialResult != null || false) {
+    if (deleteOauth2CredentialResult != null) {
       _json['deleteOauth2CredentialResult'] = deleteOauth2CredentialResult?.toJson();
     }
-    if (oauth2AuthenticateResult != null || false) {
+    if (oauth2AuthenticateResult != null) {
       _json['oauth2AuthenticateResult'] = oauth2AuthenticateResult?.toJson();
     }
-    if (deleteWalletAccountsResult != null || false) {
+    if (deleteWalletAccountsResult != null) {
       _json['deleteWalletAccountsResult'] = deleteWalletAccountsResult?.toJson();
     }
-    if (deletePoliciesResult != null || false) {
+    if (deletePoliciesResult != null) {
       _json['deletePoliciesResult'] = deletePoliciesResult?.toJson();
     }
     return _json;
@@ -14251,18 +12861,12 @@ class v1RootUserParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -14304,21 +12908,13 @@ class v1RootUserParamsV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -14360,21 +12956,13 @@ class v1RootUserParamsV3 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -14421,24 +13009,16 @@ class v1RootUserParamsV4 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (userPhoneNumber != null || false) {
+    if (userPhoneNumber != null) {
       _json['userPhoneNumber'] = userPhoneNumber;
     }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -14467,13 +13047,13 @@ class v1Selector {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subject != null || false) {
+    if (subject != null) {
       _json['subject'] = subject;
     }
-    if (operator != null || false) {
+    if (operator != null) {
       _json['operator'] = v1OperatorToJson(operator!);
     }
-    if (target != null || false) {
+    if (target != null) {
       _json['target'] = target;
     }
     return _json;
@@ -14504,13 +13084,13 @@ class v1SelectorV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (subject != null || false) {
+    if (subject != null) {
       _json['subject'] = subject;
     }
-    if (operator != null || false) {
+    if (operator != null) {
       _json['operator'] = v1OperatorToJson(operator!);
     }
-    if (targets != null || false) {
+    if (targets != null) {
       _json['targets'] = targets;
     }
     return _json;
@@ -14539,12 +13119,8 @@ class v1SetOrganizationFeatureIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (name != null || true) {
-      _json['name'] = v1FeatureNameToJson(name);
-    }
-    if (value != null || true) {
-      _json['value'] = value;
-    }
+    _json['name'] = v1FeatureNameToJson(name);
+    _json['value'] = value;
     return _json;
   }
 }
@@ -14579,18 +13155,10 @@ class v1SetOrganizationFeatureRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -14612,9 +13180,7 @@ class v1SetOrganizationFeatureResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (features != null || true) {
-      _json['features'] = features?.map((e) => e.toJson()).toList();
-    }
+    _json['features'] = features.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -14651,18 +13217,10 @@ class v1SignRawPayloadIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
-    if (payload != null || true) {
-      _json['payload'] = payload;
-    }
-    if (encoding != null || true) {
-      _json['encoding'] = v1PayloadEncodingToJson(encoding);
-    }
-    if (hashFunction != null || true) {
-      _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
-    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['payload'] = payload;
+    _json['encoding'] = v1PayloadEncodingToJson(encoding);
+    _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
     return _json;
   }
 }
@@ -14699,18 +13257,10 @@ class v1SignRawPayloadIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (signWith != null || true) {
-      _json['signWith'] = signWith;
-    }
-    if (payload != null || true) {
-      _json['payload'] = payload;
-    }
-    if (encoding != null || true) {
-      _json['encoding'] = v1PayloadEncodingToJson(encoding);
-    }
-    if (hashFunction != null || true) {
-      _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
-    }
+    _json['signWith'] = signWith;
+    _json['payload'] = payload;
+    _json['encoding'] = v1PayloadEncodingToJson(encoding);
+    _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
     return _json;
   }
 }
@@ -14745,18 +13295,10 @@ class v1SignRawPayloadRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -14788,15 +13330,9 @@ class v1SignRawPayloadResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (r != null || true) {
-      _json['r'] = r;
-    }
-    if (s != null || true) {
-      _json['s'] = s;
-    }
-    if (v != null || true) {
-      _json['v'] = v;
-    }
+    _json['r'] = r;
+    _json['s'] = s;
+    _json['v'] = v;
     return _json;
   }
 }
@@ -14833,18 +13369,10 @@ class v1SignRawPayloadsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (signWith != null || true) {
-      _json['signWith'] = signWith;
-    }
-    if (payloads != null || true) {
-      _json['payloads'] = payloads;
-    }
-    if (encoding != null || true) {
-      _json['encoding'] = v1PayloadEncodingToJson(encoding);
-    }
-    if (hashFunction != null || true) {
-      _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
-    }
+    _json['signWith'] = signWith;
+    _json['payloads'] = payloads;
+    _json['encoding'] = v1PayloadEncodingToJson(encoding);
+    _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
     return _json;
   }
 }
@@ -14879,18 +13407,10 @@ class v1SignRawPayloadsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -14911,7 +13431,7 @@ class v1SignRawPayloadsResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (signatures != null || false) {
+    if (signatures != null) {
       _json['signatures'] = signatures?.map((e) => e.toJson()).toList();
     }
     return _json;
@@ -14944,15 +13464,9 @@ class v1SignTransactionIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyId != null || true) {
-      _json['privateKeyId'] = privateKeyId;
-    }
-    if (unsignedTransaction != null || true) {
-      _json['unsignedTransaction'] = unsignedTransaction;
-    }
-    if (type != null || true) {
-      _json['type'] = v1TransactionTypeToJson(type);
-    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['unsignedTransaction'] = unsignedTransaction;
+    _json['type'] = v1TransactionTypeToJson(type);
     return _json;
   }
 }
@@ -14983,15 +13497,9 @@ class v1SignTransactionIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (signWith != null || true) {
-      _json['signWith'] = signWith;
-    }
-    if (unsignedTransaction != null || true) {
-      _json['unsignedTransaction'] = unsignedTransaction;
-    }
-    if (type != null || true) {
-      _json['type'] = v1TransactionTypeToJson(type);
-    }
+    _json['signWith'] = signWith;
+    _json['unsignedTransaction'] = unsignedTransaction;
+    _json['type'] = v1TransactionTypeToJson(type);
     return _json;
   }
 }
@@ -15026,18 +13534,10 @@ class v1SignTransactionRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -15058,9 +13558,7 @@ class v1SignTransactionResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (signedTransaction != null || true) {
-      _json['signedTransaction'] = signedTransaction;
-    }
+    _json['signedTransaction'] = signedTransaction;
     return _json;
   }
 }
@@ -15089,13 +13587,13 @@ class v1SimpleClientExtensionResults {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (appid != null || false) {
+    if (appid != null) {
       _json['appid'] = appid;
     }
-    if (appidExclude != null || false) {
+    if (appidExclude != null) {
       _json['appidExclude'] = appidExclude;
     }
-    if (credProps != null || false) {
+    if (credProps != null) {
       _json['credProps'] = credProps?.toJson();
     }
     return _json;
@@ -15157,33 +13655,15 @@ class v1SmartContractInterface {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (smartContractInterfaceId != null || true) {
-      _json['smartContractInterfaceId'] = smartContractInterfaceId;
-    }
-    if (smartContractAddress != null || true) {
-      _json['smartContractAddress'] = smartContractAddress;
-    }
-    if (smartContractInterface != null || true) {
-      _json['smartContractInterface'] = smartContractInterface;
-    }
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (label != null || true) {
-      _json['label'] = label;
-    }
-    if (notes != null || true) {
-      _json['notes'] = notes;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
+    _json['organizationId'] = organizationId;
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
+    _json['smartContractAddress'] = smartContractAddress;
+    _json['smartContractInterface'] = smartContractInterface;
+    _json['type'] = type;
+    _json['label'] = label;
+    _json['notes'] = notes;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -15212,13 +13692,13 @@ class v1SmartContractInterfaceReference {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterfaceId != null || false) {
+    if (smartContractInterfaceId != null) {
       _json['smartContractInterfaceId'] = smartContractInterfaceId;
     }
-    if (smartContractAddress != null || false) {
+    if (smartContractAddress != null) {
       _json['smartContractAddress'] = smartContractAddress;
     }
-    if (digest != null || false) {
+    if (digest != null) {
       _json['digest'] = digest;
     }
     return _json;
@@ -15242,7 +13722,7 @@ class v1SmsCustomizationParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (template != null || false) {
+    if (template != null) {
       _json['template'] = template;
     }
     return _json;
@@ -15276,13 +13756,11 @@ class v1StampLoginIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (expirationSeconds != null || false) {
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (invalidateExisting != null || false) {
+    if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
     return _json;
@@ -15319,18 +13797,10 @@ class v1StampLoginRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -15352,9 +13822,7 @@ class v1StampLoginResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (session != null || true) {
-      _json['session'] = session;
-    }
+    _json['session'] = session;
     return _json;
   }
 }
@@ -15386,15 +13854,9 @@ class v1TestRateLimitsRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (isSetLimit != null || true) {
-      _json['isSetLimit'] = isSetLimit;
-    }
-    if (limit != null || true) {
-      _json['limit'] = limit;
-    }
+    _json['organizationId'] = organizationId;
+    _json['isSetLimit'] = isSetLimit;
+    _json['limit'] = limit;
     return _json;
   }
 }
@@ -15422,9 +13884,7 @@ class v1UpdateAllowedOriginsIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (allowedOrigins != null || true) {
-      _json['allowedOrigins'] = allowedOrigins;
-    }
+    _json['allowedOrigins'] = allowedOrigins;
     return _json;
   }
 }
@@ -15527,52 +13987,52 @@ class v1UpdateAuthProxyConfigIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (allowedOrigins != null || false) {
+    if (allowedOrigins != null) {
       _json['allowedOrigins'] = allowedOrigins;
     }
-    if (allowedAuthMethods != null || false) {
+    if (allowedAuthMethods != null) {
       _json['allowedAuthMethods'] = allowedAuthMethods;
     }
-    if (sendFromEmailAddress != null || false) {
+    if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
-    if (replyToEmailAddress != null || false) {
+    if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
     }
-    if (emailAuthTemplateId != null || false) {
+    if (emailAuthTemplateId != null) {
       _json['emailAuthTemplateId'] = emailAuthTemplateId;
     }
-    if (otpTemplateId != null || false) {
+    if (otpTemplateId != null) {
       _json['otpTemplateId'] = otpTemplateId;
     }
-    if (emailCustomizationParams != null || false) {
+    if (emailCustomizationParams != null) {
       _json['emailCustomizationParams'] = emailCustomizationParams?.toJson();
     }
-    if (smsCustomizationParams != null || false) {
+    if (smsCustomizationParams != null) {
       _json['smsCustomizationParams'] = smsCustomizationParams?.toJson();
     }
-    if (walletKitSettings != null || false) {
+    if (walletKitSettings != null) {
       _json['walletKitSettings'] = walletKitSettings?.toJson();
     }
-    if (otpExpirationSeconds != null || false) {
+    if (otpExpirationSeconds != null) {
       _json['otpExpirationSeconds'] = otpExpirationSeconds;
     }
-    if (verificationTokenExpirationSeconds != null || false) {
+    if (verificationTokenExpirationSeconds != null) {
       _json['verificationTokenExpirationSeconds'] = verificationTokenExpirationSeconds;
     }
-    if (sessionExpirationSeconds != null || false) {
+    if (sessionExpirationSeconds != null) {
       _json['sessionExpirationSeconds'] = sessionExpirationSeconds;
     }
-    if (otpAlphanumeric != null || false) {
+    if (otpAlphanumeric != null) {
       _json['otpAlphanumeric'] = otpAlphanumeric;
     }
-    if (otpLength != null || false) {
+    if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
-    if (sendFromEmailSenderName != null || false) {
+    if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
     }
-    if (verificationTokenRequiredForGetAccountPii != null || false) {
+    if (verificationTokenRequiredForGetAccountPii != null) {
       _json['verificationTokenRequiredForGetAccountPii'] = verificationTokenRequiredForGetAccountPii;
     }
     return _json;
@@ -15596,7 +14056,7 @@ class v1UpdateAuthProxyConfigResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (configId != null || false) {
+    if (configId != null) {
       _json['configId'] = configId;
     }
     return _json;
@@ -15635,18 +14095,10 @@ class v1UpdateOauth2CredentialIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
-    if (provider != null || true) {
-      _json['provider'] = v1Oauth2ProviderToJson(provider);
-    }
-    if (clientId != null || true) {
-      _json['clientId'] = clientId;
-    }
-    if (encryptedClientSecret != null || true) {
-      _json['encryptedClientSecret'] = encryptedClientSecret;
-    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['clientId'] = clientId;
+    _json['encryptedClientSecret'] = encryptedClientSecret;
     return _json;
   }
 }
@@ -15681,18 +14133,10 @@ class v1UpdateOauth2CredentialRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -15714,9 +14158,7 @@ class v1UpdateOauth2CredentialResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2CredentialId != null || true) {
-      _json['oauth2CredentialId'] = oauth2CredentialId;
-    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -15763,22 +14205,20 @@ class v1UpdatePolicyIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
-    if (policyName != null || false) {
+    _json['policyId'] = policyId;
+    if (policyName != null) {
       _json['policyName'] = policyName;
     }
-    if (policyEffect != null || false) {
+    if (policyEffect != null) {
       _json['policyEffect'] = v1EffectToJson(policyEffect!);
     }
-    if (policyCondition != null || false) {
+    if (policyCondition != null) {
       _json['policyCondition'] = policyCondition;
     }
-    if (policyConsensus != null || false) {
+    if (policyConsensus != null) {
       _json['policyConsensus'] = policyConsensus;
     }
-    if (policyNotes != null || false) {
+    if (policyNotes != null) {
       _json['policyNotes'] = policyNotes;
     }
     return _json;
@@ -15827,22 +14267,20 @@ class v1UpdatePolicyIntentV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
-    if (policyName != null || false) {
+    _json['policyId'] = policyId;
+    if (policyName != null) {
       _json['policyName'] = policyName;
     }
-    if (policyEffect != null || false) {
+    if (policyEffect != null) {
       _json['policyEffect'] = v1EffectToJson(policyEffect!);
     }
-    if (policyCondition != null || false) {
+    if (policyCondition != null) {
       _json['policyCondition'] = policyCondition;
     }
-    if (policyConsensus != null || false) {
+    if (policyConsensus != null) {
       _json['policyConsensus'] = policyConsensus;
     }
-    if (policyNotes != null || false) {
+    if (policyNotes != null) {
       _json['policyNotes'] = policyNotes;
     }
     return _json;
@@ -15879,18 +14317,10 @@ class v1UpdatePolicyRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -15912,9 +14342,7 @@ class v1UpdatePolicyResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -15936,9 +14364,7 @@ class v1UpdatePolicyResultV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyId != null || true) {
-      _json['policyId'] = policyId;
-    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -15975,18 +14401,12 @@ class v1UpdatePrivateKeyTagIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTagId != null || true) {
-      _json['privateKeyTagId'] = privateKeyTagId;
-    }
-    if (newPrivateKeyTagName != null || false) {
+    _json['privateKeyTagId'] = privateKeyTagId;
+    if (newPrivateKeyTagName != null) {
       _json['newPrivateKeyTagName'] = newPrivateKeyTagName;
     }
-    if (addPrivateKeyIds != null || true) {
-      _json['addPrivateKeyIds'] = addPrivateKeyIds;
-    }
-    if (removePrivateKeyIds != null || true) {
-      _json['removePrivateKeyIds'] = removePrivateKeyIds;
-    }
+    _json['addPrivateKeyIds'] = addPrivateKeyIds;
+    _json['removePrivateKeyIds'] = removePrivateKeyIds;
     return _json;
   }
 }
@@ -16021,18 +14441,10 @@ class v1UpdatePrivateKeyTagRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16054,9 +14466,7 @@ class v1UpdatePrivateKeyTagResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTagId != null || true) {
-      _json['privateKeyTagId'] = privateKeyTagId;
-    }
+    _json['privateKeyTagId'] = privateKeyTagId;
     return _json;
   }
 }
@@ -16083,12 +14493,8 @@ class v1UpdateRootQuorumIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (threshold != null || true) {
-      _json['threshold'] = threshold;
-    }
-    if (userIds != null || true) {
-      _json['userIds'] = userIds;
-    }
+    _json['threshold'] = threshold;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -16123,18 +14529,10 @@ class v1UpdateRootQuorumRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16172,13 +14570,9 @@ class v1UpdateUserEmailIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (userEmail != null || true) {
-      _json['userEmail'] = userEmail;
-    }
-    if (verificationToken != null || false) {
+    _json['userId'] = userId;
+    _json['userEmail'] = userEmail;
+    if (verificationToken != null) {
       _json['verificationToken'] = verificationToken;
     }
     return _json;
@@ -16215,18 +14609,10 @@ class v1UpdateUserEmailRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16248,9 +14634,7 @@ class v1UpdateUserEmailResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -16292,19 +14676,17 @@ class v1UpdateUserIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (userName != null || false) {
+    _json['userId'] = userId;
+    if (userName != null) {
       _json['userName'] = userName;
     }
-    if (userEmail != null || false) {
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (userTagIds != null || false) {
+    if (userTagIds != null) {
       _json['userTagIds'] = userTagIds;
     }
-    if (userPhoneNumber != null || false) {
+    if (userPhoneNumber != null) {
       _json['userPhoneNumber'] = userPhoneNumber;
     }
     return _json;
@@ -16333,12 +14715,8 @@ class v1UpdateUserNameIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
+    _json['userId'] = userId;
+    _json['userName'] = userName;
     return _json;
   }
 }
@@ -16373,18 +14751,10 @@ class v1UpdateUserNameRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16406,9 +14776,7 @@ class v1UpdateUserNameResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -16440,13 +14808,9 @@ class v1UpdateUserPhoneNumberIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (userPhoneNumber != null || true) {
-      _json['userPhoneNumber'] = userPhoneNumber;
-    }
-    if (verificationToken != null || false) {
+    _json['userId'] = userId;
+    _json['userPhoneNumber'] = userPhoneNumber;
+    if (verificationToken != null) {
       _json['verificationToken'] = verificationToken;
     }
     return _json;
@@ -16483,18 +14847,10 @@ class v1UpdateUserPhoneNumberRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16516,9 +14872,7 @@ class v1UpdateUserPhoneNumberResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -16553,18 +14907,10 @@ class v1UpdateUserRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16586,9 +14932,7 @@ class v1UpdateUserResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -16625,18 +14969,12 @@ class v1UpdateUserTagIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTagId != null || true) {
-      _json['userTagId'] = userTagId;
-    }
-    if (newUserTagName != null || false) {
+    _json['userTagId'] = userTagId;
+    if (newUserTagName != null) {
       _json['newUserTagName'] = newUserTagName;
     }
-    if (addUserIds != null || true) {
-      _json['addUserIds'] = addUserIds;
-    }
-    if (removeUserIds != null || true) {
-      _json['removeUserIds'] = removeUserIds;
-    }
+    _json['addUserIds'] = addUserIds;
+    _json['removeUserIds'] = removeUserIds;
     return _json;
   }
 }
@@ -16671,18 +15009,10 @@ class v1UpdateUserTagRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16704,9 +15034,7 @@ class v1UpdateUserTagResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTagId != null || true) {
-      _json['userTagId'] = userTagId;
-    }
+    _json['userTagId'] = userTagId;
     return _json;
   }
 }
@@ -16733,10 +15061,8 @@ class v1UpdateWalletIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (walletName != null || false) {
+    _json['walletId'] = walletId;
+    if (walletName != null) {
       _json['walletName'] = walletName;
     }
     return _json;
@@ -16773,18 +15099,10 @@ class v1UpdateWalletRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -16806,9 +15124,7 @@ class v1UpdateWalletResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
+    _json['walletId'] = walletId;
     return _json;
   }
 }
@@ -16873,36 +15189,20 @@ class v1User {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userId'] = userId;
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (userPhoneNumber != null || false) {
+    if (userPhoneNumber != null) {
       _json['userPhoneNumber'] = userPhoneNumber;
     }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (userTags != null || true) {
-      _json['userTags'] = userTags;
-    }
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['userTags'] = userTags;
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -16949,24 +15249,14 @@ class v1UserParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (accessType != null || true) {
-      _json['accessType'] = v1AccessTypeToJson(accessType);
-    }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (userTags != null || true) {
-      _json['userTags'] = userTags;
-    }
+    _json['accessType'] = v1AccessTypeToJson(accessType);
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['userTags'] = userTags;
     return _json;
   }
 }
@@ -17008,21 +15298,13 @@ class v1UserParamsV2 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (userTags != null || true) {
-      _json['userTags'] = userTags;
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['userTags'] = userTags;
     return _json;
   }
 }
@@ -17074,27 +15356,17 @@ class v1UserParamsV3 {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userName != null || true) {
-      _json['userName'] = userName;
-    }
-    if (userEmail != null || false) {
+    _json['userName'] = userName;
+    if (userEmail != null) {
       _json['userEmail'] = userEmail;
     }
-    if (userPhoneNumber != null || false) {
+    if (userPhoneNumber != null) {
       _json['userPhoneNumber'] = userPhoneNumber;
     }
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
-    if (userTags != null || true) {
-      _json['userTags'] = userTags;
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
+    _json['userTags'] = userTags;
     return _json;
   }
 }
@@ -17131,16 +15403,12 @@ class v1VerifyOtpIntent {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) {
-      _json['otpId'] = otpId;
-    }
-    if (otpCode != null || true) {
-      _json['otpCode'] = otpCode;
-    }
-    if (expirationSeconds != null || false) {
+    _json['otpId'] = otpId;
+    _json['otpCode'] = otpCode;
+    if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (publicKey != null || false) {
+    if (publicKey != null) {
       _json['publicKey'] = publicKey;
     }
     return _json;
@@ -17177,18 +15445,10 @@ class v1VerifyOtpRequest {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (type != null || true) {
-      _json['type'] = type;
-    }
-    if (timestampMs != null || true) {
-      _json['timestampMs'] = timestampMs;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (parameters != null || true) {
-      _json['parameters'] = parameters.toJson();
-    }
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -17210,9 +15470,7 @@ class v1VerifyOtpResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (verificationToken != null || true) {
-      _json['verificationToken'] = verificationToken;
-    }
+    _json['verificationToken'] = verificationToken;
     return _json;
   }
 }
@@ -17277,36 +15535,16 @@ class v1Vote {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (id != null || true) {
-      _json['id'] = id;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (user != null || true) {
-      _json['user'] = user.toJson();
-    }
-    if (activityId != null || true) {
-      _json['activityId'] = activityId;
-    }
-    if (selection != null || true) {
-      _json['selection'] = selection;
-    }
-    if (message != null || true) {
-      _json['message'] = message;
-    }
-    if (publicKey != null || true) {
-      _json['publicKey'] = publicKey;
-    }
-    if (signature != null || true) {
-      _json['signature'] = signature;
-    }
-    if (scheme != null || true) {
-      _json['scheme'] = scheme;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
+    _json['id'] = id;
+    _json['userId'] = userId;
+    _json['user'] = user.toJson();
+    _json['activityId'] = activityId;
+    _json['selection'] = selection;
+    _json['message'] = message;
+    _json['publicKey'] = publicKey;
+    _json['signature'] = signature;
+    _json['scheme'] = scheme;
+    _json['createdAt'] = createdAt.toJson();
     return _json;
   }
 }
@@ -17351,24 +15589,12 @@ class v1Wallet {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (walletName != null || true) {
-      _json['walletName'] = walletName;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (exported != null || true) {
-      _json['exported'] = exported;
-    }
-    if (imported != null || true) {
-      _json['imported'] = imported;
-    }
+    _json['walletId'] = walletId;
+    _json['walletName'] = walletName;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    _json['exported'] = exported;
+    _json['imported'] = imported;
     return _json;
   }
 }
@@ -17443,40 +15669,20 @@ class v1WalletAccount {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletAccountId != null || true) {
-      _json['walletAccountId'] = walletAccountId;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (curve != null || true) {
-      _json['curve'] = v1CurveToJson(curve);
-    }
-    if (pathFormat != null || true) {
-      _json['pathFormat'] = v1PathFormatToJson(pathFormat);
-    }
-    if (path != null || true) {
-      _json['path'] = path;
-    }
-    if (addressFormat != null || true) {
-      _json['addressFormat'] = v1AddressFormatToJson(addressFormat);
-    }
-    if (address != null || true) {
-      _json['address'] = address;
-    }
-    if (createdAt != null || true) {
-      _json['createdAt'] = createdAt.toJson();
-    }
-    if (updatedAt != null || true) {
-      _json['updatedAt'] = updatedAt.toJson();
-    }
-    if (publicKey != null || false) {
+    _json['walletAccountId'] = walletAccountId;
+    _json['organizationId'] = organizationId;
+    _json['walletId'] = walletId;
+    _json['curve'] = v1CurveToJson(curve);
+    _json['pathFormat'] = v1PathFormatToJson(pathFormat);
+    _json['path'] = path;
+    _json['addressFormat'] = v1AddressFormatToJson(addressFormat);
+    _json['address'] = address;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    if (publicKey != null) {
       _json['publicKey'] = publicKey;
     }
-    if (walletDetails != null || false) {
+    if (walletDetails != null) {
       _json['walletDetails'] = walletDetails?.toJson();
     }
     return _json;
@@ -17515,18 +15721,10 @@ class v1WalletAccountParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (curve != null || true) {
-      _json['curve'] = v1CurveToJson(curve);
-    }
-    if (pathFormat != null || true) {
-      _json['pathFormat'] = v1PathFormatToJson(pathFormat);
-    }
-    if (path != null || true) {
-      _json['path'] = path;
-    }
-    if (addressFormat != null || true) {
-      _json['addressFormat'] = v1AddressFormatToJson(addressFormat);
-    }
+    _json['curve'] = v1CurveToJson(curve);
+    _json['pathFormat'] = v1PathFormatToJson(pathFormat);
+    _json['path'] = path;
+    _json['addressFormat'] = v1AddressFormatToJson(addressFormat);
     return _json;
   }
 }
@@ -17558,13 +15756,13 @@ class v1WalletKitSettingsParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (enabledSocialProviders != null || false) {
+    if (enabledSocialProviders != null) {
       _json['enabledSocialProviders'] = enabledSocialProviders;
     }
-    if (oauthClientIds != null || false) {
+    if (oauthClientIds != null) {
       _json['oauthClientIds'] = oauthClientIds;
     }
-    if (oauthRedirectUrl != null || false) {
+    if (oauthRedirectUrl != null) {
       _json['oauthRedirectUrl'] = oauthRedirectUrl;
     }
     return _json;
@@ -17598,13 +15796,9 @@ class v1WalletParams {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletName != null || true) {
-      _json['walletName'] = walletName;
-    }
-    if (accounts != null || true) {
-      _json['accounts'] = accounts?.map((e) => e.toJson()).toList();
-    }
-    if (mnemonicLength != null || false) {
+    _json['walletName'] = walletName;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
+    if (mnemonicLength != null) {
       _json['mnemonicLength'] = mnemonicLength;
     }
     return _json;
@@ -17632,12 +15826,8 @@ class v1WalletResult {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (walletId != null || true) {
-      _json['walletId'] = walletId;
-    }
-    if (addresses != null || true) {
-      _json['addresses'] = addresses;
-    }
+    _json['walletId'] = walletId;
+    _json['addresses'] = addresses;
     return _json;
   }
 }
@@ -17674,18 +15864,10 @@ class v1WebAuthnStamp {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (credentialId != null || true) {
-      _json['credentialId'] = credentialId;
-    }
-    if (clientDataJson != null || true) {
-      _json['clientDataJson'] = clientDataJson;
-    }
-    if (authenticatorData != null || true) {
-      _json['authenticatorData'] = authenticatorData;
-    }
-    if (signature != null || true) {
-      _json['signature'] = signature;
-    }
+    _json['credentialId'] = credentialId;
+    _json['clientDataJson'] = clientDataJson;
+    _json['authenticatorData'] = authenticatorData;
+    _json['signature'] = signature;
     return _json;
   }
 }
@@ -17709,9 +15891,7 @@ class TGetActivityResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (activity != null || true) {
-      _json['activity'] = activity.toJson();
-    }
+    _json['activity'] = activity.toJson();
     return _json;
   }
 }
@@ -17735,8 +15915,10 @@ class TGetActivityBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (activityId != null || true) { _json['activityId'] = activityId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['activityId'] = activityId;
     return _json;
   }
 }
@@ -17765,9 +15947,7 @@ class TGetApiKeyResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKey != null || true) {
-      _json['apiKey'] = apiKey.toJson();
-    }
+    _json['apiKey'] = apiKey.toJson();
     return _json;
   }
 }
@@ -17791,8 +15971,10 @@ class TGetApiKeyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (apiKeyId != null || true) { _json['apiKeyId'] = apiKeyId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['apiKeyId'] = apiKeyId;
     return _json;
   }
 }
@@ -17821,9 +16003,7 @@ class TGetApiKeysResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (apiKeys != null || true) {
-      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -17847,8 +16027,12 @@ class TGetApiKeysBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || false) { _json['userId'] = userId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (userId != null) {
+      _json['userId'] = userId;
+    }
     return _json;
   }
 }
@@ -17877,9 +16061,7 @@ class TGetAttestationDocumentResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (attestationDocument != null || true) {
-      _json['attestationDocument'] = attestationDocument;
-    }
+    _json['attestationDocument'] = attestationDocument;
     return _json;
   }
 }
@@ -17903,8 +16085,10 @@ class TGetAttestationDocumentBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (enclaveType != null || true) { _json['enclaveType'] = enclaveType; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['enclaveType'] = enclaveType;
     return _json;
   }
 }
@@ -17933,9 +16117,7 @@ class TGetAuthenticatorResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticator != null || true) {
-      _json['authenticator'] = authenticator.toJson();
-    }
+    _json['authenticator'] = authenticator.toJson();
     return _json;
   }
 }
@@ -17959,8 +16141,10 @@ class TGetAuthenticatorBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (authenticatorId != null || true) { _json['authenticatorId'] = authenticatorId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['authenticatorId'] = authenticatorId;
     return _json;
   }
 }
@@ -17989,9 +16173,7 @@ class TGetAuthenticatorsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (authenticators != null || true) {
-      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
-    }
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18015,8 +16197,10 @@ class TGetAuthenticatorsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -18044,9 +16228,7 @@ class TGetBootProofResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (bootProof != null || true) {
-      _json['bootProof'] = bootProof.toJson();
-    }
+    _json['bootProof'] = bootProof.toJson();
     return _json;
   }
 }
@@ -18070,8 +16252,10 @@ class TGetBootProofBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (ephemeralKey != null || true) { _json['ephemeralKey'] = ephemeralKey; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['ephemeralKey'] = ephemeralKey;
     return _json;
   }
 }
@@ -18099,9 +16283,7 @@ class TGetLatestBootProofResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (bootProof != null || true) {
-      _json['bootProof'] = bootProof.toJson();
-    }
+    _json['bootProof'] = bootProof.toJson();
     return _json;
   }
 }
@@ -18125,8 +16307,10 @@ class TGetLatestBootProofBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (appName != null || true) { _json['appName'] = appName; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['appName'] = appName;
     return _json;
   }
 }
@@ -18154,9 +16338,7 @@ class TGetOauth2CredentialResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2Credential != null || true) {
-      _json['oauth2Credential'] = oauth2Credential.toJson();
-    }
+    _json['oauth2Credential'] = oauth2Credential.toJson();
     return _json;
   }
 }
@@ -18180,8 +16362,10 @@ class TGetOauth2CredentialBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (oauth2CredentialId != null || true) { _json['oauth2CredentialId'] = oauth2CredentialId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -18210,9 +16394,7 @@ class TGetOauthProvidersResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauthProviders != null || true) {
-      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
-    }
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18236,8 +16418,12 @@ class TGetOauthProvidersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || false) { _json['userId'] = userId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (userId != null) {
+      _json['userId'] = userId;
+    }
     return _json;
   }
 }
@@ -18266,9 +16452,7 @@ class TGetOrganizationResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationData != null || true) {
-      _json['organizationData'] = organizationData.toJson();
-    }
+    _json['organizationData'] = organizationData.toJson();
     return _json;
   }
 }
@@ -18287,7 +16471,9 @@ class TGetOrganizationBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -18316,9 +16502,7 @@ class TGetOrganizationConfigsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (configs != null || true) {
-      _json['configs'] = configs.toJson();
-    }
+    _json['configs'] = configs.toJson();
     return _json;
   }
 }
@@ -18337,7 +16521,9 @@ class TGetOrganizationConfigsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -18366,9 +16552,7 @@ class TGetPolicyResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policy != null || true) {
-      _json['policy'] = policy.toJson();
-    }
+    _json['policy'] = policy.toJson();
     return _json;
   }
 }
@@ -18392,8 +16576,10 @@ class TGetPolicyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (policyId != null || true) { _json['policyId'] = policyId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -18421,9 +16607,7 @@ class TGetPolicyEvaluationsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policyEvaluations != null || true) {
-      _json['policyEvaluations'] = policyEvaluations?.map((e) => e.toJson()).toList();
-    }
+    _json['policyEvaluations'] = policyEvaluations.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18447,8 +16631,10 @@ class TGetPolicyEvaluationsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (activityId != null || true) { _json['activityId'] = activityId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['activityId'] = activityId;
     return _json;
   }
 }
@@ -18477,9 +16663,7 @@ class TGetPrivateKeyResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKey != null || true) {
-      _json['privateKey'] = privateKey.toJson();
-    }
+    _json['privateKey'] = privateKey.toJson();
     return _json;
   }
 }
@@ -18503,8 +16687,10 @@ class TGetPrivateKeyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeyId != null || true) { _json['privateKeyId'] = privateKeyId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeyId'] = privateKeyId;
     return _json;
   }
 }
@@ -18533,9 +16719,7 @@ class TGetSmartContractInterfaceResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterface != null || true) {
-      _json['smartContractInterface'] = smartContractInterface.toJson();
-    }
+    _json['smartContractInterface'] = smartContractInterface.toJson();
     return _json;
   }
 }
@@ -18559,8 +16743,10 @@ class TGetSmartContractInterfaceBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (smartContractInterfaceId != null || true) { _json['smartContractInterfaceId'] = smartContractInterfaceId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
     return _json;
   }
 }
@@ -18589,9 +16775,7 @@ class TGetUserResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (user != null || true) {
-      _json['user'] = user.toJson();
-    }
+    _json['user'] = user.toJson();
     return _json;
   }
 }
@@ -18615,8 +16799,10 @@ class TGetUserBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -18645,9 +16831,7 @@ class TGetWalletResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (wallet != null || true) {
-      _json['wallet'] = wallet.toJson();
-    }
+    _json['wallet'] = wallet.toJson();
     return _json;
   }
 }
@@ -18671,8 +16855,10 @@ class TGetWalletBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletId != null || true) { _json['walletId'] = walletId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletId'] = walletId;
     return _json;
   }
 }
@@ -18701,9 +16887,7 @@ class TGetWalletAccountResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (account != null || true) {
-      _json['account'] = account.toJson();
-    }
+    _json['account'] = account.toJson();
     return _json;
   }
 }
@@ -18737,10 +16921,16 @@ class TGetWalletAccountBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletId != null || true) { _json['walletId'] = walletId; }
-    if (address != null || false) { _json['address'] = address; }
-    if (path != null || false) { _json['path'] = path; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletId'] = walletId;
+    if (address != null) {
+      _json['address'] = address;
+    }
+    if (path != null) {
+      _json['path'] = path;
+    }
     return _json;
   }
 }
@@ -18769,9 +16959,7 @@ class TGetActivitiesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (activities != null || true) {
-      _json['activities'] = activities?.map((e) => e.toJson()).toList();
-    }
+    _json['activities'] = activities.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18805,10 +16993,18 @@ class TGetActivitiesBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (filterByStatus != null || false) { _json['filterByStatus'] = filterByStatus?.map((e) => v1ActivityStatusToJson(e)).toList(); }
-    if (paginationOptions != null || false) { _json['paginationOptions'] = paginationOptions?.toJson(); }
-    if (filterByType != null || false) { _json['filterByType'] = filterByType?.map((e) => v1ActivityTypeToJson(e)).toList(); }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (filterByStatus != null) {
+      _json['filterByStatus'] = filterByStatus?.map((e) => v1ActivityStatusToJson(e)).toList();
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    if (filterByType != null) {
+      _json['filterByType'] = filterByType?.map((e) => v1ActivityTypeToJson(e)).toList();
+    }
     return _json;
   }
 }
@@ -18836,9 +17032,7 @@ class TGetAppProofsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (appProofs != null || true) {
-      _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
-    }
+    _json['appProofs'] = appProofs.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18862,8 +17056,10 @@ class TGetAppProofsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (activityId != null || true) { _json['activityId'] = activityId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['activityId'] = activityId;
     return _json;
   }
 }
@@ -18891,9 +17087,7 @@ class TListOauth2CredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oauth2Credentials != null || true) {
-      _json['oauth2Credentials'] = oauth2Credentials?.map((e) => e.toJson()).toList();
-    }
+    _json['oauth2Credentials'] = oauth2Credentials.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18912,7 +17106,9 @@ class TListOauth2CredentialsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -18941,9 +17137,7 @@ class TGetPoliciesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (policies != null || true) {
-      _json['policies'] = policies?.map((e) => e.toJson()).toList();
-    }
+    _json['policies'] = policies.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -18962,7 +17156,9 @@ class TGetPoliciesBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -18991,9 +17187,7 @@ class TListPrivateKeyTagsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeyTags != null || true) {
-      _json['privateKeyTags'] = privateKeyTags?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeyTags'] = privateKeyTags.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19012,7 +17206,9 @@ class TListPrivateKeyTagsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19041,9 +17237,7 @@ class TGetPrivateKeysResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (privateKeys != null || true) {
-      _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList();
-    }
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19062,7 +17256,9 @@ class TGetPrivateKeysBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19091,9 +17287,7 @@ class TGetSmartContractInterfacesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (smartContractInterfaces != null || true) {
-      _json['smartContractInterfaces'] = smartContractInterfaces?.map((e) => e.toJson()).toList();
-    }
+    _json['smartContractInterfaces'] = smartContractInterfaces.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19112,7 +17306,9 @@ class TGetSmartContractInterfacesBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19141,9 +17337,7 @@ class TGetSubOrgIdsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationIds != null || true) {
-      _json['organizationIds'] = organizationIds;
-    }
+    _json['organizationIds'] = organizationIds;
     return _json;
   }
 }
@@ -19177,10 +17371,18 @@ class TGetSubOrgIdsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (filterType != null || false) { _json['filterType'] = filterType; }
-    if (filterValue != null || false) { _json['filterValue'] = filterValue; }
-    if (paginationOptions != null || false) { _json['paginationOptions'] = paginationOptions?.toJson(); }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (filterType != null) {
+      _json['filterType'] = filterType;
+    }
+    if (filterValue != null) {
+      _json['filterValue'] = filterValue;
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
     return _json;
   }
 }
@@ -19209,9 +17411,7 @@ class TListUserTagsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userTags != null || true) {
-      _json['userTags'] = userTags?.map((e) => e.toJson()).toList();
-    }
+    _json['userTags'] = userTags.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19230,7 +17430,9 @@ class TListUserTagsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19259,9 +17461,7 @@ class TGetUsersResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (users != null || true) {
-      _json['users'] = users?.map((e) => e.toJson()).toList();
-    }
+    _json['users'] = users.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19280,7 +17480,9 @@ class TGetUsersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19309,9 +17511,7 @@ class TGetVerifiedSubOrgIdsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationIds != null || true) {
-      _json['organizationIds'] = organizationIds;
-    }
+    _json['organizationIds'] = organizationIds;
     return _json;
   }
 }
@@ -19345,10 +17545,18 @@ class TGetVerifiedSubOrgIdsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (filterType != null || false) { _json['filterType'] = filterType; }
-    if (filterValue != null || false) { _json['filterValue'] = filterValue; }
-    if (paginationOptions != null || false) { _json['paginationOptions'] = paginationOptions?.toJson(); }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (filterType != null) {
+      _json['filterType'] = filterType;
+    }
+    if (filterValue != null) {
+      _json['filterValue'] = filterValue;
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
     return _json;
   }
 }
@@ -19377,9 +17585,7 @@ class TGetWalletAccountsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (accounts != null || true) {
-      _json['accounts'] = accounts?.map((e) => e.toJson()).toList();
-    }
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19413,10 +17619,18 @@ class TGetWalletAccountsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletId != null || false) { _json['walletId'] = walletId; }
-    if (includeWalletDetails != null || false) { _json['includeWalletDetails'] = includeWalletDetails; }
-    if (paginationOptions != null || false) { _json['paginationOptions'] = paginationOptions?.toJson(); }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (walletId != null) {
+      _json['walletId'] = walletId;
+    }
+    if (includeWalletDetails != null) {
+      _json['includeWalletDetails'] = includeWalletDetails;
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
     return _json;
   }
 }
@@ -19445,9 +17659,7 @@ class TGetWalletsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (wallets != null || true) {
-      _json['wallets'] = wallets?.map((e) => e.toJson()).toList();
-    }
+    _json['wallets'] = wallets.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19466,7 +17678,9 @@ class TGetWalletsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19510,18 +17724,10 @@ class TGetWhoamiResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (organizationName != null || true) {
-      _json['organizationName'] = organizationName;
-    }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (username != null || true) {
-      _json['username'] = username;
-    }
+    _json['organizationId'] = organizationId;
+    _json['organizationName'] = organizationName;
+    _json['userId'] = userId;
+    _json['username'] = username;
     return _json;
   }
 }
@@ -19540,7 +17746,9 @@ class TGetWhoamiBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -19588,9 +17796,13 @@ class TApproveActivityBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (fingerprint != null || true) { _json['fingerprint'] = fingerprint; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['fingerprint'] = fingerprint;
     return _json;
   }
 }
@@ -19646,10 +17858,14 @@ class TCreateApiKeysBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (apiKeys != null || true) { _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList(); }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -19700,9 +17916,13 @@ class TCreateApiOnlyUsersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (apiOnlyUsers != null || true) { _json['apiOnlyUsers'] = apiOnlyUsers?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['apiOnlyUsers'] = apiOnlyUsers.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19758,10 +17978,14 @@ class TCreateAuthenticatorsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (authenticators != null || true) { _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList(); }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -19812,9 +18036,13 @@ class TCreateInvitationsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (invitations != null || true) { _json['invitations'] = invitations?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['invitations'] = invitations.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19875,11 +18103,15 @@ class TCreateOauth2CredentialBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (provider != null || true) { _json['provider'] = v1Oauth2ProviderToJson(provider); }
-    if (clientId != null || true) { _json['clientId'] = clientId; }
-    if (encryptedClientSecret != null || true) { _json['encryptedClientSecret'] = encryptedClientSecret; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['clientId'] = clientId;
+    _json['encryptedClientSecret'] = encryptedClientSecret;
     return _json;
   }
 }
@@ -19935,10 +18167,14 @@ class TCreateOauthProvidersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (oauthProviders != null || true) { _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -19989,9 +18225,13 @@ class TCreatePoliciesBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (policies != null || true) { _json['policies'] = policies?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['policies'] = policies.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -20061,13 +18301,23 @@ class TCreatePolicyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (policyName != null || true) { _json['policyName'] = policyName; }
-    if (effect != null || true) { _json['effect'] = v1EffectToJson(effect); }
-    if (condition != null || false) { _json['condition'] = condition; }
-    if (consensus != null || false) { _json['consensus'] = consensus; }
-    if (notes != null || false) { _json['notes'] = notes; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['policyName'] = policyName;
+    _json['effect'] = v1EffectToJson(effect);
+    if (condition != null) {
+      _json['condition'] = condition;
+    }
+    if (consensus != null) {
+      _json['consensus'] = consensus;
+    }
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
     return _json;
   }
 }
@@ -20123,10 +18373,14 @@ class TCreatePrivateKeyTagBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeyTagName != null || true) { _json['privateKeyTagName'] = privateKeyTagName; }
-    if (privateKeyIds != null || true) { _json['privateKeyIds'] = privateKeyIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeyTagName'] = privateKeyTagName;
+    _json['privateKeyIds'] = privateKeyIds;
     return _json;
   }
 }
@@ -20177,9 +18431,13 @@ class TCreatePrivateKeysBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeys != null || true) { _json['privateKeys'] = privateKeys?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeys'] = privateKeys.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -20225,8 +18483,12 @@ class TCreateReadOnlySessionBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -20297,13 +18559,25 @@ class TCreateReadWriteSessionBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
-    if (userId != null || false) { _json['userId'] = userId; }
-    if (apiKeyName != null || false) { _json['apiKeyName'] = apiKeyName; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['targetPublicKey'] = targetPublicKey;
+    if (userId != null) {
+      _json['userId'] = userId;
+    }
+    if (apiKeyName != null) {
+      _json['apiKeyName'] = apiKeyName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
     return _json;
   }
 }
@@ -20373,13 +18647,19 @@ class TCreateSmartContractInterfaceBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (smartContractAddress != null || true) { _json['smartContractAddress'] = smartContractAddress; }
-    if (smartContractInterface != null || true) { _json['smartContractInterface'] = smartContractInterface; }
-    if (type != null || true) { _json['type'] = v1SmartContractInterfaceTypeToJson(type); }
-    if (label != null || true) { _json['label'] = label; }
-    if (notes != null || false) { _json['notes'] = notes; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['smartContractAddress'] = smartContractAddress;
+    _json['smartContractInterface'] = smartContractInterface;
+    _json['type'] = v1SmartContractInterfaceTypeToJson(type);
+    _json['label'] = label;
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
     return _json;
   }
 }
@@ -20470,17 +18750,33 @@ class TCreateSubOrganizationBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (subOrganizationName != null || true) { _json['subOrganizationName'] = subOrganizationName; }
-    if (rootUsers != null || true) { _json['rootUsers'] = rootUsers?.map((e) => e.toJson()).toList(); }
-    if (rootQuorumThreshold != null || true) { _json['rootQuorumThreshold'] = rootQuorumThreshold; }
-    if (wallet != null || false) { _json['wallet'] = wallet?.toJson(); }
-    if (disableEmailRecovery != null || false) { _json['disableEmailRecovery'] = disableEmailRecovery; }
-    if (disableEmailAuth != null || false) { _json['disableEmailAuth'] = disableEmailAuth; }
-    if (disableSmsAuth != null || false) { _json['disableSmsAuth'] = disableSmsAuth; }
-    if (disableOtpEmailAuth != null || false) { _json['disableOtpEmailAuth'] = disableOtpEmailAuth; }
-    if (verificationToken != null || false) { _json['verificationToken'] = verificationToken; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    if (disableEmailRecovery != null) {
+      _json['disableEmailRecovery'] = disableEmailRecovery;
+    }
+    if (disableEmailAuth != null) {
+      _json['disableEmailAuth'] = disableEmailAuth;
+    }
+    if (disableSmsAuth != null) {
+      _json['disableSmsAuth'] = disableSmsAuth;
+    }
+    if (disableOtpEmailAuth != null) {
+      _json['disableOtpEmailAuth'] = disableOtpEmailAuth;
+    }
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
     return _json;
   }
 }
@@ -20536,10 +18832,14 @@ class TCreateUserTagBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userTagName != null || true) { _json['userTagName'] = userTagName; }
-    if (userIds != null || true) { _json['userIds'] = userIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userTagName'] = userTagName;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -20590,9 +18890,13 @@ class TCreateUsersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (users != null || true) { _json['users'] = users?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['users'] = users.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -20653,11 +18957,17 @@ class TCreateWalletBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletName != null || true) { _json['walletName'] = walletName; }
-    if (accounts != null || true) { _json['accounts'] = accounts?.map((e) => e.toJson()).toList(); }
-    if (mnemonicLength != null || false) { _json['mnemonicLength'] = mnemonicLength; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletName'] = walletName;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
+    if (mnemonicLength != null) {
+      _json['mnemonicLength'] = mnemonicLength;
+    }
     return _json;
   }
 }
@@ -20718,11 +19028,17 @@ class TCreateWalletAccountsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletId != null || true) { _json['walletId'] = walletId; }
-    if (accounts != null || true) { _json['accounts'] = accounts?.map((e) => e.toJson()).toList(); }
-    if (persist != null || false) { _json['persist'] = persist; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletId'] = walletId;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
+    if (persist != null) {
+      _json['persist'] = persist;
+    }
     return _json;
   }
 }
@@ -20778,10 +19094,14 @@ class TDeleteApiKeysBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (apiKeyIds != null || true) { _json['apiKeyIds'] = apiKeyIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['apiKeyIds'] = apiKeyIds;
     return _json;
   }
 }
@@ -20837,10 +19157,14 @@ class TDeleteAuthenticatorsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (authenticatorIds != null || true) { _json['authenticatorIds'] = authenticatorIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['authenticatorIds'] = authenticatorIds;
     return _json;
   }
 }
@@ -20891,9 +19215,13 @@ class TDeleteInvitationBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (invitationId != null || true) { _json['invitationId'] = invitationId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['invitationId'] = invitationId;
     return _json;
   }
 }
@@ -20944,9 +19272,13 @@ class TDeleteOauth2CredentialBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (oauth2CredentialId != null || true) { _json['oauth2CredentialId'] = oauth2CredentialId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
     return _json;
   }
 }
@@ -21002,10 +19334,14 @@ class TDeleteOauthProvidersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (providerIds != null || true) { _json['providerIds'] = providerIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['providerIds'] = providerIds;
     return _json;
   }
 }
@@ -21056,9 +19392,13 @@ class TDeletePoliciesBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (policyIds != null || true) { _json['policyIds'] = policyIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['policyIds'] = policyIds;
     return _json;
   }
 }
@@ -21109,9 +19449,13 @@ class TDeletePolicyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (policyId != null || true) { _json['policyId'] = policyId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['policyId'] = policyId;
     return _json;
   }
 }
@@ -21162,9 +19506,13 @@ class TDeletePrivateKeyTagsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeyTagIds != null || true) { _json['privateKeyTagIds'] = privateKeyTagIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeyTagIds'] = privateKeyTagIds;
     return _json;
   }
 }
@@ -21220,10 +19568,16 @@ class TDeletePrivateKeysBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeyIds != null || true) { _json['privateKeyIds'] = privateKeyIds; }
-    if (deleteWithoutExport != null || false) { _json['deleteWithoutExport'] = deleteWithoutExport; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeyIds'] = privateKeyIds;
+    if (deleteWithoutExport != null) {
+      _json['deleteWithoutExport'] = deleteWithoutExport;
+    }
     return _json;
   }
 }
@@ -21274,9 +19628,13 @@ class TDeleteSmartContractInterfaceBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (smartContractInterfaceId != null || true) { _json['smartContractInterfaceId'] = smartContractInterfaceId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
     return _json;
   }
 }
@@ -21327,9 +19685,15 @@ class TDeleteSubOrganizationBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (deleteWithoutExport != null || false) { _json['deleteWithoutExport'] = deleteWithoutExport; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (deleteWithoutExport != null) {
+      _json['deleteWithoutExport'] = deleteWithoutExport;
+    }
     return _json;
   }
 }
@@ -21380,9 +19744,13 @@ class TDeleteUserTagsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userTagIds != null || true) { _json['userTagIds'] = userTagIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userTagIds'] = userTagIds;
     return _json;
   }
 }
@@ -21433,9 +19801,13 @@ class TDeleteUsersBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userIds != null || true) { _json['userIds'] = userIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -21491,10 +19863,16 @@ class TDeleteWalletAccountsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletAccountIds != null || true) { _json['walletAccountIds'] = walletAccountIds; }
-    if (deleteWithoutExport != null || false) { _json['deleteWithoutExport'] = deleteWithoutExport; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletAccountIds'] = walletAccountIds;
+    if (deleteWithoutExport != null) {
+      _json['deleteWithoutExport'] = deleteWithoutExport;
+    }
     return _json;
   }
 }
@@ -21550,10 +19928,16 @@ class TDeleteWalletsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletIds != null || true) { _json['walletIds'] = walletIds; }
-    if (deleteWithoutExport != null || false) { _json['deleteWithoutExport'] = deleteWithoutExport; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletIds'] = walletIds;
+    if (deleteWithoutExport != null) {
+      _json['deleteWithoutExport'] = deleteWithoutExport;
+    }
     return _json;
   }
 }
@@ -21644,17 +20028,35 @@ class TEmailAuthBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (email != null || true) { _json['email'] = email; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
-    if (apiKeyName != null || false) { _json['apiKeyName'] = apiKeyName; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (emailCustomization != null || false) { _json['emailCustomization'] = emailCustomization?.toJson(); }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
-    if (sendFromEmailAddress != null || false) { _json['sendFromEmailAddress'] = sendFromEmailAddress; }
-    if (sendFromEmailSenderName != null || false) { _json['sendFromEmailSenderName'] = sendFromEmailSenderName; }
-    if (replyToEmailAddress != null || false) { _json['replyToEmailAddress'] = replyToEmailAddress; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
+      _json['apiKeyName'] = apiKeyName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
     return _json;
   }
 }
@@ -21710,10 +20112,14 @@ class TExportPrivateKeyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeyId != null || true) { _json['privateKeyId'] = privateKeyId; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeyId'] = privateKeyId;
+    _json['targetPublicKey'] = targetPublicKey;
     return _json;
   }
 }
@@ -21774,11 +20180,17 @@ class TExportWalletBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletId != null || true) { _json['walletId'] = walletId; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
-    if (language != null || false) { _json['language'] = v1MnemonicLanguageToJson(language!); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletId'] = walletId;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (language != null) {
+      _json['language'] = v1MnemonicLanguageToJson(language!);
+    }
     return _json;
   }
 }
@@ -21834,10 +20246,14 @@ class TExportWalletAccountBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (address != null || true) { _json['address'] = address; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['address'] = address;
+    _json['targetPublicKey'] = targetPublicKey;
     return _json;
   }
 }
@@ -21908,13 +20324,17 @@ class TImportPrivateKeyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (privateKeyName != null || true) { _json['privateKeyName'] = privateKeyName; }
-    if (encryptedBundle != null || true) { _json['encryptedBundle'] = encryptedBundle; }
-    if (curve != null || true) { _json['curve'] = v1CurveToJson(curve); }
-    if (addressFormats != null || true) { _json['addressFormats'] = addressFormats?.map((e) => v1AddressFormatToJson(e)).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['privateKeyName'] = privateKeyName;
+    _json['encryptedBundle'] = encryptedBundle;
+    _json['curve'] = v1CurveToJson(curve);
+    _json['addressFormats'] = addressFormats.map((e) => v1AddressFormatToJson(e)).toList();
     return _json;
   }
 }
@@ -21980,12 +20400,16 @@ class TImportWalletBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (walletName != null || true) { _json['walletName'] = walletName; }
-    if (encryptedBundle != null || true) { _json['encryptedBundle'] = encryptedBundle; }
-    if (accounts != null || true) { _json['accounts'] = accounts?.map((e) => e.toJson()).toList(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['walletName'] = walletName;
+    _json['encryptedBundle'] = encryptedBundle;
+    _json['accounts'] = accounts.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -22086,19 +20510,37 @@ class TInitFiatOnRampBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (onrampProvider != null || true) { _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider); }
-    if (walletAddress != null || true) { _json['walletAddress'] = walletAddress; }
-    if (network != null || true) { _json['network'] = v1FiatOnRampBlockchainNetworkToJson(network); }
-    if (cryptoCurrencyCode != null || true) { _json['cryptoCurrencyCode'] = v1FiatOnRampCryptoCurrencyToJson(cryptoCurrencyCode); }
-    if (fiatCurrencyCode != null || false) { _json['fiatCurrencyCode'] = v1FiatOnRampCurrencyToJson(fiatCurrencyCode!); }
-    if (fiatCurrencyAmount != null || false) { _json['fiatCurrencyAmount'] = fiatCurrencyAmount; }
-    if (paymentMethod != null || false) { _json['paymentMethod'] = v1FiatOnRampPaymentMethodToJson(paymentMethod!); }
-    if (countryCode != null || false) { _json['countryCode'] = countryCode; }
-    if (countrySubdivisionCode != null || false) { _json['countrySubdivisionCode'] = countrySubdivisionCode; }
-    if (sandboxMode != null || false) { _json['sandboxMode'] = sandboxMode; }
-    if (urlForSignature != null || false) { _json['urlForSignature'] = urlForSignature; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    _json['walletAddress'] = walletAddress;
+    _json['network'] = v1FiatOnRampBlockchainNetworkToJson(network);
+    _json['cryptoCurrencyCode'] = v1FiatOnRampCryptoCurrencyToJson(cryptoCurrencyCode);
+    if (fiatCurrencyCode != null) {
+      _json['fiatCurrencyCode'] = v1FiatOnRampCurrencyToJson(fiatCurrencyCode!);
+    }
+    if (fiatCurrencyAmount != null) {
+      _json['fiatCurrencyAmount'] = fiatCurrencyAmount;
+    }
+    if (paymentMethod != null) {
+      _json['paymentMethod'] = v1FiatOnRampPaymentMethodToJson(paymentMethod!);
+    }
+    if (countryCode != null) {
+      _json['countryCode'] = countryCode;
+    }
+    if (countrySubdivisionCode != null) {
+      _json['countrySubdivisionCode'] = countrySubdivisionCode;
+    }
+    if (sandboxMode != null) {
+      _json['sandboxMode'] = sandboxMode;
+    }
+    if (urlForSignature != null) {
+      _json['urlForSignature'] = urlForSignature;
+    }
     return _json;
   }
 }
@@ -22149,9 +20591,13 @@ class TInitImportPrivateKeyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -22202,9 +20648,13 @@ class TInitImportWalletBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -22305,19 +20755,41 @@ class TInitOtpBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (otpType != null || true) { _json['otpType'] = otpType; }
-    if (contact != null || true) { _json['contact'] = contact; }
-    if (otpLength != null || false) { _json['otpLength'] = otpLength; }
-    if (emailCustomization != null || false) { _json['emailCustomization'] = emailCustomization?.toJson(); }
-    if (smsCustomization != null || false) { _json['smsCustomization'] = smsCustomization?.toJson(); }
-    if (userIdentifier != null || false) { _json['userIdentifier'] = userIdentifier; }
-    if (sendFromEmailAddress != null || false) { _json['sendFromEmailAddress'] = sendFromEmailAddress; }
-    if (alphanumeric != null || false) { _json['alphanumeric'] = alphanumeric; }
-    if (sendFromEmailSenderName != null || false) { _json['sendFromEmailSenderName'] = sendFromEmailSenderName; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (replyToEmailAddress != null || false) { _json['replyToEmailAddress'] = replyToEmailAddress; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    if (otpLength != null) {
+      _json['otpLength'] = otpLength;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (smsCustomization != null) {
+      _json['smsCustomization'] = smsCustomization?.toJson();
+    }
+    if (userIdentifier != null) {
+      _json['userIdentifier'] = userIdentifier;
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (alphanumeric != null) {
+      _json['alphanumeric'] = alphanumeric;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
     return _json;
   }
 }
@@ -22413,18 +20885,38 @@ class TInitOtpAuthBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (otpType != null || true) { _json['otpType'] = otpType; }
-    if (contact != null || true) { _json['contact'] = contact; }
-    if (otpLength != null || false) { _json['otpLength'] = otpLength; }
-    if (emailCustomization != null || false) { _json['emailCustomization'] = emailCustomization?.toJson(); }
-    if (smsCustomization != null || false) { _json['smsCustomization'] = smsCustomization?.toJson(); }
-    if (userIdentifier != null || false) { _json['userIdentifier'] = userIdentifier; }
-    if (sendFromEmailAddress != null || false) { _json['sendFromEmailAddress'] = sendFromEmailAddress; }
-    if (alphanumeric != null || false) { _json['alphanumeric'] = alphanumeric; }
-    if (sendFromEmailSenderName != null || false) { _json['sendFromEmailSenderName'] = sendFromEmailSenderName; }
-    if (replyToEmailAddress != null || false) { _json['replyToEmailAddress'] = replyToEmailAddress; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    if (otpLength != null) {
+      _json['otpLength'] = otpLength;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (smsCustomization != null) {
+      _json['smsCustomization'] = smsCustomization?.toJson();
+    }
+    if (userIdentifier != null) {
+      _json['userIdentifier'] = userIdentifier;
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (alphanumeric != null) {
+      _json['alphanumeric'] = alphanumeric;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
     return _json;
   }
 }
@@ -22490,12 +20982,20 @@ class TInitUserEmailRecoveryBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (email != null || true) { _json['email'] = email; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (emailCustomization != null || false) { _json['emailCustomization'] = emailCustomization?.toJson(); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
     return _json;
   }
 }
@@ -22566,13 +21066,23 @@ class TOauthBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (oidcToken != null || true) { _json['oidcToken'] = oidcToken; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
-    if (apiKeyName != null || false) { _json['apiKeyName'] = apiKeyName; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['oidcToken'] = oidcToken;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
+      _json['apiKeyName'] = apiKeyName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
     return _json;
   }
 }
@@ -22648,14 +21158,22 @@ class TOauth2AuthenticateBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (oauth2CredentialId != null || true) { _json['oauth2CredentialId'] = oauth2CredentialId; }
-    if (authCode != null || true) { _json['authCode'] = authCode; }
-    if (redirectUri != null || true) { _json['redirectUri'] = redirectUri; }
-    if (codeVerifier != null || true) { _json['codeVerifier'] = codeVerifier; }
-    if (nonce != null || false) { _json['nonce'] = nonce; }
-    if (bearerTokenTargetPublicKey != null || false) { _json['bearerTokenTargetPublicKey'] = bearerTokenTargetPublicKey; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
+    _json['authCode'] = authCode;
+    _json['redirectUri'] = redirectUri;
+    _json['codeVerifier'] = codeVerifier;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (bearerTokenTargetPublicKey != null) {
+      _json['bearerTokenTargetPublicKey'] = bearerTokenTargetPublicKey;
+    }
     return _json;
   }
 }
@@ -22721,12 +21239,20 @@ class TOauthLoginBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (oidcToken != null || true) { _json['oidcToken'] = oidcToken; }
-    if (publicKey != null || true) { _json['publicKey'] = publicKey; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['oidcToken'] = oidcToken;
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
     return _json;
   }
 }
@@ -22802,14 +21328,24 @@ class TOtpAuthBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (otpId != null || true) { _json['otpId'] = otpId; }
-    if (otpCode != null || true) { _json['otpCode'] = otpCode; }
-    if (targetPublicKey != null || true) { _json['targetPublicKey'] = targetPublicKey; }
-    if (apiKeyName != null || false) { _json['apiKeyName'] = apiKeyName; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['otpId'] = otpId;
+    _json['otpCode'] = otpCode;
+    _json['targetPublicKey'] = targetPublicKey;
+    if (apiKeyName != null) {
+      _json['apiKeyName'] = apiKeyName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
     return _json;
   }
 }
@@ -22880,13 +21416,23 @@ class TOtpLoginBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (verificationToken != null || true) { _json['verificationToken'] = verificationToken; }
-    if (publicKey != null || true) { _json['publicKey'] = publicKey; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
-    if (clientSignature != null || false) { _json['clientSignature'] = clientSignature; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['verificationToken'] = verificationToken;
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature;
+    }
     return _json;
   }
 }
@@ -22942,10 +21488,14 @@ class TRecoverUserBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (authenticator != null || true) { _json['authenticator'] = authenticator.toJson(); }
-    if (userId != null || true) { _json['userId'] = userId; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['authenticator'] = authenticator.toJson();
+    _json['userId'] = userId;
     return _json;
   }
 }
@@ -22993,9 +21543,13 @@ class TRejectActivityBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (fingerprint != null || true) { _json['fingerprint'] = fingerprint; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['fingerprint'] = fingerprint;
     return _json;
   }
 }
@@ -23046,9 +21600,13 @@ class TRemoveOrganizationFeatureBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (name != null || true) { _json['name'] = v1FeatureNameToJson(name); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['name'] = v1FeatureNameToJson(name);
     return _json;
   }
 }
@@ -23104,10 +21662,14 @@ class TSetOrganizationFeatureBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (name != null || true) { _json['name'] = v1FeatureNameToJson(name); }
-    if (value != null || true) { _json['value'] = value; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['name'] = v1FeatureNameToJson(name);
+    _json['value'] = value;
     return _json;
   }
 }
@@ -23173,12 +21735,16 @@ class TSignRawPayloadBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (signWith != null || true) { _json['signWith'] = signWith; }
-    if (payload != null || true) { _json['payload'] = payload; }
-    if (encoding != null || true) { _json['encoding'] = v1PayloadEncodingToJson(encoding); }
-    if (hashFunction != null || true) { _json['hashFunction'] = v1HashFunctionToJson(hashFunction); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['payload'] = payload;
+    _json['encoding'] = v1PayloadEncodingToJson(encoding);
+    _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
     return _json;
   }
 }
@@ -23244,12 +21810,16 @@ class TSignRawPayloadsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (signWith != null || true) { _json['signWith'] = signWith; }
-    if (payloads != null || true) { _json['payloads'] = payloads; }
-    if (encoding != null || true) { _json['encoding'] = v1PayloadEncodingToJson(encoding); }
-    if (hashFunction != null || true) { _json['hashFunction'] = v1HashFunctionToJson(hashFunction); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['payloads'] = payloads;
+    _json['encoding'] = v1PayloadEncodingToJson(encoding);
+    _json['hashFunction'] = v1HashFunctionToJson(hashFunction);
     return _json;
   }
 }
@@ -23309,11 +21879,15 @@ class TSignTransactionBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (signWith != null || true) { _json['signWith'] = signWith; }
-    if (unsignedTransaction != null || true) { _json['unsignedTransaction'] = unsignedTransaction; }
-    if (type != null || true) { _json['type'] = v1TransactionTypeToJson(type); }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['unsignedTransaction'] = unsignedTransaction;
+    _json['type'] = v1TransactionTypeToJson(type);
     return _json;
   }
 }
@@ -23374,11 +21948,19 @@ class TStampLoginBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (publicKey != null || true) { _json['publicKey'] = publicKey; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['publicKey'] = publicKey;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
     return _json;
   }
 }
@@ -23444,12 +22026,16 @@ class TUpdateOauth2CredentialBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (oauth2CredentialId != null || true) { _json['oauth2CredentialId'] = oauth2CredentialId; }
-    if (provider != null || true) { _json['provider'] = v1Oauth2ProviderToJson(provider); }
-    if (clientId != null || true) { _json['clientId'] = clientId; }
-    if (encryptedClientSecret != null || true) { _json['encryptedClientSecret'] = encryptedClientSecret; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['oauth2CredentialId'] = oauth2CredentialId;
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['clientId'] = clientId;
+    _json['encryptedClientSecret'] = encryptedClientSecret;
     return _json;
   }
 }
@@ -23525,14 +22111,28 @@ class TUpdatePolicyBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (policyId != null || true) { _json['policyId'] = policyId; }
-    if (policyName != null || false) { _json['policyName'] = policyName; }
-    if (policyEffect != null || false) { _json['policyEffect'] = v1EffectToJson(policyEffect!); }
-    if (policyCondition != null || false) { _json['policyCondition'] = policyCondition; }
-    if (policyConsensus != null || false) { _json['policyConsensus'] = policyConsensus; }
-    if (policyNotes != null || false) { _json['policyNotes'] = policyNotes; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['policyId'] = policyId;
+    if (policyName != null) {
+      _json['policyName'] = policyName;
+    }
+    if (policyEffect != null) {
+      _json['policyEffect'] = v1EffectToJson(policyEffect!);
+    }
+    if (policyCondition != null) {
+      _json['policyCondition'] = policyCondition;
+    }
+    if (policyConsensus != null) {
+      _json['policyConsensus'] = policyConsensus;
+    }
+    if (policyNotes != null) {
+      _json['policyNotes'] = policyNotes;
+    }
     return _json;
   }
 }
@@ -23598,12 +22198,18 @@ class TUpdatePrivateKeyTagBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (privateKeyTagId != null || true) { _json['privateKeyTagId'] = privateKeyTagId; }
-    if (newPrivateKeyTagName != null || false) { _json['newPrivateKeyTagName'] = newPrivateKeyTagName; }
-    if (addPrivateKeyIds != null || true) { _json['addPrivateKeyIds'] = addPrivateKeyIds; }
-    if (removePrivateKeyIds != null || true) { _json['removePrivateKeyIds'] = removePrivateKeyIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['privateKeyTagId'] = privateKeyTagId;
+    if (newPrivateKeyTagName != null) {
+      _json['newPrivateKeyTagName'] = newPrivateKeyTagName;
+    }
+    _json['addPrivateKeyIds'] = addPrivateKeyIds;
+    _json['removePrivateKeyIds'] = removePrivateKeyIds;
     return _json;
   }
 }
@@ -23659,10 +22265,14 @@ class TUpdateRootQuorumBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (threshold != null || true) { _json['threshold'] = threshold; }
-    if (userIds != null || true) { _json['userIds'] = userIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['threshold'] = threshold;
+    _json['userIds'] = userIds;
     return _json;
   }
 }
@@ -23733,13 +22343,25 @@ class TUpdateUserBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (userName != null || false) { _json['userName'] = userName; }
-    if (userEmail != null || false) { _json['userEmail'] = userEmail; }
-    if (userTagIds != null || false) { _json['userTagIds'] = userTagIds; }
-    if (userPhoneNumber != null || false) { _json['userPhoneNumber'] = userPhoneNumber; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    if (userName != null) {
+      _json['userName'] = userName;
+    }
+    if (userEmail != null) {
+      _json['userEmail'] = userEmail;
+    }
+    if (userTagIds != null) {
+      _json['userTagIds'] = userTagIds;
+    }
+    if (userPhoneNumber != null) {
+      _json['userPhoneNumber'] = userPhoneNumber;
+    }
     return _json;
   }
 }
@@ -23800,11 +22422,17 @@ class TUpdateUserEmailBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (userEmail != null || true) { _json['userEmail'] = userEmail; }
-    if (verificationToken != null || false) { _json['verificationToken'] = verificationToken; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['userEmail'] = userEmail;
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
     return _json;
   }
 }
@@ -23860,10 +22488,14 @@ class TUpdateUserNameBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (userName != null || true) { _json['userName'] = userName; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['userName'] = userName;
     return _json;
   }
 }
@@ -23924,11 +22556,17 @@ class TUpdateUserPhoneNumberBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userId != null || true) { _json['userId'] = userId; }
-    if (userPhoneNumber != null || true) { _json['userPhoneNumber'] = userPhoneNumber; }
-    if (verificationToken != null || false) { _json['verificationToken'] = verificationToken; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['userPhoneNumber'] = userPhoneNumber;
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
     return _json;
   }
 }
@@ -23994,12 +22632,18 @@ class TUpdateUserTagBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (userTagId != null || true) { _json['userTagId'] = userTagId; }
-    if (newUserTagName != null || false) { _json['newUserTagName'] = newUserTagName; }
-    if (addUserIds != null || true) { _json['addUserIds'] = addUserIds; }
-    if (removeUserIds != null || true) { _json['removeUserIds'] = removeUserIds; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userTagId'] = userTagId;
+    if (newUserTagName != null) {
+      _json['newUserTagName'] = newUserTagName;
+    }
+    _json['addUserIds'] = addUserIds;
+    _json['removeUserIds'] = removeUserIds;
     return _json;
   }
 }
@@ -24055,10 +22699,16 @@ class TUpdateWalletBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (walletId != null || true) { _json['walletId'] = walletId; }
-    if (walletName != null || false) { _json['walletName'] = walletName; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletId'] = walletId;
+    if (walletName != null) {
+      _json['walletName'] = walletName;
+    }
     return _json;
   }
 }
@@ -24124,12 +22774,20 @@ class TVerifyOtpBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (timestampMs != null || false) { _json['timestampMs'] = timestampMs; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (otpId != null || true) { _json['otpId'] = otpId; }
-    if (otpCode != null || true) { _json['otpCode'] = otpCode; }
-    if (expirationSeconds != null || false) { _json['expirationSeconds'] = expirationSeconds; }
-    if (publicKey != null || false) { _json['publicKey'] = publicKey; }
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['otpId'] = otpId;
+    _json['otpCode'] = otpCode;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
     return _json;
   }
 }
@@ -24157,9 +22815,7 @@ class TNOOPCodegenAnchorResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (stamp != null || true) {
-      _json['stamp'] = stamp.toJson();
-    }
+    _json['stamp'] = stamp.toJson();
     return _json;
   }
 }
@@ -24207,9 +22863,11 @@ class TTestRateLimitsBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (isSetLimit != null || true) { _json['isSetLimit'] = isSetLimit; }
-    if (limit != null || true) { _json['limit'] = limit; }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['isSetLimit'] = isSetLimit;
+    _json['limit'] = limit;
     return _json;
   }
 }
@@ -24237,7 +22895,7 @@ class ProxyTGetAccountResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || false) {
+    if (organizationId != null) {
       _json['organizationId'] = organizationId;
     }
     return _json;
@@ -24269,9 +22927,11 @@ class ProxyTGetAccountBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (filterType != null || true) { _json['filterType'] = filterType; }
-    if (filterValue != null || true) { _json['filterValue'] = filterValue; }
-    if (verificationToken != null || false) { _json['verificationToken'] = verificationToken; }
+    _json['filterType'] = filterType;
+    _json['filterValue'] = filterValue;
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
     return _json;
   }
 }
@@ -24300,9 +22960,7 @@ class ProxyTOAuth2AuthenticateResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oidcToken != null || true) {
-      _json['oidcToken'] = oidcToken;
-    }
+    _json['oidcToken'] = oidcToken;
     return _json;
   }
 }
@@ -24347,12 +23005,14 @@ class ProxyTOAuth2AuthenticateBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (provider != null || true) { _json['provider'] = v1Oauth2ProviderToJson(provider); }
-    if (authCode != null || true) { _json['authCode'] = authCode; }
-    if (redirectUri != null || true) { _json['redirectUri'] = redirectUri; }
-    if (codeVerifier != null || true) { _json['codeVerifier'] = codeVerifier; }
-    if (nonce != null || false) { _json['nonce'] = nonce; }
-    if (clientId != null || true) { _json['clientId'] = clientId; }
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['authCode'] = authCode;
+    _json['redirectUri'] = redirectUri;
+    _json['codeVerifier'] = codeVerifier;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    _json['clientId'] = clientId;
     return _json;
   }
 }
@@ -24381,9 +23041,7 @@ class ProxyTOAuthLoginResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (session != null || true) {
-      _json['session'] = session;
-    }
+    _json['session'] = session;
     return _json;
   }
 }
@@ -24418,10 +23076,14 @@ class ProxyTOAuthLoginBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (oidcToken != null || true) { _json['oidcToken'] = oidcToken; }
-    if (publicKey != null || true) { _json['publicKey'] = publicKey; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
+    _json['oidcToken'] = oidcToken;
+    _json['publicKey'] = publicKey;
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
     return _json;
   }
 }
@@ -24450,9 +23112,7 @@ class ProxyTInitOtpResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) {
-      _json['otpId'] = otpId;
-    }
+    _json['otpId'] = otpId;
     return _json;
   }
 }
@@ -24477,8 +23137,8 @@ class ProxyTInitOtpBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpType != null || true) { _json['otpType'] = otpType; }
-    if (contact != null || true) { _json['contact'] = contact; }
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
     return _json;
   }
 }
@@ -24507,9 +23167,7 @@ class ProxyTOtpLoginResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (session != null || true) {
-      _json['session'] = session;
-    }
+    _json['session'] = session;
     return _json;
   }
 }
@@ -24549,11 +23207,17 @@ class ProxyTOtpLoginBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (verificationToken != null || true) { _json['verificationToken'] = verificationToken; }
-    if (publicKey != null || true) { _json['publicKey'] = publicKey; }
-    if (invalidateExisting != null || false) { _json['invalidateExisting'] = invalidateExisting; }
-    if (organizationId != null || false) { _json['organizationId'] = organizationId; }
-    if (clientSignature != null || false) { _json['clientSignature'] = clientSignature; }
+    _json['verificationToken'] = verificationToken;
+    _json['publicKey'] = publicKey;
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature;
+    }
     return _json;
   }
 }
@@ -24582,9 +23246,7 @@ class ProxyTVerifyOtpResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (verificationToken != null || true) {
-      _json['verificationToken'] = verificationToken;
-    }
+    _json['verificationToken'] = verificationToken;
     return _json;
   }
 }
@@ -24614,9 +23276,11 @@ class ProxyTVerifyOtpBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (otpId != null || true) { _json['otpId'] = otpId; }
-    if (otpCode != null || true) { _json['otpCode'] = otpCode; }
-    if (publicKey != null || false) { _json['publicKey'] = publicKey; }
+    _json['otpId'] = otpId;
+    _json['otpCode'] = otpCode;
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
     return _json;
   }
 }
@@ -24659,16 +23323,12 @@ class ProxyTSignupResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (wallet != null || false) {
+    _json['organizationId'] = organizationId;
+    if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
     }
-    if (userId != null || true) {
-      _json['userId'] = userId;
-    }
-    if (appProofs != null || false) {
+    _json['userId'] = userId;
+    if (appProofs != null) {
       _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
     }
     return _json;
@@ -24729,16 +23389,30 @@ class ProxyTSignupBody {
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (userEmail != null || false) { _json['userEmail'] = userEmail; }
-    if (userPhoneNumber != null || false) { _json['userPhoneNumber'] = userPhoneNumber; }
-    if (userTag != null || false) { _json['userTag'] = userTag; }
-    if (userName != null || false) { _json['userName'] = userName; }
-    if (organizationName != null || false) { _json['organizationName'] = organizationName; }
-    if (verificationToken != null || false) { _json['verificationToken'] = verificationToken; }
-    if (apiKeys != null || true) { _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList(); }
-    if (authenticators != null || true) { _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList(); }
-    if (oauthProviders != null || true) { _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList(); }
-    if (wallet != null || false) { _json['wallet'] = wallet?.toJson(); }
+    if (userEmail != null) {
+      _json['userEmail'] = userEmail;
+    }
+    if (userPhoneNumber != null) {
+      _json['userPhoneNumber'] = userPhoneNumber;
+    }
+    if (userTag != null) {
+      _json['userTag'] = userTag;
+    }
+    if (userName != null) {
+      _json['userName'] = userName;
+    }
+    if (organizationName != null) {
+      _json['organizationName'] = organizationName;
+    }
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
     return _json;
   }
 }
@@ -24795,25 +23469,19 @@ class ProxyTGetWalletKitConfigResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    if (enabledProviders != null || true) {
-      _json['enabledProviders'] = enabledProviders;
-    }
-    if (sessionExpirationSeconds != null || true) {
-      _json['sessionExpirationSeconds'] = sessionExpirationSeconds;
-    }
-    if (organizationId != null || true) {
-      _json['organizationId'] = organizationId;
-    }
-    if (oauthClientIds != null || false) {
+    _json['enabledProviders'] = enabledProviders;
+    _json['sessionExpirationSeconds'] = sessionExpirationSeconds;
+    _json['organizationId'] = organizationId;
+    if (oauthClientIds != null) {
       _json['oauthClientIds'] = oauthClientIds;
     }
-    if (oauthRedirectUrl != null || false) {
+    if (oauthRedirectUrl != null) {
       _json['oauthRedirectUrl'] = oauthRedirectUrl;
     }
-    if (otpAlphanumeric != null || false) {
+    if (otpAlphanumeric != null) {
       _json['otpAlphanumeric'] = otpAlphanumeric;
     }
-    if (otpLength != null || false) {
+    if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
     return _json;
