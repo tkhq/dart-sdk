@@ -15,18 +15,20 @@ import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'package:crypto/crypto.dart';
 
 class TurnkeyProvider with ChangeNotifier {
+  // these are external
   Session? _session;
+  TurnkeyClient? _client;
   v1User? _user;
   List<Wallet>? _wallets;
-  TurnkeyClient? _client;
-  SecureStorageStamper _secureStorageStamper = SecureStorageStamper();
-  Map<String, Timer> _expiryTimers = {};
+
+  // these are internal
   TurnkeyConfig? _masterConfig;
   ProxyTGetWalletKitConfigResponse? _proxyAuthConfig;
 
+  // immutable
   final TurnkeyConfig config;
-
-  TurnkeyConfig? get masterConfig => _masterConfig;
+  final SecureStorageStamper secureStorageStamper = SecureStorageStamper();
+  final Map<String, Timer> expiryTimers = {};
 
   final Completer<void> _initCompleter = Completer<void>();
   Future<void> get ready => _initCompleter.future;
@@ -37,12 +39,28 @@ class TurnkeyProvider with ChangeNotifier {
 
   ProxyTGetWalletKitConfigResponse? get proxyAuthConfig => _proxyAuthConfig;
 
+  // these are externally used
   Session? get session => _session;
   TurnkeyClient? get client => _client;
-  SecureStorageStamper get secureStorageStamper => _secureStorageStamper;
   v1User? get user => _user;
   List<Wallet>? get wallets => _wallets;
 
+  // these are internally used
+  TurnkeyConfig? get masterConfig => _masterConfig;
+
+  // helper to get client or throw
+  TurnkeyClient get requireClient {
+    if (client == null) {
+      throw StateError(
+        'TurnkeyClient is not initialized. Make sure you have an active session '
+        'and that `_client` was properly set before calling this method.',
+      );
+    }
+    return client!;
+  }
+
+  // here we have setters that notify listeners
+  // we do this for external properties only
   set session(Session? newSession) {
     _session = newSession;
     notifyListeners();
@@ -67,16 +85,6 @@ class TurnkeyProvider with ChangeNotifier {
     await _boot();
     await SessionStorageManager.init();
     await initializeSessions();
-  }
-
-  TurnkeyClient get requireClient {
-    if (_client == null) {
-      throw StateError(
-        'TurnkeyClient is not initialized. Make sure you have an active session '
-        'and that `_client` was properly set before calling this method.',
-      );
-    }
-    return _client!;
   }
 
   TurnkeyConfig _buildConfig({
@@ -213,7 +221,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   Future<ProxyTGetWalletKitConfigResponse?> _getAuthProxyConfig(
       String configId, String? baseUrl) async {
-    if (_client == null) {
+    if (client == null) {
       createClient(
         authProxyConfigId: configId,
         authProxyBaseUrl: baseUrl,
@@ -415,9 +423,9 @@ class TurnkeyProvider with ChangeNotifier {
   /// [sessionKey] The key of the session to schedule expiration for.
   /// [expiry] The expiration time in seconds.
   Future<void> _scheduleSessionExpiration(String sessionKey, int expiry) async {
-    if (_expiryTimers.isNotEmpty && _expiryTimers.containsKey(sessionKey)) {
-      _expiryTimers[sessionKey]?.cancel();
-      _expiryTimers.remove(sessionKey);
+    if (expiryTimers.isNotEmpty && expiryTimers.containsKey(sessionKey)) {
+      expiryTimers[sessionKey]?.cancel();
+      expiryTimers.remove(sessionKey);
     }
 
     final expireSession = () async {
@@ -436,7 +444,7 @@ class TurnkeyProvider with ChangeNotifier {
     if (timeUntilExpiry <= 0) {
       await expireSession();
     } else {
-      _expiryTimers.putIfAbsent(sessionKey, () {
+      expiryTimers.putIfAbsent(sessionKey, () {
         return Timer(Duration(milliseconds: timeUntilExpiry), expireSession);
       });
     }
@@ -490,7 +498,7 @@ class TurnkeyProvider with ChangeNotifier {
     // we fetch the user information
     await refreshUser();
     await refreshWallets();
-    if (_user == null) {
+    if (user == null) {
       throw Exception("Failed to fetch user");
     }
 
@@ -535,7 +543,7 @@ class TurnkeyProvider with ChangeNotifier {
       stamper: secureStorageStamper,
     );
 
-    _client = newClient;
+    client = newClient;
     return newClient;
   }
 
@@ -676,11 +684,10 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   Future<void> refreshWallets() async {
-    if (session == null || user == null) {
-      throw Exception(
-          "Failed to refresh wallets. Client, session, or user not initialized");
+    if (session == null) {
+      throw Exception("Failed to refresh wallets. No session initialized");
     }
-    wallets = await fetchWallets(requireClient!, session!.organizationId);
+    wallets = await fetchWallets(requireClient, session!.organizationId);
   }
 
   // /// Signs a raw payload using the specified signing key and encoding parameters.
@@ -696,8 +703,8 @@ class TurnkeyProvider with ChangeNotifier {
       required String payload,
       required v1PayloadEncoding encoding,
       required v1HashFunction hashFunction}) async {
-    if (session == null || user == null) {
-      throw Exception("Session or user not initialized");
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
     }
 
     final response = await requireClient.signRawPayload(
@@ -726,8 +733,8 @@ class TurnkeyProvider with ChangeNotifier {
       {required String signWith,
       required String unsignedTransaction,
       required v1TransactionType type}) async {
-    if (session == null || user == null) {
-      throw Exception("Session or user not initialized");
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
     }
 
     final response = await requireClient.signTransaction(
@@ -755,8 +762,8 @@ class TurnkeyProvider with ChangeNotifier {
       {required String walletName,
       required List<v1WalletAccountParams> accounts,
       int? mnemonicLength}) async {
-    if (session == null || user == null) {
-      throw Exception("Session or user not initialized");
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
     }
 
     final response = await requireClient.createWallet(
@@ -784,9 +791,15 @@ class TurnkeyProvider with ChangeNotifier {
       {required String mnemonic,
       required String walletName,
       required List<v1WalletAccountParams> accounts}) async {
-    if (session == null || user == null) {
-      throw Exception("Session or user not initialized");
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
     }
+
+    // this should never happen
+    if (user == null) {
+      throw Exception("No user found.");
+    }
+
     final initResponse = await requireClient.initImportWallet(
         input: TInitImportWalletBody(userId: user!.userId));
 
@@ -822,8 +835,8 @@ class TurnkeyProvider with ChangeNotifier {
   // ///
   // /// [walletId] The ID of the wallet to export.
   Future<String> exportWallet({required String walletId}) async {
-    if (session == null || user == null) {
-      throw Exception("Session or user not initialized");
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
     }
 
     final keyPair = await generateP256KeyPair();
@@ -868,6 +881,12 @@ class TurnkeyProvider with ChangeNotifier {
     bool? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
@@ -1081,6 +1100,12 @@ class TurnkeyProvider with ChangeNotifier {
     bool? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
@@ -1216,6 +1241,12 @@ class TurnkeyProvider with ChangeNotifier {
     String? invalidateExisting,
     void Function(String oidcToken)? onSuccess,
   }) async {
+    final scheme = config.appScheme;
+    if (scheme == null) {
+      throw Exception(
+          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+    }
+
     final AppLinks appLinks = AppLinks();
 
     final targetPublicKey = await createApiKeyPair();
@@ -1397,7 +1428,8 @@ class TurnkeyProvider with ChangeNotifier {
       final passkeyStamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
       final passkeyClient = TurnkeyClient(
           config: THttpConfig(
-            baseUrl: apiBaseUrl,
+            baseUrl:
+                apiBaseUrl ?? config.apiBaseUrl ?? "https://api.turnkey.com",
             organizationId: organizationId ?? config.organizationId,
           ),
           stamper: passkeyStamper);

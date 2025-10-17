@@ -124,12 +124,12 @@ class Wallet {
 }
 
 class TurnkeyConfig {
-  final String apiBaseUrl;
   final String organizationId;
-  final String appScheme;
+  final String? apiBaseUrl;
   final String? authProxyBaseUrl;
   final String? authProxyConfigId;
   final AuthConfig? authConfig;
+  final String? appScheme;
 
   final void Function(Session session)? onSessionCreated;
   final void Function(Session session)? onSessionSelected;
@@ -140,12 +140,12 @@ class TurnkeyConfig {
   final void Function(Object? error)? onInitialized;
 
   TurnkeyConfig({
-    required this.apiBaseUrl,
     required this.organizationId,
-    required this.appScheme,
-    this.authConfig,
+    this.apiBaseUrl,
     this.authProxyBaseUrl,
     this.authProxyConfigId,
+    this.authConfig,
+    this.appScheme,
     this.onSessionCreated,
     this.onSessionSelected,
     this.onSessionExpired,
