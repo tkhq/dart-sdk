@@ -197,9 +197,13 @@ String generateClass(
   b.writeln('    final _json = <String, dynamic>{};');
   for (final f in fields) {
     final writeExpr = _jsonWriteExpr(f.type, f.fieldName, allDefs);
-    b.writeln("    if (${f.fieldName} != null || ${!f.nullable}) {");
-    b.writeln("      _json['${f.jsonKey}'] = $writeExpr;");
-    b.writeln('    }');
+    if (f.nullable) {
+      b.writeln("    if (${f.fieldName} != null) {");
+      b.writeln("      _json['${f.jsonKey}'] = $writeExpr;");
+      b.writeln('    }');
+    } else {
+      b.writeln("    _json['${f.jsonKey}'] = $writeExpr;");
+    }
   }
   if (allowAdditional) {
     b.writeln('    if (additionalProperties != null) {');
@@ -275,15 +279,17 @@ String _jsonWriteExpr(
   }
   if (_looksLikeList(base)) {
     final inner = base.substring(5, base.length - 1);
+    final isNullable = typeStr.endsWith('?');
+    final operator = isNullable ? '?.' : '.';
     if (inner == 'String' ||
         inner == 'num' ||
         inner == 'bool' ||
         inner == 'dynamic') {
       return fieldName;
     } else if (_isEnum(allDefs, inner)) {
-      return '$fieldName?.map((e) => ${inner}ToJson(e)).toList()';
+      return '$fieldName${operator}map((e) => ${inner}ToJson(e)).toList()';
     } else {
-      return '$fieldName?.map((e) => e.toJson()).toList()';
+      return '$fieldName${operator}map((e) => e.toJson()).toList()';
     }
   }
   if (_isEnum(allDefs, base)) {
@@ -647,8 +653,13 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
     bodyBuf.writeln('    final _json = <String, dynamic>{};');
     for (final f in fields) {
       final write = _jsonWriteExpr(f.type, f.fieldName, defs);
-      bodyBuf.writeln(
-          "    if (${f.fieldName} != null || ${!f.nullable}) { _json['${f.jsonKey}'] = $write; }");
+      if (f.nullable) {
+        bodyBuf.writeln("    if (${f.fieldName} != null) {");
+        bodyBuf.writeln("      _json['${f.jsonKey}'] = $write;");
+        bodyBuf.writeln('    }');
+      } else {
+        bodyBuf.writeln("    _json['${f.jsonKey}'] = $write;");
+      }
     }
     bodyBuf.writeln('    return _json;');
     bodyBuf.writeln('  }');
