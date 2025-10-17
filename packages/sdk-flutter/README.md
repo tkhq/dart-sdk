@@ -4,6 +4,14 @@ The `turnkey_sdk_flutter` package simplifies the integration of the Turnkey API 
 
 ---
 
+## Example App
+
+![Demo](../../assets/demo.gif)
+
+For a fully functional Flutter demo app that leverages Turnkey's Dart/Flutter packages, check out our [Turnkey Flutter Demo App](./examples/flutter-demo-app).
+
+---
+
 ## **Installation**
 
 Add the following dependencies to your Flutter project:
@@ -118,8 +126,8 @@ These properties are automatically updated when you use the SDK functions:
 
 * `refreshWallets()`
 * `createWallet({ required String walletName, required List<v1WalletAccountParams> accounts, int? mnemonicLength })`
-* `importWallet({ required String mnemonic, required String walletName, required List<v1WalletAccountParams> accounts })`
-* `exportWallet({ required String walletId })`
+* `importWallet({ required String mnemonic, required String walletName, required List<v1WalletAccountParams> accounts, String? dangerouslyOverrideSignerPublicKey })`
+* `exportWallet({ required String walletId, bool? returnMnemonic, String? dangerouslyOverrideSignerPublicKey })`
 
 #### **Transaction Signing**
 
@@ -175,8 +183,3 @@ This SDK supports **multiple sessions**, allowing you to create and switch betwe
 
 Using multiple sessions can be beneficial when enabling different authentication methods for various operations. For example, you might authenticate a user with OTP for login while using a passkey-based session for signing transactions.
 
----
-
-## Example App
-
-For a fully functional Flutter demo app that leverages Turnkey's Dart/Flutter packages, check out our [Turnkey Flutter Demo App](./examples/flutter-demo-app).

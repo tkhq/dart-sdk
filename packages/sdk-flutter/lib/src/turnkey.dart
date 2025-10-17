@@ -1765,10 +1765,12 @@ class TurnkeyProvider with ChangeNotifier {
   /// [mnemonic] The mnemonic to import.
   /// [walletName] The name of the wallet.
   /// [accounts] The accounts to create in the wallet.
+  /// [dangerouslyOverrideSignerPublicKey] An optional public key to override the signer.
   Future<void> importWallet(
       {required String mnemonic,
       required String walletName,
-      required List<v1WalletAccountParams> accounts}) async {
+      required List<v1WalletAccountParams> accounts,
+      String? dangerouslyOverrideSignerPublicKey}) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
@@ -1793,6 +1795,8 @@ class TurnkeyProvider with ChangeNotifier {
       importBundle: importBundle,
       userId: user!.userId,
       organizationId: session!.organizationId,
+      dangerouslyOverrideSignerPublicKey:
+          dangerouslyOverrideSignerPublicKey,
     );
 
     final response = await requireClient.importWallet(
@@ -1812,7 +1816,11 @@ class TurnkeyProvider with ChangeNotifier {
   /// Throws an [Exception] if the client, user, or export bundle is not initialized.
   ///
   /// [walletId] The ID of the wallet to export.
-  Future<String> exportWallet({required String walletId}) async {
+  /// [dangerouslyOverrideSignerPublicKey] An optional public key to override the signer.
+  Future<String> exportWallet(
+      {required String walletId,
+      String? dangerouslyOverrideSignerPublicKey, 
+      bool? returnMnemonic}) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
@@ -1836,7 +1844,8 @@ class TurnkeyProvider with ChangeNotifier {
         exportBundle: exportBundle,
         embeddedKey: keyPair.privateKey,
         organizationId: session!.organizationId,
-        returnMnemonic: true);
+        dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
+        returnMnemonic: returnMnemonic ?? true);
   }
 
   /// Signs a raw payload using the specified signing key and encoding parameters.

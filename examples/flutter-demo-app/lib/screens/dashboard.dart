@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
@@ -104,7 +105,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> handleExportWallet(BuildContext context, Wallet wallet) async {
     try {
-      final export = await _turnkeyProvider.exportWallet(walletId: wallet.id);
+      final export = await _turnkeyProvider.exportWallet(
+        walletId: wallet.id,
+      );
 
       if (!mounted) return;
 
@@ -135,9 +138,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Text(_exportedWallet ?? 'Exporting...'),
+              child: SingleChildScrollView(
+                child: SelectableText(
+                  _exportedWallet ?? 'Exporting...',
+                  style: const TextStyle(fontSize: 14, height: 1.4),
+                ),
+              ),
             ),
             actions: [
+              TextButton(
+                onPressed: () {
+                  Clipboard.setData(ClipboardData(text: _exportedWallet ?? ''));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Mnemonic copied to clipboard'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.copy, size: 18),
+                    SizedBox(width: 4),
+                    Text('Copy'),
+                  ],
+                ),
+              ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -154,6 +181,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Export failed: $e')),
       );
+      debugPrint(e.toString());
     }
   }
 
@@ -229,8 +257,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     if (!mounted) return;
                                     setState(() {
                                       _selectedWallet = wallet;
-                                      _selectedAccount =
-                                          wallet.accounts.first;
+                                      _selectedAccount = wallet.accounts.first;
                                     });
                                   },
                                   itemBuilder: (BuildContext context) {
@@ -388,8 +415,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         ],
                                         borderRadius: BorderRadius.circular(4),
                                       ),
-                                      child: Text(
-                                          _signature ?? signMessage),
+                                      child: Text(_signature ?? signMessage),
                                     ),
                                     actions: <Widget>[
                                       TextButton(
