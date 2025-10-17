@@ -3,7 +3,7 @@ description: |
   This package provides encoding and decoding functions used by other Turnkey packages. 
   Feel free to import the exported functions into your own apps, 
   but be aware that significant interface changes may occur in the future.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
