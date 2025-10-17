@@ -1,6 +1,6 @@
 name: turnkey_sdk_flutter
 description: A complete SDK for building Flutter apps with Turnkey's packages
-version: 0.2.2
+version: 1.0.0
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
