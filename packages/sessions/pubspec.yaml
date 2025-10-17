@@ -6,6 +6,8 @@ repository: https://github.com/tkhq/dart-sdk
 environment:
   sdk: ^3.6.1
 
+resolution: workspace
+
 dependencies:
   flutter:
     sdk: flutter

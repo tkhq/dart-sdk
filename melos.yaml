@@ -1,8 +1,0 @@
-name: turnkey_oss
-packages:
-  - packages/**
-
-command:
-  version:
-    workspaceChangelog: true # Generates a single workspace changelog
-    updateGitTagRefs: true # Tags commits with version numbers
