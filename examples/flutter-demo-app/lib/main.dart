@@ -53,6 +53,25 @@ void main() async {
     }
   }
 
+  final createSubOrgParams = CreateSubOrgParams(
+      customWallet: CustomWallet(
+        walletName: "Wallet 1",
+        walletAccounts: [
+          v1WalletAccountParams(
+            addressFormat: v1AddressFormat.address_format_ethereum,
+            path: "m/44'/60'/0'/0/0",
+            curve: v1Curve.curve_secp256k1,
+            pathFormat: v1PathFormat.path_format_bip32,
+          ),
+          v1WalletAccountParams(
+            addressFormat: v1AddressFormat.address_format_solana,
+            path: "m/44'/501'/0'/0'",
+            curve: v1Curve.curve_ed25519,
+            pathFormat: v1PathFormat.path_format_bip32,
+          ),
+        ],
+  ));
+
   final turnkeyProvider = TurnkeyProvider(
     config: TurnkeyConfig(
       apiBaseUrl: EnvConfig.turnkeyApiUrl,
@@ -60,6 +79,12 @@ void main() async {
       authProxyConfigId: EnvConfig.authProxyConfigId,
       organizationId: EnvConfig.organizationId,
       appScheme: EnvConfig.appScheme,
+      authConfig: AuthConfig(
+          createSubOrgParams: MethodCreateSubOrgParams(
+              emailOtpAuth: createSubOrgParams,
+              smsOtpAuth: createSubOrgParams,
+              oAuth: createSubOrgParams,
+              passkeyAuth: createSubOrgParams)),
       onSessionSelected: onSessionSelected,
       onSessionCleared: onSessionCleared,
       onInitialized: onInitialized,

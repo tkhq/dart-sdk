@@ -278,7 +278,7 @@ Future<void> generateClientFromSwagger({
       }) async {
         final body = packActivityBody(
           bodyJson: input.toJson(),
-          fallbackOrganizationId: config.organizationId ?? (throw Exception("Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+          fallbackOrganizationId: input.organizationId ?? config.organizationId ?? (throw Exception("Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
           activityType: '$activityType',
         );
         return await request<Map<String, dynamic>, $responseType>(
@@ -333,7 +333,7 @@ Future<void> generateClientFromSwagger({
           final fullUrl = '\${config.baseUrl}$endpointPath';
            final body = packActivityBody(
           bodyJson: input.toJson(),
-          fallbackOrganizationId: config.organizationId ?? (throw Exception("Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+          fallbackOrganizationId: input.organizationId ?? config.organizationId ?? (throw Exception("Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
           activityType: '$activityType',
         );
         final bodyJson = jsonEncode(body);

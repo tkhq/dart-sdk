@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
-// TODO (Amir): This file needs to be reworked to match the new SDK structure and features.
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
@@ -17,7 +16,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   String? _signature;
   String? _exportedWallet;
   Wallet? _selectedWallet;
-  WalletAccount? _selectedAccount;
+  v1WalletAccount? _selectedAccount;
 
   @override
   void initState() {
@@ -32,19 +31,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final turnkeyProvider =
         Provider.of<TurnkeyProvider>(context, listen: false);
 
-    final user = turnkeyProvider.user;
-    if (user == null || user.wallets.isEmpty) {
+    if (turnkeyProvider.user == null || turnkeyProvider.wallets == null || turnkeyProvider.wallets!.isEmpty) {
       return;
     }
 
-    final firstWallet = user.wallets.first;
-    if (firstWallet.accounts.isEmpty) {
+    if (turnkeyProvider.wallets!.first.accounts.isEmpty) {
       return;
     }
 
     setState(() {
-      _selectedWallet = firstWallet;
-      _selectedAccount = firstWallet.accounts.first;
+      _selectedWallet = turnkeyProvider.wallets!.first;
+      _selectedAccount = turnkeyProvider.wallets!.first.accounts.first;
     });
   }
 
@@ -153,13 +150,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Center(
         child: Consumer<TurnkeyProvider>(
           builder: (context, turnkeyProvider, child) {
-            // return (Text('Dashboard content goes here'));
-            final user = turnkeyProvider.user;
-            final userName =
-                (user?.userName != null && user!.userName!.isNotEmpty)
-                    ? user.userName
-                    : 'User';
-
             final walletAccounts = _selectedWallet?.accounts;
 
             return Padding(
@@ -168,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    'Welcome, $userName!',
+                    'Welcome, ${turnkeyProvider.user?.userName ?? 'User'}!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24,
@@ -220,8 +210,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   },
                                   itemBuilder: (BuildContext context) {
                                     List<PopupMenuEntry<Wallet>> items = [];
-                                    if (turnkeyProvider.user?.wallets != null) {
-                                      items.addAll(turnkeyProvider.user!.wallets.map((wallet) {
+                                    if (turnkeyProvider.wallets == null || turnkeyProvider.wallets!.isEmpty) {
+                                      return [
+                                        PopupMenuItem<Wallet>(
+                                          value: null,
+                                          child: Text('No wallets available'),
+                                        ),
+                                      ];
+                                    } else {
+                                      items.addAll(turnkeyProvider.wallets!.map((wallet) {
                                         return PopupMenuItem<Wallet>(
                                           value: wallet,
                                           child: Text(wallet.name),
@@ -323,7 +320,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}'),
                               onChanged: (Object? value) {
                                 setState(() {
-                                  _selectedAccount = (value as WalletAccount?);
+                                  _selectedAccount = (value as v1WalletAccount?);
                                 });
                               },
                               value: account,

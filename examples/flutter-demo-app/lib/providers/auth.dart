@@ -3,17 +3,9 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.dart';
-import 'package:turnkey_http/__generated__/models.dart';
-import 'package:uuid/uuid.dart';
-import 'package:turnkey_flutter_demo_app/config.dart';
-import 'package:turnkey_flutter_demo_app/utils/turnkey_rpc.dart';
-import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 class AuthRelayerProvider with ChangeNotifier {
-  // TODO (Amir): Put all of these methods into the TurnkeyProvider!!!
-
   final Map<String, bool> _loading = {};
   String? _errorMessage;
 
