@@ -1,6 +1,6 @@
-## 0.1.1+1
+## 1.0.0
 
- - Update a dependency to the latest release.
+ - Refactored passkey handling to use strongly typed Dart objects.
 
 ## 0.1.1
 

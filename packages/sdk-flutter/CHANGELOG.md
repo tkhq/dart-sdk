@@ -1,6 +1,6 @@
-## 0.2.2+1
+## 1.0.0
 
- - Update a dependency to the latest release.
+ - Flutter refactor.
 
 ## 0.2.2
 
