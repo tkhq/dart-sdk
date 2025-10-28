@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'package:crypto/crypto.dart';
@@ -251,10 +252,8 @@ final class PasskeyOverridedParams extends OverrideParams {
   });
 }
 
-CreateSubOrgParams getCreateSubOrgParams(
-    CreateSubOrgParams? createSubOrgParams,
-    TurnkeyConfig config,
-    OverrideParams overrideParams) {
+CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
+    TurnkeyConfig config, OverrideParams overrideParams) {
   final configCreateSubOrgParams = config.authConfig?.createSubOrgParams;
 
   switch (overrideParams) {
@@ -323,7 +322,8 @@ CreateSubOrgParams getCreateSubOrgParams(
               ],
               apiKeys: [
                 CreateSubOrgApiKey(
-                  apiKeyName: 'passkey-auth-${overrideParams.temporaryPublicKey}',
+                  apiKeyName:
+                      'passkey-auth-${overrideParams.temporaryPublicKey}',
                   publicKey: overrideParams.temporaryPublicKey!,
                   curveType: v1ApiKeyCurve.api_key_curve_p256,
 
@@ -343,7 +343,8 @@ CreateSubOrgParams getCreateSubOrgParams(
                   ],
                   apiKeys: [
                     CreateSubOrgApiKey(
-                      apiKeyName: 'passkey-auth-${overrideParams.temporaryPublicKey}',
+                      apiKeyName:
+                          'passkey-auth-${overrideParams.temporaryPublicKey}',
                       publicKey: overrideParams.temporaryPublicKey!,
                       curveType: v1ApiKeyCurve.api_key_curve_p256,
 
@@ -362,7 +363,8 @@ CreateSubOrgParams getCreateSubOrgParams(
                   ],
                   apiKeys: [
                     CreateSubOrgApiKey(
-                      apiKeyName: 'passkey-auth-${overrideParams.temporaryPublicKey}',
+                      apiKeyName:
+                          'passkey-auth-${overrideParams.temporaryPublicKey}',
                       publicKey: overrideParams.temporaryPublicKey!,
                       curveType: v1ApiKeyCurve.api_key_curve_p256,
 
@@ -373,3 +375,240 @@ CreateSubOrgParams getCreateSubOrgParams(
                 );
   }
 }
+
+/// Returns the default hash function for a given address format.
+v1HashFunction getHashFunction(v1AddressFormat addressFormat) {
+  final cfg = addressFormatConfig[addressFormat];
+  if (cfg == null) {
+    throw Exception("Unsupported address format: $addressFormat");
+  }
+  return cfg.hashFunction;
+}
+
+/// Returns the default payload encoding for a given address format.
+v1PayloadEncoding getEncodingType(v1AddressFormat addressFormat) {
+  final cfg = addressFormatConfig[addressFormat];
+  if (cfg == null) {
+    throw Exception("Unsupported address format: $addressFormat");
+  }
+  return cfg.encoding;
+}
+
+/// Encodes raw bytes into the string representation expected by the API.
+String getEncodedMessage(v1PayloadEncoding payloadEncoding, Uint8List raw) {
+  if (payloadEncoding == v1PayloadEncoding.payload_encoding_hexadecimal) {
+    return "0x${bytesToHex(raw)}";
+  }
+  return toUtf8String(raw);
+}
+
+/// Byte/encoding helpers (used for signMessage)
+
+Uint8List toUtf8Bytes(String s) => Uint8List.fromList(utf8.encode(s));
+
+String toUtf8String(Uint8List bytes) => utf8.decode(bytes);
+
+String bytesToHex(Uint8List bytes) {
+  final StringBuffer sb = StringBuffer();
+  for (final b in bytes) {
+    sb.write(b.toRadixString(16).padLeft(2, "0"));
+  }
+  return sb.toString();
+}
+
+/// Config model & mapping (used for signMessage)
+
+class AddressFormatConfig {
+  final v1PayloadEncoding encoding;
+  final v1HashFunction hashFunction;
+  final String displayName;
+
+  const AddressFormatConfig({
+    required this.encoding,
+    required this.hashFunction,
+    required this.displayName,
+  });
+}
+
+const Map<v1AddressFormat, AddressFormatConfig> addressFormatConfig = {
+  v1AddressFormat.address_format_uncompressed: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Uncompressed",
+  ),
+  v1AddressFormat.address_format_compressed: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Compressed",
+  ),
+  v1AddressFormat.address_format_ethereum: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_keccak256,
+    displayName: "Ethereum",
+  ),
+  v1AddressFormat.address_format_solana: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "Solana",
+  ),
+  v1AddressFormat.address_format_cosmos: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_text_utf8,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Cosmos",
+  ),
+  v1AddressFormat.address_format_tron: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Tron",
+  ),
+  v1AddressFormat.address_format_sui: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "Sui",
+  ),
+  v1AddressFormat.address_format_aptos: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "Aptos",
+  ),
+  v1AddressFormat.address_format_bitcoin_mainnet_p2pkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Mainnet P2PKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_mainnet_p2sh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Mainnet P2SH",
+  ),
+  v1AddressFormat.address_format_bitcoin_mainnet_p2wpkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Mainnet P2WPKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_mainnet_p2wsh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Mainnet P2WSH",
+  ),
+  v1AddressFormat.address_format_bitcoin_mainnet_p2tr: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Mainnet P2TR",
+  ),
+  v1AddressFormat.address_format_bitcoin_testnet_p2pkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Testnet P2PKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_testnet_p2sh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Testnet P2SH",
+  ),
+  v1AddressFormat.address_format_bitcoin_testnet_p2wpkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Testnet P2WPKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_testnet_p2wsh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Testnet P2WSH",
+  ),
+  v1AddressFormat.address_format_bitcoin_testnet_p2tr: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Testnet P2TR",
+  ),
+  v1AddressFormat.address_format_bitcoin_signet_p2pkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Signet P2PKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_signet_p2sh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Signet P2SH",
+  ),
+  v1AddressFormat.address_format_bitcoin_signet_p2wpkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Signet P2WPKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_signet_p2wsh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Signet P2WSH",
+  ),
+  v1AddressFormat.address_format_bitcoin_signet_p2tr: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Signet P2TR",
+  ),
+  v1AddressFormat.address_format_bitcoin_regtest_p2pkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Regtest P2PKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_regtest_p2sh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Regtest P2SH",
+  ),
+  v1AddressFormat.address_format_bitcoin_regtest_p2wpkh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Regtest P2WPKH",
+  ),
+  v1AddressFormat.address_format_bitcoin_regtest_p2wsh: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Regtest P2WSH",
+  ),
+  v1AddressFormat.address_format_bitcoin_regtest_p2tr: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Bitcoin Regtest P2TR",
+  ),
+  v1AddressFormat.address_format_sei: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_text_utf8,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Sei",
+  ),
+  v1AddressFormat.address_format_xlm: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "XLM",
+  ),
+  v1AddressFormat.address_format_doge_mainnet: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Doge Mainnet",
+  ),
+  v1AddressFormat.address_format_doge_testnet: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "Doge Testnet",
+  ),
+  v1AddressFormat.address_format_ton_v3r2: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "TON v3r2",
+  ),
+  v1AddressFormat.address_format_ton_v4r2: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "TON v4r2",
+  ),
+  v1AddressFormat.address_format_ton_v5r1: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_not_applicable,
+    displayName: "TON v5r1",
+  ),
+  v1AddressFormat.address_format_xrp: AddressFormatConfig(
+    encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
+    hashFunction: v1HashFunction.hash_function_sha256,
+    displayName: "XRP",
+  ),
+};

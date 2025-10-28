@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,8 @@ class TurnkeyProvider with ChangeNotifier {
       return proxyAuthConfig?.oauthRedirectUrl;
     }
 
-    final usingAuthProxy = (config.authProxyConfigId ?? '').isNotEmpty;
+    final usingAuthProxy = (config.authProxyConfigId ?? '').isNotEmpty &&
+        config.authConfig?.autoFetchWalletKitConfig == true;
     if (usingAuthProxy) {
       if (config.authConfig?.sessionExpirationSeconds != null) {
         stderr.writeln(
@@ -161,9 +163,12 @@ class TurnkeyProvider with ChangeNotifier {
     );
 
     // --- proxy-only settings (read from proxy when available) ------------------
-    final sessionExpirationSeconds = proxyAuthConfig
-            ?.sessionExpirationSeconds ??
-        (usingAuthProxy ? null : config.authConfig?.sessionExpirationSeconds);
+    final sessionExpirationSeconds =
+        proxyAuthConfig?.sessionExpirationSeconds ??
+            (usingAuthProxy
+                ? null
+                : config.authConfig?.sessionExpirationSeconds ??
+                    AUTH_DEFAULT_EXPIRATION_SECONDS);
 
     final otpAlphanumeric = proxyAuthConfig?.otpAlphanumeric ??
         (usingAuthProxy ? null : config.authConfig?.otpAlphanumeric);
@@ -179,12 +184,18 @@ class TurnkeyProvider with ChangeNotifier {
       otpLength: otpLength,
     );
 
+    // Note: it's not always possible to use masterConfig to get base urls. You'll notice in functions like createClient, we do this logic again. masterConfig is only available after boot so it's not safe to use it there.
+    final resolvedApiBaseUrl = config.apiBaseUrl ?? "https://api.turnkey.com";
+    final resolvedAuthProxyBaseUrl =
+        config.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
+
     return TurnkeyConfig(
-      apiBaseUrl: config.apiBaseUrl,
+      apiBaseUrl: resolvedApiBaseUrl,
       organizationId: config.organizationId,
       appScheme: config.appScheme,
       authConfig: resolvedAuth,
-      authProxyBaseUrl: config.authProxyBaseUrl,
+      passkeyConfig: config.passkeyConfig,
+      authProxyBaseUrl: resolvedAuthProxyBaseUrl,
       authProxyConfigId: config.authProxyConfigId,
       onSessionCreated: config.onSessionCreated,
       onSessionSelected: config.onSessionSelected,
@@ -199,7 +210,8 @@ class TurnkeyProvider with ChangeNotifier {
   Future<void> _boot() async {
     try {
       ProxyTGetWalletKitConfigResponse? proxy;
-      if ((config.authProxyConfigId ?? '').isNotEmpty) {
+      if ((config.authProxyConfigId ?? '').isNotEmpty &&
+          config.authConfig?.autoFetchWalletKitConfig == true) {
         proxy = await _getAuthProxyConfig(
           config.authProxyConfigId!,
           config.authProxyBaseUrl,
@@ -207,7 +219,7 @@ class TurnkeyProvider with ChangeNotifier {
         notifyListeners();
       }
 
-      // we build the master config from  oAuthproxy (can be null)
+      // we build the master config from Authproxy (can be null)
       _masterConfig = _buildConfig(proxyAuthConfig: proxy);
       notifyListeners();
     } catch (e) {
@@ -218,7 +230,7 @@ class TurnkeyProvider with ChangeNotifier {
   Future<ProxyTGetWalletKitConfigResponse?> _getAuthProxyConfig(
       String configId, String? baseUrl) async {
     if (client == null) {
-      _createClient(
+      createClient(
         authProxyConfigId: configId,
         authProxyBaseUrl: baseUrl,
       );
@@ -232,21 +244,23 @@ class TurnkeyProvider with ChangeNotifier {
   /// Creates a new TurnkeyClient instance using the provided parameters.
   ///
   /// [organizationId] The ID of the organization to which the client will be associated.
-  /// [publicKey] The public key to use for the client. If null, the existing public key in the stamper will be used.
+  /// [publicKey] The public key to use for stamping. A key pair with this public key must exist in secure storage before passing it here. You can ensure the key pair exists using the createApiKeyPair method. If null, the existing public key in the stamper will be used.
   /// [apiBaseUrl] The base URL for the Turnkey API. If null, the value from the config or the default URL will be used.
   /// [authProxyConfigId] The configuration ID for the auth proxy. If null, the value from the config will be used.
   /// [authProxyBaseUrl] The base URL for the auth proxy. If null, the value from the config or the default URL will be used.
+  /// [overrideExisting] Whether to override the existing client instance with the newly created one. Defaults to true.
   /// Returns the newly created TurnkeyClient instance.
-  TurnkeyClient _createClient(
+  TurnkeyClient createClient(
       {String? organizationId,
       String? publicKey,
       String? apiBaseUrl,
       String? authProxyConfigId,
-      String? authProxyBaseUrl}) {
+      String? authProxyBaseUrl,
+      bool? overrideExisting = true}) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
     apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
     authProxyBaseUrl ??=
-        config.authProxyBaseUrl ?? "https://auth-proxy.turnkey.com";
+        config.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
     authProxyConfigId ??= config.authProxyConfigId;
     organizationId ??= config.organizationId;
 
@@ -260,8 +274,65 @@ class TurnkeyProvider with ChangeNotifier {
       stamper: secureStorageStamper,
     );
 
-    client = newClient;
+    if (overrideExisting == true) client = newClient;
+
     return newClient;
+  }
+
+  /// Creates a TurnkeyClient configured for Passkey stamping.
+  /// [organizationId] The ID of the organization to which the client will be associated. If null, the value from the config will be used.
+  /// [apiBaseUrl] The base URL for the Turnkey API. If null, the value from the config or the default URL will be used.
+  /// [authProxyConfigId] The configuration ID for the auth proxy. If null, the value from the config will be used.
+  /// [authProxyBaseUrl] The base URL for the auth proxy. If null, the value from the config or the default URL will be used.
+  /// [rpId] The Relying Party ID to use for Passkey authentication. If null, the value from the config's PasskeyStamperConfig will be used.
+  /// [overrideExisting] Whether to override the existing client instance with the newly created one. If true, all helper functions within the TurnkeyProvider will be using this client and thus, will be stamping using a passkey. Defaults to false.
+  /// Returns the newly created TurnkeyClient instance configured for Passkey stamping.
+  TurnkeyClient createPasskeyClient(
+      {String? organizationId,
+      String? apiBaseUrl,
+      String? authProxyConfigId,
+      String? authProxyBaseUrl,
+      PasskeyStamperConfig? passkeyStamperConfig,
+      bool? overrideExisting = false}) {
+    final rpId = passkeyStamperConfig?.rpId ?? config.passkeyConfig?.rpId;
+    if (rpId == null || rpId.isEmpty) {
+      throw Exception(
+        'Relying Party ID (rpId) must be provided either in the passkeyStamperConfig parameter or in the TurnkeyConfig.passkeyConfig property.',
+      );
+    }
+
+    apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
+    authProxyBaseUrl ??=
+        config.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
+    authProxyConfigId ??= config.authProxyConfigId;
+    organizationId ??= config.organizationId;
+
+    final passkeyStamper = PasskeyStamper(
+      passkeyStamperConfig != null
+          ? PasskeyStamperConfig(
+              rpId: rpId,
+              timeout: passkeyStamperConfig.timeout,
+              userVerification: passkeyStamperConfig.userVerification,
+              allowCredentials: passkeyStamperConfig.allowCredentials,
+              mediation: passkeyStamperConfig.mediation,
+              preferImmediatelyAvailableCredentials:
+                  passkeyStamperConfig.preferImmediatelyAvailableCredentials,
+            )
+          : PasskeyStamperConfig(rpId: rpId),
+    );
+
+    final passkeyClient = TurnkeyClient(
+        config: THttpConfig(
+          organizationId: organizationId,
+          baseUrl: apiBaseUrl,
+          authProxyConfigId: authProxyConfigId,
+          authProxyBaseUrl: authProxyBaseUrl,
+        ),
+        stamper: passkeyStamper);
+
+    if (overrideExisting == true) client = passkeyClient;
+
+    return passkeyClient;
   }
 
   /// Initializes stored sessions on mount.
@@ -275,7 +346,7 @@ class TurnkeyProvider with ChangeNotifier {
     session = null;
 
     try {
-      _createClient();
+      createClient();
 
       // we get all stored sessions
       final allSessions = await getAllSessions();
@@ -308,7 +379,7 @@ class TurnkeyProvider with ChangeNotifier {
         final activeSession = allSessions[activeSessionKey];
         if (activeSession != null) {
           session = activeSession;
-          _createClient(
+          createClient(
             publicKey: activeSession.publicKey,
             organizationId: activeSession.organizationId,
           );
@@ -394,7 +465,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     // if `storeOverride` is true, we set the new key as the active key for this client instance
     if (storeOverride) {
-      _createClient(
+      createClient(
         publicKey: publicKey,
       );
     }
@@ -503,7 +574,7 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     session = s;
-    _createClient(
+    createClient(
       publicKey: s.publicKey,
       organizationId: s.organizationId,
     );
@@ -557,10 +628,12 @@ class TurnkeyProvider with ChangeNotifier {
   /// Throws an [Exception] if the session cannot be refreshed.
   Future<v1StampLoginResult?> refreshSession({
     String? sessionKey,
-    String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+    String? expirationSeconds,
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
+    expirationSeconds ??= masterConfig?.authConfig?.sessionExpirationSeconds;
+
     try {
       final activeKey = await getActiveSessionKey();
       final key = sessionKey ?? activeKey;
@@ -602,7 +675,7 @@ class TurnkeyProvider with ChangeNotifier {
       // we only update the in-memory client/session if this is the active session
       if (key == activeKey) {
         session = newSession;
-        _createClient(
+        createClient(
           organizationId: newSession.organizationId,
           publicKey: newSession.publicKey,
         );
@@ -648,7 +721,7 @@ class TurnkeyProvider with ChangeNotifier {
       session = null;
       user = null;
       wallets = null;
-      client = _createClient();
+      client = createClient();
     }
 
     // delete the keypair
@@ -682,7 +755,7 @@ class TurnkeyProvider with ChangeNotifier {
   /// Stores the session JWT and manages session state.
   /// Cleans up the generated key pair if it was not used for the session.
   ///
-  /// [rpId] The relying party ID for the passkey authentication.
+  /// [rpId] An optional relying party ID for the passkey stamping.
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [expirationSeconds] The desired expiration time for the session in seconds.
   /// [organizationId] An optional organization ID to associate with the session.
@@ -690,30 +763,33 @@ class TurnkeyProvider with ChangeNotifier {
   /// Returns a [LoginWithPasskeyResult] containing the session token if successful.
   /// Throws an [Exception] if the login process fails.
   Future<LoginWithPasskeyResult> loginWithPasskey({
-    required String rpId,
+    String? rpId,
     String? sessionKey,
-    String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+    String? expirationSeconds,
     String? organizationId,
     String? publicKey,
   }) async {
     sessionKey ??= StorageKeys.DefaultSession.value;
+    rpId ??= config.passkeyConfig?.rpId;
+    expirationSeconds ??= masterConfig?.authConfig?.sessionExpirationSeconds;
+
     final apiBaseUrl = config.apiBaseUrl;
 
     String? generatedPublicKey;
 
     try {
+      if (rpId == null || rpId.isEmpty) {
+        throw Exception(
+            "Relying Party ID (rpId) must be provided either in the method call or in the TurnkeyConfig.passkeyConfig");
+      }
+
       generatedPublicKey =
           publicKey ?? await createApiKeyPair(storeOverride: true);
 
-      // TODO (Amir): We need to make it easier to create a passkeyclient. Maybe just expose it through the turnkeyProvider?
-      final passkeyStamper = PasskeyStamper(PasskeyStamperConfig(rpId: rpId));
-      final passkeyClient = TurnkeyClient(
-          config: THttpConfig(
-            baseUrl:
-                apiBaseUrl ?? config.apiBaseUrl ?? "https://api.turnkey.com",
-            organizationId: organizationId ?? config.organizationId,
-          ),
-          stamper: passkeyStamper);
+      final passkeyClient = createPasskeyClient(
+          organizationId: organizationId,
+          apiBaseUrl: apiBaseUrl,
+          passkeyStamperConfig: PasskeyStamperConfig(rpId: rpId));
 
       final loginResponse = await passkeyClient.stampLogin(
         input: TStampLoginBody(
@@ -747,25 +823,32 @@ class TurnkeyProvider with ChangeNotifier {
   /// Stamps a login session for the new user and stores the session JWT.
   /// Cleans up the generated key pairs after use.
   ///
-  /// [rpId] The relying party ID for the passkey registration.
+  /// [rpId] An optional relying party ID for the passkey registration.
+  /// [rpName] An optional relying party name for the passkey registration.
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [expirationSeconds] The desired expiration time for the session in seconds.
   /// [organizationId] An optional organization ID to associate with the session.
   /// [passkeyDisplayName] An optional display name for the passkey.
+  /// [challenge] An optional challenge string for the passkey registration.
   /// [createSubOrgParams] Optional parameters for creating the sub-organization user.
   /// [invalidateExisting] Whether to invalidate existing sessions when signing up.
   /// Returns a [SignUpWithPasskeyResult] containing the session token and credential ID if successful.
   /// Throws an [Exception] if the sign-up process fails.
   Future<SignUpWithPasskeyResult> signUpWithPasskey({
-    required String rpId,
+    String? rpId,
+    String? rpName,
     String? sessionKey,
-    String expirationSeconds = OTP_AUTH_DEFAULT_EXPIRATION_SECONDS,
+    String? expirationSeconds,
     String? organizationId,
     String? passkeyDisplayName,
+    String? challenge,
     CreateSubOrgParams? createSubOrgParams,
     bool invalidateExisting = false,
   }) async {
     sessionKey ??= StorageKeys.DefaultSession.value;
+    rpId ??= config.passkeyConfig?.rpId;
+    rpName ??= config.passkeyConfig?.rpName ?? "Flutter App";
+    expirationSeconds ??= masterConfig?.authConfig?.sessionExpirationSeconds;
 
     String? generatedPublicKey;
     String? temporaryPublicKey;
@@ -775,6 +858,12 @@ class TurnkeyProvider with ChangeNotifier {
       // which is added as an authentication method for the new sub-org user
       // this allows us to stamp the session creation request immediately after
       // without prompting the user
+
+      if (rpId == null || rpId.isEmpty) {
+        throw Exception(
+            "Relying Party ID (rpId) must be provided either in the method call or in the TurnkeyConfig.passkeyConfig");
+      }
+
       temporaryPublicKey = await createApiKeyPair(storeOverride: true);
       final passkeyName = passkeyDisplayName ??
           'passkey-${DateTime.now().millisecondsSinceEpoch}';
@@ -784,12 +873,13 @@ class TurnkeyProvider with ChangeNotifier {
         PasskeyRegistrationConfig(
           rp: RelyingParty(
             id: rpId,
-            name: 'Flutter App',
+            name: rpName,
           ),
           user: WebAuthnUser(
-            id: const Uuid().v4(),
-            name: 'Anonymous User',
-            displayName: 'Anonymous User',
+            id: const Uuid()
+                .v4(), // WARNING: WebAuthnUser id must be a valid UUIDv4 on some devices
+            name: passkeyName,
+            displayName: passkeyName,
           ),
           authenticatorName: passkeyName,
         ),
@@ -1158,7 +1248,7 @@ class TurnkeyProvider with ChangeNotifier {
   /// [sessionKey] An optional key to store the session under. If null, uses the default session key.
   /// [invalidateExisting] Whether to invalidate existing sessions when logging in or signing up.
   /// [createSubOrgParams] Optional parameters for creating the sub-organization user during sign-up.
-  /// Returns a [LoginOrSignUpOAuthResult] containing the session token and action (login or signup) if successful.
+  /// Returns a [LoginOrSignUpWithOAuthResult] containing the session token and action (login or signup) if successful.
   /// Throws an [Exception] if the OAuth authentication process fails.
   Future<LoginOrSignUpWithOAuthResult> loginOrSignUpWithOAuth({
     required String oidcToken,
@@ -1321,7 +1411,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   Future<void> handleAppleOAuth({
     String? clientId,
-    String? originUri = APPLE_AUTH_URL,
+    String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
     String? redirectUri,
     String? sessionKey,
     bool? invalidateExisting,
@@ -1795,8 +1885,7 @@ class TurnkeyProvider with ChangeNotifier {
       importBundle: importBundle,
       userId: user!.userId,
       organizationId: session!.organizationId,
-      dangerouslyOverrideSignerPublicKey:
-          dangerouslyOverrideSignerPublicKey,
+      dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
     );
 
     final response = await requireClient.importWallet(
@@ -1819,7 +1908,7 @@ class TurnkeyProvider with ChangeNotifier {
   /// [dangerouslyOverrideSignerPublicKey] An optional public key to override the signer.
   Future<String> exportWallet(
       {required String walletId,
-      String? dangerouslyOverrideSignerPublicKey, 
+      String? dangerouslyOverrideSignerPublicKey,
       bool? returnMnemonic}) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
@@ -1878,6 +1967,73 @@ class TurnkeyProvider with ChangeNotifier {
       throw Exception("Failed to sign raw payload");
     }
     return signRawPayloadResult;
+  }
+
+  /// Signs a plaintext message using the specified wallet account.
+  ///
+  /// Automatically determines the payload encoding and hash function based on
+  /// the wallet account's address format, unless explicitly overridden.
+  /// Optionally applies the Ethereum signed message prefix before signing.
+  /// If you need more control over the signing process, consider using [signRawPayload] directly from the client.
+  ///
+  /// Throws an [Exception] if there is no active session or if signing fails.
+  ///
+  /// [message] The UTF-8 plaintext message to sign.
+  /// [walletAccount] The wallet account whose signing key will be used.
+  /// [encoding] Optional override for the payload encoding. Defaults to the encoding associated with the wallet account's address format.
+  /// [hashFunction] Optional override for the hash function. Defaults to the hash function associated with the wallet account's address format.
+  /// [addEthereumPrefix] Whether to add the Ethereum message prefix before signing. Defaults to `true` when the address format is Ethereum.
+  Future<v1SignRawPayloadResult> signMessage({
+    required String message,
+    required v1WalletAccount walletAccount,
+    v1PayloadEncoding? encoding,
+    v1HashFunction? hashFunction,
+    bool? addEthereumPrefix,
+  }) async {
+    if (session == null) {
+      throw Exception("No active session found. Please log in first.");
+    }
+
+    encoding ??= getEncodingType(walletAccount.addressFormat);
+    hashFunction ??= getHashFunction(walletAccount.addressFormat);
+
+    final isEthereum =
+        walletAccount.addressFormat == v1AddressFormat.address_format_ethereum;
+
+    Uint8List msgBytes = toUtf8Bytes(message);
+
+    // Optionally apply Ethereum EIP-191 prefix
+    final bool shouldAddPrefix = isEthereum && (addEthereumPrefix ?? true);
+    if (shouldAddPrefix) {
+      final prefix = "\x19Ethereum Signed Message:\n${msgBytes.length}";
+      final prefixBytes = toUtf8Bytes(prefix);
+
+      final combined = Uint8List(prefixBytes.length + msgBytes.length);
+      combined.setRange(0, prefixBytes.length, prefixBytes);
+      combined.setRange(prefixBytes.length, combined.length, msgBytes);
+
+      msgBytes = combined;
+    }
+
+    // Encode the message according to the payload encoding
+    final String encodedMessage = getEncodedMessage(encoding, msgBytes);
+
+    // Build the request body.
+    final body = TSignRawPayloadBody(
+      signWith: walletAccount.address,
+      payload: encodedMessage,
+      encoding: encoding,
+      hashFunction: hashFunction,
+    );
+
+    final response = await requireClient.signRawPayload(input: body);
+
+    final result = response.activity.result.signRawPayloadResult;
+    if (result == null || response.activity.failure != null) {
+      throw Exception("Failed to sign message, no signed payload returned");
+    }
+
+    return result;
   }
 
   /// Signs a transaction using the specified signing key and transaction parameters.
