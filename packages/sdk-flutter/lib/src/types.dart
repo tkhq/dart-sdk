@@ -482,3 +482,44 @@ class ChallengePair {
   final String codeChallenge;
   ChallengePair({required this.verifier, required this.codeChallenge});
 }
+
+class CreateP256UserParams {
+  final String? userName;
+  final String? apiKeyName;
+
+  const CreateP256UserParams({this.userName, this.apiKeyName});
+}
+
+class PolicyWithId extends v1CreatePolicyIntentV3 {
+  final String policyId;
+
+  PolicyWithId({
+    required this.policyId,
+    required String policyName,
+    required v1Effect effect,
+    String? condition,
+    String? consensus,
+    String? notes,
+  }) : super(
+          policyName: policyName,
+          effect: effect,
+          condition: condition,
+          consensus: consensus,
+          notes: notes,
+        );
+
+  /// Construct from a policy creation intent and attach a policyId.
+  factory PolicyWithId.fromCreateIntent(
+    v1CreatePolicyIntentV3 p, {
+    required String policyId,
+  }) {
+    return PolicyWithId(
+      policyId: policyId,
+      policyName: p.policyName,
+      effect: p.effect,
+      condition: p.condition,
+      consensus: p.consensus,
+      notes: p.notes,
+    );
+  }
+}

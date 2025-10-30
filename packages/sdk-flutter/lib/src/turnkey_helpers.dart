@@ -612,3 +612,28 @@ const Map<v1AddressFormat, AddressFormatConfig> addressFormatConfig = {
     displayName: "XRP",
   ),
 };
+
+/// Computes a canonical signature for a *create* policy intent.
+String getPolicySignature(v1CreatePolicyIntentV3 policy) {
+  // Keep keys stable and include nulls explicitly to avoid collisions.
+  final map = <String, dynamic>{
+    "policyName": policy.policyName,
+    "effect": policy.effect.name,
+    "condition": policy.condition ?? null,
+    "consensus": policy.consensus ?? null,
+    "notes": policy.notes ?? null,
+  };
+  return jsonEncode(map);
+}
+
+/// Computes the same signature for an *existing* policy record.
+String getPolicySignatureFromExisting(v1Policy policy) {
+  final map = <String, dynamic>{
+    "policyName": policy.policyName,
+    "effect": policy.effect.name,
+    "condition": policy.condition,
+    "consensus": policy.consensus,
+    "notes": policy.notes,
+  };
+  return jsonEncode(map);
+}
