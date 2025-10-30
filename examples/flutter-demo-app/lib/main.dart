@@ -12,24 +12,23 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await loadEnv();
 
-void onSessionSelected(Session session) {
-  if (isValidSession(session)) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      navigatorKey.currentState?.pushReplacement(
-        MaterialPageRoute(builder: (context) => const DashboardScreen()),
-      );
-      final ctx = navigatorKey.currentContext;
-      if (ctx != null) {
-        ScaffoldMessenger.of(ctx).showSnackBar(
-          const SnackBar(
-            content: Text('Logged in! Redirecting to the dashboard.'),
-          ),
+  void onSessionSelected(Session session) {
+    if (isValidSession(session)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        navigatorKey.currentState?.pushReplacement(
+          MaterialPageRoute(builder: (context) => const DashboardScreen()),
         );
-      }
-    });
+        final ctx = navigatorKey.currentContext;
+        if (ctx != null) {
+          ScaffoldMessenger.of(ctx).showSnackBar(
+            const SnackBar(
+              content: Text('Logged in! Redirecting to the dashboard.'),
+            ),
+          );
+        }
+      });
+    }
   }
-}
-
 
   void onSessionCleared(Session session) {
     navigatorKey.currentState?.pushReplacementNamed('/');
@@ -59,7 +58,7 @@ void onSessionSelected(Session session) {
 
   final createSubOrgParams = CreateSubOrgParams(
     customWallet: CustomWallet(
-      walletName: "Wallet 1",
+      walletName: 'Wallet 1',
       walletAccounts: [
         v1WalletAccountParams(
           addressFormat: v1AddressFormat.address_format_ethereum,

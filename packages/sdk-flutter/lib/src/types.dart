@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:turnkey_sdk_flutter/src/constants.dart';
 
@@ -129,6 +128,8 @@ class TurnkeyConfig {
   final String? authProxyBaseUrl;
   final String? authProxyConfigId;
   final AuthConfig? authConfig;
+  final PasskeyConfig? passkeyConfig;
+
   final String? appScheme;
 
   final void Function(Session session)? onSessionCreated;
@@ -144,7 +145,9 @@ class TurnkeyConfig {
     this.apiBaseUrl,
     this.authProxyBaseUrl,
     this.authProxyConfigId,
-    this.authConfig,
+    this.authConfig =
+        const AuthConfig(), // Default to empty config. We set a default inside this object so we need to do this.
+    this.passkeyConfig,
     this.appScheme,
     this.onSessionCreated,
     this.onSessionSelected,
@@ -166,7 +169,8 @@ class AuthConfig {
   /** length of the OTP. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
   final String? otpLength;
   final MethodCreateSubOrgParams? createSubOrgParams;
-
+  /** If true, will automatically fetch the WalletKit configuration specified in the Turnkey Dashboard upon initialization. Defaults to true. */
+  final bool? autoFetchWalletKitConfig;
   const AuthConfig({
     this.methods,
     this.oAuthConfig,
@@ -174,6 +178,18 @@ class AuthConfig {
     this.otpAlphanumeric,
     this.otpLength,
     this.createSubOrgParams,
+    this.autoFetchWalletKitConfig =
+        true, // Default to true here. Usually we'd do this in the "buildConfig()" method but this is actually needed right before that function runs!
+  });
+}
+
+class PasskeyConfig {
+  final String? rpId;
+  final String? rpName;
+
+  const PasskeyConfig({
+    this.rpId,
+    this.rpName,
   });
 }
 
@@ -465,4 +481,45 @@ class ChallengePair {
   final String verifier;
   final String codeChallenge;
   ChallengePair({required this.verifier, required this.codeChallenge});
+}
+
+class CreateP256UserParams {
+  final String? userName;
+  final String? apiKeyName;
+
+  const CreateP256UserParams({this.userName, this.apiKeyName});
+}
+
+class PolicyWithId extends v1CreatePolicyIntentV3 {
+  final String policyId;
+
+  PolicyWithId({
+    required this.policyId,
+    required String policyName,
+    required v1Effect effect,
+    String? condition,
+    String? consensus,
+    String? notes,
+  }) : super(
+          policyName: policyName,
+          effect: effect,
+          condition: condition,
+          consensus: consensus,
+          notes: notes,
+        );
+
+  /// Construct from a policy creation intent and attach a policyId.
+  factory PolicyWithId.fromCreateIntent(
+    v1CreatePolicyIntentV3 p, {
+    required String policyId,
+  }) {
+    return PolicyWithId(
+      policyId: policyId,
+      policyName: p.policyName,
+      effect: p.effect,
+      condition: p.condition,
+      consensus: p.consensus,
+      notes: p.notes,
+    );
+  }
 }

@@ -1,10 +1,10 @@
 # Turnkey Flutter Demo App
 
-This demo app leverages Turnkey's Dart/Flutter packages to demonstrate how they can be used to create a fully functional application. It includes a simple Node.js backend API server to facilitate server-side operations.
+This demo app leverages [`turnkey_sdk_flutter`](../../packages/sdk-flutter/) to demonstrate how they can be used to create a fully functional application.
 
 ## Demo
 
-https://github.com/user-attachments/assets/3d583ed8-1eff-4101-ae43-3c76c655e635
+![Demo](../../assets/demo.gif)
 
 ## Prerequisites
 
@@ -16,49 +16,34 @@ https://github.com/user-attachments/assets/3d583ed8-1eff-4101-ae43-3c76c655e635
 | Dart           | >= 3.0.0 |
 | Xcode          | >= 12.0  |
 | Android Studio | >= 4.0   |
-| Node.js        | >= 14.0  |
 
 ## Environment Variables Setup
 
 Create a `.env` file in the root directory of your project. You can use the provided `.env.example` file as a template:
 
 ```python
+# Public Turnkey API
 TURNKEY_API_URL="https://api.turnkey.com"
-BACKEND_API_URL="http://localhost:3000"
-ORGANIZATION_ID="<YOUR_ORGANIZATION_ID>"
+ORGANIZATION_ID="YOUR_ORGANIZATION_ID_HERE"
 
-# PASSKEY ENV VARIABLES
-RP_ID="<YOUR_RP_ID>"                    # This is the relying party ID that hosts your .well-known file
+# Auth Proxy
+AUTH_PROXY_URL="https://authproxy.turnkey.com"
+AUTH_PROXY_CONFIG_ID="YOUR_AUTH_PROXY_CONFIG_ID"
 
-# GOOGLE AUTH ENV VARIABLES
-GOOGLE_CLIENT_ID="<YOUR_GOOGLE_WEB_CLIENT_ID>"
-APP_SCHEME="flutter-demo-app" # This is the scheme used for OAuth redirects in the app. It should match the one used in the iOS and Android projects.
+# Passkey
+RP_ID="YOUR_RP_ID_HERE"
 
-#NODE SERVER ENV VARIABLES (Only used for the Node server in /api-server)
-TURNKEY_API_PUBLIC_KEY="<YOUR_TURNKEY_API_PUBLIC_KEY>"
-TURNKEY_API_PRIVATE_KEY="<YOUR_TURNKEY_API_PRIVATE_KEY>"
-BACKEND_API_PORT="3000"
+# OAuth
+APP_SCHEME="your-app-scheme"
+
+GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID"
+APPLE_CLIENT_ID="YOUR_APPLE_CLIENT_ID"
+X_CLIENT_ID="YOUR_X_CLIENT_ID"
+DISCORD_CLIENT_ID="YOUR_DISCORD_CLIENT_ID"
+
 ```
 
-## Backend API Server
-
-This app must be connected to a backend server. You can use the included Node.js backend API server or set up your own.
-
-### Install Dependencies
-
-Navigate to the api-server directory and install the dependencies:
-
-```bash
-cd api-server
-npm install
-```
-
-Build and Run the Backend Server
-
-```bash
-npm run build
-npm start
-```
+You can find your `ORGANIZATION_ID` and `AUTH_PROXY_CONFIG_ID` from the [Turnkey Dashboard](https://app.turnkey.com).
 
 ## Running the Flutter App
 
@@ -82,7 +67,7 @@ You will be prompted to select a device to run the app on. You can also use the 
 
 ## OAuth Configuration (optional)
 
-This app includes an example for authenticating with Turnkey using a Google or Apple account.
+This app includes an example for authenticating with Turnkey using a Google, Apple, X, or Discord account.
 
 ### Sign in with Google
 
@@ -110,11 +95,7 @@ In your project's `.env` file, add the following:
 GOOGLE_CLIENT_ID="<YOUR_GOOGLE_WEB_CLIENT_ID>"
 ```
 
-### Sign in with Apple
-
-Signing in with Apple leverages the [sign_in_with_apple](https://pub.dev/packages/sign_in_with_apple) packages. This allows Apple's native [Sign in With Apple SDK](https://developer.apple.com/documentation/signinwithapple) to be used in Flutter.
-
-To enable this feature, simply [add the **Sign in with Apple** capability to your app in Xcode.](https://developer.apple.com/documentation/xcode/adding-capabilities-to-your-app)
+For more information on how to setup OAuth in Turnkey powered Flutter apps, visit [our docs!](https://docs.turnkey.com/sdks/flutter)
 
 ## Passkey Configuration (optional)
 
