@@ -16,7 +16,6 @@ dependencies:
   json_annotation: ^4.9.0
   turnkey_encoding: ^0.1.0
   turnkey_api_key_stamper: ^0.1.1
-  build: ">=2.4.0 <4.0.0"
   swagger_dart_code_generator: ">=3.0.1 <5.0.0"
   path: ^1.9.0
   glob: ^2.1.0

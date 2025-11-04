@@ -35,17 +35,46 @@ final data = await client.getWhoami(
 
 The OpenAPI spec that generates the client and types is also [included](/http/lib/swagger/public_api.swagger.json) in the package.
 
-## Generating HTTP Client
+## Code Generation
 
-To generate the typed HTTP client from the OpenAPI spec, run the following commands:
+This package uses custom code generation to create the Turnkey HTTP client from Swagger specifications.
 
-1. Install dependencies:
+### Quick Start
 
-   ```bash
-   flutter pub get
-   ```
+Generate the client and types:
+```bash
+make generate
+```
 
-2. Run the code generator
-   ```bash
-   dart run build_runner build
-   ```
+### What Gets Generated
+
+The codegen process reads Swagger specs from `lib/swagger/` and generates:
+
+- `lib/__generated__/models.dart` - All type definitions (enums, classes, request/response types)
+- `lib/__generated__/services/coordinator/v1/public_api.client.dart` - The TurnkeyClient class
+
+### How It Works
+
+The codegen reads Swagger specifications from `lib/swagger/` and generates:
+
+1. **Type definitions** - All enums, classes, and request/response types with proper serialization
+2. **HTTP client** - The `TurnkeyClient` class with methods for each API endpoint
+3. **Activity handling** - Automatic envelope wrapping and response transformation for Turnkey activities
+
+#### Codegen Files
+
+Located in `lib/builder/`:
+
+- `codegen.dart` - Entry point that orchestrates the generation process
+- `type-generator.dart` - Generates type definitions from Swagger schemas
+- `generate.dart` - Generates the HTTP client class
+- `constant.dart` - Configuration and constants (activity type mappings, etc.)
+- `helper.dart` - Utility functions for code generation
+- `types.dart` - Internal types used by the generators
+
+### Clean Generated Files
+
+To remove all generated files:
+```bash
+make clean
+```

@@ -137,13 +137,13 @@ Future<void> generateClientFromSwagger({
         Map<String, dynamic> makeEnvelope({
           required String type,
           required String organizationId,
-          String? timestampMs,
+          required String timestampMs,
           required Map<String, dynamic> parameters,
         }) {
           return {
             'type': type,
             'organizationId': organizationId,
-            'timestampMs': timestampMs ?? DateTime.now().millisecondsSinceEpoch.toString(),
+            'timestampMs': timestampMs,
             'parameters': parameters,
           };
         }
@@ -173,12 +173,12 @@ Future<void> generateClientFromSwagger({
           required String activityType,
         }) {
           final orgId = (bodyJson['organizationId'] as String?) ?? fallbackOrganizationId;
-          final ts = bodyJson['timestampMs'] as String?;
+          final ts = bodyJson['timestampMs'] as String? ?? DateTime.now().millisecondsSinceEpoch.toString();
 
           // Exclude envelope keys (and guard against accidental nesting)
           final params = paramsFromBody(
             bodyJson,
-            exclude: const ['organizationId', 'timestampMs', 'parameters', 'type'],
+            exclude: const ['organizationId', 'timestampMs'],
           );
 
           return makeEnvelope(
