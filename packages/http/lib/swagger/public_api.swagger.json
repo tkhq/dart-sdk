@@ -8462,6 +8462,18 @@
         "emailCustomization": {
           "$ref": "#/definitions/v1EmailCustomizationParams",
           "description": "Optional parameters for customizing emails. If not provided, the default email will be used."
+        },
+        "sendFromEmailAddress": {
+          "type": "string",
+          "description": "Optional custom email address from which to send the OTP email"
+        },
+        "sendFromEmailSenderName": {
+          "type": "string",
+          "description": "Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'"
+        },
+        "replyToEmailAddress": {
+          "type": "string",
+          "description": "Optional custom email address to use as reply-to"
         }
       },
       "required": ["email", "targetPublicKey"]
@@ -10722,7 +10734,8 @@
       "enum": [
         "TRANSACTION_TYPE_ETHEREUM",
         "TRANSACTION_TYPE_SOLANA",
-        "TRANSACTION_TYPE_TRON"
+        "TRANSACTION_TYPE_TRON",
+        "TRANSACTION_TYPE_BITCOIN"
       ]
     },
     "v1UpdateAllowedOriginsIntent": {
