@@ -1,3 +1,8 @@
+## 1.1.0
+
+ - **FIX**: prevent type field from being incorrectly omitted in body parameters.
+ - **FEAT**: Synced as per mono 2025.10.8-hotfix.4.
+
 ## 1.0.0
 
  - Refactor http client, include Auth Proxy support

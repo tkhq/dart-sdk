@@ -1,3 +1,40 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## 2025-11-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`turnkey_http` - `v1.1.0`](#turnkey_http---v110)
+ - [`turnkey_api_key_stamper` - `v0.1.2+1`](#turnkey_api_key_stamper---v0121)
+ - [`turnkey_flutter_passkey_stamper` - `v1.0.1`](#turnkey_flutter_passkey_stamper---v101)
+ - [`turnkey_sdk_flutter` - `v1.0.1`](#turnkey_sdk_flutter---v101)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `turnkey_api_key_stamper` - `v0.1.2+1`
+ - `turnkey_flutter_passkey_stamper` - `v1.0.1`
+ - `turnkey_sdk_flutter` - `v1.0.1`
+
+---
+
+#### `turnkey_http` - `v1.1.0`
+
+ - **FIX**: prevent type field from being incorrectly omitted in body parameters.
+ - **FEAT**: Synced as per mono 2025.10.8-hotfix.4.
+
 ## 2025-07-03
 
 ### Changes
