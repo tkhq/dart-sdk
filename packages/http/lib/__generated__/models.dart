@@ -1210,6 +1210,7 @@ enum v1TransactionType {
   transaction_type_ethereum,
   transaction_type_solana,
   transaction_type_tron,
+  transaction_type_bitcoin,
 }
 
 v1TransactionType v1TransactionTypeFromJson(dynamic value) {
@@ -1217,6 +1218,7 @@ v1TransactionType v1TransactionTypeFromJson(dynamic value) {
     case 'TRANSACTION_TYPE_ETHEREUM': return v1TransactionType.transaction_type_ethereum;
     case 'TRANSACTION_TYPE_SOLANA': return v1TransactionType.transaction_type_solana;
     case 'TRANSACTION_TYPE_TRON': return v1TransactionType.transaction_type_tron;
+    case 'TRANSACTION_TYPE_BITCOIN': return v1TransactionType.transaction_type_bitcoin;
     default: throw ArgumentError('Unknown v1TransactionType: $value');
   }
 }
@@ -1226,6 +1228,7 @@ dynamic v1TransactionTypeToJson(v1TransactionType value) {
     case v1TransactionType.transaction_type_ethereum: return "TRANSACTION_TYPE_ETHEREUM";
     case v1TransactionType.transaction_type_solana: return "TRANSACTION_TYPE_SOLANA";
     case v1TransactionType.transaction_type_tron: return "TRANSACTION_TYPE_TRON";
+    case v1TransactionType.transaction_type_bitcoin: return "TRANSACTION_TYPE_BITCOIN";
   }
 }
 
@@ -9752,12 +9755,21 @@ class v1InitUserEmailRecoveryIntent {
   final String? expirationSeconds;
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
   final v1EmailCustomizationParams? emailCustomization;
+  /// Optional custom email address from which to send the OTP email
+  final String? sendFromEmailAddress;
+  /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
+  final String? sendFromEmailSenderName;
+  /// Optional custom email address to use as reply-to
+  final String? replyToEmailAddress;
 
   const v1InitUserEmailRecoveryIntent({
     required  this.email,
     required  this.targetPublicKey,
      this.expirationSeconds,
      this.emailCustomization,
+     this.sendFromEmailAddress,
+     this.sendFromEmailSenderName,
+     this.replyToEmailAddress,
   });
 
   factory v1InitUserEmailRecoveryIntent.fromJson(Map<String, dynamic> json) {
@@ -9765,11 +9777,17 @@ class v1InitUserEmailRecoveryIntent {
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
+    final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
     return v1InitUserEmailRecoveryIntent(
       email: _email,
       targetPublicKey: _targetPublicKey,
       expirationSeconds: _expirationSeconds,
       emailCustomization: _emailCustomization,
+      sendFromEmailAddress: _sendFromEmailAddress,
+      sendFromEmailSenderName: _sendFromEmailSenderName,
+      replyToEmailAddress: _replyToEmailAddress,
     );
   }
 
@@ -9782,6 +9800,15 @@ class v1InitUserEmailRecoveryIntent {
     }
     if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
   }
@@ -20955,6 +20982,12 @@ class TInitUserEmailRecoveryBody {
   final String? expirationSeconds;
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
   final v1EmailCustomizationParams? emailCustomization;
+  /// Optional custom email address from which to send the OTP email
+  final String? sendFromEmailAddress;
+  /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
+  final String? sendFromEmailSenderName;
+  /// Optional custom email address to use as reply-to
+  final String? replyToEmailAddress;
 
   const TInitUserEmailRecoveryBody({
      this.timestampMs,
@@ -20963,6 +20996,9 @@ class TInitUserEmailRecoveryBody {
     required  this.targetPublicKey,
      this.expirationSeconds,
      this.emailCustomization,
+     this.sendFromEmailAddress,
+     this.sendFromEmailSenderName,
+     this.replyToEmailAddress,
   });
   factory TInitUserEmailRecoveryBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -20971,6 +21007,9 @@ class TInitUserEmailRecoveryBody {
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
+    final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
     return TInitUserEmailRecoveryBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -20978,6 +21017,9 @@ class TInitUserEmailRecoveryBody {
       targetPublicKey: _targetPublicKey,
       expirationSeconds: _expirationSeconds,
       emailCustomization: _emailCustomization,
+      sendFromEmailAddress: _sendFromEmailAddress,
+      sendFromEmailSenderName: _sendFromEmailSenderName,
+      replyToEmailAddress: _replyToEmailAddress,
     );
   }
   Map<String, dynamic> toJson() {
@@ -20995,6 +21037,15 @@ class TInitUserEmailRecoveryBody {
     }
     if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
     }
     return _json;
   }
