@@ -37,6 +37,12 @@ enum AuthAction {
   bool get isSignup => this == AuthAction.signup;
 }
 
+enum AuthState {
+  loading,
+  unauthenticated,
+  authenticated,
+}
+
 const Map<OtpType, FilterType> otpTypeToFilterTypeMap = {
   OtpType.Email: FilterType.Email,
   OtpType.SMS: FilterType.SMS,

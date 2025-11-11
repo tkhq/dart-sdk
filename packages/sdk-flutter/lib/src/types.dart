@@ -171,6 +171,8 @@ class AuthConfig {
   final MethodCreateSubOrgParams? createSubOrgParams;
   /** If true, will automatically fetch the WalletKit configuration specified in the Turnkey Dashboard upon initialization. Defaults to true. */
   final bool? autoFetchWalletKitConfig;
+  /** If true, managed state variables (such as wallets and user) will automatically refresh when necessary. Defaults to true. */
+  final bool? autoRefreshManagedState;
   const AuthConfig({
     this.methods,
     this.oAuthConfig,
@@ -178,8 +180,9 @@ class AuthConfig {
     this.otpAlphanumeric,
     this.otpLength,
     this.createSubOrgParams,
-    this.autoFetchWalletKitConfig =
-        true, // Default to true here. Usually we'd do this in the "buildConfig()" method but this is actually needed right before that function runs!
+    // Default to true here. Usually we'd do this in the "buildConfig()" method but this is actually needed right before that function runs!
+    this.autoFetchWalletKitConfig = true,
+    this.autoRefreshManagedState = true,
   });
 }
 

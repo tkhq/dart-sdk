@@ -21,6 +21,7 @@ class TurnkeyProvider with ChangeNotifier {
   TurnkeyClient? _client;
   v1User? _user;
   List<Wallet>? _wallets;
+  AuthState _authState = AuthState.loading;
 
   // these are internal
   TurnkeyConfig? _masterConfig;
@@ -39,6 +40,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   // these are externally used
   Session? get session => _session;
+  AuthState get authState => _authState;
   TurnkeyClient? get client => _client;
   v1User? get user => _user;
   List<Wallet>? get wallets => _wallets;
@@ -61,6 +63,12 @@ class TurnkeyProvider with ChangeNotifier {
   // we do this for external properties only
   set session(Session? newSession) {
     _session = newSession;
+    notifyListeners();
+  }
+
+  set authState(AuthState next) {
+    if (_authState == next) return;
+    _authState = next;
     notifyListeners();
   }
 
@@ -182,6 +190,10 @@ class TurnkeyProvider with ChangeNotifier {
       sessionExpirationSeconds: sessionExpirationSeconds,
       otpAlphanumeric: otpAlphanumeric,
       otpLength: otpLength,
+      autoFetchWalletKitConfig:
+          config.authConfig?.autoFetchWalletKitConfig ?? true,
+      autoRefreshManagedState:
+          config.authConfig?.autoRefreshManagedState ?? true,
     );
 
     // Note: it's not always possible to use masterConfig to get base urls. You'll notice in functions like createClient, we do this logic again. masterConfig is only available after boot so it's not safe to use it there.
@@ -209,6 +221,7 @@ class TurnkeyProvider with ChangeNotifier {
 
   Future<void> _boot() async {
     try {
+      authState = AuthState.loading;
       ProxyTGetWalletKitConfigResponse? proxy;
       if ((config.authProxyConfigId ?? '').isNotEmpty &&
           config.authConfig?.autoFetchWalletKitConfig == true) {
@@ -352,6 +365,7 @@ class TurnkeyProvider with ChangeNotifier {
       final allSessions = await getAllSessions();
       if (allSessions == null || allSessions.isEmpty) {
         config.onSessionEmpty?.call();
+        authState = AuthState.unauthenticated;
 
         _initCompleter.complete();
         return;
@@ -385,6 +399,9 @@ class TurnkeyProvider with ChangeNotifier {
           );
           session = activeSession;
 
+          // We have a valid session + client: mark authenticated before fetching user/wallets.
+          authState = AuthState.authenticated;
+
           await refreshUser();
           await refreshWallets();
 
@@ -393,6 +410,7 @@ class TurnkeyProvider with ChangeNotifier {
       } else {
         // if no active session, fire the empty callback
         config.onSessionEmpty?.call();
+        authState = AuthState.unauthenticated;
       }
 
       // we signal initialization complete
@@ -400,6 +418,7 @@ class TurnkeyProvider with ChangeNotifier {
       config.onInitialized?.call(null);
     } catch (e, st) {
       stderr.writeln("TurnkeyProvider failed to initialize sessions: $e\n$st");
+      authState = AuthState.unauthenticated;
       _initCompleter.completeError(e, st);
       config.onInitialized?.call(e);
     }
@@ -544,6 +563,8 @@ class TurnkeyProvider with ChangeNotifier {
     final isFirstSession = existingSessionKeys.isEmpty;
     if (isFirstSession) {
       await setActiveSession(sessionKey: sessionKey);
+      authState = AuthState
+          .authenticated; // We can set authstate here since we have a valid session and it is active
     }
 
     // we fetch the user information
@@ -579,6 +600,7 @@ class TurnkeyProvider with ChangeNotifier {
       organizationId: s.organizationId,
     );
 
+    authState = AuthState.authenticated;
     config.onSessionSelected?.call(s);
   }
 
@@ -662,6 +684,7 @@ class TurnkeyProvider with ChangeNotifier {
       }
 
       // store the new session JWT
+      // TODO (Amir): Does this need to be the helper function?
       await SessionStorageManager.storeSession(
         result?.session as String,
         sessionKey: key,
@@ -722,6 +745,7 @@ class TurnkeyProvider with ChangeNotifier {
       user = null;
       wallets = null;
       client = createClient();
+      authState = AuthState.unauthenticated;
     }
 
     // delete the keypair
@@ -1302,16 +1326,25 @@ class TurnkeyProvider with ChangeNotifier {
   /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Google OAuth.
   /// [originUri] Optional base URI to start the OAuth flow. Defaults to TURNKEY_OAUTH_ORIGIN_URL.
   /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
+  /// [sessionKey] Optional session key to store the session under. If null, uses the default session key.
+  /// [invalidateExisting] Optional flag to invalidate existing sessions when logging in or signing up.
+  /// [publicKey] Optional public key to use for the session. If null, a new key pair is generated.
+  /// [onSuccess] Optional callback function that receives the oidcToken, publicKey and providerName upon successful authentication, overrides default behavior.
   Future<void> handleGoogleOAuth({
     String? clientId,
     String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
     String? redirectUri,
     String? sessionKey,
     bool? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
+    String? publicKey,
+    void Function(
+            {required String oidcToken,
+            required String publicKey,
+            required String providerName})?
+        onSuccess,
   }) async {
     final scheme = config.appScheme;
+    final providerName = 'google';
     if (scheme == null) {
       throw Exception(
           "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
@@ -1319,7 +1352,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     final AppLinks appLinks = AppLinks();
 
-    final targetPublicKey = await createApiKeyPair();
+    final targetPublicKey = publicKey ?? await createApiKeyPair();
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final googleClientId = clientId ??
@@ -1330,7 +1363,7 @@ class TurnkeyProvider with ChangeNotifier {
           '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
       final oauthUrl = originUri! +
-          '?provider=google' +
+          '?provider=${Uri.encodeComponent(providerName)}' +
           '&clientId=${Uri.encodeComponent(googleClientId)}' +
           '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
           '&nonce=${Uri.encodeComponent(nonce)}';
@@ -1347,12 +1380,15 @@ class TurnkeyProvider with ChangeNotifier {
 
           if (idToken != null) {
             if (onSuccess != null) {
-              onSuccess(idToken);
+              onSuccess(
+                  oidcToken: idToken,
+                  publicKey: targetPublicKey,
+                  providerName: providerName);
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: idToken,
                 publicKey: targetPublicKey,
-                providerName: 'google',
+                providerName: providerName,
                 sessionKey: sessionKey,
                 invalidateExisting: invalidateExisting,
               );
@@ -1409,15 +1445,36 @@ class TurnkeyProvider with ChangeNotifier {
     }
   }
 
+  /// Handles the Apple OAuth authentication flow.
+  ///
+  /// Initiates an in-app browser OAuth flow with the provided credentials and parameters.
+  /// After the OAuth flow completes successfully, it extracts the oidcToken from the callback URL
+  /// and invokes `loginOrSignUpWithOAuth` or the provided onSuccess callback.
+  ///
+  /// Throws an [Exception] if the authentication process fails or times out.
+  ///
+  /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Apple OAuth.
+  /// [originUri] Optional base URI to start the OAuth flow. Defaults to TURNKEY_OAUTH_ORIGIN_URL.
+  /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
+  /// [sessionKey] Optional session key to store the session under. If null, uses the default session key.
+  /// [invalidateExisting] Optional flag to invalidate existing sessions when logging in or signing up.
+  /// [publicKey] Optional public key to use for the session. If null, a new key pair is generated.
+  /// [onSuccess] Optional callback function that receives the oidcToken, publicKey and providerName upon successful authentication, overrides default behavior.
   Future<void> handleAppleOAuth({
     String? clientId,
     String? originUri = TURNKEY_OAUTH_ORIGIN_URL,
     String? redirectUri,
     String? sessionKey,
     bool? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
+    String? publicKey,
+    void Function(
+            {required String oidcToken,
+            required String publicKey,
+            required String providerName})?
+        onSuccess,
   }) async {
     final scheme = config.appScheme;
+    final providerName = 'apple';
     if (scheme == null) {
       throw Exception(
           "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
@@ -1425,7 +1482,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     final AppLinks appLinks = AppLinks();
 
-    final targetPublicKey = await createApiKeyPair();
+    final targetPublicKey = publicKey ?? await createApiKeyPair();
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final appleClientId = clientId ??
@@ -1436,7 +1493,7 @@ class TurnkeyProvider with ChangeNotifier {
           '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
       final oauthUrl = originUri! +
-          '?provider=apple' +
+          '?provider=${Uri.encodeComponent(providerName)}' +
           '&clientId=${Uri.encodeComponent(appleClientId)}' +
           '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
           '&nonce=${Uri.encodeComponent(nonce)}';
@@ -1452,12 +1509,15 @@ class TurnkeyProvider with ChangeNotifier {
 
           if (idToken != null) {
             if (onSuccess != null) {
-              onSuccess(idToken);
+              onSuccess(
+                  oidcToken: idToken,
+                  publicKey: targetPublicKey,
+                  providerName: providerName);
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: idToken,
                 publicKey: targetPublicKey,
-                providerName: 'apple',
+                providerName: providerName,
                 sessionKey: sessionKey,
                 invalidateExisting: invalidateExisting,
               );
@@ -1525,16 +1585,25 @@ class TurnkeyProvider with ChangeNotifier {
   /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for X OAuth.
   /// [originUri] Optional base URI to start the OAuth flow. Defaults to X_AUTH_URL.
   /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
+  /// [sessionKey] Optional session key to store the session under. If null, uses the default session key.
+  /// [invalidateExisting] Optional flag to invalidate existing sessions when logging in or signing up.
+  /// [publicKey] Optional public key to use for the session. If null, a new key pair is generated.
+  /// [onSuccess] Optional callback function that receives the oidcToken, publicKey and providerName upon successful authentication, overrides default behavior.
   Future<void> handleXOAuth({
     String? clientId,
     String? originUri = X_AUTH_URL,
     String? redirectUri,
     String? sessionKey,
     bool? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
+    String? publicKey,
+    void Function(
+            {required String oidcToken,
+            required String publicKey,
+            required String providerName})?
+        onSuccess,
   }) async {
     final scheme = config.appScheme;
+    final providerName = 'x';
     if (scheme == null) {
       throw Exception(
           "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
@@ -1542,7 +1611,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     final AppLinks appLinks = AppLinks();
 
-    final targetPublicKey = await createApiKeyPair();
+    final targetPublicKey = publicKey ?? await createApiKeyPair();
 
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
@@ -1592,12 +1661,15 @@ class TurnkeyProvider with ChangeNotifier {
             final oidcToken = res.oidcToken;
 
             if (onSuccess != null) {
-              onSuccess(oidcToken);
+              onSuccess(
+                  oidcToken: oidcToken,
+                  publicKey: targetPublicKey,
+                  providerName: providerName);
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: oidcToken,
                 publicKey: targetPublicKey,
-                providerName: 'x',
+                providerName: providerName,
                 sessionKey: sessionKey,
                 invalidateExisting: invalidateExisting,
               );
@@ -1665,16 +1737,25 @@ class TurnkeyProvider with ChangeNotifier {
   /// [clientId] Optional client ID that overrides the default client ID passed into the config or pulled from the Wallet Kit dashboard for Discord OAuth.
   /// [originUri] Optional base URI to start the OAuth flow. Defaults to DISCORD_AUTH_URL.
   /// [redirectUri] Optional redirect URI for the OAuth flow. Defaults to a constructed URI with the provided scheme.
-  /// [onSuccess] Optional callback function that receives the oidcToken upon successful authentication, overrides default behavior.
+  /// [sessionKey] Optional session key to store the session under. If null, uses the default session key.
+  /// [invalidateExisting] Optional flag to invalidate existing sessions when logging in or signing up.
+  /// [publicKey] Optional public key to use for the session. If null, a new key pair is generated.
+  /// [onSuccess] Optional callback function that receives the oidcToken, publicKey and providerName upon successful authentication, overrides default behavior.
   Future<void> handleDiscordOAuth({
     String? clientId,
     String? originUri = DISCORD_AUTH_URL,
     String? redirectUri,
     String? sessionKey,
     String? invalidateExisting,
-    void Function(String oidcToken)? onSuccess,
+    String? publicKey,
+    void Function(
+            {required String oidcToken,
+            required String publicKey,
+            required String providerName})?
+        onSuccess,
   }) async {
     final scheme = config.appScheme;
+    final providerName = 'discord';
     if (scheme == null) {
       throw Exception(
           "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
@@ -1682,7 +1763,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     final AppLinks appLinks = AppLinks();
 
-    final targetPublicKey = await createApiKeyPair();
+    final targetPublicKey = publicKey ?? await createApiKeyPair();
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final discordClientId = clientId ??
@@ -1731,12 +1812,15 @@ class TurnkeyProvider with ChangeNotifier {
             final oidcToken = res.oidcToken;
 
             if (onSuccess != null) {
-              onSuccess(oidcToken);
+              onSuccess(
+                  oidcToken: oidcToken,
+                  publicKey: targetPublicKey,
+                  providerName: providerName);
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: oidcToken,
                 publicKey: targetPublicKey,
-                providerName: 'discord',
+                providerName: providerName,
               );
             }
 
@@ -1799,6 +1883,10 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// Throws an [Exception] if the session or client is not initialized.
   Future<void> refreshUser() async {
+    if (config.authConfig?.autoRefreshManagedState == false) {
+      return;
+    }
+
     if (session == null) {
       throw Exception("Failed to refresh user. Sessions not initialized");
     }
@@ -1813,6 +1901,10 @@ class TurnkeyProvider with ChangeNotifier {
   ///
   /// Throws an [Exception] if the session is not initialized.
   Future<void> refreshWallets() async {
+    if (config.authConfig?.autoRefreshManagedState == false) {
+      return;
+    }
+
     if (session == null) {
       throw Exception("Failed to refresh wallets. No session initialized");
     }

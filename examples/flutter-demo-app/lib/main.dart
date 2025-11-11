@@ -42,20 +42,6 @@ void main() async {
     }
   }
 
-  void onInitialized(Object? error) {
-    final ctx = navigatorKey.currentContext;
-    if (error != null) {
-      debugPrint('Turnkey initialization failed: $error');
-      if (ctx != null) {
-        ScaffoldMessenger.of(ctx).showSnackBar(
-          SnackBar(content: Text('Failed to initialize Turnkey: $error')),
-        );
-      }
-    } else {
-      debugPrint('Turnkey initialized successfully');
-    }
-  }
-
   final createSubOrgParams = CreateSubOrgParams(
     customWallet: CustomWallet(
       walletName: 'Wallet 1',
@@ -99,13 +85,10 @@ void main() async {
       ),
       onSessionSelected: onSessionSelected,
       onSessionCleared: onSessionCleared,
-      onInitialized: onInitialized,
     ),
   );
 
-  turnkeyProvider.ready.then((_) {
-    debugPrint('Turnkey is ready');
-  }).catchError((error) {
+  turnkeyProvider.ready.catchError((error) {
     debugPrint('Caught from .ready: $error');
 
     // Schedule the snackbar to show after the current frame
@@ -133,29 +116,40 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 0, 26, 255)),
-        useMaterial3: true,
-      ),
-      home: const HomePage(title: 'Turnkey Flutter Demo App'),
+    return Consumer<TurnkeyProvider>(
+      builder: (context, turnkey, _) {
+        return MaterialApp(
+          navigatorKey: navigatorKey,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(255, 0, 26, 255),
+            ),
+            useMaterial3: true,
+          ),
+          home: _buildHome(turnkey),
+        );
+      },
     );
   }
-}
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key, required this.title});
+  Widget _buildHome(TurnkeyProvider turnkey) {
+    switch (turnkey.authState) {
+      case AuthState.loading:
+        // Provider is booting: show splash / spinner.
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
 
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: const LoginScreen(),
-    );
+      default:
+        // Turnkey is ready. Show the login screen.
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Turnkey Flutter Demo App'),
+          ),
+          body: LoginScreen(),
+        );
+      // We'll have the `onSessionSelected` callback navigate to the dashboard screen. You can also add another case here for AuthState.authenticated if you want to handle it directly.
+    }
   }
 }
