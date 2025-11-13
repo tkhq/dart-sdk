@@ -141,7 +141,7 @@ class MyApp extends StatelessWidget {
           body: Center(child: CircularProgressIndicator()),
         );
 
-      default:
+      case AuthState.unauthenticated:
         // Turnkey is ready. Show the login screen.
         return Scaffold(
           appBar: AppBar(
@@ -150,6 +150,11 @@ class MyApp extends StatelessWidget {
           body: LoginScreen(),
         );
       // We'll have the `onSessionSelected` callback navigate to the dashboard screen. You can also add another case here for AuthState.authenticated if you want to handle it directly.
+      case AuthState.authenticated:
+        // Provider is booting: show splash / spinner.
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
     }
   }
 }

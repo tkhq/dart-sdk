@@ -4,8 +4,12 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 import 'package:crypto/crypto.dart';
+import 'package:turnkey_encoding/turnkey_encoding.dart';
+import 'package:turnkey_http/__generated__/models.dart';
+import 'package:turnkey_http/turnkey_http.dart';
+import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
+import 'package:turnkey_sdk_flutter/src/utils/types.dart';
 
 /// Fetches user details and associated wallets from the Turnkey API.
 ///
@@ -397,7 +401,7 @@ v1PayloadEncoding getEncodingType(v1AddressFormat addressFormat) {
 /// Encodes raw bytes into the string representation expected by the API.
 String getEncodedMessage(v1PayloadEncoding payloadEncoding, Uint8List raw) {
   if (payloadEncoding == v1PayloadEncoding.payload_encoding_hexadecimal) {
-    return "0x${bytesToHex(raw)}";
+    return "0x${uint8ArrayToHexString(raw)}";
   }
   return toUtf8String(raw);
 }
@@ -407,14 +411,6 @@ String getEncodedMessage(v1PayloadEncoding payloadEncoding, Uint8List raw) {
 Uint8List toUtf8Bytes(String s) => Uint8List.fromList(utf8.encode(s));
 
 String toUtf8String(Uint8List bytes) => utf8.decode(bytes);
-
-String bytesToHex(Uint8List bytes) {
-  final StringBuffer sb = StringBuffer();
-  for (final b in bytes) {
-    sb.write(b.toRadixString(16).padLeft(2, "0"));
-  }
-  return sb.toString();
-}
 
 /// Config model & mapping (used for signMessage)
 

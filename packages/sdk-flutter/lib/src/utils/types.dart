@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:turnkey_http/__generated__/models.dart';
-import 'package:turnkey_sdk_flutter/src/constants.dart';
+import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
@@ -493,10 +493,10 @@ class CreateP256UserParams {
   const CreateP256UserParams({this.userName, this.apiKeyName});
 }
 
-class PolicyWithId extends v1CreatePolicyIntentV3 {
+class Policy extends v1CreatePolicyIntentV3 {
   final String policyId;
 
-  PolicyWithId({
+  Policy({
     required this.policyId,
     required String policyName,
     required v1Effect effect,
@@ -512,11 +512,11 @@ class PolicyWithId extends v1CreatePolicyIntentV3 {
         );
 
   /// Construct from a policy creation intent and attach a policyId.
-  factory PolicyWithId.fromCreateIntent(
+  factory Policy.fromCreateIntent(
     v1CreatePolicyIntentV3 p, {
     required String policyId,
   }) {
-    return PolicyWithId(
+    return Policy(
       policyId: policyId,
       policyName: p.policyName,
       effect: p.effect,
