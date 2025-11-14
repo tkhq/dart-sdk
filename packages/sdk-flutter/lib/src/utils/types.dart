@@ -170,13 +170,11 @@ class RuntimeAuthConfig extends AuthConfig {
     this.sessionExpirationSeconds,
     this.otpAlphanumeric,
     this.otpLength,
-    AuthMethods? methods,
     OAuthConfig? oAuthConfig,
     MethodCreateSubOrgParams? createSubOrgParams,
     bool autoFetchWalletKitConfig = true,
     bool autoRefreshManagedState = true,
   }) : super(
-          methods: methods,
           oAuthConfig: oAuthConfig,
           createSubOrgParams: createSubOrgParams,
           autoFetchWalletKitConfig: autoFetchWalletKitConfig,
@@ -222,7 +220,6 @@ class TurnkeyConfig {
 }
 
 class AuthConfig {
-  final AuthMethods? methods;
   final OAuthConfig? oAuthConfig;
   final MethodCreateSubOrgParams? createSubOrgParams;
   /** If true, will automatically fetch the WalletKit configuration specified in the Turnkey Dashboard upon initialization. Defaults to true. */
@@ -230,7 +227,6 @@ class AuthConfig {
   /** If true, managed state variables (such as wallets and user) will automatically refresh when necessary. Defaults to true. */
   final bool? autoRefreshManagedState;
   const AuthConfig({
-    this.methods,
     this.oAuthConfig,
     this.createSubOrgParams,
     // Default to true here. Usually we'd do this in the "buildConfig()" method but this is actually needed right before that function runs!
@@ -260,30 +256,6 @@ class MethodCreateSubOrgParams {
     this.smsOtpAuth,
     this.passkeyAuth,
     this.oAuth,
-  });
-}
-
-class AuthMethods {
-  final bool? emailOtpAuthEnabled;
-  final bool? smsOtpAuthEnabled;
-  final bool? passkeyAuthEnabled;
-  final bool? walletAuthEnabled;
-  final bool? googleOauthEnabled;
-  final bool? appleOauthEnabled;
-  final bool? xOauthEnabled;
-  final bool? discordOauthEnabled;
-  final bool? facebookOauthEnabled;
-
-  const AuthMethods({
-    this.emailOtpAuthEnabled,
-    this.smsOtpAuthEnabled,
-    this.passkeyAuthEnabled,
-    this.walletAuthEnabled,
-    this.googleOauthEnabled,
-    this.appleOauthEnabled,
-    this.xOauthEnabled,
-    this.discordOauthEnabled,
-    this.facebookOauthEnabled,
   });
 }
 

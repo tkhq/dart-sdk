@@ -110,12 +110,6 @@ class TurnkeyProvider with ChangeNotifier {
   TurnkeyRuntimeConfig _buildConfig({
     ProxyTGetWalletKitConfigResponse? proxyAuthConfig,
   }) {
-    bool? _resolveMethod(bool? local, String providerKey) {
-      if (local != null) return local;
-      if (proxyAuthConfig == null) return null;
-      return proxyAuthConfig.enabledProviders.contains(providerKey);
-    }
-
     String? _resolveClientId(String? local, String proxyKey) {
       if (local != null && local.isNotEmpty) return local;
       return proxyAuthConfig?.oauthClientIds?[proxyKey];
@@ -125,28 +119,6 @@ class TurnkeyProvider with ChangeNotifier {
       if (local != null && local.isNotEmpty) return local;
       return proxyAuthConfig?.oauthRedirectUrl;
     }
-
-    // --- resolved methods ------------------------------------------------------
-    final resolvedMethods = AuthMethods(
-      emailOtpAuthEnabled: _resolveMethod(
-          config.authConfig?.methods?.emailOtpAuthEnabled, 'email'),
-      smsOtpAuthEnabled:
-          _resolveMethod(config.authConfig?.methods?.smsOtpAuthEnabled, 'sms'),
-      passkeyAuthEnabled: _resolveMethod(
-          config.authConfig?.methods?.passkeyAuthEnabled, 'passkey'),
-      walletAuthEnabled: _resolveMethod(
-          config.authConfig?.methods?.walletAuthEnabled, 'wallet'),
-      googleOauthEnabled: _resolveMethod(
-          config.authConfig?.methods?.googleOauthEnabled, 'google'),
-      xOauthEnabled:
-          _resolveMethod(config.authConfig?.methods?.xOauthEnabled, 'x'),
-      discordOauthEnabled: _resolveMethod(
-          config.authConfig?.methods?.discordOauthEnabled, 'discord'),
-      appleOauthEnabled: _resolveMethod(
-          config.authConfig?.methods?.appleOauthEnabled, 'apple'),
-      facebookOauthEnabled: _resolveMethod(
-          config.authConfig?.methods?.facebookOauthEnabled, 'facebook'),
-    );
 
     // --- resolved OAuth config -------------------------------------------------
     final resolvedOAuth = OAuthConfig(
@@ -174,7 +146,6 @@ class TurnkeyProvider with ChangeNotifier {
     final otpLength = proxyAuthConfig?.otpLength;
 
     final resolvedAuth = RuntimeAuthConfig(
-      methods: resolvedMethods,
       oAuthConfig: resolvedOAuth,
       sessionExpirationSeconds: sessionExpirationSeconds,
       otpAlphanumeric: otpAlphanumeric,
