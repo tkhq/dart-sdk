@@ -9,7 +9,7 @@ extension on TurnkeyProvider {
   ///
   /// Throws an [Exception] if the session or client is not initialized.
   Future<void> refreshUser() async {
-    if (config.authConfig?.autoRefreshManagedState == false) {
+    if (runtimeConfig?.authConfig.autoRefreshManagedState == false) {
       return;
     }
 

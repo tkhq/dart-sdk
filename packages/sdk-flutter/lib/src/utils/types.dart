@@ -122,6 +122,68 @@ class Wallet {
   }
 }
 
+class TurnkeyRuntimeConfig extends TurnkeyConfig {
+  TurnkeyRuntimeConfig({
+    required String organizationId,
+    String? apiBaseUrl,
+    String? authProxyBaseUrl,
+    String? authProxyConfigId,
+    RuntimeAuthConfig authConfig = const RuntimeAuthConfig(),
+    PasskeyConfig? passkeyConfig,
+    String? appScheme,
+    void Function(Session session)? onSessionCreated,
+    void Function(Session session)? onSessionSelected,
+    void Function(Session session)? onSessionExpired,
+    void Function(Session session)? onSessionCleared,
+    void Function(Session session)? onSessionRefreshed,
+    void Function()? onSessionEmpty,
+    void Function(Object? error)? onInitialized,
+  }) : super(
+          organizationId: organizationId,
+          apiBaseUrl: apiBaseUrl,
+          authProxyBaseUrl: authProxyBaseUrl,
+          authProxyConfigId: authProxyConfigId,
+          authConfig: authConfig,
+          passkeyConfig: passkeyConfig,
+          appScheme: appScheme,
+          onSessionCreated: onSessionCreated,
+          onSessionSelected: onSessionSelected,
+          onSessionExpired: onSessionExpired,
+          onSessionCleared: onSessionCleared,
+          onSessionRefreshed: onSessionRefreshed,
+          onSessionEmpty: onSessionEmpty,
+          onInitialized: onInitialized,
+        );
+  @override
+  RuntimeAuthConfig get authConfig =>
+      super.authConfig as RuntimeAuthConfig;
+}
+
+class RuntimeAuthConfig extends AuthConfig {
+  // Use ints if these are numeric:
+  final String? sessionExpirationSeconds;
+  final bool? otpAlphanumeric;
+  final String? otpLength;
+
+  const RuntimeAuthConfig({
+    // Runtime additions:
+    this.sessionExpirationSeconds,
+    this.otpAlphanumeric,
+    this.otpLength,
+    AuthMethods? methods,
+    OAuthConfig? oAuthConfig,
+    MethodCreateSubOrgParams? createSubOrgParams,
+    bool autoFetchWalletKitConfig = true,
+    bool autoRefreshManagedState = true,
+  }) : super(
+          methods: methods,
+          oAuthConfig: oAuthConfig,
+          createSubOrgParams: createSubOrgParams,
+          autoFetchWalletKitConfig: autoFetchWalletKitConfig,
+          autoRefreshManagedState: autoRefreshManagedState,
+        );
+}
+
 class TurnkeyConfig {
   final String organizationId;
   final String? apiBaseUrl;
@@ -162,12 +224,6 @@ class TurnkeyConfig {
 class AuthConfig {
   final AuthMethods? methods;
   final OAuthConfig? oAuthConfig;
-  /** session expiration time in seconds. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
-  final String? sessionExpirationSeconds;
-  /** If otp sent will be alphanumeric. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
-  final bool? otpAlphanumeric;
-  /** length of the OTP. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
-  final String? otpLength;
   final MethodCreateSubOrgParams? createSubOrgParams;
   /** If true, will automatically fetch the WalletKit configuration specified in the Turnkey Dashboard upon initialization. Defaults to true. */
   final bool? autoFetchWalletKitConfig;
@@ -176,9 +232,6 @@ class AuthConfig {
   const AuthConfig({
     this.methods,
     this.oAuthConfig,
-    this.sessionExpirationSeconds,
-    this.otpAlphanumeric,
-    this.otpLength,
     this.createSubOrgParams,
     // Default to true here. Usually we'd do this in the "buildConfig()" method but this is actually needed right before that function runs!
     this.autoFetchWalletKitConfig = true,

@@ -29,7 +29,7 @@ extension OAuthExtension on TurnkeyProvider {
             required String providerName})?
         onSuccess,
   }) async {
-    final scheme = config.appScheme;
+    final scheme = runtimeConfig?.appScheme;
     final providerName = 'google';
     if (scheme == null) {
       throw Exception(
@@ -42,10 +42,10 @@ extension OAuthExtension on TurnkeyProvider {
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final googleClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.googleClientId ??
+          runtimeConfig?.authConfig.oAuthConfig?.googleClientId ??
           (throw Exception("Google Client ID not configured"));
       final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          runtimeConfig?.authConfig.oAuthConfig?.oauthRedirectUri ??
           '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
       final oauthUrl = originUri! +
@@ -159,7 +159,7 @@ extension OAuthExtension on TurnkeyProvider {
             required String providerName})?
         onSuccess,
   }) async {
-    final scheme = config.appScheme;
+    final scheme = runtimeConfig?.appScheme;
     final providerName = 'apple';
     if (scheme == null) {
       throw Exception(
@@ -172,10 +172,10 @@ extension OAuthExtension on TurnkeyProvider {
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final appleClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.appleClientId ??
+          runtimeConfig?.authConfig.oAuthConfig?.appleClientId ??
           (throw Exception("Apple Client ID not configured"));
       final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          runtimeConfig?.authConfig.oAuthConfig?.oauthRedirectUri ??
           '${TURNKEY_OAUTH_REDIRECT_URL}?scheme=${Uri.encodeComponent(scheme)}';
 
       final oauthUrl = originUri! +
@@ -288,7 +288,7 @@ extension OAuthExtension on TurnkeyProvider {
             required String providerName})?
         onSuccess,
   }) async {
-    final scheme = config.appScheme;
+    final scheme = runtimeConfig?.appScheme;
     final providerName = 'x';
     if (scheme == null) {
       throw Exception(
@@ -302,11 +302,11 @@ extension OAuthExtension on TurnkeyProvider {
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final xClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.xClientId ??
+          runtimeConfig?.authConfig.oAuthConfig?.xClientId ??
           (throw Exception("X Client ID not configured"));
       final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
-          '${config.appScheme}://';
+          runtimeConfig?.authConfig.oAuthConfig?.oauthRedirectUri ??
+          '${runtimeConfig?.appScheme}://';
 
       final challengePair = await generateChallengePair();
       final verifier = challengePair.verifier;
@@ -445,7 +445,7 @@ extension OAuthExtension on TurnkeyProvider {
             required String providerName})?
         onSuccess,
   }) async {
-    final scheme = config.appScheme;
+    final scheme = runtimeConfig?.appScheme;
     final providerName = 'discord';
     if (scheme == null) {
       throw Exception(
@@ -458,10 +458,10 @@ extension OAuthExtension on TurnkeyProvider {
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final discordClientId = clientId ??
-          masterConfig?.authConfig?.oAuthConfig?.discordClientId ??
+          runtimeConfig?.authConfig.oAuthConfig?.discordClientId ??
           (throw Exception("Discord Client ID not configured"));
       final resolvedRedirectUri = redirectUri ??
-          masterConfig?.authConfig?.oAuthConfig?.oauthRedirectUri ??
+          runtimeConfig?.authConfig.oAuthConfig?.oauthRedirectUri ??
           '${scheme}://';
 
       final challengePair = await generateChallengePair();

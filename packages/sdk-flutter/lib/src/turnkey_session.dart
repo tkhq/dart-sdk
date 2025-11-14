@@ -24,7 +24,7 @@ extension SessionExtension on TurnkeyProvider {
 
       await clearSession(sessionKey: sessionKey);
 
-      config.onSessionExpired?.call(expiredSession);
+      runtimeConfig?.onSessionExpired?.call(expiredSession);
     };
 
     final timeUntilExpiry =
@@ -98,7 +98,7 @@ extension SessionExtension on TurnkeyProvider {
 
     await deleteUnusedKeyPairs();
 
-    config.onSessionCreated?.call(session);
+    runtimeConfig?.onSessionCreated?.call(session);
 
     return session;
   }
@@ -120,7 +120,7 @@ extension SessionExtension on TurnkeyProvider {
     );
 
     authState = AuthState.authenticated;
-    config.onSessionSelected?.call(s);
+    runtimeConfig?.onSessionSelected?.call(s);
   }
 
   /// Gets the key of the currently active session.
@@ -173,7 +173,7 @@ extension SessionExtension on TurnkeyProvider {
     String? publicKey,
     bool invalidateExisting = false,
   }) async {
-    expirationSeconds ??= masterConfig?.authConfig?.sessionExpirationSeconds;
+    expirationSeconds ??= runtimeConfig?.authConfig.sessionExpirationSeconds;
 
     try {
       final activeKey = await getActiveSessionKey();
@@ -225,7 +225,7 @@ extension SessionExtension on TurnkeyProvider {
 
       await _scheduleSessionExpiration(key, newSession.expiry);
 
-      config.onSessionRefreshed?.call(newSession);
+      runtimeConfig?.onSessionRefreshed?.call(newSession);
 
       return result;
     } catch (error) {
@@ -273,7 +273,7 @@ extension SessionExtension on TurnkeyProvider {
     // remove the session from storage
     await SessionStorageManager.clearSession(key);
 
-    config.onSessionCleared?.call(sessionToClear);
+    runtimeConfig?.onSessionCleared?.call(sessionToClear);
   }
 
   /// Clears all stored sessions from secure storage.

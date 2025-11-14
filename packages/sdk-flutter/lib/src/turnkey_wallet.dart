@@ -9,7 +9,7 @@ extension WalletExtension on TurnkeyProvider {
   ///
   /// Throws an [Exception] if the session is not initialized.
   Future<void> refreshWallets() async {
-    if (config.authConfig?.autoRefreshManagedState == false) {
+    if (runtimeConfig?.authConfig.autoRefreshManagedState == false) {
       return;
     }
 

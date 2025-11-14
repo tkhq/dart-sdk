@@ -37,7 +37,7 @@ class TurnkeyProvider with ChangeNotifier {
   AuthState _authState = AuthState.loading;
 
   // these are internal
-  TurnkeyConfig? _masterConfig;
+  TurnkeyRuntimeConfig? _runtimeConfig;
 
   // immutable
   final TurnkeyConfig config;
@@ -59,7 +59,7 @@ class TurnkeyProvider with ChangeNotifier {
   List<Wallet>? get wallets => _wallets;
 
   // these are internally used
-  TurnkeyConfig? get masterConfig => _masterConfig;
+  TurnkeyRuntimeConfig? get runtimeConfig => _runtimeConfig;
 
   // helper to get client or throw
   TurnkeyClient get requireClient {
@@ -106,7 +106,7 @@ class TurnkeyProvider with ChangeNotifier {
     await _initializeSessions();
   }
 
-  TurnkeyConfig _buildConfig({
+  TurnkeyRuntimeConfig _buildConfig({
     ProxyTGetWalletKitConfigResponse? proxyAuthConfig,
   }) {
     bool? _resolveMethod(bool? local, String providerKey) {
@@ -123,26 +123,6 @@ class TurnkeyProvider with ChangeNotifier {
     String? _resolveRedirect(String? local) {
       if (local != null && local.isNotEmpty) return local;
       return proxyAuthConfig?.oauthRedirectUrl;
-    }
-
-    final authProxyFetchEnabled = (config.authProxyConfigId ?? '').isNotEmpty &&
-        config.authConfig?.autoFetchWalletKitConfig == true;
-    if (authProxyFetchEnabled) {
-      if (config.authConfig?.sessionExpirationSeconds != null) {
-        stderr.writeln(
-          'Turnkey SDK warning: `sessionExpirationSeconds` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
-        );
-      }
-      if (config.authConfig?.otpAlphanumeric != null) {
-        stderr.writeln(
-          'Turnkey SDK warning: `otpAlphanumeric` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
-        );
-      }
-      if (config.authConfig?.otpLength != null) {
-        stderr.writeln(
-          'Turnkey SDK warning: `otpLength` set directly in TurnkeyConfig will be ignored when using an auth proxy. Configure this in the Turnkey dashboard.',
-        );
-      }
     }
 
     // --- resolved methods ------------------------------------------------------
@@ -185,19 +165,14 @@ class TurnkeyProvider with ChangeNotifier {
 
     // --- proxy-only settings (read from proxy when available) ------------------
     final sessionExpirationSeconds =
-        proxyAuthConfig?.sessionExpirationSeconds ??
-            (authProxyFetchEnabled
-                ? null
-                : config.authConfig?.sessionExpirationSeconds ??
-                    AUTH_DEFAULT_EXPIRATION_SECONDS);
+        proxyAuthConfig?.sessionExpirationSeconds  ??
+        AUTH_DEFAULT_EXPIRATION_SECONDS;
 
-    final otpAlphanumeric = proxyAuthConfig?.otpAlphanumeric ??
-        (authProxyFetchEnabled ? null : config.authConfig?.otpAlphanumeric);
+    final otpAlphanumeric = proxyAuthConfig?.otpAlphanumeric;
 
-    final otpLength = proxyAuthConfig?.otpLength ??
-        (authProxyFetchEnabled ? null : config.authConfig?.otpLength);
+    final otpLength = proxyAuthConfig?.otpLength;
 
-    final resolvedAuth = AuthConfig(
+    final resolvedAuth = RuntimeAuthConfig(
       methods: resolvedMethods,
       oAuthConfig: resolvedOAuth,
       sessionExpirationSeconds: sessionExpirationSeconds,
@@ -209,12 +184,12 @@ class TurnkeyProvider with ChangeNotifier {
           config.authConfig?.autoRefreshManagedState ?? true,
     );
 
-    // Note: it's not always possible to use masterConfig to get base urls. You'll notice in functions like createClient, we do this logic again. masterConfig is only available after boot so it's not safe to use it there.
+    // Note: it's not always possible to use runtimeConfig to get base urls. You'll notice in functions like createClient, we do this logic again. runtimeConfig is only available after boot so it's not safe to use it there.
     final resolvedApiBaseUrl = config.apiBaseUrl ?? "https://api.turnkey.com";
     final resolvedAuthProxyBaseUrl =
         config.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
 
-    return TurnkeyConfig(
+    return TurnkeyRuntimeConfig(
       apiBaseUrl: resolvedApiBaseUrl,
       organizationId: config.organizationId,
       appScheme: config.appScheme,
@@ -245,8 +220,8 @@ class TurnkeyProvider with ChangeNotifier {
         notifyListeners();
       }
 
-      // we build the master config from Authproxy (can be null)
-      _masterConfig = _buildConfig(proxyAuthConfig: proxy);
+      // we build the runtime config from Authproxy (can be null)
+      _runtimeConfig = _buildConfig(proxyAuthConfig: proxy);
       notifyListeners();
     } catch (e) {
       stderr.writeln("TurnkeyProvider boot failed: $e");
@@ -284,11 +259,11 @@ class TurnkeyProvider with ChangeNotifier {
       String? authProxyBaseUrl,
       bool? overrideExisting = true}) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
-    apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
+    apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
     authProxyBaseUrl ??=
-        config.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
-    authProxyConfigId ??= config.authProxyConfigId;
-    organizationId ??= config.organizationId;
+        runtimeConfig?.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
+    authProxyConfigId ??= runtimeConfig?.authProxyConfigId;
+    organizationId ??= runtimeConfig?.organizationId;
 
     final newClient = TurnkeyClient(
       config: THttpConfig(
@@ -320,18 +295,18 @@ class TurnkeyProvider with ChangeNotifier {
       String? authProxyBaseUrl,
       PasskeyStamperConfig? passkeyStamperConfig,
       bool? overrideExisting = false}) {
-    final rpId = passkeyStamperConfig?.rpId ?? config.passkeyConfig?.rpId;
+    final rpId = passkeyStamperConfig?.rpId ?? runtimeConfig?.passkeyConfig?.rpId;
     if (rpId == null || rpId.isEmpty) {
       throw Exception(
         'Relying Party ID (rpId) must be provided either in the passkeyStamperConfig parameter or in the TurnkeyConfig.passkeyConfig property.',
       );
     }
 
-    apiBaseUrl ??= config.apiBaseUrl ?? "https://api.turnkey.com";
+    apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
     authProxyBaseUrl ??=
-        config.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
-    authProxyConfigId ??= config.authProxyConfigId;
-    organizationId ??= config.organizationId;
+        runtimeConfig?.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
+    authProxyConfigId ??= runtimeConfig?.authProxyConfigId;
+    organizationId ??= runtimeConfig?.organizationId;
 
     final passkeyStamper = PasskeyStamper(
       passkeyStamperConfig != null
@@ -377,7 +352,7 @@ class TurnkeyProvider with ChangeNotifier {
       // we get all stored sessions
       final allSessions = await getAllSessions();
       if (allSessions == null || allSessions.isEmpty) {
-        config.onSessionEmpty?.call();
+        runtimeConfig?.onSessionEmpty?.call();
         authState = AuthState.unauthenticated;
 
         _initCompleter.complete();
@@ -418,22 +393,22 @@ class TurnkeyProvider with ChangeNotifier {
           await refreshUser();
           await refreshWallets();
 
-          config.onSessionSelected?.call(activeSession);
+          runtimeConfig?.onSessionSelected?.call(activeSession);
         }
       } else {
         // if no active session, fire the empty callback
-        config.onSessionEmpty?.call();
+        runtimeConfig?.onSessionEmpty?.call();
         authState = AuthState.unauthenticated;
       }
 
       // we signal initialization complete
       _initCompleter.complete();
-      config.onInitialized?.call(null);
+      runtimeConfig?.onInitialized?.call(null);
     } catch (e, st) {
       stderr.writeln("TurnkeyProvider failed to initialize sessions: $e\n$st");
       authState = AuthState.unauthenticated;
       _initCompleter.completeError(e, st);
-      config.onInitialized?.call(e);
+      runtimeConfig?.onInitialized?.call(e);
     }
   }
 
@@ -518,10 +493,10 @@ class TurnkeyProvider with ChangeNotifier {
     String? publicKey,
   }) async {
     sessionKey ??= StorageKeys.DefaultSession.value;
-    rpId ??= config.passkeyConfig?.rpId;
-    expirationSeconds ??= masterConfig?.authConfig?.sessionExpirationSeconds;
+    rpId ??= runtimeConfig?.passkeyConfig?.rpId;
+    expirationSeconds ??= runtimeConfig?.authConfig.sessionExpirationSeconds;
 
-    final apiBaseUrl = config.apiBaseUrl;
+    final apiBaseUrl = runtimeConfig?.apiBaseUrl;
 
     String? generatedPublicKey;
 
@@ -594,9 +569,9 @@ class TurnkeyProvider with ChangeNotifier {
     bool invalidateExisting = false,
   }) async {
     sessionKey ??= StorageKeys.DefaultSession.value;
-    rpId ??= config.passkeyConfig?.rpId;
-    rpName ??= config.passkeyConfig?.rpName ?? "Flutter App";
-    expirationSeconds ??= masterConfig?.authConfig?.sessionExpirationSeconds;
+    rpId ??= runtimeConfig?.passkeyConfig?.rpId;
+    rpName ??= runtimeConfig?.passkeyConfig?.rpName ?? "Flutter App";
+    expirationSeconds ??= runtimeConfig?.authConfig.sessionExpirationSeconds;
 
     String? generatedPublicKey;
     String? temporaryPublicKey;
