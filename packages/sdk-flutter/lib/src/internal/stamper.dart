@@ -1,7 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
-import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+import 'package:turnkey_http/base.dart';
+
 
 /// Stores private keys in secure storage and signs payloads.
 class SecureStorageStamper implements TStamper {

@@ -1,19 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:crypto/crypto.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  _DashboardScreenState createState() => _DashboardScreenState();
+  DashboardScreenState createState() => DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class DashboardScreenState extends State<DashboardScreen> {
   String? _signature;
   String? _exportedWallet;
   Wallet? _selectedWallet;
@@ -44,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _handleProviderUpdate() {
-    if (!mounted) return;
+    if (!context.mounted) return;
     _updateSelectedWalletFromProvider(_turnkeyProvider);
   }
 
@@ -55,7 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (user == null || wallets == null || wallets.isEmpty) return;
     if (wallets.first.accounts.isEmpty) return;
 
-    if (!mounted) return;
+    if (!context.mounted) return;
     setState(() {
       _selectedWallet = wallets.first;
       _selectedAccount = wallets.first.accounts.first;
@@ -65,28 +62,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> handleSign(
     BuildContext context,
     String messageToSign,
-    String account,
+    v1WalletAccount account,
     void Function(void Function()) onStateUpdated,
   ) async {
     try {
-      final addressType = account.startsWith('0x') ? 'ETH' : 'SOL';
-      final hashedMessage = addressType == 'ETH'
-          ? sha256.convert(utf8.encode(messageToSign)).toString()
-          : utf8
-              .encode(messageToSign)
-              .map((b) => b.toRadixString(16).padLeft(2, '0'))
-              .join();
-
-      final response = await _turnkeyProvider.signRawPayload(
-        signWith: account,
-        payload: hashedMessage,
-        encoding: v1PayloadEncoding.payload_encoding_hexadecimal,
-        hashFunction: addressType == 'ETH'
-            ? v1HashFunction.hash_function_no_op
-            : v1HashFunction.hash_function_not_applicable,
+      final response = await _turnkeyProvider.signMessage(
+        walletAccount: account,
+        message: messageToSign,
       );
 
-      if (!mounted) return;
+      if (!context.mounted) return;
 
       onStateUpdated(() {
         _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
@@ -96,7 +81,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         const SnackBar(content: Text('Success! Message signed.')),
       );
     } catch (error) {
-      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error signing message: $error')),
       );
@@ -109,14 +93,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         walletId: wallet.id,
       );
 
-      if (!mounted) return;
+      if (!context.mounted) return;
 
       _exportedWallet = export;
 
-      if (!mounted) return;
+      if (!context.mounted) return;
       Navigator.of(context).pop();
 
-      if (!mounted) return;
+      if (!context.mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -177,7 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
       );
     } catch (e) {
-      if (!mounted) return;
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Export failed: $e')),
       );
@@ -254,7 +238,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 PopupMenuButton<Wallet>(
                                   onSelected: (wallet) {
-                                    if (!mounted) return;
+                                    if (!context.mounted) return;
                                     setState(() {
                                       _selectedWallet = wallet;
                                       _selectedAccount = wallet.accounts.first;
@@ -365,23 +349,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               ],
                             ),
                           ),
-                          ...walletAccounts.map((account) {
-                            return RadioListTile(
-                              contentPadding: EdgeInsets.zero,
-                              title: Text(
-                                '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}',
-                              ),
-                              onChanged: (Object? value) {
-                                if (!mounted) return;
-                                setState(() {
-                                  _selectedAccount =
-                                      (value as v1WalletAccount?);
-                                });
-                              },
-                              value: account,
-                              groupValue: _selectedAccount,
-                            );
-                          }),
+                          RadioGroup<v1WalletAccount>(
+                            groupValue: _selectedAccount,
+                            onChanged: (v1WalletAccount? newAccount) {
+                              if (!context.mounted) return;
+                              setState(() => _selectedAccount = newAccount);
+                            },
+                            child: Column(
+                              children: [
+                                for (final account in walletAccounts)
+                                  RadioListTile<v1WalletAccount>(
+                                    value: account,
+                                    title: Text(
+                                      '${account.address.substring(0, 6)}...${account.address.substring(account.address.length - 6)}',
+                                    ),
+                                    contentPadding: EdgeInsets.zero,
+                                  ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -437,7 +423,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             await handleSign(
                                               context,
                                               signMessage,
-                                              _selectedAccount!.address,
+                                              _selectedAccount!,
                                               setState,
                                             );
                                           },
@@ -467,10 +453,10 @@ class AddWalletDialog extends StatefulWidget {
   const AddWalletDialog({super.key});
 
   @override
-  _AddWalletDialogState createState() => _AddWalletDialogState();
+  AddWalletDialogState createState() => AddWalletDialogState();
 }
 
-class _AddWalletDialogState extends State<AddWalletDialog> {
+class AddWalletDialogState extends State<AddWalletDialog> {
   final TextEditingController _walletNameController = TextEditingController();
   final TextEditingController _seedPhraseController = TextEditingController();
   bool _generateSeedPhrase = true;
@@ -496,7 +482,7 @@ class _AddWalletDialogState extends State<AddWalletDialog> {
         ],
       );
     }
-    if (!mounted) return;
+    if (!context.mounted) return;
     Navigator.of(context).pop(_walletNameController.text);
   }
 

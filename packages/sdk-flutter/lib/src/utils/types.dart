@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:turnkey_http/__generated__/models.dart';
-import 'package:turnkey_sdk_flutter/src/constants.dart';
+import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
@@ -123,12 +122,74 @@ class Wallet {
   }
 }
 
+class TurnkeyRuntimeConfig extends TurnkeyConfig {
+  TurnkeyRuntimeConfig({
+    required String organizationId,
+    String? apiBaseUrl,
+    String? authProxyBaseUrl,
+    String? authProxyConfigId,
+    RuntimeAuthConfig authConfig = const RuntimeAuthConfig(),
+    PasskeyConfig? passkeyConfig,
+    String? appScheme,
+    void Function(Session session)? onSessionCreated,
+    void Function(Session session)? onSessionSelected,
+    void Function(Session session)? onSessionExpired,
+    void Function(Session session)? onSessionCleared,
+    void Function(Session session)? onSessionRefreshed,
+    void Function()? onSessionEmpty,
+    void Function(Object? error)? onInitialized,
+  }) : super(
+          organizationId: organizationId,
+          apiBaseUrl: apiBaseUrl,
+          authProxyBaseUrl: authProxyBaseUrl,
+          authProxyConfigId: authProxyConfigId,
+          authConfig: authConfig,
+          passkeyConfig: passkeyConfig,
+          appScheme: appScheme,
+          onSessionCreated: onSessionCreated,
+          onSessionSelected: onSessionSelected,
+          onSessionExpired: onSessionExpired,
+          onSessionCleared: onSessionCleared,
+          onSessionRefreshed: onSessionRefreshed,
+          onSessionEmpty: onSessionEmpty,
+          onInitialized: onInitialized,
+        );
+  @override
+  RuntimeAuthConfig get authConfig =>
+      super.authConfig as RuntimeAuthConfig;
+}
+
+class RuntimeAuthConfig extends AuthConfig {
+  // Use ints if these are numeric:
+  final String? sessionExpirationSeconds;
+  final bool? otpAlphanumeric;
+  final String? otpLength;
+
+  const RuntimeAuthConfig({
+    // Runtime additions:
+    this.sessionExpirationSeconds,
+    this.otpAlphanumeric,
+    this.otpLength,
+    OAuthConfig? oAuthConfig,
+    MethodCreateSubOrgParams? createSubOrgParams,
+    bool autoFetchWalletKitConfig = true,
+    bool autoRefreshManagedState = true,
+  }) : super(
+          oAuthConfig: oAuthConfig,
+          createSubOrgParams: createSubOrgParams,
+          autoFetchWalletKitConfig: autoFetchWalletKitConfig,
+          autoRefreshManagedState: autoRefreshManagedState,
+        );
+}
+
 class TurnkeyConfig {
   final String organizationId;
   final String? apiBaseUrl;
   final String? authProxyBaseUrl;
   final String? authProxyConfigId;
   final AuthConfig? authConfig;
+  final PasskeyConfig? passkeyConfig;
+
   final String? appScheme;
 
   final void Function(Session session)? onSessionCreated;
@@ -144,7 +205,9 @@ class TurnkeyConfig {
     this.apiBaseUrl,
     this.authProxyBaseUrl,
     this.authProxyConfigId,
-    this.authConfig,
+    this.authConfig =
+        const AuthConfig(), // Default to empty config. We set a default inside this object so we need to do this.
+    this.passkeyConfig,
     this.appScheme,
     this.onSessionCreated,
     this.onSessionSelected,
@@ -157,23 +220,28 @@ class TurnkeyConfig {
 }
 
 class AuthConfig {
-  final AuthMethods? methods;
   final OAuthConfig? oAuthConfig;
-  /** session expiration time in seconds. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
-  final String? sessionExpirationSeconds;
-  /** If otp sent will be alphanumeric. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
-  final bool? otpAlphanumeric;
-  /** length of the OTP. If using the auth proxy, you must configure this setting through the dashboard. Changing this through the TurnkeyProvider will have no effect. */
-  final String? otpLength;
   final MethodCreateSubOrgParams? createSubOrgParams;
-
+  /** If true, will automatically fetch the WalletKit configuration specified in the Turnkey Dashboard upon initialization. Defaults to true. */
+  final bool? autoFetchWalletKitConfig;
+  /** If true, managed state variables (such as wallets and user) will automatically refresh when necessary. Defaults to true. */
+  final bool? autoRefreshManagedState;
   const AuthConfig({
-    this.methods,
     this.oAuthConfig,
-    this.sessionExpirationSeconds,
-    this.otpAlphanumeric,
-    this.otpLength,
     this.createSubOrgParams,
+    // Default to true here. Usually we'd do this in the "buildConfig()" method but this is actually needed right before that function runs!
+    this.autoFetchWalletKitConfig = true,
+    this.autoRefreshManagedState = true,
+  });
+}
+
+class PasskeyConfig {
+  final String? rpId;
+  final String? rpName;
+
+  const PasskeyConfig({
+    this.rpId,
+    this.rpName,
   });
 }
 
@@ -188,30 +256,6 @@ class MethodCreateSubOrgParams {
     this.smsOtpAuth,
     this.passkeyAuth,
     this.oAuth,
-  });
-}
-
-class AuthMethods {
-  final bool? emailOtpAuthEnabled;
-  final bool? smsOtpAuthEnabled;
-  final bool? passkeyAuthEnabled;
-  final bool? walletAuthEnabled;
-  final bool? googleOauthEnabled;
-  final bool? appleOauthEnabled;
-  final bool? xOauthEnabled;
-  final bool? discordOauthEnabled;
-  final bool? facebookOauthEnabled;
-
-  const AuthMethods({
-    this.emailOtpAuthEnabled,
-    this.smsOtpAuthEnabled,
-    this.passkeyAuthEnabled,
-    this.walletAuthEnabled,
-    this.googleOauthEnabled,
-    this.appleOauthEnabled,
-    this.xOauthEnabled,
-    this.discordOauthEnabled,
-    this.facebookOauthEnabled,
   });
 }
 
@@ -465,4 +509,45 @@ class ChallengePair {
   final String verifier;
   final String codeChallenge;
   ChallengePair({required this.verifier, required this.codeChallenge});
+}
+
+class CreateP256UserParams {
+  final String? userName;
+  final String? apiKeyName;
+
+  const CreateP256UserParams({this.userName, this.apiKeyName});
+}
+
+class Policy extends v1CreatePolicyIntentV3 {
+  final String policyId;
+
+  Policy({
+    required this.policyId,
+    required String policyName,
+    required v1Effect effect,
+    String? condition,
+    String? consensus,
+    String? notes,
+  }) : super(
+          policyName: policyName,
+          effect: effect,
+          condition: condition,
+          consensus: consensus,
+          notes: notes,
+        );
+
+  /// Construct from a policy creation intent and attach a policyId.
+  factory Policy.fromCreateIntent(
+    v1CreatePolicyIntentV3 p, {
+    required String policyId,
+  }) {
+    return Policy(
+      policyId: policyId,
+      policyName: p.policyName,
+      effect: p.effect,
+      condition: p.condition,
+      consensus: p.consensus,
+      notes: p.notes,
+    );
+  }
 }

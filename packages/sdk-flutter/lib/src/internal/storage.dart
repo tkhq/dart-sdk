@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
+import 'package:turnkey_sdk_flutter/src/utils/types.dart';
 
 class SessionStorageManager {
   static Future<void> init() async {
