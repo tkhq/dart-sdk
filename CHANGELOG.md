@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-11-14
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`turnkey_sdk_flutter` - `v1.1.0`](#turnkey_sdk_flutter---v110)
+
+---
+
+#### `turnkey_sdk_flutter` - `v1.1.0`
+
+ - **FEAT**: Added authstate, disabling auto-refresh and better onSuccess for oauth.
+
+
 ## 2025-11-05
 
 ### Changes
