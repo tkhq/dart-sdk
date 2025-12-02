@@ -49,7 +49,8 @@ extension AuthProxyExtension on TurnkeyProvider {
     final accountRes = await requireClient.proxyGetAccount(
         input: ProxyTGetAccountBody(
             filterType: otpTypeToFilterTypeMap[otpType]!.value,
-            filterValue: contact));
+            filterValue: contact,
+            verificationToken: verifyOtpRes.verificationToken));
 
     final subOrganizationId = accountRes.organizationId;
     return VerifyOtpResult(
