@@ -1,12 +1,13 @@
-## 0.1.2
+# Changelog
 
+## 0.1.2
+### Patch Changes
  - Update dependencies.
 
 ## 0.1.1
-
+### Patch Changes
  - Exposed generateP256KeyPair function.
-
-# Changelog
 
 ## 0.1.0 - Initial Release
 - Implemented cryptographic primitives for signing and verification.
+
