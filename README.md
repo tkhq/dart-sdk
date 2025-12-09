@@ -25,17 +25,20 @@ For a fully functional Flutter demo app that leverages Turnkey's Dart/Flutter pa
 
 Guidelines for setting up the workspace, running tests, and contributing code to the Turnkey Dart SDK
 
-### Commit Conventions
+### Creating a Changeset
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/) to ensure automated versioning works correctly.
+1. You can create a new changeset by running:
+```bash
+make changeset
+```
 
-| Type                                    | Description                                            | Version bump                                                           |
-| --------------------------------------- | ------------------------------------------------------ | ---------------------------------------------------------------------- |
-| `fix:`                                  | Bug fixes, dependency updates, or non-breaking changes | **Patch** (`0.3.0 → 0.3.1`)                                            |
-| `feat:`                                 | New features or functionality additions                | **Minor** (`0.3.0 → 0.4.0` pre-1.0)                                    |
-| `feat!:` / `BREAKING CHANGE:`           | Backward-incompatible changes                          | **Breaking / Major** (`0.3.x → 0.4.0` pre-1.0, `1.x → 2.0.0` post-1.0) |
-| `chore:`, `docs:`, `test:`, `refactor:` | Internal or documentation changes                      | *No bump*                                                              |
+2. You will then be prompted to select the packages you need to bump, as well as a title & note to add to the changeset
+> [!IMPORTANT]
+> The note is what will be added to the changelog describing the changes in the bump
 
+3. Push this changeset along with the changes.
+
+> [!NOTE]
 > 🧮 **Pre-1.0 rule:** Dart treats a *minor* bump as breaking (`0.3.x → 0.4.0`).
 
 ---
@@ -48,14 +51,13 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/) to ensure au
    melos bootstrap
    ```
 
-2. **Version packages**
+2. **Version packages and generate changelogs**
 
    ```bash
-   melos version
+   make prepare-release
    ```
 
-   Auto-bumps versions and updates changelogs from commit history.
-   Use `--prerelease --preid=beta` for beta tags.
+   Auto-bumps versions and updates changelogs from changesets.
 
 3. **Dry-run publish**
 
