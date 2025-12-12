@@ -14,7 +14,8 @@ String getActivityTypeFromOperationId(String operationId) {
       ).toUpperCase().substring(1)}';
 
   // Return versioned activity type if available, otherwise return the base type
-  return VERSIONED_ACTIVITY_TYPES[activityTypeName] ?? activityTypeName;
+  final recordTriple = VERSIONED_ACTIVITY_TYPES[activityTypeName];
+  return recordTriple?.$1 ?? activityTypeName;
 }
 
 /// Generates a Dart HTTP client class from a Swagger specification.

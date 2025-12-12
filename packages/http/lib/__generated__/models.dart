@@ -2,6 +2,23 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 // --- Base definitions ---
+enum externaldatav1SignatureScheme {
+  signature_scheme_ephemeral_key_p256,
+}
+
+externaldatav1SignatureScheme externaldatav1SignatureSchemeFromJson(dynamic value) {
+  switch (value) {
+    case 'SIGNATURE_SCHEME_EPHEMERAL_KEY_P256': return externaldatav1SignatureScheme.signature_scheme_ephemeral_key_p256;
+    default: throw ArgumentError('Unknown externaldatav1SignatureScheme: $value');
+  }
+}
+
+dynamic externaldatav1SignatureSchemeToJson(externaldatav1SignatureScheme value) {
+  switch (value) {
+    case externaldatav1SignatureScheme.signature_scheme_ephemeral_key_p256: return "SIGNATURE_SCHEME_EPHEMERAL_KEY_P256";
+  }
+}
+
 enum v1AccessType {
   access_type_web,
   access_type_api,
@@ -161,6 +178,15 @@ enum v1ActivityType {
   activity_type_oauth2_authenticate,
   activity_type_delete_wallet_accounts,
   activity_type_delete_policies,
+  activity_type_eth_send_raw_transaction,
+  activity_type_eth_send_transaction,
+  activity_type_create_fiat_on_ramp_credential,
+  activity_type_update_fiat_on_ramp_credential,
+  activity_type_delete_fiat_on_ramp_credential,
+  activity_type_email_auth_v3,
+  activity_type_init_user_email_recovery_v2,
+  activity_type_init_otp_auth_v3,
+  activity_type_init_otp_v2,
 }
 
 v1ActivityType v1ActivityTypeFromJson(dynamic value) {
@@ -268,6 +294,15 @@ v1ActivityType v1ActivityTypeFromJson(dynamic value) {
     case 'ACTIVITY_TYPE_OAUTH2_AUTHENTICATE': return v1ActivityType.activity_type_oauth2_authenticate;
     case 'ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS': return v1ActivityType.activity_type_delete_wallet_accounts;
     case 'ACTIVITY_TYPE_DELETE_POLICIES': return v1ActivityType.activity_type_delete_policies;
+    case 'ACTIVITY_TYPE_ETH_SEND_RAW_TRANSACTION': return v1ActivityType.activity_type_eth_send_raw_transaction;
+    case 'ACTIVITY_TYPE_ETH_SEND_TRANSACTION': return v1ActivityType.activity_type_eth_send_transaction;
+    case 'ACTIVITY_TYPE_CREATE_FIAT_ON_RAMP_CREDENTIAL': return v1ActivityType.activity_type_create_fiat_on_ramp_credential;
+    case 'ACTIVITY_TYPE_UPDATE_FIAT_ON_RAMP_CREDENTIAL': return v1ActivityType.activity_type_update_fiat_on_ramp_credential;
+    case 'ACTIVITY_TYPE_DELETE_FIAT_ON_RAMP_CREDENTIAL': return v1ActivityType.activity_type_delete_fiat_on_ramp_credential;
+    case 'ACTIVITY_TYPE_EMAIL_AUTH_V3': return v1ActivityType.activity_type_email_auth_v3;
+    case 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY_V2': return v1ActivityType.activity_type_init_user_email_recovery_v2;
+    case 'ACTIVITY_TYPE_INIT_OTP_AUTH_V3': return v1ActivityType.activity_type_init_otp_auth_v3;
+    case 'ACTIVITY_TYPE_INIT_OTP_V2': return v1ActivityType.activity_type_init_otp_v2;
     default: throw ArgumentError('Unknown v1ActivityType: $value');
   }
 }
@@ -377,6 +412,15 @@ dynamic v1ActivityTypeToJson(v1ActivityType value) {
     case v1ActivityType.activity_type_oauth2_authenticate: return "ACTIVITY_TYPE_OAUTH2_AUTHENTICATE";
     case v1ActivityType.activity_type_delete_wallet_accounts: return "ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS";
     case v1ActivityType.activity_type_delete_policies: return "ACTIVITY_TYPE_DELETE_POLICIES";
+    case v1ActivityType.activity_type_eth_send_raw_transaction: return "ACTIVITY_TYPE_ETH_SEND_RAW_TRANSACTION";
+    case v1ActivityType.activity_type_eth_send_transaction: return "ACTIVITY_TYPE_ETH_SEND_TRANSACTION";
+    case v1ActivityType.activity_type_create_fiat_on_ramp_credential: return "ACTIVITY_TYPE_CREATE_FIAT_ON_RAMP_CREDENTIAL";
+    case v1ActivityType.activity_type_update_fiat_on_ramp_credential: return "ACTIVITY_TYPE_UPDATE_FIAT_ON_RAMP_CREDENTIAL";
+    case v1ActivityType.activity_type_delete_fiat_on_ramp_credential: return "ACTIVITY_TYPE_DELETE_FIAT_ON_RAMP_CREDENTIAL";
+    case v1ActivityType.activity_type_email_auth_v3: return "ACTIVITY_TYPE_EMAIL_AUTH_V3";
+    case v1ActivityType.activity_type_init_user_email_recovery_v2: return "ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY_V2";
+    case v1ActivityType.activity_type_init_otp_auth_v3: return "ACTIVITY_TYPE_INIT_OTP_AUTH_V3";
+    case v1ActivityType.activity_type_init_otp_v2: return "ACTIVITY_TYPE_INIT_OTP_V2";
   }
 }
 
@@ -551,6 +595,23 @@ dynamic v1AuthenticatorTransportToJson(v1AuthenticatorTransport value) {
     case v1AuthenticatorTransport.authenticator_transport_nfc: return "AUTHENTICATOR_TRANSPORT_NFC";
     case v1AuthenticatorTransport.authenticator_transport_usb: return "AUTHENTICATOR_TRANSPORT_USB";
     case v1AuthenticatorTransport.authenticator_transport_hybrid: return "AUTHENTICATOR_TRANSPORT_HYBRID";
+  }
+}
+
+enum v1ClientSignatureScheme {
+  client_signature_scheme_api_p256,
+}
+
+v1ClientSignatureScheme v1ClientSignatureSchemeFromJson(dynamic value) {
+  switch (value) {
+    case 'CLIENT_SIGNATURE_SCHEME_API_P256': return v1ClientSignatureScheme.client_signature_scheme_api_p256;
+    default: throw ArgumentError('Unknown v1ClientSignatureScheme: $value');
+  }
+}
+
+dynamic v1ClientSignatureSchemeToJson(v1ClientSignatureScheme value) {
+  switch (value) {
+    case v1ClientSignatureScheme.client_signature_scheme_api_p256: return "CLIENT_SIGNATURE_SCHEME_API_P256";
   }
 }
 
@@ -1149,23 +1210,6 @@ dynamic v1PayloadEncodingToJson(v1PayloadEncoding value) {
   }
 }
 
-enum v1SignatureScheme {
-  signature_scheme_ephemeral_key_p256,
-}
-
-v1SignatureScheme v1SignatureSchemeFromJson(dynamic value) {
-  switch (value) {
-    case 'SIGNATURE_SCHEME_EPHEMERAL_KEY_P256': return v1SignatureScheme.signature_scheme_ephemeral_key_p256;
-    default: throw ArgumentError('Unknown v1SignatureScheme: $value');
-  }
-}
-
-dynamic v1SignatureSchemeToJson(v1SignatureScheme value) {
-  switch (value) {
-    case v1SignatureScheme.signature_scheme_ephemeral_key_p256: return "SIGNATURE_SCHEME_EPHEMERAL_KEY_P256";
-  }
-}
-
 enum v1SmartContractInterfaceType {
   smart_contract_interface_type_ethereum,
   smart_contract_interface_type_solana,
@@ -1229,6 +1273,26 @@ dynamic v1TransactionTypeToJson(v1TransactionType value) {
     case v1TransactionType.transaction_type_solana: return "TRANSACTION_TYPE_SOLANA";
     case v1TransactionType.transaction_type_tron: return "TRANSACTION_TYPE_TRON";
     case v1TransactionType.transaction_type_bitcoin: return "TRANSACTION_TYPE_BITCOIN";
+  }
+}
+
+enum v1UsageType {
+  usage_type_signup,
+  usage_type_login,
+}
+
+v1UsageType v1UsageTypeFromJson(dynamic value) {
+  switch (value) {
+    case 'USAGE_TYPE_SIGNUP': return v1UsageType.usage_type_signup;
+    case 'USAGE_TYPE_LOGIN': return v1UsageType.usage_type_login;
+    default: throw ArgumentError('Unknown v1UsageType: $value');
+  }
+}
+
+dynamic v1UsageTypeToJson(v1UsageType value) {
+  switch (value) {
+    case v1UsageType.usage_type_signup: return "USAGE_TYPE_SIGNUP";
+    case v1UsageType.usage_type_login: return "USAGE_TYPE_LOGIN";
   }
 }
 
@@ -1655,6 +1719,74 @@ class externaldatav1Quorum {
   }
 }
 
+class externaldatav1SmartContractInterface {
+  /// The Organization the Smart Contract Interface belongs to.
+  final String organizationId;
+  /// Unique identifier for a given Smart Contract Interface (ABI or IDL).
+  final String smartContractInterfaceId;
+  /// The address corresponding to the Smart Contract or Program.
+  final String smartContractAddress;
+  /// The JSON corresponding to the Smart Contract Interface (ABI or IDL).
+  final String smartContractInterface;
+  /// The type corresponding to the Smart Contract Interface (either ETHEREUM or SOLANA).
+  final String type;
+  /// The label corresponding to the Smart Contract Interface (either ETHEREUM or SOLANA).
+  final String label;
+  /// The notes corresponding to the Smart Contract Interface (either ETHEREUM or SOLANA).
+  final String notes;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const externaldatav1SmartContractInterface({
+    required  this.organizationId,
+    required  this.smartContractInterfaceId,
+    required  this.smartContractAddress,
+    required  this.smartContractInterface,
+    required  this.type,
+    required  this.label,
+    required  this.notes,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory externaldatav1SmartContractInterface.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _smartContractInterfaceId = json['smartContractInterfaceId'] as String;
+    final _smartContractAddress = json['smartContractAddress'] as String;
+    final _smartContractInterface = json['smartContractInterface'] as String;
+    final _type = json['type'] as String;
+    final _label = json['label'] as String;
+    final _notes = json['notes'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return externaldatav1SmartContractInterface(
+      organizationId: _organizationId,
+      smartContractInterfaceId: _smartContractInterfaceId,
+      smartContractAddress: _smartContractAddress,
+      smartContractInterface: _smartContractInterface,
+      type: _type,
+      label: _label,
+      notes: _notes,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['smartContractInterfaceId'] = smartContractInterfaceId;
+    _json['smartContractAddress'] = smartContractAddress;
+    _json['smartContractInterface'] = smartContractInterface;
+    _json['type'] = type;
+    _json['label'] = label;
+    _json['notes'] = notes;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
 class externaldatav1Timestamp {
   final String seconds;
   final String nanos;
@@ -1925,7 +2057,7 @@ class v1Activity {
   final v1Result result;
   /// A list of objects representing a particular User's approval or rejection of a Consensus request, including all relevant metadata.
   final List<v1Vote> votes;
-  /// A list of app proofs generated by enclaves during activity execution, providing verifiable attestations of performed operations.
+  /// A list of App Proofs generated by enclaves during activity execution, providing verifiable attestations of performed operations.
   final List<v1AppProof>? appProofs;
   /// An artifact verifying a User's action.
   final String fingerprint;
@@ -2170,7 +2302,7 @@ class v1ApiOnlyUserParams {
 
 class v1AppProof {
   /// Scheme of signing key.
-  final v1SignatureScheme scheme;
+  final externaldatav1SignatureScheme scheme;
   /// Ephemeral public key.
   final String publicKey;
   /// JSON serialized AppProofPayload.
@@ -2186,7 +2318,7 @@ class v1AppProof {
   });
 
   factory v1AppProof.fromJson(Map<String, dynamic> json) {
-    final _scheme = v1SignatureSchemeFromJson(json['scheme']);
+    final _scheme = externaldatav1SignatureSchemeFromJson(json['scheme']);
     final _publicKey = json['publicKey'] as String;
     final _proofPayload = json['proofPayload'] as String;
     final _signature = json['signature'] as String;
@@ -2200,7 +2332,7 @@ class v1AppProof {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['scheme'] = v1SignatureSchemeToJson(scheme);
+    _json['scheme'] = externaldatav1SignatureSchemeToJson(scheme);
     _json['publicKey'] = publicKey;
     _json['proofPayload'] = proofPayload;
     _json['signature'] = signature;
@@ -2237,12 +2369,14 @@ class v1ApproveActivityRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1ApproveActivityIntent parameters;
+  final bool? generateAppProofs;
 
   const v1ApproveActivityRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1ApproveActivityRequest.fromJson(Map<String, dynamic> json) {
@@ -2250,11 +2384,13 @@ class v1ApproveActivityRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1ApproveActivityIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ApproveActivityRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -2264,6 +2400,9 @@ class v1ApproveActivityRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -2578,6 +2717,46 @@ class v1BootProofResponse {
   }
 }
 
+class v1ClientSignature {
+  /// The public component of a cryptographic key pair used to create the signature.
+  final String publicKey;
+  /// The signature scheme used to generate the client signature.
+  final v1ClientSignatureScheme scheme;
+  /// The message that was signed.
+  final String message;
+  /// The cryptographic signature over the message.
+  final String signature;
+
+  const v1ClientSignature({
+    required  this.publicKey,
+    required  this.scheme,
+    required  this.message,
+    required  this.signature,
+  });
+
+  factory v1ClientSignature.fromJson(Map<String, dynamic> json) {
+    final _publicKey = json['publicKey'] as String;
+    final _scheme = v1ClientSignatureSchemeFromJson(json['scheme']);
+    final _message = json['message'] as String;
+    final _signature = json['signature'] as String;
+    return v1ClientSignature(
+      publicKey: _publicKey,
+      scheme: _scheme,
+      message: _message,
+      signature: _signature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['publicKey'] = publicKey;
+    _json['scheme'] = v1ClientSignatureSchemeToJson(scheme);
+    _json['message'] = message;
+    _json['signature'] = signature;
+    return _json;
+  }
+}
+
 class v1Config {
   final List<v1Feature>? features;
   final externaldatav1Quorum? quorum;
@@ -2671,12 +2850,14 @@ class v1CreateApiKeysRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateApiKeysIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1CreateApiKeysRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateApiKeysRequest.fromJson(Map<String, dynamic> json) {
@@ -2684,11 +2865,13 @@ class v1CreateApiKeysRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateApiKeysIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateApiKeysRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -2698,6 +2881,9 @@ class v1CreateApiKeysRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -2753,12 +2939,14 @@ class v1CreateApiOnlyUsersRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateApiOnlyUsersIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateApiOnlyUsersRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateApiOnlyUsersRequest.fromJson(Map<String, dynamic> json) {
@@ -2766,11 +2954,13 @@ class v1CreateApiOnlyUsersRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateApiOnlyUsersIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateApiOnlyUsersRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -2780,6 +2970,9 @@ class v1CreateApiOnlyUsersRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -2869,12 +3062,14 @@ class v1CreateAuthenticatorsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateAuthenticatorsIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1CreateAuthenticatorsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateAuthenticatorsRequest.fromJson(Map<String, dynamic> json) {
@@ -2882,11 +3077,13 @@ class v1CreateAuthenticatorsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateAuthenticatorsIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateAuthenticatorsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -2896,6 +3093,9 @@ class v1CreateAuthenticatorsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -2918,6 +3118,131 @@ class v1CreateAuthenticatorsResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['authenticatorIds'] = authenticatorIds;
+    return _json;
+  }
+}
+
+class v1CreateFiatOnRampCredentialIntent {
+  /// The fiat on-ramp provider
+  final v1FiatOnRampProvider onrampProvider;
+  /// Project ID for the on-ramp provider. Some providers, like Coinbase, require this additional identifier
+  final String? projectId;
+  /// Publishable API key for the on-ramp provider
+  final String publishableApiKey;
+  /// Secret API key for the on-ramp provider encrypted to our on-ramp encryption public key
+  final String encryptedSecretApiKey;
+  /// Private API key for the on-ramp provider encrypted to our on-ramp encryption public key. Some providers, like Coinbase, require this additional key.
+  final String? encryptedPrivateApiKey;
+  /// If the on-ramp credential is a sandbox credential
+  final bool? sandboxMode;
+
+  const v1CreateFiatOnRampCredentialIntent({
+    required  this.onrampProvider,
+     this.projectId,
+    required  this.publishableApiKey,
+    required  this.encryptedSecretApiKey,
+     this.encryptedPrivateApiKey,
+     this.sandboxMode,
+  });
+
+  factory v1CreateFiatOnRampCredentialIntent.fromJson(Map<String, dynamic> json) {
+    final _onrampProvider = v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _projectId = json['projectId'] as String?;
+    final _publishableApiKey = json['publishableApiKey'] as String;
+    final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
+    final _encryptedPrivateApiKey = json['encryptedPrivateApiKey'] as String?;
+    final _sandboxMode = json['sandboxMode'] as bool?;
+    return v1CreateFiatOnRampCredentialIntent(
+      onrampProvider: _onrampProvider,
+      projectId: _projectId,
+      publishableApiKey: _publishableApiKey,
+      encryptedSecretApiKey: _encryptedSecretApiKey,
+      encryptedPrivateApiKey: _encryptedPrivateApiKey,
+      sandboxMode: _sandboxMode,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    if (projectId != null) {
+      _json['projectId'] = projectId;
+    }
+    _json['publishableApiKey'] = publishableApiKey;
+    _json['encryptedSecretApiKey'] = encryptedSecretApiKey;
+    if (encryptedPrivateApiKey != null) {
+      _json['encryptedPrivateApiKey'] = encryptedPrivateApiKey;
+    }
+    if (sandboxMode != null) {
+      _json['sandboxMode'] = sandboxMode;
+    }
+    return _json;
+  }
+}
+
+class v1CreateFiatOnRampCredentialRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateFiatOnRampCredentialIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1CreateFiatOnRampCredentialRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+     this.generateAppProofs,
+  });
+
+  factory v1CreateFiatOnRampCredentialRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateFiatOnRampCredentialIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1CreateFiatOnRampCredentialRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1CreateFiatOnRampCredentialResult {
+  /// Unique identifier of the Fiat On-Ramp credential that was created
+  final String fiatOnRampCredentialId;
+
+  const v1CreateFiatOnRampCredentialResult({
+    required  this.fiatOnRampCredentialId,
+  });
+
+  factory v1CreateFiatOnRampCredentialResult.fromJson(Map<String, dynamic> json) {
+    final _fiatOnRampCredentialId = json['fiatOnRampCredentialId'] as String;
+    return v1CreateFiatOnRampCredentialResult(
+      fiatOnRampCredentialId: _fiatOnRampCredentialId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnRampCredentialId'] = fiatOnRampCredentialId;
     return _json;
   }
 }
@@ -2951,12 +3276,14 @@ class v1CreateInvitationsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateInvitationsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateInvitationsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateInvitationsRequest.fromJson(Map<String, dynamic> json) {
@@ -2964,11 +3291,13 @@ class v1CreateInvitationsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateInvitationsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateInvitationsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -2978,6 +3307,9 @@ class v1CreateInvitationsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3045,12 +3377,14 @@ class v1CreateOauth2CredentialRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateOauth2CredentialIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateOauth2CredentialRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateOauth2CredentialRequest.fromJson(Map<String, dynamic> json) {
@@ -3058,11 +3392,13 @@ class v1CreateOauth2CredentialRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateOauth2CredentialIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateOauth2CredentialRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3072,6 +3408,9 @@ class v1CreateOauth2CredentialRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3133,12 +3472,14 @@ class v1CreateOauthProvidersRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateOauthProvidersIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateOauthProvidersRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateOauthProvidersRequest.fromJson(Map<String, dynamic> json) {
@@ -3146,11 +3487,13 @@ class v1CreateOauthProvidersRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateOauthProvidersIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateOauthProvidersRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3160,6 +3503,9 @@ class v1CreateOauthProvidersRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3321,12 +3667,14 @@ class v1CreatePoliciesRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreatePoliciesIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreatePoliciesRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreatePoliciesRequest.fromJson(Map<String, dynamic> json) {
@@ -3334,11 +3682,13 @@ class v1CreatePoliciesRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreatePoliciesIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePoliciesRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3348,6 +3698,9 @@ class v1CreatePoliciesRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3514,12 +3867,14 @@ class v1CreatePolicyRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreatePolicyIntentV3 parameters;
+  final bool? generateAppProofs;
 
   const v1CreatePolicyRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreatePolicyRequest.fromJson(Map<String, dynamic> json) {
@@ -3527,11 +3882,13 @@ class v1CreatePolicyRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreatePolicyIntentV3.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePolicyRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3541,6 +3898,9 @@ class v1CreatePolicyRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3602,12 +3962,14 @@ class v1CreatePrivateKeyTagRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreatePrivateKeyTagIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreatePrivateKeyTagRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreatePrivateKeyTagRequest.fromJson(Map<String, dynamic> json) {
@@ -3615,11 +3977,13 @@ class v1CreatePrivateKeyTagRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreatePrivateKeyTagIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePrivateKeyTagRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3629,6 +3993,9 @@ class v1CreatePrivateKeyTagRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3712,12 +4079,14 @@ class v1CreatePrivateKeysRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreatePrivateKeysIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1CreatePrivateKeysRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreatePrivateKeysRequest.fromJson(Map<String, dynamic> json) {
@@ -3725,11 +4094,13 @@ class v1CreatePrivateKeysRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreatePrivateKeysIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePrivateKeysRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3739,6 +4110,9 @@ class v1CreatePrivateKeysRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3800,12 +4174,14 @@ class v1CreateReadOnlySessionRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateReadOnlySessionIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateReadOnlySessionRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateReadOnlySessionRequest.fromJson(Map<String, dynamic> json) {
@@ -3813,11 +4189,13 @@ class v1CreateReadOnlySessionRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateReadOnlySessionIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateReadOnlySessionRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -3827,6 +4205,9 @@ class v1CreateReadOnlySessionRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -3988,12 +4369,14 @@ class v1CreateReadWriteSessionRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateReadWriteSessionIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1CreateReadWriteSessionRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateReadWriteSessionRequest.fromJson(Map<String, dynamic> json) {
@@ -4001,11 +4384,13 @@ class v1CreateReadWriteSessionRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateReadWriteSessionIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateReadWriteSessionRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -4015,6 +4400,9 @@ class v1CreateReadWriteSessionRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -4126,7 +4514,7 @@ class v1CreateReadWriteSessionResultV2 {
 class v1CreateSmartContractInterfaceIntent {
   /// Corresponding contract address or program ID
   final String smartContractAddress;
-  /// ABI/IDL as a JSON string
+  /// ABI/IDL as a JSON string. Limited to 400kb
   final String smartContractInterface;
   final v1SmartContractInterfaceType type;
   /// Human-readable name for a Smart Contract Interface.
@@ -4177,12 +4565,14 @@ class v1CreateSmartContractInterfaceRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateSmartContractInterfaceIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateSmartContractInterfaceRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateSmartContractInterfaceRequest.fromJson(Map<String, dynamic> json) {
@@ -4190,11 +4580,13 @@ class v1CreateSmartContractInterfaceRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateSmartContractInterfaceIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateSmartContractInterfaceRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -4204,6 +4596,9 @@ class v1CreateSmartContractInterfaceRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -4525,6 +4920,8 @@ class v1CreateSubOrganizationIntentV7 {
   final bool? disableOtpEmailAuth;
   /// Signed JWT containing a unique id, expiry, verification type, contact
   final String? verificationToken;
+  /// Optional signature proving authorization for this sub-organization creation. The signature is over the verification token ID and the root user parameters for the root user associated with the verification token. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
 
   const v1CreateSubOrganizationIntentV7({
     required  this.subOrganizationName,
@@ -4536,6 +4933,7 @@ class v1CreateSubOrganizationIntentV7 {
      this.disableSmsAuth,
      this.disableOtpEmailAuth,
      this.verificationToken,
+     this.clientSignature,
   });
 
   factory v1CreateSubOrganizationIntentV7.fromJson(Map<String, dynamic> json) {
@@ -4548,6 +4946,7 @@ class v1CreateSubOrganizationIntentV7 {
     final _disableSmsAuth = json['disableSmsAuth'] as bool?;
     final _disableOtpEmailAuth = json['disableOtpEmailAuth'] as bool?;
     final _verificationToken = json['verificationToken'] as String?;
+    final _clientSignature = json['clientSignature'] == null ? null : v1ClientSignature.fromJson(json['clientSignature'] as Map<String, dynamic>);
     return v1CreateSubOrganizationIntentV7(
       subOrganizationName: _subOrganizationName,
       rootUsers: _rootUsers,
@@ -4558,6 +4957,7 @@ class v1CreateSubOrganizationIntentV7 {
       disableSmsAuth: _disableSmsAuth,
       disableOtpEmailAuth: _disableOtpEmailAuth,
       verificationToken: _verificationToken,
+      clientSignature: _clientSignature,
     );
   }
 
@@ -4584,6 +4984,9 @@ class v1CreateSubOrganizationIntentV7 {
     if (verificationToken != null) {
       _json['verificationToken'] = verificationToken;
     }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature?.toJson();
+    }
     return _json;
   }
 }
@@ -4595,12 +4998,14 @@ class v1CreateSubOrganizationRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateSubOrganizationIntentV7 parameters;
+  final bool? generateAppProofs;
 
   const v1CreateSubOrganizationRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateSubOrganizationRequest.fromJson(Map<String, dynamic> json) {
@@ -4608,11 +5013,13 @@ class v1CreateSubOrganizationRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateSubOrganizationIntentV7.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateSubOrganizationRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -4622,6 +5029,9 @@ class v1CreateSubOrganizationRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -4863,12 +5273,14 @@ class v1CreateUserTagRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateUserTagIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateUserTagRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateUserTagRequest.fromJson(Map<String, dynamic> json) {
@@ -4876,11 +5288,13 @@ class v1CreateUserTagRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateUserTagIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateUserTagRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -4890,6 +5304,9 @@ class v1CreateUserTagRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -4995,12 +5412,14 @@ class v1CreateUsersRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateUsersIntentV3 parameters;
+  final bool? generateAppProofs;
 
   const v1CreateUsersRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateUsersRequest.fromJson(Map<String, dynamic> json) {
@@ -5008,11 +5427,13 @@ class v1CreateUsersRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateUsersIntentV3.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateUsersRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5022,6 +5443,9 @@ class v1CreateUsersRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5091,12 +5515,14 @@ class v1CreateWalletAccountsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateWalletAccountsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateWalletAccountsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateWalletAccountsRequest.fromJson(Map<String, dynamic> json) {
@@ -5104,11 +5530,13 @@ class v1CreateWalletAccountsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateWalletAccountsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateWalletAccountsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5118,6 +5546,9 @@ class v1CreateWalletAccountsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5187,12 +5618,14 @@ class v1CreateWalletRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1CreateWalletIntent parameters;
+  final bool? generateAppProofs;
 
   const v1CreateWalletRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1CreateWalletRequest.fromJson(Map<String, dynamic> json) {
@@ -5200,11 +5633,13 @@ class v1CreateWalletRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1CreateWalletIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateWalletRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5214,6 +5649,9 @@ class v1CreateWalletRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5302,12 +5740,14 @@ class v1DeleteApiKeysRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteApiKeysIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteApiKeysRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteApiKeysRequest.fromJson(Map<String, dynamic> json) {
@@ -5315,11 +5755,13 @@ class v1DeleteApiKeysRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteApiKeysIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteApiKeysRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5329,6 +5771,9 @@ class v1DeleteApiKeysRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5390,12 +5835,14 @@ class v1DeleteAuthenticatorsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteAuthenticatorsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteAuthenticatorsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteAuthenticatorsRequest.fromJson(Map<String, dynamic> json) {
@@ -5403,11 +5850,13 @@ class v1DeleteAuthenticatorsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteAuthenticatorsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteAuthenticatorsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5417,6 +5866,9 @@ class v1DeleteAuthenticatorsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5439,6 +5891,95 @@ class v1DeleteAuthenticatorsResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['authenticatorIds'] = authenticatorIds;
+    return _json;
+  }
+}
+
+class v1DeleteFiatOnRampCredentialIntent {
+  /// The ID of the fiat on-ramp credential to delete
+  final String fiatOnrampCredentialId;
+
+  const v1DeleteFiatOnRampCredentialIntent({
+    required  this.fiatOnrampCredentialId,
+  });
+
+  factory v1DeleteFiatOnRampCredentialIntent.fromJson(Map<String, dynamic> json) {
+    final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
+    return v1DeleteFiatOnRampCredentialIntent(
+      fiatOnrampCredentialId: _fiatOnrampCredentialId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnrampCredentialId'] = fiatOnrampCredentialId;
+    return _json;
+  }
+}
+
+class v1DeleteFiatOnRampCredentialRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1DeleteFiatOnRampCredentialIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1DeleteFiatOnRampCredentialRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+     this.generateAppProofs,
+  });
+
+  factory v1DeleteFiatOnRampCredentialRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1DeleteFiatOnRampCredentialIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1DeleteFiatOnRampCredentialRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1DeleteFiatOnRampCredentialResult {
+  /// Unique identifier of the Fiat On-Ramp credential that was deleted
+  final String fiatOnRampCredentialId;
+
+  const v1DeleteFiatOnRampCredentialResult({
+    required  this.fiatOnRampCredentialId,
+  });
+
+  factory v1DeleteFiatOnRampCredentialResult.fromJson(Map<String, dynamic> json) {
+    final _fiatOnRampCredentialId = json['fiatOnRampCredentialId'] as String;
+    return v1DeleteFiatOnRampCredentialResult(
+      fiatOnRampCredentialId: _fiatOnRampCredentialId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnRampCredentialId'] = fiatOnRampCredentialId;
     return _json;
   }
 }
@@ -5472,12 +6013,14 @@ class v1DeleteInvitationRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteInvitationIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteInvitationRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteInvitationRequest.fromJson(Map<String, dynamic> json) {
@@ -5485,11 +6028,13 @@ class v1DeleteInvitationRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteInvitationIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteInvitationRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5499,6 +6044,9 @@ class v1DeleteInvitationRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5554,12 +6102,14 @@ class v1DeleteOauth2CredentialRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteOauth2CredentialIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteOauth2CredentialRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteOauth2CredentialRequest.fromJson(Map<String, dynamic> json) {
@@ -5567,11 +6117,13 @@ class v1DeleteOauth2CredentialRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteOauth2CredentialIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteOauth2CredentialRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5581,6 +6133,9 @@ class v1DeleteOauth2CredentialRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5642,12 +6197,14 @@ class v1DeleteOauthProvidersRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteOauthProvidersIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteOauthProvidersRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteOauthProvidersRequest.fromJson(Map<String, dynamic> json) {
@@ -5655,11 +6212,13 @@ class v1DeleteOauthProvidersRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteOauthProvidersIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteOauthProvidersRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5669,6 +6228,9 @@ class v1DeleteOauthProvidersRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5768,12 +6330,14 @@ class v1DeletePoliciesRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeletePoliciesIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeletePoliciesRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeletePoliciesRequest.fromJson(Map<String, dynamic> json) {
@@ -5781,11 +6345,13 @@ class v1DeletePoliciesRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeletePoliciesIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePoliciesRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5795,6 +6361,9 @@ class v1DeletePoliciesRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5850,12 +6419,14 @@ class v1DeletePolicyRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeletePolicyIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeletePolicyRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeletePolicyRequest.fromJson(Map<String, dynamic> json) {
@@ -5863,11 +6434,13 @@ class v1DeletePolicyRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeletePolicyIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePolicyRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5877,6 +6450,9 @@ class v1DeletePolicyRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -5932,12 +6508,14 @@ class v1DeletePrivateKeyTagsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeletePrivateKeyTagsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeletePrivateKeyTagsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeletePrivateKeyTagsRequest.fromJson(Map<String, dynamic> json) {
@@ -5945,11 +6523,13 @@ class v1DeletePrivateKeyTagsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeletePrivateKeyTagsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePrivateKeyTagsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -5959,6 +6539,9 @@ class v1DeletePrivateKeyTagsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6028,12 +6611,14 @@ class v1DeletePrivateKeysRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeletePrivateKeysIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeletePrivateKeysRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeletePrivateKeysRequest.fromJson(Map<String, dynamic> json) {
@@ -6041,11 +6626,13 @@ class v1DeletePrivateKeysRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeletePrivateKeysIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePrivateKeysRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6055,6 +6642,9 @@ class v1DeletePrivateKeysRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6110,12 +6700,14 @@ class v1DeleteSmartContractInterfaceRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteSmartContractInterfaceIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteSmartContractInterfaceRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteSmartContractInterfaceRequest.fromJson(Map<String, dynamic> json) {
@@ -6123,11 +6715,13 @@ class v1DeleteSmartContractInterfaceRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteSmartContractInterfaceIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteSmartContractInterfaceRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6137,6 +6731,9 @@ class v1DeleteSmartContractInterfaceRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6194,12 +6791,14 @@ class v1DeleteSubOrganizationRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteSubOrganizationIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteSubOrganizationRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteSubOrganizationRequest.fromJson(Map<String, dynamic> json) {
@@ -6207,11 +6806,13 @@ class v1DeleteSubOrganizationRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteSubOrganizationIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteSubOrganizationRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6221,6 +6822,9 @@ class v1DeleteSubOrganizationRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6276,12 +6880,14 @@ class v1DeleteUserTagsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteUserTagsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteUserTagsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteUserTagsRequest.fromJson(Map<String, dynamic> json) {
@@ -6289,11 +6895,13 @@ class v1DeleteUserTagsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteUserTagsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteUserTagsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6303,6 +6911,9 @@ class v1DeleteUserTagsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6364,12 +6975,14 @@ class v1DeleteUsersRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteUsersIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteUsersRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteUsersRequest.fromJson(Map<String, dynamic> json) {
@@ -6377,11 +6990,13 @@ class v1DeleteUsersRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteUsersIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteUsersRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6391,6 +7006,9 @@ class v1DeleteUsersRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6454,12 +7072,14 @@ class v1DeleteWalletAccountsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteWalletAccountsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteWalletAccountsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteWalletAccountsRequest.fromJson(Map<String, dynamic> json) {
@@ -6467,11 +7087,13 @@ class v1DeleteWalletAccountsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteWalletAccountsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteWalletAccountsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6481,6 +7103,9 @@ class v1DeleteWalletAccountsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6544,12 +7169,14 @@ class v1DeleteWalletsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1DeleteWalletsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1DeleteWalletsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1DeleteWalletsRequest.fromJson(Map<String, dynamic> json) {
@@ -6557,11 +7184,13 @@ class v1DeleteWalletsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1DeleteWalletsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteWalletsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6571,6 +7200,9 @@ class v1DeleteWalletsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6821,31 +7453,125 @@ class v1EmailAuthIntentV2 {
   }
 }
 
+class v1EmailAuthIntentV3 {
+  /// Email of the authenticating user.
+  final String email;
+  /// Client-side public key generated by the user, to which the email auth bundle (credentials) will be encrypted.
+  final String targetPublicKey;
+  /// The name of the application.
+  final String appName;
+  /// Optional human-readable name for an API Key. If none provided, default to Email Auth - <Timestamp>
+  final String? apiKeyName;
+  /// Expiration window (in seconds) indicating how long the API key is valid for. If not provided, a default of 15 minutes will be used.
+  final String? expirationSeconds;
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1EmailCustomizationParams? emailCustomization;
+  /// Invalidate all other previously generated Email Auth API keys
+  final bool? invalidateExisting;
+  /// Optional custom email address from which to send the email
+  final String? sendFromEmailAddress;
+  /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
+  final String? sendFromEmailSenderName;
+  /// Optional custom email address to use as reply-to
+  final String? replyToEmailAddress;
+
+  const v1EmailAuthIntentV3({
+    required  this.email,
+    required  this.targetPublicKey,
+    required  this.appName,
+     this.apiKeyName,
+     this.expirationSeconds,
+     this.emailCustomization,
+     this.invalidateExisting,
+     this.sendFromEmailAddress,
+     this.sendFromEmailSenderName,
+     this.replyToEmailAddress,
+  });
+
+  factory v1EmailAuthIntentV3.fromJson(Map<String, dynamic> json) {
+    final _email = json['email'] as String;
+    final _targetPublicKey = json['targetPublicKey'] as String;
+    final _appName = json['appName'] as String;
+    final _apiKeyName = json['apiKeyName'] as String?;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
+    final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
+    return v1EmailAuthIntentV3(
+      email: _email,
+      targetPublicKey: _targetPublicKey,
+      appName: _appName,
+      apiKeyName: _apiKeyName,
+      expirationSeconds: _expirationSeconds,
+      emailCustomization: _emailCustomization,
+      invalidateExisting: _invalidateExisting,
+      sendFromEmailAddress: _sendFromEmailAddress,
+      sendFromEmailSenderName: _sendFromEmailSenderName,
+      replyToEmailAddress: _replyToEmailAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    _json['appName'] = appName;
+    if (apiKeyName != null) {
+      _json['apiKeyName'] = apiKeyName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
+    return _json;
+  }
+}
+
 class v1EmailAuthRequest {
   final String type;
   /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
   final String timestampMs;
   /// Unique identifier for a given Organization.
   final String organizationId;
-  final v1EmailAuthIntentV2 parameters;
+  final v1EmailAuthIntentV3 parameters;
+  final bool? generateAppProofs;
 
   const v1EmailAuthRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1EmailAuthRequest.fromJson(Map<String, dynamic> json) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1EmailAuthIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1EmailAuthIntentV3.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1EmailAuthRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -6855,6 +7581,9 @@ class v1EmailAuthRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -6971,6 +7700,290 @@ class v1EnableAuthProxyResult {
   }
 }
 
+class v1EthSendRawTransactionIntent {
+  /// The raw, signed transaction to be sent.
+  final String signedTransaction;
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  const v1EthSendRawTransactionIntent({
+    required  this.signedTransaction,
+    required  this.caip2,
+  });
+
+  factory v1EthSendRawTransactionIntent.fromJson(Map<String, dynamic> json) {
+    final _signedTransaction = json['signedTransaction'] as String;
+    final _caip2 = json['caip2'] as String;
+    return v1EthSendRawTransactionIntent(
+      signedTransaction: _signedTransaction,
+      caip2: _caip2,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signedTransaction'] = signedTransaction;
+    _json['caip2'] = caip2;
+    return _json;
+  }
+}
+
+class v1EthSendRawTransactionRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EthSendRawTransactionIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EthSendRawTransactionRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+     this.generateAppProofs,
+  });
+
+  factory v1EthSendRawTransactionRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EthSendRawTransactionIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EthSendRawTransactionRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EthSendRawTransactionResult {
+  /// The transaction hash of the sent transaction
+  final String transactionHash;
+
+  const v1EthSendRawTransactionResult({
+    required  this.transactionHash,
+  });
+
+  factory v1EthSendRawTransactionResult.fromJson(Map<String, dynamic> json) {
+    final _transactionHash = json['transactionHash'] as String;
+    return v1EthSendRawTransactionResult(
+      transactionHash: _transactionHash,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactionHash'] = transactionHash;
+    return _json;
+  }
+}
+
+class v1EthSendTransactionIntent {
+  /// A wallet or private key address to sign with. This does not support private key IDs.
+  final String from;
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+  /// Recipient address as a hex string with 0x prefix.
+  final String to;
+  /// Amount of native asset to send in wei.
+  final String? value;
+  /// Hex-encoded call data for contract interactions.
+  final String? data;
+  /// Transaction nonce, for EIP-1559 and Turnkey Gas Station authorizations.
+  final String? nonce;
+  /// Maximum amount of gas to use for this transaction, for EIP-1559 transactions.
+  final String? gasLimit;
+  /// Maximum total fee per gas unit (base fee + priority fee) in wei. Required for non-sponsored (EIP-1559) transactions. Not used for sponsored transactions.
+  final String? maxFeePerGas;
+  /// Maximum priority fee (tip) per gas unit in wei. Required for non-sponsored (EIP-1559) transactions. Not used for sponsored transactions.
+  final String? maxPriorityFeePerGas;
+  /// The gas station delegate contract nonce. Only used when sponsor=true. Include this if you want maximal security posture.
+  final String? gasStationNonce;
+
+  const v1EthSendTransactionIntent({
+    required  this.from,
+     this.sponsor,
+    required  this.caip2,
+    required  this.to,
+     this.value,
+     this.data,
+     this.nonce,
+     this.gasLimit,
+     this.maxFeePerGas,
+     this.maxPriorityFeePerGas,
+     this.gasStationNonce,
+  });
+
+  factory v1EthSendTransactionIntent.fromJson(Map<String, dynamic> json) {
+    final _from = json['from'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _caip2 = json['caip2'] as String;
+    final _to = json['to'] as String;
+    final _value = json['value'] as String?;
+    final _data = json['data'] as String?;
+    final _nonce = json['nonce'] as String?;
+    final _gasLimit = json['gasLimit'] as String?;
+    final _maxFeePerGas = json['maxFeePerGas'] as String?;
+    final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    return v1EthSendTransactionIntent(
+      from: _from,
+      sponsor: _sponsor,
+      caip2: _caip2,
+      to: _to,
+      value: _value,
+      data: _data,
+      nonce: _nonce,
+      gasLimit: _gasLimit,
+      maxFeePerGas: _maxFeePerGas,
+      maxPriorityFeePerGas: _maxPriorityFeePerGas,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['from'] = from;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['caip2'] = caip2;
+    _json['to'] = to;
+    if (value != null) {
+      _json['value'] = value;
+    }
+    if (data != null) {
+      _json['data'] = data;
+    }
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasLimit != null) {
+      _json['gasLimit'] = gasLimit;
+    }
+    if (maxFeePerGas != null) {
+      _json['maxFeePerGas'] = maxFeePerGas;
+    }
+    if (maxPriorityFeePerGas != null) {
+      _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class v1EthSendTransactionRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EthSendTransactionIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EthSendTransactionRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+     this.generateAppProofs,
+  });
+
+  factory v1EthSendTransactionRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EthSendTransactionIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EthSendTransactionRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EthSendTransactionResult {
+  /// The send_transaction_status ID associated with the transaction submission for sponsored transactions
+  final String sendTransactionStatusId;
+
+  const v1EthSendTransactionResult({
+    required  this.sendTransactionStatusId,
+  });
+
+  factory v1EthSendTransactionResult.fromJson(Map<String, dynamic> json) {
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return v1EthSendTransactionResult(
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
+class v1EthSendTransactionStatus {
+  /// The Ethereum transaction hash, if available.
+  final String? txHash;
+
+  const v1EthSendTransactionStatus({
+     this.txHash,
+  });
+
+  factory v1EthSendTransactionStatus.fromJson(Map<String, dynamic> json) {
+    final _txHash = json['txHash'] as String?;
+    return v1EthSendTransactionStatus(
+      txHash: _txHash,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (txHash != null) {
+      _json['txHash'] = txHash;
+    }
+    return _json;
+  }
+}
+
 class v1ExportPrivateKeyIntent {
   /// Unique identifier for a given Private Key.
   final String privateKeyId;
@@ -7006,12 +8019,14 @@ class v1ExportPrivateKeyRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1ExportPrivateKeyIntent parameters;
+  final bool? generateAppProofs;
 
   const v1ExportPrivateKeyRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1ExportPrivateKeyRequest.fromJson(Map<String, dynamic> json) {
@@ -7019,11 +8034,13 @@ class v1ExportPrivateKeyRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1ExportPrivateKeyIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ExportPrivateKeyRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -7033,6 +8050,9 @@ class v1ExportPrivateKeyRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -7100,12 +8120,14 @@ class v1ExportWalletAccountRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1ExportWalletAccountIntent parameters;
+  final bool? generateAppProofs;
 
   const v1ExportWalletAccountRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1ExportWalletAccountRequest.fromJson(Map<String, dynamic> json) {
@@ -7113,11 +8135,13 @@ class v1ExportWalletAccountRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1ExportWalletAccountIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ExportWalletAccountRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -7127,6 +8151,9 @@ class v1ExportWalletAccountRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -7202,12 +8229,14 @@ class v1ExportWalletRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1ExportWalletIntent parameters;
+  final bool? generateAppProofs;
 
   const v1ExportWalletRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1ExportWalletRequest.fromJson(Map<String, dynamic> json) {
@@ -7215,11 +8244,13 @@ class v1ExportWalletRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1ExportWalletIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ExportWalletRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -7229,6 +8260,9 @@ class v1ExportWalletRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -7287,6 +8321,86 @@ class v1Feature {
     if (value != null) {
       _json['value'] = value;
     }
+    return _json;
+  }
+}
+
+class v1FiatOnRampCredential {
+  /// Unique identifier for a given Fiat On-Ramp Credential.
+  final String fiatOnrampCredentialId;
+  /// Unique identifier for an Organization.
+  final String organizationId;
+  /// The fiat on-ramp provider.
+  final v1FiatOnRampProvider onrampProvider;
+  /// Project ID for the on-ramp provider. Some providers, like Coinbase, require this additional identifier.
+  final String? projectId;
+  /// Publishable API key for the on-ramp provider.
+  final String publishableApiKey;
+  /// Secret API key for the on-ramp provider encrypted to our on-ramp encryption public key.
+  final String encryptedSecretApiKey;
+  /// Private API key for the on-ramp provider encrypted to our on-ramp encryption public key. Some providers, like Coinbase, require this additional key.
+  final String? encryptedPrivateApiKey;
+  /// If the on-ramp credential is a sandbox credential.
+  final bool? sandboxMode;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1FiatOnRampCredential({
+    required  this.fiatOnrampCredentialId,
+    required  this.organizationId,
+    required  this.onrampProvider,
+     this.projectId,
+    required  this.publishableApiKey,
+    required  this.encryptedSecretApiKey,
+     this.encryptedPrivateApiKey,
+     this.sandboxMode,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1FiatOnRampCredential.fromJson(Map<String, dynamic> json) {
+    final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _onrampProvider = v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _projectId = json['projectId'] as String?;
+    final _publishableApiKey = json['publishableApiKey'] as String;
+    final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
+    final _encryptedPrivateApiKey = json['encryptedPrivateApiKey'] as String?;
+    final _sandboxMode = json['sandboxMode'] as bool?;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1FiatOnRampCredential(
+      fiatOnrampCredentialId: _fiatOnrampCredentialId,
+      organizationId: _organizationId,
+      onrampProvider: _onrampProvider,
+      projectId: _projectId,
+      publishableApiKey: _publishableApiKey,
+      encryptedSecretApiKey: _encryptedSecretApiKey,
+      encryptedPrivateApiKey: _encryptedPrivateApiKey,
+      sandboxMode: _sandboxMode,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnrampCredentialId'] = fiatOnrampCredentialId;
+    _json['organizationId'] = organizationId;
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    if (projectId != null) {
+      _json['projectId'] = projectId;
+    }
+    _json['publishableApiKey'] = publishableApiKey;
+    _json['encryptedSecretApiKey'] = encryptedSecretApiKey;
+    if (encryptedPrivateApiKey != null) {
+      _json['encryptedPrivateApiKey'] = encryptedPrivateApiKey;
+    }
+    if (sandboxMode != null) {
+      _json['sandboxMode'] = sandboxMode;
+    }
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -7716,6 +8830,62 @@ class v1GetBootProofRequest {
   }
 }
 
+class v1GetGasUsageRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  const v1GetGasUsageRequest({
+    required  this.organizationId,
+  });
+
+  factory v1GetGasUsageRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetGasUsageRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetGasUsageResponse {
+  /// The window duration (in minutes) for the organization or sub-organization.
+  final num windowDurationMinutes;
+  /// The window limit (in USD) for the organization or sub-organization.
+  final String windowLimitUsd;
+  /// The total gas usage (in USD) of all sponsored transactions processed over the last `window_duration_minutes`
+  final String usageUsd;
+
+  const v1GetGasUsageResponse({
+    required  this.windowDurationMinutes,
+    required  this.windowLimitUsd,
+    required  this.usageUsd,
+  });
+
+  factory v1GetGasUsageResponse.fromJson(Map<String, dynamic> json) {
+    final _windowDurationMinutes = json['windowDurationMinutes'] as num;
+    final _windowLimitUsd = json['windowLimitUsd'] as String;
+    final _usageUsd = json['usageUsd'] as String;
+    return v1GetGasUsageResponse(
+      windowDurationMinutes: _windowDurationMinutes,
+      windowLimitUsd: _windowLimitUsd,
+      usageUsd: _usageUsd,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['windowDurationMinutes'] = windowDurationMinutes;
+    _json['windowLimitUsd'] = windowLimitUsd;
+    _json['usageUsd'] = usageUsd;
+    return _json;
+  }
+}
+
 class v1GetLatestBootProofRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
@@ -7841,6 +9011,64 @@ class v1GetOauthProvidersResponse {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetOnRampTransactionStatusRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// The unique identifier for the fiat on ramp transaction.
+  final String transactionId;
+  /// Optional flag to specify if the transaction status should be refreshed from the fiat on ramp provider. Default = false.
+  final bool? refresh;
+
+  const v1GetOnRampTransactionStatusRequest({
+    required  this.organizationId,
+    required  this.transactionId,
+     this.refresh,
+  });
+
+  factory v1GetOnRampTransactionStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _transactionId = json['transactionId'] as String;
+    final _refresh = json['refresh'] as bool?;
+    return v1GetOnRampTransactionStatusRequest(
+      organizationId: _organizationId,
+      transactionId: _transactionId,
+      refresh: _refresh,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['transactionId'] = transactionId;
+    if (refresh != null) {
+      _json['refresh'] = refresh;
+    }
+    return _json;
+  }
+}
+
+class v1GetOnRampTransactionStatusResponse {
+  /// The status of the fiat on ramp transaction.
+  final String transactionStatus;
+
+  const v1GetOnRampTransactionStatusResponse({
+    required  this.transactionStatus,
+  });
+
+  factory v1GetOnRampTransactionStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _transactionStatus = json['transactionStatus'] as String;
+    return v1GetOnRampTransactionStatusResponse(
+      transactionStatus: _transactionStatus,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactionStatus'] = transactionStatus;
     return _json;
   }
 }
@@ -8170,6 +9398,72 @@ class v1GetPrivateKeysResponse {
   }
 }
 
+class v1GetSendTransactionStatusRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// The unique identifier of a send transaction request.
+  final String sendTransactionStatusId;
+
+  const v1GetSendTransactionStatusRequest({
+    required  this.organizationId,
+    required  this.sendTransactionStatusId,
+  });
+
+  factory v1GetSendTransactionStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return v1GetSendTransactionStatusRequest(
+      organizationId: _organizationId,
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
+class v1GetSendTransactionStatusResponse {
+  /// The current status of the send transaction.
+  final String txStatus;
+  /// Ethereum-specific transaction status.
+  final v1EthSendTransactionStatus? eth;
+  /// The error encountered when broadcasting or confirming the transaction, if any.
+  final String? txError;
+
+  const v1GetSendTransactionStatusResponse({
+    required  this.txStatus,
+     this.eth,
+     this.txError,
+  });
+
+  factory v1GetSendTransactionStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _txStatus = json['txStatus'] as String;
+    final _eth = json['eth'] == null ? null : v1EthSendTransactionStatus.fromJson(json['eth'] as Map<String, dynamic>);
+    final _txError = json['txError'] as String?;
+    return v1GetSendTransactionStatusResponse(
+      txStatus: _txStatus,
+      eth: _eth,
+      txError: _txError,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['txStatus'] = txStatus;
+    if (eth != null) {
+      _json['eth'] = eth?.toJson();
+    }
+    if (txError != null) {
+      _json['txError'] = txError;
+    }
+    return _json;
+  }
+}
+
 class v1GetSmartContractInterfaceRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
@@ -8200,14 +9494,14 @@ class v1GetSmartContractInterfaceRequest {
 
 class v1GetSmartContractInterfaceResponse {
   /// Object to be used in conjunction with policies to guard transaction signing.
-  final v1SmartContractInterface smartContractInterface;
+  final externaldatav1SmartContractInterface smartContractInterface;
 
   const v1GetSmartContractInterfaceResponse({
     required  this.smartContractInterface,
   });
 
   factory v1GetSmartContractInterfaceResponse.fromJson(Map<String, dynamic> json) {
-    final _smartContractInterface = v1SmartContractInterface.fromJson(json['smartContractInterface'] as Map<String, dynamic>);
+    final _smartContractInterface = externaldatav1SmartContractInterface.fromJson(json['smartContractInterface'] as Map<String, dynamic>);
     return v1GetSmartContractInterfaceResponse(
       smartContractInterface: _smartContractInterface,
     );
@@ -8244,14 +9538,14 @@ class v1GetSmartContractInterfacesRequest {
 
 class v1GetSmartContractInterfacesResponse {
   /// A list of smart contract interfaces.
-  final List<v1SmartContractInterface> smartContractInterfaces;
+  final List<externaldatav1SmartContractInterface> smartContractInterfaces;
 
   const v1GetSmartContractInterfacesResponse({
     required  this.smartContractInterfaces,
   });
 
   factory v1GetSmartContractInterfacesResponse.fromJson(Map<String, dynamic> json) {
-    final _smartContractInterfaces = (json['smartContractInterfaces'] as List).map((e) => v1SmartContractInterface.fromJson(e as Map<String, dynamic>)).toList();
+    final _smartContractInterfaces = (json['smartContractInterfaces'] as List).map((e) => externaldatav1SmartContractInterface.fromJson(e as Map<String, dynamic>)).toList();
     return v1GetSmartContractInterfacesResponse(
       smartContractInterfaces: _smartContractInterfaces,
     );
@@ -8837,12 +10131,14 @@ class v1ImportPrivateKeyRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1ImportPrivateKeyIntent parameters;
+  final bool? generateAppProofs;
 
   const v1ImportPrivateKeyRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1ImportPrivateKeyRequest.fromJson(Map<String, dynamic> json) {
@@ -8850,11 +10146,13 @@ class v1ImportPrivateKeyRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1ImportPrivateKeyIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ImportPrivateKeyRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -8864,6 +10162,9 @@ class v1ImportPrivateKeyRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -8943,12 +10244,14 @@ class v1ImportWalletRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1ImportWalletIntent parameters;
+  final bool? generateAppProofs;
 
   const v1ImportWalletRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1ImportWalletRequest.fromJson(Map<String, dynamic> json) {
@@ -8956,11 +10259,13 @@ class v1ImportWalletRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1ImportWalletIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ImportWalletRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -8970,6 +10275,9 @@ class v1ImportWalletRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9105,12 +10413,14 @@ class v1InitFiatOnRampRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1InitFiatOnRampIntent parameters;
+  final bool? generateAppProofs;
 
   const v1InitFiatOnRampRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1InitFiatOnRampRequest.fromJson(Map<String, dynamic> json) {
@@ -9118,11 +10428,13 @@ class v1InitFiatOnRampRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1InitFiatOnRampIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitFiatOnRampRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -9132,6 +10444,9 @@ class v1InitFiatOnRampRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9201,12 +10516,14 @@ class v1InitImportPrivateKeyRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1InitImportPrivateKeyIntent parameters;
+  final bool? generateAppProofs;
 
   const v1InitImportPrivateKeyRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1InitImportPrivateKeyRequest.fromJson(Map<String, dynamic> json) {
@@ -9214,11 +10531,13 @@ class v1InitImportPrivateKeyRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1InitImportPrivateKeyIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitImportPrivateKeyRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -9228,6 +10547,9 @@ class v1InitImportPrivateKeyRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9283,12 +10605,14 @@ class v1InitImportWalletRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1InitImportWalletIntent parameters;
+  final bool? generateAppProofs;
 
   const v1InitImportWalletRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1InitImportWalletRequest.fromJson(Map<String, dynamic> json) {
@@ -9296,11 +10620,13 @@ class v1InitImportWalletRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1InitImportWalletIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitImportWalletRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -9310,6 +10636,9 @@ class v1InitImportWalletRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9504,31 +10833,133 @@ class v1InitOtpAuthIntentV2 {
   }
 }
 
+class v1InitOtpAuthIntentV3 {
+  /// Enum to specifiy whether to send OTP via SMS or email
+  final String otpType;
+  /// Email or phone number to send the OTP code to
+  final String contact;
+  /// The name of the application.
+  final String appName;
+  /// Optional length of the OTP code. Default = 9
+  final num? otpLength;
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1EmailCustomizationParams? emailCustomization;
+  /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
+  final v1SmsCustomizationParams? smsCustomization;
+  /// Optional client-generated user identifier to enable per-user rate limiting for SMS auth. We recommend using a hash of the client-side IP address.
+  final String? userIdentifier;
+  /// Optional custom email address from which to send the OTP email
+  final String? sendFromEmailAddress;
+  /// Optional flag to specify if the OTP code should be alphanumeric (Crockford’s Base32). Default = true
+  final bool? alphanumeric;
+  /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
+  final String? sendFromEmailSenderName;
+  /// Optional custom email address to use as reply-to
+  final String? replyToEmailAddress;
+
+  const v1InitOtpAuthIntentV3({
+    required  this.otpType,
+    required  this.contact,
+    required  this.appName,
+     this.otpLength,
+     this.emailCustomization,
+     this.smsCustomization,
+     this.userIdentifier,
+     this.sendFromEmailAddress,
+     this.alphanumeric,
+     this.sendFromEmailSenderName,
+     this.replyToEmailAddress,
+  });
+
+  factory v1InitOtpAuthIntentV3.fromJson(Map<String, dynamic> json) {
+    final _otpType = json['otpType'] as String;
+    final _contact = json['contact'] as String;
+    final _appName = json['appName'] as String;
+    final _otpLength = json['otpLength'] as num?;
+    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _smsCustomization = json['smsCustomization'] == null ? null : v1SmsCustomizationParams.fromJson(json['smsCustomization'] as Map<String, dynamic>);
+    final _userIdentifier = json['userIdentifier'] as String?;
+    final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
+    final _alphanumeric = json['alphanumeric'] as bool?;
+    final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
+    return v1InitOtpAuthIntentV3(
+      otpType: _otpType,
+      contact: _contact,
+      appName: _appName,
+      otpLength: _otpLength,
+      emailCustomization: _emailCustomization,
+      smsCustomization: _smsCustomization,
+      userIdentifier: _userIdentifier,
+      sendFromEmailAddress: _sendFromEmailAddress,
+      alphanumeric: _alphanumeric,
+      sendFromEmailSenderName: _sendFromEmailSenderName,
+      replyToEmailAddress: _replyToEmailAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    _json['appName'] = appName;
+    if (otpLength != null) {
+      _json['otpLength'] = otpLength;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (smsCustomization != null) {
+      _json['smsCustomization'] = smsCustomization?.toJson();
+    }
+    if (userIdentifier != null) {
+      _json['userIdentifier'] = userIdentifier;
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (alphanumeric != null) {
+      _json['alphanumeric'] = alphanumeric;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
+    return _json;
+  }
+}
+
 class v1InitOtpAuthRequest {
   final String type;
   /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
   final String timestampMs;
   /// Unique identifier for a given Organization.
   final String organizationId;
-  final v1InitOtpAuthIntentV2 parameters;
+  final v1InitOtpAuthIntentV3 parameters;
+  final bool? generateAppProofs;
 
   const v1InitOtpAuthRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1InitOtpAuthRequest.fromJson(Map<String, dynamic> json) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitOtpAuthIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitOtpAuthIntentV3.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitOtpAuthRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -9538,6 +10969,9 @@ class v1InitOtpAuthRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9686,31 +11120,141 @@ class v1InitOtpIntent {
   }
 }
 
+class v1InitOtpIntentV2 {
+  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  final String otpType;
+  /// Email or phone number to send the OTP code to
+  final String contact;
+  /// The name of the application.
+  final String appName;
+  /// Optional length of the OTP code. Default = 9
+  final num? otpLength;
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1EmailCustomizationParams? emailCustomization;
+  /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
+  final v1SmsCustomizationParams? smsCustomization;
+  /// Optional client-generated user identifier to enable per-user rate limiting for SMS auth. We recommend using a hash of the client-side IP address.
+  final String? userIdentifier;
+  /// Optional custom email address from which to send the OTP email
+  final String? sendFromEmailAddress;
+  /// Optional flag to specify if the OTP code should be alphanumeric (Crockford’s Base32). Default = true
+  final bool? alphanumeric;
+  /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
+  final String? sendFromEmailSenderName;
+  /// Expiration window (in seconds) indicating how long the OTP is valid for. If not provided, a default of 5 minutes will be used. Maximum value is 600 seconds (10 minutes)
+  final String? expirationSeconds;
+  /// Optional custom email address to use as reply-to
+  final String? replyToEmailAddress;
+
+  const v1InitOtpIntentV2({
+    required  this.otpType,
+    required  this.contact,
+    required  this.appName,
+     this.otpLength,
+     this.emailCustomization,
+     this.smsCustomization,
+     this.userIdentifier,
+     this.sendFromEmailAddress,
+     this.alphanumeric,
+     this.sendFromEmailSenderName,
+     this.expirationSeconds,
+     this.replyToEmailAddress,
+  });
+
+  factory v1InitOtpIntentV2.fromJson(Map<String, dynamic> json) {
+    final _otpType = json['otpType'] as String;
+    final _contact = json['contact'] as String;
+    final _appName = json['appName'] as String;
+    final _otpLength = json['otpLength'] as num?;
+    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _smsCustomization = json['smsCustomization'] == null ? null : v1SmsCustomizationParams.fromJson(json['smsCustomization'] as Map<String, dynamic>);
+    final _userIdentifier = json['userIdentifier'] as String?;
+    final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
+    final _alphanumeric = json['alphanumeric'] as bool?;
+    final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
+    return v1InitOtpIntentV2(
+      otpType: _otpType,
+      contact: _contact,
+      appName: _appName,
+      otpLength: _otpLength,
+      emailCustomization: _emailCustomization,
+      smsCustomization: _smsCustomization,
+      userIdentifier: _userIdentifier,
+      sendFromEmailAddress: _sendFromEmailAddress,
+      alphanumeric: _alphanumeric,
+      sendFromEmailSenderName: _sendFromEmailSenderName,
+      expirationSeconds: _expirationSeconds,
+      replyToEmailAddress: _replyToEmailAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    _json['appName'] = appName;
+    if (otpLength != null) {
+      _json['otpLength'] = otpLength;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (smsCustomization != null) {
+      _json['smsCustomization'] = smsCustomization?.toJson();
+    }
+    if (userIdentifier != null) {
+      _json['userIdentifier'] = userIdentifier;
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (alphanumeric != null) {
+      _json['alphanumeric'] = alphanumeric;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
+    return _json;
+  }
+}
+
 class v1InitOtpRequest {
   final String type;
   /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
   final String timestampMs;
   /// Unique identifier for a given Organization.
   final String organizationId;
-  final v1InitOtpIntent parameters;
+  final v1InitOtpIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1InitOtpRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1InitOtpRequest.fromJson(Map<String, dynamic> json) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitOtpIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitOtpIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitOtpRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -9720,6 +11264,9 @@ class v1InitOtpRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9814,31 +11361,109 @@ class v1InitUserEmailRecoveryIntent {
   }
 }
 
+class v1InitUserEmailRecoveryIntentV2 {
+  /// Email of the user starting recovery
+  final String email;
+  /// Client-side public key generated by the user, to which the recovery bundle will be encrypted.
+  final String targetPublicKey;
+  /// The name of the application.
+  final String appName;
+  /// Expiration window (in seconds) indicating how long the recovery credential is valid for. If not provided, a default of 15 minutes will be used.
+  final String? expirationSeconds;
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1EmailCustomizationParams? emailCustomization;
+  /// Optional custom email address from which to send the OTP email
+  final String? sendFromEmailAddress;
+  /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
+  final String? sendFromEmailSenderName;
+  /// Optional custom email address to use as reply-to
+  final String? replyToEmailAddress;
+
+  const v1InitUserEmailRecoveryIntentV2({
+    required  this.email,
+    required  this.targetPublicKey,
+    required  this.appName,
+     this.expirationSeconds,
+     this.emailCustomization,
+     this.sendFromEmailAddress,
+     this.sendFromEmailSenderName,
+     this.replyToEmailAddress,
+  });
+
+  factory v1InitUserEmailRecoveryIntentV2.fromJson(Map<String, dynamic> json) {
+    final _email = json['email'] as String;
+    final _targetPublicKey = json['targetPublicKey'] as String;
+    final _appName = json['appName'] as String;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
+    final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
+    return v1InitUserEmailRecoveryIntentV2(
+      email: _email,
+      targetPublicKey: _targetPublicKey,
+      appName: _appName,
+      expirationSeconds: _expirationSeconds,
+      emailCustomization: _emailCustomization,
+      sendFromEmailAddress: _sendFromEmailAddress,
+      sendFromEmailSenderName: _sendFromEmailSenderName,
+      replyToEmailAddress: _replyToEmailAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['email'] = email;
+    _json['targetPublicKey'] = targetPublicKey;
+    _json['appName'] = appName;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    if (sendFromEmailAddress != null) {
+      _json['sendFromEmailAddress'] = sendFromEmailAddress;
+    }
+    if (sendFromEmailSenderName != null) {
+      _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (replyToEmailAddress != null) {
+      _json['replyToEmailAddress'] = replyToEmailAddress;
+    }
+    return _json;
+  }
+}
+
 class v1InitUserEmailRecoveryRequest {
   final String type;
   /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
   final String timestampMs;
   /// Unique identifier for a given Organization.
   final String organizationId;
-  final v1InitUserEmailRecoveryIntent parameters;
+  final v1InitUserEmailRecoveryIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1InitUserEmailRecoveryRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1InitUserEmailRecoveryRequest.fromJson(Map<String, dynamic> json) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitUserEmailRecoveryIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitUserEmailRecoveryIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitUserEmailRecoveryRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -9848,6 +11473,9 @@ class v1InitUserEmailRecoveryRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -9978,6 +11606,15 @@ class v1Intent {
   final v1Oauth2AuthenticateIntent? oauth2AuthenticateIntent;
   final v1DeleteWalletAccountsIntent? deleteWalletAccountsIntent;
   final v1DeletePoliciesIntent? deletePoliciesIntent;
+  final v1EthSendRawTransactionIntent? ethSendRawTransactionIntent;
+  final v1EthSendTransactionIntent? ethSendTransactionIntent;
+  final v1CreateFiatOnRampCredentialIntent? createFiatOnRampCredentialIntent;
+  final v1UpdateFiatOnRampCredentialIntent? updateFiatOnRampCredentialIntent;
+  final v1DeleteFiatOnRampCredentialIntent? deleteFiatOnRampCredentialIntent;
+  final v1EmailAuthIntentV3? emailAuthIntentV3;
+  final v1InitUserEmailRecoveryIntentV2? initUserEmailRecoveryIntentV2;
+  final v1InitOtpIntentV2? initOtpIntentV2;
+  final v1InitOtpAuthIntentV3? initOtpAuthIntentV3;
 
   const v1Intent({
      this.createOrganizationIntent,
@@ -10083,6 +11720,15 @@ class v1Intent {
      this.oauth2AuthenticateIntent,
      this.deleteWalletAccountsIntent,
      this.deletePoliciesIntent,
+     this.ethSendRawTransactionIntent,
+     this.ethSendTransactionIntent,
+     this.createFiatOnRampCredentialIntent,
+     this.updateFiatOnRampCredentialIntent,
+     this.deleteFiatOnRampCredentialIntent,
+     this.emailAuthIntentV3,
+     this.initUserEmailRecoveryIntentV2,
+     this.initOtpIntentV2,
+     this.initOtpAuthIntentV3,
   });
 
   factory v1Intent.fromJson(Map<String, dynamic> json) {
@@ -10189,6 +11835,15 @@ class v1Intent {
     final _oauth2AuthenticateIntent = json['oauth2AuthenticateIntent'] == null ? null : v1Oauth2AuthenticateIntent.fromJson(json['oauth2AuthenticateIntent'] as Map<String, dynamic>);
     final _deleteWalletAccountsIntent = json['deleteWalletAccountsIntent'] == null ? null : v1DeleteWalletAccountsIntent.fromJson(json['deleteWalletAccountsIntent'] as Map<String, dynamic>);
     final _deletePoliciesIntent = json['deletePoliciesIntent'] == null ? null : v1DeletePoliciesIntent.fromJson(json['deletePoliciesIntent'] as Map<String, dynamic>);
+    final _ethSendRawTransactionIntent = json['ethSendRawTransactionIntent'] == null ? null : v1EthSendRawTransactionIntent.fromJson(json['ethSendRawTransactionIntent'] as Map<String, dynamic>);
+    final _ethSendTransactionIntent = json['ethSendTransactionIntent'] == null ? null : v1EthSendTransactionIntent.fromJson(json['ethSendTransactionIntent'] as Map<String, dynamic>);
+    final _createFiatOnRampCredentialIntent = json['createFiatOnRampCredentialIntent'] == null ? null : v1CreateFiatOnRampCredentialIntent.fromJson(json['createFiatOnRampCredentialIntent'] as Map<String, dynamic>);
+    final _updateFiatOnRampCredentialIntent = json['updateFiatOnRampCredentialIntent'] == null ? null : v1UpdateFiatOnRampCredentialIntent.fromJson(json['updateFiatOnRampCredentialIntent'] as Map<String, dynamic>);
+    final _deleteFiatOnRampCredentialIntent = json['deleteFiatOnRampCredentialIntent'] == null ? null : v1DeleteFiatOnRampCredentialIntent.fromJson(json['deleteFiatOnRampCredentialIntent'] as Map<String, dynamic>);
+    final _emailAuthIntentV3 = json['emailAuthIntentV3'] == null ? null : v1EmailAuthIntentV3.fromJson(json['emailAuthIntentV3'] as Map<String, dynamic>);
+    final _initUserEmailRecoveryIntentV2 = json['initUserEmailRecoveryIntentV2'] == null ? null : v1InitUserEmailRecoveryIntentV2.fromJson(json['initUserEmailRecoveryIntentV2'] as Map<String, dynamic>);
+    final _initOtpIntentV2 = json['initOtpIntentV2'] == null ? null : v1InitOtpIntentV2.fromJson(json['initOtpIntentV2'] as Map<String, dynamic>);
+    final _initOtpAuthIntentV3 = json['initOtpAuthIntentV3'] == null ? null : v1InitOtpAuthIntentV3.fromJson(json['initOtpAuthIntentV3'] as Map<String, dynamic>);
     return v1Intent(
       createOrganizationIntent: _createOrganizationIntent,
       createAuthenticatorsIntent: _createAuthenticatorsIntent,
@@ -10293,6 +11948,15 @@ class v1Intent {
       oauth2AuthenticateIntent: _oauth2AuthenticateIntent,
       deleteWalletAccountsIntent: _deleteWalletAccountsIntent,
       deletePoliciesIntent: _deletePoliciesIntent,
+      ethSendRawTransactionIntent: _ethSendRawTransactionIntent,
+      ethSendTransactionIntent: _ethSendTransactionIntent,
+      createFiatOnRampCredentialIntent: _createFiatOnRampCredentialIntent,
+      updateFiatOnRampCredentialIntent: _updateFiatOnRampCredentialIntent,
+      deleteFiatOnRampCredentialIntent: _deleteFiatOnRampCredentialIntent,
+      emailAuthIntentV3: _emailAuthIntentV3,
+      initUserEmailRecoveryIntentV2: _initUserEmailRecoveryIntentV2,
+      initOtpIntentV2: _initOtpIntentV2,
+      initOtpAuthIntentV3: _initOtpAuthIntentV3,
     );
   }
 
@@ -10607,6 +12271,33 @@ class v1Intent {
     if (deletePoliciesIntent != null) {
       _json['deletePoliciesIntent'] = deletePoliciesIntent?.toJson();
     }
+    if (ethSendRawTransactionIntent != null) {
+      _json['ethSendRawTransactionIntent'] = ethSendRawTransactionIntent?.toJson();
+    }
+    if (ethSendTransactionIntent != null) {
+      _json['ethSendTransactionIntent'] = ethSendTransactionIntent?.toJson();
+    }
+    if (createFiatOnRampCredentialIntent != null) {
+      _json['createFiatOnRampCredentialIntent'] = createFiatOnRampCredentialIntent?.toJson();
+    }
+    if (updateFiatOnRampCredentialIntent != null) {
+      _json['updateFiatOnRampCredentialIntent'] = updateFiatOnRampCredentialIntent?.toJson();
+    }
+    if (deleteFiatOnRampCredentialIntent != null) {
+      _json['deleteFiatOnRampCredentialIntent'] = deleteFiatOnRampCredentialIntent?.toJson();
+    }
+    if (emailAuthIntentV3 != null) {
+      _json['emailAuthIntentV3'] = emailAuthIntentV3?.toJson();
+    }
+    if (initUserEmailRecoveryIntentV2 != null) {
+      _json['initUserEmailRecoveryIntentV2'] = initUserEmailRecoveryIntentV2?.toJson();
+    }
+    if (initOtpIntentV2 != null) {
+      _json['initOtpIntentV2'] = initOtpIntentV2?.toJson();
+    }
+    if (initOtpAuthIntentV3 != null) {
+      _json['initOtpAuthIntentV3'] = initOtpAuthIntentV3?.toJson();
+    }
     return _json;
   }
 }
@@ -10721,6 +12412,49 @@ class v1InvitationParams {
     _json['receiverUserTags'] = receiverUserTags;
     _json['accessType'] = v1AccessTypeToJson(accessType);
     _json['senderUserId'] = senderUserId;
+    return _json;
+  }
+}
+
+class v1ListFiatOnRampCredentialsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  const v1ListFiatOnRampCredentialsRequest({
+    required  this.organizationId,
+  });
+
+  factory v1ListFiatOnRampCredentialsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1ListFiatOnRampCredentialsRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1ListFiatOnRampCredentialsResponse {
+  final List<v1FiatOnRampCredential> fiatOnRampCredentials;
+
+  const v1ListFiatOnRampCredentialsResponse({
+    required  this.fiatOnRampCredentials,
+  });
+
+  factory v1ListFiatOnRampCredentialsResponse.fromJson(Map<String, dynamic> json) {
+    final _fiatOnRampCredentials = (json['fiatOnRampCredentials'] as List).map((e) => v1FiatOnRampCredential.fromJson(e as Map<String, dynamic>)).toList();
+    return v1ListFiatOnRampCredentialsResponse(
+      fiatOnRampCredentials: _fiatOnRampCredentials,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnRampCredentials'] = fiatOnRampCredentials.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -10856,23 +12590,52 @@ class v1ListUserTagsResponse {
   }
 }
 
+class v1LoginUsage {
+  /// Public key for authentication
+  final String publicKey;
+
+  const v1LoginUsage({
+    required  this.publicKey,
+  });
+
+  factory v1LoginUsage.fromJson(Map<String, dynamic> json) {
+    final _publicKey = json['publicKey'] as String;
+    return v1LoginUsage(
+      publicKey: _publicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['publicKey'] = publicKey;
+    return _json;
+  }
+}
+
 class v1NOOPCodegenAnchorResponse {
   final v1WebAuthnStamp stamp;
+  final v1TokenUsage? tokenUsage;
 
   const v1NOOPCodegenAnchorResponse({
     required  this.stamp,
+     this.tokenUsage,
   });
 
   factory v1NOOPCodegenAnchorResponse.fromJson(Map<String, dynamic> json) {
     final _stamp = v1WebAuthnStamp.fromJson(json['stamp'] as Map<String, dynamic>);
+    final _tokenUsage = json['tokenUsage'] == null ? null : v1TokenUsage.fromJson(json['tokenUsage'] as Map<String, dynamic>);
     return v1NOOPCodegenAnchorResponse(
       stamp: _stamp,
+      tokenUsage: _tokenUsage,
     );
   }
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['stamp'] = stamp.toJson();
+    if (tokenUsage != null) {
+      _json['tokenUsage'] = tokenUsage?.toJson();
+    }
     return _json;
   }
 }
@@ -10940,12 +12703,14 @@ class v1Oauth2AuthenticateRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1Oauth2AuthenticateIntent parameters;
+  final bool? generateAppProofs;
 
   const v1Oauth2AuthenticateRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1Oauth2AuthenticateRequest.fromJson(Map<String, dynamic> json) {
@@ -10953,11 +12718,13 @@ class v1Oauth2AuthenticateRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1Oauth2AuthenticateIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1Oauth2AuthenticateRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -10967,6 +12734,9 @@ class v1Oauth2AuthenticateRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -11152,12 +12922,14 @@ class v1OauthLoginRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1OauthLoginIntent parameters;
+  final bool? generateAppProofs;
 
   const v1OauthLoginRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1OauthLoginRequest.fromJson(Map<String, dynamic> json) {
@@ -11165,11 +12937,13 @@ class v1OauthLoginRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1OauthLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OauthLoginRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -11179,6 +12953,9 @@ class v1OauthLoginRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -11296,12 +13073,14 @@ class v1OauthRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1OauthIntent parameters;
+  final bool? generateAppProofs;
 
   const v1OauthRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1OauthRequest.fromJson(Map<String, dynamic> json) {
@@ -11309,11 +13088,13 @@ class v1OauthRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1OauthIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OauthRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -11323,6 +13104,9 @@ class v1OauthRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -11519,12 +13303,14 @@ class v1OtpAuthRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1OtpAuthIntent parameters;
+  final bool? generateAppProofs;
 
   const v1OtpAuthRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1OtpAuthRequest.fromJson(Map<String, dynamic> json) {
@@ -11532,11 +13318,13 @@ class v1OtpAuthRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1OtpAuthIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OtpAuthRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -11546,6 +13334,9 @@ class v1OtpAuthRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -11597,8 +13388,8 @@ class v1OtpLoginIntent {
   final String? expirationSeconds;
   /// Invalidate all other previously generated Login API keys
   final bool? invalidateExisting;
-  /// Optional signature associated with the public key passed into the verification step. This must be a hex-encoded ECDSA signature over the verification token. Only required if a public key was provided during the verification step.
-  final String? clientSignature;
+  /// Optional signature proving authorization for this login. The signature is over the verification token ID and the public key. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
 
   const v1OtpLoginIntent({
     required  this.verificationToken,
@@ -11613,7 +13404,7 @@ class v1OtpLoginIntent {
     final _publicKey = json['publicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
-    final _clientSignature = json['clientSignature'] as String?;
+    final _clientSignature = json['clientSignature'] == null ? null : v1ClientSignature.fromJson(json['clientSignature'] as Map<String, dynamic>);
     return v1OtpLoginIntent(
       verificationToken: _verificationToken,
       publicKey: _publicKey,
@@ -11634,7 +13425,7 @@ class v1OtpLoginIntent {
       _json['invalidateExisting'] = invalidateExisting;
     }
     if (clientSignature != null) {
-      _json['clientSignature'] = clientSignature;
+      _json['clientSignature'] = clientSignature?.toJson();
     }
     return _json;
   }
@@ -11647,12 +13438,14 @@ class v1OtpLoginRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1OtpLoginIntent parameters;
+  final bool? generateAppProofs;
 
   const v1OtpLoginRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1OtpLoginRequest.fromJson(Map<String, dynamic> json) {
@@ -11660,11 +13453,13 @@ class v1OtpLoginRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1OtpLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OtpLoginRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -11674,6 +13469,9 @@ class v1OtpLoginRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -12029,12 +13827,14 @@ class v1RecoverUserRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1RecoverUserIntent parameters;
+  final bool? generateAppProofs;
 
   const v1RecoverUserRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1RecoverUserRequest.fromJson(Map<String, dynamic> json) {
@@ -12042,11 +13842,13 @@ class v1RecoverUserRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1RecoverUserIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1RecoverUserRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -12056,6 +13858,9 @@ class v1RecoverUserRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -12111,12 +13916,14 @@ class v1RejectActivityRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1RejectActivityIntent parameters;
+  final bool? generateAppProofs;
 
   const v1RejectActivityRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1RejectActivityRequest.fromJson(Map<String, dynamic> json) {
@@ -12124,11 +13931,13 @@ class v1RejectActivityRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1RejectActivityIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1RejectActivityRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -12138,6 +13947,9 @@ class v1RejectActivityRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -12171,12 +13983,14 @@ class v1RemoveOrganizationFeatureRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1RemoveOrganizationFeatureIntent parameters;
+  final bool? generateAppProofs;
 
   const v1RemoveOrganizationFeatureRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1RemoveOrganizationFeatureRequest.fromJson(Map<String, dynamic> json) {
@@ -12184,11 +13998,13 @@ class v1RemoveOrganizationFeatureRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1RemoveOrganizationFeatureIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1RemoveOrganizationFeatureRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -12198,6 +14014,9 @@ class v1RemoveOrganizationFeatureRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -12313,6 +14132,11 @@ class v1Result {
   final v1Oauth2AuthenticateResult? oauth2AuthenticateResult;
   final v1DeleteWalletAccountsResult? deleteWalletAccountsResult;
   final v1DeletePoliciesResult? deletePoliciesResult;
+  final v1EthSendRawTransactionResult? ethSendRawTransactionResult;
+  final v1CreateFiatOnRampCredentialResult? createFiatOnRampCredentialResult;
+  final v1UpdateFiatOnRampCredentialResult? updateFiatOnRampCredentialResult;
+  final v1DeleteFiatOnRampCredentialResult? deleteFiatOnRampCredentialResult;
+  final v1EthSendTransactionResult? ethSendTransactionResult;
 
   const v1Result({
      this.createOrganizationResult,
@@ -12403,6 +14227,11 @@ class v1Result {
      this.oauth2AuthenticateResult,
      this.deleteWalletAccountsResult,
      this.deletePoliciesResult,
+     this.ethSendRawTransactionResult,
+     this.createFiatOnRampCredentialResult,
+     this.updateFiatOnRampCredentialResult,
+     this.deleteFiatOnRampCredentialResult,
+     this.ethSendTransactionResult,
   });
 
   factory v1Result.fromJson(Map<String, dynamic> json) {
@@ -12494,6 +14323,11 @@ class v1Result {
     final _oauth2AuthenticateResult = json['oauth2AuthenticateResult'] == null ? null : v1Oauth2AuthenticateResult.fromJson(json['oauth2AuthenticateResult'] as Map<String, dynamic>);
     final _deleteWalletAccountsResult = json['deleteWalletAccountsResult'] == null ? null : v1DeleteWalletAccountsResult.fromJson(json['deleteWalletAccountsResult'] as Map<String, dynamic>);
     final _deletePoliciesResult = json['deletePoliciesResult'] == null ? null : v1DeletePoliciesResult.fromJson(json['deletePoliciesResult'] as Map<String, dynamic>);
+    final _ethSendRawTransactionResult = json['ethSendRawTransactionResult'] == null ? null : v1EthSendRawTransactionResult.fromJson(json['ethSendRawTransactionResult'] as Map<String, dynamic>);
+    final _createFiatOnRampCredentialResult = json['createFiatOnRampCredentialResult'] == null ? null : v1CreateFiatOnRampCredentialResult.fromJson(json['createFiatOnRampCredentialResult'] as Map<String, dynamic>);
+    final _updateFiatOnRampCredentialResult = json['updateFiatOnRampCredentialResult'] == null ? null : v1UpdateFiatOnRampCredentialResult.fromJson(json['updateFiatOnRampCredentialResult'] as Map<String, dynamic>);
+    final _deleteFiatOnRampCredentialResult = json['deleteFiatOnRampCredentialResult'] == null ? null : v1DeleteFiatOnRampCredentialResult.fromJson(json['deleteFiatOnRampCredentialResult'] as Map<String, dynamic>);
+    final _ethSendTransactionResult = json['ethSendTransactionResult'] == null ? null : v1EthSendTransactionResult.fromJson(json['ethSendTransactionResult'] as Map<String, dynamic>);
     return v1Result(
       createOrganizationResult: _createOrganizationResult,
       createAuthenticatorsResult: _createAuthenticatorsResult,
@@ -12583,6 +14417,11 @@ class v1Result {
       oauth2AuthenticateResult: _oauth2AuthenticateResult,
       deleteWalletAccountsResult: _deleteWalletAccountsResult,
       deletePoliciesResult: _deletePoliciesResult,
+      ethSendRawTransactionResult: _ethSendRawTransactionResult,
+      createFiatOnRampCredentialResult: _createFiatOnRampCredentialResult,
+      updateFiatOnRampCredentialResult: _updateFiatOnRampCredentialResult,
+      deleteFiatOnRampCredentialResult: _deleteFiatOnRampCredentialResult,
+      ethSendTransactionResult: _ethSendTransactionResult,
     );
   }
 
@@ -12851,6 +14690,21 @@ class v1Result {
     }
     if (deletePoliciesResult != null) {
       _json['deletePoliciesResult'] = deletePoliciesResult?.toJson();
+    }
+    if (ethSendRawTransactionResult != null) {
+      _json['ethSendRawTransactionResult'] = ethSendRawTransactionResult?.toJson();
+    }
+    if (createFiatOnRampCredentialResult != null) {
+      _json['createFiatOnRampCredentialResult'] = createFiatOnRampCredentialResult?.toJson();
+    }
+    if (updateFiatOnRampCredentialResult != null) {
+      _json['updateFiatOnRampCredentialResult'] = updateFiatOnRampCredentialResult?.toJson();
+    }
+    if (deleteFiatOnRampCredentialResult != null) {
+      _json['deleteFiatOnRampCredentialResult'] = deleteFiatOnRampCredentialResult?.toJson();
+    }
+    if (ethSendTransactionResult != null) {
+      _json['ethSendTransactionResult'] = ethSendTransactionResult?.toJson();
     }
     return _json;
   }
@@ -13159,12 +15013,14 @@ class v1SetOrganizationFeatureRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1SetOrganizationFeatureIntent parameters;
+  final bool? generateAppProofs;
 
   const v1SetOrganizationFeatureRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1SetOrganizationFeatureRequest.fromJson(Map<String, dynamic> json) {
@@ -13172,11 +15028,13 @@ class v1SetOrganizationFeatureRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1SetOrganizationFeatureIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SetOrganizationFeatureRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -13186,6 +15044,9 @@ class v1SetOrganizationFeatureRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -13299,12 +15160,14 @@ class v1SignRawPayloadRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1SignRawPayloadIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1SignRawPayloadRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1SignRawPayloadRequest.fromJson(Map<String, dynamic> json) {
@@ -13312,11 +15175,13 @@ class v1SignRawPayloadRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1SignRawPayloadIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SignRawPayloadRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -13326,6 +15191,9 @@ class v1SignRawPayloadRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -13411,12 +15279,14 @@ class v1SignRawPayloadsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1SignRawPayloadsIntent parameters;
+  final bool? generateAppProofs;
 
   const v1SignRawPayloadsRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1SignRawPayloadsRequest.fromJson(Map<String, dynamic> json) {
@@ -13424,11 +15294,13 @@ class v1SignRawPayloadsRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1SignRawPayloadsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SignRawPayloadsRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -13438,6 +15310,9 @@ class v1SignRawPayloadsRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -13538,12 +15413,14 @@ class v1SignTransactionRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1SignTransactionIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1SignTransactionRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1SignTransactionRequest.fromJson(Map<String, dynamic> json) {
@@ -13551,11 +15428,13 @@ class v1SignTransactionRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1SignTransactionIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SignTransactionRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -13565,6 +15444,9 @@ class v1SignTransactionRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -13586,6 +15468,57 @@ class v1SignTransactionResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['signedTransaction'] = signedTransaction;
+    return _json;
+  }
+}
+
+class v1SignupUsage {
+  final String? email;
+  final String? phoneNumber;
+  final List<v1ApiKeyParamsV2>? apiKeys;
+  final List<v1AuthenticatorParamsV2>? authenticators;
+  final List<v1OauthProviderParams>? oauthProviders;
+
+  const v1SignupUsage({
+     this.email,
+     this.phoneNumber,
+     this.apiKeys,
+     this.authenticators,
+     this.oauthProviders,
+  });
+
+  factory v1SignupUsage.fromJson(Map<String, dynamic> json) {
+    final _email = json['email'] as String?;
+    final _phoneNumber = json['phoneNumber'] as String?;
+    final _apiKeys = (json['apiKeys'] as List?)?.map((e) => v1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>)).toList();
+    final _authenticators = (json['authenticators'] as List?)?.map((e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>)).toList();
+    final _oauthProviders = (json['oauthProviders'] as List?)?.map((e) => v1OauthProviderParams.fromJson(e as Map<String, dynamic>)).toList();
+    return v1SignupUsage(
+      email: _email,
+      phoneNumber: _phoneNumber,
+      apiKeys: _apiKeys,
+      authenticators: _authenticators,
+      oauthProviders: _oauthProviders,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (email != null) {
+      _json['email'] = email;
+    }
+    if (phoneNumber != null) {
+      _json['phoneNumber'] = phoneNumber;
+    }
+    if (apiKeys != null) {
+      _json['apiKeys'] = apiKeys?.map((e) => e.toJson()).toList();
+    }
+    if (authenticators != null) {
+      _json['authenticators'] = authenticators?.map((e) => e.toJson()).toList();
+    }
+    if (oauthProviders != null) {
+      _json['oauthProviders'] = oauthProviders?.map((e) => e.toJson()).toList();
+    }
     return _json;
   }
 }
@@ -13623,74 +15556,6 @@ class v1SimpleClientExtensionResults {
     if (credProps != null) {
       _json['credProps'] = credProps?.toJson();
     }
-    return _json;
-  }
-}
-
-class v1SmartContractInterface {
-  /// The Organization the Smart Contract Interface belongs to.
-  final String organizationId;
-  /// Unique identifier for a given Smart Contract Interface (ABI or IDL).
-  final String smartContractInterfaceId;
-  /// The address corresponding to the Smart Contract or Program.
-  final String smartContractAddress;
-  /// The JSON corresponding to the Smart Contract Interface (ABI or IDL).
-  final String smartContractInterface;
-  /// The type corresponding to the Smart Contract Interface (either ETHEREUM or SOLANA).
-  final String type;
-  /// The label corresponding to the Smart Contract Interface (either ETHEREUM or SOLANA).
-  final String label;
-  /// The notes corresponding to the Smart Contract Interface (either ETHEREUM or SOLANA).
-  final String notes;
-  final externaldatav1Timestamp createdAt;
-  final externaldatav1Timestamp updatedAt;
-
-  const v1SmartContractInterface({
-    required  this.organizationId,
-    required  this.smartContractInterfaceId,
-    required  this.smartContractAddress,
-    required  this.smartContractInterface,
-    required  this.type,
-    required  this.label,
-    required  this.notes,
-    required  this.createdAt,
-    required  this.updatedAt,
-  });
-
-  factory v1SmartContractInterface.fromJson(Map<String, dynamic> json) {
-    final _organizationId = json['organizationId'] as String;
-    final _smartContractInterfaceId = json['smartContractInterfaceId'] as String;
-    final _smartContractAddress = json['smartContractAddress'] as String;
-    final _smartContractInterface = json['smartContractInterface'] as String;
-    final _type = json['type'] as String;
-    final _label = json['label'] as String;
-    final _notes = json['notes'] as String;
-    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
-    return v1SmartContractInterface(
-      organizationId: _organizationId,
-      smartContractInterfaceId: _smartContractInterfaceId,
-      smartContractAddress: _smartContractAddress,
-      smartContractInterface: _smartContractInterface,
-      type: _type,
-      label: _label,
-      notes: _notes,
-      createdAt: _createdAt,
-      updatedAt: _updatedAt,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['organizationId'] = organizationId;
-    _json['smartContractInterfaceId'] = smartContractInterfaceId;
-    _json['smartContractAddress'] = smartContractAddress;
-    _json['smartContractInterface'] = smartContractInterface;
-    _json['type'] = type;
-    _json['label'] = label;
-    _json['notes'] = notes;
-    _json['createdAt'] = createdAt.toJson();
-    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -13801,12 +15666,14 @@ class v1StampLoginRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1StampLoginIntent parameters;
+  final bool? generateAppProofs;
 
   const v1StampLoginRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1StampLoginRequest.fromJson(Map<String, dynamic> json) {
@@ -13814,11 +15681,13 @@ class v1StampLoginRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1StampLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1StampLoginRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -13828,6 +15697,9 @@ class v1StampLoginRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -13894,6 +15766,48 @@ class v1TestRateLimitsResponse {
   Map<String, dynamic> toJson() => {};
 }
 
+class v1TokenUsage {
+  /// Type of token usage
+  final v1UsageType type;
+  /// Unique identifier for the verification token
+  final String tokenId;
+  final v1SignupUsage? signup;
+  final v1LoginUsage? login;
+
+  const v1TokenUsage({
+    required  this.type,
+    required  this.tokenId,
+     this.signup,
+     this.login,
+  });
+
+  factory v1TokenUsage.fromJson(Map<String, dynamic> json) {
+    final _type = v1UsageTypeFromJson(json['type']);
+    final _tokenId = json['tokenId'] as String;
+    final _signup = json['signup'] == null ? null : v1SignupUsage.fromJson(json['signup'] as Map<String, dynamic>);
+    final _login = json['login'] == null ? null : v1LoginUsage.fromJson(json['login'] as Map<String, dynamic>);
+    return v1TokenUsage(
+      type: _type,
+      tokenId: _tokenId,
+      signup: _signup,
+      login: _login,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = v1UsageTypeToJson(type);
+    _json['tokenId'] = tokenId;
+    if (signup != null) {
+      _json['signup'] = signup?.toJson();
+    }
+    if (login != null) {
+      _json['login'] = login?.toJson();
+    }
+    return _json;
+  }
+}
+
 class v1UpdateAllowedOriginsIntent {
   /// Additional origins requests are allowed from besides Turnkey origins
   final List<String> allowedOrigins;
@@ -13935,7 +15849,7 @@ class v1UpdateAuthProxyConfigIntent {
   final String? emailAuthTemplateId;
   /// Template ID for OTP SMS messages.
   final String? otpTemplateId;
-  /// Overrides for auth-related email content.
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
   final v1EmailCustomizationParams? emailCustomizationParams;
   /// Overrides for auth-related SMS content.
   final v1SmsCustomizationParams? smsCustomizationParams;
@@ -14090,6 +16004,129 @@ class v1UpdateAuthProxyConfigResult {
   }
 }
 
+class v1UpdateFiatOnRampCredentialIntent {
+  /// The ID of the fiat on-ramp credential to update
+  final String fiatOnrampCredentialId;
+  /// The fiat on-ramp provider
+  final v1FiatOnRampProvider onrampProvider;
+  /// Project ID for the on-ramp provider. Some providers, like Coinbase, require this additional identifier.
+  final String? projectId;
+  /// Publishable API key for the on-ramp provider
+  final String publishableApiKey;
+  /// Secret API key for the on-ramp provider encrypted to our on-ramp encryption public key
+  final String encryptedSecretApiKey;
+  /// Private API key for the on-ramp provider encrypted to our on-ramp encryption public key. Some providers, like Coinbase, require this additional key.
+  final String? encryptedPrivateApiKey;
+
+  const v1UpdateFiatOnRampCredentialIntent({
+    required  this.fiatOnrampCredentialId,
+    required  this.onrampProvider,
+     this.projectId,
+    required  this.publishableApiKey,
+    required  this.encryptedSecretApiKey,
+     this.encryptedPrivateApiKey,
+  });
+
+  factory v1UpdateFiatOnRampCredentialIntent.fromJson(Map<String, dynamic> json) {
+    final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
+    final _onrampProvider = v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _projectId = json['projectId'] as String?;
+    final _publishableApiKey = json['publishableApiKey'] as String;
+    final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
+    final _encryptedPrivateApiKey = json['encryptedPrivateApiKey'] as String?;
+    return v1UpdateFiatOnRampCredentialIntent(
+      fiatOnrampCredentialId: _fiatOnrampCredentialId,
+      onrampProvider: _onrampProvider,
+      projectId: _projectId,
+      publishableApiKey: _publishableApiKey,
+      encryptedSecretApiKey: _encryptedSecretApiKey,
+      encryptedPrivateApiKey: _encryptedPrivateApiKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnrampCredentialId'] = fiatOnrampCredentialId;
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    if (projectId != null) {
+      _json['projectId'] = projectId;
+    }
+    _json['publishableApiKey'] = publishableApiKey;
+    _json['encryptedSecretApiKey'] = encryptedSecretApiKey;
+    if (encryptedPrivateApiKey != null) {
+      _json['encryptedPrivateApiKey'] = encryptedPrivateApiKey;
+    }
+    return _json;
+  }
+}
+
+class v1UpdateFiatOnRampCredentialRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1UpdateFiatOnRampCredentialIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1UpdateFiatOnRampCredentialRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+     this.generateAppProofs,
+  });
+
+  factory v1UpdateFiatOnRampCredentialRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1UpdateFiatOnRampCredentialIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1UpdateFiatOnRampCredentialRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1UpdateFiatOnRampCredentialResult {
+  /// Unique identifier of the Fiat On-Ramp credential that was updated
+  final String fiatOnRampCredentialId;
+
+  const v1UpdateFiatOnRampCredentialResult({
+    required  this.fiatOnRampCredentialId,
+  });
+
+  factory v1UpdateFiatOnRampCredentialResult.fromJson(Map<String, dynamic> json) {
+    final _fiatOnRampCredentialId = json['fiatOnRampCredentialId'] as String;
+    return v1UpdateFiatOnRampCredentialResult(
+      fiatOnRampCredentialId: _fiatOnRampCredentialId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnRampCredentialId'] = fiatOnRampCredentialId;
+    return _json;
+  }
+}
+
 class v1UpdateOauth2CredentialIntent {
   /// The ID of the OAuth 2.0 credential to update
   final String oauth2CredentialId;
@@ -14137,12 +16174,14 @@ class v1UpdateOauth2CredentialRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateOauth2CredentialIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateOauth2CredentialRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateOauth2CredentialRequest.fromJson(Map<String, dynamic> json) {
@@ -14150,11 +16189,13 @@ class v1UpdateOauth2CredentialRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateOauth2CredentialIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateOauth2CredentialRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14164,6 +16205,9 @@ class v1UpdateOauth2CredentialRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14321,12 +16365,14 @@ class v1UpdatePolicyRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdatePolicyIntentV2 parameters;
+  final bool? generateAppProofs;
 
   const v1UpdatePolicyRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdatePolicyRequest.fromJson(Map<String, dynamic> json) {
@@ -14334,11 +16380,13 @@ class v1UpdatePolicyRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdatePolicyIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdatePolicyRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14348,6 +16396,9 @@ class v1UpdatePolicyRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14445,12 +16496,14 @@ class v1UpdatePrivateKeyTagRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdatePrivateKeyTagIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdatePrivateKeyTagRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdatePrivateKeyTagRequest.fromJson(Map<String, dynamic> json) {
@@ -14458,11 +16511,13 @@ class v1UpdatePrivateKeyTagRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdatePrivateKeyTagIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdatePrivateKeyTagRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14472,6 +16527,9 @@ class v1UpdatePrivateKeyTagRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14533,12 +16591,14 @@ class v1UpdateRootQuorumRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateRootQuorumIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateRootQuorumRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateRootQuorumRequest.fromJson(Map<String, dynamic> json) {
@@ -14546,11 +16606,13 @@ class v1UpdateRootQuorumRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateRootQuorumIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateRootQuorumRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14560,6 +16622,9 @@ class v1UpdateRootQuorumRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14613,12 +16678,14 @@ class v1UpdateUserEmailRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateUserEmailIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateUserEmailRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateUserEmailRequest.fromJson(Map<String, dynamic> json) {
@@ -14626,11 +16693,13 @@ class v1UpdateUserEmailRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateUserEmailIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserEmailRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14640,6 +16709,9 @@ class v1UpdateUserEmailRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14755,12 +16827,14 @@ class v1UpdateUserNameRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateUserNameIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateUserNameRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateUserNameRequest.fromJson(Map<String, dynamic> json) {
@@ -14768,11 +16842,13 @@ class v1UpdateUserNameRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateUserNameIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserNameRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14782,6 +16858,9 @@ class v1UpdateUserNameRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14851,12 +16930,14 @@ class v1UpdateUserPhoneNumberRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateUserPhoneNumberIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateUserPhoneNumberRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateUserPhoneNumberRequest.fromJson(Map<String, dynamic> json) {
@@ -14864,11 +16945,13 @@ class v1UpdateUserPhoneNumberRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateUserPhoneNumberIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserPhoneNumberRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14878,6 +16961,9 @@ class v1UpdateUserPhoneNumberRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -14911,12 +16997,14 @@ class v1UpdateUserRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateUserIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateUserRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateUserRequest.fromJson(Map<String, dynamic> json) {
@@ -14924,11 +17012,13 @@ class v1UpdateUserRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateUserIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -14938,6 +17028,9 @@ class v1UpdateUserRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -15013,12 +17106,14 @@ class v1UpdateUserTagRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateUserTagIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateUserTagRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateUserTagRequest.fromJson(Map<String, dynamic> json) {
@@ -15026,11 +17121,13 @@ class v1UpdateUserTagRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateUserTagIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserTagRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -15040,6 +17137,9 @@ class v1UpdateUserTagRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -15103,12 +17203,14 @@ class v1UpdateWalletRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateWalletIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateWalletRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1UpdateWalletRequest.fromJson(Map<String, dynamic> json) {
@@ -15116,11 +17218,13 @@ class v1UpdateWalletRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateWalletIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateWalletRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -15130,6 +17234,9 @@ class v1UpdateWalletRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -15449,12 +17556,14 @@ class v1VerifyOtpRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1VerifyOtpIntent parameters;
+  final bool? generateAppProofs;
 
   const v1VerifyOtpRequest({
     required  this.type,
     required  this.timestampMs,
     required  this.organizationId,
     required  this.parameters,
+     this.generateAppProofs,
   });
 
   factory v1VerifyOtpRequest.fromJson(Map<String, dynamic> json) {
@@ -15462,11 +17571,13 @@ class v1VerifyOtpRequest {
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1VerifyOtpIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1VerifyOtpRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -15476,6 +17587,9 @@ class v1VerifyOtpRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -16294,6 +18408,68 @@ class TGetBootProofInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetGasUsageResponse {
+  /// The window duration (in minutes) for the organization or sub-organization.
+  final num windowDurationMinutes;
+  /// The window limit (in USD) for the organization or sub-organization.
+  final String windowLimitUsd;
+  /// The total gas usage (in USD) of all sponsored transactions processed over the last `window_duration_minutes`
+  final String usageUsd;
+
+  const TGetGasUsageResponse({
+    required  this.windowDurationMinutes,
+    required  this.windowLimitUsd,
+    required  this.usageUsd,
+  });
+
+  factory TGetGasUsageResponse.fromJson(Map<String, dynamic> json) {
+    final _windowDurationMinutes = json['windowDurationMinutes'] as num;
+    final _windowLimitUsd = json['windowLimitUsd'] as String;
+    final _usageUsd = json['usageUsd'] as String;
+    return TGetGasUsageResponse(
+      windowDurationMinutes: _windowDurationMinutes,
+      windowLimitUsd: _windowLimitUsd,
+      usageUsd: _usageUsd,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['windowDurationMinutes'] = windowDurationMinutes;
+    _json['windowLimitUsd'] = windowLimitUsd;
+    _json['usageUsd'] = usageUsd;
+    return _json;
+  }
+}
+
+class TGetGasUsageBody {
+  final String? organizationId;
+
+  const TGetGasUsageBody({
+     this.organizationId,
+  });
+  factory TGetGasUsageBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetGasUsageBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetGasUsageInput {
+  final TGetGasUsageBody body;
+  const TGetGasUsageInput({required this.body});
+  factory TGetGasUsageInput.fromJson(Map<String, dynamic> json) => TGetGasUsageInput(body: TGetGasUsageBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetLatestBootProofResponse {
   final v1BootProof bootProof;
 
@@ -16459,6 +18635,70 @@ class TGetOauthProvidersInput {
   final TGetOauthProvidersBody body;
   const TGetOauthProvidersInput({required this.body});
   factory TGetOauthProvidersInput.fromJson(Map<String, dynamic> json) => TGetOauthProvidersInput(body: TGetOauthProvidersBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetOnRampTransactionStatusResponse {
+  /// The status of the fiat on ramp transaction.
+  final String transactionStatus;
+
+  const TGetOnRampTransactionStatusResponse({
+    required  this.transactionStatus,
+  });
+
+  factory TGetOnRampTransactionStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _transactionStatus = json['transactionStatus'] as String;
+    return TGetOnRampTransactionStatusResponse(
+      transactionStatus: _transactionStatus,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactionStatus'] = transactionStatus;
+    return _json;
+  }
+}
+
+class TGetOnRampTransactionStatusBody {
+  final String? organizationId;
+  /// The unique identifier for the fiat on ramp transaction.
+  final String transactionId;
+  /// Optional flag to specify if the transaction status should be refreshed from the fiat on ramp provider. Default = false.
+  final bool? refresh;
+
+  const TGetOnRampTransactionStatusBody({
+     this.organizationId,
+    required  this.transactionId,
+     this.refresh,
+  });
+  factory TGetOnRampTransactionStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _transactionId = json['transactionId'] as String;
+    final _refresh = json['refresh'] as bool?;
+    return TGetOnRampTransactionStatusBody(
+      organizationId: _organizationId,
+      transactionId: _transactionId,
+      refresh: _refresh,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['transactionId'] = transactionId;
+    if (refresh != null) {
+      _json['refresh'] = refresh;
+    }
+    return _json;
+  }
+}
+
+class TGetOnRampTransactionStatusInput {
+  final TGetOnRampTransactionStatusBody body;
+  const TGetOnRampTransactionStatusInput({required this.body});
+  factory TGetOnRampTransactionStatusInput.fromJson(Map<String, dynamic> json) => TGetOnRampTransactionStatusInput(body: TGetOnRampTransactionStatusBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -16729,16 +18969,88 @@ class TGetPrivateKeyInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetSendTransactionStatusResponse {
+  /// The current status of the send transaction.
+  final String txStatus;
+  /// Ethereum-specific transaction status.
+  final v1EthSendTransactionStatus? eth;
+  /// The error encountered when broadcasting or confirming the transaction, if any.
+  final String? txError;
+
+  const TGetSendTransactionStatusResponse({
+    required  this.txStatus,
+     this.eth,
+     this.txError,
+  });
+
+  factory TGetSendTransactionStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _txStatus = json['txStatus'] as String;
+    final _eth = json['eth'] == null ? null : v1EthSendTransactionStatus.fromJson(json['eth'] as Map<String, dynamic>);
+    final _txError = json['txError'] as String?;
+    return TGetSendTransactionStatusResponse(
+      txStatus: _txStatus,
+      eth: _eth,
+      txError: _txError,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['txStatus'] = txStatus;
+    if (eth != null) {
+      _json['eth'] = eth?.toJson();
+    }
+    if (txError != null) {
+      _json['txError'] = txError;
+    }
+    return _json;
+  }
+}
+
+class TGetSendTransactionStatusBody {
+  final String? organizationId;
+  /// The unique identifier of a send transaction request.
+  final String sendTransactionStatusId;
+
+  const TGetSendTransactionStatusBody({
+     this.organizationId,
+    required  this.sendTransactionStatusId,
+  });
+  factory TGetSendTransactionStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return TGetSendTransactionStatusBody(
+      organizationId: _organizationId,
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
+class TGetSendTransactionStatusInput {
+  final TGetSendTransactionStatusBody body;
+  const TGetSendTransactionStatusInput({required this.body});
+  factory TGetSendTransactionStatusInput.fromJson(Map<String, dynamic> json) => TGetSendTransactionStatusInput(body: TGetSendTransactionStatusBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetSmartContractInterfaceResponse {
   /// Object to be used in conjunction with policies to guard transaction signing.
-  final v1SmartContractInterface smartContractInterface;
+  final externaldatav1SmartContractInterface smartContractInterface;
 
   const TGetSmartContractInterfaceResponse({
     required  this.smartContractInterface,
   });
 
   factory TGetSmartContractInterfaceResponse.fromJson(Map<String, dynamic> json) {
-    final _smartContractInterface = v1SmartContractInterface.fromJson(json['smartContractInterface'] as Map<String, dynamic>);
+    final _smartContractInterface = externaldatav1SmartContractInterface.fromJson(json['smartContractInterface'] as Map<String, dynamic>);
     return TGetSmartContractInterfaceResponse(
       smartContractInterface: _smartContractInterface,
     );
@@ -17098,6 +19410,55 @@ class TGetAppProofsInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TListFiatOnRampCredentialsResponse {
+  final List<v1FiatOnRampCredential> fiatOnRampCredentials;
+
+  const TListFiatOnRampCredentialsResponse({
+    required  this.fiatOnRampCredentials,
+  });
+
+  factory TListFiatOnRampCredentialsResponse.fromJson(Map<String, dynamic> json) {
+    final _fiatOnRampCredentials = (json['fiatOnRampCredentials'] as List).map((e) => v1FiatOnRampCredential.fromJson(e as Map<String, dynamic>)).toList();
+    return TListFiatOnRampCredentialsResponse(
+      fiatOnRampCredentials: _fiatOnRampCredentials,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['fiatOnRampCredentials'] = fiatOnRampCredentials.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TListFiatOnRampCredentialsBody {
+  final String? organizationId;
+
+  const TListFiatOnRampCredentialsBody({
+     this.organizationId,
+  });
+  factory TListFiatOnRampCredentialsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TListFiatOnRampCredentialsBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TListFiatOnRampCredentialsInput {
+  final TListFiatOnRampCredentialsBody body;
+  const TListFiatOnRampCredentialsInput({required this.body});
+  factory TListFiatOnRampCredentialsInput.fromJson(Map<String, dynamic> json) => TListFiatOnRampCredentialsInput(body: TListFiatOnRampCredentialsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TListOauth2CredentialsResponse {
   final List<v1Oauth2Credential> oauth2Credentials;
 
@@ -17299,14 +19660,14 @@ class TGetPrivateKeysInput {
 
 class TGetSmartContractInterfacesResponse {
   /// A list of smart contract interfaces.
-  final List<v1SmartContractInterface> smartContractInterfaces;
+  final List<externaldatav1SmartContractInterface> smartContractInterfaces;
 
   const TGetSmartContractInterfacesResponse({
     required  this.smartContractInterfaces,
   });
 
   factory TGetSmartContractInterfacesResponse.fromJson(Map<String, dynamic> json) {
-    final _smartContractInterfaces = (json['smartContractInterfaces'] as List).map((e) => v1SmartContractInterface.fromJson(e as Map<String, dynamic>)).toList();
+    final _smartContractInterfaces = (json['smartContractInterfaces'] as List).map((e) => externaldatav1SmartContractInterface.fromJson(e as Map<String, dynamic>)).toList();
     return TGetSmartContractInterfacesResponse(
       smartContractInterfaces: _smartContractInterfaces,
     );
@@ -18024,6 +20385,99 @@ class TCreateAuthenticatorsInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TCreateFiatOnRampCredentialResponse {
+  final v1Activity activity;
+  final v1CreateFiatOnRampCredentialResult? result;
+  const TCreateFiatOnRampCredentialResponse({required this.activity, this.result,});
+  factory TCreateFiatOnRampCredentialResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateFiatOnRampCredentialResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1CreateFiatOnRampCredentialResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TCreateFiatOnRampCredentialBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// The fiat on-ramp provider
+  final v1FiatOnRampProvider onrampProvider;
+  /// Project ID for the on-ramp provider. Some providers, like Coinbase, require this additional identifier
+  final String? projectId;
+  /// Publishable API key for the on-ramp provider
+  final String publishableApiKey;
+  /// Secret API key for the on-ramp provider encrypted to our on-ramp encryption public key
+  final String encryptedSecretApiKey;
+  /// Private API key for the on-ramp provider encrypted to our on-ramp encryption public key. Some providers, like Coinbase, require this additional key.
+  final String? encryptedPrivateApiKey;
+  /// If the on-ramp credential is a sandbox credential
+  final bool? sandboxMode;
+
+  const TCreateFiatOnRampCredentialBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.onrampProvider,
+     this.projectId,
+    required  this.publishableApiKey,
+    required  this.encryptedSecretApiKey,
+     this.encryptedPrivateApiKey,
+     this.sandboxMode,
+  });
+  factory TCreateFiatOnRampCredentialBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _onrampProvider = v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _projectId = json['projectId'] as String?;
+    final _publishableApiKey = json['publishableApiKey'] as String;
+    final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
+    final _encryptedPrivateApiKey = json['encryptedPrivateApiKey'] as String?;
+    final _sandboxMode = json['sandboxMode'] as bool?;
+    return TCreateFiatOnRampCredentialBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      onrampProvider: _onrampProvider,
+      projectId: _projectId,
+      publishableApiKey: _publishableApiKey,
+      encryptedSecretApiKey: _encryptedSecretApiKey,
+      encryptedPrivateApiKey: _encryptedPrivateApiKey,
+      sandboxMode: _sandboxMode,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    if (projectId != null) {
+      _json['projectId'] = projectId;
+    }
+    _json['publishableApiKey'] = publishableApiKey;
+    _json['encryptedSecretApiKey'] = encryptedSecretApiKey;
+    if (encryptedPrivateApiKey != null) {
+      _json['encryptedPrivateApiKey'] = encryptedPrivateApiKey;
+    }
+    if (sandboxMode != null) {
+      _json['sandboxMode'] = sandboxMode;
+    }
+    return _json;
+  }
+}
+
+class TCreateFiatOnRampCredentialInput {
+  final TCreateFiatOnRampCredentialBody body;
+  const TCreateFiatOnRampCredentialInput({required this.body});
+  factory TCreateFiatOnRampCredentialInput.fromJson(Map<String, dynamic> json) => TCreateFiatOnRampCredentialInput(body: TCreateFiatOnRampCredentialBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TCreateInvitationsResponse {
   final v1Activity activity;
   final v1CreateInvitationsResult? result;
@@ -18529,12 +20983,12 @@ class TCreateReadOnlySessionInput {
 
 class TCreateReadWriteSessionResponse {
   final v1Activity activity;
-  final v1CreateReadWriteSessionResultV2? result;
+  final v1CreateReadWriteSessionResult? result;
   const TCreateReadWriteSessionResponse({required this.activity, this.result,});
   factory TCreateReadWriteSessionResponse.fromJson(Map<String, dynamic> json) {
     return TCreateReadWriteSessionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
-      result: json.containsKey('result') && json['result'] != null ? v1CreateReadWriteSessionResultV2.fromJson(json['result'] as Map<String, dynamic>) : null,
+      result: json.containsKey('result') && json['result'] != null ? v1CreateReadWriteSessionResult.fromJson(json['result'] as Map<String, dynamic>) : null,
     );
   }
   Map<String, dynamic> toJson() => {
@@ -18637,7 +21091,7 @@ class TCreateSmartContractInterfaceBody {
   final String? organizationId;
   /// Corresponding contract address or program ID
   final String smartContractAddress;
-  /// ABI/IDL as a JSON string
+  /// ABI/IDL as a JSON string. Limited to 400kb
   final String smartContractInterface;
   final v1SmartContractInterfaceType type;
   /// Human-readable name for a Smart Contract Interface.
@@ -18735,6 +21189,8 @@ class TCreateSubOrganizationBody {
   final bool? disableOtpEmailAuth;
   /// Signed JWT containing a unique id, expiry, verification type, contact
   final String? verificationToken;
+  /// Optional signature proving authorization for this sub-organization creation. The signature is over the verification token ID and the root user parameters for the root user associated with the verification token. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
 
   const TCreateSubOrganizationBody({
      this.timestampMs,
@@ -18748,6 +21204,7 @@ class TCreateSubOrganizationBody {
      this.disableSmsAuth,
      this.disableOtpEmailAuth,
      this.verificationToken,
+     this.clientSignature,
   });
   factory TCreateSubOrganizationBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -18761,6 +21218,7 @@ class TCreateSubOrganizationBody {
     final _disableSmsAuth = json['disableSmsAuth'] as bool?;
     final _disableOtpEmailAuth = json['disableOtpEmailAuth'] as bool?;
     final _verificationToken = json['verificationToken'] as String?;
+    final _clientSignature = json['clientSignature'] == null ? null : v1ClientSignature.fromJson(json['clientSignature'] as Map<String, dynamic>);
     return TCreateSubOrganizationBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -18773,6 +21231,7 @@ class TCreateSubOrganizationBody {
       disableSmsAuth: _disableSmsAuth,
       disableOtpEmailAuth: _disableOtpEmailAuth,
       verificationToken: _verificationToken,
+      clientSignature: _clientSignature,
     );
   }
   Map<String, dynamic> toJson() {
@@ -18803,6 +21262,9 @@ class TCreateSubOrganizationBody {
     }
     if (verificationToken != null) {
       _json['verificationToken'] = verificationToken;
+    }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature?.toJson();
     }
     return _json;
   }
@@ -19200,6 +21662,63 @@ class TDeleteAuthenticatorsInput {
   final TDeleteAuthenticatorsBody body;
   const TDeleteAuthenticatorsInput({required this.body});
   factory TDeleteAuthenticatorsInput.fromJson(Map<String, dynamic> json) => TDeleteAuthenticatorsInput(body: TDeleteAuthenticatorsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TDeleteFiatOnRampCredentialResponse {
+  final v1Activity activity;
+  final v1DeleteFiatOnRampCredentialResult? result;
+  const TDeleteFiatOnRampCredentialResponse({required this.activity, this.result,});
+  factory TDeleteFiatOnRampCredentialResponse.fromJson(Map<String, dynamic> json) {
+    return TDeleteFiatOnRampCredentialResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1DeleteFiatOnRampCredentialResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TDeleteFiatOnRampCredentialBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// The ID of the fiat on-ramp credential to delete
+  final String fiatOnrampCredentialId;
+
+  const TDeleteFiatOnRampCredentialBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.fiatOnrampCredentialId,
+  });
+  factory TDeleteFiatOnRampCredentialBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
+    return TDeleteFiatOnRampCredentialBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      fiatOnrampCredentialId: _fiatOnrampCredentialId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['fiatOnrampCredentialId'] = fiatOnrampCredentialId;
+    return _json;
+  }
+}
+
+class TDeleteFiatOnRampCredentialInput {
+  final TDeleteFiatOnRampCredentialBody body;
+  const TDeleteFiatOnRampCredentialInput({required this.body});
+  factory TDeleteFiatOnRampCredentialInput.fromJson(Map<String, dynamic> json) => TDeleteFiatOnRampCredentialInput(body: TDeleteFiatOnRampCredentialBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -20092,6 +22611,202 @@ class TEmailAuthInput {
   final TEmailAuthBody body;
   const TEmailAuthInput({required this.body});
   factory TEmailAuthInput.fromJson(Map<String, dynamic> json) => TEmailAuthInput(body: TEmailAuthBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEthSendRawTransactionResponse {
+  final v1Activity activity;
+  final v1EthSendRawTransactionResult? result;
+  const TEthSendRawTransactionResponse({required this.activity, this.result,});
+  factory TEthSendRawTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return TEthSendRawTransactionResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1EthSendRawTransactionResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TEthSendRawTransactionBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// The raw, signed transaction to be sent.
+  final String signedTransaction;
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  const TEthSendRawTransactionBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.signedTransaction,
+    required  this.caip2,
+  });
+  factory TEthSendRawTransactionBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signedTransaction = json['signedTransaction'] as String;
+    final _caip2 = json['caip2'] as String;
+    return TEthSendRawTransactionBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signedTransaction: _signedTransaction,
+      caip2: _caip2,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signedTransaction'] = signedTransaction;
+    _json['caip2'] = caip2;
+    return _json;
+  }
+}
+
+class TEthSendRawTransactionInput {
+  final TEthSendRawTransactionBody body;
+  const TEthSendRawTransactionInput({required this.body});
+  factory TEthSendRawTransactionInput.fromJson(Map<String, dynamic> json) => TEthSendRawTransactionInput(body: TEthSendRawTransactionBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEthSendTransactionResponse {
+  final v1Activity activity;
+  final v1EthSendTransactionResult? result;
+  const TEthSendTransactionResponse({required this.activity, this.result,});
+  factory TEthSendTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return TEthSendTransactionResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1EthSendTransactionResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TEthSendTransactionBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// A wallet or private key address to sign with. This does not support private key IDs.
+  final String from;
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+  /// Recipient address as a hex string with 0x prefix.
+  final String to;
+  /// Amount of native asset to send in wei.
+  final String? value;
+  /// Hex-encoded call data for contract interactions.
+  final String? data;
+  /// Transaction nonce, for EIP-1559 and Turnkey Gas Station authorizations.
+  final String? nonce;
+  /// Maximum amount of gas to use for this transaction, for EIP-1559 transactions.
+  final String? gasLimit;
+  /// Maximum total fee per gas unit (base fee + priority fee) in wei. Required for non-sponsored (EIP-1559) transactions. Not used for sponsored transactions.
+  final String? maxFeePerGas;
+  /// Maximum priority fee (tip) per gas unit in wei. Required for non-sponsored (EIP-1559) transactions. Not used for sponsored transactions.
+  final String? maxPriorityFeePerGas;
+  /// The gas station delegate contract nonce. Only used when sponsor=true. Include this if you want maximal security posture.
+  final String? gasStationNonce;
+
+  const TEthSendTransactionBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.from,
+     this.sponsor,
+    required  this.caip2,
+    required  this.to,
+     this.value,
+     this.data,
+     this.nonce,
+     this.gasLimit,
+     this.maxFeePerGas,
+     this.maxPriorityFeePerGas,
+     this.gasStationNonce,
+  });
+  factory TEthSendTransactionBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _from = json['from'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _caip2 = json['caip2'] as String;
+    final _to = json['to'] as String;
+    final _value = json['value'] as String?;
+    final _data = json['data'] as String?;
+    final _nonce = json['nonce'] as String?;
+    final _gasLimit = json['gasLimit'] as String?;
+    final _maxFeePerGas = json['maxFeePerGas'] as String?;
+    final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    return TEthSendTransactionBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      from: _from,
+      sponsor: _sponsor,
+      caip2: _caip2,
+      to: _to,
+      value: _value,
+      data: _data,
+      nonce: _nonce,
+      gasLimit: _gasLimit,
+      maxFeePerGas: _maxFeePerGas,
+      maxPriorityFeePerGas: _maxPriorityFeePerGas,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['from'] = from;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['caip2'] = caip2;
+    _json['to'] = to;
+    if (value != null) {
+      _json['value'] = value;
+    }
+    if (data != null) {
+      _json['data'] = data;
+    }
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasLimit != null) {
+      _json['gasLimit'] = gasLimit;
+    }
+    if (maxFeePerGas != null) {
+      _json['maxFeePerGas'] = maxFeePerGas;
+    }
+    if (maxPriorityFeePerGas != null) {
+      _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class TEthSendTransactionInput {
+  final TEthSendTransactionBody body;
+  const TEthSendTransactionInput({required this.body});
+  factory TEthSendTransactionInput.fromJson(Map<String, dynamic> json) => TEthSendTransactionInput(body: TEthSendTransactionBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -21435,8 +24150,8 @@ class TOtpLoginBody {
   final String? expirationSeconds;
   /// Invalidate all other previously generated Login API keys
   final bool? invalidateExisting;
-  /// Optional signature associated with the public key passed into the verification step. This must be a hex-encoded ECDSA signature over the verification token. Only required if a public key was provided during the verification step.
-  final String? clientSignature;
+  /// Optional signature proving authorization for this login. The signature is over the verification token ID and the public key. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
 
   const TOtpLoginBody({
      this.timestampMs,
@@ -21454,7 +24169,7 @@ class TOtpLoginBody {
     final _publicKey = json['publicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
-    final _clientSignature = json['clientSignature'] as String?;
+    final _clientSignature = json['clientSignature'] == null ? null : v1ClientSignature.fromJson(json['clientSignature'] as Map<String, dynamic>);
     return TOtpLoginBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -21482,7 +24197,7 @@ class TOtpLoginBody {
       _json['invalidateExisting'] = invalidateExisting;
     }
     if (clientSignature != null) {
-      _json['clientSignature'] = clientSignature;
+      _json['clientSignature'] = clientSignature?.toJson();
     }
     return _json;
   }
@@ -22020,6 +24735,97 @@ class TStampLoginInput {
   final TStampLoginBody body;
   const TStampLoginInput({required this.body});
   factory TStampLoginInput.fromJson(Map<String, dynamic> json) => TStampLoginInput(body: TStampLoginBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TUpdateFiatOnRampCredentialResponse {
+  final v1Activity activity;
+  final v1UpdateFiatOnRampCredentialResult? result;
+  const TUpdateFiatOnRampCredentialResponse({required this.activity, this.result,});
+  factory TUpdateFiatOnRampCredentialResponse.fromJson(Map<String, dynamic> json) {
+    return TUpdateFiatOnRampCredentialResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1UpdateFiatOnRampCredentialResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TUpdateFiatOnRampCredentialBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// The ID of the fiat on-ramp credential to update
+  final String fiatOnrampCredentialId;
+  /// The fiat on-ramp provider
+  final v1FiatOnRampProvider onrampProvider;
+  /// Project ID for the on-ramp provider. Some providers, like Coinbase, require this additional identifier.
+  final String? projectId;
+  /// Publishable API key for the on-ramp provider
+  final String publishableApiKey;
+  /// Secret API key for the on-ramp provider encrypted to our on-ramp encryption public key
+  final String encryptedSecretApiKey;
+  /// Private API key for the on-ramp provider encrypted to our on-ramp encryption public key. Some providers, like Coinbase, require this additional key.
+  final String? encryptedPrivateApiKey;
+
+  const TUpdateFiatOnRampCredentialBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.fiatOnrampCredentialId,
+    required  this.onrampProvider,
+     this.projectId,
+    required  this.publishableApiKey,
+    required  this.encryptedSecretApiKey,
+     this.encryptedPrivateApiKey,
+  });
+  factory TUpdateFiatOnRampCredentialBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
+    final _onrampProvider = v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _projectId = json['projectId'] as String?;
+    final _publishableApiKey = json['publishableApiKey'] as String;
+    final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
+    final _encryptedPrivateApiKey = json['encryptedPrivateApiKey'] as String?;
+    return TUpdateFiatOnRampCredentialBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      fiatOnrampCredentialId: _fiatOnrampCredentialId,
+      onrampProvider: _onrampProvider,
+      projectId: _projectId,
+      publishableApiKey: _publishableApiKey,
+      encryptedSecretApiKey: _encryptedSecretApiKey,
+      encryptedPrivateApiKey: _encryptedPrivateApiKey,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['fiatOnrampCredentialId'] = fiatOnrampCredentialId;
+    _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
+    if (projectId != null) {
+      _json['projectId'] = projectId;
+    }
+    _json['publishableApiKey'] = publishableApiKey;
+    _json['encryptedSecretApiKey'] = encryptedSecretApiKey;
+    if (encryptedPrivateApiKey != null) {
+      _json['encryptedPrivateApiKey'] = encryptedPrivateApiKey;
+    }
+    return _json;
+  }
+}
+
+class TUpdateFiatOnRampCredentialInput {
+  final TUpdateFiatOnRampCredentialBody body;
+  const TUpdateFiatOnRampCredentialInput({required this.body});
+  factory TUpdateFiatOnRampCredentialInput.fromJson(Map<String, dynamic> json) => TUpdateFiatOnRampCredentialInput(body: TUpdateFiatOnRampCredentialBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -22852,21 +25658,28 @@ class TVerifyOtpInput {
 
 class TNOOPCodegenAnchorResponse {
   final v1WebAuthnStamp stamp;
+  final v1TokenUsage? tokenUsage;
 
   const TNOOPCodegenAnchorResponse({
     required  this.stamp,
+     this.tokenUsage,
   });
 
   factory TNOOPCodegenAnchorResponse.fromJson(Map<String, dynamic> json) {
     final _stamp = v1WebAuthnStamp.fromJson(json['stamp'] as Map<String, dynamic>);
+    final _tokenUsage = json['tokenUsage'] == null ? null : v1TokenUsage.fromJson(json['tokenUsage'] as Map<String, dynamic>);
     return TNOOPCodegenAnchorResponse(
       stamp: _stamp,
+      tokenUsage: _tokenUsage,
     );
   }
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['stamp'] = stamp.toJson();
+    if (tokenUsage != null) {
+      _json['tokenUsage'] = tokenUsage?.toJson();
+    }
     return _json;
   }
 }
@@ -23232,8 +26045,8 @@ class ProxyTOtpLoginBody {
   final bool? invalidateExisting;
   /// Unique identifier for a given Organization. If provided, this organization id will be used directly. If omitted, uses the verification token to look up the verified sub-organization based on the contact and verification type.
   final String? organizationId;
-  /// Optional signature associated with the public key passed into the verification step. This must be a hex-encoded ECDSA signature over the verification token. Only required if a public key was provided during the verification step.
-  final String? clientSignature;
+  /// Optional signature proving authorization for this login. The signature is over the verification token ID and the public key. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
 
   const ProxyTOtpLoginBody({
     required  this.verificationToken,
@@ -23247,7 +26060,7 @@ class ProxyTOtpLoginBody {
     final _publicKey = json['publicKey'] as String;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _organizationId = json['organizationId'] as String?;
-    final _clientSignature = json['clientSignature'] as String?;
+    final _clientSignature = json['clientSignature'] == null ? null : v1ClientSignature.fromJson(json['clientSignature'] as Map<String, dynamic>);
     return ProxyTOtpLoginBody(
       verificationToken: _verificationToken,
       publicKey: _publicKey,
@@ -23267,7 +26080,7 @@ class ProxyTOtpLoginBody {
       _json['organizationId'] = organizationId;
     }
     if (clientSignature != null) {
-      _json['clientSignature'] = clientSignature;
+      _json['clientSignature'] = clientSignature?.toJson();
     }
     return _json;
   }
@@ -23349,7 +26162,7 @@ class ProxyTSignupResponse {
   final v1WalletResult? wallet;
   /// Root user ID created for this sub-organization
   final String userId;
-  /// A list of app proofs generated by enclaves during activity execution, providing verifiable attestations of performed operations.
+  /// A list of App Proofs generated by enclaves during activity execution, providing verifiable attestations of performed operations.
   final List<v1AppProof>? appProofs;
 
   const ProxyTSignupResponse({
@@ -23401,6 +26214,8 @@ class ProxyTSignupBody {
   final List<v1OauthProviderParams> oauthProviders;
   /// The wallet to create for the sub-organization
   final v1WalletParams? wallet;
+  /// Optional signature proving authorization for this signup. The signature is over the verification token ID and the root user parameters for the root user associated with the verification token. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
 
   const ProxyTSignupBody({
      this.userEmail,
@@ -23413,6 +26228,7 @@ class ProxyTSignupBody {
     required  this.authenticators,
     required  this.oauthProviders,
      this.wallet,
+     this.clientSignature,
   });
   factory ProxyTSignupBody.fromJson(Map<String, dynamic> json) {
     final _userEmail = json['userEmail'] as String?;
@@ -23425,6 +26241,7 @@ class ProxyTSignupBody {
     final _authenticators = (json['authenticators'] as List).map((e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>)).toList();
     final _oauthProviders = (json['oauthProviders'] as List).map((e) => v1OauthProviderParams.fromJson(e as Map<String, dynamic>)).toList();
     final _wallet = json['wallet'] == null ? null : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _clientSignature = json['clientSignature'] == null ? null : v1ClientSignature.fromJson(json['clientSignature'] as Map<String, dynamic>);
     return ProxyTSignupBody(
       userEmail: _userEmail,
       userPhoneNumber: _userPhoneNumber,
@@ -23436,6 +26253,7 @@ class ProxyTSignupBody {
       authenticators: _authenticators,
       oauthProviders: _oauthProviders,
       wallet: _wallet,
+      clientSignature: _clientSignature,
     );
   }
   Map<String, dynamic> toJson() {
@@ -23463,6 +26281,9 @@ class ProxyTSignupBody {
     _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     if (wallet != null) {
       _json['wallet'] = wallet?.toJson();
+    }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature?.toJson();
     }
     return _json;
   }

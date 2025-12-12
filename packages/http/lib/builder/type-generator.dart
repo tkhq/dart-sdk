@@ -351,7 +351,6 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
     if (mType == 'command') {
       // Find corresponding Result type using request 'type' enum mapping (like JS)
       String? resultTypeName;
-      String? versionSuffix;
 
       final params = (op['parameters'] as List?)?.cast<dynamic>() ?? [];
       for (final p in params) {
@@ -373,23 +372,22 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
                 .replaceFirst(RegExp(r'^v\d+'), '')
                 .replaceFirst(RegExp(r'Request(V\d+)?$'), '');
 
-            final activityTypeKey =
-                (reqProps['type']['enum'] as List).first as String?;
+            final activityType =
+                ((reqProps['type']['enum'] as List).first as String?);
+            final activityTypeKey = activityType != null
+                ? stripVersionSuffix(activityType)
+                : null;
+
             final mapped = activityTypeKey != null
                 ? VERSIONED_ACTIVITY_TYPES[activityTypeKey]
                 : null;
-            if (mapped != null) {
-              final m = RegExp(r'(V\d+)$').firstMatch(mapped);
-              versionSuffix = m?.group(1);
-            }
 
             final resultBase = '${baseActivity}Result';
             String? candidate;
-            if (versionSuffix != null) {
+            if (mapped?.$3 != null) {
               candidate = defs.keys.firstWhere(
                 (k) =>
-                    k.startsWith('v1${baseActivity}Result') &&
-                    k.endsWith(versionSuffix!),
+                    k == mapped?.$3,
                 orElse: () => '',
               );
             }
@@ -535,7 +533,29 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
           : null;
       if (ref != null) {
         final intentTypeName = refToName(ref);
-        final intentDef = (defs[intentTypeName] as Map).cast<String, dynamic>();
+        
+        final activityType = ((props?['type']['enum'] as List).first as String?);
+        final activityTypeKey = activityType != null
+            ? stripVersionSuffix(activityType)
+            : null;
+
+        final mapped = activityTypeKey != null
+            ? VERSIONED_ACTIVITY_TYPES[activityTypeKey]
+            : null;
+        
+        String? candidate;
+        if (mapped?.$2 != null) {
+          candidate = defs.keys.firstWhere(
+            (k) =>
+                k == mapped?.$2,
+            orElse: () => '',
+          );
+        }
+        final intentTypeNameResolved = (candidate != null && candidate.isNotEmpty)
+            ? candidate
+            : intentTypeName;
+
+        final intentDef = (defs[intentTypeNameResolved] as Map).cast<String, dynamic>();
         final isAllOptional =
             METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(methodName);
         final reqd = (intentDef['required'] is List)

@@ -89,3 +89,9 @@ String typeToDart(String? type, Map<String, dynamic>? schema) {
   return 'dynamic';
 }
 
+String stripVersionSuffix(String activityType) {
+  // Matches: underscore + 'V' + digits at the very end of the string
+  final versionSuffix = RegExp(r'_V\d+$');
+  return activityType.replaceAll(versionSuffix, '');
+}
+
