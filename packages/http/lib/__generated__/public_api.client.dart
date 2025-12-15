@@ -400,6 +400,39 @@ class TurnkeyClient {
     );
   }
 
+  /// Get gas usage and gas limits for either the parent organization or a sub-organization.
+  ///
+  /// Sign the provided `TGetGasUsageBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_gas_usage).
+  ///
+  /// See also: `stampGetGasUsage`.
+
+  Future<TGetGasUsageResponse> getGasUsage({
+    required TGetGasUsageBody input,
+  }) async {
+    return await request<TGetGasUsageBody, TGetGasUsageResponse>(
+        "/public/v1/query/get_gas_usage",
+        input,
+        (json) => TGetGasUsageResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetGasUsageBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetGasUsage`.
+
+  Future<TSignedRequest> stampGetGasUsage({
+    required TGetGasUsageBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/query/get_gas_usage';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
   /// Get the latest boot proof for a given enclave app name.
   ///
   /// Sign the provided `TGetLatestBootProofBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_latest_boot_proof).
@@ -490,6 +523,41 @@ class TurnkeyClient {
     required TGetOauthProvidersBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_oauth_providers';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Get the status of an on ramp transaction.
+  ///
+  /// Sign the provided `TGetOnRampTransactionStatusBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_onramp_transaction_status).
+  ///
+  /// See also: `stampGetOnRampTransactionStatus`.
+
+  Future<TGetOnRampTransactionStatusResponse> getOnRampTransactionStatus({
+    required TGetOnRampTransactionStatusBody input,
+  }) async {
+    return await request<TGetOnRampTransactionStatusBody,
+            TGetOnRampTransactionStatusResponse>(
+        "/public/v1/query/get_onramp_transaction_status",
+        input,
+        (json) => TGetOnRampTransactionStatusResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetOnRampTransactionStatusBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetOnRampTransactionStatus`.
+
+  Future<TSignedRequest> stampGetOnRampTransactionStatus({
+    required TGetOnRampTransactionStatusBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/query/get_onramp_transaction_status';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -668,6 +736,41 @@ class TurnkeyClient {
     );
   }
 
+  /// Get the status of a send transaction request.
+  ///
+  /// Sign the provided `TGetSendTransactionStatusBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_send_transaction_status).
+  ///
+  /// See also: `stampGetSendTransactionStatus`.
+
+  Future<TGetSendTransactionStatusResponse> getSendTransactionStatus({
+    required TGetSendTransactionStatusBody input,
+  }) async {
+    return await request<TGetSendTransactionStatusBody,
+            TGetSendTransactionStatusResponse>(
+        "/public/v1/query/get_send_transaction_status",
+        input,
+        (json) => TGetSendTransactionStatusResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TGetSendTransactionStatusBody` by using the client's `stamp` function.
+  ///
+  /// See also: `GetSendTransactionStatus`.
+
+  Future<TSignedRequest> stampGetSendTransactionStatus({
+    required TGetSendTransactionStatusBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/query/get_send_transaction_status';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
   /// Get details about a smart contract interface.
   ///
   /// Sign the provided `TGetSmartContractInterfaceBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_smart_contract_interface).
@@ -835,7 +938,7 @@ class TurnkeyClient {
     );
   }
 
-  /// List the app proofs for the given activity.
+  /// List the App Proofs for the given activity.
   ///
   /// Sign the provided `TGetAppProofsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_app_proofs).
   ///
@@ -858,6 +961,41 @@ class TurnkeyClient {
     required TGetAppProofsBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/list_app_proofs';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// List all fiat on ramp provider credentials within an organization.
+  ///
+  /// Sign the provided `TListFiatOnRampCredentialsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_fiat_on_ramp_credentials).
+  ///
+  /// See also: `stampListFiatOnRampCredentials`.
+
+  Future<TListFiatOnRampCredentialsResponse> listFiatOnRampCredentials({
+    required TListFiatOnRampCredentialsBody input,
+  }) async {
+    return await request<TListFiatOnRampCredentialsBody,
+            TListFiatOnRampCredentialsResponse>(
+        "/public/v1/query/list_fiat_on_ramp_credentials",
+        input,
+        (json) => TListFiatOnRampCredentialsResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TListFiatOnRampCredentialsBody` by using the client's `stamp` function.
+  ///
+  /// See also: `ListFiatOnRampCredentials`.
+
+  Future<TSignedRequest> stampListFiatOnRampCredentials({
+    required TListFiatOnRampCredentialsBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/query/list_fiat_on_ramp_credentials';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -1457,6 +1595,58 @@ class TurnkeyClient {
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
+    );
+    final bodyJson = jsonEncode(body);
+    final stamp = await stamper.stamp(bodyJson);
+
+    return TSignedRequest(
+      body: bodyJson,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Create a fiat on ramp provider credential
+  ///
+  /// Sign the provided `TCreateFiatOnRampCredentialBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/create_fiat_on_ramp_credential).
+  ///
+  /// See also: `stampCreateFiatOnRampCredential`.
+
+  Future<TCreateFiatOnRampCredentialResponse> createFiatOnRampCredential({
+    required TCreateFiatOnRampCredentialBody input,
+  }) async {
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_CREATE_FIAT_ON_RAMP_CREDENTIAL',
+    );
+    return await request<Map<String, dynamic>,
+            TCreateFiatOnRampCredentialResponse>(
+        "/public/v1/submit/create_fiat_on_ramp_credential",
+        body,
+        (json) => TCreateFiatOnRampCredentialResponse.fromJson(
+            transformActivityResponse(json, 'CreateFiatOnRampCredential')));
+  }
+
+  /// Produce a `SignedRequest` from `TCreateFiatOnRampCredentialBody` by using the client's `stamp` function.
+  ///
+  /// See also: `CreateFiatOnRampCredential`.
+
+  Future<TSignedRequest> stampCreateFiatOnRampCredential({
+    required TCreateFiatOnRampCredentialBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/create_fiat_on_ramp_credential';
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_CREATE_FIAT_ON_RAMP_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
@@ -2324,6 +2514,58 @@ class TurnkeyClient {
     );
   }
 
+  /// Delete a fiat on ramp provider credential
+  ///
+  /// Sign the provided `TDeleteFiatOnRampCredentialBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_fiat_on_ramp_credential).
+  ///
+  /// See also: `stampDeleteFiatOnRampCredential`.
+
+  Future<TDeleteFiatOnRampCredentialResponse> deleteFiatOnRampCredential({
+    required TDeleteFiatOnRampCredentialBody input,
+  }) async {
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_DELETE_FIAT_ON_RAMP_CREDENTIAL',
+    );
+    return await request<Map<String, dynamic>,
+            TDeleteFiatOnRampCredentialResponse>(
+        "/public/v1/submit/delete_fiat_on_ramp_credential",
+        body,
+        (json) => TDeleteFiatOnRampCredentialResponse.fromJson(
+            transformActivityResponse(json, 'DeleteFiatOnRampCredential')));
+  }
+
+  /// Produce a `SignedRequest` from `TDeleteFiatOnRampCredentialBody` by using the client's `stamp` function.
+  ///
+  /// See also: `DeleteFiatOnRampCredential`.
+
+  Future<TSignedRequest> stampDeleteFiatOnRampCredential({
+    required TDeleteFiatOnRampCredentialBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/delete_fiat_on_ramp_credential';
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_DELETE_FIAT_ON_RAMP_CREDENTIAL',
+    );
+    final bodyJson = jsonEncode(body);
+    final stamp = await stamper.stamp(bodyJson);
+
+    return TSignedRequest(
+      body: bodyJson,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
   /// Delete an existing invitation.
   ///
   /// Sign the provided `TDeleteInvitationBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/delete_invitation).
@@ -3018,6 +3260,107 @@ class TurnkeyClient {
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_EMAIL_AUTH_V2',
+    );
+    final bodyJson = jsonEncode(body);
+    final stamp = await stamper.stamp(bodyJson);
+
+    return TSignedRequest(
+      body: bodyJson,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Submit a raw transaction (serialized and signed) for broadcasting to the network.
+  ///
+  /// Sign the provided `TEthSendRawTransactionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/eth_send_raw_transaction).
+  ///
+  /// See also: `stampEthSendRawTransaction`.
+
+  Future<TEthSendRawTransactionResponse> ethSendRawTransaction({
+    required TEthSendRawTransactionBody input,
+  }) async {
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_ETH_SEND_RAW_TRANSACTION',
+    );
+    return await request<Map<String, dynamic>, TEthSendRawTransactionResponse>(
+        "/public/v1/submit/eth_send_raw_transaction",
+        body,
+        (json) => TEthSendRawTransactionResponse.fromJson(
+            transformActivityResponse(json, 'EthSendRawTransaction')));
+  }
+
+  /// Produce a `SignedRequest` from `TEthSendRawTransactionBody` by using the client's `stamp` function.
+  ///
+  /// See also: `EthSendRawTransaction`.
+
+  Future<TSignedRequest> stampEthSendRawTransaction({
+    required TEthSendRawTransactionBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/eth_send_raw_transaction';
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_ETH_SEND_RAW_TRANSACTION',
+    );
+    final bodyJson = jsonEncode(body);
+    final stamp = await stamper.stamp(bodyJson);
+
+    return TSignedRequest(
+      body: bodyJson,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Submit a transaction intent describing a transaction you would like to broadcast.
+  ///
+  /// Sign the provided `TEthSendTransactionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/eth_send_transaction).
+  ///
+  /// See also: `stampEthSendTransaction`.
+
+  Future<TEthSendTransactionResponse> ethSendTransaction({
+    required TEthSendTransactionBody input,
+  }) async {
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_ETH_SEND_TRANSACTION',
+    );
+    return await request<Map<String, dynamic>, TEthSendTransactionResponse>(
+        "/public/v1/submit/eth_send_transaction",
+        body,
+        (json) => TEthSendTransactionResponse.fromJson(
+            transformActivityResponse(json, 'EthSendTransaction')));
+  }
+
+  /// Produce a `SignedRequest` from `TEthSendTransactionBody` by using the client's `stamp` function.
+  ///
+  /// See also: `EthSendTransaction`.
+
+  Future<TSignedRequest> stampEthSendTransaction({
+    required TEthSendTransactionBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/submit/eth_send_transaction';
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_ETH_SEND_TRANSACTION',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
@@ -4223,6 +4566,58 @@ class TurnkeyClient {
           (throw Exception(
               "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
       activityType: 'ACTIVITY_TYPE_STAMP_LOGIN',
+    );
+    final bodyJson = jsonEncode(body);
+    final stamp = await stamper.stamp(bodyJson);
+
+    return TSignedRequest(
+      body: bodyJson,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// Update a fiat on ramp provider credential
+  ///
+  /// Sign the provided `TUpdateFiatOnRampCredentialBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/update_fiat_on_ramp_credential).
+  ///
+  /// See also: `stampUpdateFiatOnRampCredential`.
+
+  Future<TUpdateFiatOnRampCredentialResponse> updateFiatOnRampCredential({
+    required TUpdateFiatOnRampCredentialBody input,
+  }) async {
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_UPDATE_FIAT_ON_RAMP_CREDENTIAL',
+    );
+    return await request<Map<String, dynamic>,
+            TUpdateFiatOnRampCredentialResponse>(
+        "/public/v1/submit/update_fiat_on_ramp_credential",
+        body,
+        (json) => TUpdateFiatOnRampCredentialResponse.fromJson(
+            transformActivityResponse(json, 'UpdateFiatOnRampCredential')));
+  }
+
+  /// Produce a `SignedRequest` from `TUpdateFiatOnRampCredentialBody` by using the client's `stamp` function.
+  ///
+  /// See also: `UpdateFiatOnRampCredential`.
+
+  Future<TSignedRequest> stampUpdateFiatOnRampCredential({
+    required TUpdateFiatOnRampCredentialBody input,
+  }) async {
+    final fullUrl =
+        '${config.baseUrl}/public/v1/submit/update_fiat_on_ramp_credential';
+    final body = packActivityBody(
+      bodyJson: input.toJson(),
+      fallbackOrganizationId: input.organizationId ??
+          config.organizationId ??
+          (throw Exception(
+              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+      activityType: 'ACTIVITY_TYPE_UPDATE_FIAT_ON_RAMP_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
