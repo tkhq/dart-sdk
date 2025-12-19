@@ -2,6 +2,58 @@ import 'dart:convert';
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 
+class VerificationToken {
+  final String contact;
+  final int exp;
+  final String id;
+  final String? publicKey;
+  final String verificationType;
+
+  const VerificationToken({
+    required this.contact,
+    required this.exp,
+    required this.id,
+    this.publicKey,
+    required this.verificationType,
+  });
+
+  factory VerificationToken.fromJson(Map<String, dynamic> json) {
+    return VerificationToken(
+      contact: json['contact'] as String,
+      exp: json['exp'] as int,
+      id: json['id'] as String,
+      publicKey: json['public_key'] as String?,
+      verificationType: json['verification_type'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'contact': contact,
+      'exp': exp,
+      'id': id,
+      'public_key': publicKey,
+      'verification_type': verificationType,
+    };
+  }
+
+  static VerificationToken fromJwt(String token) {
+    final parts = token.split(".");
+    if (parts.length < 2) {
+      throw Exception("Invalid JWT: Missing payload");
+    }
+
+    final payload = parts[1];
+    final normalized =
+        base64.normalize(payload.replaceAll('-', '+').replaceAll('_', '/'));
+    final decodedBytes = base64.decode(normalized);
+    final decoded =
+        jsonDecode(utf8.decode(decodedBytes)) as Map<String, dynamic>;
+
+    return VerificationToken.fromJson(decoded);
+  }
+}
+
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
   final String sessionType;
@@ -550,4 +602,18 @@ class Policy extends v1CreatePolicyIntentV3 {
       notes: p.notes,
     );
   }
+}
+
+/// Result of creating a client signature payload
+class ClientSignaturePayload {
+  /// The JSON message to sign
+  final String message;
+
+  /// The public key to use for client signature verification
+  final String clientSignaturePublicKey;
+
+  const ClientSignaturePayload({
+    required this.message,
+    required this.clientSignaturePublicKey,
+  });
 }

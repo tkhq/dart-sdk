@@ -35,11 +35,15 @@ extension AuthProxyExtension on TurnkeyProvider {
       {required String otpCode,
       required String otpId,
       required String contact,
-      required OtpType otpType}) async {
+      required OtpType otpType,
+      String? publicKey}) async {
+    final resolvedPublicKey = publicKey ?? await createApiKeyPair();
+
     final verifyOtpRes = await requireClient.proxyVerifyOtp(
-        input: ProxyTVerifyOtpBody(
-      otpCode: otpCode,
-      otpId: otpId,
+      input: ProxyTVerifyOtpBody(
+        otpCode: otpCode,
+        otpId: otpId,
+        publicKey: resolvedPublicKey,
     ));
 
     if (verifyOtpRes.verificationToken.isEmpty) {
@@ -79,17 +83,39 @@ extension AuthProxyExtension on TurnkeyProvider {
     String? publicKey,
     String? sessionKey,
   }) async {
-    String? generatedPublicKey;
-
     try {
-      generatedPublicKey = publicKey ?? await createApiKeyPair();
+      final resolvedPublicKey = publicKey ?? await createApiKeyPair();
+        // Create client signature payload
+      final payload = ClientSignature.forLogin(
+        verificationToken: verificationToken,
+        sessionPublicKey: resolvedPublicKey,
+      );
+
+      this.secureStorageStamper
+          .setPublicKey(resolvedPublicKey); // Set public key for stamping
+      final signature = await this.secureStorageStamper.sign(
+        payload.message,
+        format: SignatureFormat.raw,
+      );
+
+      if (signature.isEmpty) {
+        throw Exception("Failed to create client signature on OTP login");
+      }
+
+      final clientSignature = v1ClientSignature(
+        message: payload.message,
+        publicKey: payload.clientSignaturePublicKey,
+        scheme: v1ClientSignatureScheme.client_signature_scheme_api_p256,
+        signature: signature,
+      );
 
       final res = await requireClient.proxyOtpLogin(
         input: ProxyTOtpLoginBody(
           organizationId: organizationId,
-          publicKey: generatedPublicKey,
+          publicKey: resolvedPublicKey,
           verificationToken: verificationToken,
           invalidateExisting: invalidateExisting,
+          clientSignature: clientSignature,
         ),
       );
 
@@ -134,14 +160,59 @@ extension AuthProxyExtension on TurnkeyProvider {
       contact: contact,
       verificationToken: verificationToken,
     );
+  
     final updatedCreateSubOrgParams =
         getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
 
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
+    final resolvedPublicKey = publicKey ?? await createApiKeyPair();
+
+    final payload = ClientSignature.forSignup(
+      verificationToken: verificationToken,
+      email: signUpBody.userEmail,
+      phoneNumber: signUpBody.userPhoneNumber,
+      apiKeys: signUpBody.apiKeys,
+      authenticators: signUpBody.authenticators,
+      oauthProviders: signUpBody.oauthProviders,
+    );
+
+    this.secureStorageStamper
+        .setPublicKey(resolvedPublicKey); // Set public key for stamping
+    final signature = await this.secureStorageStamper.sign(
+      payload.message,
+      format: SignatureFormat.raw,
+    );
+
+    if (signature.isEmpty) {
+      throw Exception("Failed to create client signature on OTP signup");
+    }
+
+    final clientSignature = v1ClientSignature(
+      message: payload.message,
+      publicKey: payload.clientSignaturePublicKey,
+      scheme: v1ClientSignatureScheme.client_signature_scheme_api_p256,
+      signature: signature,
+    );
+
     try {
-      final res = await requireClient.proxySignup(input: signUpBody);
+      // Rebuild the signup body with the client signature
+      final signUpBodyWithSignature = ProxyTSignupBody(
+        userEmail: signUpBody.userEmail,
+        userPhoneNumber: signUpBody.userPhoneNumber,
+        userTag: signUpBody.userTag,
+        userName: signUpBody.userName,
+        organizationName: signUpBody.organizationName,
+        verificationToken: signUpBody.verificationToken,
+        apiKeys: signUpBody.apiKeys,
+        authenticators: signUpBody.authenticators,
+        oauthProviders: signUpBody.oauthProviders,
+        wallet: signUpBody.wallet,
+        clientSignature: clientSignature,
+      );
+
+      final res = await requireClient.proxySignup(input: signUpBodyWithSignature);
 
       final orgId = res.organizationId;
       if (orgId.isEmpty) {
@@ -153,6 +224,7 @@ extension AuthProxyExtension on TurnkeyProvider {
         verificationToken: verificationToken,
         sessionKey: sessionKey,
         invalidateExisting: invalidateExisting,
+        publicKey: resolvedPublicKey,
       );
 
       return SignUpWithOtpResult(sessionToken: response.sessionToken);
@@ -189,8 +261,10 @@ extension AuthProxyExtension on TurnkeyProvider {
     CreateSubOrgParams? createSubOrgParams,
   }) async {
     try {
+      final resolvedPublicKey = publicKey ?? await createApiKeyPair();
+
       final result = await verifyOtp(
-          otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType);
+          otpCode: otpCode, otpId: otpId, contact: contact, otpType: otpType, publicKey: resolvedPublicKey);
 
       if (result.subOrganizationId != null &&
           result.subOrganizationId!.isNotEmpty) {
@@ -198,8 +272,9 @@ extension AuthProxyExtension on TurnkeyProvider {
           verificationToken: result.verificationToken,
           organizationId: result.subOrganizationId,
           invalidateExisting: invalidateExisting,
-          publicKey: publicKey,
+          publicKey: resolvedPublicKey,
           sessionKey: sessionKey,
+
         );
 
         return LoginOrSignUpWithOtpResult(
@@ -209,7 +284,7 @@ extension AuthProxyExtension on TurnkeyProvider {
             verificationToken: result.verificationToken,
             contact: contact,
             otpType: otpType,
-            publicKey: publicKey,
+            publicKey: resolvedPublicKey,
             sessionKey: sessionKey,
             createSubOrgParams: createSubOrgParams,
             invalidateExisting: invalidateExisting);
