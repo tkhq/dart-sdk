@@ -1,6 +1,7 @@
 // tool/push_package_tags.dart
 //
-// Reads release meta and pushes git tags for each bumped package.
+// Reads release meta, pushes git tags for each bumped package,
+// and triggers the publish workflow for each tag.
 // Tag format: {package_name}-{version}
 
 import 'dart:io';
@@ -23,10 +24,14 @@ void main(List<String> args) {
     return;
   }
 
+  final tags = <String>[];
+
+  // First, push all tags
   stdout.writeln(dryRun ? 'Would push tags:' : 'Pushing package tags:');
 
   for (final pkg in meta.packages) {
     final tag = '${pkg.name}-${pkg.toVersion}';
+    tags.add(tag);
     stdout.writeln('  - $tag');
 
     if (!dryRun) {
@@ -48,5 +53,28 @@ void main(List<String> args) {
     }
   }
 
-  stdout.writeln(dryRun ? '\nDry run complete' : '\nAll tags pushed');
+  stdout.writeln(dryRun ? '\nWould trigger publish workflows:' : '\nTriggering publish workflows:');
+
+  // Then trigger publish workflow for each tag
+  for (final tag in tags) {
+    stdout.writeln('  - publish.yml @ $tag');
+
+    if (!dryRun) {
+      final result = Process.runSync('gh', [
+        'workflow',
+        'run',
+        'publish.yml',
+        '--ref',
+        tag,
+      ]);
+
+      if (result.exitCode != 0) {
+        stderr.writeln('Failed to trigger publish for $tag: ${result.stderr}');
+        exitCode = result.exitCode;
+        return;
+      }
+    }
+  }
+
+  stdout.writeln(dryRun ? '\nDry run complete' : '\nAll tags pushed and publish workflows triggered');
 }

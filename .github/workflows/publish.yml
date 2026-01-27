@@ -1,9 +1,7 @@
 name: Publish Package
 
 on:
-  push:
-    tags:
-      - "*-*.*.*" # triggers on tags like turnkey_crypto-1.2.3
+  workflow_dispatch: # triggered by version-and-publish workflow on each package tag
 
 permissions:
   contents: read
@@ -12,9 +10,16 @@ permissions:
 jobs:
   publish:
     runs-on: package-deploy
-    environment: production # require manual approval before triggering publishes
 
     steps:
+      - name: Validate caller
+        run: |
+          if [[ "${{ github.triggering_actor }}" != "github-actions[bot]" ]]; then
+            echo "Error: workflow must be triggered by github-actions[bot], got: ${{ github.triggering_actor }}"
+            exit 1
+          fi
+          echo "Caller validated: ${{ github.triggering_actor }}"
+
       - name: Parse package info from tag
         id: parse
         run: |

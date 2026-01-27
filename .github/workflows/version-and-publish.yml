@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # required for gh workflow run
   id-token: write # required for trusted publishers (OIDC)
 
 jobs:
@@ -98,6 +99,7 @@ jobs:
   push-package-tags:
     needs: prepare-release
     runs-on: ubuntu-latest
+    environment: production # require manual approval before pushing tags and triggering publishes
 
     steps:
       - name: Checkout
