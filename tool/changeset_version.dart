@@ -94,12 +94,4 @@ void _run() {
   writeReleaseMeta(meta);
   stdout.writeln(
       '\nWrote release meta to $changesetDirName/$releaseMetaFileName');
-
-  // Write list of bumped packages for CI workflow
-  final bumpedModulesFile =
-      File('$changesetDirName/.last_bumped_packages');
-  final bumpedPackageNames = meta.packages.map((p) => p.name).join('\n');
-  bumpedModulesFile.writeAsStringSync('$bumpedPackageNames\n');
-  stdout.writeln(
-      'Wrote bumped packages list to $changesetDirName/.last_bumped_packages');
 }

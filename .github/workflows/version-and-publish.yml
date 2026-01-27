@@ -1,4 +1,4 @@
-name: Version Packages and Publish
+name: Version Packages and Create Release
 
 on:
   workflow_dispatch: # allows manual invocation
@@ -95,10 +95,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
+  push-package-tags:
     needs: prepare-release
-    runs-on: package-deploy
-    environment: production # require manual approval for production deployments
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -110,11 +109,18 @@ jobs:
       - name: Setup Dart
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
 
+      - name: Configure Git User
+        run: |
+          git config user.name "tkhq-deploy"
+          git config user.email "github@turnkey.engineering"
+
       - name: Install dependencies
         run: dart pub get
 
-      - name: Publish packages to pub.dev (dry run)
-        run: dart run tool/publish.dart --dry-run
+      - name: Push package tags (dry run)
+        run: dart run tool/push_package_tags.dart --dry-run
 
-      - name: Publish packages to pub.dev
-        run: dart run tool/publish.dart
+      - name: Push package tags
+        run: dart run tool/push_package_tags.dart
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

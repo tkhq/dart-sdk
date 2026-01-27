@@ -434,10 +434,6 @@ void deleteProcessedChangesets(ReleaseMeta meta) {
       }
     }
   }
-  final metaFile = File('$changesetDirName/$releaseMetaFileName');
-  if (metaFile.existsSync()) {
-    metaFile.deleteSync();
-  }
 }
 
 String todayDate() {
