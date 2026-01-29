@@ -525,9 +525,9 @@ class Policy extends v1CreatePolicyIntentV3 {
     required this.policyId,
     required String policyName,
     required v1Effect effect,
+    required String notes,
     String? condition,
     String? consensus,
-    String? notes,
   }) : super(
           policyName: policyName,
           effect: effect,

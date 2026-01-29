@@ -187,6 +187,11 @@ enum v1ActivityType {
   activity_type_init_user_email_recovery_v2,
   activity_type_init_otp_auth_v3,
   activity_type_init_otp_v2,
+  activity_type_upsert_gas_usage_config,
+  activity_type_create_tvc_app,
+  activity_type_create_tvc_deployment,
+  activity_type_create_tvc_manifest_approvals,
+  activity_type_sol_send_transaction,
 }
 
 v1ActivityType v1ActivityTypeFromJson(dynamic value) {
@@ -303,6 +308,11 @@ v1ActivityType v1ActivityTypeFromJson(dynamic value) {
     case 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY_V2': return v1ActivityType.activity_type_init_user_email_recovery_v2;
     case 'ACTIVITY_TYPE_INIT_OTP_AUTH_V3': return v1ActivityType.activity_type_init_otp_auth_v3;
     case 'ACTIVITY_TYPE_INIT_OTP_V2': return v1ActivityType.activity_type_init_otp_v2;
+    case 'ACTIVITY_TYPE_UPSERT_GAS_USAGE_CONFIG': return v1ActivityType.activity_type_upsert_gas_usage_config;
+    case 'ACTIVITY_TYPE_CREATE_TVC_APP': return v1ActivityType.activity_type_create_tvc_app;
+    case 'ACTIVITY_TYPE_CREATE_TVC_DEPLOYMENT': return v1ActivityType.activity_type_create_tvc_deployment;
+    case 'ACTIVITY_TYPE_CREATE_TVC_MANIFEST_APPROVALS': return v1ActivityType.activity_type_create_tvc_manifest_approvals;
+    case 'ACTIVITY_TYPE_SOL_SEND_TRANSACTION': return v1ActivityType.activity_type_sol_send_transaction;
     default: throw ArgumentError('Unknown v1ActivityType: $value');
   }
 }
@@ -421,6 +431,11 @@ dynamic v1ActivityTypeToJson(v1ActivityType value) {
     case v1ActivityType.activity_type_init_user_email_recovery_v2: return "ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY_V2";
     case v1ActivityType.activity_type_init_otp_auth_v3: return "ACTIVITY_TYPE_INIT_OTP_AUTH_V3";
     case v1ActivityType.activity_type_init_otp_v2: return "ACTIVITY_TYPE_INIT_OTP_V2";
+    case v1ActivityType.activity_type_upsert_gas_usage_config: return "ACTIVITY_TYPE_UPSERT_GAS_USAGE_CONFIG";
+    case v1ActivityType.activity_type_create_tvc_app: return "ACTIVITY_TYPE_CREATE_TVC_APP";
+    case v1ActivityType.activity_type_create_tvc_deployment: return "ACTIVITY_TYPE_CREATE_TVC_DEPLOYMENT";
+    case v1ActivityType.activity_type_create_tvc_manifest_approvals: return "ACTIVITY_TYPE_CREATE_TVC_MANIFEST_APPROVALS";
+    case v1ActivityType.activity_type_sol_send_transaction: return "ACTIVITY_TYPE_SOL_SEND_TRANSACTION";
   }
 }
 
@@ -662,12 +677,14 @@ dynamic v1CredentialTypeToJson(v1CredentialType value) {
 enum v1Curve {
   curve_secp256k1,
   curve_ed25519,
+  curve_p256,
 }
 
 v1Curve v1CurveFromJson(dynamic value) {
   switch (value) {
     case 'CURVE_SECP256K1': return v1Curve.curve_secp256k1;
     case 'CURVE_ED25519': return v1Curve.curve_ed25519;
+    case 'CURVE_P256': return v1Curve.curve_p256;
     default: throw ArgumentError('Unknown v1Curve: $value');
   }
 }
@@ -676,6 +693,7 @@ dynamic v1CurveToJson(v1Curve value) {
   switch (value) {
     case v1Curve.curve_secp256k1: return "CURVE_SECP256K1";
     case v1Curve.curve_ed25519: return "CURVE_ED25519";
+    case v1Curve.curve_p256: return "CURVE_P256";
   }
 }
 
@@ -1255,6 +1273,7 @@ enum v1TransactionType {
   transaction_type_solana,
   transaction_type_tron,
   transaction_type_bitcoin,
+  transaction_type_tempo,
 }
 
 v1TransactionType v1TransactionTypeFromJson(dynamic value) {
@@ -1263,6 +1282,7 @@ v1TransactionType v1TransactionTypeFromJson(dynamic value) {
     case 'TRANSACTION_TYPE_SOLANA': return v1TransactionType.transaction_type_solana;
     case 'TRANSACTION_TYPE_TRON': return v1TransactionType.transaction_type_tron;
     case 'TRANSACTION_TYPE_BITCOIN': return v1TransactionType.transaction_type_bitcoin;
+    case 'TRANSACTION_TYPE_TEMPO': return v1TransactionType.transaction_type_tempo;
     default: throw ArgumentError('Unknown v1TransactionType: $value');
   }
 }
@@ -1273,6 +1293,33 @@ dynamic v1TransactionTypeToJson(v1TransactionType value) {
     case v1TransactionType.transaction_type_solana: return "TRANSACTION_TYPE_SOLANA";
     case v1TransactionType.transaction_type_tron: return "TRANSACTION_TYPE_TRON";
     case v1TransactionType.transaction_type_bitcoin: return "TRANSACTION_TYPE_BITCOIN";
+    case v1TransactionType.transaction_type_tempo: return "TRANSACTION_TYPE_TEMPO";
+  }
+}
+
+enum v1TvcDeploymentStage {
+  tvc_deployment_stage_approve,
+  tvc_deployment_stage_provision,
+  tvc_deployment_stage_live,
+  tvc_deployment_stage_delete,
+}
+
+v1TvcDeploymentStage v1TvcDeploymentStageFromJson(dynamic value) {
+  switch (value) {
+    case 'TVC_DEPLOYMENT_STAGE_APPROVE': return v1TvcDeploymentStage.tvc_deployment_stage_approve;
+    case 'TVC_DEPLOYMENT_STAGE_PROVISION': return v1TvcDeploymentStage.tvc_deployment_stage_provision;
+    case 'TVC_DEPLOYMENT_STAGE_LIVE': return v1TvcDeploymentStage.tvc_deployment_stage_live;
+    case 'TVC_DEPLOYMENT_STAGE_DELETE': return v1TvcDeploymentStage.tvc_deployment_stage_delete;
+    default: throw ArgumentError('Unknown v1TvcDeploymentStage: $value');
+  }
+}
+
+dynamic v1TvcDeploymentStageToJson(v1TvcDeploymentStage value) {
+  switch (value) {
+    case v1TvcDeploymentStage.tvc_deployment_stage_approve: return "TVC_DEPLOYMENT_STAGE_APPROVE";
+    case v1TvcDeploymentStage.tvc_deployment_stage_provision: return "TVC_DEPLOYMENT_STAGE_PROVISION";
+    case v1TvcDeploymentStage.tvc_deployment_stage_live: return "TVC_DEPLOYMENT_STAGE_LIVE";
+    case v1TvcDeploymentStage.tvc_deployment_stage_delete: return "TVC_DEPLOYMENT_STAGE_DELETE";
   }
 }
 
@@ -2402,6 +2449,50 @@ class v1ApproveActivityRequest {
     _json['parameters'] = parameters.toJson();
     if (generateAppProofs != null) {
       _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1AssetBalance {
+  final String? caip19;
+  final String? symbol;
+  final String? balance;
+  final num? decimals;
+
+  const v1AssetBalance({
+     this.caip19,
+     this.symbol,
+     this.balance,
+     this.decimals,
+  });
+
+  factory v1AssetBalance.fromJson(Map<String, dynamic> json) {
+    final _caip19 = json['caip19'] as String?;
+    final _symbol = json['symbol'] as String?;
+    final _balance = json['balance'] as String?;
+    final _decimals = json['decimals'] as num?;
+    return v1AssetBalance(
+      caip19: _caip19,
+      symbol: _symbol,
+      balance: _balance,
+      decimals: _decimals,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (symbol != null) {
+      _json['symbol'] = symbol;
+    }
+    if (balance != null) {
+      _json['balance'] = balance;
+    }
+    if (decimals != null) {
+      _json['decimals'] = decimals;
     }
     return _json;
   }
@@ -3818,14 +3909,15 @@ class v1CreatePolicyIntentV3 {
   final String? condition;
   /// The consensus expression that triggers the Effect
   final String? consensus;
-  final String? notes;
+  /// Notes for a Policy.
+  final String notes;
 
   const v1CreatePolicyIntentV3({
     required  this.policyName,
     required  this.effect,
      this.condition,
      this.consensus,
-     this.notes,
+    required  this.notes,
   });
 
   factory v1CreatePolicyIntentV3.fromJson(Map<String, dynamic> json) {
@@ -3833,7 +3925,7 @@ class v1CreatePolicyIntentV3 {
     final _effect = v1EffectFromJson(json['effect']);
     final _condition = json['condition'] as String?;
     final _consensus = json['consensus'] as String?;
-    final _notes = json['notes'] as String?;
+    final _notes = json['notes'] as String;
     return v1CreatePolicyIntentV3(
       policyName: _policyName,
       effect: _effect,
@@ -3853,9 +3945,7 @@ class v1CreatePolicyIntentV3 {
     if (consensus != null) {
       _json['consensus'] = consensus;
     }
-    if (notes != null) {
-      _json['notes'] = notes;
-    }
+    _json['notes'] = notes;
     return _json;
   }
 }
@@ -5238,6 +5328,384 @@ class v1CreateSubOrganizationResultV7 {
   }
 }
 
+class v1CreateTvcAppIntent {
+  /// The name of the new TVC application
+  final String name;
+  /// Quorum public key to use for this application
+  final String quorumPublicKey;
+  /// Unique identifier for an existing TVC operator set to use as the Manifest Set for this TVC application. If left empty, a new Manifest Set configuration is required
+  final String? manifestSetId;
+  /// Configuration to create a new TVC operator set, used as the Manifest Set for this TVC application. If left empty, a Manifest Set ID is required
+  final v1TvcOperatorSetParams? manifestSetParams;
+  /// Unique identifier for an existing TVC operator set to use as the Share Set for this TVC application. If left empty, a new Share Set configuration is required
+  final String? shareSetId;
+  /// Configuration to create a new TVC operator set, used as the Share Set for this TVC application. If left empty, a Share Set ID is required
+  final v1TvcOperatorSetParams? shareSetParams;
+  /// Enables external connectivity for this TVC app. Default if not provided: false.
+  final bool? externalConnectivity;
+
+  const v1CreateTvcAppIntent({
+    required  this.name,
+    required  this.quorumPublicKey,
+     this.manifestSetId,
+     this.manifestSetParams,
+     this.shareSetId,
+     this.shareSetParams,
+     this.externalConnectivity,
+  });
+
+  factory v1CreateTvcAppIntent.fromJson(Map<String, dynamic> json) {
+    final _name = json['name'] as String;
+    final _quorumPublicKey = json['quorumPublicKey'] as String;
+    final _manifestSetId = json['manifestSetId'] as String?;
+    final _manifestSetParams = json['manifestSetParams'] == null ? null : v1TvcOperatorSetParams.fromJson(json['manifestSetParams'] as Map<String, dynamic>);
+    final _shareSetId = json['shareSetId'] as String?;
+    final _shareSetParams = json['shareSetParams'] == null ? null : v1TvcOperatorSetParams.fromJson(json['shareSetParams'] as Map<String, dynamic>);
+    final _externalConnectivity = json['externalConnectivity'] as bool?;
+    return v1CreateTvcAppIntent(
+      name: _name,
+      quorumPublicKey: _quorumPublicKey,
+      manifestSetId: _manifestSetId,
+      manifestSetParams: _manifestSetParams,
+      shareSetId: _shareSetId,
+      shareSetParams: _shareSetParams,
+      externalConnectivity: _externalConnectivity,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['name'] = name;
+    _json['quorumPublicKey'] = quorumPublicKey;
+    if (manifestSetId != null) {
+      _json['manifestSetId'] = manifestSetId;
+    }
+    if (manifestSetParams != null) {
+      _json['manifestSetParams'] = manifestSetParams?.toJson();
+    }
+    if (shareSetId != null) {
+      _json['shareSetId'] = shareSetId;
+    }
+    if (shareSetParams != null) {
+      _json['shareSetParams'] = shareSetParams?.toJson();
+    }
+    if (externalConnectivity != null) {
+      _json['externalConnectivity'] = externalConnectivity;
+    }
+    return _json;
+  }
+}
+
+class v1CreateTvcAppRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcAppIntent parameters;
+
+  const v1CreateTvcAppRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+  });
+
+  factory v1CreateTvcAppRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcAppIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateTvcAppRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1CreateTvcAppResult {
+  /// The unique identifier for the TVC application
+  final String appId;
+  /// The unique identifier for the TVC manifest set
+  final String manifestSetId;
+  /// The unique identifier(s) of the manifest set operators
+  final List<String> manifestSetOperatorIds;
+  /// The required number of approvals for the manifest set
+  final num manifestSetThreshold;
+
+  const v1CreateTvcAppResult({
+    required  this.appId,
+    required  this.manifestSetId,
+    required  this.manifestSetOperatorIds,
+    required  this.manifestSetThreshold,
+  });
+
+  factory v1CreateTvcAppResult.fromJson(Map<String, dynamic> json) {
+    final _appId = json['appId'] as String;
+    final _manifestSetId = json['manifestSetId'] as String;
+    final _manifestSetOperatorIds = (json['manifestSetOperatorIds'] as List).map((e) => e as String).toList();
+    final _manifestSetThreshold = json['manifestSetThreshold'] as num;
+    return v1CreateTvcAppResult(
+      appId: _appId,
+      manifestSetId: _manifestSetId,
+      manifestSetOperatorIds: _manifestSetOperatorIds,
+      manifestSetThreshold: _manifestSetThreshold,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['appId'] = appId;
+    _json['manifestSetId'] = manifestSetId;
+    _json['manifestSetOperatorIds'] = manifestSetOperatorIds;
+    _json['manifestSetThreshold'] = manifestSetThreshold;
+    return _json;
+  }
+}
+
+class v1CreateTvcDeploymentIntent {
+  /// The unique identifier of the to-be-deployed TVC application
+  final String appId;
+  /// The QuorumOS version to use to deploy this application
+  final String qosVersion;
+  /// URL of the container containing the pivot binary
+  final String pivotContainerImageUrl;
+  /// Location of the binary in the pivot container
+  final String pivotPath;
+  /// Arguments to pass to the pivot binary at startup. Encoded as a list of strings, for example ["--foo", "bar"]
+  final List<String> pivotArgs;
+  /// Digest of the pivot binary in the pivot container. This value will be inserted in the QOS manifest to ensure application integrity.
+  final String expectedPivotDigest;
+  /// URL of the container containing the host binary
+  final String hostContainerImageUrl;
+  /// Location of the binary inside the host container
+  final String hostPath;
+  /// Arguments to pass to the host binary at startup. Encoded as a list of strings, for example ["--foo", "bar"]
+  final List<String> hostArgs;
+  /// Optional nonce to ensure uniqueness of the deployment manifest. If not provided, it defaults to the current Unix timestamp in seconds.
+  final num? nonce;
+
+  const v1CreateTvcDeploymentIntent({
+    required  this.appId,
+    required  this.qosVersion,
+    required  this.pivotContainerImageUrl,
+    required  this.pivotPath,
+    required  this.pivotArgs,
+    required  this.expectedPivotDigest,
+    required  this.hostContainerImageUrl,
+    required  this.hostPath,
+    required  this.hostArgs,
+     this.nonce,
+  });
+
+  factory v1CreateTvcDeploymentIntent.fromJson(Map<String, dynamic> json) {
+    final _appId = json['appId'] as String;
+    final _qosVersion = json['qosVersion'] as String;
+    final _pivotContainerImageUrl = json['pivotContainerImageUrl'] as String;
+    final _pivotPath = json['pivotPath'] as String;
+    final _pivotArgs = (json['pivotArgs'] as List).map((e) => e as String).toList();
+    final _expectedPivotDigest = json['expectedPivotDigest'] as String;
+    final _hostContainerImageUrl = json['hostContainerImageUrl'] as String;
+    final _hostPath = json['hostPath'] as String;
+    final _hostArgs = (json['hostArgs'] as List).map((e) => e as String).toList();
+    final _nonce = json['nonce'] as num?;
+    return v1CreateTvcDeploymentIntent(
+      appId: _appId,
+      qosVersion: _qosVersion,
+      pivotContainerImageUrl: _pivotContainerImageUrl,
+      pivotPath: _pivotPath,
+      pivotArgs: _pivotArgs,
+      expectedPivotDigest: _expectedPivotDigest,
+      hostContainerImageUrl: _hostContainerImageUrl,
+      hostPath: _hostPath,
+      hostArgs: _hostArgs,
+      nonce: _nonce,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['appId'] = appId;
+    _json['qosVersion'] = qosVersion;
+    _json['pivotContainerImageUrl'] = pivotContainerImageUrl;
+    _json['pivotPath'] = pivotPath;
+    _json['pivotArgs'] = pivotArgs;
+    _json['expectedPivotDigest'] = expectedPivotDigest;
+    _json['hostContainerImageUrl'] = hostContainerImageUrl;
+    _json['hostPath'] = hostPath;
+    _json['hostArgs'] = hostArgs;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    return _json;
+  }
+}
+
+class v1CreateTvcDeploymentRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcDeploymentIntent parameters;
+
+  const v1CreateTvcDeploymentRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+  });
+
+  factory v1CreateTvcDeploymentRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcDeploymentIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateTvcDeploymentRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1CreateTvcDeploymentResult {
+  /// The unique identifier for the TVC deployment
+  final String deploymentId;
+  /// The unique identifier for the TVC manifest
+  final String manifestId;
+
+  const v1CreateTvcDeploymentResult({
+    required  this.deploymentId,
+    required  this.manifestId,
+  });
+
+  factory v1CreateTvcDeploymentResult.fromJson(Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    final _manifestId = json['manifestId'] as String;
+    return v1CreateTvcDeploymentResult(
+      deploymentId: _deploymentId,
+      manifestId: _manifestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
+    _json['manifestId'] = manifestId;
+    return _json;
+  }
+}
+
+class v1CreateTvcManifestApprovalsIntent {
+  /// Unique identifier of the TVC deployment to approve
+  final String manifestId;
+  /// List of manifest approvals
+  final List<v1TvcManifestApproval> approvals;
+
+  const v1CreateTvcManifestApprovalsIntent({
+    required  this.manifestId,
+    required  this.approvals,
+  });
+
+  factory v1CreateTvcManifestApprovalsIntent.fromJson(Map<String, dynamic> json) {
+    final _manifestId = json['manifestId'] as String;
+    final _approvals = (json['approvals'] as List).map((e) => v1TvcManifestApproval.fromJson(e as Map<String, dynamic>)).toList();
+    return v1CreateTvcManifestApprovalsIntent(
+      manifestId: _manifestId,
+      approvals: _approvals,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['manifestId'] = manifestId;
+    _json['approvals'] = approvals.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1CreateTvcManifestApprovalsRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcManifestApprovalsIntent parameters;
+
+  const v1CreateTvcManifestApprovalsRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+  });
+
+  factory v1CreateTvcManifestApprovalsRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcManifestApprovalsIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateTvcManifestApprovalsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1CreateTvcManifestApprovalsResult {
+  /// The unique identifier(s) for the manifest approvals
+  final List<String> approvalIds;
+
+  const v1CreateTvcManifestApprovalsResult({
+    required  this.approvalIds,
+  });
+
+  factory v1CreateTvcManifestApprovalsResult.fromJson(Map<String, dynamic> json) {
+    final _approvalIds = (json['approvalIds'] as List).map((e) => e as String).toList();
+    return v1CreateTvcManifestApprovalsResult(
+      approvalIds: _approvalIds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['approvalIds'] = approvalIds;
+    return _json;
+  }
+}
+
 class v1CreateUserTagIntent {
   /// Human-readable name for a User Tag.
   final String userTagName;
@@ -5701,6 +6169,38 @@ class v1CredPropsAuthenticationExtensionsClientOutputs {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['rk'] = rk;
+    return _json;
+  }
+}
+
+class v1CustomRevertError {
+  /// The name of the custom error.
+  final String? errorName;
+  /// The decoded parameters as a JSON object.
+  final String? paramsJson;
+
+  const v1CustomRevertError({
+     this.errorName,
+     this.paramsJson,
+  });
+
+  factory v1CustomRevertError.fromJson(Map<String, dynamic> json) {
+    final _errorName = json['errorName'] as String?;
+    final _paramsJson = json['paramsJson'] as String?;
+    return v1CustomRevertError(
+      errorName: _errorName,
+      paramsJson: _paramsJson,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (errorName != null) {
+      _json['errorName'] = errorName;
+    }
+    if (paramsJson != null) {
+      _json['paramsJson'] = paramsJson;
+    }
     return _json;
   }
 }
@@ -7285,6 +7785,60 @@ class v1DisablePrivateKeyResult {
   }
 }
 
+class v1EmailAuthCustomizationParams {
+  /// The name of the application. This field is required and will be used in email notifications if an email template is not provided.
+  final String appName;
+  /// A URL pointing to a logo in PNG format. Note this logo will be resized to fit into 340px x 124px.
+  final String? logoUrl;
+  /// A template for the URL to be used in a magic link button, e.g. `https://dapp.xyz/%s`. The auth bundle will be interpolated into the `%s`.
+  final String? magicLinkTemplate;
+  /// JSON object containing key/value pairs to be used with custom templates.
+  final String? templateVariables;
+  /// Unique identifier for a given Email Template. If not specified, the default is the most recent Email Template.
+  final String? templateId;
+
+  const v1EmailAuthCustomizationParams({
+    required  this.appName,
+     this.logoUrl,
+     this.magicLinkTemplate,
+     this.templateVariables,
+     this.templateId,
+  });
+
+  factory v1EmailAuthCustomizationParams.fromJson(Map<String, dynamic> json) {
+    final _appName = json['appName'] as String;
+    final _logoUrl = json['logoUrl'] as String?;
+    final _magicLinkTemplate = json['magicLinkTemplate'] as String?;
+    final _templateVariables = json['templateVariables'] as String?;
+    final _templateId = json['templateId'] as String?;
+    return v1EmailAuthCustomizationParams(
+      appName: _appName,
+      logoUrl: _logoUrl,
+      magicLinkTemplate: _magicLinkTemplate,
+      templateVariables: _templateVariables,
+      templateId: _templateId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['appName'] = appName;
+    if (logoUrl != null) {
+      _json['logoUrl'] = logoUrl;
+    }
+    if (magicLinkTemplate != null) {
+      _json['magicLinkTemplate'] = magicLinkTemplate;
+    }
+    if (templateVariables != null) {
+      _json['templateVariables'] = templateVariables;
+    }
+    if (templateId != null) {
+      _json['templateId'] = templateId;
+    }
+    return _json;
+  }
+}
+
 class v1EmailAuthIntent {
   /// Email of the authenticating user.
   final String email;
@@ -7458,14 +8012,12 @@ class v1EmailAuthIntentV3 {
   final String email;
   /// Client-side public key generated by the user, to which the email auth bundle (credentials) will be encrypted.
   final String targetPublicKey;
-  /// The name of the application.
-  final String appName;
   /// Optional human-readable name for an API Key. If none provided, default to Email Auth - <Timestamp>
   final String? apiKeyName;
   /// Expiration window (in seconds) indicating how long the API key is valid for. If not provided, a default of 15 minutes will be used.
   final String? expirationSeconds;
-  /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
+  /// Parameters for customizing emails. If not provided, the default email will be used. Note that app_name is required.
+  final v1EmailAuthCustomizationParams emailCustomization;
   /// Invalidate all other previously generated Email Auth API keys
   final bool? invalidateExisting;
   /// Optional custom email address from which to send the email
@@ -7478,10 +8030,9 @@ class v1EmailAuthIntentV3 {
   const v1EmailAuthIntentV3({
     required  this.email,
     required  this.targetPublicKey,
-    required  this.appName,
      this.apiKeyName,
      this.expirationSeconds,
-     this.emailCustomization,
+    required  this.emailCustomization,
      this.invalidateExisting,
      this.sendFromEmailAddress,
      this.sendFromEmailSenderName,
@@ -7491,10 +8042,9 @@ class v1EmailAuthIntentV3 {
   factory v1EmailAuthIntentV3.fromJson(Map<String, dynamic> json) {
     final _email = json['email'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
-    final _appName = json['appName'] as String;
     final _apiKeyName = json['apiKeyName'] as String?;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -7502,7 +8052,6 @@ class v1EmailAuthIntentV3 {
     return v1EmailAuthIntentV3(
       email: _email,
       targetPublicKey: _targetPublicKey,
-      appName: _appName,
       apiKeyName: _apiKeyName,
       expirationSeconds: _expirationSeconds,
       emailCustomization: _emailCustomization,
@@ -7517,16 +8066,13 @@ class v1EmailAuthIntentV3 {
     final _json = <String, dynamic>{};
     _json['email'] = email;
     _json['targetPublicKey'] = targetPublicKey;
-    _json['appName'] = appName;
     if (apiKeyName != null) {
       _json['apiKeyName'] = apiKeyName;
     }
     if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null) {
-      _json['emailCustomization'] = emailCustomization?.toJson();
-    }
+    _json['emailCustomization'] = emailCustomization.toJson();
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
@@ -7656,6 +8202,54 @@ class v1EmailCustomizationParams {
     if (appName != null) {
       _json['appName'] = appName;
     }
+    if (logoUrl != null) {
+      _json['logoUrl'] = logoUrl;
+    }
+    if (magicLinkTemplate != null) {
+      _json['magicLinkTemplate'] = magicLinkTemplate;
+    }
+    if (templateVariables != null) {
+      _json['templateVariables'] = templateVariables;
+    }
+    if (templateId != null) {
+      _json['templateId'] = templateId;
+    }
+    return _json;
+  }
+}
+
+class v1EmailCustomizationParamsV2 {
+  /// A URL pointing to a logo in PNG format. Note this logo will be resized to fit into 340px x 124px.
+  final String? logoUrl;
+  /// A template for the URL to be used in a magic link button, e.g. `https://dapp.xyz/%s`. The auth bundle will be interpolated into the `%s`.
+  final String? magicLinkTemplate;
+  /// JSON object containing key/value pairs to be used with custom templates.
+  final String? templateVariables;
+  /// Unique identifier for a given Email Template. If not specified, the default is the most recent Email Template.
+  final String? templateId;
+
+  const v1EmailCustomizationParamsV2({
+     this.logoUrl,
+     this.magicLinkTemplate,
+     this.templateVariables,
+     this.templateId,
+  });
+
+  factory v1EmailCustomizationParamsV2.fromJson(Map<String, dynamic> json) {
+    final _logoUrl = json['logoUrl'] as String?;
+    final _magicLinkTemplate = json['magicLinkTemplate'] as String?;
+    final _templateVariables = json['templateVariables'] as String?;
+    final _templateId = json['templateId'] as String?;
+    return v1EmailCustomizationParamsV2(
+      logoUrl: _logoUrl,
+      magicLinkTemplate: _magicLinkTemplate,
+      templateVariables: _templateVariables,
+      templateId: _templateId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
     if (logoUrl != null) {
       _json['logoUrl'] = logoUrl;
     }
@@ -7939,7 +8533,7 @@ class v1EthSendTransactionRequest {
 }
 
 class v1EthSendTransactionResult {
-  /// The send_transaction_status ID associated with the transaction submission for sponsored transactions
+  /// The send_transaction_status ID associated with the transaction submission
   final String sendTransactionStatusId;
 
   const v1EthSendTransactionResult({
@@ -8914,6 +9508,88 @@ class v1GetLatestBootProofRequest {
   }
 }
 
+class v1GetNoncesRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  /// The Ethereum address to query nonces for.
+  final String address;
+  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+  /// Whether to fetch the standard on-chain nonce.
+  final bool? nonce;
+  /// Whether to fetch the gas station nonce used for sponsored transactions.
+  final bool? gasStationNonce;
+
+  const v1GetNoncesRequest({
+    required  this.organizationId,
+    required  this.address,
+    required  this.caip2,
+     this.nonce,
+     this.gasStationNonce,
+  });
+
+  factory v1GetNoncesRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _nonce = json['nonce'] as bool?;
+    final _gasStationNonce = json['gasStationNonce'] as bool?;
+    return v1GetNoncesRequest(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+      nonce: _nonce,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class v1GetNoncesResponse {
+  /// The standard on-chain nonce for the address, if requested.
+  final String? nonce;
+  /// The gas station nonce for sponsored transactions, if requested.
+  final String? gasStationNonce;
+
+  const v1GetNoncesResponse({
+     this.nonce,
+     this.gasStationNonce,
+  });
+
+  factory v1GetNoncesResponse.fromJson(Map<String, dynamic> json) {
+    final _nonce = json['nonce'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    return v1GetNoncesResponse(
+      nonce: _nonce,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
 class v1GetOauth2CredentialRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
@@ -9433,21 +10109,26 @@ class v1GetSendTransactionStatusResponse {
   final v1EthSendTransactionStatus? eth;
   /// The error encountered when broadcasting or confirming the transaction, if any.
   final String? txError;
+  /// Structured error information including revert details, if available.
+  final v1TxError? error;
 
   const v1GetSendTransactionStatusResponse({
     required  this.txStatus,
      this.eth,
      this.txError,
+     this.error,
   });
 
   factory v1GetSendTransactionStatusResponse.fromJson(Map<String, dynamic> json) {
     final _txStatus = json['txStatus'] as String;
     final _eth = json['eth'] == null ? null : v1EthSendTransactionStatus.fromJson(json['eth'] as Map<String, dynamic>);
     final _txError = json['txError'] as String?;
+    final _error = json['error'] == null ? null : v1TxError.fromJson(json['error'] as Map<String, dynamic>);
     return v1GetSendTransactionStatusResponse(
       txStatus: _txStatus,
       eth: _eth,
       txError: _txError,
+      error: _error,
     );
   }
 
@@ -9459,6 +10140,9 @@ class v1GetSendTransactionStatusResponse {
     }
     if (txError != null) {
       _json['txError'] = txError;
+    }
+    if (error != null) {
+      _json['error'] = error?.toJson();
     }
     return _json;
   }
@@ -9622,6 +10306,200 @@ class v1GetSubOrgIdsResponse {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['organizationIds'] = organizationIds;
+    return _json;
+  }
+}
+
+class v1GetTvcAppDeploymentsRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// Unique identifier for a given TVC App.
+  final String appId;
+
+  const v1GetTvcAppDeploymentsRequest({
+    required  this.organizationId,
+    required  this.appId,
+  });
+
+  factory v1GetTvcAppDeploymentsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _appId = json['appId'] as String;
+    return v1GetTvcAppDeploymentsRequest(
+      organizationId: _organizationId,
+      appId: _appId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class v1GetTvcAppDeploymentsResponse {
+  /// List of deployments for this TVC App
+  final List<v1TvcDeployment> tvcDeployments;
+
+  const v1GetTvcAppDeploymentsResponse({
+    required  this.tvcDeployments,
+  });
+
+  factory v1GetTvcAppDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployments = (json['tvcDeployments'] as List).map((e) => v1TvcDeployment.fromJson(e as Map<String, dynamic>)).toList();
+    return v1GetTvcAppDeploymentsResponse(
+      tvcDeployments: _tvcDeployments,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployments'] = tvcDeployments.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetTvcAppRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// Unique identifier for a given TVC App.
+  final String tvcAppId;
+
+  const v1GetTvcAppRequest({
+    required  this.organizationId,
+    required  this.tvcAppId,
+  });
+
+  factory v1GetTvcAppRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _tvcAppId = json['tvcAppId'] as String;
+    return v1GetTvcAppRequest(
+      organizationId: _organizationId,
+      tvcAppId: _tvcAppId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['tvcAppId'] = tvcAppId;
+    return _json;
+  }
+}
+
+class v1GetTvcAppResponse {
+  /// Details about a single TVC App
+  final v1TvcApp tvcApp;
+
+  const v1GetTvcAppResponse({
+    required  this.tvcApp,
+  });
+
+  factory v1GetTvcAppResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApp = v1TvcApp.fromJson(json['tvcApp'] as Map<String, dynamic>);
+    return v1GetTvcAppResponse(
+      tvcApp: _tvcApp,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApp'] = tvcApp.toJson();
+    return _json;
+  }
+}
+
+class v1GetTvcAppsRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  const v1GetTvcAppsRequest({
+    required  this.organizationId,
+  });
+
+  factory v1GetTvcAppsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetTvcAppsRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetTvcAppsResponse {
+  /// A list of TVC Apps.
+  final List<v1TvcApp> tvcApps;
+
+  const v1GetTvcAppsResponse({
+    required  this.tvcApps,
+  });
+
+  factory v1GetTvcAppsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApps = (json['tvcApps'] as List).map((e) => v1TvcApp.fromJson(e as Map<String, dynamic>)).toList();
+    return v1GetTvcAppsResponse(
+      tvcApps: _tvcApps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApps'] = tvcApps.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// Unique identifier for a given TVC Deployment.
+  final String deploymentId;
+
+  const v1GetTvcDeploymentRequest({
+    required  this.organizationId,
+    required  this.deploymentId,
+  });
+
+  factory v1GetTvcDeploymentRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _deploymentId = json['deploymentId'] as String;
+    return v1GetTvcDeploymentRequest(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentResponse {
+  /// Details about a single TVC Deployment
+  final v1TvcDeployment tvcDeployment;
+
+  const v1GetTvcDeploymentResponse({
+    required  this.tvcDeployment,
+  });
+
+  factory v1GetTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployment = v1TvcDeployment.fromJson(json['tvcDeployment'] as Map<String, dynamic>);
+    return v1GetTvcDeploymentResponse(
+      tvcDeployment: _tvcDeployment,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployment'] = tvcDeployment.toJson();
     return _json;
   }
 }
@@ -9918,6 +10796,63 @@ class v1GetWalletAccountsResponse {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['accounts'] = accounts.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetWalletAddressBalancesRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// Address corresponding to a wallet account.
+  final String address;
+  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  const v1GetWalletAddressBalancesRequest({
+    required  this.organizationId,
+    required  this.address,
+    required  this.caip2,
+  });
+
+  factory v1GetWalletAddressBalancesRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    return v1GetWalletAddressBalancesRequest(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    return _json;
+  }
+}
+
+class v1GetWalletAddressBalancesResponse {
+  final List<v1AssetBalance>? balances;
+
+  const v1GetWalletAddressBalancesResponse({
+     this.balances,
+  });
+
+  factory v1GetWalletAddressBalancesResponse.fromJson(Map<String, dynamic> json) {
+    final _balances = (json['balances'] as List?)?.map((e) => v1AssetBalance.fromJson(e as Map<String, dynamic>)).toList();
+    return v1GetWalletAddressBalancesResponse(
+      balances: _balances,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (balances != null) {
+      _json['balances'] = balances?.map((e) => e.toJson()).toList();
+    }
     return _json;
   }
 }
@@ -10750,7 +11685,7 @@ class v1InitOtpAuthIntentV2 {
   final num? otpLength;
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
   final v1EmailCustomizationParams? emailCustomization;
-  /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
+  /// Optional parameters for customizing SMS message. If not provided, the default SMS message will be used.
   final v1SmsCustomizationParams? smsCustomization;
   /// Optional client-generated user identifier to enable per-user rate limiting for SMS auth. We recommend using a hash of the client-side IP address.
   final String? userIdentifier;
@@ -10834,17 +11769,17 @@ class v1InitOtpAuthIntentV2 {
 }
 
 class v1InitOtpAuthIntentV3 {
-  /// Enum to specifiy whether to send OTP via SMS or email
+  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
   final String otpType;
   /// Email or phone number to send the OTP code to
   final String contact;
-  /// The name of the application.
-  final String appName;
   /// Optional length of the OTP code. Default = 9
   final num? otpLength;
+  /// The name of the application. This field is required and will be used in email notifications if an email template is not provided.
+  final String appName;
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
-  /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
+  final v1EmailCustomizationParamsV2? emailCustomization;
+  /// Optional parameters for customizing SMS message. If not provided, the default SMS message will be used.
   final v1SmsCustomizationParams? smsCustomization;
   /// Optional client-generated user identifier to enable per-user rate limiting for SMS auth. We recommend using a hash of the client-side IP address.
   final String? userIdentifier;
@@ -10854,46 +11789,51 @@ class v1InitOtpAuthIntentV3 {
   final bool? alphanumeric;
   /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
   final String? sendFromEmailSenderName;
+  /// Expiration window (in seconds) indicating how long the OTP is valid for. If not provided, a default of 5 minutes will be used. Maximum value is 600 seconds (10 minutes)
+  final String? expirationSeconds;
   /// Optional custom email address to use as reply-to
   final String? replyToEmailAddress;
 
   const v1InitOtpAuthIntentV3({
     required  this.otpType,
     required  this.contact,
-    required  this.appName,
      this.otpLength,
+    required  this.appName,
      this.emailCustomization,
      this.smsCustomization,
      this.userIdentifier,
      this.sendFromEmailAddress,
      this.alphanumeric,
      this.sendFromEmailSenderName,
+     this.expirationSeconds,
      this.replyToEmailAddress,
   });
 
   factory v1InitOtpAuthIntentV3.fromJson(Map<String, dynamic> json) {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
-    final _appName = json['appName'] as String;
     final _otpLength = json['otpLength'] as num?;
-    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _appName = json['appName'] as String;
+    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParamsV2.fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _smsCustomization = json['smsCustomization'] == null ? null : v1SmsCustomizationParams.fromJson(json['smsCustomization'] as Map<String, dynamic>);
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
     return v1InitOtpAuthIntentV3(
       otpType: _otpType,
       contact: _contact,
-      appName: _appName,
       otpLength: _otpLength,
+      appName: _appName,
       emailCustomization: _emailCustomization,
       smsCustomization: _smsCustomization,
       userIdentifier: _userIdentifier,
       sendFromEmailAddress: _sendFromEmailAddress,
       alphanumeric: _alphanumeric,
       sendFromEmailSenderName: _sendFromEmailSenderName,
+      expirationSeconds: _expirationSeconds,
       replyToEmailAddress: _replyToEmailAddress,
     );
   }
@@ -10902,10 +11842,10 @@ class v1InitOtpAuthIntentV3 {
     final _json = <String, dynamic>{};
     _json['otpType'] = otpType;
     _json['contact'] = contact;
-    _json['appName'] = appName;
     if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
+    _json['appName'] = appName;
     if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
@@ -10923,6 +11863,9 @@ class v1InitOtpAuthIntentV3 {
     }
     if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
     }
     if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
@@ -11125,13 +12068,13 @@ class v1InitOtpIntentV2 {
   final String otpType;
   /// Email or phone number to send the OTP code to
   final String contact;
-  /// The name of the application.
-  final String appName;
   /// Optional length of the OTP code. Default = 9
   final num? otpLength;
+  /// The name of the application. This field is required and will be used in email notifications if an email template is not provided.
+  final String appName;
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
-  /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
+  final v1EmailCustomizationParamsV2? emailCustomization;
+  /// Optional parameters for customizing SMS message. If not provided, the default SMS message will be used.
   final v1SmsCustomizationParams? smsCustomization;
   /// Optional client-generated user identifier to enable per-user rate limiting for SMS auth. We recommend using a hash of the client-side IP address.
   final String? userIdentifier;
@@ -11149,8 +12092,8 @@ class v1InitOtpIntentV2 {
   const v1InitOtpIntentV2({
     required  this.otpType,
     required  this.contact,
-    required  this.appName,
      this.otpLength,
+    required  this.appName,
      this.emailCustomization,
      this.smsCustomization,
      this.userIdentifier,
@@ -11164,9 +12107,9 @@ class v1InitOtpIntentV2 {
   factory v1InitOtpIntentV2.fromJson(Map<String, dynamic> json) {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
-    final _appName = json['appName'] as String;
     final _otpLength = json['otpLength'] as num?;
-    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _appName = json['appName'] as String;
+    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParamsV2.fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _smsCustomization = json['smsCustomization'] == null ? null : v1SmsCustomizationParams.fromJson(json['smsCustomization'] as Map<String, dynamic>);
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
@@ -11177,8 +12120,8 @@ class v1InitOtpIntentV2 {
     return v1InitOtpIntentV2(
       otpType: _otpType,
       contact: _contact,
-      appName: _appName,
       otpLength: _otpLength,
+      appName: _appName,
       emailCustomization: _emailCustomization,
       smsCustomization: _smsCustomization,
       userIdentifier: _userIdentifier,
@@ -11194,10 +12137,10 @@ class v1InitOtpIntentV2 {
     final _json = <String, dynamic>{};
     _json['otpType'] = otpType;
     _json['contact'] = contact;
-    _json['appName'] = appName;
     if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
+    _json['appName'] = appName;
     if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
@@ -11366,12 +12309,10 @@ class v1InitUserEmailRecoveryIntentV2 {
   final String email;
   /// Client-side public key generated by the user, to which the recovery bundle will be encrypted.
   final String targetPublicKey;
-  /// The name of the application.
-  final String appName;
   /// Expiration window (in seconds) indicating how long the recovery credential is valid for. If not provided, a default of 15 minutes will be used.
   final String? expirationSeconds;
-  /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
+  /// Parameters for customizing emails. If not provided, the default email will be used. Note that `app_name` is required.
+  final v1EmailAuthCustomizationParams emailCustomization;
   /// Optional custom email address from which to send the OTP email
   final String? sendFromEmailAddress;
   /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
@@ -11382,9 +12323,8 @@ class v1InitUserEmailRecoveryIntentV2 {
   const v1InitUserEmailRecoveryIntentV2({
     required  this.email,
     required  this.targetPublicKey,
-    required  this.appName,
      this.expirationSeconds,
-     this.emailCustomization,
+    required  this.emailCustomization,
      this.sendFromEmailAddress,
      this.sendFromEmailSenderName,
      this.replyToEmailAddress,
@@ -11393,16 +12333,14 @@ class v1InitUserEmailRecoveryIntentV2 {
   factory v1InitUserEmailRecoveryIntentV2.fromJson(Map<String, dynamic> json) {
     final _email = json['email'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
-    final _appName = json['appName'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = json['emailCustomization'] == null ? null : v1EmailCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams.fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
     return v1InitUserEmailRecoveryIntentV2(
       email: _email,
       targetPublicKey: _targetPublicKey,
-      appName: _appName,
       expirationSeconds: _expirationSeconds,
       emailCustomization: _emailCustomization,
       sendFromEmailAddress: _sendFromEmailAddress,
@@ -11415,13 +12353,10 @@ class v1InitUserEmailRecoveryIntentV2 {
     final _json = <String, dynamic>{};
     _json['email'] = email;
     _json['targetPublicKey'] = targetPublicKey;
-    _json['appName'] = appName;
     if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null) {
-      _json['emailCustomization'] = emailCustomization?.toJson();
-    }
+    _json['emailCustomization'] = emailCustomization.toJson();
     if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
@@ -11615,6 +12550,11 @@ class v1Intent {
   final v1InitUserEmailRecoveryIntentV2? initUserEmailRecoveryIntentV2;
   final v1InitOtpIntentV2? initOtpIntentV2;
   final v1InitOtpAuthIntentV3? initOtpAuthIntentV3;
+  final v1UpsertGasUsageConfigIntent? upsertGasUsageConfigIntent;
+  final v1CreateTvcAppIntent? createTvcAppIntent;
+  final v1CreateTvcDeploymentIntent? createTvcDeploymentIntent;
+  final v1CreateTvcManifestApprovalsIntent? createTvcManifestApprovalsIntent;
+  final v1SolSendTransactionIntent? solSendTransactionIntent;
 
   const v1Intent({
      this.createOrganizationIntent,
@@ -11729,6 +12669,11 @@ class v1Intent {
      this.initUserEmailRecoveryIntentV2,
      this.initOtpIntentV2,
      this.initOtpAuthIntentV3,
+     this.upsertGasUsageConfigIntent,
+     this.createTvcAppIntent,
+     this.createTvcDeploymentIntent,
+     this.createTvcManifestApprovalsIntent,
+     this.solSendTransactionIntent,
   });
 
   factory v1Intent.fromJson(Map<String, dynamic> json) {
@@ -11844,6 +12789,11 @@ class v1Intent {
     final _initUserEmailRecoveryIntentV2 = json['initUserEmailRecoveryIntentV2'] == null ? null : v1InitUserEmailRecoveryIntentV2.fromJson(json['initUserEmailRecoveryIntentV2'] as Map<String, dynamic>);
     final _initOtpIntentV2 = json['initOtpIntentV2'] == null ? null : v1InitOtpIntentV2.fromJson(json['initOtpIntentV2'] as Map<String, dynamic>);
     final _initOtpAuthIntentV3 = json['initOtpAuthIntentV3'] == null ? null : v1InitOtpAuthIntentV3.fromJson(json['initOtpAuthIntentV3'] as Map<String, dynamic>);
+    final _upsertGasUsageConfigIntent = json['upsertGasUsageConfigIntent'] == null ? null : v1UpsertGasUsageConfigIntent.fromJson(json['upsertGasUsageConfigIntent'] as Map<String, dynamic>);
+    final _createTvcAppIntent = json['createTvcAppIntent'] == null ? null : v1CreateTvcAppIntent.fromJson(json['createTvcAppIntent'] as Map<String, dynamic>);
+    final _createTvcDeploymentIntent = json['createTvcDeploymentIntent'] == null ? null : v1CreateTvcDeploymentIntent.fromJson(json['createTvcDeploymentIntent'] as Map<String, dynamic>);
+    final _createTvcManifestApprovalsIntent = json['createTvcManifestApprovalsIntent'] == null ? null : v1CreateTvcManifestApprovalsIntent.fromJson(json['createTvcManifestApprovalsIntent'] as Map<String, dynamic>);
+    final _solSendTransactionIntent = json['solSendTransactionIntent'] == null ? null : v1SolSendTransactionIntent.fromJson(json['solSendTransactionIntent'] as Map<String, dynamic>);
     return v1Intent(
       createOrganizationIntent: _createOrganizationIntent,
       createAuthenticatorsIntent: _createAuthenticatorsIntent,
@@ -11957,6 +12907,11 @@ class v1Intent {
       initUserEmailRecoveryIntentV2: _initUserEmailRecoveryIntentV2,
       initOtpIntentV2: _initOtpIntentV2,
       initOtpAuthIntentV3: _initOtpAuthIntentV3,
+      upsertGasUsageConfigIntent: _upsertGasUsageConfigIntent,
+      createTvcAppIntent: _createTvcAppIntent,
+      createTvcDeploymentIntent: _createTvcDeploymentIntent,
+      createTvcManifestApprovalsIntent: _createTvcManifestApprovalsIntent,
+      solSendTransactionIntent: _solSendTransactionIntent,
     );
   }
 
@@ -12298,6 +13253,21 @@ class v1Intent {
     if (initOtpAuthIntentV3 != null) {
       _json['initOtpAuthIntentV3'] = initOtpAuthIntentV3?.toJson();
     }
+    if (upsertGasUsageConfigIntent != null) {
+      _json['upsertGasUsageConfigIntent'] = upsertGasUsageConfigIntent?.toJson();
+    }
+    if (createTvcAppIntent != null) {
+      _json['createTvcAppIntent'] = createTvcAppIntent?.toJson();
+    }
+    if (createTvcDeploymentIntent != null) {
+      _json['createTvcDeploymentIntent'] = createTvcDeploymentIntent?.toJson();
+    }
+    if (createTvcManifestApprovalsIntent != null) {
+      _json['createTvcManifestApprovalsIntent'] = createTvcManifestApprovalsIntent?.toJson();
+    }
+    if (solSendTransactionIntent != null) {
+      _json['solSendTransactionIntent'] = solSendTransactionIntent?.toJson();
+    }
     return _json;
   }
 }
@@ -12635,6 +13605,46 @@ class v1NOOPCodegenAnchorResponse {
     _json['stamp'] = stamp.toJson();
     if (tokenUsage != null) {
       _json['tokenUsage'] = tokenUsage?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1NativeRevertError {
+  /// The type of native error: 'error_string', 'panic', or 'execution_reverted'.
+  final String? nativeType;
+  /// The error message for Error(string) reverts.
+  final String? message;
+  /// The panic code for Panic(uint256) reverts.
+  final String? panicCode;
+
+  const v1NativeRevertError({
+     this.nativeType,
+     this.message,
+     this.panicCode,
+  });
+
+  factory v1NativeRevertError.fromJson(Map<String, dynamic> json) {
+    final _nativeType = json['nativeType'] as String?;
+    final _message = json['message'] as String?;
+    final _panicCode = json['panicCode'] as String?;
+    return v1NativeRevertError(
+      nativeType: _nativeType,
+      message: _message,
+      panicCode: _panicCode,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (nativeType != null) {
+      _json['nativeType'] = nativeType;
+    }
+    if (message != null) {
+      _json['message'] = message;
+    }
+    if (panicCode != null) {
+      _json['panicCode'] = panicCode;
     }
     return _json;
   }
@@ -13887,6 +14897,18 @@ class v1RecoverUserResult {
   }
 }
 
+class v1RefreshFeatureFlagsRequest {
+  const v1RefreshFeatureFlagsRequest();
+  factory v1RefreshFeatureFlagsRequest.fromJson(Map<String, dynamic> json) => const v1RefreshFeatureFlagsRequest();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1RefreshFeatureFlagsResponse {
+  const v1RefreshFeatureFlagsResponse();
+  factory v1RefreshFeatureFlagsResponse.fromJson(Map<String, dynamic> json) => const v1RefreshFeatureFlagsResponse();
+  Map<String, dynamic> toJson() => {};
+}
+
 class v1RejectActivityIntent {
   /// An artifact verifying a User's action.
   final String fingerprint;
@@ -14137,6 +15159,11 @@ class v1Result {
   final v1UpdateFiatOnRampCredentialResult? updateFiatOnRampCredentialResult;
   final v1DeleteFiatOnRampCredentialResult? deleteFiatOnRampCredentialResult;
   final v1EthSendTransactionResult? ethSendTransactionResult;
+  final v1UpsertGasUsageConfigResult? upsertGasUsageConfigResult;
+  final v1CreateTvcAppResult? createTvcAppResult;
+  final v1CreateTvcDeploymentResult? createTvcDeploymentResult;
+  final v1CreateTvcManifestApprovalsResult? createTvcManifestApprovalsResult;
+  final v1SolSendTransactionResult? solSendTransactionResult;
 
   const v1Result({
      this.createOrganizationResult,
@@ -14232,6 +15259,11 @@ class v1Result {
      this.updateFiatOnRampCredentialResult,
      this.deleteFiatOnRampCredentialResult,
      this.ethSendTransactionResult,
+     this.upsertGasUsageConfigResult,
+     this.createTvcAppResult,
+     this.createTvcDeploymentResult,
+     this.createTvcManifestApprovalsResult,
+     this.solSendTransactionResult,
   });
 
   factory v1Result.fromJson(Map<String, dynamic> json) {
@@ -14328,6 +15360,11 @@ class v1Result {
     final _updateFiatOnRampCredentialResult = json['updateFiatOnRampCredentialResult'] == null ? null : v1UpdateFiatOnRampCredentialResult.fromJson(json['updateFiatOnRampCredentialResult'] as Map<String, dynamic>);
     final _deleteFiatOnRampCredentialResult = json['deleteFiatOnRampCredentialResult'] == null ? null : v1DeleteFiatOnRampCredentialResult.fromJson(json['deleteFiatOnRampCredentialResult'] as Map<String, dynamic>);
     final _ethSendTransactionResult = json['ethSendTransactionResult'] == null ? null : v1EthSendTransactionResult.fromJson(json['ethSendTransactionResult'] as Map<String, dynamic>);
+    final _upsertGasUsageConfigResult = json['upsertGasUsageConfigResult'] == null ? null : v1UpsertGasUsageConfigResult.fromJson(json['upsertGasUsageConfigResult'] as Map<String, dynamic>);
+    final _createTvcAppResult = json['createTvcAppResult'] == null ? null : v1CreateTvcAppResult.fromJson(json['createTvcAppResult'] as Map<String, dynamic>);
+    final _createTvcDeploymentResult = json['createTvcDeploymentResult'] == null ? null : v1CreateTvcDeploymentResult.fromJson(json['createTvcDeploymentResult'] as Map<String, dynamic>);
+    final _createTvcManifestApprovalsResult = json['createTvcManifestApprovalsResult'] == null ? null : v1CreateTvcManifestApprovalsResult.fromJson(json['createTvcManifestApprovalsResult'] as Map<String, dynamic>);
+    final _solSendTransactionResult = json['solSendTransactionResult'] == null ? null : v1SolSendTransactionResult.fromJson(json['solSendTransactionResult'] as Map<String, dynamic>);
     return v1Result(
       createOrganizationResult: _createOrganizationResult,
       createAuthenticatorsResult: _createAuthenticatorsResult,
@@ -14422,6 +15459,11 @@ class v1Result {
       updateFiatOnRampCredentialResult: _updateFiatOnRampCredentialResult,
       deleteFiatOnRampCredentialResult: _deleteFiatOnRampCredentialResult,
       ethSendTransactionResult: _ethSendTransactionResult,
+      upsertGasUsageConfigResult: _upsertGasUsageConfigResult,
+      createTvcAppResult: _createTvcAppResult,
+      createTvcDeploymentResult: _createTvcDeploymentResult,
+      createTvcManifestApprovalsResult: _createTvcManifestApprovalsResult,
+      solSendTransactionResult: _solSendTransactionResult,
     );
   }
 
@@ -14705,6 +15747,85 @@ class v1Result {
     }
     if (ethSendTransactionResult != null) {
       _json['ethSendTransactionResult'] = ethSendTransactionResult?.toJson();
+    }
+    if (upsertGasUsageConfigResult != null) {
+      _json['upsertGasUsageConfigResult'] = upsertGasUsageConfigResult?.toJson();
+    }
+    if (createTvcAppResult != null) {
+      _json['createTvcAppResult'] = createTvcAppResult?.toJson();
+    }
+    if (createTvcDeploymentResult != null) {
+      _json['createTvcDeploymentResult'] = createTvcDeploymentResult?.toJson();
+    }
+    if (createTvcManifestApprovalsResult != null) {
+      _json['createTvcManifestApprovalsResult'] = createTvcManifestApprovalsResult?.toJson();
+    }
+    if (solSendTransactionResult != null) {
+      _json['solSendTransactionResult'] = solSendTransactionResult?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1RevertChainEntry {
+  /// The contract address where the revert occurred.
+  final String? address;
+  /// Type of error: 'unknown', 'native', or 'custom'.
+  final String? errorType;
+  /// Human-readable message describing this revert.
+  final String? displayMessage;
+  /// Details for unknown error types.
+  final v1UnknownRevertError? unknown;
+  /// Details for native Solidity errors (Error, Panic, execution reverted).
+  final v1NativeRevertError? native;
+  /// Details for custom contract errors.
+  final v1CustomRevertError? custom;
+
+  const v1RevertChainEntry({
+     this.address,
+     this.errorType,
+     this.displayMessage,
+     this.unknown,
+     this.native,
+     this.custom,
+  });
+
+  factory v1RevertChainEntry.fromJson(Map<String, dynamic> json) {
+    final _address = json['address'] as String?;
+    final _errorType = json['errorType'] as String?;
+    final _displayMessage = json['displayMessage'] as String?;
+    final _unknown = json['unknown'] == null ? null : v1UnknownRevertError.fromJson(json['unknown'] as Map<String, dynamic>);
+    final _native = json['native'] == null ? null : v1NativeRevertError.fromJson(json['native'] as Map<String, dynamic>);
+    final _custom = json['custom'] == null ? null : v1CustomRevertError.fromJson(json['custom'] as Map<String, dynamic>);
+    return v1RevertChainEntry(
+      address: _address,
+      errorType: _errorType,
+      displayMessage: _displayMessage,
+      unknown: _unknown,
+      native: _native,
+      custom: _custom,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (address != null) {
+      _json['address'] = address;
+    }
+    if (errorType != null) {
+      _json['errorType'] = errorType;
+    }
+    if (displayMessage != null) {
+      _json['displayMessage'] = displayMessage;
+    }
+    if (unknown != null) {
+      _json['unknown'] = unknown?.toJson();
+    }
+    if (native != null) {
+      _json['native'] = native?.toJson();
+    }
+    if (custom != null) {
+      _json['custom'] = custom?.toJson();
     }
     return _json;
   }
@@ -15621,6 +16742,123 @@ class v1SmsCustomizationParams {
   }
 }
 
+class v1SolSendTransactionIntent {
+  /// Base64-encoded serialized unsigned Solana transaction
+  final String unsignedTransaction;
+  /// A wallet or private key address to sign with. This does not support private key IDs.
+  final String signWith;
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet).
+  final String caip2;
+  /// user-provided blockhash for replay protection / deadline control. If omitted and sponsor=true, we fetch a fresh blockhash during execution
+  final String? recentBlockhash;
+
+  const v1SolSendTransactionIntent({
+    required  this.unsignedTransaction,
+    required  this.signWith,
+     this.sponsor,
+    required  this.caip2,
+     this.recentBlockhash,
+  });
+
+  factory v1SolSendTransactionIntent.fromJson(Map<String, dynamic> json) {
+    final _unsignedTransaction = json['unsignedTransaction'] as String;
+    final _signWith = json['signWith'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _caip2 = json['caip2'] as String;
+    final _recentBlockhash = json['recentBlockhash'] as String?;
+    return v1SolSendTransactionIntent(
+      unsignedTransaction: _unsignedTransaction,
+      signWith: _signWith,
+      sponsor: _sponsor,
+      caip2: _caip2,
+      recentBlockhash: _recentBlockhash,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['unsignedTransaction'] = unsignedTransaction;
+    _json['signWith'] = signWith;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['caip2'] = caip2;
+    if (recentBlockhash != null) {
+      _json['recentBlockhash'] = recentBlockhash;
+    }
+    return _json;
+  }
+}
+
+class v1SolSendTransactionRequest {
+  final String type;
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1SolSendTransactionIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1SolSendTransactionRequest({
+    required  this.type,
+    required  this.timestampMs,
+    required  this.organizationId,
+    required  this.parameters,
+     this.generateAppProofs,
+  });
+
+  factory v1SolSendTransactionRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1SolSendTransactionIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1SolSendTransactionRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1SolSendTransactionResult {
+  /// The send_transaction_status ID associated with the transaction submission
+  final String sendTransactionStatusId;
+
+  const v1SolSendTransactionResult({
+    required  this.sendTransactionStatusId,
+  });
+
+  factory v1SolSendTransactionResult.fromJson(Map<String, dynamic> json) {
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return v1SolSendTransactionResult(
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
 class v1StampLoginIntent {
   /// Client-side public key generated by the user, which will be conditionally added to org data based on the passkey stamp associated with this request
   final String publicKey;
@@ -15803,6 +17041,558 @@ class v1TokenUsage {
     }
     if (login != null) {
       _json['login'] = login?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1TvcApp {
+  /// Unique Identifier for this TVC App.
+  final String id;
+  /// Unique Identifier of the Organization for this TVC App
+  final String organizationId;
+  /// Name for this TVC App.
+  final String name;
+  /// Public key for the Quorum Key associated with this TVC App
+  final String quorumPublicKey;
+  /// Manifest Set (people who can approve manifests)
+  final v1TvcOperatorSet manifestSet;
+  /// Share Set (people who have a share of the Quorum Key)
+  final v1TvcOperatorSet shareSet;
+  /// Whether or not this TVC App has external connectivity enabled.
+  final bool externalConnectivity;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcApp({
+    required  this.id,
+    required  this.organizationId,
+    required  this.name,
+    required  this.quorumPublicKey,
+    required  this.manifestSet,
+    required  this.shareSet,
+    required  this.externalConnectivity,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcApp.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _name = json['name'] as String;
+    final _quorumPublicKey = json['quorumPublicKey'] as String;
+    final _manifestSet = v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
+    final _shareSet = v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
+    final _externalConnectivity = json['externalConnectivity'] as bool;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcApp(
+      id: _id,
+      organizationId: _organizationId,
+      name: _name,
+      quorumPublicKey: _quorumPublicKey,
+      manifestSet: _manifestSet,
+      shareSet: _shareSet,
+      externalConnectivity: _externalConnectivity,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['organizationId'] = organizationId;
+    _json['name'] = name;
+    _json['quorumPublicKey'] = quorumPublicKey;
+    _json['manifestSet'] = manifestSet.toJson();
+    _json['shareSet'] = shareSet.toJson();
+    _json['externalConnectivity'] = externalConnectivity;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcContainerSpec {
+  /// The URL for this container image.
+  final String containerUrl;
+  /// The path (in-container) to the executable binary.
+  final String path;
+  /// The arguments to pass to the executable.
+  final List<String> args;
+  /// Whether or not this container requires a pull secret to access.
+  final bool hasPullSecret;
+
+  const v1TvcContainerSpec({
+    required  this.containerUrl,
+    required  this.path,
+    required  this.args,
+    required  this.hasPullSecret,
+  });
+
+  factory v1TvcContainerSpec.fromJson(Map<String, dynamic> json) {
+    final _containerUrl = json['containerUrl'] as String;
+    final _path = json['path'] as String;
+    final _args = (json['args'] as List).map((e) => e as String).toList();
+    final _hasPullSecret = json['hasPullSecret'] as bool;
+    return v1TvcContainerSpec(
+      containerUrl: _containerUrl,
+      path: _path,
+      args: _args,
+      hasPullSecret: _hasPullSecret,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['containerUrl'] = containerUrl;
+    _json['path'] = path;
+    _json['args'] = args;
+    _json['hasPullSecret'] = hasPullSecret;
+    return _json;
+  }
+}
+
+class v1TvcDeployment {
+  /// Unique Identifier for this TVC Deployment.
+  final String id;
+  /// Unique Identifier of the Organization for this TVC Deployment
+  final String organizationId;
+  /// Unique Identifier of the TVC App for this deployment
+  final String appId;
+  /// Set of TVC operators who can approve this deployment
+  final v1TvcOperatorSet manifestSet;
+  /// Set of TVC operators who have a share of the Quorum Key
+  final v1TvcOperatorSet shareSet;
+  /// The manifest used for this deployment
+  final v1TvcManifest manifest;
+  /// List of operator approvals for this manifest
+  final List<v1TvcOperatorApproval> manifestApprovals;
+  /// QOS Version used for this deployment
+  final String qosVersion;
+  /// The pivot container spec for this deployment
+  final v1TvcContainerSpec pivotContainer;
+  /// The pivot container spec for this deployment
+  final v1TvcContainerSpec hostContainer;
+  /// Current stage for this deployment
+  final v1TvcDeploymentStage stage;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcDeployment({
+    required  this.id,
+    required  this.organizationId,
+    required  this.appId,
+    required  this.manifestSet,
+    required  this.shareSet,
+    required  this.manifest,
+    required  this.manifestApprovals,
+    required  this.qosVersion,
+    required  this.pivotContainer,
+    required  this.hostContainer,
+    required  this.stage,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcDeployment.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _appId = json['appId'] as String;
+    final _manifestSet = v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
+    final _shareSet = v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
+    final _manifest = v1TvcManifest.fromJson(json['manifest'] as Map<String, dynamic>);
+    final _manifestApprovals = (json['manifestApprovals'] as List).map((e) => v1TvcOperatorApproval.fromJson(e as Map<String, dynamic>)).toList();
+    final _qosVersion = json['qosVersion'] as String;
+    final _pivotContainer = v1TvcContainerSpec.fromJson(json['pivotContainer'] as Map<String, dynamic>);
+    final _hostContainer = v1TvcContainerSpec.fromJson(json['hostContainer'] as Map<String, dynamic>);
+    final _stage = v1TvcDeploymentStageFromJson(json['stage']);
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcDeployment(
+      id: _id,
+      organizationId: _organizationId,
+      appId: _appId,
+      manifestSet: _manifestSet,
+      shareSet: _shareSet,
+      manifest: _manifest,
+      manifestApprovals: _manifestApprovals,
+      qosVersion: _qosVersion,
+      pivotContainer: _pivotContainer,
+      hostContainer: _hostContainer,
+      stage: _stage,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['organizationId'] = organizationId;
+    _json['appId'] = appId;
+    _json['manifestSet'] = manifestSet.toJson();
+    _json['shareSet'] = shareSet.toJson();
+    _json['manifest'] = manifest.toJson();
+    _json['manifestApprovals'] = manifestApprovals.map((e) => e.toJson()).toList();
+    _json['qosVersion'] = qosVersion;
+    _json['pivotContainer'] = pivotContainer.toJson();
+    _json['hostContainer'] = hostContainer.toJson();
+    _json['stage'] = v1TvcDeploymentStageToJson(stage);
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcManifest {
+  /// Unique Identifier for this TVC Manifest.
+  final String id;
+  /// The manifest content (raw UTF-8 JSON bytes)
+  final String manifest;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcManifest({
+    required  this.id,
+    required  this.manifest,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcManifest.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _manifest = json['manifest'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcManifest(
+      id: _id,
+      manifest: _manifest,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['manifest'] = manifest;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcManifestApproval {
+  /// Unique identifier of the operator providing this approval
+  final String operatorId;
+  /// Signature from the operator approving the manifest
+  final String signature;
+
+  const v1TvcManifestApproval({
+    required  this.operatorId,
+    required  this.signature,
+  });
+
+  factory v1TvcManifestApproval.fromJson(Map<String, dynamic> json) {
+    final _operatorId = json['operatorId'] as String;
+    final _signature = json['signature'] as String;
+    return v1TvcManifestApproval(
+      operatorId: _operatorId,
+      signature: _signature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorId'] = operatorId;
+    _json['signature'] = signature;
+    return _json;
+  }
+}
+
+class v1TvcOperator {
+  /// Unique Identifier for this TVC Operator.
+  final String id;
+  /// Name of this TVC Operator.
+  final String name;
+  /// Public key for this TVC Operator.
+  final String publicKey;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperator({
+    required  this.id,
+    required  this.name,
+    required  this.publicKey,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcOperator.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _name = json['name'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperator(
+      id: _id,
+      name: _name,
+      publicKey: _publicKey,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['name'] = name;
+    _json['publicKey'] = publicKey;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcOperatorApproval {
+  /// Unique ID for this approval
+  final String id;
+  /// Unique Identifier of the TVC Manifest being approved
+  final String manifestId;
+  /// The TVC Operator who made this approval
+  final v1TvcOperator operator;
+  /// Signature of the operator over the deployment manifest
+  final String approval;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperatorApproval({
+    required  this.id,
+    required  this.manifestId,
+    required  this.operator,
+    required  this.approval,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcOperatorApproval.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _manifestId = json['manifestId'] as String;
+    final _operator = v1TvcOperator.fromJson(json['operator'] as Map<String, dynamic>);
+    final _approval = json['approval'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperatorApproval(
+      id: _id,
+      manifestId: _manifestId,
+      operator: _operator,
+      approval: _approval,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['manifestId'] = manifestId;
+    _json['operator'] = operator.toJson();
+    _json['approval'] = approval;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcOperatorParams {
+  /// The name for this new operator
+  final String name;
+  /// Public key for this operator
+  final String publicKey;
+
+  const v1TvcOperatorParams({
+    required  this.name,
+    required  this.publicKey,
+  });
+
+  factory v1TvcOperatorParams.fromJson(Map<String, dynamic> json) {
+    final _name = json['name'] as String;
+    final _publicKey = json['publicKey'] as String;
+    return v1TvcOperatorParams(
+      name: _name,
+      publicKey: _publicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['name'] = name;
+    _json['publicKey'] = publicKey;
+    return _json;
+  }
+}
+
+class v1TvcOperatorSet {
+  /// Unique Identifier for this TVC Operator Set.
+  final String id;
+  /// Name of this TVC Operator Set.
+  final String name;
+  /// Unique Identifier of the Organization for this TVC Operator Set
+  final String organizationId;
+  /// List of TVC Operators in this set
+  final List<v1TvcOperator> operators;
+  /// Threshold number of operators required for quorum.
+  final num threshold;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperatorSet({
+    required  this.id,
+    required  this.name,
+    required  this.organizationId,
+    required  this.operators,
+    required  this.threshold,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcOperatorSet.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _name = json['name'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _operators = (json['operators'] as List).map((e) => v1TvcOperator.fromJson(e as Map<String, dynamic>)).toList();
+    final _threshold = json['threshold'] as num;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperatorSet(
+      id: _id,
+      name: _name,
+      organizationId: _organizationId,
+      operators: _operators,
+      threshold: _threshold,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['name'] = name;
+    _json['organizationId'] = organizationId;
+    _json['operators'] = operators.map((e) => e.toJson()).toList();
+    _json['threshold'] = threshold;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcOperatorSetParams {
+  /// Short description for this new operator set
+  final String name;
+  /// Operators to create as part of this new operator set
+  final List<v1TvcOperatorParams>? newOperators;
+  /// Existing operators to use as part of this new operator set
+  final List<String>? existingOperatorIds;
+  /// The threshold of operators needed to reach consensus in this new Operator Set
+  final num threshold;
+
+  const v1TvcOperatorSetParams({
+    required  this.name,
+     this.newOperators,
+     this.existingOperatorIds,
+    required  this.threshold,
+  });
+
+  factory v1TvcOperatorSetParams.fromJson(Map<String, dynamic> json) {
+    final _name = json['name'] as String;
+    final _newOperators = (json['newOperators'] as List?)?.map((e) => v1TvcOperatorParams.fromJson(e as Map<String, dynamic>)).toList();
+    final _existingOperatorIds = (json['existingOperatorIds'] as List?)?.map((e) => e as String).toList();
+    final _threshold = json['threshold'] as num;
+    return v1TvcOperatorSetParams(
+      name: _name,
+      newOperators: _newOperators,
+      existingOperatorIds: _existingOperatorIds,
+      threshold: _threshold,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['name'] = name;
+    if (newOperators != null) {
+      _json['newOperators'] = newOperators?.map((e) => e.toJson()).toList();
+    }
+    if (existingOperatorIds != null) {
+      _json['existingOperatorIds'] = existingOperatorIds;
+    }
+    _json['threshold'] = threshold;
+    return _json;
+  }
+}
+
+class v1TxError {
+  /// Human-readable error message describing what went wrong.
+  final String? message;
+  /// Chain of revert errors from nested contract calls, ordered from outermost to innermost.
+  final List<v1RevertChainEntry>? revertChain;
+
+  const v1TxError({
+     this.message,
+     this.revertChain,
+  });
+
+  factory v1TxError.fromJson(Map<String, dynamic> json) {
+    final _message = json['message'] as String?;
+    final _revertChain = (json['revertChain'] as List?)?.map((e) => v1RevertChainEntry.fromJson(e as Map<String, dynamic>)).toList();
+    return v1TxError(
+      message: _message,
+      revertChain: _revertChain,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (message != null) {
+      _json['message'] = message;
+    }
+    if (revertChain != null) {
+      _json['revertChain'] = revertChain?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1UnknownRevertError {
+  /// The 4-byte error selector, if available.
+  final String? selector;
+  /// The raw error data, hex-encoded.
+  final String? data;
+
+  const v1UnknownRevertError({
+     this.selector,
+     this.data,
+  });
+
+  factory v1UnknownRevertError.fromJson(Map<String, dynamic> json) {
+    final _selector = json['selector'] as String?;
+    final _data = json['data'] as String?;
+    return v1UnknownRevertError(
+      selector: _selector,
+      data: _data,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (selector != null) {
+      _json['selector'] = selector;
+    }
+    if (data != null) {
+      _json['data'] = data;
     }
     return _json;
   }
@@ -17263,6 +19053,62 @@ class v1UpdateWalletResult {
   }
 }
 
+class v1UpsertGasUsageConfigIntent {
+  /// Gas sponsorship USD limit for the billing organization window.
+  final String orgWindowLimitUsd;
+  /// Gas sponsorship USD limit for sub-organizations under the billing organization.
+  final String subOrgWindowLimitUsd;
+  /// Rolling sponsorship window duration, expressed in minutes.
+  final String windowDurationMinutes;
+
+  const v1UpsertGasUsageConfigIntent({
+    required  this.orgWindowLimitUsd,
+    required  this.subOrgWindowLimitUsd,
+    required  this.windowDurationMinutes,
+  });
+
+  factory v1UpsertGasUsageConfigIntent.fromJson(Map<String, dynamic> json) {
+    final _orgWindowLimitUsd = json['orgWindowLimitUsd'] as String;
+    final _subOrgWindowLimitUsd = json['subOrgWindowLimitUsd'] as String;
+    final _windowDurationMinutes = json['windowDurationMinutes'] as String;
+    return v1UpsertGasUsageConfigIntent(
+      orgWindowLimitUsd: _orgWindowLimitUsd,
+      subOrgWindowLimitUsd: _subOrgWindowLimitUsd,
+      windowDurationMinutes: _windowDurationMinutes,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['orgWindowLimitUsd'] = orgWindowLimitUsd;
+    _json['subOrgWindowLimitUsd'] = subOrgWindowLimitUsd;
+    _json['windowDurationMinutes'] = windowDurationMinutes;
+    return _json;
+  }
+}
+
+class v1UpsertGasUsageConfigResult {
+  /// Unique identifier for the gas usage configuration that was created or updated.
+  final String gasUsageConfigId;
+
+  const v1UpsertGasUsageConfigResult({
+    required  this.gasUsageConfigId,
+  });
+
+  factory v1UpsertGasUsageConfigResult.fromJson(Map<String, dynamic> json) {
+    final _gasUsageConfigId = json['gasUsageConfigId'] as String;
+    return v1UpsertGasUsageConfigResult(
+      gasUsageConfigId: _gasUsageConfigId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['gasUsageConfigId'] = gasUsageConfigId;
+    return _json;
+  }
+}
+
 class v1User {
   /// Unique identifier for a given User.
   final String userId;
@@ -18525,6 +20371,94 @@ class TGetLatestBootProofInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetNoncesResponse {
+  /// The standard on-chain nonce for the address, if requested.
+  final String? nonce;
+  /// The gas station nonce for sponsored transactions, if requested.
+  final String? gasStationNonce;
+
+  const TGetNoncesResponse({
+     this.nonce,
+     this.gasStationNonce,
+  });
+
+  factory TGetNoncesResponse.fromJson(Map<String, dynamic> json) {
+    final _nonce = json['nonce'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    return TGetNoncesResponse(
+      nonce: _nonce,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class TGetNoncesBody {
+  final String? organizationId;
+  /// The Ethereum address to query nonces for.
+  final String address;
+  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+  /// Whether to fetch the standard on-chain nonce.
+  final bool? nonce;
+  /// Whether to fetch the gas station nonce used for sponsored transactions.
+  final bool? gasStationNonce;
+
+  const TGetNoncesBody({
+     this.organizationId,
+    required  this.address,
+    required  this.caip2,
+     this.nonce,
+     this.gasStationNonce,
+  });
+  factory TGetNoncesBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _nonce = json['nonce'] as bool?;
+    final _gasStationNonce = json['gasStationNonce'] as bool?;
+    return TGetNoncesBody(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+      nonce: _nonce,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class TGetNoncesInput {
+  final TGetNoncesBody body;
+  const TGetNoncesInput({required this.body});
+  factory TGetNoncesInput.fromJson(Map<String, dynamic> json) => TGetNoncesInput(body: TGetNoncesBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetOauth2CredentialResponse {
   final v1Oauth2Credential oauth2Credential;
 
@@ -18976,21 +20910,26 @@ class TGetSendTransactionStatusResponse {
   final v1EthSendTransactionStatus? eth;
   /// The error encountered when broadcasting or confirming the transaction, if any.
   final String? txError;
+  /// Structured error information including revert details, if available.
+  final v1TxError? error;
 
   const TGetSendTransactionStatusResponse({
     required  this.txStatus,
      this.eth,
      this.txError,
+     this.error,
   });
 
   factory TGetSendTransactionStatusResponse.fromJson(Map<String, dynamic> json) {
     final _txStatus = json['txStatus'] as String;
     final _eth = json['eth'] == null ? null : v1EthSendTransactionStatus.fromJson(json['eth'] as Map<String, dynamic>);
     final _txError = json['txError'] as String?;
+    final _error = json['error'] == null ? null : v1TxError.fromJson(json['error'] as Map<String, dynamic>);
     return TGetSendTransactionStatusResponse(
       txStatus: _txStatus,
       eth: _eth,
       txError: _txError,
+      error: _error,
     );
   }
 
@@ -19002,6 +20941,9 @@ class TGetSendTransactionStatusResponse {
     }
     if (txError != null) {
       _json['txError'] = txError;
+    }
+    if (error != null) {
+      _json['error'] = error?.toJson();
     }
     return _json;
   }
@@ -19094,6 +21036,118 @@ class TGetSmartContractInterfaceInput {
   final TGetSmartContractInterfaceBody body;
   const TGetSmartContractInterfaceInput({required this.body});
   factory TGetSmartContractInterfaceInput.fromJson(Map<String, dynamic> json) => TGetSmartContractInterfaceInput(body: TGetSmartContractInterfaceBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcAppResponse {
+  /// Details about a single TVC App
+  final v1TvcApp tvcApp;
+
+  const TGetTvcAppResponse({
+    required  this.tvcApp,
+  });
+
+  factory TGetTvcAppResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApp = v1TvcApp.fromJson(json['tvcApp'] as Map<String, dynamic>);
+    return TGetTvcAppResponse(
+      tvcApp: _tvcApp,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApp'] = tvcApp.toJson();
+    return _json;
+  }
+}
+
+class TGetTvcAppBody {
+  final String? organizationId;
+  /// Unique identifier for a given TVC App.
+  final String tvcAppId;
+
+  const TGetTvcAppBody({
+     this.organizationId,
+    required  this.tvcAppId,
+  });
+  factory TGetTvcAppBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _tvcAppId = json['tvcAppId'] as String;
+    return TGetTvcAppBody(
+      organizationId: _organizationId,
+      tvcAppId: _tvcAppId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['tvcAppId'] = tvcAppId;
+    return _json;
+  }
+}
+
+class TGetTvcAppInput {
+  final TGetTvcAppBody body;
+  const TGetTvcAppInput({required this.body});
+  factory TGetTvcAppInput.fromJson(Map<String, dynamic> json) => TGetTvcAppInput(body: TGetTvcAppBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcDeploymentResponse {
+  /// Details about a single TVC Deployment
+  final v1TvcDeployment tvcDeployment;
+
+  const TGetTvcDeploymentResponse({
+    required  this.tvcDeployment,
+  });
+
+  factory TGetTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployment = v1TvcDeployment.fromJson(json['tvcDeployment'] as Map<String, dynamic>);
+    return TGetTvcDeploymentResponse(
+      tvcDeployment: _tvcDeployment,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployment'] = tvcDeployment.toJson();
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentBody {
+  final String? organizationId;
+  /// Unique identifier for a given TVC Deployment.
+  final String deploymentId;
+
+  const TGetTvcDeploymentBody({
+     this.organizationId,
+    required  this.deploymentId,
+  });
+  factory TGetTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    return TGetTvcDeploymentBody(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentInput {
+  final TGetTvcDeploymentBody body;
+  const TGetTvcDeploymentInput({required this.body});
+  factory TGetTvcDeploymentInput.fromJson(Map<String, dynamic> json) => TGetTvcDeploymentInput(body: TGetTvcDeploymentBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -19278,6 +21332,69 @@ class TGetWalletAccountInput {
   final TGetWalletAccountBody body;
   const TGetWalletAccountInput({required this.body});
   factory TGetWalletAccountInput.fromJson(Map<String, dynamic> json) => TGetWalletAccountInput(body: TGetWalletAccountBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetWalletAddressBalancesResponse {
+  final List<v1AssetBalance>? balances;
+
+  const TGetWalletAddressBalancesResponse({
+     this.balances,
+  });
+
+  factory TGetWalletAddressBalancesResponse.fromJson(Map<String, dynamic> json) {
+    final _balances = (json['balances'] as List?)?.map((e) => v1AssetBalance.fromJson(e as Map<String, dynamic>)).toList();
+    return TGetWalletAddressBalancesResponse(
+      balances: _balances,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (balances != null) {
+      _json['balances'] = balances?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class TGetWalletAddressBalancesBody {
+  final String? organizationId;
+  /// Address corresponding to a wallet account.
+  final String address;
+  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  const TGetWalletAddressBalancesBody({
+     this.organizationId,
+    required  this.address,
+    required  this.caip2,
+  });
+  factory TGetWalletAddressBalancesBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    return TGetWalletAddressBalancesBody(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    return _json;
+  }
+}
+
+class TGetWalletAddressBalancesInput {
+  final TGetWalletAddressBalancesBody body;
+  const TGetWalletAddressBalancesInput({required this.body});
+  factory TGetWalletAddressBalancesInput.fromJson(Map<String, dynamic> json) => TGetWalletAddressBalancesInput(body: TGetWalletAddressBalancesBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -19779,6 +21896,112 @@ class TGetSubOrgIdsInput {
   final TGetSubOrgIdsBody body;
   const TGetSubOrgIdsInput({required this.body});
   factory TGetSubOrgIdsInput.fromJson(Map<String, dynamic> json) => TGetSubOrgIdsInput(body: TGetSubOrgIdsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcAppDeploymentsResponse {
+  /// List of deployments for this TVC App
+  final List<v1TvcDeployment> tvcDeployments;
+
+  const TGetTvcAppDeploymentsResponse({
+    required  this.tvcDeployments,
+  });
+
+  factory TGetTvcAppDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployments = (json['tvcDeployments'] as List).map((e) => v1TvcDeployment.fromJson(e as Map<String, dynamic>)).toList();
+    return TGetTvcAppDeploymentsResponse(
+      tvcDeployments: _tvcDeployments,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployments'] = tvcDeployments.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcAppDeploymentsBody {
+  final String? organizationId;
+  /// Unique identifier for a given TVC App.
+  final String appId;
+
+  const TGetTvcAppDeploymentsBody({
+     this.organizationId,
+    required  this.appId,
+  });
+  factory TGetTvcAppDeploymentsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _appId = json['appId'] as String;
+    return TGetTvcAppDeploymentsBody(
+      organizationId: _organizationId,
+      appId: _appId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class TGetTvcAppDeploymentsInput {
+  final TGetTvcAppDeploymentsBody body;
+  const TGetTvcAppDeploymentsInput({required this.body});
+  factory TGetTvcAppDeploymentsInput.fromJson(Map<String, dynamic> json) => TGetTvcAppDeploymentsInput(body: TGetTvcAppDeploymentsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcAppsResponse {
+  /// A list of TVC Apps.
+  final List<v1TvcApp> tvcApps;
+
+  const TGetTvcAppsResponse({
+    required  this.tvcApps,
+  });
+
+  factory TGetTvcAppsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApps = (json['tvcApps'] as List).map((e) => v1TvcApp.fromJson(e as Map<String, dynamic>)).toList();
+    return TGetTvcAppsResponse(
+      tvcApps: _tvcApps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApps'] = tvcApps.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcAppsBody {
+  final String? organizationId;
+
+  const TGetTvcAppsBody({
+     this.organizationId,
+  });
+  factory TGetTvcAppsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetTvcAppsBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetTvcAppsInput {
+  final TGetTvcAppsBody body;
+  const TGetTvcAppsInput({required this.body});
+  factory TGetTvcAppsInput.fromJson(Map<String, dynamic> json) => TGetTvcAppsInput(body: TGetTvcAppsBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -20751,7 +22974,8 @@ class TCreatePolicyBody {
   final String? condition;
   /// The consensus expression that triggers the Effect
   final String? consensus;
-  final String? notes;
+  /// Notes for a Policy.
+  final String notes;
 
   const TCreatePolicyBody({
      this.timestampMs,
@@ -20760,7 +22984,7 @@ class TCreatePolicyBody {
     required  this.effect,
      this.condition,
      this.consensus,
-     this.notes,
+    required  this.notes,
   });
   factory TCreatePolicyBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -20769,7 +22993,7 @@ class TCreatePolicyBody {
     final _effect = v1EffectFromJson(json['effect']);
     final _condition = json['condition'] as String?;
     final _consensus = json['consensus'] as String?;
-    final _notes = json['notes'] as String?;
+    final _notes = json['notes'] as String;
     return TCreatePolicyBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -20796,9 +23020,7 @@ class TCreatePolicyBody {
     if (consensus != null) {
       _json['consensus'] = consensus;
     }
-    if (notes != null) {
-      _json['notes'] = notes;
-    }
+    _json['notes'] = notes;
     return _json;
   }
 }
@@ -21274,6 +23496,285 @@ class TCreateSubOrganizationInput {
   final TCreateSubOrganizationBody body;
   const TCreateSubOrganizationInput({required this.body});
   factory TCreateSubOrganizationInput.fromJson(Map<String, dynamic> json) => TCreateSubOrganizationInput(body: TCreateSubOrganizationBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcAppResponse {
+  final v1Activity activity;
+  final v1CreateTvcAppResult? result;
+  const TCreateTvcAppResponse({required this.activity, this.result,});
+  factory TCreateTvcAppResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcAppResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1CreateTvcAppResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TCreateTvcAppBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// The name of the new TVC application
+  final String name;
+  /// Quorum public key to use for this application
+  final String quorumPublicKey;
+  /// Unique identifier for an existing TVC operator set to use as the Manifest Set for this TVC application. If left empty, a new Manifest Set configuration is required
+  final String? manifestSetId;
+  /// Configuration to create a new TVC operator set, used as the Manifest Set for this TVC application. If left empty, a Manifest Set ID is required
+  final v1TvcOperatorSetParams? manifestSetParams;
+  /// Unique identifier for an existing TVC operator set to use as the Share Set for this TVC application. If left empty, a new Share Set configuration is required
+  final String? shareSetId;
+  /// Configuration to create a new TVC operator set, used as the Share Set for this TVC application. If left empty, a Share Set ID is required
+  final v1TvcOperatorSetParams? shareSetParams;
+  /// Enables external connectivity for this TVC app. Default if not provided: false.
+  final bool? externalConnectivity;
+
+  const TCreateTvcAppBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.name,
+    required  this.quorumPublicKey,
+     this.manifestSetId,
+     this.manifestSetParams,
+     this.shareSetId,
+     this.shareSetParams,
+     this.externalConnectivity,
+  });
+  factory TCreateTvcAppBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _name = json['name'] as String;
+    final _quorumPublicKey = json['quorumPublicKey'] as String;
+    final _manifestSetId = json['manifestSetId'] as String?;
+    final _manifestSetParams = json['manifestSetParams'] == null ? null : v1TvcOperatorSetParams.fromJson(json['manifestSetParams'] as Map<String, dynamic>);
+    final _shareSetId = json['shareSetId'] as String?;
+    final _shareSetParams = json['shareSetParams'] == null ? null : v1TvcOperatorSetParams.fromJson(json['shareSetParams'] as Map<String, dynamic>);
+    final _externalConnectivity = json['externalConnectivity'] as bool?;
+    return TCreateTvcAppBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      name: _name,
+      quorumPublicKey: _quorumPublicKey,
+      manifestSetId: _manifestSetId,
+      manifestSetParams: _manifestSetParams,
+      shareSetId: _shareSetId,
+      shareSetParams: _shareSetParams,
+      externalConnectivity: _externalConnectivity,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['name'] = name;
+    _json['quorumPublicKey'] = quorumPublicKey;
+    if (manifestSetId != null) {
+      _json['manifestSetId'] = manifestSetId;
+    }
+    if (manifestSetParams != null) {
+      _json['manifestSetParams'] = manifestSetParams?.toJson();
+    }
+    if (shareSetId != null) {
+      _json['shareSetId'] = shareSetId;
+    }
+    if (shareSetParams != null) {
+      _json['shareSetParams'] = shareSetParams?.toJson();
+    }
+    if (externalConnectivity != null) {
+      _json['externalConnectivity'] = externalConnectivity;
+    }
+    return _json;
+  }
+}
+
+class TCreateTvcAppInput {
+  final TCreateTvcAppBody body;
+  const TCreateTvcAppInput({required this.body});
+  factory TCreateTvcAppInput.fromJson(Map<String, dynamic> json) => TCreateTvcAppInput(body: TCreateTvcAppBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcDeploymentResponse {
+  final v1Activity activity;
+  final v1CreateTvcDeploymentResult? result;
+  const TCreateTvcDeploymentResponse({required this.activity, this.result,});
+  factory TCreateTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcDeploymentResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1CreateTvcDeploymentResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TCreateTvcDeploymentBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// The unique identifier of the to-be-deployed TVC application
+  final String appId;
+  /// The QuorumOS version to use to deploy this application
+  final String qosVersion;
+  /// URL of the container containing the pivot binary
+  final String pivotContainerImageUrl;
+  /// Location of the binary in the pivot container
+  final String pivotPath;
+  /// Arguments to pass to the pivot binary at startup. Encoded as a list of strings, for example ["--foo", "bar"]
+  final List<String> pivotArgs;
+  /// Digest of the pivot binary in the pivot container. This value will be inserted in the QOS manifest to ensure application integrity.
+  final String expectedPivotDigest;
+  /// URL of the container containing the host binary
+  final String hostContainerImageUrl;
+  /// Location of the binary inside the host container
+  final String hostPath;
+  /// Arguments to pass to the host binary at startup. Encoded as a list of strings, for example ["--foo", "bar"]
+  final List<String> hostArgs;
+  /// Optional nonce to ensure uniqueness of the deployment manifest. If not provided, it defaults to the current Unix timestamp in seconds.
+  final num? nonce;
+
+  const TCreateTvcDeploymentBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.appId,
+    required  this.qosVersion,
+    required  this.pivotContainerImageUrl,
+    required  this.pivotPath,
+    required  this.pivotArgs,
+    required  this.expectedPivotDigest,
+    required  this.hostContainerImageUrl,
+    required  this.hostPath,
+    required  this.hostArgs,
+     this.nonce,
+  });
+  factory TCreateTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _appId = json['appId'] as String;
+    final _qosVersion = json['qosVersion'] as String;
+    final _pivotContainerImageUrl = json['pivotContainerImageUrl'] as String;
+    final _pivotPath = json['pivotPath'] as String;
+    final _pivotArgs = (json['pivotArgs'] as List).map((e) => e as String).toList();
+    final _expectedPivotDigest = json['expectedPivotDigest'] as String;
+    final _hostContainerImageUrl = json['hostContainerImageUrl'] as String;
+    final _hostPath = json['hostPath'] as String;
+    final _hostArgs = (json['hostArgs'] as List).map((e) => e as String).toList();
+    final _nonce = json['nonce'] as num?;
+    return TCreateTvcDeploymentBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      appId: _appId,
+      qosVersion: _qosVersion,
+      pivotContainerImageUrl: _pivotContainerImageUrl,
+      pivotPath: _pivotPath,
+      pivotArgs: _pivotArgs,
+      expectedPivotDigest: _expectedPivotDigest,
+      hostContainerImageUrl: _hostContainerImageUrl,
+      hostPath: _hostPath,
+      hostArgs: _hostArgs,
+      nonce: _nonce,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['appId'] = appId;
+    _json['qosVersion'] = qosVersion;
+    _json['pivotContainerImageUrl'] = pivotContainerImageUrl;
+    _json['pivotPath'] = pivotPath;
+    _json['pivotArgs'] = pivotArgs;
+    _json['expectedPivotDigest'] = expectedPivotDigest;
+    _json['hostContainerImageUrl'] = hostContainerImageUrl;
+    _json['hostPath'] = hostPath;
+    _json['hostArgs'] = hostArgs;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    return _json;
+  }
+}
+
+class TCreateTvcDeploymentInput {
+  final TCreateTvcDeploymentBody body;
+  const TCreateTvcDeploymentInput({required this.body});
+  factory TCreateTvcDeploymentInput.fromJson(Map<String, dynamic> json) => TCreateTvcDeploymentInput(body: TCreateTvcDeploymentBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcManifestApprovalsResponse {
+  final v1Activity activity;
+  final v1CreateTvcManifestApprovalsResult? result;
+  const TCreateTvcManifestApprovalsResponse({required this.activity, this.result,});
+  factory TCreateTvcManifestApprovalsResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcManifestApprovalsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1CreateTvcManifestApprovalsResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TCreateTvcManifestApprovalsBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// Unique identifier of the TVC deployment to approve
+  final String manifestId;
+  /// List of manifest approvals
+  final List<v1TvcManifestApproval> approvals;
+
+  const TCreateTvcManifestApprovalsBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.manifestId,
+    required  this.approvals,
+  });
+  factory TCreateTvcManifestApprovalsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _manifestId = json['manifestId'] as String;
+    final _approvals = (json['approvals'] as List).map((e) => v1TvcManifestApproval.fromJson(e as Map<String, dynamic>)).toList();
+    return TCreateTvcManifestApprovalsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      manifestId: _manifestId,
+      approvals: _approvals,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['manifestId'] = manifestId;
+    _json['approvals'] = approvals.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TCreateTvcManifestApprovalsInput {
+  final TCreateTvcManifestApprovalsBody body;
+  const TCreateTvcManifestApprovalsInput({required this.body});
+  factory TCreateTvcManifestApprovalsInput.fromJson(Map<String, dynamic> json) => TCreateTvcManifestApprovalsInput(body: TCreateTvcManifestApprovalsBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23570,7 +26071,7 @@ class TInitOtpAuthBody {
   final num? otpLength;
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
   final v1EmailCustomizationParams? emailCustomization;
-  /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
+  /// Optional parameters for customizing SMS message. If not provided, the default SMS message will be used.
   final v1SmsCustomizationParams? smsCustomization;
   /// Optional client-generated user identifier to enable per-user rate limiting for SMS auth. We recommend using a hash of the client-side IP address.
   final String? userIdentifier;
@@ -24665,6 +27166,91 @@ class TSignTransactionInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TSolSendTransactionResponse {
+  final v1Activity activity;
+  final v1SolSendTransactionResult? result;
+  const TSolSendTransactionResponse({required this.activity, this.result,});
+  factory TSolSendTransactionResponse.fromJson(Map<String, dynamic> json) {
+    return TSolSendTransactionResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null ? v1SolSendTransactionResult.fromJson(json['result'] as Map<String, dynamic>) : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
+}
+
+class TSolSendTransactionBody {
+  final String? timestampMs;
+  final String? organizationId;
+  /// Base64-encoded serialized unsigned Solana transaction
+  final String unsignedTransaction;
+  /// A wallet or private key address to sign with. This does not support private key IDs.
+  final String signWith;
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet).
+  final String caip2;
+  /// user-provided blockhash for replay protection / deadline control. If omitted and sponsor=true, we fetch a fresh blockhash during execution
+  final String? recentBlockhash;
+
+  const TSolSendTransactionBody({
+     this.timestampMs,
+     this.organizationId,
+    required  this.unsignedTransaction,
+    required  this.signWith,
+     this.sponsor,
+    required  this.caip2,
+     this.recentBlockhash,
+  });
+  factory TSolSendTransactionBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _unsignedTransaction = json['unsignedTransaction'] as String;
+    final _signWith = json['signWith'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _caip2 = json['caip2'] as String;
+    final _recentBlockhash = json['recentBlockhash'] as String?;
+    return TSolSendTransactionBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      unsignedTransaction: _unsignedTransaction,
+      signWith: _signWith,
+      sponsor: _sponsor,
+      caip2: _caip2,
+      recentBlockhash: _recentBlockhash,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['unsignedTransaction'] = unsignedTransaction;
+    _json['signWith'] = signWith;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['caip2'] = caip2;
+    if (recentBlockhash != null) {
+      _json['recentBlockhash'] = recentBlockhash;
+    }
+    return _json;
+  }
+}
+
+class TSolSendTransactionInput {
+  final TSolSendTransactionBody body;
+  const TSolSendTransactionInput({required this.body});
+  factory TSolSendTransactionInput.fromJson(Map<String, dynamic> json) => TSolSendTransactionInput(body: TSolSendTransactionBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TStampLoginResponse {
   final v1Activity activity;
   final v1StampLoginResult? result;
@@ -25694,6 +28280,54 @@ class TNOOPCodegenAnchorInput {
   final TNOOPCodegenAnchorBody body;
   const TNOOPCodegenAnchorInput({required this.body});
   factory TNOOPCodegenAnchorInput.fromJson(Map<String, dynamic> json) => TNOOPCodegenAnchorInput(body: json['body'] is Map<String, dynamic> ? TNOOPCodegenAnchorBody.fromJson(json['body'] as Map<String, dynamic>) : const TNOOPCodegenAnchorBody());
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TRefreshFeatureFlagsResponse {
+  final v1Activity activity;
+  const TRefreshFeatureFlagsResponse({required this.activity, });
+  factory TRefreshFeatureFlagsResponse.fromJson(Map<String, dynamic> json) {
+    return TRefreshFeatureFlagsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+    );
+  }
+  Map<String, dynamic> toJson() => {
+    'activity': activity.toJson(),
+  };
+}
+
+class TRefreshFeatureFlagsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  const TRefreshFeatureFlagsBody({
+     this.timestampMs,
+     this.organizationId,
+  });
+  factory TRefreshFeatureFlagsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    return TRefreshFeatureFlagsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TRefreshFeatureFlagsInput {
+  final TRefreshFeatureFlagsBody body;
+  const TRefreshFeatureFlagsInput({required this.body});
+  factory TRefreshFeatureFlagsInput.fromJson(Map<String, dynamic> json) => TRefreshFeatureFlagsInput(body: TRefreshFeatureFlagsBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 

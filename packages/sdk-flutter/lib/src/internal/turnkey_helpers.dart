@@ -617,7 +617,7 @@ String getPolicySignature(v1CreatePolicyIntentV3 policy) {
     "effect": policy.effect.name,
     "condition": policy.condition ?? null,
     "consensus": policy.consensus ?? null,
-    "notes": policy.notes ?? null,
+    "notes": policy.notes,
   };
   return jsonEncode(map);
 }
