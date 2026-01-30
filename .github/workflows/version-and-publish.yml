@@ -1,0 +1,128 @@
+name: Version Packages and Create Release
+
+on:
+  workflow_dispatch: # allows manual invocation
+  push:
+    tags:
+      - "v*.*.*" # triggers on tags like v1.0.0
+
+permissions:
+  contents: write
+  actions: write # required for gh workflow run
+  id-token: write # required for trusted publishers (OIDC)
+
+jobs:
+  version-and-prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Configure Git User
+        run: |
+          git config user.name "tkhq-deploy"
+          git config user.email "github@turnkey.engineering"
+
+      - name: Create and switch to release branch
+        run: |
+          git fetch origin
+          git checkout -B release/${{ github.ref_name }} origin/release/${{ github.ref_name }} || \
+          git checkout -B release/${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare release (version and changelog)
+        run: make prepare-release
+
+      - name: Commit versioned changes
+        run: |
+          git add -A
+          git commit -m "chore: release packages" || echo "No changes to commit"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push changes to release branch
+        run: |
+          git push -u origin release/${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    runs-on: ubuntu-latest
+    needs: version-and-prepare
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          ref: release/${{ github.ref_name }}
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Run tests
+        run: make test
+
+  prepare-release:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          ref: release/${{ github.ref_name }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631 #v2.2.2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  push-package-tags:
+    needs: prepare-release
+    runs-on: ubuntu-latest
+    environment: production # require manual approval before pushing tags and triggering publishes
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          ref: release/${{ github.ref_name }}
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+
+      - name: Configure Git User
+        run: |
+          git config user.name "tkhq-deploy"
+          git config user.email "github@turnkey.engineering"
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Push package tags (dry run)
+        run: dart run tool/push_package_tags.dart --dry-run
+
+      - name: Push package tags
+        run: dart run tool/push_package_tags.dart
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
