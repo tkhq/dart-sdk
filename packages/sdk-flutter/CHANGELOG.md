@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0 — 2026-01-30
+### Patch Changes
+- Fixed broken OTP flow when "Verification Token Required for Account Lookups" was enabled in the Auth Proxy.
+- Synced with latest mono API release v2026.1.4
+### Minor Changes
+- Policy note is now a required field in policy creation
+- Added client signature support for OTP authentication flows
+
+
 ## 1.1.0
 ### Minor Changes
  - **FEAT**: Added authstate, disabling auto-refresh and better onSuccess for oauth.
@@ -37,3 +46,4 @@
 ## 0.1.0 - Initial Release
 
 - Initial release. Client side abstracted functions for Turnkey-powered Flutter apps
+

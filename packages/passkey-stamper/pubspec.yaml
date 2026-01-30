@@ -1,6 +1,6 @@
 name: turnkey_flutter_passkey_stamper
 description: A Flutter package for passkey stamping functionalities.
-version: 1.0.1
+version: 1.0.2
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
