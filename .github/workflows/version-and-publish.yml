@@ -21,8 +21,10 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+      - name: Setup Flutter
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5c50a6d541965a # v2.19.0
+        with:
+          channel: stable
 
       - name: Install dependencies
         run: flutter pub get
@@ -66,8 +68,10 @@ jobs:
           fetch-depth: 0
           ref: release/${{ github.ref_name }}
 
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+      - name: Setup Flutter
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5c50a6d541965a # v2.19.0
+        with:
+          channel: stable
 
       - name: Install dependencies
         run: flutter pub get
@@ -108,8 +112,10 @@ jobs:
           fetch-depth: 0
           ref: release/${{ github.ref_name }}
 
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+      - name: Setup Flutter
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5c50a6d541965a # v2.19.0
+        with:
+          channel: stable
 
       - name: Configure Git User
         run: |
