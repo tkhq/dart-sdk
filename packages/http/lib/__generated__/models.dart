@@ -17055,10 +17055,10 @@ class v1TvcApp {
   final String name;
   /// Public key for the Quorum Key associated with this TVC App
   final String quorumPublicKey;
-  /// Manifest Set (people who can approve manifests)
-  final v1TvcOperatorSet manifestSet;
-  /// Share Set (people who have a share of the Quorum Key)
-  final v1TvcOperatorSet shareSet;
+  /// Unique Identifier of the Manifest Set (people who can approve manifests)
+  final String manifestSetId;
+  /// Unique Identifier of the Share Set (people who have a share of the Quorum Key)
+  final String shareSetId;
   /// Whether or not this TVC App has external connectivity enabled.
   final bool externalConnectivity;
   final externaldatav1Timestamp createdAt;
@@ -17069,8 +17069,8 @@ class v1TvcApp {
     required  this.organizationId,
     required  this.name,
     required  this.quorumPublicKey,
-    required  this.manifestSet,
-    required  this.shareSet,
+    required  this.manifestSetId,
+    required  this.shareSetId,
     required  this.externalConnectivity,
     required  this.createdAt,
     required  this.updatedAt,
@@ -17081,8 +17081,8 @@ class v1TvcApp {
     final _organizationId = json['organizationId'] as String;
     final _name = json['name'] as String;
     final _quorumPublicKey = json['quorumPublicKey'] as String;
-    final _manifestSet = v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
-    final _shareSet = v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
+    final _manifestSetId = json['manifestSetId'] as String;
+    final _shareSetId = json['shareSetId'] as String;
     final _externalConnectivity = json['externalConnectivity'] as bool;
     final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
     final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
@@ -17091,8 +17091,8 @@ class v1TvcApp {
       organizationId: _organizationId,
       name: _name,
       quorumPublicKey: _quorumPublicKey,
-      manifestSet: _manifestSet,
-      shareSet: _shareSet,
+      manifestSetId: _manifestSetId,
+      shareSetId: _shareSetId,
       externalConnectivity: _externalConnectivity,
       createdAt: _createdAt,
       updatedAt: _updatedAt,
@@ -17105,8 +17105,8 @@ class v1TvcApp {
     _json['organizationId'] = organizationId;
     _json['name'] = name;
     _json['quorumPublicKey'] = quorumPublicKey;
-    _json['manifestSet'] = manifestSet.toJson();
-    _json['shareSet'] = shareSet.toJson();
+    _json['manifestSetId'] = manifestSetId;
+    _json['shareSetId'] = shareSetId;
     _json['externalConnectivity'] = externalConnectivity;
     _json['createdAt'] = createdAt.toJson();
     _json['updatedAt'] = updatedAt.toJson();
@@ -17161,14 +17161,10 @@ class v1TvcDeployment {
   final String organizationId;
   /// Unique Identifier of the TVC App for this deployment
   final String appId;
-  /// Set of TVC operators who can approve this deployment
-  final v1TvcOperatorSet manifestSet;
-  /// Set of TVC operators who have a share of the Quorum Key
-  final v1TvcOperatorSet shareSet;
-  /// The manifest used for this deployment
-  final v1TvcManifest manifest;
-  /// List of operator approvals for this manifest
-  final List<v1TvcOperatorApproval> manifestApprovals;
+  /// Unique Identifier of the manifest for this deployment
+  final String manifestId;
+  /// The manifest used for this deployment (raw UTF-8 JSON bytes)
+  final String manifest;
   /// QOS Version used for this deployment
   final String qosVersion;
   /// The pivot container spec for this deployment
@@ -17184,10 +17180,8 @@ class v1TvcDeployment {
     required  this.id,
     required  this.organizationId,
     required  this.appId,
-    required  this.manifestSet,
-    required  this.shareSet,
+    required  this.manifestId,
     required  this.manifest,
-    required  this.manifestApprovals,
     required  this.qosVersion,
     required  this.pivotContainer,
     required  this.hostContainer,
@@ -17200,10 +17194,8 @@ class v1TvcDeployment {
     final _id = json['id'] as String;
     final _organizationId = json['organizationId'] as String;
     final _appId = json['appId'] as String;
-    final _manifestSet = v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
-    final _shareSet = v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
-    final _manifest = v1TvcManifest.fromJson(json['manifest'] as Map<String, dynamic>);
-    final _manifestApprovals = (json['manifestApprovals'] as List).map((e) => v1TvcOperatorApproval.fromJson(e as Map<String, dynamic>)).toList();
+    final _manifestId = json['manifestId'] as String;
+    final _manifest = json['manifest'] as String;
     final _qosVersion = json['qosVersion'] as String;
     final _pivotContainer = v1TvcContainerSpec.fromJson(json['pivotContainer'] as Map<String, dynamic>);
     final _hostContainer = v1TvcContainerSpec.fromJson(json['hostContainer'] as Map<String, dynamic>);
@@ -17214,10 +17206,8 @@ class v1TvcDeployment {
       id: _id,
       organizationId: _organizationId,
       appId: _appId,
-      manifestSet: _manifestSet,
-      shareSet: _shareSet,
+      manifestId: _manifestId,
       manifest: _manifest,
-      manifestApprovals: _manifestApprovals,
       qosVersion: _qosVersion,
       pivotContainer: _pivotContainer,
       hostContainer: _hostContainer,
@@ -17232,52 +17222,12 @@ class v1TvcDeployment {
     _json['id'] = id;
     _json['organizationId'] = organizationId;
     _json['appId'] = appId;
-    _json['manifestSet'] = manifestSet.toJson();
-    _json['shareSet'] = shareSet.toJson();
-    _json['manifest'] = manifest.toJson();
-    _json['manifestApprovals'] = manifestApprovals.map((e) => e.toJson()).toList();
+    _json['manifestId'] = manifestId;
+    _json['manifest'] = manifest;
     _json['qosVersion'] = qosVersion;
     _json['pivotContainer'] = pivotContainer.toJson();
     _json['hostContainer'] = hostContainer.toJson();
     _json['stage'] = v1TvcDeploymentStageToJson(stage);
-    _json['createdAt'] = createdAt.toJson();
-    _json['updatedAt'] = updatedAt.toJson();
-    return _json;
-  }
-}
-
-class v1TvcManifest {
-  /// Unique Identifier for this TVC Manifest.
-  final String id;
-  /// The manifest content (raw UTF-8 JSON bytes)
-  final String manifest;
-  final externaldatav1Timestamp createdAt;
-  final externaldatav1Timestamp updatedAt;
-
-  const v1TvcManifest({
-    required  this.id,
-    required  this.manifest,
-    required  this.createdAt,
-    required  this.updatedAt,
-  });
-
-  factory v1TvcManifest.fromJson(Map<String, dynamic> json) {
-    final _id = json['id'] as String;
-    final _manifest = json['manifest'] as String;
-    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
-    return v1TvcManifest(
-      id: _id,
-      manifest: _manifest,
-      createdAt: _createdAt,
-      updatedAt: _updatedAt,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['id'] = id;
-    _json['manifest'] = manifest;
     _json['createdAt'] = createdAt.toJson();
     _json['updatedAt'] = updatedAt.toJson();
     return _json;
@@ -17312,100 +17262,6 @@ class v1TvcManifestApproval {
   }
 }
 
-class v1TvcOperator {
-  /// Unique Identifier for this TVC Operator.
-  final String id;
-  /// Name of this TVC Operator.
-  final String name;
-  /// Public key for this TVC Operator.
-  final String publicKey;
-  final externaldatav1Timestamp createdAt;
-  final externaldatav1Timestamp updatedAt;
-
-  const v1TvcOperator({
-    required  this.id,
-    required  this.name,
-    required  this.publicKey,
-    required  this.createdAt,
-    required  this.updatedAt,
-  });
-
-  factory v1TvcOperator.fromJson(Map<String, dynamic> json) {
-    final _id = json['id'] as String;
-    final _name = json['name'] as String;
-    final _publicKey = json['publicKey'] as String;
-    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
-    return v1TvcOperator(
-      id: _id,
-      name: _name,
-      publicKey: _publicKey,
-      createdAt: _createdAt,
-      updatedAt: _updatedAt,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['id'] = id;
-    _json['name'] = name;
-    _json['publicKey'] = publicKey;
-    _json['createdAt'] = createdAt.toJson();
-    _json['updatedAt'] = updatedAt.toJson();
-    return _json;
-  }
-}
-
-class v1TvcOperatorApproval {
-  /// Unique ID for this approval
-  final String id;
-  /// Unique Identifier of the TVC Manifest being approved
-  final String manifestId;
-  /// The TVC Operator who made this approval
-  final v1TvcOperator operator;
-  /// Signature of the operator over the deployment manifest
-  final String approval;
-  final externaldatav1Timestamp createdAt;
-  final externaldatav1Timestamp updatedAt;
-
-  const v1TvcOperatorApproval({
-    required  this.id,
-    required  this.manifestId,
-    required  this.operator,
-    required  this.approval,
-    required  this.createdAt,
-    required  this.updatedAt,
-  });
-
-  factory v1TvcOperatorApproval.fromJson(Map<String, dynamic> json) {
-    final _id = json['id'] as String;
-    final _manifestId = json['manifestId'] as String;
-    final _operator = v1TvcOperator.fromJson(json['operator'] as Map<String, dynamic>);
-    final _approval = json['approval'] as String;
-    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
-    return v1TvcOperatorApproval(
-      id: _id,
-      manifestId: _manifestId,
-      operator: _operator,
-      approval: _approval,
-      createdAt: _createdAt,
-      updatedAt: _updatedAt,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['id'] = id;
-    _json['manifestId'] = manifestId;
-    _json['operator'] = operator.toJson();
-    _json['approval'] = approval;
-    _json['createdAt'] = createdAt.toJson();
-    _json['updatedAt'] = updatedAt.toJson();
-    return _json;
-  }
-}
-
 class v1TvcOperatorParams {
   /// The name for this new operator
   final String name;
@@ -17430,62 +17286,6 @@ class v1TvcOperatorParams {
     final _json = <String, dynamic>{};
     _json['name'] = name;
     _json['publicKey'] = publicKey;
-    return _json;
-  }
-}
-
-class v1TvcOperatorSet {
-  /// Unique Identifier for this TVC Operator Set.
-  final String id;
-  /// Name of this TVC Operator Set.
-  final String name;
-  /// Unique Identifier of the Organization for this TVC Operator Set
-  final String organizationId;
-  /// List of TVC Operators in this set
-  final List<v1TvcOperator> operators;
-  /// Threshold number of operators required for quorum.
-  final num threshold;
-  final externaldatav1Timestamp createdAt;
-  final externaldatav1Timestamp updatedAt;
-
-  const v1TvcOperatorSet({
-    required  this.id,
-    required  this.name,
-    required  this.organizationId,
-    required  this.operators,
-    required  this.threshold,
-    required  this.createdAt,
-    required  this.updatedAt,
-  });
-
-  factory v1TvcOperatorSet.fromJson(Map<String, dynamic> json) {
-    final _id = json['id'] as String;
-    final _name = json['name'] as String;
-    final _organizationId = json['organizationId'] as String;
-    final _operators = (json['operators'] as List).map((e) => v1TvcOperator.fromJson(e as Map<String, dynamic>)).toList();
-    final _threshold = json['threshold'] as num;
-    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
-    return v1TvcOperatorSet(
-      id: _id,
-      name: _name,
-      organizationId: _organizationId,
-      operators: _operators,
-      threshold: _threshold,
-      createdAt: _createdAt,
-      updatedAt: _updatedAt,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['id'] = id;
-    _json['name'] = name;
-    _json['organizationId'] = organizationId;
-    _json['operators'] = operators.map((e) => e.toJson()).toList();
-    _json['threshold'] = threshold;
-    _json['createdAt'] = createdAt.toJson();
-    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -28407,20 +28207,25 @@ class ProxyTGetAccountBody {
   final String filterValue;
   /// Signed JWT containing a unique id, expiry, verification type, contact. Used to verify access to PII (email/phone number) when filter_type is 'EMAIL' or 'PHONE_NUMBER'.
   final String? verificationToken;
+  /// OIDC token to verify access to PII (email/phone number) when filter_type is 'EMAIL' or 'PHONE_NUMBER'. Needed for social linking when verification_token is not available.
+  final String? oidcToken;
 
   const ProxyTGetAccountBody({
     required  this.filterType,
     required  this.filterValue,
      this.verificationToken,
+     this.oidcToken,
   });
   factory ProxyTGetAccountBody.fromJson(Map<String, dynamic> json) {
     final _filterType = json['filterType'] as String;
     final _filterValue = json['filterValue'] as String;
     final _verificationToken = json['verificationToken'] as String?;
+    final _oidcToken = json['oidcToken'] as String?;
     return ProxyTGetAccountBody(
       filterType: _filterType,
       filterValue: _filterValue,
       verificationToken: _verificationToken,
+      oidcToken: _oidcToken,
     );
   }
   Map<String, dynamic> toJson() {
@@ -28429,6 +28234,9 @@ class ProxyTGetAccountBody {
     _json['filterValue'] = filterValue;
     if (verificationToken != null) {
       _json['verificationToken'] = verificationToken;
+    }
+    if (oidcToken != null) {
+      _json['oidcToken'] = oidcToken;
     }
     return _json;
   }

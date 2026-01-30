@@ -102,4 +102,27 @@ class SecureStorageStamper implements TStamper {
       stampHeaderValue: result.stampHeaderValue,
     );
   }
+
+  Future<String> sign(String content, {SignatureFormat format = SignatureFormat.der}) async {
+    final keyToUse = publicKey;
+    if (keyToUse == null) {
+      throw Exception(
+        "No public key provided. Set it with `setPublicKey()` before signing.",
+      );
+    }
+
+    final privateKey = await _getPrivateKey(keyToUse);
+    if (privateKey == null) {
+      throw Exception("No private key found for public key: $keyToUse");
+    }
+
+    final stamper = ApiKeyStamper(
+      ApiKeyStamperConfig(
+        apiPublicKey: keyToUse,
+        apiPrivateKey: privateKey,
+      ),
+    );
+
+    return stamper.sign(content, format);
+  }
 }
