@@ -22,7 +22,7 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5c50a6d541965a # v2.19.0
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046 # v2.19.0
         with:
           channel: stable
 
@@ -69,7 +69,7 @@ jobs:
           ref: release/${{ github.ref_name }}
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5c50a6d541965a # v2.19.0
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046 # v2.19.0
         with:
           channel: stable
 
@@ -113,7 +113,7 @@ jobs:
           ref: release/${{ github.ref_name }}
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5c50a6d541965a # v2.19.0
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046 # v2.19.0
         with:
           channel: stable
 
