@@ -1,10 +1,5 @@
 # Changelog
 
-## 1.1.1 — 2026-02-02
-### Patch Changes
-- Synced with latest mono API release v2026.1.4
-
-
 ## 1.1.0
 ### Patch Changes
  - **FIX**: prevent type field from being incorrectly omitted in body parameters.
@@ -20,4 +15,3 @@
 
 ## 0.1.0 - Initial Release
 - Added HTTP client utilities for Turnkey API.
-
