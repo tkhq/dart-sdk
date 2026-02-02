@@ -11,8 +11,8 @@ resolution: workspace
 dependencies:
   flutter:
     sdk: flutter
-  turnkey_crypto: ^0.1.1
-  turnkey_encoding: ^0.1.0
+  turnkey_crypto: ^0.1.2
+  turnkey_encoding: ^0.1.1
   flutter_secure_storage: ^9.2.4
 
 dev_dependencies:
