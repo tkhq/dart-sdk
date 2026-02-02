@@ -91,6 +91,16 @@ void _run() {
     ));
   });
 
+  // Build a map of all internal package versions (post-bump) and update
+  // dependency constraints across the monorepo.
+  final internalVersions = <String, String>{};
+  for (final pkg in packages) {
+    internalVersions[pkg.name] = readPubspecVersion(pkg.pubspecPath);
+  }
+
+  stdout.writeln('\nUpdating internal dependency constraints:');
+  updateInternalDependencies(packages, internalVersions);
+
   writeReleaseMeta(meta);
   stdout.writeln(
       '\nWrote release meta to $changesetDirName/$releaseMetaFileName');
