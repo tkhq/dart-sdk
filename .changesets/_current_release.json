@@ -1,0 +1,120 @@
+{
+  "created": "2026-02-02T12:23:58.373780",
+  "date": "2026-02-02",
+  "packages": [
+    {
+      "name": "turnkey_api_key_stamper",
+      "path": "packages/api-key-stamper",
+      "fromVersion": "0.1.2+1",
+      "toVersion": "0.2.0",
+      "bump": "minor",
+      "changes": [
+        {
+          "title": "Sign Functionality",
+          "bump": "minor",
+          "note": "Exposed a `sign` method from the stamper for signing arbitrary payloads\n\n- Accepts a string payload and returns a signature in either `RAW` or `DER` format",
+          "changesetPath": ".changesets/20251219-105149-sign-functionality.md"
+        },
+        {
+          "title": "Mono Sync",
+          "bump": "patch",
+          "note": "Synced with latest mono API release v2026.1.4",
+          "changesetPath": ".changesets/20260129-111324-mono-sync.md"
+        }
+      ]
+    },
+    {
+      "name": "turnkey_sdk_flutter",
+      "path": "packages/sdk-flutter",
+      "fromVersion": "1.1.0",
+      "toVersion": "1.2.0",
+      "bump": "minor",
+      "changes": [
+        {
+          "title": "Verification Token Required Fix",
+          "bump": "patch",
+          "note": "Fixed broken OTP flow when \"Verification Token Required for Account Lookups\" was enabled in the Auth Proxy.",
+          "changesetPath": ".changesets/20251209-103804-verification-token-required-fix.md"
+        },
+        {
+          "title": "Policy note",
+          "bump": "minor",
+          "note": "Policy note is now a required field in policy creation",
+          "changesetPath": ".changesets/20260129-120533-policy-note.md"
+        },
+        {
+          "title": "Client Signature Support",
+          "bump": "minor",
+          "note": "Added client signature support for OTP authentication flows",
+          "changesetPath": ".changesets/20251219-105246-client-signature-support.md"
+        },
+        {
+          "title": "Mono Sync",
+          "bump": "patch",
+          "note": "Synced with latest mono API release v2026.1.4",
+          "changesetPath": ".changesets/20260129-111324-mono-sync.md"
+        }
+      ]
+    },
+    {
+      "name": "turnkey_flutter_passkey_stamper",
+      "path": "packages/passkey-stamper",
+      "fromVersion": "1.0.1",
+      "toVersion": "1.0.2",
+      "bump": "patch",
+      "changes": [
+        {
+          "title": "Mono Sync",
+          "bump": "patch",
+          "note": "Synced with latest mono API release v2026.1.4",
+          "changesetPath": ".changesets/20260129-111324-mono-sync.md"
+        }
+      ]
+    },
+    {
+      "name": "turnkey_http",
+      "path": "packages/http",
+      "fromVersion": "1.1.0",
+      "toVersion": "1.1.1",
+      "bump": "patch",
+      "changes": [
+        {
+          "title": "Mono Sync",
+          "bump": "patch",
+          "note": "Synced with latest mono API release v2026.1.4",
+          "changesetPath": ".changesets/20260129-111324-mono-sync.md"
+        }
+      ]
+    },
+    {
+      "name": "turnkey_crypto",
+      "path": "packages/crypto",
+      "fromVersion": "0.1.2",
+      "toVersion": "0.1.3",
+      "bump": "patch",
+      "changes": [
+        {
+          "title": "Updated internal dependencies",
+          "bump": "patch",
+          "note": "Updated dependencies: turnkey_encoding.",
+          "changesetPath": ""
+        }
+      ]
+    },
+    {
+      "name": "turnkey_sessions",
+      "path": "packages/sessions",
+      "fromVersion": "0.1.2",
+      "toVersion": "0.1.3",
+      "bump": "patch",
+      "changes": [
+        {
+          "title": "Updated internal dependencies",
+          "bump": "patch",
+          "note": "Updated dependencies: turnkey_crypto, turnkey_encoding.",
+          "changesetPath": ""
+        }
+      ]
+    }
+  ]
+}
