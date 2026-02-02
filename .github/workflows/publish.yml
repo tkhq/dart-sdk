@@ -32,6 +32,11 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Parsed: package=$PKG_NAME, version=$VERSION"
 
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.ref }}
+
       - name: Resolve package directory
         id: resolve-dir
         run: |
@@ -42,11 +47,6 @@ jobs:
           fi
           echo "dir=$PKG_DIR" >> $GITHUB_OUTPUT
           echo "Resolved directory: $PKG_DIR"
-
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          ref: ${{ github.ref }}
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
@@ -72,4 +72,3 @@ jobs:
       - name: Publish to pub.dev
         run: dart pub publish --force
         working-directory: ${{ steps.resolve-dir.outputs.dir }}
-
