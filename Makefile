@@ -1,5 +1,5 @@
 test:
-	dart run melos exec -- dart test
+	dart run melos exec --dir-exists=test -- dart test
 
 .PHONY: changeset
 changeset:
