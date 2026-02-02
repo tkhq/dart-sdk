@@ -441,3 +441,51 @@ String todayDate() {
   String two(int n) => n.toString().padLeft(2, '0');
   return '${now.year}-${two(now.month)}-${two(now.day)}';
 }
+
+// Internal dependency sync ====================================================
+
+/// After version bumps, update every internal dependency constraint in all
+/// pubspec.yaml files so they point at `^<current version>` of each sibling
+/// package. [internalVersions] maps package name → post-bump version string.
+void updateInternalDependencies(
+  List<PackageInfo> packages,
+  Map<String, String> internalVersions,
+) {
+  for (final pkg in packages) {
+    final file = File(pkg.pubspecPath);
+    final lines = file.readAsLinesSync();
+    var changed = false;
+
+    for (var i = 0; i < lines.length; i++) {
+      final line = lines[i];
+
+      for (final entry in internalVersions.entries) {
+        final depName = entry.key;
+        final newVersion = entry.value;
+
+        // Don't update a package's dependency on itself.
+        if (depName == pkg.name) continue;
+
+        // Match indented dependency lines like "  turnkey_encoding: ^0.1.0"
+        final regex = RegExp(
+          r'^(\s+' + RegExp.escape(depName) + r'\s*:\s*)\S+(.*)$',
+        );
+        final m = regex.firstMatch(line);
+        if (m != null) {
+          final prefix = m.group(1)!;
+          final suffix = m.group(2)!;
+          final updated = '$prefix^$newVersion$suffix';
+          if (lines[i] != updated) {
+            stdout.writeln('  ${pkg.name}: $depName -> ^$newVersion');
+            lines[i] = updated;
+            changed = true;
+          }
+        }
+      }
+    }
+
+    if (changed) {
+      file.writeAsStringSync(lines.join('\n') + '\n');
+    }
+  }
+}
