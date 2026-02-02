@@ -66,6 +66,15 @@ jobs:
           echo "Version verified: $PUBSPEC_VERSION"
         working-directory: ${{ steps.resolve-dir.outputs.dir }}
 
+      - name: Authenticate to pub.dev (OIDC)
+        run: |
+          OIDC_TOKEN=$(curl -sLS "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=https://pub.dev" \
+            -H "User-Agent: actions/oidc-client" \
+            -H "Authorization: Bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            | jq -r '.value')
+          echo "PUB_TOKEN=${OIDC_TOKEN}" >> $GITHUB_ENV
+          dart pub token add https://pub.dev --env-var PUB_TOKEN
+
       - name: Publish to pub.dev (dry run)
         run: dart pub publish --dry-run
         working-directory: ${{ steps.resolve-dir.outputs.dir }}
