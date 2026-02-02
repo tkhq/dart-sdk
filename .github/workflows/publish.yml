@@ -32,6 +32,17 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Parsed: package=$PKG_NAME, version=$VERSION"
 
+      - name: Resolve package directory
+        id: resolve-dir
+        run: |
+          PKG_DIR=$(grep -rl "^name: ${{ steps.parse.outputs.package }}$" packages/*/pubspec.yaml | head -1 | xargs dirname)
+          if [ -z "$PKG_DIR" ]; then
+            echo "::error::Could not find directory for package ${{ steps.parse.outputs.package }}"
+            exit 1
+          fi
+          echo "dir=$PKG_DIR" >> $GITHUB_OUTPUT
+          echo "Resolved directory: $PKG_DIR"
+
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
@@ -42,7 +53,7 @@ jobs:
 
       - name: Install dependencies
         run: dart pub get
-        working-directory: packages/${{ steps.parse.outputs.package }}
+        working-directory: ${{ steps.resolve-dir.outputs.dir }}
 
       - name: Verify package version matches tag
         run: |
@@ -52,12 +63,13 @@ jobs:
             exit 1
           fi
           echo "Version verified: $PUBSPEC_VERSION"
-        working-directory: packages/${{ steps.parse.outputs.package }}
+        working-directory: ${{ steps.resolve-dir.outputs.dir }}
 
       - name: Publish to pub.dev (dry run)
         run: dart pub publish --dry-run
-        working-directory: packages/${{ steps.parse.outputs.package }}
+        working-directory: ${{ steps.resolve-dir.outputs.dir }}
 
       - name: Publish to pub.dev
         run: dart pub publish --force
-        working-directory: packages/${{ steps.parse.outputs.package }}
+        working-directory: ${{ steps.resolve-dir.outputs.dir }}
+
