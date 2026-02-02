@@ -447,14 +447,20 @@ String todayDate() {
 /// After version bumps, update every internal dependency constraint in all
 /// pubspec.yaml files so they point at `^<current version>` of each sibling
 /// package. [internalVersions] maps package name → post-bump version string.
-void updateInternalDependencies(
+///
+/// Returns a map of package name → list of dependency names that were updated,
+/// only for packages whose pubspec.yaml was actually modified.
+Map<String, List<String>> updateInternalDependencies(
   List<PackageInfo> packages,
   Map<String, String> internalVersions,
 ) {
+  final modified = <String, List<String>>{};
+
   for (final pkg in packages) {
     final file = File(pkg.pubspecPath);
     final lines = file.readAsLinesSync();
     var changed = false;
+    final updatedDeps = <String>[];
 
     for (var i = 0; i < lines.length; i++) {
       final line = lines[i];
@@ -479,6 +485,7 @@ void updateInternalDependencies(
             stdout.writeln('  ${pkg.name}: $depName -> ^$newVersion');
             lines[i] = updated;
             changed = true;
+            updatedDeps.add(depName);
           }
         }
       }
@@ -486,6 +493,9 @@ void updateInternalDependencies(
 
     if (changed) {
       file.writeAsStringSync(lines.join('\n') + '\n');
+      modified[pkg.name] = updatedDeps;
     }
   }
+
+  return modified;
 }

@@ -91,15 +91,56 @@ void _run() {
     ));
   });
 
-  // Build a map of all internal package versions (post-bump) and update
-  // dependency constraints across the monorepo.
-  final internalVersions = <String, String>{};
-  for (final pkg in packages) {
-    internalVersions[pkg.name] = readPubspecVersion(pkg.pubspecPath);
-  }
+  // Cascade: update internal dependency constraints, then patch-bump any
+  // packages whose deps changed but that weren't already bumped. Repeat
+  // until stable (handles transitive chains like A → B → C).
+  final bumped = pkgChanges.keys.toSet();
 
-  stdout.writeln('\nUpdating internal dependency constraints:');
-  updateInternalDependencies(packages, internalVersions);
+  while (true) {
+    final internalVersions = <String, String>{};
+    for (final pkg in packages) {
+      internalVersions[pkg.name] = readPubspecVersion(pkg.pubspecPath);
+    }
+
+    stdout.writeln('\nUpdating internal dependency constraints:');
+    final modified = updateInternalDependencies(packages, internalVersions);
+
+    // Find packages that had deps updated but haven't been bumped yet.
+    final needsBump =
+        modified.keys.where((name) => !bumped.contains(name)).toList();
+    if (needsBump.isEmpty) break;
+
+    stdout.writeln('\nPatch-bumping packages with updated dependencies:');
+    for (final pkgName in needsBump) {
+      final pkg = pkgByName[pkgName]!;
+      final currentVersion = readPubspecVersion(pkg.pubspecPath);
+      final newVersion = nextVersion(currentVersion, 'patch');
+      writePubspecVersion(pkg.pubspecPath, newVersion);
+      bumped.add(pkgName);
+
+      final updatedDeps = modified[pkgName]!;
+      final depList = updatedDeps.join(', ');
+
+      stdout.writeln(
+          '  - $pkgName: $currentVersion -> $newVersion (patch) [${pkg.path}]');
+
+      meta.packages.add(PackageRelease(
+        name: pkgName,
+        path: pkg.path,
+        fromVersion: currentVersion,
+        toVersion: newVersion,
+        bump: 'patch',
+        changes: [
+          PackageChange(
+            title: 'Updated internal dependencies',
+            bump: 'patch',
+            note: 'Updated dependencies: $depList.',
+            changesetPath: '',
+          ),
+        ],
+      ));
+    }
+  }
 
   writeReleaseMeta(meta);
   stdout.writeln(
