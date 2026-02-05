@@ -78,6 +78,11 @@ void _run() {
 
     writePubspecVersion(pkg.pubspecPath, newVersion);
 
+    // Update version.dart for the http package
+    if (pkgName == 'turnkey_http') {
+      writeHttpVersionDart(newVersion);
+    }
+
     stdout.writeln(
         '  - $pkgName: $currentVersion -> $newVersion ($bump) [${pkg.path}]');
 
@@ -117,6 +122,11 @@ void _run() {
       final newVersion = nextVersion(currentVersion, 'patch');
       writePubspecVersion(pkg.pubspecPath, newVersion);
       bumped.add(pkgName);
+
+      // Update version.dart for the http package
+      if (pkgName == 'turnkey_http') {
+        writeHttpVersionDart(newVersion);
+      }
 
       final updatedDeps = modified[pkgName]!;
       final depList = updatedDeps.join(', ');
