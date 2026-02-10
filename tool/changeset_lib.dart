@@ -405,7 +405,7 @@ void writePubspecVersion(String pubspecPath, String newVersion) {
 }
 
 /// Updates the version.dart file for the turnkey_http package.
-/// The file contains a VERSION constant like: const VERSION = "turnkey_http@X.Y.Z";
+/// The file contains a VERSION constant like: const VERSION = "turnkey-dart/X.Y.Z";
 void writeHttpVersionDart(String newVersion) {
   final file = File(httpVersionDartPath);
   if (!file.existsSync()) {
