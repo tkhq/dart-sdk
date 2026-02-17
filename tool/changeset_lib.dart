@@ -8,6 +8,7 @@ import 'dart:io';
 const changesetDirName = '.changesets';
 const packagesRootDirName = 'packages';
 const releaseMetaFileName = '_current_release.json';
+const httpVersionDartPath = '$packagesRootDirName/http/lib/version.dart';
 
 typedef PackageBumps = Map<String, String>;
 
@@ -401,6 +402,20 @@ void writePubspecVersion(String pubspecPath, String newVersion) {
   }
 
   file.writeAsStringSync(lines.join('\n') + '\n');
+}
+
+/// Updates the version.dart file for the turnkey_http package.
+/// The file contains a VERSION constant like: const VERSION = "turnkey-dart/X.Y.Z";
+void writeHttpVersionDart(String newVersion) {
+  final file = File(httpVersionDartPath);
+  if (!file.existsSync()) {
+    stderr.writeln('warning: version.dart not found at $httpVersionDartPath');
+    return;
+  }
+
+  final content = 'const VERSION = "turnkey-dart/$newVersion";\n';
+  file.writeAsStringSync(content);
+  stdout.writeln('  Updated $httpVersionDartPath');
 }
 
 // Meta read/write ==========================================================

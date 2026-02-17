@@ -8,6 +8,8 @@ import 'dart:io';
 
 import 'changeset_lib.dart';
 
+const httpPackageName = 'turnkey_http';
+
 void main(List<String> args) {
   try {
     _run();
@@ -78,6 +80,11 @@ void _run() {
 
     writePubspecVersion(pkg.pubspecPath, newVersion);
 
+    // Update version.dart for the http package
+    if (pkgName == httpPackageName) {
+      writeHttpVersionDart(newVersion);
+    }
+
     stdout.writeln(
         '  - $pkgName: $currentVersion -> $newVersion ($bump) [${pkg.path}]');
 
@@ -117,6 +124,11 @@ void _run() {
       final newVersion = nextVersion(currentVersion, 'patch');
       writePubspecVersion(pkg.pubspecPath, newVersion);
       bumped.add(pkgName);
+
+      // Update version.dart for the http package
+      if (pkgName == httpPackageName) {
+        writeHttpVersionDart(newVersion);
+      }
 
       final updatedDeps = modified[pkgName]!;
       final depList = updatedDeps.join(', ');
