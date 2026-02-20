@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2 — 2026-02-20
+### Patch Changes
+- Synced with mono v2026.2.5
+
+
 ## 1.1.1 — 2026-02-02
 ### Patch Changes
 - Synced with latest mono API release v2026.1.4
@@ -20,4 +25,5 @@
 
 ## 0.1.0 - Initial Release
 - Added HTTP client utilities for Turnkey API.
+
 

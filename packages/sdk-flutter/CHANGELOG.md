@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.1 — 2026-02-20
+### Patch Changes
+- Updated dependencies: turnkey_http.
+
+
 ## 1.2.0 — 2026-02-02
 ### Patch Changes
 - Fixed broken OTP flow when "Verification Token Required for Account Lookups" was enabled in the Auth Proxy.
@@ -46,4 +51,5 @@
 ## 0.1.0 - Initial Release
 
 - Initial release. Client side abstracted functions for Turnkey-powered Flutter apps
+
 

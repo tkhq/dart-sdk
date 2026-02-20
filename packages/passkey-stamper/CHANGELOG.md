@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.3 — 2026-02-20
+### Patch Changes
+- Updated dependencies: turnkey_http.
+
+
 ## 1.0.2 — 2026-02-02
 ### Patch Changes
 - Synced with latest mono API release v2026.1.4
@@ -19,4 +24,5 @@
 
 ## 0.1.0 - Initial Release
 - Added passkey stamping functionality for Flutter.
+
 
