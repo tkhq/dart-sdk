@@ -2455,16 +2455,26 @@ class v1ApproveActivityRequest {
 }
 
 class v1AssetBalance {
+  /// The caip-19 asset identifier
   final String? caip19;
+  /// The asset symbol
   final String? symbol;
+  /// The balance in atomic units
   final String? balance;
+  /// The number of decimals this asset uses
   final num? decimals;
+  /// Normalized balance values for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise. Use the balance field instead.
+  final v1AssetBalanceDisplay? display;
+  /// The asset name
+  final String? name;
 
   const v1AssetBalance({
      this.caip19,
      this.symbol,
      this.balance,
      this.decimals,
+     this.display,
+     this.name,
   });
 
   factory v1AssetBalance.fromJson(Map<String, dynamic> json) {
@@ -2472,11 +2482,15 @@ class v1AssetBalance {
     final _symbol = json['symbol'] as String?;
     final _balance = json['balance'] as String?;
     final _decimals = json['decimals'] as num?;
+    final _display = json['display'] == null ? null : v1AssetBalanceDisplay.fromJson(json['display'] as Map<String, dynamic>);
+    final _name = json['name'] as String?;
     return v1AssetBalance(
       caip19: _caip19,
       symbol: _symbol,
       balance: _balance,
       decimals: _decimals,
+      display: _display,
+      name: _name,
     );
   }
 
@@ -2493,6 +2507,100 @@ class v1AssetBalance {
     }
     if (decimals != null) {
       _json['decimals'] = decimals;
+    }
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    if (name != null) {
+      _json['name'] = name;
+    }
+    return _json;
+  }
+}
+
+class v1AssetBalanceDisplay {
+  /// USD value for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise.
+  final String? usd;
+  /// Normalized crypto value for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise.
+  final String? crypto;
+
+  const v1AssetBalanceDisplay({
+     this.usd,
+     this.crypto,
+  });
+
+  factory v1AssetBalanceDisplay.fromJson(Map<String, dynamic> json) {
+    final _usd = json['usd'] as String?;
+    final _crypto = json['crypto'] as String?;
+    return v1AssetBalanceDisplay(
+      usd: _usd,
+      crypto: _crypto,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (usd != null) {
+      _json['usd'] = usd;
+    }
+    if (crypto != null) {
+      _json['crypto'] = crypto;
+    }
+    return _json;
+  }
+}
+
+class v1AssetMetadata {
+  /// The caip-19 asset identifier
+  final String? caip19;
+  /// The asset symbol
+  final String? symbol;
+  /// The number of decimals this asset uses
+  final num? decimals;
+  /// The url of the asset logo
+  final String? logoUrl;
+  /// The asset name
+  final String? name;
+
+  const v1AssetMetadata({
+     this.caip19,
+     this.symbol,
+     this.decimals,
+     this.logoUrl,
+     this.name,
+  });
+
+  factory v1AssetMetadata.fromJson(Map<String, dynamic> json) {
+    final _caip19 = json['caip19'] as String?;
+    final _symbol = json['symbol'] as String?;
+    final _decimals = json['decimals'] as num?;
+    final _logoUrl = json['logoUrl'] as String?;
+    final _name = json['name'] as String?;
+    return v1AssetMetadata(
+      caip19: _caip19,
+      symbol: _symbol,
+      decimals: _decimals,
+      logoUrl: _logoUrl,
+      name: _name,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (symbol != null) {
+      _json['symbol'] = symbol;
+    }
+    if (decimals != null) {
+      _json['decimals'] = decimals;
+    }
+    if (logoUrl != null) {
+      _json['logoUrl'] = logoUrl;
+    }
+    if (name != null) {
+      _json['name'] = name;
     }
     return _json;
   }
@@ -5495,6 +5603,10 @@ class v1CreateTvcDeploymentIntent {
   final List<String> hostArgs;
   /// Optional nonce to ensure uniqueness of the deployment manifest. If not provided, it defaults to the current Unix timestamp in seconds.
   final num? nonce;
+  /// Optional encrypted pull secret to authorize Turnkey to pull the pivot container image. If your image is public, leave this empty.
+  final String? pivotContainerEncryptedPullSecret;
+  /// Optional encrypted pull secret to authorize Turnkey to pull the host container image. If your image is public, leave this empty.
+  final String? hostContainerEncryptedPullSecret;
 
   const v1CreateTvcDeploymentIntent({
     required  this.appId,
@@ -5507,6 +5619,8 @@ class v1CreateTvcDeploymentIntent {
     required  this.hostPath,
     required  this.hostArgs,
      this.nonce,
+     this.pivotContainerEncryptedPullSecret,
+     this.hostContainerEncryptedPullSecret,
   });
 
   factory v1CreateTvcDeploymentIntent.fromJson(Map<String, dynamic> json) {
@@ -5520,6 +5634,8 @@ class v1CreateTvcDeploymentIntent {
     final _hostPath = json['hostPath'] as String;
     final _hostArgs = (json['hostArgs'] as List).map((e) => e as String).toList();
     final _nonce = json['nonce'] as num?;
+    final _pivotContainerEncryptedPullSecret = json['pivotContainerEncryptedPullSecret'] as String?;
+    final _hostContainerEncryptedPullSecret = json['hostContainerEncryptedPullSecret'] as String?;
     return v1CreateTvcDeploymentIntent(
       appId: _appId,
       qosVersion: _qosVersion,
@@ -5531,6 +5647,8 @@ class v1CreateTvcDeploymentIntent {
       hostPath: _hostPath,
       hostArgs: _hostArgs,
       nonce: _nonce,
+      pivotContainerEncryptedPullSecret: _pivotContainerEncryptedPullSecret,
+      hostContainerEncryptedPullSecret: _hostContainerEncryptedPullSecret,
     );
   }
 
@@ -5547,6 +5665,12 @@ class v1CreateTvcDeploymentIntent {
     _json['hostArgs'] = hostArgs;
     if (nonce != null) {
       _json['nonce'] = nonce;
+    }
+    if (pivotContainerEncryptedPullSecret != null) {
+      _json['pivotContainerEncryptedPullSecret'] = pivotContainerEncryptedPullSecret;
+    }
+    if (hostContainerEncryptedPullSecret != null) {
+      _json['hostContainerEncryptedPullSecret'] = hostContainerEncryptedPullSecret;
     }
     return _json;
   }
@@ -9246,56 +9370,6 @@ class v1GetAppProofsResponse {
   }
 }
 
-class v1GetAttestationDocumentRequest {
-  /// Unique identifier for a given organization.
-  final String organizationId;
-  /// The enclave type, one of: ump, notarizer, signer, evm-parser.
-  final String enclaveType;
-
-  const v1GetAttestationDocumentRequest({
-    required  this.organizationId,
-    required  this.enclaveType,
-  });
-
-  factory v1GetAttestationDocumentRequest.fromJson(Map<String, dynamic> json) {
-    final _organizationId = json['organizationId'] as String;
-    final _enclaveType = json['enclaveType'] as String;
-    return v1GetAttestationDocumentRequest(
-      organizationId: _organizationId,
-      enclaveType: _enclaveType,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['organizationId'] = organizationId;
-    _json['enclaveType'] = enclaveType;
-    return _json;
-  }
-}
-
-class v1GetAttestationDocumentResponse {
-  /// Raw (CBOR-encoded) attestation document.
-  final String attestationDocument;
-
-  const v1GetAttestationDocumentResponse({
-    required  this.attestationDocument,
-  });
-
-  factory v1GetAttestationDocumentResponse.fromJson(Map<String, dynamic> json) {
-    final _attestationDocument = json['attestationDocument'] as String;
-    return v1GetAttestationDocumentResponse(
-      attestationDocument: _attestationDocument,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['attestationDocument'] = attestationDocument;
-    return _json;
-  }
-}
-
 class v1GetAuthenticatorRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
@@ -9513,7 +9587,7 @@ class v1GetNoncesRequest {
   final String organizationId;
   /// The Ethereum address to query nonces for.
   final String address;
-  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
   final String caip2;
   /// Whether to fetch the standard on-chain nonce.
   final bool? nonce;
@@ -10805,7 +10879,7 @@ class v1GetWalletAddressBalancesRequest {
   final String organizationId;
   /// Address corresponding to a wallet account.
   final String address;
-  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
   final String caip2;
 
   const v1GetWalletAddressBalancesRequest({
@@ -10835,6 +10909,7 @@ class v1GetWalletAddressBalancesRequest {
 }
 
 class v1GetWalletAddressBalancesResponse {
+  /// List of asset balances
   final List<v1AssetBalance>? balances;
 
   const v1GetWalletAddressBalancesResponse({
@@ -13512,6 +13587,58 @@ class v1ListPrivateKeyTagsResponse {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['privateKeyTags'] = privateKeyTags.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1ListSupportedAssetsRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  const v1ListSupportedAssetsRequest({
+    required  this.organizationId,
+    required  this.caip2,
+  });
+
+  factory v1ListSupportedAssetsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _caip2 = json['caip2'] as String;
+    return v1ListSupportedAssetsRequest(
+      organizationId: _organizationId,
+      caip2: _caip2,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['caip2'] = caip2;
+    return _json;
+  }
+}
+
+class v1ListSupportedAssetsResponse {
+  /// List of asset metadata
+  final List<v1AssetMetadata>? assets;
+
+  const v1ListSupportedAssetsResponse({
+     this.assets,
+  });
+
+  factory v1ListSupportedAssetsResponse.fromJson(Map<String, dynamic> json) {
+    final _assets = (json['assets'] as List?)?.map((e) => v1AssetMetadata.fromJson(e as Map<String, dynamic>)).toList();
+    return v1ListSupportedAssetsResponse(
+      assets: _assets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (assets != null) {
+      _json['assets'] = assets?.map((e) => e.toJson()).toList();
+    }
     return _json;
   }
 }
@@ -17055,10 +17182,10 @@ class v1TvcApp {
   final String name;
   /// Public key for the Quorum Key associated with this TVC App
   final String quorumPublicKey;
-  /// Unique Identifier of the Manifest Set (people who can approve manifests)
-  final String manifestSetId;
-  /// Unique Identifier of the Share Set (people who have a share of the Quorum Key)
-  final String shareSetId;
+  /// Manifest Set (people who can approve manifests)
+  final v1TvcOperatorSet manifestSet;
+  /// Share Set (people who have a share of the Quorum Key)
+  final v1TvcOperatorSet shareSet;
   /// Whether or not this TVC App has external connectivity enabled.
   final bool externalConnectivity;
   final externaldatav1Timestamp createdAt;
@@ -17069,8 +17196,8 @@ class v1TvcApp {
     required  this.organizationId,
     required  this.name,
     required  this.quorumPublicKey,
-    required  this.manifestSetId,
-    required  this.shareSetId,
+    required  this.manifestSet,
+    required  this.shareSet,
     required  this.externalConnectivity,
     required  this.createdAt,
     required  this.updatedAt,
@@ -17081,8 +17208,8 @@ class v1TvcApp {
     final _organizationId = json['organizationId'] as String;
     final _name = json['name'] as String;
     final _quorumPublicKey = json['quorumPublicKey'] as String;
-    final _manifestSetId = json['manifestSetId'] as String;
-    final _shareSetId = json['shareSetId'] as String;
+    final _manifestSet = v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
+    final _shareSet = v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
     final _externalConnectivity = json['externalConnectivity'] as bool;
     final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
     final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
@@ -17091,8 +17218,8 @@ class v1TvcApp {
       organizationId: _organizationId,
       name: _name,
       quorumPublicKey: _quorumPublicKey,
-      manifestSetId: _manifestSetId,
-      shareSetId: _shareSetId,
+      manifestSet: _manifestSet,
+      shareSet: _shareSet,
       externalConnectivity: _externalConnectivity,
       createdAt: _createdAt,
       updatedAt: _updatedAt,
@@ -17105,8 +17232,8 @@ class v1TvcApp {
     _json['organizationId'] = organizationId;
     _json['name'] = name;
     _json['quorumPublicKey'] = quorumPublicKey;
-    _json['manifestSetId'] = manifestSetId;
-    _json['shareSetId'] = shareSetId;
+    _json['manifestSet'] = manifestSet.toJson();
+    _json['shareSet'] = shareSet.toJson();
     _json['externalConnectivity'] = externalConnectivity;
     _json['createdAt'] = createdAt.toJson();
     _json['updatedAt'] = updatedAt.toJson();
@@ -17161,10 +17288,14 @@ class v1TvcDeployment {
   final String organizationId;
   /// Unique Identifier of the TVC App for this deployment
   final String appId;
-  /// Unique Identifier of the manifest for this deployment
-  final String manifestId;
-  /// The manifest used for this deployment (raw UTF-8 JSON bytes)
-  final String manifest;
+  /// Set of TVC operators who can approve this deployment
+  final v1TvcOperatorSet manifestSet;
+  /// Set of TVC operators who have a share of the Quorum Key
+  final v1TvcOperatorSet shareSet;
+  /// The manifest used for this deployment
+  final v1TvcManifest manifest;
+  /// List of operator approvals for this manifest
+  final List<v1TvcOperatorApproval> manifestApprovals;
   /// QOS Version used for this deployment
   final String qosVersion;
   /// The pivot container spec for this deployment
@@ -17180,8 +17311,10 @@ class v1TvcDeployment {
     required  this.id,
     required  this.organizationId,
     required  this.appId,
-    required  this.manifestId,
+    required  this.manifestSet,
+    required  this.shareSet,
     required  this.manifest,
+    required  this.manifestApprovals,
     required  this.qosVersion,
     required  this.pivotContainer,
     required  this.hostContainer,
@@ -17194,8 +17327,10 @@ class v1TvcDeployment {
     final _id = json['id'] as String;
     final _organizationId = json['organizationId'] as String;
     final _appId = json['appId'] as String;
-    final _manifestId = json['manifestId'] as String;
-    final _manifest = json['manifest'] as String;
+    final _manifestSet = v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
+    final _shareSet = v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
+    final _manifest = v1TvcManifest.fromJson(json['manifest'] as Map<String, dynamic>);
+    final _manifestApprovals = (json['manifestApprovals'] as List).map((e) => v1TvcOperatorApproval.fromJson(e as Map<String, dynamic>)).toList();
     final _qosVersion = json['qosVersion'] as String;
     final _pivotContainer = v1TvcContainerSpec.fromJson(json['pivotContainer'] as Map<String, dynamic>);
     final _hostContainer = v1TvcContainerSpec.fromJson(json['hostContainer'] as Map<String, dynamic>);
@@ -17206,8 +17341,10 @@ class v1TvcDeployment {
       id: _id,
       organizationId: _organizationId,
       appId: _appId,
-      manifestId: _manifestId,
+      manifestSet: _manifestSet,
+      shareSet: _shareSet,
       manifest: _manifest,
+      manifestApprovals: _manifestApprovals,
       qosVersion: _qosVersion,
       pivotContainer: _pivotContainer,
       hostContainer: _hostContainer,
@@ -17222,12 +17359,52 @@ class v1TvcDeployment {
     _json['id'] = id;
     _json['organizationId'] = organizationId;
     _json['appId'] = appId;
-    _json['manifestId'] = manifestId;
-    _json['manifest'] = manifest;
+    _json['manifestSet'] = manifestSet.toJson();
+    _json['shareSet'] = shareSet.toJson();
+    _json['manifest'] = manifest.toJson();
+    _json['manifestApprovals'] = manifestApprovals.map((e) => e.toJson()).toList();
     _json['qosVersion'] = qosVersion;
     _json['pivotContainer'] = pivotContainer.toJson();
     _json['hostContainer'] = hostContainer.toJson();
     _json['stage'] = v1TvcDeploymentStageToJson(stage);
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcManifest {
+  /// Unique Identifier for this TVC Manifest.
+  final String id;
+  /// The manifest content (raw UTF-8 JSON bytes)
+  final String manifest;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcManifest({
+    required  this.id,
+    required  this.manifest,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcManifest.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _manifest = json['manifest'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcManifest(
+      id: _id,
+      manifest: _manifest,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['manifest'] = manifest;
     _json['createdAt'] = createdAt.toJson();
     _json['updatedAt'] = updatedAt.toJson();
     return _json;
@@ -17262,6 +17439,100 @@ class v1TvcManifestApproval {
   }
 }
 
+class v1TvcOperator {
+  /// Unique Identifier for this TVC Operator.
+  final String id;
+  /// Name of this TVC Operator.
+  final String name;
+  /// Public key for this TVC Operator.
+  final String publicKey;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperator({
+    required  this.id,
+    required  this.name,
+    required  this.publicKey,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcOperator.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _name = json['name'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperator(
+      id: _id,
+      name: _name,
+      publicKey: _publicKey,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['name'] = name;
+    _json['publicKey'] = publicKey;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1TvcOperatorApproval {
+  /// Unique ID for this approval
+  final String id;
+  /// Unique Identifier of the TVC Manifest being approved
+  final String manifestId;
+  /// The TVC Operator who made this approval
+  final v1TvcOperator operator;
+  /// Signature of the operator over the deployment manifest
+  final String approval;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperatorApproval({
+    required  this.id,
+    required  this.manifestId,
+    required  this.operator,
+    required  this.approval,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcOperatorApproval.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _manifestId = json['manifestId'] as String;
+    final _operator = v1TvcOperator.fromJson(json['operator'] as Map<String, dynamic>);
+    final _approval = json['approval'] as String;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperatorApproval(
+      id: _id,
+      manifestId: _manifestId,
+      operator: _operator,
+      approval: _approval,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['manifestId'] = manifestId;
+    _json['operator'] = operator.toJson();
+    _json['approval'] = approval;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
 class v1TvcOperatorParams {
   /// The name for this new operator
   final String name;
@@ -17286,6 +17557,62 @@ class v1TvcOperatorParams {
     final _json = <String, dynamic>{};
     _json['name'] = name;
     _json['publicKey'] = publicKey;
+    return _json;
+  }
+}
+
+class v1TvcOperatorSet {
+  /// Unique Identifier for this TVC Operator Set.
+  final String id;
+  /// Name of this TVC Operator Set.
+  final String name;
+  /// Unique Identifier of the Organization for this TVC Operator Set
+  final String organizationId;
+  /// List of TVC Operators in this set
+  final List<v1TvcOperator> operators;
+  /// Threshold number of operators required for quorum.
+  final num threshold;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperatorSet({
+    required  this.id,
+    required  this.name,
+    required  this.organizationId,
+    required  this.operators,
+    required  this.threshold,
+    required  this.createdAt,
+    required  this.updatedAt,
+  });
+
+  factory v1TvcOperatorSet.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _name = json['name'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _operators = (json['operators'] as List).map((e) => v1TvcOperator.fromJson(e as Map<String, dynamic>)).toList();
+    final _threshold = json['threshold'] as num;
+    final _createdAt = externaldatav1Timestamp.fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp.fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperatorSet(
+      id: _id,
+      name: _name,
+      organizationId: _organizationId,
+      operators: _operators,
+      threshold: _threshold,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['name'] = name;
+    _json['organizationId'] = organizationId;
+    _json['operators'] = operators.map((e) => e.toJson()).toList();
+    _json['threshold'] = threshold;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -18860,21 +19187,26 @@ class v1UpsertGasUsageConfigIntent {
   final String subOrgWindowLimitUsd;
   /// Rolling sponsorship window duration, expressed in minutes.
   final String windowDurationMinutes;
+  /// Whether gas sponsorship is enabled for the organization.
+  final bool? enabled;
 
   const v1UpsertGasUsageConfigIntent({
     required  this.orgWindowLimitUsd,
     required  this.subOrgWindowLimitUsd,
     required  this.windowDurationMinutes,
+     this.enabled,
   });
 
   factory v1UpsertGasUsageConfigIntent.fromJson(Map<String, dynamic> json) {
     final _orgWindowLimitUsd = json['orgWindowLimitUsd'] as String;
     final _subOrgWindowLimitUsd = json['subOrgWindowLimitUsd'] as String;
     final _windowDurationMinutes = json['windowDurationMinutes'] as String;
+    final _enabled = json['enabled'] as bool?;
     return v1UpsertGasUsageConfigIntent(
       orgWindowLimitUsd: _orgWindowLimitUsd,
       subOrgWindowLimitUsd: _subOrgWindowLimitUsd,
       windowDurationMinutes: _windowDurationMinutes,
+      enabled: _enabled,
     );
   }
 
@@ -18883,6 +19215,9 @@ class v1UpsertGasUsageConfigIntent {
     _json['orgWindowLimitUsd'] = orgWindowLimitUsd;
     _json['subOrgWindowLimitUsd'] = subOrgWindowLimitUsd;
     _json['windowDurationMinutes'] = windowDurationMinutes;
+    if (enabled != null) {
+      _json['enabled'] = enabled;
+    }
     return _json;
   }
 }
@@ -19831,62 +20166,6 @@ class TGetApiKeysInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
-class TGetAttestationDocumentResponse {
-  /// Raw (CBOR-encoded) attestation document.
-  final String attestationDocument;
-
-  const TGetAttestationDocumentResponse({
-    required  this.attestationDocument,
-  });
-
-  factory TGetAttestationDocumentResponse.fromJson(Map<String, dynamic> json) {
-    final _attestationDocument = json['attestationDocument'] as String;
-    return TGetAttestationDocumentResponse(
-      attestationDocument: _attestationDocument,
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    _json['attestationDocument'] = attestationDocument;
-    return _json;
-  }
-}
-
-class TGetAttestationDocumentBody {
-  final String? organizationId;
-  /// The enclave type, one of: ump, notarizer, signer, evm-parser.
-  final String enclaveType;
-
-  const TGetAttestationDocumentBody({
-     this.organizationId,
-    required  this.enclaveType,
-  });
-  factory TGetAttestationDocumentBody.fromJson(Map<String, dynamic> json) {
-    final _organizationId = json['organizationId'] as String?;
-    final _enclaveType = json['enclaveType'] as String;
-    return TGetAttestationDocumentBody(
-      organizationId: _organizationId,
-      enclaveType: _enclaveType,
-    );
-  }
-  Map<String, dynamic> toJson() {
-    final _json = <String, dynamic>{};
-    if (organizationId != null) {
-      _json['organizationId'] = organizationId;
-    }
-    _json['enclaveType'] = enclaveType;
-    return _json;
-  }
-}
-
-class TGetAttestationDocumentInput {
-  final TGetAttestationDocumentBody body;
-  const TGetAttestationDocumentInput({required this.body});
-  factory TGetAttestationDocumentInput.fromJson(Map<String, dynamic> json) => TGetAttestationDocumentInput(body: TGetAttestationDocumentBody.fromJson(json['body'] as Map<String, dynamic>));
-  Map<String, dynamic> toJson() => {'body': body.toJson()};
-}
-
 class TGetAuthenticatorResponse {
   /// An authenticator.
   final v1Authenticator authenticator;
@@ -20207,7 +20486,7 @@ class TGetNoncesBody {
   final String? organizationId;
   /// The Ethereum address to query nonces for.
   final String address;
-  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
   final String caip2;
   /// Whether to fetch the standard on-chain nonce.
   final bool? nonce;
@@ -21136,6 +21415,7 @@ class TGetWalletAccountInput {
 }
 
 class TGetWalletAddressBalancesResponse {
+  /// List of asset balances
   final List<v1AssetBalance>? balances;
 
   const TGetWalletAddressBalancesResponse({
@@ -21162,7 +21442,7 @@ class TGetWalletAddressBalancesBody {
   final String? organizationId;
   /// Address corresponding to a wallet account.
   final String address;
-  /// The network identifier in CAIP-2 format (e.g., 'eip155:1' for Ethereum mainnet).
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
   final String caip2;
 
   const TGetWalletAddressBalancesBody({
@@ -21696,6 +21976,64 @@ class TGetSubOrgIdsInput {
   final TGetSubOrgIdsBody body;
   const TGetSubOrgIdsInput({required this.body});
   factory TGetSubOrgIdsInput.fromJson(Map<String, dynamic> json) => TGetSubOrgIdsInput(body: TGetSubOrgIdsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListSupportedAssetsResponse {
+  /// List of asset metadata
+  final List<v1AssetMetadata>? assets;
+
+  const TListSupportedAssetsResponse({
+     this.assets,
+  });
+
+  factory TListSupportedAssetsResponse.fromJson(Map<String, dynamic> json) {
+    final _assets = (json['assets'] as List?)?.map((e) => v1AssetMetadata.fromJson(e as Map<String, dynamic>)).toList();
+    return TListSupportedAssetsResponse(
+      assets: _assets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (assets != null) {
+      _json['assets'] = assets?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class TListSupportedAssetsBody {
+  final String? organizationId;
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  const TListSupportedAssetsBody({
+     this.organizationId,
+    required  this.caip2,
+  });
+  factory TListSupportedAssetsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _caip2 = json['caip2'] as String;
+    return TListSupportedAssetsBody(
+      organizationId: _organizationId,
+      caip2: _caip2,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['caip2'] = caip2;
+    return _json;
+  }
+}
+
+class TListSupportedAssetsInput {
+  final TListSupportedAssetsBody body;
+  const TListSupportedAssetsInput({required this.body});
+  factory TListSupportedAssetsInput.fromJson(Map<String, dynamic> json) => TListSupportedAssetsInput(body: TListSupportedAssetsBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23441,6 +23779,10 @@ class TCreateTvcDeploymentBody {
   final List<String> hostArgs;
   /// Optional nonce to ensure uniqueness of the deployment manifest. If not provided, it defaults to the current Unix timestamp in seconds.
   final num? nonce;
+  /// Optional encrypted pull secret to authorize Turnkey to pull the pivot container image. If your image is public, leave this empty.
+  final String? pivotContainerEncryptedPullSecret;
+  /// Optional encrypted pull secret to authorize Turnkey to pull the host container image. If your image is public, leave this empty.
+  final String? hostContainerEncryptedPullSecret;
 
   const TCreateTvcDeploymentBody({
      this.timestampMs,
@@ -23455,6 +23797,8 @@ class TCreateTvcDeploymentBody {
     required  this.hostPath,
     required  this.hostArgs,
      this.nonce,
+     this.pivotContainerEncryptedPullSecret,
+     this.hostContainerEncryptedPullSecret,
   });
   factory TCreateTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -23469,6 +23813,8 @@ class TCreateTvcDeploymentBody {
     final _hostPath = json['hostPath'] as String;
     final _hostArgs = (json['hostArgs'] as List).map((e) => e as String).toList();
     final _nonce = json['nonce'] as num?;
+    final _pivotContainerEncryptedPullSecret = json['pivotContainerEncryptedPullSecret'] as String?;
+    final _hostContainerEncryptedPullSecret = json['hostContainerEncryptedPullSecret'] as String?;
     return TCreateTvcDeploymentBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -23482,6 +23828,8 @@ class TCreateTvcDeploymentBody {
       hostPath: _hostPath,
       hostArgs: _hostArgs,
       nonce: _nonce,
+      pivotContainerEncryptedPullSecret: _pivotContainerEncryptedPullSecret,
+      hostContainerEncryptedPullSecret: _hostContainerEncryptedPullSecret,
     );
   }
   Map<String, dynamic> toJson() {
@@ -23503,6 +23851,12 @@ class TCreateTvcDeploymentBody {
     _json['hostArgs'] = hostArgs;
     if (nonce != null) {
       _json['nonce'] = nonce;
+    }
+    if (pivotContainerEncryptedPullSecret != null) {
+      _json['pivotContainerEncryptedPullSecret'] = pivotContainerEncryptedPullSecret;
+    }
+    if (hostContainerEncryptedPullSecret != null) {
+      _json['hostContainerEncryptedPullSecret'] = hostContainerEncryptedPullSecret;
     }
     return _json;
   }

@@ -269,38 +269,6 @@ class TurnkeyClient {
     );
   }
 
-  /// Get the attestation document corresponding to an enclave.
-  ///
-  /// Sign the provided `TGetAttestationDocumentBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_attestation).
-  ///
-  /// See also: `stampGetAttestationDocument`.
-
-  Future<TGetAttestationDocumentResponse> getAttestationDocument({
-    required TGetAttestationDocumentBody input,
-  }) async {
-    return await request<TGetAttestationDocumentBody,
-            TGetAttestationDocumentResponse>("/public/v1/query/get_attestation",
-        input, (json) => TGetAttestationDocumentResponse.fromJson(json));
-  }
-
-  /// Produce a `SignedRequest` from `TGetAttestationDocumentBody` by using the client's `stamp` function.
-  ///
-  /// See also: `GetAttestationDocument`.
-
-  Future<TSignedRequest> stampGetAttestationDocument({
-    required TGetAttestationDocumentBody input,
-  }) async {
-    final fullUrl = '${config.baseUrl}/public/v1/query/get_attestation';
-    final body = jsonEncode(input);
-    final stamp = await stamper.stamp(body);
-
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
-  }
-
   /// Get details about an authenticator.
   ///
   /// Sign the provided `TGetAuthenticatorBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_authenticator).
@@ -1004,7 +972,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Get balances for a single wallet account address on the specified network.
+  /// Get balances of supported assets for an address on the specified network. Only non-zero balances are returned. This feature is in beta - please contact support for access.
   ///
   /// Sign the provided `TGetWalletAddressBalancesBody` with the client's `stamp` function and submit the request (POST /public/v1/query/get_wallet_address_balances).
   ///
@@ -1331,6 +1299,40 @@ class TurnkeyClient {
     required TGetSubOrgIdsBody input,
   }) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/list_suborgs';
+    final body = jsonEncode(input);
+    final stamp = await stamper.stamp(body);
+
+    return TSignedRequest(
+      body: body,
+      stamp: stamp,
+      url: fullUrl,
+    );
+  }
+
+  /// List supported assets for the specified network. This feature is in beta - please contact support for access.
+  ///
+  /// Sign the provided `TListSupportedAssetsBody` with the client's `stamp` function and submit the request (POST /public/v1/query/list_supported_assets).
+  ///
+  /// See also: `stampListSupportedAssets`.
+
+  Future<TListSupportedAssetsResponse> listSupportedAssets({
+    required TListSupportedAssetsBody input,
+  }) async {
+    return await request<TListSupportedAssetsBody,
+            TListSupportedAssetsResponse>(
+        "/public/v1/query/list_supported_assets",
+        input,
+        (json) => TListSupportedAssetsResponse.fromJson(json));
+  }
+
+  /// Produce a `SignedRequest` from `TListSupportedAssetsBody` by using the client's `stamp` function.
+  ///
+  /// See also: `ListSupportedAssets`.
+
+  Future<TSignedRequest> stampListSupportedAssets({
+    required TListSupportedAssetsBody input,
+  }) async {
+    final fullUrl = '${config.baseUrl}/public/v1/query/list_supported_assets';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
@@ -3676,7 +3678,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Submit a transaction intent describing a transaction you would like to broadcast.
+  /// Submit a transaction intent describing an EVM transaction you would like to broadcast.
   ///
   /// Sign the provided `TEthSendTransactionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/eth_send_transaction).
   ///
@@ -4881,7 +4883,7 @@ class TurnkeyClient {
     );
   }
 
-  /// Submit a transaction intent describing a transaction you would like to broadcast.
+  /// Submit a transaction intent describing an SVM transaction you would like to broadcast.
   ///
   /// Sign the provided `TSolSendTransactionBody` with the client's `stamp` function and submit the request (POST /public/v1/submit/sol_send_transaction).
   ///
