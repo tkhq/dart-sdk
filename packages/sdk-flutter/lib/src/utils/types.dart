@@ -8,6 +8,7 @@ class VerificationToken {
   final String id;
   final String? publicKey;
   final String verificationType;
+  final String organizationId;
 
   const VerificationToken({
     required this.contact,
@@ -15,15 +16,20 @@ class VerificationToken {
     required this.id,
     this.publicKey,
     required this.verificationType,
+    required this.organizationId,
   });
 
   factory VerificationToken.fromJson(Map<String, dynamic> json) {
+    final expRaw = json['exp'];
+    final exp = expRaw is num ? expRaw.toInt() : int.parse(expRaw.toString());
+
     return VerificationToken(
       contact: json['contact'] as String,
-      exp: json['exp'] as int,
+      exp: exp,
       id: json['id'] as String,
       publicKey: json['public_key'] as String?,
       verificationType: json['verification_type'] as String,
+      organizationId: json['organization_id'] as String,
     );
   }
 
@@ -34,6 +40,7 @@ class VerificationToken {
       'id': id,
       'public_key': publicKey,
       'verification_type': verificationType,
+      'organization_id': organizationId,
     };
   }
 
@@ -49,7 +56,6 @@ class VerificationToken {
     final decodedBytes = base64.decode(normalized);
     final decoded =
         jsonDecode(utf8.decode(decodedBytes)) as Map<String, dynamic>;
-
     return VerificationToken.fromJson(decoded);
   }
 }
@@ -127,10 +133,8 @@ class Session {
         organizationId == null) {
       throw Exception("JWT payload missing required fields");
     }
-
     final expirySeconds =
         ((exp * 1000 - DateTime.now().millisecondsSinceEpoch) / 1000).ceil();
-
     return Session(
       sessionType: sessionType,
       userId: userId,
@@ -207,8 +211,7 @@ class TurnkeyRuntimeConfig extends TurnkeyConfig {
           onInitialized: onInitialized,
         );
   @override
-  RuntimeAuthConfig get authConfig =>
-      super.authConfig as RuntimeAuthConfig;
+  RuntimeAuthConfig get authConfig => super.authConfig as RuntimeAuthConfig;
 }
 
 class RuntimeAuthConfig extends AuthConfig {
@@ -365,7 +368,7 @@ class CreateSubOrgParams {
   final CustomWallet? customWallet;
 
   /// list of oauth providers
-  final List<v1OauthProviderParams>? oauthProviders;
+  final List<v1OauthProviderParamsV2>? oauthProviders;
 
   const CreateSubOrgParams({
     this.userName,
@@ -390,7 +393,7 @@ class CreateSubOrgParams {
     Object? verificationToken = _no,
     List<CreateSubOrgApiKey>? apiKeys,
     CustomWallet? customWallet,
-    List<v1OauthProviderParams>? oauthProviders,
+    List<v1OauthProviderParamsV2>? oauthProviders,
   }) {
     return CreateSubOrgParams(
       userName: userName ?? this.userName,
@@ -468,46 +471,16 @@ class CustomWallet {
   });
 }
 
-/// SignUpBody (internal)
-class SignUpBody {
-  final String userName; // required
-  final String subOrgName; // required
-  final String? userEmail;
-  final String? userTag;
-
-  /// list of authenticators (each item has required fields)
-  final List<v1AuthenticatorParamsV2>? authenticators;
-
-  final String? userPhoneNumber;
-  final String? verificationToken;
-
-  /// list of api keys (each item has required fields)
-  final List<v1ApiKeyParamsV2>? apiKeys;
-
-  /// custom wallet (optional)
-  final CustomWallet? customWallet;
-
-  /// list of oauth providers
-  final List<v1OauthProviderParams>? oauthProviders;
-
-  const SignUpBody({
-    required this.userName,
-    required this.subOrgName,
-    this.userEmail,
-    this.userTag,
-    this.authenticators,
-    this.userPhoneNumber,
-    this.verificationToken,
-    this.apiKeys,
-    this.customWallet,
-    this.oauthProviders,
-  });
+class InitOtpResult {
+  final String otpId;
+  final String otpEncryptionTargetBundle;
+  InitOtpResult({required this.otpId, required this.otpEncryptionTargetBundle});
 }
 
 class VerifyOtpResult {
   final String verificationToken;
-  final String? subOrganizationId;
-  VerifyOtpResult({required this.verificationToken, this.subOrganizationId});
+  final String publicKey;
+  VerifyOtpResult({required this.verificationToken, required this.publicKey});
 }
 
 class BaseAuthResult {
@@ -535,9 +508,11 @@ class SignUpWithOtpResult extends BaseAuthResult {
 
 class LoginOrSignUpWithOtpResult extends BaseAuthResult {
   final AuthAction action;
+  final String verificationToken;
   const LoginOrSignUpWithOtpResult({
     required super.sessionToken,
     required this.action,
+    required this.verificationToken,
   });
 }
 

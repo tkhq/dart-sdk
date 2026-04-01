@@ -27,6 +27,9 @@ jobs:
         - name: Run codegen
           run: make -C packages/http generate
 
+        - name: Check formatting
+          run: dart format --output=none --set-exit-if-changed .
+
         - name: Ensure git is clean
           run: |
             if [ -z "$( git status --porcelain | grep -v 'examples/flutter-demo-app/' )" ]; then

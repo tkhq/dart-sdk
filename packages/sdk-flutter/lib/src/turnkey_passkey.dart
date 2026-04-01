@@ -153,7 +153,7 @@ extension PasskeyExtension on TurnkeyProvider {
       final signUpBody =
           buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
-      final res = await requireClient.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignupV2(input: signUpBody);
 
       final orgId = res.organizationId;
       if (orgId.isEmpty) {

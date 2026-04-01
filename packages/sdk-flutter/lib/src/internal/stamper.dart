@@ -3,7 +3,6 @@ import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 import 'package:turnkey_http/base.dart';
 
-
 /// Stores private keys in secure storage and signs payloads.
 class SecureStorageStamper implements TStamper {
   static const _storage = FlutterSecureStorage();
@@ -103,7 +102,8 @@ class SecureStorageStamper implements TStamper {
     );
   }
 
-  Future<String> sign(String content, {SignatureFormat format = SignatureFormat.der}) async {
+  Future<String> sign(String content,
+      {SignatureFormat format = SignatureFormat.der}) async {
     final keyToUse = publicKey;
     if (keyToUse == null) {
       throw Exception(

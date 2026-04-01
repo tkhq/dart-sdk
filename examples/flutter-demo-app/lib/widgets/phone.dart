@@ -90,7 +90,7 @@ class PhoneNumberInputState extends State<PhoneNumberInput> {
               setState(() => _isLoading = true);
 
               try {
-                final otpId = await turnkeyProvider.initOtp(
+                final result = await turnkeyProvider.initOtp(
                   otpType: OtpType.SMS,
                   contact: phone,
                 );
@@ -102,7 +102,8 @@ class PhoneNumberInputState extends State<PhoneNumberInput> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => OTPScreen(
-                      otpId: otpId,
+                      otpId: result.otpId,
+                      otpEncryptionTargetBundle: result.otpEncryptionTargetBundle,
                       contact: phone,
                       otpType: OtpType.SMS,
                     ),

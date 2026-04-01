@@ -5,17 +5,68 @@ import 'type-gen/helpers.dart';
 import 'package:swagger_dart_code_generator/src/swagger_models/swagger_root.dart';
 // import 'package:swagger_dart_code_generator/src/swagger_models/requests/swagger_request_parameter.dart';
 
-/// Determines the activity type from operation ID
-String getActivityTypeFromOperationId(String operationId) {
+/// Builds a map of base activity type -> highest versioned activity type
+/// by scanning all string values in the swagger JSON for ACTIVITY_TYPE_* patterns.
+Map<String, String> buildDynamicVersionMap(
+    List<Map<String, dynamic>> rawSpecs) {
+  final allActivityTypes = <String>{};
+
+  void collect(dynamic value) {
+    if (value is String && value.startsWith('ACTIVITY_TYPE_')) {
+      allActivityTypes.add(value);
+    } else if (value is Map) {
+      for (final v in value.values) collect(v);
+    } else if (value is List) {
+      for (final v in value) collect(v);
+    }
+  }
+
+  for (final spec in rawSpecs) {
+    collect(spec);
+  }
+
+  final baseToHighest = <String, (int, String)>{};
+  final versionPattern = RegExp(r'^(.+)_V(\d+)$');
+
+  for (final activityType in allActivityTypes) {
+    final match = versionPattern.firstMatch(activityType);
+    if (match != null) {
+      final base = match.group(1)!;
+      final version = int.parse(match.group(2)!);
+      if (!baseToHighest.containsKey(base) ||
+          version > baseToHighest[base]!.$1) {
+        baseToHighest[base] = (version, activityType);
+      }
+    }
+  }
+
+  return baseToHighest.map((base, record) => MapEntry(base, record.$2));
+}
+
+/// Determines the activity type from operation ID.
+/// Checks the static [VERSIONED_ACTIVITY_TYPES] map first (explicit overrides),
+/// then falls back to the dynamically-detected highest version from the swagger,
+/// and finally falls back to the unversioned base name.
+String getActivityTypeFromOperationId(
+  String operationId,
+  Map<String, String> dynamicVersionMap,
+) {
   // Convert operationId to activity type format
   final activityTypeName = 'ACTIVITY_TYPE_${operationId.replaceAllMapped(
         RegExp(r'([A-Z])'),
         (match) => '_${match.group(1)}',
       ).toUpperCase().substring(1)}';
 
-  // Return versioned activity type if available, otherwise return the base type
+  // 1. Explicit static override wins
   final recordTriple = VERSIONED_ACTIVITY_TYPES[activityTypeName];
-  return recordTriple?.$1 ?? activityTypeName;
+  if (recordTriple != null) return recordTriple.$1;
+
+  // 2. Dynamically detected highest version from swagger
+  final dynamic = dynamicVersionMap[activityTypeName];
+  if (dynamic != null) return dynamic;
+
+  // 3. Fall back to base type
+  return activityTypeName;
 }
 
 /// Generates a Dart HTTP client class from a Swagger specification.
@@ -211,6 +262,10 @@ Future<void> generateClientFromSwagger({
       
     ''');
 
+  final dynamicVersionMap = buildDynamicVersionMap(
+    fileList.map((f) => f.parsedData).toList(),
+  );
+
   for (final file in fileList) {
     print('Processing file: ${file.absolutePath}');
 
@@ -272,7 +327,8 @@ Future<void> generateClientFromSwagger({
       ]));
 
       if (mType == 'activityDecision' || mType == 'command') {
-        final activityType = getActivityTypeFromOperationId(operationId);
+        final activityType =
+            getActivityTypeFromOperationId(operationId, dynamicVersionMap);
         codeBuffer.add('''
       Future<$responseType> ${prefix.toLowerCase()}${prefix.isEmpty ? methodName : methodName.capitalize()}({
         required $inputType input,
@@ -326,7 +382,8 @@ Future<void> generateClientFromSwagger({
 
       if (!isProxy) {
         if (mType == 'activityDecision' || mType == 'command') {
-          final activityType = getActivityTypeFromOperationId(operationId);
+          final activityType =
+              getActivityTypeFromOperationId(operationId, dynamicVersionMap);
           codeBuffer.add('''
       Future<TSignedRequest> stamp$operationId({
         required $inputType input,

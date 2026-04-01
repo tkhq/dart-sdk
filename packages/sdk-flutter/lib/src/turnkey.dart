@@ -140,8 +140,8 @@ class TurnkeyProvider with ChangeNotifier {
 
     // --- proxy-only settings (read from proxy when available) ------------------
     final sessionExpirationSeconds =
-        proxyAuthConfig?.sessionExpirationSeconds  ??
-        AUTH_DEFAULT_EXPIRATION_SECONDS;
+        proxyAuthConfig?.sessionExpirationSeconds ??
+            AUTH_DEFAULT_EXPIRATION_SECONDS;
 
     final otpAlphanumeric = proxyAuthConfig?.otpAlphanumeric;
 
@@ -269,7 +269,8 @@ class TurnkeyProvider with ChangeNotifier {
       String? authProxyBaseUrl,
       PasskeyStamperConfig? passkeyStamperConfig,
       bool? overrideExisting = false}) {
-    final rpId = passkeyStamperConfig?.rpId ?? runtimeConfig?.passkeyConfig?.rpId;
+    final rpId =
+        passkeyStamperConfig?.rpId ?? runtimeConfig?.passkeyConfig?.rpId;
     if (rpId == null || rpId.isEmpty) {
       throw Exception(
         'Relying Party ID (rpId) must be provided either in the passkeyStamperConfig parameter or in the TurnkeyConfig.passkeyConfig property.',

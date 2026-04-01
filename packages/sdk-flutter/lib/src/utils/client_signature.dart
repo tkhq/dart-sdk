@@ -61,15 +61,14 @@ class ClientSignature {
     String? phoneNumber,
     List<v1ApiKeyParamsV2>? apiKeys,
     List<v1AuthenticatorParamsV2>? authenticators,
-    List<v1OauthProviderParams>? oauthProviders,
+    List<v1OauthProviderParamsV2>? oauthProviders,
   }) {
     final decoded = VerificationToken.fromJwt(verificationToken);
-
-    if ( decoded.publicKey == null || decoded.publicKey!.isEmpty) {
+    if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
       throw Exception("Verification token is missing a public key");
     }
 
-    final usage = v1SignupUsage(
+    final usage = v1SignupUsageV2(
       apiKeys: apiKeys,
       authenticators: authenticators,
       email: email,
@@ -78,7 +77,7 @@ class ClientSignature {
     );
 
     final payload = v1TokenUsage(
-      signup: usage,
+      signupV2: usage,
       tokenId: decoded.id,
       type: v1UsageType.usage_type_signup,
     );

@@ -17,7 +17,8 @@ class EmailInputState extends State<EmailInput> {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider = Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
 
     return Column(
       children: <Widget>[
@@ -45,15 +46,16 @@ class EmailInputState extends State<EmailInput> {
               final email = _emailController.text.trim();
               if (email.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please enter an email address')),
+                  const SnackBar(
+                      content: Text('Please enter an email address')),
                 );
                 return;
               }
 
               setState(() => _isLoading = true);
 
-              try {               
-                final otpId = await turnkeyProvider.initOtp(
+              try {
+                final result = await turnkeyProvider.initOtp(
                   otpType: OtpType.Email,
                   contact: email,
                 );
@@ -65,13 +67,14 @@ class EmailInputState extends State<EmailInput> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => OTPScreen(
-                      otpId: otpId,
+                      otpId: result.otpId,
+                      otpEncryptionTargetBundle:
+                          result.otpEncryptionTargetBundle,
                       contact: email,
                       otpType: OtpType.Email,
                     ),
                   ),
                 );
-                
               } catch (e) {
                 if (!context.mounted) return;
 
@@ -79,7 +82,7 @@ class EmailInputState extends State<EmailInput> {
                   SnackBar(content: Text('Failed to send OTP: $e')),
                 );
               } finally {
-                  setState(() => _isLoading = false);
+                setState(() => _isLoading = false);
               }
             },
             text: 'Continue',
