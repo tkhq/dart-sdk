@@ -50,9 +50,8 @@ void _updatePackageChangelog({
   required List<PackageChange> changes,
 }) {
   final existingFile = File(changelogPath);
-  final existing = existingFile.existsSync()
-      ? existingFile.readAsStringSync()
-      : '';
+  final existing =
+      existingFile.existsSync() ? existingFile.readAsStringSync() : '';
 
   final newSection = _buildReleaseSection(version, date, changes);
   final merged = _mergeChangelog(existing, newSection);

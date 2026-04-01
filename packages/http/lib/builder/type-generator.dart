@@ -293,7 +293,8 @@ String generateOneOfClass(
   // oneOf fields — nullable on the class itself
   for (final jsonKey in oneofFields) {
     final spec = variantSpecs[jsonKey]!;
-    if ((spec.description ?? '').isNotEmpty) b.writeln('  /// ${spec.description}');
+    if ((spec.description ?? '').isNotEmpty)
+      b.writeln('  /// ${spec.description}');
     b.writeln('  final ${spec.type}? ${spec.fieldName};');
   }
   b.writeln();
@@ -311,7 +312,8 @@ String generateOneOfClass(
     final others = oneofFields.where((k) => k != jsonKey).toList();
     if (others.isNotEmpty) {
       b.write(' : ');
-      b.write(others.map((k) => '${variantSpecs[k]!.fieldName} = null').join(', '));
+      b.write(
+          others.map((k) => '${variantSpecs[k]!.fieldName} = null').join(', '));
     }
     b.writeln(';');
     b.writeln();
@@ -326,11 +328,13 @@ String generateOneOfClass(
     for (final f in baseFields) {
       final read = "json['${f.jsonKey}']";
       final parse = f.type.endsWith('?')
-          ? _jsonReadExpr(f.type.substring(0, f.type.length - 1), read, allDefs, false)
+          ? _jsonReadExpr(
+              f.type.substring(0, f.type.length - 1), read, allDefs, false)
           : _jsonReadExpr(f.type, read, allDefs, true);
       b.writeln('        ${f.fieldName}: $parse,');
     }
-    final variantParse = _jsonReadExpr(spec.type, "json['$jsonKey']", allDefs, true);
+    final variantParse =
+        _jsonReadExpr(spec.type, "json['$jsonKey']", allDefs, true);
     b.writeln('        ${spec.fieldName}: $variantParse,');
     b.writeln('      );');
     b.writeln('    }');
@@ -401,7 +405,9 @@ String _jsonReadExpr(
 
   // Enum?
   if (_isEnum(allDefs, typeStr)) {
-    return isRequired ? "$typeStr" "FromJson($read)" : "$read == null ? null : $typeStr" "FromJson($read)";
+    return isRequired
+        ? "$typeStr" "FromJson($read)"
+        : "$read == null ? null : $typeStr" "FromJson($read)";
   }
 
   // Otherwise assume it is a class we generate.
@@ -525,9 +531,8 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
 
             final activityType =
                 ((reqProps['type']['enum'] as List).first as String?);
-            final activityTypeKey = activityType != null
-                ? stripVersionSuffix(activityType)
-                : null;
+            final activityTypeKey =
+                activityType != null ? stripVersionSuffix(activityType) : null;
 
             final mapped = activityTypeKey != null
                 ? VERSIONED_ACTIVITY_TYPES[activityTypeKey]
@@ -537,8 +542,7 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
             String? candidate;
             if (mapped?.$3 != null) {
               candidate = defs.keys.firstWhere(
-                (k) =>
-                    k == mapped?.$3,
+                (k) => k == mapped?.$3,
                 orElse: () => '',
               );
             }
@@ -684,29 +688,30 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
           : null;
       if (ref != null) {
         final intentTypeName = refToName(ref);
-        
-        final activityType = ((props?['type']['enum'] as List).first as String?);
-        final activityTypeKey = activityType != null
-            ? stripVersionSuffix(activityType)
-            : null;
+
+        final activityType =
+            ((props?['type']['enum'] as List).first as String?);
+        final activityTypeKey =
+            activityType != null ? stripVersionSuffix(activityType) : null;
 
         final mapped = activityTypeKey != null
             ? VERSIONED_ACTIVITY_TYPES[activityTypeKey]
             : null;
-        
+
         String? candidate;
         if (mapped?.$2 != null) {
           candidate = defs.keys.firstWhere(
-            (k) =>
-                k == mapped?.$2,
+            (k) => k == mapped?.$2,
             orElse: () => '',
           );
         }
-        final intentTypeNameResolved = (candidate != null && candidate.isNotEmpty)
-            ? candidate
-            : intentTypeName;
+        final intentTypeNameResolved =
+            (candidate != null && candidate.isNotEmpty)
+                ? candidate
+                : intentTypeName;
 
-        final intentDef = (defs[intentTypeNameResolved] as Map).cast<String, dynamic>();
+        final intentDef =
+            (defs[intentTypeNameResolved] as Map).cast<String, dynamic>();
         final isAllOptional =
             METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(methodName);
         final reqd = (intentDef['required'] is List)

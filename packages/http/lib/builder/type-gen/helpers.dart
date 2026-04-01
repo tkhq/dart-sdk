@@ -1,5 +1,7 @@
 String refToName(String ref) {
-    return ref.replaceFirst(RegExp(r'^#\/definitions\/'), '').replaceAll(r'.', "");
+  return ref
+      .replaceFirst(RegExp(r'^#\/definitions\/'), '')
+      .replaceAll(r'.', "");
 }
 
 bool isValidDartIdentifier(String name) =>
@@ -31,7 +33,9 @@ String methodTypeFromMethodName(String methodName, String prefix) {
   }
   if (lower.startsWith('tnoop')) return 'noop';
   if (prefix.toLowerCase() == 'proxy') return 'proxy';
-  if (lower.startsWith('tget') || lower.startsWith('tlist') || lower.startsWith('ttest')) {
+  if (lower.startsWith('tget') ||
+      lower.startsWith('tlist') ||
+      lower.startsWith('ttest')) {
     return 'query';
   }
   return 'command';
@@ -55,7 +59,8 @@ Map<String, LatestVersionInfo> extractLatestVersions(
     final full = m.group(0)!;
     final base = m.group(2)!;
     final suf = m.group(3);
-    final formatted = '${base[0].toLowerCase()}${base.substring(1)}${suf ?? ''}';
+    final formatted =
+        '${base[0].toLowerCase()}${base.substring(1)}${suf ?? ''}';
 
     final prev = latest[base];
     if (prev == null || (suf ?? '').compareTo(prev.versionSuffix ?? '') > 0) {
@@ -82,7 +87,6 @@ String typeToDart(String? type, Map<String, dynamic>? schema) {
     return 'List<dynamic>';
   }
   if (type == 'object') {
-
     if (schema?['properties'] is Map) return 'Map<String, dynamic>';
     return 'Map<String, dynamic>';
   }
@@ -94,4 +98,3 @@ String stripVersionSuffix(String activityType) {
   final versionSuffix = RegExp(r'_V\d+$');
   return activityType.replaceAll(versionSuffix, '');
 }
-

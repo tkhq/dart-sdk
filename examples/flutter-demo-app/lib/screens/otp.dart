@@ -118,7 +118,8 @@ class _OTPScreenState extends State<OTPScreen> {
                         try {
                           await turnkeyProvider.loginOrSignUpWithOtp(
                             otpId: widget.otpId,
-                            otpEncryptionTargetBundle: widget.otpEncryptionTargetBundle,
+                            otpEncryptionTargetBundle:
+                                widget.otpEncryptionTargetBundle,
                             otpCode: otpCode,
                             contact: widget.contact!,
                             otpType: widget.otpType!,

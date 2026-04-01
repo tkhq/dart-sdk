@@ -8,7 +8,6 @@ import 'package:turnkey_encoding/turnkey_encoding.dart';
 void main() {
   group('bigIntToHex', () {
     test('Small number, with padding', () {
-
       final result = bigIntToHex(BigInt.from(1), 4);
 
       expect(result, equals('0001'));
@@ -29,7 +28,6 @@ void main() {
     });
 
     test('Zero with padding', () {
-      
       final result = bigIntToHex(BigInt.zero, 3);
 
       expect(result, equals('000'));
@@ -155,7 +153,7 @@ void main() {
       final plainText = Uint8List.fromList([5, 6, 7, 8, 9]);
       final key = Uint8List(32);
       final iv = Uint8List(12);
-      
+
       final encrypted = aesGcmEncrypt(plainText, key, iv);
 
       expect(encrypted.length, equals(plainText.length + 16));

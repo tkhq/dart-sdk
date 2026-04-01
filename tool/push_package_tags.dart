@@ -53,7 +53,9 @@ void main(List<String> args) {
     }
   }
 
-  stdout.writeln(dryRun ? '\nWould trigger publish workflows:' : '\nTriggering publish workflows:');
+  stdout.writeln(dryRun
+      ? '\nWould trigger publish workflows:'
+      : '\nTriggering publish workflows:');
 
   // Then trigger publish workflow for each tag
   for (final tag in tags) {
@@ -76,5 +78,7 @@ void main(List<String> args) {
     }
   }
 
-  stdout.writeln(dryRun ? '\nDry run complete' : '\nAll tags pushed and publish workflows triggered');
+  stdout.writeln(dryRun
+      ? '\nDry run complete'
+      : '\nAll tags pushed and publish workflows triggered');
 }

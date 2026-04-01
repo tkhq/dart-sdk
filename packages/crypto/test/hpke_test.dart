@@ -6,7 +6,6 @@ import 'package:turnkey_crypto/src/hpke.dart';
 import 'package:turnkey_encoding/turnkey_encoding.dart';
 
 void main() {
-
   group('extractAndExpand Tests', () {
     test('RFC 5869 Test Vector', () {
       final ikm =
@@ -159,7 +158,6 @@ void main() {
 
       final decryptedText = utf8.decode(decryptedData);
       final encappedPublicKey = uint8ArrayFromHexString(data['encappedPublic']);
-
 
       expect(decryptedText, equals(plainText));
       expect(encappedPublicKey.length, equals(65),

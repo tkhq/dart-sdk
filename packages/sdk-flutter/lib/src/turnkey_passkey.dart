@@ -1,7 +1,6 @@
 part of 'turnkey.dart';
 
 extension PasskeyExtension on TurnkeyProvider {
-  
   /// Logs in a user using a passkey.
   ///
   /// Generates or uses an existing API key pair for authentication.

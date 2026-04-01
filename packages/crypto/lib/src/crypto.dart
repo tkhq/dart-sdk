@@ -148,8 +148,7 @@ Uint8List decodeKey(String privateKey, String keyFormat) {
       }
       return uint8ArrayFromHexString(privateKey);
     default:
-      print(
-          'Invalid key format: $keyFormat. Defaulting to HEXADECIMAL.');
+      print('Invalid key format: $keyFormat. Defaulting to HEXADECIMAL.');
       if (privateKey.startsWith("0x")) {
         return uint8ArrayFromHexString(privateKey.substring(2));
       }
@@ -201,7 +200,7 @@ Uint8List aesGcmDecrypt(
   final cipher = GCMBlockCipher(AESEngine());
   final aeadParams = AEADParameters(
     KeyParameter(key),
-    128, 
+    128,
     iv,
     aad ?? Uint8List(0),
   );
@@ -290,7 +289,6 @@ Uint8List buildAdditionalAssociatedData(
     Uint8List senderPubBuf, Uint8List receiverPubBuf) {
   return Uint8List.fromList([...senderPubBuf, ...receiverPubBuf]);
 }
-
 
 /// Generate a Key Encapsulation Mechanism (KEM) context.
 ///
@@ -459,7 +457,7 @@ Uint8List fromDerSignature(String derSignature) {
   final rLength = derSignatureBuf[index];
   index++; // Move past the length byte
   final r = derSignatureBuf.sublist(index, index + rLength);
-  index += rLength;  // Move to the start of s
+  index += rLength; // Move to the start of s
 
   // Parse 's' and check for integer tag (0x02)
   if (derSignatureBuf[index] != 0x02) {
@@ -518,17 +516,20 @@ bool verifyEnclaveSignature({
 
   final signature = ECSignature(
     BigInt.parse(
-      publicSignatureBuf.sublist(0, 32).map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+      publicSignatureBuf
+          .sublist(0, 32)
+          .map((b) => b.toRadixString(16).padLeft(2, '0'))
+          .join(),
       radix: 16,
     ),
     BigInt.parse(
-      publicSignatureBuf.sublist(32).map((b) => b.toRadixString(16).padLeft(2, '0')).join(),
+      publicSignatureBuf
+          .sublist(32)
+          .map((b) => b.toRadixString(16).padLeft(2, '0'))
+          .join(),
       radix: 16,
     ),
   );
 
   return verifier.verifySignature(signedDataBuf, signature);
 }
-
-
-

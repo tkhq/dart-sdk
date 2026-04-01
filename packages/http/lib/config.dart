@@ -28,7 +28,6 @@ final NullableTConfig config = NullableTConfig(
   baseUrl: null,
 );
 
-
 TConfig getConfig() {
   return TConfig(
     apiPublicKey: assertNonEmptyString(config.apiPublicKey, "apiPublicKey"),

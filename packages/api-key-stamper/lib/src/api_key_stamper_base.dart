@@ -18,12 +18,10 @@ class ApiKeyStamperConfig {
   });
 }
 
-enum SignatureFormat {
-  der,
-  raw
-}
+enum SignatureFormat { der, raw }
 
-String signWithApiKey(String publicKey, String privateKey, String content, {SignatureFormat format = SignatureFormat.der}) {
+String signWithApiKey(String publicKey, String privateKey, String content,
+    {SignatureFormat format = SignatureFormat.der}) {
   var ec = getP256();
 
   var ecPrivateKey = PrivateKey.fromHex(ec, privateKey);

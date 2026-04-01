@@ -57,8 +57,7 @@ Future<void> _run() async {
     throw Exception('title cannot be empty');
   }
 
-  stdout.writeln(
-      '\nEnter a longer description (markdown allowed). '
+  stdout.writeln('\nEnter a longer description (markdown allowed). '
       'End input with a single "." on its own line:');
   final note = _promptMultiline();
 
@@ -204,9 +203,7 @@ String _buildChangesetFile({
 
 String _escapeYamlString(String input) {
   // Very minimal escaping for double-quoted YAML strings.
-  return input
-      .replaceAll(r'\', r'\\')
-      .replaceAll('"', r'\"');
+  return input.replaceAll(r'\', r'\\').replaceAll('"', r'\"');
 }
 
 String _slugify(String input) {
@@ -216,10 +213,8 @@ String _slugify(String input) {
 
   for (final codeUnit in lower.codeUnits) {
     final c = String.fromCharCode(codeUnit);
-    final isLetter =
-        (codeUnit >= 97 && codeUnit <= 122); // a-z
-    final isDigit =
-        (codeUnit >= 48 && codeUnit <= 57); // 0-9
+    final isLetter = (codeUnit >= 97 && codeUnit <= 122); // a-z
+    final isDigit = (codeUnit >= 48 && codeUnit <= 57); // 0-9
 
     if (isLetter || isDigit) {
       buf.write(c);
