@@ -53,9 +53,7 @@ extension AuthProxyExtension on TurnkeyProvider {
     required String otpEncryptionTargetBundle,
     String? publicKey,
   }) async {
-    String? generatedPublicKey;
-    final resolvedPublicKey =
-        publicKey ?? (generatedPublicKey = await createApiKeyPair());
+    final resolvedPublicKey = publicKey ?? await createApiKeyPair();
 
     try {
       final encryptedOtpBundle = await encryptOtpCodeToBundle(
@@ -80,10 +78,8 @@ extension AuthProxyExtension on TurnkeyProvider {
         publicKey: resolvedPublicKey,
       );
     } catch (e) {
-      if (generatedPublicKey != null) {
-        await deleteUnusedKeyPairs();
-      }
-      rethrow;
+      await deleteUnusedKeyPairs();
+      throw Exception('OTP verification failed: $e');
     }
   }
 
@@ -151,9 +147,8 @@ extension AuthProxyExtension on TurnkeyProvider {
 
       return LoginWithOtpResult(sessionToken: res.session);
     } catch (error) {
-      rethrow;
-    } finally {
-      secureStorageStamper.setPublicKey('');
+      await deleteUnusedKeyPairs();
+      throw Exception('Failed to login with otp: $error');
     }
   }
 
@@ -253,9 +248,8 @@ extension AuthProxyExtension on TurnkeyProvider {
 
       return SignUpWithOtpResult(sessionToken: otpRes.sessionToken);
     } catch (e) {
+      await deleteUnusedKeyPairs();
       throw Exception('Sign up failed: $e');
-    } finally {
-      secureStorageStamper.setPublicKey('');
     }
   }
 
@@ -294,9 +288,7 @@ extension AuthProxyExtension on TurnkeyProvider {
     String? sessionKey,
     CreateSubOrgParams? createSubOrgParams,
   }) async {
-    String? generatedPublicKey;
-    final resolvedPublicKey =
-        publicKey ?? (generatedPublicKey = await createApiKeyPair());
+    final resolvedPublicKey = publicKey ?? await createApiKeyPair();
 
     try {
       final verifyOtpResult = await verifyOtp(
@@ -351,9 +343,7 @@ extension AuthProxyExtension on TurnkeyProvider {
         );
       }
     } catch (e) {
-      if (generatedPublicKey != null) {
-        await deleteUnusedKeyPairs();
-      }
+      await deleteUnusedKeyPairs();
       throw Exception('OTP authentication failed: $e');
     }
   }

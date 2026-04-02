@@ -29157,8 +29157,8 @@ class TEmailAuthBody {
   /// Expiration window (in seconds) indicating how long the API key is valid for. If not provided, a default of 15 minutes will be used.
   final String? expirationSeconds;
 
-  /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
+  /// Parameters for customizing emails. If not provided, the default email will be used. Note that app_name is required.
+  final v1EmailAuthCustomizationParams emailCustomization;
 
   /// Invalidate all other previously generated Email Auth API keys
   final bool? invalidateExisting;
@@ -29179,7 +29179,7 @@ class TEmailAuthBody {
     required this.targetPublicKey,
     this.apiKeyName,
     this.expirationSeconds,
-    this.emailCustomization,
+    required this.emailCustomization,
     this.invalidateExisting,
     this.sendFromEmailAddress,
     this.sendFromEmailSenderName,
@@ -29192,10 +29192,8 @@ class TEmailAuthBody {
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _apiKeyName = json['apiKeyName'] as String?;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = json['emailCustomization'] == null
-        ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams
+        .fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -29230,9 +29228,7 @@ class TEmailAuthBody {
     if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null) {
-      _json['emailCustomization'] = emailCustomization?.toJson();
-    }
+    _json['emailCustomization'] = emailCustomization.toJson();
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
@@ -30126,7 +30122,7 @@ class TInitImportWalletInput {
 
 class TInitOtpResponse {
   final v1Activity activity;
-  final v1InitOtpResult? result;
+  final v1InitOtpResultV2? result;
   const TInitOtpResponse({
     required this.activity,
     this.result,
@@ -30135,7 +30131,7 @@ class TInitOtpResponse {
     return TInitOtpResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1InitOtpResult.fromJson(json['result'] as Map<String, dynamic>)
+          ? v1InitOtpResultV2.fromJson(json['result'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -30155,11 +30151,14 @@ class TInitOtpBody {
   /// Email or phone number to send the OTP code to
   final String contact;
 
+  /// The name of the application.
+  final String appName;
+
   /// Optional length of the OTP code. Default = 9
   final num? otpLength;
 
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
+  final v1EmailCustomizationParamsV2? emailCustomization;
 
   /// Optional parameters for customizing SMS message. If not provided, the default sms message will be used.
   final v1SmsCustomizationParams? smsCustomization;
@@ -30170,7 +30169,7 @@ class TInitOtpBody {
   /// Optional custom email address from which to send the OTP email
   final String? sendFromEmailAddress;
 
-  /// Optional flag to specify if the OTP code should be alphanumeric (Crockford’s Base32). Default = true
+  /// Optional flag to specify if the OTP code should be alphanumeric (Crockford’s Base32). If set to false, OTP code will only be numeric. Default = true
   final bool? alphanumeric;
 
   /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
@@ -30187,6 +30186,7 @@ class TInitOtpBody {
     this.organizationId,
     required this.otpType,
     required this.contact,
+    required this.appName,
     this.otpLength,
     this.emailCustomization,
     this.smsCustomization,
@@ -30202,10 +30202,11 @@ class TInitOtpBody {
     final _organizationId = json['organizationId'] as String?;
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
+    final _appName = json['appName'] as String;
     final _otpLength = json['otpLength'] as num?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
+        : v1EmailCustomizationParamsV2
             .fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _smsCustomization = json['smsCustomization'] == null
         ? null
@@ -30222,6 +30223,7 @@ class TInitOtpBody {
       organizationId: _organizationId,
       otpType: _otpType,
       contact: _contact,
+      appName: _appName,
       otpLength: _otpLength,
       emailCustomization: _emailCustomization,
       smsCustomization: _smsCustomization,
@@ -30243,6 +30245,7 @@ class TInitOtpBody {
     }
     _json['otpType'] = otpType;
     _json['contact'] = contact;
+    _json['appName'] = appName;
     if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
@@ -30308,7 +30311,7 @@ class TInitOtpAuthBody {
   final String? timestampMs;
   final String? organizationId;
 
-  /// Enum to specify whether to send OTP via SMS or email
+  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -30317,8 +30320,11 @@ class TInitOtpAuthBody {
   /// Optional length of the OTP code. Default = 9
   final num? otpLength;
 
+  /// The name of the application. This field is required and will be used in email notifications if an email template is not provided.
+  final String appName;
+
   /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
+  final v1EmailCustomizationParamsV2? emailCustomization;
 
   /// Optional parameters for customizing SMS message. If not provided, the default SMS message will be used.
   final v1SmsCustomizationParams? smsCustomization;
@@ -30335,6 +30341,9 @@ class TInitOtpAuthBody {
   /// Optional custom sender name for use with sendFromEmailAddress; if left empty, will default to 'Notifications'
   final String? sendFromEmailSenderName;
 
+  /// Expiration window (in seconds) indicating how long the OTP is valid for. If not provided, a default of 5 minutes will be used. Maximum value is 600 seconds (10 minutes)
+  final String? expirationSeconds;
+
   /// Optional custom email address to use as reply-to
   final String? replyToEmailAddress;
 
@@ -30344,12 +30353,14 @@ class TInitOtpAuthBody {
     required this.otpType,
     required this.contact,
     this.otpLength,
+    required this.appName,
     this.emailCustomization,
     this.smsCustomization,
     this.userIdentifier,
     this.sendFromEmailAddress,
     this.alphanumeric,
     this.sendFromEmailSenderName,
+    this.expirationSeconds,
     this.replyToEmailAddress,
   });
   factory TInitOtpAuthBody.fromJson(Map<String, dynamic> json) {
@@ -30358,9 +30369,10 @@ class TInitOtpAuthBody {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
     final _otpLength = json['otpLength'] as num?;
+    final _appName = json['appName'] as String;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
+        : v1EmailCustomizationParamsV2
             .fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _smsCustomization = json['smsCustomization'] == null
         ? null
@@ -30370,6 +30382,7 @@ class TInitOtpAuthBody {
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
     return TInitOtpAuthBody(
       timestampMs: _timestampMs,
@@ -30377,12 +30390,14 @@ class TInitOtpAuthBody {
       otpType: _otpType,
       contact: _contact,
       otpLength: _otpLength,
+      appName: _appName,
       emailCustomization: _emailCustomization,
       smsCustomization: _smsCustomization,
       userIdentifier: _userIdentifier,
       sendFromEmailAddress: _sendFromEmailAddress,
       alphanumeric: _alphanumeric,
       sendFromEmailSenderName: _sendFromEmailSenderName,
+      expirationSeconds: _expirationSeconds,
       replyToEmailAddress: _replyToEmailAddress,
     );
   }
@@ -30399,6 +30414,7 @@ class TInitOtpAuthBody {
     if (otpLength != null) {
       _json['otpLength'] = otpLength;
     }
+    _json['appName'] = appName;
     if (emailCustomization != null) {
       _json['emailCustomization'] = emailCustomization?.toJson();
     }
@@ -30416,6 +30432,9 @@ class TInitOtpAuthBody {
     }
     if (sendFromEmailSenderName != null) {
       _json['sendFromEmailSenderName'] = sendFromEmailSenderName;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
     }
     if (replyToEmailAddress != null) {
       _json['replyToEmailAddress'] = replyToEmailAddress;
@@ -30469,8 +30488,8 @@ class TInitUserEmailRecoveryBody {
   /// Expiration window (in seconds) indicating how long the recovery credential is valid for. If not provided, a default of 15 minutes will be used.
   final String? expirationSeconds;
 
-  /// Optional parameters for customizing emails. If not provided, the default email will be used.
-  final v1EmailCustomizationParams? emailCustomization;
+  /// Parameters for customizing emails. If not provided, the default email will be used. Note that `app_name` is required.
+  final v1EmailAuthCustomizationParams emailCustomization;
 
   /// Optional custom email address from which to send the OTP email
   final String? sendFromEmailAddress;
@@ -30487,7 +30506,7 @@ class TInitUserEmailRecoveryBody {
     required this.email,
     required this.targetPublicKey,
     this.expirationSeconds,
-    this.emailCustomization,
+    required this.emailCustomization,
     this.sendFromEmailAddress,
     this.sendFromEmailSenderName,
     this.replyToEmailAddress,
@@ -30498,10 +30517,8 @@ class TInitUserEmailRecoveryBody {
     final _email = json['email'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = json['emailCustomization'] == null
-        ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams
+        .fromJson(json['emailCustomization'] as Map<String, dynamic>);
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
@@ -30530,9 +30547,7 @@ class TInitUserEmailRecoveryBody {
     if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
-    if (emailCustomization != null) {
-      _json['emailCustomization'] = emailCustomization?.toJson();
-    }
+    _json['emailCustomization'] = emailCustomization.toJson();
     if (sendFromEmailAddress != null) {
       _json['sendFromEmailAddress'] = sendFromEmailAddress;
     }
@@ -30981,49 +30996,47 @@ class TOtpLoginBody {
   final String? timestampMs;
   final String? organizationId;
 
-  /// Signed JWT containing a unique id, expiry, verification type, contact
+  /// Signed Verification Token containing a unique id, expiry, verification type, contact
   final String verificationToken;
 
-  /// Client-side public key generated by the user, which will be conditionally added to org data based on the validity of the verification token
+  /// Client-side public key generated by the user, used as the session public key upon successful login
   final String publicKey;
+
+  /// Required signature proving authorization for this login. The signature is over the verification token ID and the public key. Required for secure OTP login process.
+  final v1ClientSignature clientSignature;
 
   /// Expiration window (in seconds) indicating how long the Session is valid for. If not provided, a default of 15 minutes will be used.
   final String? expirationSeconds;
 
-  /// Invalidate all other previously generated Login API keys
+  /// Invalidate all other previously generated Login sessions
   final bool? invalidateExisting;
-
-  /// Optional signature proving authorization for this login. The signature is over the verification token ID and the public key. Only required if a public key was provided during the verification step.
-  final v1ClientSignature? clientSignature;
 
   const TOtpLoginBody({
     this.timestampMs,
     this.organizationId,
     required this.verificationToken,
     required this.publicKey,
+    required this.clientSignature,
     this.expirationSeconds,
     this.invalidateExisting,
-    this.clientSignature,
   });
   factory TOtpLoginBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _verificationToken = json['verificationToken'] as String;
     final _publicKey = json['publicKey'] as String;
+    final _clientSignature = v1ClientSignature
+        .fromJson(json['clientSignature'] as Map<String, dynamic>);
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
-    final _clientSignature = json['clientSignature'] == null
-        ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
     return TOtpLoginBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       verificationToken: _verificationToken,
       publicKey: _publicKey,
+      clientSignature: _clientSignature,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
-      clientSignature: _clientSignature,
     );
   }
   Map<String, dynamic> toJson() {
@@ -31036,14 +31049,12 @@ class TOtpLoginBody {
     }
     _json['verificationToken'] = verificationToken;
     _json['publicKey'] = publicKey;
+    _json['clientSignature'] = clientSignature.toJson();
     if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
     }
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
-    }
-    if (clientSignature != null) {
-      _json['clientSignature'] = clientSignature?.toJson();
     }
     return _json;
   }
@@ -32944,40 +32955,34 @@ class TVerifyOtpBody {
   final String? timestampMs;
   final String? organizationId;
 
-  /// ID representing the result of an init OTP activity.
+  /// UUID representing an OTP flow. A new UUID is created for each init OTP activity.
   final String otpId;
 
-  /// OTP sent out to a user's contact (email or SMS)
-  final String otpCode;
+  /// Encrypted bundle containing the OTP code and a client-generated public key. Turnkey's secure enclaves will decrypt this bundle, verify the OTP code, and issue a new Verification Token. Encrypted using the target encryption key provided in the INIT_OTP activity result.
+  final String encryptedOtpBundle;
 
   /// Expiration window (in seconds) indicating how long the verification token is valid for. If not provided, a default of 1 hour will be used. Maximum value is 86400 seconds (24 hours)
   final String? expirationSeconds;
-
-  /// Client-side public key generated by the user, which will be added to the JWT response and verified in subsequent requests via a client proof signature
-  final String? publicKey;
 
   const TVerifyOtpBody({
     this.timestampMs,
     this.organizationId,
     required this.otpId,
-    required this.otpCode,
+    required this.encryptedOtpBundle,
     this.expirationSeconds,
-    this.publicKey,
   });
   factory TVerifyOtpBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _otpId = json['otpId'] as String;
-    final _otpCode = json['otpCode'] as String;
+    final _encryptedOtpBundle = json['encryptedOtpBundle'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _publicKey = json['publicKey'] as String?;
     return TVerifyOtpBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       otpId: _otpId,
-      otpCode: _otpCode,
+      encryptedOtpBundle: _encryptedOtpBundle,
       expirationSeconds: _expirationSeconds,
-      publicKey: _publicKey,
     );
   }
   Map<String, dynamic> toJson() {
@@ -32989,12 +32994,9 @@ class TVerifyOtpBody {
       _json['organizationId'] = organizationId;
     }
     _json['otpId'] = otpId;
-    _json['otpCode'] = otpCode;
+    _json['encryptedOtpBundle'] = encryptedOtpBundle;
     if (expirationSeconds != null) {
       _json['expirationSeconds'] = expirationSeconds;
-    }
-    if (publicKey != null) {
-      _json['publicKey'] = publicKey;
     }
     return _json;
   }

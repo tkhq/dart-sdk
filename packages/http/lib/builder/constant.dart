@@ -61,7 +61,7 @@ const Map<String, (String, String, String)> VERSIONED_ACTIVITY_TYPES = {
   ),
   'ACTIVITY_TYPE_EMAIL_AUTH': (
     'ACTIVITY_TYPE_EMAIL_AUTH_V3',
-    'v1EmailAuthIntentV2',
+    'v1EmailAuthIntentV3',
     'v1EmailAuthResult'
   ),
   'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION': (
@@ -76,27 +76,27 @@ const Map<String, (String, String, String)> VERSIONED_ACTIVITY_TYPES = {
   ),
   'ACTIVITY_TYPE_INIT_OTP_AUTH': (
     'ACTIVITY_TYPE_INIT_OTP_AUTH_V3',
-    'v1InitOtpAuthIntentV2',
+    'v1InitOtpAuthIntentV3',
     'v1InitOtpAuthResultV2'
   ),
   'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY': (
     'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
-    'v1InitUserEmailRecoveryIntent',
+    'v1InitUserEmailRecoveryIntentV2',
     'v1InitUserEmailRecoveryResult'
   ),
   'ACTIVITY_TYPE_INIT_OTP': (
     'ACTIVITY_TYPE_INIT_OTP_V3',
-    'v1InitOtpIntent',
-    'v1InitOtpResult'
+    'v1InitOtpIntentV3',
+    'v1InitOtpResultV2'
   ),
   'ACTIVITY_TYPE_VERIFY_OTP': (
     'ACTIVITY_TYPE_VERIFY_OTP_V2',
-    'v1VerifyOtpIntent',
+    'v1VerifyOtpIntentV2',
     'v1VerifyOtpResult'
   ),
   'ACTIVITY_TYPE_OTP_LOGIN': (
     'ACTIVITY_TYPE_OTP_LOGIN_V2',
-    'v1OtpLoginIntent',
+    'v1OtpLoginIntentV2',
     'v1OtpLoginResult'
   ),
   'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS': (
