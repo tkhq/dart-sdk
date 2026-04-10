@@ -1,7 +1,6 @@
 part of 'turnkey.dart';
 
 extension WalletExtension on TurnkeyProvider {
-  
   /// Refreshes the current wallets data.
   ///
   /// Fetches the latest wallet details from the API using the current session's client.

@@ -43,7 +43,8 @@ class PhoneNumberInputState extends State<PhoneNumberInput> {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider = Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider =
+        Provider.of<TurnkeyProvider>(context, listen: false);
 
     return Column(
       children: <Widget>[
@@ -90,7 +91,7 @@ class PhoneNumberInputState extends State<PhoneNumberInput> {
               setState(() => _isLoading = true);
 
               try {
-                final otpId = await turnkeyProvider.initOtp(
+                final result = await turnkeyProvider.initOtp(
                   otpType: OtpType.SMS,
                   contact: phone,
                 );
@@ -102,16 +103,17 @@ class PhoneNumberInputState extends State<PhoneNumberInput> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => OTPScreen(
-                      otpId: otpId,
+                      otpId: result.otpId,
+                      otpEncryptionTargetBundle:
+                          result.otpEncryptionTargetBundle,
                       contact: phone,
                       otpType: OtpType.SMS,
                     ),
                   ),
                 );
-                
               } catch (e) {
                 if (!context.mounted) return;
-                
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to send OTP: $e')),
                 );

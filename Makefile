@@ -1,6 +1,10 @@
 test:
 	dart run melos exec --dir-exists=test -- dart test
 
+.PHONY: fmt
+fmt:
+	dart format .
+
 .PHONY: changeset
 changeset:
 	dart run tool/changeset.dart

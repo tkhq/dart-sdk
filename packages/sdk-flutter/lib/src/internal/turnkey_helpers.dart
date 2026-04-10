@@ -109,7 +109,7 @@ bool isValidSession(Session? session) {
       session.expiry * 1000 > DateTime.now().millisecondsSinceEpoch;
 }
 
-ProxyTSignupBody buildSignUpBody({
+ProxyTSignupV2Body buildSignUpBody({
   required CreateSubOrgParams? createSubOrgParams,
   bool isWeb = false,
 
@@ -158,11 +158,9 @@ ProxyTSignupBody buildSignUpBody({
           ? apiKeys
           : <v1ApiKeyParamsV2>[];
 
-  // --- oauth providers ---  //
-  final List<v1OauthProviderParams> oauthProvidersOrEmpty =
-      (createSubOrgParams?.oauthProviders?.isNotEmpty ?? false)
-          ? createSubOrgParams!.oauthProviders as List<v1OauthProviderParams>
-          : const [];
+  // --- oauth providers ---
+  final List<v1OauthProviderParamsV2> oauthProvidersOrEmpty =
+      createSubOrgParams?.oauthProviders ?? const [];
 
   // --- wallet mapping ---
   final wallet = (createSubOrgParams?.customWallet != null)
@@ -182,7 +180,7 @@ ProxyTSignupBody buildSignUpBody({
       ? createSubOrgParams!.subOrgName!
       : 'sub-org-$now';
 
-  return ProxyTSignupBody(
+  return ProxyTSignupV2Body(
     userName: userName,
     userEmail: createSubOrgParams?.userEmail,
     authenticators: authenticatorsOrEmpty,
@@ -294,26 +292,16 @@ CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
                   );
       }
     case OAuthOverridedParams():
+      final provider = v1OauthProviderParamsV2.oidcToken(
+        providerName: overrideParams.providerName,
+        oidcToken: overrideParams.oidcToken,
+      );
       return (createSubOrgParams != null)
-          ? createSubOrgParams.copyWith(oauthProviders: [
-              v1OauthProviderParams(
-                providerName: overrideParams.providerName,
-                oidcToken: overrideParams.oidcToken,
-              )
-            ])
+          ? createSubOrgParams.copyWith(oauthProviders: [provider])
           : configCreateSubOrgParams?.oAuth != null
-              ? configCreateSubOrgParams!.oAuth!.copyWith(oauthProviders: [
-                  v1OauthProviderParams(
-                    providerName: overrideParams.providerName,
-                    oidcToken: overrideParams.oidcToken,
-                  )
-                ])
-              : CreateSubOrgParams(oauthProviders: [
-                  v1OauthProviderParams(
-                    providerName: overrideParams.providerName,
-                    oidcToken: overrideParams.oidcToken,
-                  )
-                ]);
+              ? configCreateSubOrgParams!.oAuth!
+                  .copyWith(oauthProviders: [provider])
+              : CreateSubOrgParams(oauthProviders: [provider]);
     case PasskeyOverridedParams():
       return (createSubOrgParams != null)
           ? createSubOrgParams.copyWith(

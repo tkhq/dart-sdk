@@ -3,13 +3,14 @@ import 'dart:typed_data';
 import 'package:base58check/base58check.dart';
 import 'package:cryptography/cryptography.dart' as crypto;
 import 'package:turnkey_encoding/turnkey_encoding.dart';
+import 'constant.dart';
 import 'crypto.dart';
 import 'hpke.dart';
 import 'package:bs58/bs58.dart';
 
 /// Decrypts an encrypted email authentication/recovery or OAuth credential bundle.
 ///
-/// This function takes an encrypted credential bundle, decodes it using Base58Check, and decrypts it using the specified private key. 
+/// This function takes an encrypted credential bundle, decodes it using Base58Check, and decrypts it using the specified private key.
 /// The decryption process involves extracting the encapsulated public key and ciphertext, uncompressing the public key, and performing HPKE decryption.
 ///
 /// Parameters:
@@ -30,10 +31,10 @@ String decryptCredentialBundle({
   try {
     final bundleBytes = Base58CheckCodec.bitcoin().decode(credentialBundle);
 
-    // Base58CheckCodec strips the version byte, so we need to add it back 
+    // Base58CheckCodec strips the version byte, so we need to add it back
     final versionByte = Uint8List.fromList([bundleBytes.version]);
-    final bundleBytesPayload = Uint8List.fromList(versionByte + bundleBytes.payload);
-
+    final bundleBytesPayload =
+        Uint8List.fromList(versionByte + bundleBytes.payload);
 
     if (bundleBytesPayload.length <= 33) {
       throw ArgumentError(
@@ -41,7 +42,8 @@ String decryptCredentialBundle({
       );
     }
 
-    final compressedEncappedKeyBuf = Uint8List.fromList(bundleBytesPayload.sublist(0, 33));
+    final compressedEncappedKeyBuf =
+        Uint8List.fromList(bundleBytesPayload.sublist(0, 33));
     final ciphertextBuf = Uint8List.fromList(bundleBytesPayload.sublist(33));
     final encappedKeyBuf = uncompressRawPublicKey(compressedEncappedKeyBuf);
 
@@ -115,7 +117,8 @@ Future<String> decryptExportBundle({
     if (signedData['encappedPublic'] == null) {
       throw Exception('missing "encappedPublic" in bundle signed data');
     }
-    final encappedKeyBuf = uint8ArrayFromHexString(signedData['encappedPublic']);
+    final encappedKeyBuf =
+        uint8ArrayFromHexString(signedData['encappedPublic']);
 
     final ciphertextBuf = uint8ArrayFromHexString(signedData['ciphertext']);
 
@@ -145,13 +148,11 @@ Future<String> decryptExportBundle({
       concatenatedBytes.setAll(0, decryptedData);
       concatenatedBytes.setAll(32, publicKeyBytes);
 
-        return base58.encode(concatenatedBytes);
+      return base58.encode(concatenatedBytes);
     }
 
     final decryptedDataHex = uint8ArrayToHexString(decryptedData);
-    return returnMnemonic
-        ? hexToAscii(decryptedDataHex)
-        : decryptedDataHex;
+    return returnMnemonic ? hexToAscii(decryptedDataHex) : decryptedDataHex;
   } catch (error) {
     throw Exception('Error decrypting bundle: $error');
   }
@@ -159,8 +160,8 @@ Future<String> decryptExportBundle({
 
 /// Encrypts a mnemonic wallet bundle using HPKE and verifies the enclave signature.
 ///
-/// This function securely encrypts a mnemonic phrase using HPKE (Hybrid Public Key Encryption) based on a target public key extracted 
-/// from the provided import bundle. The function also verifies the integrity of the enclave signature to ensure the authenticity 
+/// This function securely encrypts a mnemonic phrase using HPKE (Hybrid Public Key Encryption) based on a target public key extracted
+/// from the provided import bundle. The function also verifies the integrity of the enclave signature to ensure the authenticity
 /// of the bundle before encryption.
 ///
 /// Parameters:
@@ -196,7 +197,8 @@ Future<String> encryptWalletToBundle({
     throw Exception('Failed to verify enclave signature: $importBundle');
   }
 
-  final Uint8List dataBytes = uint8ArrayFromHexString(parsedImportBundle['data']);
+  final Uint8List dataBytes =
+      uint8ArrayFromHexString(parsedImportBundle['data']);
   final String signedDataJson = utf8.decode(dataBytes);
   final Map<String, dynamic> signedData = jsonDecode(signedDataJson);
 
@@ -220,7 +222,8 @@ Future<String> encryptWalletToBundle({
   }
 
   // Load target public key generated from enclave
-  final Uint8List targetKeyBuf = uint8ArrayFromHexString(signedData['targetPublic']);
+  final Uint8List targetKeyBuf =
+      uint8ArrayFromHexString(signedData['targetPublic']);
   final Uint8List privateKeyBundle = hpkeEncrypt(
     plainTextBuf: plainTextBuf,
     targetKeyBuf: targetKeyBuf,
@@ -230,8 +233,8 @@ Future<String> encryptWalletToBundle({
 
 /// Encrypts a private key bundle using HPKE and verifies the enclave signature.
 ///
-/// This function securely encrypts a private key using HPKE (Hybrid Public Key Encryption). The target public key required for encryption 
-/// is extracted from the provided import bundle. Before encryption, the enclave signature within the import bundle is verified to ensure 
+/// This function securely encrypts a private key using HPKE (Hybrid Public Key Encryption). The target public key required for encryption
+/// is extracted from the provided import bundle. Before encryption, the enclave signature within the import bundle is verified to ensure
 /// the authenticity and integrity of the bundle.
 ///
 /// Parameters:
@@ -268,7 +271,8 @@ Future<String> encryptPrivateKeyToBundle({
     throw Exception('Failed to verify enclave signature: $importBundle');
   }
 
-  final Uint8List dataBytes = uint8ArrayFromHexString(parsedImportBundle['data']);
+  final Uint8List dataBytes =
+      uint8ArrayFromHexString(parsedImportBundle['data']);
   final String signedDataJson = utf8.decode(dataBytes);
   final Map<String, dynamic> signedData = jsonDecode(signedDataJson);
 
@@ -292,10 +296,72 @@ Future<String> encryptPrivateKeyToBundle({
   }
 
   // Load target public key generated from enclave
-  final Uint8List targetKeyBuf = uint8ArrayFromHexString(signedData['targetPublic']);
+  final Uint8List targetKeyBuf =
+      uint8ArrayFromHexString(signedData['targetPublic']);
   final Uint8List privateKeyBundle = hpkeEncrypt(
     plainTextBuf: plainTextBuf,
     targetKeyBuf: targetKeyBuf,
   );
   return formatHpkeBuf(privateKeyBundle);
+}
+
+/// Encrypts an OTP code and a client public key to the target encryption key
+/// provided by the enclave during initOtp. The resulting encrypted bundle is
+/// sent to verifyOtpV2 so the enclave can decrypt it, verify the OTP code,
+/// and issue a verification token bound to the client's public key.
+///
+/// Verifies the enclave signature on the target bundle before encrypting.
+///
+/// Parameters:
+/// - [otpCode]: The OTP code entered by the user.
+/// - [otpEncryptionTargetBundle]: The signed target encryption bundle returned from initOtp.
+/// - [publicKey]: Compressed hex public key to embed in the encrypted bundle.
+/// - [dangerouslyOverrideSignerPublicKey]: Optional override for the TLS fetcher signing key
+///   used to verify the bundle signature. Only use in test/preprod environments.
+///
+/// Returns:
+/// - A [Future<String>] resolving to the encrypted OTP bundle string.
+///
+/// Throws:
+/// - [Exception]: If bundle signature verification or encryption fails.
+Future<String> encryptOtpCodeToBundle({
+  required String otpCode,
+  required String otpEncryptionTargetBundle,
+  required String publicKey,
+  String? dangerouslyOverrideSignerPublicKey,
+}) async {
+  final Map<String, dynamic> parsedBundle =
+      jsonDecode(otpEncryptionTargetBundle);
+
+  final bool verified = verifyEnclaveSignature(
+    enclaveQuorumPublic: parsedBundle['enclaveQuorumPublic'],
+    publicSignature: parsedBundle['dataSignature'],
+    signedData: parsedBundle['data'],
+    dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey ??
+        PRODUCTION_TLS_FETCHER_SIGN_PUBLIC_KEY,
+  );
+  if (!verified) {
+    throw Exception(
+        'OTP encryption target bundle signature verification failed');
+  }
+
+  final Map<String, dynamic> signedData = jsonDecode(
+    utf8.decode(uint8ArrayFromHexString(parsedBundle['data'])),
+  );
+
+  if (signedData['targetPublic'] == null) {
+    throw Exception('Missing "targetPublic" in bundle signed data');
+  }
+
+  final Uint8List targetKeyBuf =
+      uint8ArrayFromHexString(signedData['targetPublic']);
+  final Uint8List plainTextBuf = Uint8List.fromList(
+    utf8.encode(jsonEncode({'otp_code': otpCode, 'public_key': publicKey})),
+  );
+
+  final Uint8List encryptedBuf = hpkeEncrypt(
+    plainTextBuf: plainTextBuf,
+    targetKeyBuf: targetKeyBuf,
+  );
+  return formatHpkeBuf(encryptedBuf);
 }

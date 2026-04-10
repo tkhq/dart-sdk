@@ -7,12 +7,11 @@ import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
 import 'types.dart';
 
-
 /// Formats a Dart document using the `dart format` command.
 ///
 /// Parameters:
 /// - [targetPath]: The [String] path to the file or directory to be formatted.
-/// 
+///
 /// Throws:
 /// - Prints an error message if the formatting process fails or encounters an exception.
 Future<void> formatDocument(String targetPath) async {
@@ -187,10 +186,9 @@ Future<List<TFileInfo>> resolveFileList(String rootPath) async {
   for (final entity in absolutePathList) {
     if (entity is File) {
       try {
-        final file = File(entity.path); 
-        final content = await file.readAsString(); 
-        final parsedData =
-            jsonDecode(content) as Map<String, dynamic>;
+        final file = File(entity.path);
+        final content = await file.readAsString();
+        final parsedData = jsonDecode(content) as Map<String, dynamic>;
 
         fileList.add(TFileInfo(
           absolutePath: file.absolute.path,

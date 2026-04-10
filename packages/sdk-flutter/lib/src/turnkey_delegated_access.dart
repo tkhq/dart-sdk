@@ -1,7 +1,7 @@
 part of 'turnkey.dart';
 
 extension DelegatedAccessExtension on TurnkeyProvider {
-    /// Fetches an existing user by P-256 API key public key, or creates a new one if none exists.
+  /// Fetches an existing user by P-256 API key public key, or creates a new one if none exists.
   ///
   /// This function is idempotent: multiple calls with the same `publicKey` will always return the same user.
   /// Attempts to find a user whose API keys include the given P-256 public key.
@@ -78,7 +78,7 @@ extension DelegatedAccessExtension on TurnkeyProvider {
       input: TCreateUsersBody(
         organizationId: orgId,
         users: [
-          v1UserParamsV3(
+          v1UserParamsV4(
             userName: newUserName,
             userTags: const [],
             apiKeys: [
@@ -170,8 +170,7 @@ extension DelegatedAccessExtension on TurnkeyProvider {
       final sig = getPolicySignature(p);
       final existingId = existingSignatureToId[sig];
       if (existingId != null) {
-        alreadyExisting
-            .add(Policy.fromCreateIntent(p, policyId: existingId));
+        alreadyExisting.add(Policy.fromCreateIntent(p, policyId: existingId));
       } else {
         missing.add(p);
       }

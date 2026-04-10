@@ -1,7 +1,6 @@
 part of 'turnkey.dart';
 
 extension PasskeyExtension on TurnkeyProvider {
-  
   /// Logs in a user using a passkey.
   ///
   /// Generates or uses an existing API key pair for authentication.
@@ -153,7 +152,7 @@ extension PasskeyExtension on TurnkeyProvider {
       final signUpBody =
           buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
-      final res = await requireClient.proxySignup(input: signUpBody);
+      final res = await requireClient.proxySignupV2(input: signUpBody);
 
       final orgId = res.organizationId;
       if (orgId.isEmpty) {

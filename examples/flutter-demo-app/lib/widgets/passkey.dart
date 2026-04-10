@@ -35,7 +35,6 @@ class PasskeyInputState extends State<PasskeyInput> {
                 await turnkeyProvider.loginWithPasskey(rpId: EnvConfig.rpId);
 
                 if (!context.mounted) return;
-
               } catch (e) {
                 if (!context.mounted) return;
 
@@ -58,7 +57,6 @@ class PasskeyInputState extends State<PasskeyInput> {
           ),
         ),
         const SizedBox(height: 10),
-
         SizedBox(
           width: double.infinity,
           child: LoadingButton(
@@ -72,7 +70,6 @@ class PasskeyInputState extends State<PasskeyInput> {
                 await turnkeyProvider.signUpWithPasskey(rpId: EnvConfig.rpId);
 
                 if (!context.mounted) return;
-
               } catch (e) {
                 if (!context.mounted) return;
 

@@ -100,6 +100,37 @@ extension SigningExtension on TurnkeyProvider {
     return result;
   }
 
+  /// Signs a message using a key pair stored in secure storage.
+  ///
+  /// This function signs the provided message string with the private key identified by [publicKey].
+  /// The message is SHA-256 hashed internally before signing (ECDSA P-256).
+  /// Returns a compact hex signature (r || s) suitable for use as a client signature.
+  /// The key pair must already exist in secure storage (e.g., created via [createApiKeyPair]).
+  ///
+  /// [message] The message string to sign.
+  /// [publicKey] The public key identifying which key pair to sign with.
+  /// Returns the compact hex signature string.
+  /// Throws an [Exception] if signing fails.
+  Future<String> signWithApiKey({
+    required String message,
+    required String publicKey,
+  }) async {
+    final previousPublicKey = secureStorageStamper.publicKey;
+    try {
+      secureStorageStamper.setPublicKey(publicKey);
+      final signature = await secureStorageStamper.sign(
+        message,
+        format: SignatureFormat.raw,
+      );
+      if (signature.isEmpty) {
+        throw Exception('Failed to sign with API key: empty signature');
+      }
+      return signature;
+    } finally {
+      secureStorageStamper.setPublicKey(previousPublicKey ?? '');
+    }
+  }
+
   /// Signs a transaction using the specified signing key and transaction parameters.
   ///
   /// Throws an [Exception] if the client or user is not initialized.

@@ -8,12 +8,14 @@ import '../widgets/buttons.dart';
 
 class OTPScreen extends StatefulWidget {
   final String otpId;
+  final String otpEncryptionTargetBundle;
   final String? contact;
   final OtpType? otpType;
 
   const OTPScreen({
     super.key,
     required this.otpId,
+    required this.otpEncryptionTargetBundle,
     this.contact,
     this.otpType,
   });
@@ -116,6 +118,8 @@ class _OTPScreenState extends State<OTPScreen> {
                         try {
                           await turnkeyProvider.loginOrSignUpWithOtp(
                             otpId: widget.otpId,
+                            otpEncryptionTargetBundle:
+                                widget.otpEncryptionTargetBundle,
                             otpCode: otpCode,
                             contact: widget.contact!,
                             otpType: widget.otpType!,

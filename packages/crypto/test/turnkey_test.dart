@@ -11,7 +11,6 @@ void main() {
         "w99a5xV6A75TfoAUkZn869fVyDYvgVsKrawMALZXmrauZd8hEv66EkPU1Z42CUaHESQjcA5bqd8dynTGBMLWB9ewtXWPEVbZvocB4Tw2K1vQVp7uwjf";
 
     test('decryptCredentialBundle successfully decrypts a valid bundle', () {
-
       final decryptedData = decryptCredentialBundle(
         credentialBundle: mockCredentialBundle,
         embeddedKey: mockPrivateKey,
