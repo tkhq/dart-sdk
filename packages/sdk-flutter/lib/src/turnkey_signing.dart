@@ -26,7 +26,7 @@ extension SigningExtension on TurnkeyProvider {
       hashFunction: hashFunction,
     ));
 
-    final signRawPayloadResult = response.activity.result.signRawPayloadResult;
+    final signRawPayloadResult = response.activity.result?.signRawPayloadResult;
     if (signRawPayloadResult == null) {
       throw Exception("Failed to sign raw payload");
     }
@@ -92,7 +92,7 @@ extension SigningExtension on TurnkeyProvider {
 
     final response = await requireClient.signRawPayload(input: body);
 
-    final result = response.activity.result.signRawPayloadResult;
+    final result = response.activity.result?.signRawPayloadResult;
     if (result == null || response.activity.failure != null) {
       throw Exception("Failed to sign message, no signed payload returned");
     }
@@ -153,7 +153,7 @@ extension SigningExtension on TurnkeyProvider {
             type: type));
 
     final signTransactionResult =
-        response.activity.result.signTransactionResult;
+        response.activity.result?.signTransactionResult;
     if (signTransactionResult == null) {
       throw Exception("Failed to sign transaction");
     }
