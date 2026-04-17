@@ -2836,7 +2836,7 @@ class v1Activity {
   final v1Intent intent;
 
   /// Result of the intended action.
-  final v1Result result;
+  final v1Result? result;
 
   /// A list of objects representing a particular User's approval or rejection of a Consensus request, including all relevant metadata.
   final List<v1Vote> votes;
@@ -2860,7 +2860,7 @@ class v1Activity {
     required this.status,
     required this.type,
     required this.intent,
-    required this.result,
+    this.result,
     required this.votes,
     this.appProofs,
     required this.fingerprint,
@@ -2877,7 +2877,9 @@ class v1Activity {
     final _status = v1ActivityStatusFromJson(json['status']);
     final _type = v1ActivityTypeFromJson(json['type']);
     final _intent = v1Intent.fromJson(json['intent'] as Map<String, dynamic>);
-    final _result = v1Result.fromJson(json['result'] as Map<String, dynamic>);
+    final _result = json['result'] == null
+        ? null
+        : v1Result.fromJson(json['result'] as Map<String, dynamic>);
     final _votes = (json['votes'] as List)
         .map((e) => v1Vote.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -2919,7 +2921,9 @@ class v1Activity {
     _json['status'] = v1ActivityStatusToJson(status);
     _json['type'] = v1ActivityTypeToJson(type);
     _json['intent'] = intent.toJson();
-    _json['result'] = result.toJson();
+    if (result != null) {
+      _json['result'] = result?.toJson();
+    }
     _json['votes'] = votes.map((e) => e.toJson()).toList();
     if (appProofs != null) {
       _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
