@@ -40,7 +40,7 @@ extension WalletExtension on TurnkeyProvider {
       mnemonicLength: mnemonicLength,
     ));
     final activity = response.activity;
-    if (activity.result.createWalletResult?.walletId != null) {
+    if (activity.result?.createWalletResult?.walletId != null) {
       await refreshWallets();
     }
 
@@ -73,7 +73,7 @@ extension WalletExtension on TurnkeyProvider {
         input: TInitImportWalletBody(userId: user!.userId));
 
     final importBundle =
-        initResponse.activity.result.initImportWalletResult?.importBundle;
+        initResponse.activity.result?.initImportWalletResult?.importBundle;
 
     if (importBundle == null) {
       throw Exception("Failed to get import bundle");
@@ -94,7 +94,7 @@ extension WalletExtension on TurnkeyProvider {
             encryptedBundle: encryptedBundle,
             accounts: accounts));
     final activity = response.activity;
-    if (activity.result.importWalletResult?.walletId != null) {
+    if (activity.result?.importWalletResult?.walletId != null) {
       await refreshWallets();
     }
   }
@@ -120,7 +120,7 @@ extension WalletExtension on TurnkeyProvider {
             walletId: walletId,
             targetPublicKey: keyPair.publicKeyUncompressed));
     final exportBundle =
-        response.activity.result.exportWalletResult?.exportBundle;
+        response.activity.result?.exportWalletResult?.exportBundle;
 
     if (exportBundle == null) {
       throw Exception("Export bundle, embedded key, or user not initialized");

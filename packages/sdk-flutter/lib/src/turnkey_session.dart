@@ -197,7 +197,7 @@ extension SessionExtension on TurnkeyProvider {
         ),
       );
 
-      final result = response.activity.result.stampLoginResult;
+      final result = response.activity.result?.stampLoginResult;
       if (result?.session == null) {
         throw Exception("No session found in refresh response");
       }

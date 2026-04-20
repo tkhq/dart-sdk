@@ -33,6 +33,14 @@ const Map<String, List<String>> ONEOF_FIELDS = {
   'v1OauthProviderParamsV2': ['oidcToken', 'oidcClaims'],
 };
 
+/// Fields listed here are treated as nullable regardless of what the Swagger
+/// spec's `required` array says. Use this to paper over upstream spec bugs
+/// without touching the vendored swagger JSON.
+const Map<String, Set<String>> NULLABLE_OVERRIDES = {
+  // result is null when status == ACTIVITY_STATUS_CONSENSUS_NEEDED
+  'v1Activity': {'result'},
+};
+
 String _resolve(String rel) {
   final scriptDir = File.fromUri(Platform.script).parent.path;
   return File('$scriptDir/$rel').resolveSymbolicLinksSync();
@@ -117,7 +125,8 @@ String generateClass(
       dartType = typeToDart(schema['type'] as String, schema);
     }
 
-    final isRequired = requiredList.contains(jsonKey);
+    final isRequired = requiredList.contains(jsonKey) &&
+        !(NULLABLE_OVERRIDES[className]?.contains(jsonKey) ?? false);
     final fieldName = sanitizeFieldName(jsonKey);
     fields.add(FieldSpec(
       fieldName: fieldName,
