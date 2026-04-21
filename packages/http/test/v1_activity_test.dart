@@ -22,7 +22,8 @@ void main() {
     test('parses with null result when status is CONSENSUS_NEEDED', () {
       final activity = v1Activity.fromJson(_baseActivity());
       expect(activity.id, 'activity-123');
-      expect(activity.status, v1ActivityStatus.activity_status_consensus_needed);
+      expect(
+          activity.status, v1ActivityStatus.activity_status_consensus_needed);
       expect(activity.result, isNull);
     });
 
