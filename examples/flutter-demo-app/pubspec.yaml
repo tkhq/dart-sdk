@@ -22,7 +22,7 @@ dependencies:
   provider: ^6.1.2
   flutter_dotenv: ^6.0.0
   crypto: ^3.0.6
-  sign_in_with_apple: ^7.0.1
+  sign_in_with_apple: ^8.0.0
   intl_phone_number_input: ^0.7.4
   flutter_libphonenumber_ios: ^1.4.0
   flutter_inappwebview: ^6.1.5

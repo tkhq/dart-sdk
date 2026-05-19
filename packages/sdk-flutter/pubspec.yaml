@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_secure_storage: ^9.2.4
+  sign_in_with_apple: ^8.0.0
   turnkey_crypto: ^0.1.3
   turnkey_encoding: ^0.1.1
   turnkey_flutter_passkey_stamper: ^1.0.3

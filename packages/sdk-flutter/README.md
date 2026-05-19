@@ -147,10 +147,48 @@ These properties are automatically updated when you use the SDK functions:
 * `loginWithOAuth({ required String oidcToken, required String publicKey, bool? invalidateExisting, String? sessionKey })`
 * `signUpWithOAuth({ required String oidcToken, required String publicKey, required String providerName, String? sessionKey, CreateSubOrgParams? createSubOrgParams })`
 * `loginOrSignUpWithOAuth({ required String oidcToken, required String publicKey, String? providerName, String? sessionKey, bool? invalidateExisting, CreateSubOrgParams? createSubOrgParams })`
-* `handleGoogleOAuth({ String? clientId, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })`
-* `handleAppleOAuth({ String? clientId, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })`
-* `handleXOAuth({ String? clientId, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })`
-* `handleDiscordOAuth({ String? clientId, String? originUri, String? redirectUri, String? sessionKey, String? invalidateExisting, void Function(String oidcToken)? onSuccess })`
+* `handleGoogleOAuth({ String? clientId, List<String>? secondaryClientIds, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })`
+* `handleAppleOAuth({ List<String>? secondaryClientIds, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })` — native iOS Apple Sign-In via `sign_in_with_apple`. Falls back to a web flow on Android (requires `serviceId` to be configured).
+* `handleAppleWebOAuth({ String? clientId, List<String>? secondaryClientIds, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })` — explicit web-based Apple OAuth (formerly `handleAppleOAuth`).
+* `handleXOAuth({ String? clientId, List<String>? secondaryClientIds, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })`
+* `handleDiscordOAuth({ String? clientId, List<String>? secondaryClientIds, String? originUri, String? redirectUri, String? sessionKey, bool? invalidateExisting, void Function(String oidcToken)? onSuccess })`
+
+##### Configuring OAuth providers
+
+```dart
+OAuthConfig(
+  providers: OAuthProviders(
+    google: GoogleOAuthProviderParams(
+      primaryClientId: GoogleOAuthPrimaryClientId(webClientId: '<your-google-web-client-id>'),
+      secondaryClientIds: const ['<additional-google-client-id>'],
+    ),
+    apple: AppleOAuthProviderParams(
+      primaryClientId: AppleOAuthPrimaryClientId(
+        serviceId: '<your-apple-services-id>',
+        iosBundleId: '<your-ios-bundle-id>', // required for cross-platform iOS native compatibility
+      ),
+    ),
+    x: XOAuthProviderParams(primaryClientId: '<your-x-client-id>'),
+    discord: DiscordOAuthProviderParams(primaryClientId: '<your-discord-client-id>'),
+  ),
+)
+```
+
+##### Cross-platform OAuth (mobile + web)
+
+`secondaryClientIds` on each provider lets you register additional client IDs as authenticators on the user's sub-organization at signup. This allows the same OAuth identity (e.g. one Google account) to resolve to the same Turnkey sub-organization regardless of which platform the user signs in from.
+
+The SDK JWT-decodes the OIDC token from the primary signup to extract `iss`/`sub`, then synthesizes additional `OauthProviderParams` entries — one per secondary `clientId` — sharing the same identity. The result: the sub-org has multiple authenticators registered, one per audience.
+
+##### Native Apple Sign-In
+
+`handleAppleOAuth` uses native Apple Sign-In on iOS via [`sign_in_with_apple`](https://pub.dev/packages/sign_in_with_apple). Consumers must:
+
+1. Add the **Sign in with Apple** capability to the iOS Runner target in Xcode (Signing & Capabilities → + Capability → Sign in with Apple). This adds the `com.apple.developer.applesignin` entitlement.
+2. Configure `AppleOAuthProviderParams.primaryClientId.serviceId` if you want `handleAppleOAuth` to work on Android (the package falls back to a web flow there, which requires the Services ID).
+3. For cross-platform compatibility — a user signing up on Android being able to log in via native Apple Sign-In on iOS, or vice versa — set both `serviceId` and `iosBundleId` on `AppleOAuthProviderParams`. The SDK registers both as audiences on the sub-org at signup.
+
+If you specifically want the web-based Apple flow on iOS instead of the native sheet, use `handleAppleWebOAuth`.
 
 #### **Authentication - Passkey**
 

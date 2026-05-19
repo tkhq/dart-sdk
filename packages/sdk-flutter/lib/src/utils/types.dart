@@ -2,6 +2,24 @@ import 'dart:convert';
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 
+/// Decodes the payload of a JWT into a Map.
+///
+/// Returns null if the token isn't a well-formed JWT or the payload isn't
+/// valid JSON. Does not validate signatures.
+Map<String, dynamic>? decodeJwtPayload(String token) {
+  final parts = token.split('.');
+  if (parts.length < 2) return null;
+  try {
+    final normalized =
+        base64.normalize(parts[1].replaceAll('-', '+').replaceAll('_', '/'));
+    final decoded = jsonDecode(utf8.decode(base64.decode(normalized)))
+        as Map<String, dynamic>;
+    return decoded;
+  } catch (_) {
+    return null;
+  }
+}
+
 class VerificationToken {
   final String contact;
   final int exp;
@@ -45,17 +63,10 @@ class VerificationToken {
   }
 
   static VerificationToken fromJwt(String token) {
-    final parts = token.split(".");
-    if (parts.length < 2) {
-      throw Exception("Invalid JWT: Missing payload");
+    final decoded = decodeJwtPayload(token);
+    if (decoded == null) {
+      throw Exception("Invalid JWT: could not decode payload");
     }
-
-    final payload = parts[1];
-    final normalized =
-        base64.normalize(payload.replaceAll('-', '+').replaceAll('_', '/'));
-    final decodedBytes = base64.decode(normalized);
-    final decoded =
-        jsonDecode(utf8.decode(decodedBytes)) as Map<String, dynamic>;
     return VerificationToken.fromJson(decoded);
   }
 }
@@ -108,17 +119,10 @@ class Session {
 
   /// Helper: create Session from a JWT string
   static Session fromJwt(String token) {
-    final parts = token.split(".");
-    if (parts.length < 2) {
-      throw Exception("Invalid JWT: Missing payload");
+    final decoded = decodeJwtPayload(token);
+    if (decoded == null) {
+      throw Exception("Invalid JWT: could not decode payload");
     }
-
-    final payload = parts[1];
-    final normalized =
-        base64.normalize(payload.replaceAll('-', '+').replaceAll('_', '/'));
-    final decodedBytes = base64.decode(normalized);
-    final decoded =
-        jsonDecode(utf8.decode(decodedBytes)) as Map<String, dynamic>;
 
     final exp = decoded["exp"];
     final publicKey = decoded["public_key"];
@@ -314,27 +318,84 @@ class MethodCreateSubOrgParams {
   });
 }
 
+class GoogleOAuthPrimaryClientId {
+  final String? webClientId;
+  const GoogleOAuthPrimaryClientId({this.webClientId});
+}
+
+class GoogleOAuthProviderParams {
+  final GoogleOAuthPrimaryClientId? primaryClientId;
+  final List<String>? secondaryClientIds;
+  final String? redirectUri;
+  const GoogleOAuthProviderParams({
+    this.primaryClientId,
+    this.secondaryClientIds,
+    this.redirectUri,
+  });
+}
+
+class AppleOAuthPrimaryClientId {
+  /// Apple Services ID. Used as the audience when the web/Android flow runs.
+  final String? serviceId;
+
+  /// iOS bundle identifier. Used as the audience when native iOS Apple
+  /// Sign-In runs.
+  final String? iosBundleId;
+
+  const AppleOAuthPrimaryClientId({this.serviceId, this.iosBundleId});
+}
+
+class AppleOAuthProviderParams {
+  final AppleOAuthPrimaryClientId? primaryClientId;
+  final List<String>? secondaryClientIds;
+  final String? redirectUri;
+  const AppleOAuthProviderParams({
+    this.primaryClientId,
+    this.secondaryClientIds,
+    this.redirectUri,
+  });
+}
+
+class XOAuthProviderParams {
+  final String? primaryClientId;
+  final List<String>? secondaryClientIds;
+  final String? redirectUri;
+  const XOAuthProviderParams({
+    this.primaryClientId,
+    this.secondaryClientIds,
+    this.redirectUri,
+  });
+}
+
+class DiscordOAuthProviderParams {
+  final String? primaryClientId;
+  final List<String>? secondaryClientIds;
+  final String? redirectUri;
+  const DiscordOAuthProviderParams({
+    this.primaryClientId,
+    this.secondaryClientIds,
+    this.redirectUri,
+  });
+}
+
+class OAuthProviders {
+  final GoogleOAuthProviderParams? google;
+  final AppleOAuthProviderParams? apple;
+  final XOAuthProviderParams? x;
+  final DiscordOAuthProviderParams? discord;
+  const OAuthProviders({this.google, this.apple, this.x, this.discord});
+}
+
 class OAuthConfig {
-  /** redirect URI for OAuth. */
+  /// Default redirect URI used when a provider doesn't override.
   final String? oauthRedirectUri;
-  /** client ID for Google OAuth. */
-  final String? googleClientId;
-  /** client ID for Apple OAuth. */
-  final String? appleClientId;
-  /** client ID for Facebook OAuth. */
-  final String? facebookClientId;
-  /** client ID for X (formerly Twitter) OAuth. */
-  final String? xClientId;
-  /** client ID for Discord OAuth. */
-  final String? discordClientId;
+
+  /// Per-provider OAuth configuration.
+  final OAuthProviders? providers;
 
   const OAuthConfig({
     this.oauthRedirectUri,
-    this.googleClientId,
-    this.appleClientId,
-    this.facebookClientId,
-    this.xClientId,
-    this.discordClientId,
+    this.providers,
   });
 }
 
