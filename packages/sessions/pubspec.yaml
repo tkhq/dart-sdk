@@ -1,6 +1,6 @@
 name: turnkey_sessions
 description: A Dart package for managing sessions in secure storage
-version: 0.1.3
+version: 0.1.4
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
@@ -11,7 +11,7 @@ resolution: workspace
 dependencies:
   flutter:
     sdk: flutter
-  turnkey_crypto: ^0.1.3
+  turnkey_crypto: ^0.2.0
   turnkey_encoding: ^0.1.1
   flutter_secure_storage: ^9.2.4
 
