@@ -1,1 +1,1 @@
-const VERSION = "turnkey-dart/1.1.2";
+const VERSION = "turnkey-dart/2.0.0";

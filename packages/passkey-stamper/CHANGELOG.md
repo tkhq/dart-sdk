@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4 — 2026-05-22
+### Patch Changes
+- Updated dependencies: turnkey_http.
+
+
 ## 1.0.3 — 2026-02-20
 ### Patch Changes
 - Updated dependencies: turnkey_http.
@@ -24,5 +29,6 @@
 
 ## 0.1.0 - Initial Release
 - Added passkey stamping functionality for Flutter.
+
 
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 — 2026-05-22
+### Patch Changes
+- Updated dependencies: turnkey_http, turnkey_crypto.
+
+
 ## 0.2.1 — 2026-02-20
 ### Patch Changes
 - Updated dependencies: turnkey_http.
@@ -28,5 +33,6 @@
 
 ## 0.1.0 - Initial Release
 - Introduced API key stamping functionalities.
+
 
 
