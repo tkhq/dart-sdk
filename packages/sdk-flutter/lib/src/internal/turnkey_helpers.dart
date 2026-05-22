@@ -292,16 +292,23 @@ CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
                   );
       }
     case OAuthOverridedParams():
-      final provider = v1OauthProviderParamsV2.oidcToken(
+      final primary = v1OauthProviderParamsV2.oidcToken(
         providerName: overrideParams.providerName,
         oidcToken: overrideParams.oidcToken,
       );
+      // Prepend the primary onto any caller-supplied secondaries so that
+      // both the primary OIDC token entry and the synthesized secondary
+      // oidcClaims entries end up on the sub-org.
+      final existing = createSubOrgParams?.oauthProviders ??
+          configCreateSubOrgParams?.oAuth?.oauthProviders ??
+          const <v1OauthProviderParamsV2>[];
+      final merged = [primary, ...existing];
       return (createSubOrgParams != null)
-          ? createSubOrgParams.copyWith(oauthProviders: [provider])
+          ? createSubOrgParams.copyWith(oauthProviders: merged)
           : configCreateSubOrgParams?.oAuth != null
               ? configCreateSubOrgParams!.oAuth!
-                  .copyWith(oauthProviders: [provider])
-              : CreateSubOrgParams(oauthProviders: [provider]);
+                  .copyWith(oauthProviders: merged)
+              : CreateSubOrgParams(oauthProviders: merged);
     case PasskeyOverridedParams():
       return (createSubOrgParams != null)
           ? createSubOrgParams.copyWith(
@@ -620,4 +627,35 @@ String getPolicySignatureFromExisting(v1Policy policy) {
     "notes": policy.notes,
   };
   return jsonEncode(map);
+}
+
+/// Builds a list of v1OauthProviderParamsV2 entries for the given secondary
+/// client IDs, decoding the primary OIDC token to share its iss/sub claims.
+///
+/// Returns an empty list if [secondaryClientIds] is empty or if the token
+/// cannot be decoded.
+///
+/// On signup, the entries returned here are appended to the CreateSubOrg
+/// payload so a single Google/Apple/etc. identity (same iss/sub) registers
+/// as multiple authenticators on the sub-org — one per audience (client ID).
+List<v1OauthProviderParamsV2> buildSecondaryOAuthProviders({
+  required String oidcToken,
+  required String providerName,
+  required List<String> secondaryClientIds,
+}) {
+  if (secondaryClientIds.isEmpty) return const [];
+
+  final payload = decodeJwtPayload(oidcToken);
+  if (payload == null) return const [];
+
+  final iss = payload['iss'] as String?;
+  final sub = payload['sub'] as String?;
+  if (iss == null || sub == null) return const [];
+
+  return secondaryClientIds
+      .map((aud) => v1OauthProviderParamsV2.oidcClaims(
+            providerName: providerName,
+            oidcClaims: v1OidcClaims(aud: aud, iss: iss, sub: sub),
+          ))
+      .toList();
 }

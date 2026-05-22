@@ -14,6 +14,7 @@ import 'package:turnkey_http/base.dart';
 import 'package:turnkey_http/turnkey_http.dart';
 import 'package:turnkey_sdk_flutter/src/internal/turnkey_helpers.dart';
 import 'package:turnkey_sdk_flutter/src/utils/client_signature.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 import 'package:turnkey_sdk_flutter/src/utils/types.dart';
 import 'package:uuid/uuid.dart';
@@ -112,30 +113,76 @@ class TurnkeyProvider with ChangeNotifier {
   TurnkeyRuntimeConfig _buildConfig({
     ProxyTGetWalletKitConfigResponse? proxyAuthConfig,
   }) {
-    String? _resolveClientId(String? local, String proxyKey) {
-      if (local != null && local.isNotEmpty) return local;
-      return proxyAuthConfig?.oauthClientIds?[proxyKey];
-    }
-
     String? _resolveRedirect(String? local) {
       if (local != null && local.isNotEmpty) return local;
       return proxyAuthConfig?.oauthRedirectUrl;
     }
 
-    // --- resolved OAuth config -------------------------------------------------
+    // --- per-provider OAuth resolution ----------------------------------------
+    final userProviders = config.authConfig?.oAuthConfig?.providers;
+    final proxyClientIds = proxyAuthConfig?.oauthClientIds ?? const {};
+    final redirectBase =
+        proxyAuthConfig?.oauthRedirectUrl ?? TURNKEY_OAUTH_REDIRECT_URL;
+    final scheme = config.appScheme;
+
+    String? resolveClientId(String? local, String proxyKey) =>
+        (local != null && local.isNotEmpty) ? local : proxyClientIds[proxyKey];
+
+    String baseUrlFallback() =>
+        '$redirectBase?scheme=${Uri.encodeComponent(scheme ?? '')}';
+    String schemeFallback() =>
+        (scheme != null && scheme.isNotEmpty) ? '$scheme://' : '';
+    String resolvePerProviderRedirect(
+            String? perProvider, String Function() fallback) =>
+        (perProvider != null && perProvider.isNotEmpty)
+            ? perProvider
+            : fallback();
+
+    final resolvedGoogle = GoogleOAuthProviderParams(
+      primaryClientId: GoogleOAuthPrimaryClientId(
+        webClientId: resolveClientId(
+            userProviders?.google?.primaryClientId?.webClientId, 'google'),
+      ),
+      secondaryClientIds: userProviders?.google?.secondaryClientIds,
+      redirectUri: resolvePerProviderRedirect(
+          userProviders?.google?.redirectUri, baseUrlFallback),
+    );
+
+    final resolvedApple = AppleOAuthProviderParams(
+      primaryClientId: AppleOAuthPrimaryClientId(
+        serviceId: resolveClientId(
+            userProviders?.apple?.primaryClientId?.serviceId, 'apple'),
+        iosBundleId: userProviders?.apple?.primaryClientId?.iosBundleId,
+      ),
+      secondaryClientIds: userProviders?.apple?.secondaryClientIds,
+      redirectUri: resolvePerProviderRedirect(
+          userProviders?.apple?.redirectUri, baseUrlFallback),
+    );
+
+    final resolvedX = XOAuthProviderParams(
+      primaryClientId: resolveClientId(userProviders?.x?.primaryClientId, 'x'),
+      secondaryClientIds: userProviders?.x?.secondaryClientIds,
+      redirectUri: resolvePerProviderRedirect(
+          userProviders?.x?.redirectUri, schemeFallback),
+    );
+
+    final resolvedDiscord = DiscordOAuthProviderParams(
+      primaryClientId:
+          resolveClientId(userProviders?.discord?.primaryClientId, 'discord'),
+      secondaryClientIds: userProviders?.discord?.secondaryClientIds,
+      redirectUri: resolvePerProviderRedirect(
+          userProviders?.discord?.redirectUri, schemeFallback),
+    );
+
     final resolvedOAuth = OAuthConfig(
       oauthRedirectUri:
           _resolveRedirect(config.authConfig?.oAuthConfig?.oauthRedirectUri),
-      googleClientId: _resolveClientId(
-          config.authConfig?.oAuthConfig?.googleClientId, 'google'),
-      appleClientId: _resolveClientId(
-          config.authConfig?.oAuthConfig?.appleClientId, 'apple'),
-      facebookClientId: _resolveClientId(
-          config.authConfig?.oAuthConfig?.facebookClientId, 'facebook'),
-      xClientId:
-          _resolveClientId(config.authConfig?.oAuthConfig?.xClientId, 'x'),
-      discordClientId: _resolveClientId(
-          config.authConfig?.oAuthConfig?.discordClientId, 'discord'),
+      providers: OAuthProviders(
+        google: resolvedGoogle,
+        apple: resolvedApple,
+        x: resolvedX,
+        discord: resolvedDiscord,
+      ),
     );
 
     // --- proxy-only settings (read from proxy when available) ------------------

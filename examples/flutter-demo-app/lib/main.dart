@@ -77,10 +77,25 @@ void main() async {
           passkeyAuth: createSubOrgParams,
         ),
         oAuthConfig: OAuthConfig(
-          googleClientId: EnvConfig.googleClientId,
-          appleClientId: EnvConfig.appleClientId,
-          xClientId: EnvConfig.xClientId,
-          discordClientId: EnvConfig.discordClientId,
+          providers: OAuthProviders(
+            google: GoogleOAuthProviderParams(
+              primaryClientId: GoogleOAuthPrimaryClientId(
+                webClientId: EnvConfig.googleClientId,
+              ),
+            ),
+            apple: AppleOAuthProviderParams(
+              primaryClientId: AppleOAuthPrimaryClientId(
+                serviceId: EnvConfig.appleClientId,
+                // For cross-platform Apple Sign-In compatibility, set
+                // iosBundleId to the iOS app's bundle identifier so signups
+                // via web/Android register the iOS native audience too.
+                // iosBundleId: 'com.example.yourApp',
+              ),
+            ),
+            x: XOAuthProviderParams(primaryClientId: EnvConfig.xClientId),
+            discord: DiscordOAuthProviderParams(
+                primaryClientId: EnvConfig.discordClientId),
+          ),
         ),
       ),
       onSessionSelected: onSessionSelected,
