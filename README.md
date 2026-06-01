@@ -25,6 +25,45 @@ For a fully functional Flutter demo app that leverages Turnkey's Dart/Flutter pa
 
 Guidelines for setting up the workspace, running tests, and contributing code to the Turnkey Dart SDK
 
+### Background: Dart, Flutter, and Melos
+
+- **Dart** is the language and standalone SDK (`dart` CLI, `dart pub`, `dart test`).
+- **Flutter** is a UI framework that ships with its own bundled Dart SDK. The `flutter` CLI wraps `dart` and adds mobile/web build tooling. Packages that depend on `sdk: flutter` must be used from the Flutter SDK.
+- **Melos** is a monorepo manager for Dart/Flutter. This repo is a workspace of multiple packages (see [Packages](#packages)); melos runs `pub get`, tests, and publishes across all of them in dependency order with a single command.
+
+Because several packages here depend on the Flutter SDK, use `flutter`-based tooling (and the Dart SDK that Flutter bundles) rather than a standalone Dart install.
+
+### Local Setup
+
+**Prerequisites**
+
+- Flutter `>=3.32.0` (bundles Dart `>=3.8.0`, required by `melos ^7.1.1`)
+- `make`
+
+Check your versions:
+
+```bash
+flutter --version
+```
+
+If Dart is older than 3.8, run `flutter upgrade`.
+
+**Bootstrap**
+
+```bash
+git clone https://github.com/tkhq/dart-sdk.git
+cd dart-sdk
+melos bootstrap
+```
+
+`melos bootstrap` resolves and links all workspace packages.
+
+**Run tests**
+
+```bash
+make test
+```
+
 ### Creating a Changeset
 
 1. You can create a new changeset by running:
