@@ -104,4 +104,9 @@ const Map<String, (String, String, String)> VERSIONED_ACTIVITY_TYPES = {
     'v1CreateOauthProvidersIntentV2',
     'v1CreateOauthProvidersResultV2'
   ),
+  'ACTIVITY_TYPE_ETH_SEND_TRANSACTION': (
+    "ACTIVITY_TYPE_ETH_SEND_TRANSACTION",
+    "v1EthSendTransactionIntent",
+    "v1EthSendTransactionResult",
+  ),
 };
