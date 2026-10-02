@@ -107,8 +107,10 @@ extension AuthProxyExtension on TurnkeyProvider {
     try {
       // Derive verificationPublicKey from the token — this is the key bound during verifyOtp()
       // and is what Turnkey expects to sign the client signature for login.
-      final payload = ClientSignature.forLogin(
+      final payload = ClientSignature.forLoginV2(
         verificationToken: verificationToken,
+        organizationId: organizationId,
+        invalidateExisting: invalidateExisting,
       );
       final verificationPublicKey = payload.clientSignaturePublicKey;
 
@@ -191,13 +193,10 @@ extension AuthProxyExtension on TurnkeyProvider {
 
     // Derive verificationPublicKey from the token — this is the key bound during verifyOtp()
     // and is what Turnkey expects to sign the client signature for signup.
-    final payload = ClientSignature.forSignup(
+    final payload = ClientSignature.forSignupV3(
       verificationToken: verificationToken,
-      email: signUpBody.userEmail,
-      phoneNumber: signUpBody.userPhoneNumber,
-      apiKeys: signUpBody.apiKeys,
-      authenticators: signUpBody.authenticators,
-      oauthProviders: signUpBody.oauthProviders,
+      parentOrganizationId: config.organizationId,
+      signup: signUpBody,
     );
     final verificationPublicKey = payload.clientSignaturePublicKey;
 
@@ -242,6 +241,7 @@ extension AuthProxyExtension on TurnkeyProvider {
 
       final otpRes = await loginWithOtp(
         verificationToken: verificationToken,
+        organizationId: signupRes.organizationId,
         invalidateExisting: invalidateExisting,
         sessionKey: sessionKey,
       );
@@ -332,6 +332,7 @@ extension AuthProxyExtension on TurnkeyProvider {
       } else {
         final loginRes = await loginWithOtp(
           verificationToken: verificationToken,
+          organizationId: subOrganizationId,
           invalidateExisting: invalidateExisting,
           sessionKey: sessionKey,
         );

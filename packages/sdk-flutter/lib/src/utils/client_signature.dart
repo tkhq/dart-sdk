@@ -44,6 +44,40 @@ class ClientSignature {
     );
   }
 
+  /// Creates a strict client signature payload for an OTP login request.
+  ///
+  /// The payload binds the final request values. An omitted organization ID is
+  /// represented by the required empty value rather than enclave normalization.
+  static ClientSignaturePayload forLoginV2({
+    required String verificationToken,
+    required String? organizationId,
+    required bool invalidateExisting,
+  }) {
+    final decoded = VerificationToken.fromJwt(verificationToken);
+
+    if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
+      throw Exception("Verification token is missing a public key");
+    }
+
+    final usage = v1LoginUsageV2(
+      organizationId: organizationId ?? '',
+      publicKey: decoded.publicKey!,
+      invalidateExisting: invalidateExisting,
+    );
+    final payload = v1TokenUsage(
+      loginV2: usage,
+      tokenId: decoded.id,
+      type: v1UsageType.usage_type_login,
+    );
+
+    final json = jsonEncode(payload.toJson());
+
+    return ClientSignaturePayload(
+      message: json,
+      clientSignaturePublicKey: decoded.publicKey!,
+    );
+  }
+
   /// Creates a client signature payload for signup
   ///
   /// - Parameters:
@@ -78,6 +112,50 @@ class ClientSignature {
 
     final payload = v1TokenUsage(
       signupV2: usage,
+      tokenId: decoded.id,
+      type: v1UsageType.usage_type_signup,
+    );
+
+    final json = jsonEncode(payload.toJson());
+
+    return ClientSignaturePayload(
+      message: json,
+      clientSignaturePublicKey: decoded.publicKey!,
+    );
+  }
+
+  /// Creates a strict client signature payload for an OTP signup request.
+  ///
+  /// The payload binds the final parent organization and request values. All
+  /// required values are included, including empty collections.
+  static ClientSignaturePayload forSignupV3({
+    required String verificationToken,
+    required String parentOrganizationId,
+    required ProxyTSignupV2Body signup,
+  }) {
+    final decoded = VerificationToken.fromJwt(verificationToken);
+    if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
+      throw Exception("Verification token is missing a public key");
+    }
+
+    final usage = v1SignupUsageV3(
+      parentOrganizationId: parentOrganizationId,
+      subOrganizationName: signup.organizationName ?? '',
+      rootUsers: [
+        v1RootUserParamsV5(
+          userName: signup.userName ?? '',
+          userEmail: signup.userEmail,
+          userPhoneNumber: signup.userPhoneNumber,
+          apiKeys: signup.apiKeys,
+          authenticators: signup.authenticators,
+          oauthProviders: signup.oauthProviders,
+        ),
+      ],
+      rootQuorumThreshold: 1,
+      wallet: signup.wallet,
+    );
+    final payload = v1TokenUsage(
+      signupV3: usage,
       tokenId: decoded.id,
       type: v1UsageType.usage_type_signup,
     );

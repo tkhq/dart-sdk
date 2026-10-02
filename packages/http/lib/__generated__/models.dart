@@ -61,6 +61,7 @@ enum v1ActivityStatus {
   activity_status_failed,
   activity_status_consensus_needed,
   activity_status_rejected,
+  activity_status_authenticators_needed,
 }
 
 v1ActivityStatus v1ActivityStatusFromJson(dynamic value) {
@@ -77,6 +78,8 @@ v1ActivityStatus v1ActivityStatusFromJson(dynamic value) {
       return v1ActivityStatus.activity_status_consensus_needed;
     case 'ACTIVITY_STATUS_REJECTED':
       return v1ActivityStatus.activity_status_rejected;
+    case 'ACTIVITY_STATUS_AUTHENTICATORS_NEEDED':
+      return v1ActivityStatus.activity_status_authenticators_needed;
     default:
       throw ArgumentError('Unknown v1ActivityStatus: $value');
   }
@@ -96,6 +99,8 @@ dynamic v1ActivityStatusToJson(v1ActivityStatus value) {
       return "ACTIVITY_STATUS_CONSENSUS_NEEDED";
     case v1ActivityStatus.activity_status_rejected:
       return "ACTIVITY_STATUS_REJECTED";
+    case v1ActivityStatus.activity_status_authenticators_needed:
+      return "ACTIVITY_STATUS_AUTHENTICATORS_NEEDED";
   }
 }
 
@@ -227,6 +232,49 @@ enum v1ActivityType {
   activity_type_create_webhook_endpoint,
   activity_type_update_webhook_endpoint,
   activity_type_delete_webhook_endpoint,
+  activity_type_set_ip_allowlist,
+  activity_type_remove_ip_allowlist,
+  activity_type_update_tvc_app_live_deployment,
+  activity_type_delete_tvc_deployment,
+  activity_type_delete_tvc_app_and_deployments,
+  activity_type_restore_tvc_deployment,
+  activity_type_spark_sign_frost,
+  activity_type_spark_prepare_transfer,
+  activity_type_spark_claim_transfer,
+  activity_type_spark_prepare_lightning_receive,
+  activity_type_post_tvc_quorum_key_share,
+  activity_type_eth_send_transaction_v2,
+  activity_type_create_mfa_policy,
+  activity_type_update_mfa_policy,
+  activity_type_delete_mfa_policy,
+  activity_type_create_session_profile,
+  activity_type_earn_deploy_wrapper,
+  activity_type_earn_deposit,
+  activity_type_earn_withdraw,
+  activity_type_execute_swap,
+  activity_type_upsert_swap_config,
+  activity_type_create_tvc_operator,
+  activity_type_create_tvc_quorum_key,
+  activity_type_re_encrypt_tvc_quorum_key_share,
+  activity_type_init_import_secrets,
+  activity_type_sol_send_transaction_v2,
+  activity_type_claim_swap_fees,
+  activity_type_earn_set_wrapper_state,
+  activity_type_claim_earn_fees,
+  activity_type_update_wallet_account_name,
+  activity_type_eth_undelegate_7702,
+  activity_type_execute_swap_v2,
+  activity_type_create_swap_quote,
+  activity_type_import_secrets,
+  activity_type_export_secrets,
+  activity_type_create_velocity_control,
+  activity_type_delete_velocity_control,
+  activity_type_update_payment_method,
+  activity_type_create_swap_quote_v2,
+  activity_type_execute_swap_v3,
+  activity_type_delete_secrets,
+  activity_type_earn_claim_rewards,
+  activity_type_create_swap_quote_v3,
 }
 
 v1ActivityType v1ActivityTypeFromJson(dynamic value) {
@@ -485,6 +533,92 @@ v1ActivityType v1ActivityTypeFromJson(dynamic value) {
       return v1ActivityType.activity_type_update_webhook_endpoint;
     case 'ACTIVITY_TYPE_DELETE_WEBHOOK_ENDPOINT':
       return v1ActivityType.activity_type_delete_webhook_endpoint;
+    case 'ACTIVITY_TYPE_SET_IP_ALLOWLIST':
+      return v1ActivityType.activity_type_set_ip_allowlist;
+    case 'ACTIVITY_TYPE_REMOVE_IP_ALLOWLIST':
+      return v1ActivityType.activity_type_remove_ip_allowlist;
+    case 'ACTIVITY_TYPE_UPDATE_TVC_APP_LIVE_DEPLOYMENT':
+      return v1ActivityType.activity_type_update_tvc_app_live_deployment;
+    case 'ACTIVITY_TYPE_DELETE_TVC_DEPLOYMENT':
+      return v1ActivityType.activity_type_delete_tvc_deployment;
+    case 'ACTIVITY_TYPE_DELETE_TVC_APP_AND_DEPLOYMENTS':
+      return v1ActivityType.activity_type_delete_tvc_app_and_deployments;
+    case 'ACTIVITY_TYPE_RESTORE_TVC_DEPLOYMENT':
+      return v1ActivityType.activity_type_restore_tvc_deployment;
+    case 'ACTIVITY_TYPE_SPARK_SIGN_FROST':
+      return v1ActivityType.activity_type_spark_sign_frost;
+    case 'ACTIVITY_TYPE_SPARK_PREPARE_TRANSFER':
+      return v1ActivityType.activity_type_spark_prepare_transfer;
+    case 'ACTIVITY_TYPE_SPARK_CLAIM_TRANSFER':
+      return v1ActivityType.activity_type_spark_claim_transfer;
+    case 'ACTIVITY_TYPE_SPARK_PREPARE_LIGHTNING_RECEIVE':
+      return v1ActivityType.activity_type_spark_prepare_lightning_receive;
+    case 'ACTIVITY_TYPE_POST_TVC_QUORUM_KEY_SHARE':
+      return v1ActivityType.activity_type_post_tvc_quorum_key_share;
+    case 'ACTIVITY_TYPE_ETH_SEND_TRANSACTION_V2':
+      return v1ActivityType.activity_type_eth_send_transaction_v2;
+    case 'ACTIVITY_TYPE_CREATE_MFA_POLICY':
+      return v1ActivityType.activity_type_create_mfa_policy;
+    case 'ACTIVITY_TYPE_UPDATE_MFA_POLICY':
+      return v1ActivityType.activity_type_update_mfa_policy;
+    case 'ACTIVITY_TYPE_DELETE_MFA_POLICY':
+      return v1ActivityType.activity_type_delete_mfa_policy;
+    case 'ACTIVITY_TYPE_CREATE_SESSION_PROFILE':
+      return v1ActivityType.activity_type_create_session_profile;
+    case 'ACTIVITY_TYPE_EARN_DEPLOY_WRAPPER':
+      return v1ActivityType.activity_type_earn_deploy_wrapper;
+    case 'ACTIVITY_TYPE_EARN_DEPOSIT':
+      return v1ActivityType.activity_type_earn_deposit;
+    case 'ACTIVITY_TYPE_EARN_WITHDRAW':
+      return v1ActivityType.activity_type_earn_withdraw;
+    case 'ACTIVITY_TYPE_EXECUTE_SWAP':
+      return v1ActivityType.activity_type_execute_swap;
+    case 'ACTIVITY_TYPE_UPSERT_SWAP_CONFIG':
+      return v1ActivityType.activity_type_upsert_swap_config;
+    case 'ACTIVITY_TYPE_CREATE_TVC_OPERATOR':
+      return v1ActivityType.activity_type_create_tvc_operator;
+    case 'ACTIVITY_TYPE_CREATE_TVC_QUORUM_KEY':
+      return v1ActivityType.activity_type_create_tvc_quorum_key;
+    case 'ACTIVITY_TYPE_RE_ENCRYPT_TVC_QUORUM_KEY_SHARE':
+      return v1ActivityType.activity_type_re_encrypt_tvc_quorum_key_share;
+    case 'ACTIVITY_TYPE_INIT_IMPORT_SECRETS':
+      return v1ActivityType.activity_type_init_import_secrets;
+    case 'ACTIVITY_TYPE_SOL_SEND_TRANSACTION_V2':
+      return v1ActivityType.activity_type_sol_send_transaction_v2;
+    case 'ACTIVITY_TYPE_CLAIM_SWAP_FEES':
+      return v1ActivityType.activity_type_claim_swap_fees;
+    case 'ACTIVITY_TYPE_EARN_SET_WRAPPER_STATE':
+      return v1ActivityType.activity_type_earn_set_wrapper_state;
+    case 'ACTIVITY_TYPE_CLAIM_EARN_FEES':
+      return v1ActivityType.activity_type_claim_earn_fees;
+    case 'ACTIVITY_TYPE_UPDATE_WALLET_ACCOUNT_NAME':
+      return v1ActivityType.activity_type_update_wallet_account_name;
+    case 'ACTIVITY_TYPE_ETH_UNDELEGATE_7702':
+      return v1ActivityType.activity_type_eth_undelegate_7702;
+    case 'ACTIVITY_TYPE_EXECUTE_SWAP_V2':
+      return v1ActivityType.activity_type_execute_swap_v2;
+    case 'ACTIVITY_TYPE_CREATE_SWAP_QUOTE':
+      return v1ActivityType.activity_type_create_swap_quote;
+    case 'ACTIVITY_TYPE_IMPORT_SECRETS':
+      return v1ActivityType.activity_type_import_secrets;
+    case 'ACTIVITY_TYPE_EXPORT_SECRETS':
+      return v1ActivityType.activity_type_export_secrets;
+    case 'ACTIVITY_TYPE_CREATE_VELOCITY_CONTROL':
+      return v1ActivityType.activity_type_create_velocity_control;
+    case 'ACTIVITY_TYPE_DELETE_VELOCITY_CONTROL':
+      return v1ActivityType.activity_type_delete_velocity_control;
+    case 'ACTIVITY_TYPE_UPDATE_PAYMENT_METHOD':
+      return v1ActivityType.activity_type_update_payment_method;
+    case 'ACTIVITY_TYPE_CREATE_SWAP_QUOTE_V2':
+      return v1ActivityType.activity_type_create_swap_quote_v2;
+    case 'ACTIVITY_TYPE_EXECUTE_SWAP_V3':
+      return v1ActivityType.activity_type_execute_swap_v3;
+    case 'ACTIVITY_TYPE_DELETE_SECRETS':
+      return v1ActivityType.activity_type_delete_secrets;
+    case 'ACTIVITY_TYPE_EARN_CLAIM_REWARDS':
+      return v1ActivityType.activity_type_earn_claim_rewards;
+    case 'ACTIVITY_TYPE_CREATE_SWAP_QUOTE_V3':
+      return v1ActivityType.activity_type_create_swap_quote_v3;
     default:
       throw ArgumentError('Unknown v1ActivityType: $value');
   }
@@ -746,6 +880,92 @@ dynamic v1ActivityTypeToJson(v1ActivityType value) {
       return "ACTIVITY_TYPE_UPDATE_WEBHOOK_ENDPOINT";
     case v1ActivityType.activity_type_delete_webhook_endpoint:
       return "ACTIVITY_TYPE_DELETE_WEBHOOK_ENDPOINT";
+    case v1ActivityType.activity_type_set_ip_allowlist:
+      return "ACTIVITY_TYPE_SET_IP_ALLOWLIST";
+    case v1ActivityType.activity_type_remove_ip_allowlist:
+      return "ACTIVITY_TYPE_REMOVE_IP_ALLOWLIST";
+    case v1ActivityType.activity_type_update_tvc_app_live_deployment:
+      return "ACTIVITY_TYPE_UPDATE_TVC_APP_LIVE_DEPLOYMENT";
+    case v1ActivityType.activity_type_delete_tvc_deployment:
+      return "ACTIVITY_TYPE_DELETE_TVC_DEPLOYMENT";
+    case v1ActivityType.activity_type_delete_tvc_app_and_deployments:
+      return "ACTIVITY_TYPE_DELETE_TVC_APP_AND_DEPLOYMENTS";
+    case v1ActivityType.activity_type_restore_tvc_deployment:
+      return "ACTIVITY_TYPE_RESTORE_TVC_DEPLOYMENT";
+    case v1ActivityType.activity_type_spark_sign_frost:
+      return "ACTIVITY_TYPE_SPARK_SIGN_FROST";
+    case v1ActivityType.activity_type_spark_prepare_transfer:
+      return "ACTIVITY_TYPE_SPARK_PREPARE_TRANSFER";
+    case v1ActivityType.activity_type_spark_claim_transfer:
+      return "ACTIVITY_TYPE_SPARK_CLAIM_TRANSFER";
+    case v1ActivityType.activity_type_spark_prepare_lightning_receive:
+      return "ACTIVITY_TYPE_SPARK_PREPARE_LIGHTNING_RECEIVE";
+    case v1ActivityType.activity_type_post_tvc_quorum_key_share:
+      return "ACTIVITY_TYPE_POST_TVC_QUORUM_KEY_SHARE";
+    case v1ActivityType.activity_type_eth_send_transaction_v2:
+      return "ACTIVITY_TYPE_ETH_SEND_TRANSACTION_V2";
+    case v1ActivityType.activity_type_create_mfa_policy:
+      return "ACTIVITY_TYPE_CREATE_MFA_POLICY";
+    case v1ActivityType.activity_type_update_mfa_policy:
+      return "ACTIVITY_TYPE_UPDATE_MFA_POLICY";
+    case v1ActivityType.activity_type_delete_mfa_policy:
+      return "ACTIVITY_TYPE_DELETE_MFA_POLICY";
+    case v1ActivityType.activity_type_create_session_profile:
+      return "ACTIVITY_TYPE_CREATE_SESSION_PROFILE";
+    case v1ActivityType.activity_type_earn_deploy_wrapper:
+      return "ACTIVITY_TYPE_EARN_DEPLOY_WRAPPER";
+    case v1ActivityType.activity_type_earn_deposit:
+      return "ACTIVITY_TYPE_EARN_DEPOSIT";
+    case v1ActivityType.activity_type_earn_withdraw:
+      return "ACTIVITY_TYPE_EARN_WITHDRAW";
+    case v1ActivityType.activity_type_execute_swap:
+      return "ACTIVITY_TYPE_EXECUTE_SWAP";
+    case v1ActivityType.activity_type_upsert_swap_config:
+      return "ACTIVITY_TYPE_UPSERT_SWAP_CONFIG";
+    case v1ActivityType.activity_type_create_tvc_operator:
+      return "ACTIVITY_TYPE_CREATE_TVC_OPERATOR";
+    case v1ActivityType.activity_type_create_tvc_quorum_key:
+      return "ACTIVITY_TYPE_CREATE_TVC_QUORUM_KEY";
+    case v1ActivityType.activity_type_re_encrypt_tvc_quorum_key_share:
+      return "ACTIVITY_TYPE_RE_ENCRYPT_TVC_QUORUM_KEY_SHARE";
+    case v1ActivityType.activity_type_init_import_secrets:
+      return "ACTIVITY_TYPE_INIT_IMPORT_SECRETS";
+    case v1ActivityType.activity_type_sol_send_transaction_v2:
+      return "ACTIVITY_TYPE_SOL_SEND_TRANSACTION_V2";
+    case v1ActivityType.activity_type_claim_swap_fees:
+      return "ACTIVITY_TYPE_CLAIM_SWAP_FEES";
+    case v1ActivityType.activity_type_earn_set_wrapper_state:
+      return "ACTIVITY_TYPE_EARN_SET_WRAPPER_STATE";
+    case v1ActivityType.activity_type_claim_earn_fees:
+      return "ACTIVITY_TYPE_CLAIM_EARN_FEES";
+    case v1ActivityType.activity_type_update_wallet_account_name:
+      return "ACTIVITY_TYPE_UPDATE_WALLET_ACCOUNT_NAME";
+    case v1ActivityType.activity_type_eth_undelegate_7702:
+      return "ACTIVITY_TYPE_ETH_UNDELEGATE_7702";
+    case v1ActivityType.activity_type_execute_swap_v2:
+      return "ACTIVITY_TYPE_EXECUTE_SWAP_V2";
+    case v1ActivityType.activity_type_create_swap_quote:
+      return "ACTIVITY_TYPE_CREATE_SWAP_QUOTE";
+    case v1ActivityType.activity_type_import_secrets:
+      return "ACTIVITY_TYPE_IMPORT_SECRETS";
+    case v1ActivityType.activity_type_export_secrets:
+      return "ACTIVITY_TYPE_EXPORT_SECRETS";
+    case v1ActivityType.activity_type_create_velocity_control:
+      return "ACTIVITY_TYPE_CREATE_VELOCITY_CONTROL";
+    case v1ActivityType.activity_type_delete_velocity_control:
+      return "ACTIVITY_TYPE_DELETE_VELOCITY_CONTROL";
+    case v1ActivityType.activity_type_update_payment_method:
+      return "ACTIVITY_TYPE_UPDATE_PAYMENT_METHOD";
+    case v1ActivityType.activity_type_create_swap_quote_v2:
+      return "ACTIVITY_TYPE_CREATE_SWAP_QUOTE_V2";
+    case v1ActivityType.activity_type_execute_swap_v3:
+      return "ACTIVITY_TYPE_EXECUTE_SWAP_V3";
+    case v1ActivityType.activity_type_delete_secrets:
+      return "ACTIVITY_TYPE_DELETE_SECRETS";
+    case v1ActivityType.activity_type_earn_claim_rewards:
+      return "ACTIVITY_TYPE_EARN_CLAIM_REWARDS";
+    case v1ActivityType.activity_type_create_swap_quote_v3:
+      return "ACTIVITY_TYPE_CREATE_SWAP_QUOTE_V3";
   }
 }
 
@@ -786,6 +1006,8 @@ enum v1AddressFormat {
   address_format_ton_v4r2,
   address_format_ton_v5r1,
   address_format_xrp,
+  address_format_spark_mainnet,
+  address_format_spark_regtest,
 }
 
 v1AddressFormat v1AddressFormatFromJson(dynamic value) {
@@ -862,6 +1084,10 @@ v1AddressFormat v1AddressFormatFromJson(dynamic value) {
       return v1AddressFormat.address_format_ton_v5r1;
     case 'ADDRESS_FORMAT_XRP':
       return v1AddressFormat.address_format_xrp;
+    case 'ADDRESS_FORMAT_SPARK_MAINNET':
+      return v1AddressFormat.address_format_spark_mainnet;
+    case 'ADDRESS_FORMAT_SPARK_REGTEST':
+      return v1AddressFormat.address_format_spark_regtest;
     default:
       throw ArgumentError('Unknown v1AddressFormat: $value');
   }
@@ -941,6 +1167,10 @@ dynamic v1AddressFormatToJson(v1AddressFormat value) {
       return "ADDRESS_FORMAT_TON_V5R1";
     case v1AddressFormat.address_format_xrp:
       return "ADDRESS_FORMAT_XRP";
+    case v1AddressFormat.address_format_spark_mainnet:
+      return "ADDRESS_FORMAT_SPARK_MAINNET";
+    case v1AddressFormat.address_format_spark_regtest:
+      return "ADDRESS_FORMAT_SPARK_REGTEST";
   }
 }
 
@@ -971,6 +1201,51 @@ dynamic v1ApiKeyCurveToJson(v1ApiKeyCurve value) {
       return "API_KEY_CURVE_SECP256K1";
     case v1ApiKeyCurve.api_key_curve_ed25519:
       return "API_KEY_CURVE_ED25519";
+  }
+}
+
+enum v1AuthenticationType {
+  authentication_type_email_otp,
+  authentication_type_sms_otp,
+  authentication_type_passkey,
+  authentication_type_api_key,
+  authentication_type_oauth,
+  authentication_type_session,
+}
+
+v1AuthenticationType v1AuthenticationTypeFromJson(dynamic value) {
+  switch (value) {
+    case 'AUTHENTICATION_TYPE_EMAIL_OTP':
+      return v1AuthenticationType.authentication_type_email_otp;
+    case 'AUTHENTICATION_TYPE_SMS_OTP':
+      return v1AuthenticationType.authentication_type_sms_otp;
+    case 'AUTHENTICATION_TYPE_PASSKEY':
+      return v1AuthenticationType.authentication_type_passkey;
+    case 'AUTHENTICATION_TYPE_API_KEY':
+      return v1AuthenticationType.authentication_type_api_key;
+    case 'AUTHENTICATION_TYPE_OAUTH':
+      return v1AuthenticationType.authentication_type_oauth;
+    case 'AUTHENTICATION_TYPE_SESSION':
+      return v1AuthenticationType.authentication_type_session;
+    default:
+      throw ArgumentError('Unknown v1AuthenticationType: $value');
+  }
+}
+
+dynamic v1AuthenticationTypeToJson(v1AuthenticationType value) {
+  switch (value) {
+    case v1AuthenticationType.authentication_type_email_otp:
+      return "AUTHENTICATION_TYPE_EMAIL_OTP";
+    case v1AuthenticationType.authentication_type_sms_otp:
+      return "AUTHENTICATION_TYPE_SMS_OTP";
+    case v1AuthenticationType.authentication_type_passkey:
+      return "AUTHENTICATION_TYPE_PASSKEY";
+    case v1AuthenticationType.authentication_type_api_key:
+      return "AUTHENTICATION_TYPE_API_KEY";
+    case v1AuthenticationType.authentication_type_oauth:
+      return "AUTHENTICATION_TYPE_OAUTH";
+    case v1AuthenticationType.authentication_type_session:
+      return "AUTHENTICATION_TYPE_SESSION";
   }
 }
 
@@ -1129,6 +1404,36 @@ dynamic v1CurveToJson(v1Curve value) {
   }
 }
 
+enum v1EarnProvider {
+  earn_provider_morpho,
+  earn_provider_aave,
+  earn_provider_kamino,
+}
+
+v1EarnProvider v1EarnProviderFromJson(dynamic value) {
+  switch (value) {
+    case 'EARN_PROVIDER_MORPHO':
+      return v1EarnProvider.earn_provider_morpho;
+    case 'EARN_PROVIDER_AAVE':
+      return v1EarnProvider.earn_provider_aave;
+    case 'EARN_PROVIDER_KAMINO':
+      return v1EarnProvider.earn_provider_kamino;
+    default:
+      throw ArgumentError('Unknown v1EarnProvider: $value');
+  }
+}
+
+dynamic v1EarnProviderToJson(v1EarnProvider value) {
+  switch (value) {
+    case v1EarnProvider.earn_provider_morpho:
+      return "EARN_PROVIDER_MORPHO";
+    case v1EarnProvider.earn_provider_aave:
+      return "EARN_PROVIDER_AAVE";
+    case v1EarnProvider.earn_provider_kamino:
+      return "EARN_PROVIDER_KAMINO";
+  }
+}
+
 enum v1Effect {
   effect_allow,
   effect_deny,
@@ -1164,6 +1469,10 @@ enum v1FeatureName {
   feature_name_otp_email_auth,
   feature_name_auth_proxy,
   feature_name_solana_rent_prefund_enabled,
+  feature_name_swap_config,
+  feature_name_earn_config,
+  feature_name_swap_fee_sponsorship,
+  feature_name_swap_fixed_rate,
 }
 
 v1FeatureName v1FeatureNameFromJson(dynamic value) {
@@ -1186,6 +1495,14 @@ v1FeatureName v1FeatureNameFromJson(dynamic value) {
       return v1FeatureName.feature_name_auth_proxy;
     case 'FEATURE_NAME_SOLANA_RENT_PREFUND_ENABLED':
       return v1FeatureName.feature_name_solana_rent_prefund_enabled;
+    case 'FEATURE_NAME_SWAP_CONFIG':
+      return v1FeatureName.feature_name_swap_config;
+    case 'FEATURE_NAME_EARN_CONFIG':
+      return v1FeatureName.feature_name_earn_config;
+    case 'FEATURE_NAME_SWAP_FEE_SPONSORSHIP':
+      return v1FeatureName.feature_name_swap_fee_sponsorship;
+    case 'FEATURE_NAME_SWAP_FIXED_RATE':
+      return v1FeatureName.feature_name_swap_fixed_rate;
     default:
       throw ArgumentError('Unknown v1FeatureName: $value');
   }
@@ -1211,6 +1528,14 @@ dynamic v1FeatureNameToJson(v1FeatureName value) {
       return "FEATURE_NAME_AUTH_PROXY";
     case v1FeatureName.feature_name_solana_rent_prefund_enabled:
       return "FEATURE_NAME_SOLANA_RENT_PREFUND_ENABLED";
+    case v1FeatureName.feature_name_swap_config:
+      return "FEATURE_NAME_SWAP_CONFIG";
+    case v1FeatureName.feature_name_earn_config:
+      return "FEATURE_NAME_EARN_CONFIG";
+    case v1FeatureName.feature_name_swap_fee_sponsorship:
+      return "FEATURE_NAME_SWAP_FEE_SPONSORSHIP";
+    case v1FeatureName.feature_name_swap_fixed_rate:
+      return "FEATURE_NAME_SWAP_FIXED_RATE";
   }
 }
 
@@ -1789,6 +2114,8 @@ enum v1Outcome {
   outcome_requires_consensus,
   outcome_rejected,
   outcome_error,
+  outcome_requires_authenticators,
+  outcome_time_inactive,
 }
 
 v1Outcome v1OutcomeFromJson(dynamic value) {
@@ -1805,6 +2132,10 @@ v1Outcome v1OutcomeFromJson(dynamic value) {
       return v1Outcome.outcome_rejected;
     case 'OUTCOME_ERROR':
       return v1Outcome.outcome_error;
+    case 'OUTCOME_REQUIRES_AUTHENTICATORS':
+      return v1Outcome.outcome_requires_authenticators;
+    case 'OUTCOME_TIME_INACTIVE':
+      return v1Outcome.outcome_time_inactive;
     default:
       throw ArgumentError('Unknown v1Outcome: $value');
   }
@@ -1824,6 +2155,10 @@ dynamic v1OutcomeToJson(v1Outcome value) {
       return "OUTCOME_REJECTED";
     case v1Outcome.outcome_error:
       return "OUTCOME_ERROR";
+    case v1Outcome.outcome_requires_authenticators:
+      return "OUTCOME_REQUIRES_AUTHENTICATORS";
+    case v1Outcome.outcome_time_inactive:
+      return "OUTCOME_TIME_INACTIVE";
   }
 }
 
@@ -1879,6 +2214,36 @@ dynamic v1PayloadEncodingToJson(v1PayloadEncoding value) {
       return "PAYLOAD_ENCODING_EIP712";
     case v1PayloadEncoding.payload_encoding_eip7702_authorization:
       return "PAYLOAD_ENCODING_EIP7702_AUTHORIZATION";
+  }
+}
+
+enum v1ProvisioningState {
+  provisioning_state_pending,
+  provisioning_state_awaiting_provision,
+  provisioning_state_provisioned,
+}
+
+v1ProvisioningState v1ProvisioningStateFromJson(dynamic value) {
+  switch (value) {
+    case 'PROVISIONING_STATE_PENDING':
+      return v1ProvisioningState.provisioning_state_pending;
+    case 'PROVISIONING_STATE_AWAITING_PROVISION':
+      return v1ProvisioningState.provisioning_state_awaiting_provision;
+    case 'PROVISIONING_STATE_PROVISIONED':
+      return v1ProvisioningState.provisioning_state_provisioned;
+    default:
+      throw ArgumentError('Unknown v1ProvisioningState: $value');
+  }
+}
+
+dynamic v1ProvisioningStateToJson(v1ProvisioningState value) {
+  switch (value) {
+    case v1ProvisioningState.provisioning_state_pending:
+      return "PROVISIONING_STATE_PENDING";
+    case v1ProvisioningState.provisioning_state_awaiting_provision:
+      return "PROVISIONING_STATE_AWAITING_PROVISION";
+    case v1ProvisioningState.provisioning_state_provisioned:
+      return "PROVISIONING_STATE_PROVISIONED";
   }
 }
 
@@ -1974,6 +2339,28 @@ dynamic v1TransactionTypeToJson(v1TransactionType value) {
   }
 }
 
+enum v1TransportEncryptionSuite {
+  transport_encryption_suite_enclave_encrypt_v1,
+}
+
+v1TransportEncryptionSuite v1TransportEncryptionSuiteFromJson(dynamic value) {
+  switch (value) {
+    case 'TRANSPORT_ENCRYPTION_SUITE_ENCLAVE_ENCRYPT_V1':
+      return v1TransportEncryptionSuite
+          .transport_encryption_suite_enclave_encrypt_v1;
+    default:
+      throw ArgumentError('Unknown v1TransportEncryptionSuite: $value');
+  }
+}
+
+dynamic v1TransportEncryptionSuiteToJson(v1TransportEncryptionSuite value) {
+  switch (value) {
+    case v1TransportEncryptionSuite
+          .transport_encryption_suite_enclave_encrypt_v1:
+      return "TRANSPORT_ENCRYPTION_SUITE_ENCLAVE_ENCRYPT_V1";
+  }
+}
+
 enum v1TvcHealthCheckType {
   tvc_health_check_type_http,
   tvc_health_check_type_grpc,
@@ -2024,6 +2411,90 @@ dynamic v1UsageTypeToJson(v1UsageType value) {
   }
 }
 
+enum v1VelocityControlAggregationMethod {
+  velocity_control_aggregation_method_sum,
+  velocity_control_aggregation_method_count,
+}
+
+v1VelocityControlAggregationMethod v1VelocityControlAggregationMethodFromJson(
+    dynamic value) {
+  switch (value) {
+    case 'VELOCITY_CONTROL_AGGREGATION_METHOD_SUM':
+      return v1VelocityControlAggregationMethod
+          .velocity_control_aggregation_method_sum;
+    case 'VELOCITY_CONTROL_AGGREGATION_METHOD_COUNT':
+      return v1VelocityControlAggregationMethod
+          .velocity_control_aggregation_method_count;
+    default:
+      throw ArgumentError('Unknown v1VelocityControlAggregationMethod: $value');
+  }
+}
+
+dynamic v1VelocityControlAggregationMethodToJson(
+    v1VelocityControlAggregationMethod value) {
+  switch (value) {
+    case v1VelocityControlAggregationMethod
+          .velocity_control_aggregation_method_sum:
+      return "VELOCITY_CONTROL_AGGREGATION_METHOD_SUM";
+    case v1VelocityControlAggregationMethod
+          .velocity_control_aggregation_method_count:
+      return "VELOCITY_CONTROL_AGGREGATION_METHOD_COUNT";
+  }
+}
+
+enum v1VelocityControlAggregationOperator {
+  velocity_control_aggregation_operator_less_than,
+  velocity_control_aggregation_operator_less_than_or_equal,
+  velocity_control_aggregation_operator_equal,
+  velocity_control_aggregation_operator_greater_than_or_equal,
+  velocity_control_aggregation_operator_greater_than,
+}
+
+v1VelocityControlAggregationOperator
+    v1VelocityControlAggregationOperatorFromJson(dynamic value) {
+  switch (value) {
+    case 'VELOCITY_CONTROL_AGGREGATION_OPERATOR_LESS_THAN':
+      return v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_less_than;
+    case 'VELOCITY_CONTROL_AGGREGATION_OPERATOR_LESS_THAN_OR_EQUAL':
+      return v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_less_than_or_equal;
+    case 'VELOCITY_CONTROL_AGGREGATION_OPERATOR_EQUAL':
+      return v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_equal;
+    case 'VELOCITY_CONTROL_AGGREGATION_OPERATOR_GREATER_THAN_OR_EQUAL':
+      return v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_greater_than_or_equal;
+    case 'VELOCITY_CONTROL_AGGREGATION_OPERATOR_GREATER_THAN':
+      return v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_greater_than;
+    default:
+      throw ArgumentError(
+          'Unknown v1VelocityControlAggregationOperator: $value');
+  }
+}
+
+dynamic v1VelocityControlAggregationOperatorToJson(
+    v1VelocityControlAggregationOperator value) {
+  switch (value) {
+    case v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_less_than:
+      return "VELOCITY_CONTROL_AGGREGATION_OPERATOR_LESS_THAN";
+    case v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_less_than_or_equal:
+      return "VELOCITY_CONTROL_AGGREGATION_OPERATOR_LESS_THAN_OR_EQUAL";
+    case v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_equal:
+      return "VELOCITY_CONTROL_AGGREGATION_OPERATOR_EQUAL";
+    case v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_greater_than_or_equal:
+      return "VELOCITY_CONTROL_AGGREGATION_OPERATOR_GREATER_THAN_OR_EQUAL";
+    case v1VelocityControlAggregationOperator
+          .velocity_control_aggregation_operator_greater_than:
+      return "VELOCITY_CONTROL_AGGREGATION_OPERATOR_GREATER_THAN";
+  }
+}
+
 class apiApiKeyParams {
   /// Human-readable name for an API Key.
   final String apiKeyName;
@@ -2065,21 +2536,28 @@ class apiApiKeyParams {
 class billingActivateBillingTierIntent {
   /// The product that the customer wants to subscribe to.
   final String productId;
+  final String? orbPlanId;
 
   const billingActivateBillingTierIntent({
     required this.productId,
+    this.orbPlanId,
   });
 
   factory billingActivateBillingTierIntent.fromJson(Map<String, dynamic> json) {
     final _productId = json['productId'] as String;
+    final _orbPlanId = json['orbPlanId'] as String?;
     return billingActivateBillingTierIntent(
       productId: _productId,
+      orbPlanId: _orbPlanId,
     );
   }
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['productId'] = productId;
+    if (orbPlanId != null) {
+      _json['orbPlanId'] = orbPlanId;
+    }
     return _json;
   }
 }
@@ -2279,6 +2757,50 @@ class billingSetPaymentMethodResult {
   }
 }
 
+class billingUpdatePaymentMethodIntent {
+  /// The email that will receive invoices for the payment method.
+  final String paymentEmail;
+
+  const billingUpdatePaymentMethodIntent({
+    required this.paymentEmail,
+  });
+
+  factory billingUpdatePaymentMethodIntent.fromJson(Map<String, dynamic> json) {
+    final _paymentEmail = json['paymentEmail'] as String;
+    return billingUpdatePaymentMethodIntent(
+      paymentEmail: _paymentEmail,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['paymentEmail'] = paymentEmail;
+    return _json;
+  }
+}
+
+class billingUpdatePaymentMethodResult {
+  /// The email address associated with the payment method.
+  final String paymentEmail;
+
+  const billingUpdatePaymentMethodResult({
+    required this.paymentEmail,
+  });
+
+  factory billingUpdatePaymentMethodResult.fromJson(Map<String, dynamic> json) {
+    final _paymentEmail = json['paymentEmail'] as String;
+    return billingUpdatePaymentMethodResult(
+      paymentEmail: _paymentEmail,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['paymentEmail'] = paymentEmail;
+    return _json;
+  }
+}
+
 class datav1Tag {
   /// Unique identifier for a given Tag.
   final String tagId;
@@ -2422,17 +2944,23 @@ class externaldatav1Credential {
   final String publicKey;
   final v1CredentialType type;
 
+  /// The session profile associated with this credential, if any. This field is only applicable for credentials of type CREDENTIAL_TYPE_LOGIN.
+  final String? sessionProfileId;
+
   const externaldatav1Credential({
     required this.publicKey,
     required this.type,
+    this.sessionProfileId,
   });
 
   factory externaldatav1Credential.fromJson(Map<String, dynamic> json) {
     final _publicKey = json['publicKey'] as String;
     final _type = v1CredentialTypeFromJson(json['type']);
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return externaldatav1Credential(
       publicKey: _publicKey,
       type: _type,
+      sessionProfileId: _sessionProfileId,
     );
   }
 
@@ -2440,6 +2968,9 @@ class externaldatav1Credential {
     final _json = <String, dynamic>{};
     _json['publicKey'] = publicKey;
     _json['type'] = v1CredentialTypeToJson(type);
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
+    }
     return _json;
   }
 }
@@ -2815,6 +3346,60 @@ class v1AcceptInvitationResult {
     final _json = <String, dynamic>{};
     _json['invitationId'] = invitationId;
     _json['userId'] = userId;
+    return _json;
+  }
+}
+
+class v1ActivePolicyStatus {
+  /// Unique identifier for the organization the policy belongs to.
+  final String organizationId;
+
+  /// Unique identifier for a given policy.
+  final String policyId;
+
+  /// Whether the policy is currently active. A policy without a time window is always active.
+  final bool active;
+
+  /// The policy's time expression, absent when the policy has no time window.
+  final String? timeExpr;
+
+  /// Set when the policy's time expression could not be evaluated; the policy is reported inactive.
+  final String? error;
+
+  const v1ActivePolicyStatus({
+    required this.organizationId,
+    required this.policyId,
+    required this.active,
+    this.timeExpr,
+    this.error,
+  });
+
+  factory v1ActivePolicyStatus.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _policyId = json['policyId'] as String;
+    final _active = json['active'] as bool;
+    final _timeExpr = json['timeExpr'] as String?;
+    final _error = json['error'] as String?;
+    return v1ActivePolicyStatus(
+      organizationId: _organizationId,
+      policyId: _policyId,
+      active: _active,
+      timeExpr: _timeExpr,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['policyId'] = policyId;
+    _json['active'] = active;
+    if (timeExpr != null) {
+      _json['timeExpr'] = timeExpr;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
     return _json;
   }
 }
@@ -3284,6 +3869,9 @@ class v1AssetBalance {
   /// The asset name
   final String? name;
 
+  /// Solana token program address that owns this mint, inferred from getTokenAccountsByOwner. TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA for classic SPL Token, TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb for Token-2022. Empty for native SOL and non-Solana assets.
+  final String? tokenProgram;
+
   const v1AssetBalance({
     this.caip19,
     this.symbol,
@@ -3291,6 +3879,7 @@ class v1AssetBalance {
     this.decimals,
     this.display,
     this.name,
+    this.tokenProgram,
   });
 
   factory v1AssetBalance.fromJson(Map<String, dynamic> json) {
@@ -3303,6 +3892,7 @@ class v1AssetBalance {
         : v1AssetBalanceDisplay
             .fromJson(json['display'] as Map<String, dynamic>);
     final _name = json['name'] as String?;
+    final _tokenProgram = json['tokenProgram'] as String?;
     return v1AssetBalance(
       caip19: _caip19,
       symbol: _symbol,
@@ -3310,6 +3900,7 @@ class v1AssetBalance {
       decimals: _decimals,
       display: _display,
       name: _name,
+      tokenProgram: _tokenProgram,
     );
   }
 
@@ -3332,6 +3923,9 @@ class v1AssetBalance {
     }
     if (name != null) {
       _json['name'] = name;
+    }
+    if (tokenProgram != null) {
+      _json['tokenProgram'] = tokenProgram;
     }
     return _json;
   }
@@ -3386,12 +3980,20 @@ class v1AssetMetadata {
   /// The asset name
   final String? name;
 
+  /// Whether this asset is on Turnkey's stablecoin list (used for stablepair swap fee pricing).
+  final bool? stable;
+
+  /// Earn yield providers with vaults denominated in this asset. Empty when the asset is not supported by Earn.
+  final List<v1EarnProvider>? earnProviders;
+
   const v1AssetMetadata({
     this.caip19,
     this.symbol,
     this.decimals,
     this.logoUrl,
     this.name,
+    this.stable,
+    this.earnProviders,
   });
 
   factory v1AssetMetadata.fromJson(Map<String, dynamic> json) {
@@ -3400,12 +4002,18 @@ class v1AssetMetadata {
     final _decimals = json['decimals'] as num?;
     final _logoUrl = json['logoUrl'] as String?;
     final _name = json['name'] as String?;
+    final _stable = json['stable'] as bool?;
+    final _earnProviders = (json['earnProviders'] as List?)
+        ?.map((e) => v1EarnProviderFromJson(e))
+        .toList();
     return v1AssetMetadata(
       caip19: _caip19,
       symbol: _symbol,
       decimals: _decimals,
       logoUrl: _logoUrl,
       name: _name,
+      stable: _stable,
+      earnProviders: _earnProviders,
     );
   }
 
@@ -3425,6 +4033,13 @@ class v1AssetMetadata {
     }
     if (name != null) {
       _json['name'] = name;
+    }
+    if (stable != null) {
+      _json['stable'] = stable;
+    }
+    if (earnProviders != null) {
+      _json['earnProviders'] =
+          earnProviders?.map((e) => v1EarnProviderToJson(e)).toList();
     }
     return _json;
   }
@@ -3472,6 +4087,68 @@ class v1Attestation {
     _json['attestationObject'] = attestationObject;
     _json['transports'] =
         transports.map((e) => v1AuthenticatorTransportToJson(e)).toList();
+    return _json;
+  }
+}
+
+class v1AuthenticationMethod {
+  /// The type of authenticator (e.g., AUTHENTICATION_TYPE_EMAIL, AUTHENTICATION_TYPE_SESSION) required for this MFA step.
+  final v1AuthenticationType type;
+
+  /// Optional specific authenticator ID required (e.g., for requiring a specific session profile id)
+  final String? id;
+
+  const v1AuthenticationMethod({
+    required this.type,
+    this.id,
+  });
+
+  factory v1AuthenticationMethod.fromJson(Map<String, dynamic> json) {
+    final _type = v1AuthenticationTypeFromJson(json['type']);
+    final _id = json['id'] as String?;
+    return v1AuthenticationMethod(
+      type: _type,
+      id: _id,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = v1AuthenticationTypeToJson(type);
+    if (id != null) {
+      _json['id'] = id;
+    }
+    return _json;
+  }
+}
+
+class v1AuthenticationMethodParams {
+  /// The type of authenticator (e.g., AUTHENTICATION_TYPE_PASSKEY for passkey authentication).
+  final v1AuthenticationType type;
+
+  /// Optional specific authenticator ID required (e.g., UUID of a passkey authenticator). If not provided, any authenticator of the specified type can be used.
+  final String? id;
+
+  const v1AuthenticationMethodParams({
+    required this.type,
+    this.id,
+  });
+
+  factory v1AuthenticationMethodParams.fromJson(Map<String, dynamic> json) {
+    final _type = v1AuthenticationTypeFromJson(json['type']);
+    final _id = json['id'] as String?;
+    return v1AuthenticationMethodParams(
+      type: _type,
+      id: _id,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = v1AuthenticationTypeToJson(type);
+    if (id != null) {
+      _json['id'] = id;
+    }
     return _json;
   }
 }
@@ -3691,10 +4368,10 @@ class v1BootProof {
   /// The DER encoded COSE Sign1 struct Attestation doc.
   final String awsAttestationDocB64;
 
-  /// The borsch serialized base64 encoded Manifest.
+  /// The base64 encoded QOS manifest. Encoding depends on qos_manifest_version.
   final String qosManifestB64;
 
-  /// The borsch serialized base64 encoded Manifest Envelope.
+  /// The base64 encoded QOS manifest envelope. Encoding depends on qos_manifest_version.
   final String qosManifestEnvelopeB64;
 
   /// The label under which the enclave app was deployed.
@@ -3707,6 +4384,9 @@ class v1BootProof {
   final String owner;
   final externaldatav1Timestamp createdAt;
 
+  /// QOS manifest schema version.
+  final String? qosManifestVersion;
+
   const v1BootProof({
     required this.ephemeralPublicKeyHex,
     required this.awsAttestationDocB64,
@@ -3716,6 +4396,7 @@ class v1BootProof {
     required this.enclaveApp,
     required this.owner,
     required this.createdAt,
+    this.qosManifestVersion,
   });
 
   factory v1BootProof.fromJson(Map<String, dynamic> json) {
@@ -3728,6 +4409,7 @@ class v1BootProof {
     final _owner = json['owner'] as String;
     final _createdAt = externaldatav1Timestamp
         .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _qosManifestVersion = json['qosManifestVersion'] as String?;
     return v1BootProof(
       ephemeralPublicKeyHex: _ephemeralPublicKeyHex,
       awsAttestationDocB64: _awsAttestationDocB64,
@@ -3737,6 +4419,7 @@ class v1BootProof {
       enclaveApp: _enclaveApp,
       owner: _owner,
       createdAt: _createdAt,
+      qosManifestVersion: _qosManifestVersion,
     );
   }
 
@@ -3750,6 +4433,9 @@ class v1BootProof {
     _json['enclaveApp'] = enclaveApp;
     _json['owner'] = owner;
     _json['createdAt'] = createdAt.toJson();
+    if (qosManifestVersion != null) {
+      _json['qosManifestVersion'] = qosManifestVersion;
+    }
     return _json;
   }
 }
@@ -3772,6 +4458,175 @@ class v1BootProofResponse {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['bootProof'] = bootProof.toJson();
+    return _json;
+  }
+}
+
+class v1ClaimEarnFeesIntent {
+  /// Address of the deployed Earn wrapper to claim fees for. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  const v1ClaimEarnFeesIntent({
+    required this.wrapperAddress,
+  });
+
+  factory v1ClaimEarnFeesIntent.fromJson(Map<String, dynamic> json) {
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    return v1ClaimEarnFeesIntent(
+      wrapperAddress: _wrapperAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['wrapperAddress'] = wrapperAddress;
+    return _json;
+  }
+}
+
+class v1ClaimEarnFeesRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1ClaimEarnFeesIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1ClaimEarnFeesRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1ClaimEarnFeesRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1ClaimEarnFeesIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1ClaimEarnFeesRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1ClaimEarnFeesResult {
+  /// Identifier to poll claim status and tx hash via GetClaimEarnFeesStatus.
+  final String claimRequestId;
+
+  const v1ClaimEarnFeesResult({
+    required this.claimRequestId,
+  });
+
+  factory v1ClaimEarnFeesResult.fromJson(Map<String, dynamic> json) {
+    final _claimRequestId = json['claimRequestId'] as String;
+    return v1ClaimEarnFeesResult(
+      claimRequestId: _claimRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['claimRequestId'] = claimRequestId;
+    return _json;
+  }
+}
+
+class v1ClaimSwapFeesIntent {
+  const v1ClaimSwapFeesIntent();
+  factory v1ClaimSwapFeesIntent.fromJson(Map<String, dynamic> json) =>
+      const v1ClaimSwapFeesIntent();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1ClaimSwapFeesRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1ClaimSwapFeesIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1ClaimSwapFeesRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1ClaimSwapFeesRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1ClaimSwapFeesIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1ClaimSwapFeesRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1ClaimSwapFeesResult {
+  /// Relay claim request ID submitted through the permit endpoint.
+  final String requestId;
+
+  const v1ClaimSwapFeesResult({
+    required this.requestId,
+  });
+
+  factory v1ClaimSwapFeesResult.fromJson(Map<String, dynamic> json) {
+    final _requestId = json['requestId'] as String;
+    return v1ClaimSwapFeesResult(
+      requestId: _requestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['requestId'] = requestId;
     return _json;
   }
 }
@@ -4397,6 +5252,134 @@ class v1CreateInvitationsResult {
   }
 }
 
+class v1CreateMfaPolicyIntent {
+  /// The ID of the User to add the MFA Policy to.
+  final String userId;
+
+  /// Human-readable name for a Policy.
+  final String mfaPolicyName;
+
+  /// A condition expression that evaluates to true or false, determining when this MFA policy applies.
+  final String condition;
+
+  /// An ordered list of authentication requirements. Each requirement must be satisfied sequentially to complete MFA.
+  final List<v1RequiredAuthenticationMethodParams>
+      requiredAuthenticationMethods;
+
+  /// The order in which this MFA policy is evaluated, starting from 0, relative to other MFA policies. Lower order values are evaluated first.
+  final num order;
+
+  /// Notes for an MFA Policy.
+  final String? notes;
+
+  const v1CreateMfaPolicyIntent({
+    required this.userId,
+    required this.mfaPolicyName,
+    required this.condition,
+    required this.requiredAuthenticationMethods,
+    required this.order,
+    this.notes,
+  });
+
+  factory v1CreateMfaPolicyIntent.fromJson(Map<String, dynamic> json) {
+    final _userId = json['userId'] as String;
+    final _mfaPolicyName = json['mfaPolicyName'] as String;
+    final _condition = json['condition'] as String;
+    final _requiredAuthenticationMethods =
+        (json['requiredAuthenticationMethods'] as List)
+            .map((e) => v1RequiredAuthenticationMethodParams
+                .fromJson(e as Map<String, dynamic>))
+            .toList();
+    final _order = json['order'] as num;
+    final _notes = json['notes'] as String?;
+    return v1CreateMfaPolicyIntent(
+      userId: _userId,
+      mfaPolicyName: _mfaPolicyName,
+      condition: _condition,
+      requiredAuthenticationMethods: _requiredAuthenticationMethods,
+      order: _order,
+      notes: _notes,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['userId'] = userId;
+    _json['mfaPolicyName'] = mfaPolicyName;
+    _json['condition'] = condition;
+    _json['requiredAuthenticationMethods'] =
+        requiredAuthenticationMethods.map((e) => e.toJson()).toList();
+    _json['order'] = order;
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    return _json;
+  }
+}
+
+class v1CreateMfaPolicyRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateMfaPolicyIntent parameters;
+
+  const v1CreateMfaPolicyRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1CreateMfaPolicyRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateMfaPolicyIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateMfaPolicyRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1CreateMfaPolicyResult {
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  const v1CreateMfaPolicyResult({
+    required this.mfaPolicyId,
+  });
+
+  factory v1CreateMfaPolicyResult.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return v1CreateMfaPolicyResult(
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
 class v1CreateOauth2CredentialIntent {
   /// The OAuth 2.0 provider
   final v1Oauth2Provider provider;
@@ -4974,12 +5957,16 @@ class v1CreatePolicyIntentV3 {
   /// Notes for a Policy.
   final String notes;
 
+  /// The time expression that triggers the Effect
+  final String? time;
+
   const v1CreatePolicyIntentV3({
     required this.policyName,
     required this.effect,
     this.condition,
     this.consensus,
     required this.notes,
+    this.time,
   });
 
   factory v1CreatePolicyIntentV3.fromJson(Map<String, dynamic> json) {
@@ -4988,12 +5975,14 @@ class v1CreatePolicyIntentV3 {
     final _condition = json['condition'] as String?;
     final _consensus = json['consensus'] as String?;
     final _notes = json['notes'] as String;
+    final _time = json['time'] as String?;
     return v1CreatePolicyIntentV3(
       policyName: _policyName,
       effect: _effect,
       condition: _condition,
       consensus: _consensus,
       notes: _notes,
+      time: _time,
     );
   }
 
@@ -5008,6 +5997,9 @@ class v1CreatePolicyIntentV3 {
       _json['consensus'] = consensus;
     }
     _json['notes'] = notes;
+    if (time != null) {
+      _json['time'] = time;
+    }
     return _json;
   }
 }
@@ -5496,7 +6488,7 @@ class v1CreateReadWriteSessionIntentV2 {
   /// Client-side public key generated by the user, to which the read write session bundle (credentials) will be encrypted.
   final String targetPublicKey;
 
-  /// Unique identifier for a given User.
+  /// Optional unique identifier for a given User. If none provided, the read write session will be created for the user who is making the request.
   final String? userId;
 
   /// Optional human-readable name for an API Key. If none provided, default to Read Write Session - <Timestamp>
@@ -5708,6 +6700,116 @@ class v1CreateReadWriteSessionResultV2 {
     _json['username'] = username;
     _json['apiKeyId'] = apiKeyId;
     _json['credentialBundle'] = credentialBundle;
+    return _json;
+  }
+}
+
+class v1CreateSessionProfileIntent {
+  /// Human-readable name for a Session Profile.
+  final String sessionProfileName;
+
+  /// The scope string that defines the permissions for this Session Profile.
+  final String scope;
+
+  /// The duration in seconds for which sessions created with this Session Profile are valid. If not set, expiration will be determined by the value passed in to the intent of login activities.
+  final String? expirationSeconds;
+
+  /// Notes for a Session Profile.
+  final String? notes;
+
+  const v1CreateSessionProfileIntent({
+    required this.sessionProfileName,
+    required this.scope,
+    this.expirationSeconds,
+    this.notes,
+  });
+
+  factory v1CreateSessionProfileIntent.fromJson(Map<String, dynamic> json) {
+    final _sessionProfileName = json['sessionProfileName'] as String;
+    final _scope = json['scope'] as String;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _notes = json['notes'] as String?;
+    return v1CreateSessionProfileIntent(
+      sessionProfileName: _sessionProfileName,
+      scope: _scope,
+      expirationSeconds: _expirationSeconds,
+      notes: _notes,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfileName'] = sessionProfileName;
+    _json['scope'] = scope;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    return _json;
+  }
+}
+
+class v1CreateSessionProfileRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateSessionProfileIntent parameters;
+
+  const v1CreateSessionProfileRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1CreateSessionProfileRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateSessionProfileIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateSessionProfileRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1CreateSessionProfileResult {
+  /// Unique identifier for a given Session Profile.
+  final String sessionProfileId;
+
+  const v1CreateSessionProfileResult({
+    required this.sessionProfileId,
+  });
+
+  factory v1CreateSessionProfileResult.fromJson(Map<String, dynamic> json) {
+    final _sessionProfileId = json['sessionProfileId'] as String;
+    return v1CreateSessionProfileResult(
+      sessionProfileId: _sessionProfileId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfileId'] = sessionProfileId;
     return _json;
   }
 }
@@ -6669,6 +7771,291 @@ class v1CreateSubOrganizationResultV8 {
   }
 }
 
+class v1CreateSwapQuoteIntent {
+  /// Wallet account or Private Key address used to price the executable provider quote. Private Key identifiers are not supported.
+  final String signWith;
+
+  /// CAIP-19 asset ID for the input asset. The chain is derived from this value.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Provider-neutral maximum allowed slippage in basis points. Turnkey converts this value to each provider's request format. When omitted, each provider applies its default slippage behavior.
+  final String? slippageBps;
+
+  const v1CreateSwapQuoteIntent({
+    required this.signWith,
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    this.slippageBps,
+  });
+
+  factory v1CreateSwapQuoteIntent.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _slippageBps = json['slippageBps'] as String?;
+    return v1CreateSwapQuoteIntent(
+      signWith: _signWith,
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      slippageBps: _slippageBps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    if (slippageBps != null) {
+      _json['slippageBps'] = slippageBps;
+    }
+    return _json;
+  }
+}
+
+class v1CreateSwapQuoteIntentV2 {
+  /// Wallet account address used to price the executable provider quote. Private Key identifiers are not supported.
+  final String signWith;
+
+  /// CAIP-19 asset ID for the input asset. The chain is derived from this value.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Provider-neutral maximum allowed slippage in basis points. Turnkey converts this value to each provider's request format. When omitted, each provider applies its default slippage behavior.
+  final String? slippageBps;
+
+  /// Raw public address that receives the output asset. Required for cross-protocol swaps. The address must match the output token protocol. Wallet account IDs, private key IDs, and CAIP account or asset identifiers are not supported.
+  final String? destinationAddress;
+
+  const v1CreateSwapQuoteIntentV2({
+    required this.signWith,
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    this.slippageBps,
+    this.destinationAddress,
+  });
+
+  factory v1CreateSwapQuoteIntentV2.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _slippageBps = json['slippageBps'] as String?;
+    final _destinationAddress = json['destinationAddress'] as String?;
+    return v1CreateSwapQuoteIntentV2(
+      signWith: _signWith,
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      slippageBps: _slippageBps,
+      destinationAddress: _destinationAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    if (slippageBps != null) {
+      _json['slippageBps'] = slippageBps;
+    }
+    if (destinationAddress != null) {
+      _json['destinationAddress'] = destinationAddress;
+    }
+    return _json;
+  }
+}
+
+class v1CreateSwapQuoteIntentV3 {
+  /// Wallet account address used to price the executable provider quote. Private Key identifiers are not supported.
+  final String signWith;
+
+  /// CAIP-19 asset ID for the input asset. The chain is derived from this value.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Provider-neutral maximum allowed slippage in basis points. Turnkey converts this value to each provider's request format. When omitted, each provider applies its default slippage behavior.
+  final String? slippageBps;
+
+  /// Raw public address that receives the output asset. Required for cross-protocol swaps. The address must match the output token protocol. Wallet account IDs, private key IDs, and CAIP account or asset identifiers are not supported.
+  final String? destinationAddress;
+  final bool? feeSponsorship;
+  final bool? fixedRate;
+
+  const v1CreateSwapQuoteIntentV3({
+    required this.signWith,
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    this.slippageBps,
+    this.destinationAddress,
+    this.feeSponsorship,
+    this.fixedRate,
+  });
+
+  factory v1CreateSwapQuoteIntentV3.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _slippageBps = json['slippageBps'] as String?;
+    final _destinationAddress = json['destinationAddress'] as String?;
+    final _feeSponsorship = json['feeSponsorship'] as bool?;
+    final _fixedRate = json['fixedRate'] as bool?;
+    return v1CreateSwapQuoteIntentV3(
+      signWith: _signWith,
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      slippageBps: _slippageBps,
+      destinationAddress: _destinationAddress,
+      feeSponsorship: _feeSponsorship,
+      fixedRate: _fixedRate,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    if (slippageBps != null) {
+      _json['slippageBps'] = slippageBps;
+    }
+    if (destinationAddress != null) {
+      _json['destinationAddress'] = destinationAddress;
+    }
+    if (feeSponsorship != null) {
+      _json['feeSponsorship'] = feeSponsorship;
+    }
+    if (fixedRate != null) {
+      _json['fixedRate'] = fixedRate;
+    }
+    return _json;
+  }
+}
+
+class v1CreateSwapQuoteRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateSwapQuoteIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1CreateSwapQuoteRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1CreateSwapQuoteRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateSwapQuoteIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1CreateSwapQuoteRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1CreateSwapQuoteResult {
+  /// One or more provider quotes for this request. Today this contains a single Relay quote; pass quotes[i].quoteId to execute_swap_v2 to bind execution.
+  final List<v1SwapQuote> quotes;
+
+  const v1CreateSwapQuoteResult({
+    required this.quotes,
+  });
+
+  factory v1CreateSwapQuoteResult.fromJson(Map<String, dynamic> json) {
+    final _quotes = (json['quotes'] as List)
+        .map((e) => v1SwapQuote.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1CreateSwapQuoteResult(
+      quotes: _quotes,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['quotes'] = quotes.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1CreateSwapQuoteResultV2 {
+  final List<v1SwapQuoteV2>? quotes;
+
+  const v1CreateSwapQuoteResultV2({
+    this.quotes,
+  });
+
+  factory v1CreateSwapQuoteResultV2.fromJson(Map<String, dynamic> json) {
+    final _quotes = (json['quotes'] as List?)
+        ?.map((e) => v1SwapQuoteV2.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1CreateSwapQuoteResultV2(
+      quotes: _quotes,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (quotes != null) {
+      _json['quotes'] = quotes?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
 class v1CreateTvcAppIntent {
   /// The name of the new TVC application
   final String name;
@@ -6691,6 +8078,9 @@ class v1CreateTvcAppIntent {
   /// Enables network egress for this TVC app. Default if not provided: false.
   final bool? enableEgress;
 
+  /// When true, this app may create deployments in debug-mode. Debug-mode deployments expose logs and emit zero'd attestation PCRs, so remote attestation cannot succeed. Cannot be changed after app creation. Setting this true means the app's quorum key is considered permanently insecure, and a new app with a fresh quorum key must be created. Default if not provided: false.
+  final bool? enableDebugModeDeployments;
+
   const v1CreateTvcAppIntent({
     required this.name,
     required this.quorumPublicKey,
@@ -6699,6 +8089,7 @@ class v1CreateTvcAppIntent {
     this.shareSetId,
     this.shareSetParams,
     this.enableEgress,
+    this.enableDebugModeDeployments,
   });
 
   factory v1CreateTvcAppIntent.fromJson(Map<String, dynamic> json) {
@@ -6715,6 +8106,8 @@ class v1CreateTvcAppIntent {
         : v1TvcOperatorSetParams
             .fromJson(json['shareSetParams'] as Map<String, dynamic>);
     final _enableEgress = json['enableEgress'] as bool?;
+    final _enableDebugModeDeployments =
+        json['enableDebugModeDeployments'] as bool?;
     return v1CreateTvcAppIntent(
       name: _name,
       quorumPublicKey: _quorumPublicKey,
@@ -6723,6 +8116,7 @@ class v1CreateTvcAppIntent {
       shareSetId: _shareSetId,
       shareSetParams: _shareSetParams,
       enableEgress: _enableEgress,
+      enableDebugModeDeployments: _enableDebugModeDeployments,
     );
   }
 
@@ -6745,6 +8139,50 @@ class v1CreateTvcAppIntent {
     if (enableEgress != null) {
       _json['enableEgress'] = enableEgress;
     }
+    if (enableDebugModeDeployments != null) {
+      _json['enableDebugModeDeployments'] = enableDebugModeDeployments;
+    }
+    return _json;
+  }
+}
+
+class v1CreateTvcAppRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcAppIntent parameters;
+
+  const v1CreateTvcAppRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1CreateTvcAppRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcAppIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateTvcAppRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6762,11 +8200,23 @@ class v1CreateTvcAppResult {
   /// The required number of approvals for the manifest set
   final num manifestSetThreshold;
 
+  /// The unique identifier for the TVC share set
+  final String shareSetId;
+
+  /// The unique identifiers of the share set operators
+  final List<String> shareSetOperatorIds;
+
+  /// The required number of approvals for the share set
+  final num shareSetThreshold;
+
   const v1CreateTvcAppResult({
     required this.appId,
     required this.manifestSetId,
     required this.manifestSetOperatorIds,
     required this.manifestSetThreshold,
+    required this.shareSetId,
+    required this.shareSetOperatorIds,
+    required this.shareSetThreshold,
   });
 
   factory v1CreateTvcAppResult.fromJson(Map<String, dynamic> json) {
@@ -6776,11 +8226,18 @@ class v1CreateTvcAppResult {
         .map((e) => e as String)
         .toList();
     final _manifestSetThreshold = json['manifestSetThreshold'] as num;
+    final _shareSetId = json['shareSetId'] as String;
+    final _shareSetOperatorIds =
+        (json['shareSetOperatorIds'] as List).map((e) => e as String).toList();
+    final _shareSetThreshold = json['shareSetThreshold'] as num;
     return v1CreateTvcAppResult(
       appId: _appId,
       manifestSetId: _manifestSetId,
       manifestSetOperatorIds: _manifestSetOperatorIds,
       manifestSetThreshold: _manifestSetThreshold,
+      shareSetId: _shareSetId,
+      shareSetOperatorIds: _shareSetOperatorIds,
+      shareSetThreshold: _shareSetThreshold,
     );
   }
 
@@ -6790,6 +8247,9 @@ class v1CreateTvcAppResult {
     _json['manifestSetId'] = manifestSetId;
     _json['manifestSetOperatorIds'] = manifestSetOperatorIds;
     _json['manifestSetThreshold'] = manifestSetThreshold;
+    _json['shareSetId'] = shareSetId;
+    _json['shareSetOperatorIds'] = shareSetOperatorIds;
+    _json['shareSetThreshold'] = shareSetThreshold;
     return _json;
   }
 }
@@ -6831,6 +8291,15 @@ class v1CreateTvcDeploymentIntent {
   /// Port to use for public ingress.
   final num publicIngressPort;
 
+  /// Optional desired replica count for this deployment.
+  final num? replicas;
+
+  /// Optional desired instance cpu count.
+  final num? instanceSizeCpus;
+
+  /// Optional desired instance memory size in GiB.
+  final num? instanceSizeRam;
+
   const v1CreateTvcDeploymentIntent({
     required this.appId,
     required this.qosVersion,
@@ -6844,6 +8313,9 @@ class v1CreateTvcDeploymentIntent {
     required this.healthCheckType,
     required this.healthCheckPort,
     required this.publicIngressPort,
+    this.replicas,
+    this.instanceSizeCpus,
+    this.instanceSizeRam,
   });
 
   factory v1CreateTvcDeploymentIntent.fromJson(Map<String, dynamic> json) {
@@ -6862,6 +8334,9 @@ class v1CreateTvcDeploymentIntent {
         v1TvcHealthCheckTypeFromJson(json['healthCheckType']);
     final _healthCheckPort = json['healthCheckPort'] as num;
     final _publicIngressPort = json['publicIngressPort'] as num;
+    final _replicas = json['replicas'] as num?;
+    final _instanceSizeCpus = json['instanceSizeCpus'] as num?;
+    final _instanceSizeRam = json['instanceSizeRam'] as num?;
     return v1CreateTvcDeploymentIntent(
       appId: _appId,
       qosVersion: _qosVersion,
@@ -6875,6 +8350,9 @@ class v1CreateTvcDeploymentIntent {
       healthCheckType: _healthCheckType,
       healthCheckPort: _healthCheckPort,
       publicIngressPort: _publicIngressPort,
+      replicas: _replicas,
+      instanceSizeCpus: _instanceSizeCpus,
+      instanceSizeRam: _instanceSizeRam,
     );
   }
 
@@ -6899,6 +8377,56 @@ class v1CreateTvcDeploymentIntent {
     _json['healthCheckType'] = v1TvcHealthCheckTypeToJson(healthCheckType);
     _json['healthCheckPort'] = healthCheckPort;
     _json['publicIngressPort'] = publicIngressPort;
+    if (replicas != null) {
+      _json['replicas'] = replicas;
+    }
+    if (instanceSizeCpus != null) {
+      _json['instanceSizeCpus'] = instanceSizeCpus;
+    }
+    if (instanceSizeRam != null) {
+      _json['instanceSizeRam'] = instanceSizeRam;
+    }
+    return _json;
+  }
+}
+
+class v1CreateTvcDeploymentRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcDeploymentIntent parameters;
+
+  const v1CreateTvcDeploymentRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1CreateTvcDeploymentRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcDeploymentIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateTvcDeploymentRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
     return _json;
   }
 }
@@ -6964,6 +8492,48 @@ class v1CreateTvcManifestApprovalsIntent {
   }
 }
 
+class v1CreateTvcManifestApprovalsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcManifestApprovalsIntent parameters;
+
+  const v1CreateTvcManifestApprovalsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1CreateTvcManifestApprovalsRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcManifestApprovalsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1CreateTvcManifestApprovalsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
 class v1CreateTvcManifestApprovalsResult {
   /// The unique identifier(s) for the manifest approvals
   final List<String> approvalIds;
@@ -6984,6 +8554,259 @@ class v1CreateTvcManifestApprovalsResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['approvalIds'] = approvalIds;
+    return _json;
+  }
+}
+
+class v1CreateTvcOperatorIntent {
+  /// Human-readable name for a new wallet created for this TVC operator
+  final String? walletName;
+
+  /// Unique identifier for an existing wallet to reuse for this TVC operator
+  final String? walletId;
+
+  /// Base derivation path for creating TVC operator wallet accounts
+  final String path;
+
+  /// Human-readable name for this new TVC operator
+  final String operatorName;
+
+  const v1CreateTvcOperatorIntent({
+    this.walletName,
+    this.walletId,
+    required this.path,
+    required this.operatorName,
+  });
+
+  factory v1CreateTvcOperatorIntent.fromJson(Map<String, dynamic> json) {
+    final _walletName = json['walletName'] as String?;
+    final _walletId = json['walletId'] as String?;
+    final _path = json['path'] as String;
+    final _operatorName = json['operatorName'] as String;
+    return v1CreateTvcOperatorIntent(
+      walletName: _walletName,
+      walletId: _walletId,
+      path: _path,
+      operatorName: _operatorName,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (walletName != null) {
+      _json['walletName'] = walletName;
+    }
+    if (walletId != null) {
+      _json['walletId'] = walletId;
+    }
+    _json['path'] = path;
+    _json['operatorName'] = operatorName;
+    return _json;
+  }
+}
+
+class v1CreateTvcOperatorRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcOperatorIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1CreateTvcOperatorRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1CreateTvcOperatorRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcOperatorIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1CreateTvcOperatorRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1CreateTvcOperatorResult {
+  /// The unique identifier for the wallet containing TVC operator accounts
+  final String walletId;
+
+  /// The unique identifier for the TVC operator
+  final String operatorId;
+
+  /// Public encryption key for this TVC operator
+  final String encryptPublicKey;
+
+  /// Public signing key for this TVC operator
+  final String signPublicKey;
+
+  const v1CreateTvcOperatorResult({
+    required this.walletId,
+    required this.operatorId,
+    required this.encryptPublicKey,
+    required this.signPublicKey,
+  });
+
+  factory v1CreateTvcOperatorResult.fromJson(Map<String, dynamic> json) {
+    final _walletId = json['walletId'] as String;
+    final _operatorId = json['operatorId'] as String;
+    final _encryptPublicKey = json['encryptPublicKey'] as String;
+    final _signPublicKey = json['signPublicKey'] as String;
+    return v1CreateTvcOperatorResult(
+      walletId: _walletId,
+      operatorId: _operatorId,
+      encryptPublicKey: _encryptPublicKey,
+      signPublicKey: _signPublicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['walletId'] = walletId;
+    _json['operatorId'] = operatorId;
+    _json['encryptPublicKey'] = encryptPublicKey;
+    _json['signPublicKey'] = signPublicKey;
+    return _json;
+  }
+}
+
+class v1CreateTvcQuorumKeyIntent {
+  /// The threshold of operators needed to reassemble this TVC quorum key
+  final num threshold;
+
+  /// Operator public keys used to encrypt and later approve the generated TVC quorum key shares
+  final List<String> operatorEncryptKeys;
+
+  const v1CreateTvcQuorumKeyIntent({
+    required this.threshold,
+    required this.operatorEncryptKeys,
+  });
+
+  factory v1CreateTvcQuorumKeyIntent.fromJson(Map<String, dynamic> json) {
+    final _threshold = json['threshold'] as num;
+    final _operatorEncryptKeys =
+        (json['operatorEncryptKeys'] as List).map((e) => e as String).toList();
+    return v1CreateTvcQuorumKeyIntent(
+      threshold: _threshold,
+      operatorEncryptKeys: _operatorEncryptKeys,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['threshold'] = threshold;
+    _json['operatorEncryptKeys'] = operatorEncryptKeys;
+    return _json;
+  }
+}
+
+class v1CreateTvcQuorumKeyRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1CreateTvcQuorumKeyIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1CreateTvcQuorumKeyRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1CreateTvcQuorumKeyRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1CreateTvcQuorumKeyIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1CreateTvcQuorumKeyRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1CreateTvcQuorumKeyResult {
+  /// The unique identifier for the TVC quorum key
+  final String quorumKeyId;
+
+  /// Public key for the generated TVC quorum key
+  final String quorumPublicKey;
+
+  /// The unique identifier(s) for the generated TVC quorum key shares
+  final List<String> shareIds;
+
+  const v1CreateTvcQuorumKeyResult({
+    required this.quorumKeyId,
+    required this.quorumPublicKey,
+    required this.shareIds,
+  });
+
+  factory v1CreateTvcQuorumKeyResult.fromJson(Map<String, dynamic> json) {
+    final _quorumKeyId = json['quorumKeyId'] as String;
+    final _quorumPublicKey = json['quorumPublicKey'] as String;
+    final _shareIds =
+        (json['shareIds'] as List).map((e) => e as String).toList();
+    return v1CreateTvcQuorumKeyResult(
+      quorumKeyId: _quorumKeyId,
+      quorumPublicKey: _quorumPublicKey,
+      shareIds: _shareIds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['quorumKeyId'] = quorumKeyId;
+    _json['quorumPublicKey'] = quorumPublicKey;
+    _json['shareIds'] = shareIds;
     return _json;
   }
 }
@@ -7256,6 +9079,72 @@ class v1CreateUsersResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['userIds'] = userIds;
+    return _json;
+  }
+}
+
+class v1CreateVelocityControlIntent {
+  /// Human-readable name for the Velocity Control.
+  final String name;
+
+  /// Data source for the Velocity Control.
+  final v1VelocityControlDataSource dataSource;
+
+  /// Aggregation expression that the Velocity Control evaluates.
+  final v1VelocityControlAggregation aggregation;
+
+  /// Identifier for the Velocity Control. Policies reference it as `controls.<identifier>`. It must be unique within the Organization.
+  final String identifier;
+
+  const v1CreateVelocityControlIntent({
+    required this.name,
+    required this.dataSource,
+    required this.aggregation,
+    required this.identifier,
+  });
+
+  factory v1CreateVelocityControlIntent.fromJson(Map<String, dynamic> json) {
+    final _name = json['name'] as String;
+    final _dataSource = v1VelocityControlDataSource
+        .fromJson(json['dataSource'] as Map<String, dynamic>);
+    final _aggregation = v1VelocityControlAggregation
+        .fromJson(json['aggregation'] as Map<String, dynamic>);
+    final _identifier = json['identifier'] as String;
+    return v1CreateVelocityControlIntent(
+      name: _name,
+      dataSource: _dataSource,
+      aggregation: _aggregation,
+      identifier: _identifier,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['name'] = name;
+    _json['dataSource'] = dataSource.toJson();
+    _json['aggregation'] = aggregation.toJson();
+    _json['identifier'] = identifier;
+    return _json;
+  }
+}
+
+class v1CreateVelocityControlResult {
+  final String velocityControlId;
+
+  const v1CreateVelocityControlResult({
+    required this.velocityControlId,
+  });
+
+  factory v1CreateVelocityControlResult.fromJson(Map<String, dynamic> json) {
+    final _velocityControlId = json['velocityControlId'] as String;
+    return v1CreateVelocityControlResult(
+      velocityControlId: _velocityControlId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['velocityControlId'] = velocityControlId;
     return _json;
   }
 }
@@ -8052,6 +9941,98 @@ class v1DeleteInvitationResult {
   }
 }
 
+class v1DeleteMfaPolicyIntent {
+  /// The ID of the User to delete the MFA Policy from.
+  final String userId;
+
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  const v1DeleteMfaPolicyIntent({
+    required this.userId,
+    required this.mfaPolicyId,
+  });
+
+  factory v1DeleteMfaPolicyIntent.fromJson(Map<String, dynamic> json) {
+    final _userId = json['userId'] as String;
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return v1DeleteMfaPolicyIntent(
+      userId: _userId,
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['userId'] = userId;
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
+class v1DeleteMfaPolicyRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1DeleteMfaPolicyIntent parameters;
+
+  const v1DeleteMfaPolicyRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1DeleteMfaPolicyRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1DeleteMfaPolicyIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1DeleteMfaPolicyRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1DeleteMfaPolicyResult {
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  const v1DeleteMfaPolicyResult({
+    required this.mfaPolicyId,
+  });
+
+  factory v1DeleteMfaPolicyResult.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return v1DeleteMfaPolicyResult(
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
 class v1DeleteOauth2CredentialIntent {
   /// The ID of the OAuth 2.0 credential to delete
   final String oauth2CredentialId;
@@ -8680,6 +10661,93 @@ class v1DeletePrivateKeysResult {
   }
 }
 
+class v1DeleteSecretsIntent {
+  /// Unique identifiers of the secrets to delete. Must contain between 1 and 32 distinct UUIDs. All secrets must belong to the organization.
+  final List<String> secretIds;
+
+  const v1DeleteSecretsIntent({
+    required this.secretIds,
+  });
+
+  factory v1DeleteSecretsIntent.fromJson(Map<String, dynamic> json) {
+    final _secretIds =
+        (json['secretIds'] as List).map((e) => e as String).toList();
+    return v1DeleteSecretsIntent(
+      secretIds: _secretIds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secretIds'] = secretIds;
+    return _json;
+  }
+}
+
+class v1DeleteSecretsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1DeleteSecretsIntent parameters;
+
+  const v1DeleteSecretsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1DeleteSecretsRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1DeleteSecretsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1DeleteSecretsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1DeleteSecretsResult {
+  /// Unique identifiers of the deleted secrets, in the order requested.
+  final List<String> secretIds;
+
+  const v1DeleteSecretsResult({
+    required this.secretIds,
+  });
+
+  factory v1DeleteSecretsResult.fromJson(Map<String, dynamic> json) {
+    final _secretIds =
+        (json['secretIds'] as List).map((e) => e as String).toList();
+    return v1DeleteSecretsResult(
+      secretIds: _secretIds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secretIds'] = secretIds;
+    return _json;
+  }
+}
+
 class v1DeleteSmartContractInterfaceIntent {
   /// The ID of a Smart Contract Interface intended for deletion.
   final String smartContractInterfaceId;
@@ -8867,6 +10935,193 @@ class v1DeleteSubOrganizationResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['subOrganizationUuid'] = subOrganizationUuid;
+    return _json;
+  }
+}
+
+class v1DeleteTvcAppAndDeploymentsIntent {
+  /// The unique identifier of the TVC app to delete. The app and all associated deployments will be removed.
+  final String appId;
+
+  const v1DeleteTvcAppAndDeploymentsIntent({
+    required this.appId,
+  });
+
+  factory v1DeleteTvcAppAndDeploymentsIntent.fromJson(
+      Map<String, dynamic> json) {
+    final _appId = json['appId'] as String;
+    return v1DeleteTvcAppAndDeploymentsIntent(
+      appId: _appId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class v1DeleteTvcAppAndDeploymentsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1DeleteTvcAppAndDeploymentsIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1DeleteTvcAppAndDeploymentsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1DeleteTvcAppAndDeploymentsRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1DeleteTvcAppAndDeploymentsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1DeleteTvcAppAndDeploymentsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1DeleteTvcAppAndDeploymentsResult {
+  /// The unique identifier of the deleted TVC app.
+  final String appId;
+
+  const v1DeleteTvcAppAndDeploymentsResult({
+    required this.appId,
+  });
+
+  factory v1DeleteTvcAppAndDeploymentsResult.fromJson(
+      Map<String, dynamic> json) {
+    final _appId = json['appId'] as String;
+    return v1DeleteTvcAppAndDeploymentsResult(
+      appId: _appId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class v1DeleteTvcDeploymentIntent {
+  /// The unique identifier of the TVC deployment to delete.
+  final String deploymentId;
+
+  const v1DeleteTvcDeploymentIntent({
+    required this.deploymentId,
+  });
+
+  factory v1DeleteTvcDeploymentIntent.fromJson(Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    return v1DeleteTvcDeploymentIntent(
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class v1DeleteTvcDeploymentRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1DeleteTvcDeploymentIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1DeleteTvcDeploymentRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1DeleteTvcDeploymentRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1DeleteTvcDeploymentIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1DeleteTvcDeploymentRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1DeleteTvcDeploymentResult {
+  /// The unique identifier of the deleted TVC deployment.
+  final String deploymentId;
+
+  const v1DeleteTvcDeploymentResult({
+    required this.deploymentId,
+  });
+
+  factory v1DeleteTvcDeploymentResult.fromJson(Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    return v1DeleteTvcDeploymentResult(
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
     return _json;
   }
 }
@@ -9060,6 +11315,48 @@ class v1DeleteUsersResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['userIds'] = userIds;
+    return _json;
+  }
+}
+
+class v1DeleteVelocityControlIntent {
+  final String velocityControlId;
+
+  const v1DeleteVelocityControlIntent({
+    required this.velocityControlId,
+  });
+
+  factory v1DeleteVelocityControlIntent.fromJson(Map<String, dynamic> json) {
+    final _velocityControlId = json['velocityControlId'] as String;
+    return v1DeleteVelocityControlIntent(
+      velocityControlId: _velocityControlId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['velocityControlId'] = velocityControlId;
+    return _json;
+  }
+}
+
+class v1DeleteVelocityControlResult {
+  final String velocityControlId;
+
+  const v1DeleteVelocityControlResult({
+    required this.velocityControlId,
+  });
+
+  factory v1DeleteVelocityControlResult.fromJson(Map<String, dynamic> json) {
+    final _velocityControlId = json['velocityControlId'] as String;
+    return v1DeleteVelocityControlResult(
+      velocityControlId: _velocityControlId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['velocityControlId'] = velocityControlId;
     return _json;
   }
 }
@@ -9375,11 +11672,15 @@ class v1DeploymentStatus {
   /// Last time this deployment was updated
   final externaldatav1Timestamp lastUpdatedTime;
 
+  /// Current quorum-key provisioning state for this deployment
+  final v1ProvisioningState provisioningState;
+
   const v1DeploymentStatus({
     required this.deploymentId,
     required this.readyReplicas,
     required this.desiredReplicas,
     required this.lastUpdatedTime,
+    required this.provisioningState,
   });
 
   factory v1DeploymentStatus.fromJson(Map<String, dynamic> json) {
@@ -9388,11 +11689,14 @@ class v1DeploymentStatus {
     final _desiredReplicas = json['desiredReplicas'] as num;
     final _lastUpdatedTime = externaldatav1Timestamp
         .fromJson(json['lastUpdatedTime'] as Map<String, dynamic>);
+    final _provisioningState =
+        v1ProvisioningStateFromJson(json['provisioningState']);
     return v1DeploymentStatus(
       deploymentId: _deploymentId,
       readyReplicas: _readyReplicas,
       desiredReplicas: _desiredReplicas,
       lastUpdatedTime: _lastUpdatedTime,
+      provisioningState: _provisioningState,
     );
   }
 
@@ -9402,6 +11706,7 @@ class v1DeploymentStatus {
     _json['readyReplicas'] = readyReplicas;
     _json['desiredReplicas'] = desiredReplicas;
     _json['lastUpdatedTime'] = lastUpdatedTime.toJson();
+    _json['provisioningState'] = v1ProvisioningStateToJson(provisioningState);
     return _json;
   }
 }
@@ -9460,6 +11765,1419 @@ class v1DisablePrivateKeyResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['privateKeyId'] = privateKeyId;
+    return _json;
+  }
+}
+
+class v1EarnClaimRewardsIntent {
+  /// A Turnkey-managed wallet address the rewards are attributed to. The claim transaction is signed by this wallet and the Merkl Distributor transfers every reward token to it.
+  final String signWith;
+
+  /// CAIP-2 chain to claim rewards on (e.g. 'eip155:8453'). Rewards accrue per chain; see ListEarnRewards.
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  const v1EarnClaimRewardsIntent({
+    required this.signWith,
+    required this.caip2,
+    this.sponsor,
+  });
+
+  factory v1EarnClaimRewardsIntent.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    return v1EarnClaimRewardsIntent(
+      signWith: _signWith,
+      caip2: _caip2,
+      sponsor: _sponsor,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    return _json;
+  }
+}
+
+class v1EarnClaimRewardsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EarnClaimRewardsIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EarnClaimRewardsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1EarnClaimRewardsRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EarnClaimRewardsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EarnClaimRewardsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EarnClaimRewardsResult {
+  /// Identifier to poll claim status and tx hash via GetEarnClaimRewardsStatus.
+  final String claimRequestId;
+
+  const v1EarnClaimRewardsResult({
+    required this.claimRequestId,
+  });
+
+  factory v1EarnClaimRewardsResult.fromJson(Map<String, dynamic> json) {
+    final _claimRequestId = json['claimRequestId'] as String;
+    return v1EarnClaimRewardsResult(
+      claimRequestId: _claimRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['claimRequestId'] = claimRequestId;
+    return _json;
+  }
+}
+
+class v1EarnDeployWrapperIntent {
+  /// Address of the underlying yield vault to wrap (from the ListEarnVaults catalog).
+  final String vaultAddress;
+
+  /// CAIP-2 chain ID the vault lives on (e.g., 'eip155:8453' for Base).
+  final String caip2;
+
+  /// Your fee on gross yield, in basis points (e.g., '2000' for 20%). Maximum is 4000 (40%).
+  final String clientFeeBps;
+
+  /// The wallet address that receives the client's fee payouts on-chain. Must be a Turnkey-managed wallet address.
+  final String clientFeeWallet;
+
+  const v1EarnDeployWrapperIntent({
+    required this.vaultAddress,
+    required this.caip2,
+    required this.clientFeeBps,
+    required this.clientFeeWallet,
+  });
+
+  factory v1EarnDeployWrapperIntent.fromJson(Map<String, dynamic> json) {
+    final _vaultAddress = json['vaultAddress'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _clientFeeBps = json['clientFeeBps'] as String;
+    final _clientFeeWallet = json['clientFeeWallet'] as String;
+    return v1EarnDeployWrapperIntent(
+      vaultAddress: _vaultAddress,
+      caip2: _caip2,
+      clientFeeBps: _clientFeeBps,
+      clientFeeWallet: _clientFeeWallet,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['vaultAddress'] = vaultAddress;
+    _json['caip2'] = caip2;
+    _json['clientFeeBps'] = clientFeeBps;
+    _json['clientFeeWallet'] = clientFeeWallet;
+    return _json;
+  }
+}
+
+class v1EarnDeployWrapperRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EarnDeployWrapperIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EarnDeployWrapperRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1EarnDeployWrapperRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EarnDeployWrapperIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EarnDeployWrapperRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EarnDeployWrapperResult {
+  /// Address of the deployed fee wrapper (the deposit target).
+  final String wrapperAddress;
+
+  /// Address of the deployed fee splitter (PaymentSplitter for Morpho, RevenueSplitterOwner for Aave).
+  final String splitterAddress;
+
+  /// Identifier to poll deploy status.
+  final String deployRequestId;
+
+  const v1EarnDeployWrapperResult({
+    required this.wrapperAddress,
+    required this.splitterAddress,
+    required this.deployRequestId,
+  });
+
+  factory v1EarnDeployWrapperResult.fromJson(Map<String, dynamic> json) {
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _splitterAddress = json['splitterAddress'] as String;
+    final _deployRequestId = json['deployRequestId'] as String;
+    return v1EarnDeployWrapperResult(
+      wrapperAddress: _wrapperAddress,
+      splitterAddress: _splitterAddress,
+      deployRequestId: _deployRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['splitterAddress'] = splitterAddress;
+    _json['deployRequestId'] = deployRequestId;
+    return _json;
+  }
+}
+
+class v1EarnDepositIntent {
+  /// Address of the deployed Earn wrapper to deposit into, from ListEarnVaults/ListEarnPositions. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  /// A Wallet account address or Private Key address to deposit from and sign with. Must be an on-chain address; Private Key identifiers are not supported.
+  final String signWith;
+
+  /// Amount of the underlying asset to deposit, in raw on-chain units (e.g., '1000000' for 1 USDC at 6 decimals).
+  final String assets;
+
+  /// CAIP-2 chain ID the vault lives on (e.g., 'eip155:8453' for Base).
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  const v1EarnDepositIntent({
+    required this.wrapperAddress,
+    required this.signWith,
+    required this.assets,
+    required this.caip2,
+    this.sponsor,
+  });
+
+  factory v1EarnDepositIntent.fromJson(Map<String, dynamic> json) {
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _signWith = json['signWith'] as String;
+    final _assets = json['assets'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    return v1EarnDepositIntent(
+      wrapperAddress: _wrapperAddress,
+      signWith: _signWith,
+      assets: _assets,
+      caip2: _caip2,
+      sponsor: _sponsor,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['signWith'] = signWith;
+    _json['assets'] = assets;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    return _json;
+  }
+}
+
+class v1EarnDepositRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EarnDepositIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EarnDepositRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1EarnDepositRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EarnDepositIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EarnDepositRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EarnDepositResult {
+  /// Identifier to poll deposit status and tx hash via GetEarnDepositStatus.
+  final String depositRequestId;
+
+  const v1EarnDepositResult({
+    required this.depositRequestId,
+  });
+
+  factory v1EarnDepositResult.fromJson(Map<String, dynamic> json) {
+    final _depositRequestId = json['depositRequestId'] as String;
+    return v1EarnDepositResult(
+      depositRequestId: _depositRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['depositRequestId'] = depositRequestId;
+    return _json;
+  }
+}
+
+class v1EarnEnabledVault {
+  /// Address of the underlying yield vault.
+  final String? vaultAddress;
+
+  /// Address of the deployed fee wrapper (the deposit target).
+  final String? wrapperAddress;
+
+  /// Yield provider for the vault.
+  final v1EarnProvider? provider;
+
+  /// CAIP-19 asset ID of the vault's underlying asset (e.g. 'eip155:8453/erc20:0x833589...'); the chain is encoded in the identifier.
+  final String? caip19;
+
+  /// Gross annual percentage yield, expressed as a decimal fraction (before fees).
+  final String? apyPct;
+
+  /// Total deposited through this wrapper (wrapper TVL), in raw on-chain units of the underlying asset.
+  final String? totalDeposited;
+
+  /// Normalized total-deposited values for display only (usd + crypto). Do not do arithmetic with these; use total_deposited instead.
+  final v1EarnValueDisplay? display;
+
+  /// Annual percentage yield net of fees, expressed as a decimal fraction.
+  final String? netApyPct;
+
+  /// Client fee taken on yield, in basis points.
+  final String? clientFeeBps;
+
+  /// When true, deposits to this wrapper are rejected; withdrawals are unaffected. Toggled via EarnSetWrapperState.
+  final bool? depositsDisabled;
+
+  /// Human-readable vault name from the provider (e.g. 'Steakhouse Prime USDC' for Morpho; the reserve symbol for Aave).
+  final String? name;
+
+  /// Vault curator name(s), comma-separated when a vault has multiple. Empty for providers without curators (e.g. Aave).
+  final String? curator;
+
+  /// The client's claimable fee (releasable now), in raw on-chain units of the underlying asset (the caip19 asset). Turnkey's fee is excluded. Only returned to the parent org; unset when a sub-org queries.
+  final String? claimableClientFee;
+
+  /// Normalized claimable_client_fee for display only (usd + crypto). Do not do arithmetic with these; use claimable_client_fee. Unset when a sub-org queries.
+  final v1EarnValueDisplay? claimableClientFeeDisplay;
+
+  /// The wallet address that receives the client's fee payouts on-chain. Unset when a sub-org queries.
+  final String? clientFeeWallet;
+
+  /// Assets currently withdrawable from the underlying vault without a reallocation, in raw on-chain units of the underlying asset. This is the vault's liquidity, not the wrapper's balance. Empty when the provider does not report it.
+  final String? liquidity;
+
+  /// Normalized liquidity values for display purposes only (usd + crypto). Do not do arithmetic with these; use liquidity instead.
+  final v1EarnValueDisplay? liquidityDisplay;
+
+  /// The underlying markets the vault allocates into, ranked by supplied amount descending. Only populated when the request sets include_exposure, and only for providers that expose an allocation breakdown (Morpho).
+  final List<v1EarnVaultExposure>? exposures;
+
+  /// Additional assets withdrawable from the underlying vault by force-deallocating its non-liquidity adapters at zero penalty, in raw on-chain units of the underlying asset. Additive to liquidity. Empty when the provider does not report it.
+  final String? forceDeallocatableLiquidity;
+
+  /// Normalized force-deallocatable liquidity values for display purposes only (usd + crypto). Do not do arithmetic with these; use force_deallocatable_liquidity instead.
+  final v1EarnValueDisplay? forceDeallocatableLiquidityDisplay;
+
+  /// On-chain status of the wrapper deployment: PENDING, COMPLETED, or FAILED. Only a COMPLETED wrapper is usable. Empty when no deploy is recorded for the wrapper.
+  final String? deployStatus;
+
+  /// Request id of the wrapper's most recent deploy, for polling GetEarnDeployStatus. Empty when no deploy is recorded.
+  final String? deployRequestId;
+
+  /// Failure detail when deploy_status is FAILED.
+  final String? deployError;
+
+  const v1EarnEnabledVault({
+    this.vaultAddress,
+    this.wrapperAddress,
+    this.provider,
+    this.caip19,
+    this.apyPct,
+    this.totalDeposited,
+    this.display,
+    this.netApyPct,
+    this.clientFeeBps,
+    this.depositsDisabled,
+    this.name,
+    this.curator,
+    this.claimableClientFee,
+    this.claimableClientFeeDisplay,
+    this.clientFeeWallet,
+    this.liquidity,
+    this.liquidityDisplay,
+    this.exposures,
+    this.forceDeallocatableLiquidity,
+    this.forceDeallocatableLiquidityDisplay,
+    this.deployStatus,
+    this.deployRequestId,
+    this.deployError,
+  });
+
+  factory v1EarnEnabledVault.fromJson(Map<String, dynamic> json) {
+    final _vaultAddress = json['vaultAddress'] as String?;
+    final _wrapperAddress = json['wrapperAddress'] as String?;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String?;
+    final _apyPct = json['apyPct'] as String?;
+    final _totalDeposited = json['totalDeposited'] as String?;
+    final _display = json['display'] == null
+        ? null
+        : v1EarnValueDisplay.fromJson(json['display'] as Map<String, dynamic>);
+    final _netApyPct = json['netApyPct'] as String?;
+    final _clientFeeBps = json['clientFeeBps'] as String?;
+    final _depositsDisabled = json['depositsDisabled'] as bool?;
+    final _name = json['name'] as String?;
+    final _curator = json['curator'] as String?;
+    final _claimableClientFee = json['claimableClientFee'] as String?;
+    final _claimableClientFeeDisplay = json['claimableClientFeeDisplay'] == null
+        ? null
+        : v1EarnValueDisplay.fromJson(
+            json['claimableClientFeeDisplay'] as Map<String, dynamic>);
+    final _clientFeeWallet = json['clientFeeWallet'] as String?;
+    final _liquidity = json['liquidity'] as String?;
+    final _liquidityDisplay = json['liquidityDisplay'] == null
+        ? null
+        : v1EarnValueDisplay
+            .fromJson(json['liquidityDisplay'] as Map<String, dynamic>);
+    final _exposures = (json['exposures'] as List?)
+        ?.map((e) => v1EarnVaultExposure.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _forceDeallocatableLiquidity =
+        json['forceDeallocatableLiquidity'] as String?;
+    final _forceDeallocatableLiquidityDisplay =
+        json['forceDeallocatableLiquidityDisplay'] == null
+            ? null
+            : v1EarnValueDisplay.fromJson(
+                json['forceDeallocatableLiquidityDisplay']
+                    as Map<String, dynamic>);
+    final _deployStatus = json['deployStatus'] as String?;
+    final _deployRequestId = json['deployRequestId'] as String?;
+    final _deployError = json['deployError'] as String?;
+    return v1EarnEnabledVault(
+      vaultAddress: _vaultAddress,
+      wrapperAddress: _wrapperAddress,
+      provider: _provider,
+      caip19: _caip19,
+      apyPct: _apyPct,
+      totalDeposited: _totalDeposited,
+      display: _display,
+      netApyPct: _netApyPct,
+      clientFeeBps: _clientFeeBps,
+      depositsDisabled: _depositsDisabled,
+      name: _name,
+      curator: _curator,
+      claimableClientFee: _claimableClientFee,
+      claimableClientFeeDisplay: _claimableClientFeeDisplay,
+      clientFeeWallet: _clientFeeWallet,
+      liquidity: _liquidity,
+      liquidityDisplay: _liquidityDisplay,
+      exposures: _exposures,
+      forceDeallocatableLiquidity: _forceDeallocatableLiquidity,
+      forceDeallocatableLiquidityDisplay: _forceDeallocatableLiquidityDisplay,
+      deployStatus: _deployStatus,
+      deployRequestId: _deployRequestId,
+      deployError: _deployError,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (vaultAddress != null) {
+      _json['vaultAddress'] = vaultAddress;
+    }
+    if (wrapperAddress != null) {
+      _json['wrapperAddress'] = wrapperAddress;
+    }
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (apyPct != null) {
+      _json['apyPct'] = apyPct;
+    }
+    if (totalDeposited != null) {
+      _json['totalDeposited'] = totalDeposited;
+    }
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    if (netApyPct != null) {
+      _json['netApyPct'] = netApyPct;
+    }
+    if (clientFeeBps != null) {
+      _json['clientFeeBps'] = clientFeeBps;
+    }
+    if (depositsDisabled != null) {
+      _json['depositsDisabled'] = depositsDisabled;
+    }
+    if (name != null) {
+      _json['name'] = name;
+    }
+    if (curator != null) {
+      _json['curator'] = curator;
+    }
+    if (claimableClientFee != null) {
+      _json['claimableClientFee'] = claimableClientFee;
+    }
+    if (claimableClientFeeDisplay != null) {
+      _json['claimableClientFeeDisplay'] = claimableClientFeeDisplay?.toJson();
+    }
+    if (clientFeeWallet != null) {
+      _json['clientFeeWallet'] = clientFeeWallet;
+    }
+    if (liquidity != null) {
+      _json['liquidity'] = liquidity;
+    }
+    if (liquidityDisplay != null) {
+      _json['liquidityDisplay'] = liquidityDisplay?.toJson();
+    }
+    if (exposures != null) {
+      _json['exposures'] = exposures?.map((e) => e.toJson()).toList();
+    }
+    if (forceDeallocatableLiquidity != null) {
+      _json['forceDeallocatableLiquidity'] = forceDeallocatableLiquidity;
+    }
+    if (forceDeallocatableLiquidityDisplay != null) {
+      _json['forceDeallocatableLiquidityDisplay'] =
+          forceDeallocatableLiquidityDisplay?.toJson();
+    }
+    if (deployStatus != null) {
+      _json['deployStatus'] = deployStatus;
+    }
+    if (deployRequestId != null) {
+      _json['deployRequestId'] = deployRequestId;
+    }
+    if (deployError != null) {
+      _json['deployError'] = deployError;
+    }
+    return _json;
+  }
+}
+
+class v1EarnPosition {
+  /// Address of the underlying yield vault.
+  final String? vaultAddress;
+
+  /// Address of the fee wrapper holding the position.
+  final String? wrapperAddress;
+
+  /// Yield provider for the vault.
+  final v1EarnProvider? provider;
+
+  /// CAIP-19 asset ID of the vault's underlying asset (e.g. 'eip155:8453/erc20:0x833589...'); the chain is encoded in the identifier.
+  final String? caip19;
+
+  /// Current value of the position in the underlying asset, in raw on-chain units (already net of the wrapper fee).
+  final String? currentValue;
+
+  /// Lifetime total deposited into this position, in raw on-chain units.
+  final String? totalDeposited;
+
+  /// Lifetime total withdrawn from this position, in raw on-chain units.
+  final String? totalWithdrawn;
+
+  /// USD + crypto renderings for display only. Do not do arithmetic with these.
+  final v1EarnPositionDisplay? display;
+
+  /// When true, deposits to this wrapper are rejected; withdrawals are unaffected. Toggled via EarnSetWrapperState.
+  final bool? depositsDisabled;
+
+  const v1EarnPosition({
+    this.vaultAddress,
+    this.wrapperAddress,
+    this.provider,
+    this.caip19,
+    this.currentValue,
+    this.totalDeposited,
+    this.totalWithdrawn,
+    this.display,
+    this.depositsDisabled,
+  });
+
+  factory v1EarnPosition.fromJson(Map<String, dynamic> json) {
+    final _vaultAddress = json['vaultAddress'] as String?;
+    final _wrapperAddress = json['wrapperAddress'] as String?;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String?;
+    final _currentValue = json['currentValue'] as String?;
+    final _totalDeposited = json['totalDeposited'] as String?;
+    final _totalWithdrawn = json['totalWithdrawn'] as String?;
+    final _display = json['display'] == null
+        ? null
+        : v1EarnPositionDisplay
+            .fromJson(json['display'] as Map<String, dynamic>);
+    final _depositsDisabled = json['depositsDisabled'] as bool?;
+    return v1EarnPosition(
+      vaultAddress: _vaultAddress,
+      wrapperAddress: _wrapperAddress,
+      provider: _provider,
+      caip19: _caip19,
+      currentValue: _currentValue,
+      totalDeposited: _totalDeposited,
+      totalWithdrawn: _totalWithdrawn,
+      display: _display,
+      depositsDisabled: _depositsDisabled,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (vaultAddress != null) {
+      _json['vaultAddress'] = vaultAddress;
+    }
+    if (wrapperAddress != null) {
+      _json['wrapperAddress'] = wrapperAddress;
+    }
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (currentValue != null) {
+      _json['currentValue'] = currentValue;
+    }
+    if (totalDeposited != null) {
+      _json['totalDeposited'] = totalDeposited;
+    }
+    if (totalWithdrawn != null) {
+      _json['totalWithdrawn'] = totalWithdrawn;
+    }
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    if (depositsDisabled != null) {
+      _json['depositsDisabled'] = depositsDisabled;
+    }
+    return _json;
+  }
+}
+
+class v1EarnPositionDisplay {
+  /// Current value in USD, for display only.
+  final String? currentValueUsd;
+
+  /// Total deposited in USD, for display only.
+  final String? totalDepositedUsd;
+
+  /// Total withdrawn in USD, for display only.
+  final String? totalWithdrawnUsd;
+
+  /// Current value in the asset's own units, for display only.
+  final String? currentValueCrypto;
+
+  /// Total deposited in the asset's own units, for display only.
+  final String? totalDepositedCrypto;
+
+  /// Total withdrawn in the asset's own units, for display only.
+  final String? totalWithdrawnCrypto;
+
+  const v1EarnPositionDisplay({
+    this.currentValueUsd,
+    this.totalDepositedUsd,
+    this.totalWithdrawnUsd,
+    this.currentValueCrypto,
+    this.totalDepositedCrypto,
+    this.totalWithdrawnCrypto,
+  });
+
+  factory v1EarnPositionDisplay.fromJson(Map<String, dynamic> json) {
+    final _currentValueUsd = json['currentValueUsd'] as String?;
+    final _totalDepositedUsd = json['totalDepositedUsd'] as String?;
+    final _totalWithdrawnUsd = json['totalWithdrawnUsd'] as String?;
+    final _currentValueCrypto = json['currentValueCrypto'] as String?;
+    final _totalDepositedCrypto = json['totalDepositedCrypto'] as String?;
+    final _totalWithdrawnCrypto = json['totalWithdrawnCrypto'] as String?;
+    return v1EarnPositionDisplay(
+      currentValueUsd: _currentValueUsd,
+      totalDepositedUsd: _totalDepositedUsd,
+      totalWithdrawnUsd: _totalWithdrawnUsd,
+      currentValueCrypto: _currentValueCrypto,
+      totalDepositedCrypto: _totalDepositedCrypto,
+      totalWithdrawnCrypto: _totalWithdrawnCrypto,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (currentValueUsd != null) {
+      _json['currentValueUsd'] = currentValueUsd;
+    }
+    if (totalDepositedUsd != null) {
+      _json['totalDepositedUsd'] = totalDepositedUsd;
+    }
+    if (totalWithdrawnUsd != null) {
+      _json['totalWithdrawnUsd'] = totalWithdrawnUsd;
+    }
+    if (currentValueCrypto != null) {
+      _json['currentValueCrypto'] = currentValueCrypto;
+    }
+    if (totalDepositedCrypto != null) {
+      _json['totalDepositedCrypto'] = totalDepositedCrypto;
+    }
+    if (totalWithdrawnCrypto != null) {
+      _json['totalWithdrawnCrypto'] = totalWithdrawnCrypto;
+    }
+    return _json;
+  }
+}
+
+class v1EarnReward {
+  /// CAIP-2 chain the reward is claimable on (e.g. 'eip155:8453').
+  final String? caip2;
+
+  /// CAIP-19 asset ID of the reward token (e.g. 'eip155:8453/erc20:0xBAa5...'). Reward tokens are campaign-specific and unrelated to the position's underlying asset.
+  final String? caip19;
+
+  /// Symbol of the reward token (e.g. 'MORPHO'), as reported by Merkl.
+  final String? symbol;
+
+  /// Decimals of the reward token.
+  final num? decimals;
+
+  /// Amount claimable now, in raw on-chain units of the reward token.
+  final String? claimable;
+
+  /// Lifetime amount already claimed, in raw on-chain units of the reward token.
+  final String? claimed;
+
+  /// Amount accrued but not yet claimable (not yet in a live on-chain merkle root; roots update roughly every 8 hours), in raw on-chain units of the reward token.
+  final String? pending;
+
+  /// USD + crypto renderings for display only. Do not do arithmetic with these.
+  final v1EarnRewardDisplay? display;
+
+  const v1EarnReward({
+    this.caip2,
+    this.caip19,
+    this.symbol,
+    this.decimals,
+    this.claimable,
+    this.claimed,
+    this.pending,
+    this.display,
+  });
+
+  factory v1EarnReward.fromJson(Map<String, dynamic> json) {
+    final _caip2 = json['caip2'] as String?;
+    final _caip19 = json['caip19'] as String?;
+    final _symbol = json['symbol'] as String?;
+    final _decimals = json['decimals'] as num?;
+    final _claimable = json['claimable'] as String?;
+    final _claimed = json['claimed'] as String?;
+    final _pending = json['pending'] as String?;
+    final _display = json['display'] == null
+        ? null
+        : v1EarnRewardDisplay.fromJson(json['display'] as Map<String, dynamic>);
+    return v1EarnReward(
+      caip2: _caip2,
+      caip19: _caip19,
+      symbol: _symbol,
+      decimals: _decimals,
+      claimable: _claimable,
+      claimed: _claimed,
+      pending: _pending,
+      display: _display,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (caip2 != null) {
+      _json['caip2'] = caip2;
+    }
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (symbol != null) {
+      _json['symbol'] = symbol;
+    }
+    if (decimals != null) {
+      _json['decimals'] = decimals;
+    }
+    if (claimable != null) {
+      _json['claimable'] = claimable;
+    }
+    if (claimed != null) {
+      _json['claimed'] = claimed;
+    }
+    if (pending != null) {
+      _json['pending'] = pending;
+    }
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1EarnRewardDisplay {
+  /// Claimable amount in USD, for display only. Empty when the token is unpriced.
+  final String? claimableUsd;
+
+  /// Claimable amount in the reward token's own units, for display only.
+  final String? claimableCrypto;
+
+  /// Lifetime claimed amount in USD, for display only. Empty when the token is unpriced.
+  final String? claimedUsd;
+
+  /// Lifetime claimed amount in the reward token's own units, for display only.
+  final String? claimedCrypto;
+
+  /// Pending amount in USD, for display only. Empty when the token is unpriced.
+  final String? pendingUsd;
+
+  /// Pending amount in the reward token's own units, for display only.
+  final String? pendingCrypto;
+
+  const v1EarnRewardDisplay({
+    this.claimableUsd,
+    this.claimableCrypto,
+    this.claimedUsd,
+    this.claimedCrypto,
+    this.pendingUsd,
+    this.pendingCrypto,
+  });
+
+  factory v1EarnRewardDisplay.fromJson(Map<String, dynamic> json) {
+    final _claimableUsd = json['claimableUsd'] as String?;
+    final _claimableCrypto = json['claimableCrypto'] as String?;
+    final _claimedUsd = json['claimedUsd'] as String?;
+    final _claimedCrypto = json['claimedCrypto'] as String?;
+    final _pendingUsd = json['pendingUsd'] as String?;
+    final _pendingCrypto = json['pendingCrypto'] as String?;
+    return v1EarnRewardDisplay(
+      claimableUsd: _claimableUsd,
+      claimableCrypto: _claimableCrypto,
+      claimedUsd: _claimedUsd,
+      claimedCrypto: _claimedCrypto,
+      pendingUsd: _pendingUsd,
+      pendingCrypto: _pendingCrypto,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (claimableUsd != null) {
+      _json['claimableUsd'] = claimableUsd;
+    }
+    if (claimableCrypto != null) {
+      _json['claimableCrypto'] = claimableCrypto;
+    }
+    if (claimedUsd != null) {
+      _json['claimedUsd'] = claimedUsd;
+    }
+    if (claimedCrypto != null) {
+      _json['claimedCrypto'] = claimedCrypto;
+    }
+    if (pendingUsd != null) {
+      _json['pendingUsd'] = pendingUsd;
+    }
+    if (pendingCrypto != null) {
+      _json['pendingCrypto'] = pendingCrypto;
+    }
+    return _json;
+  }
+}
+
+class v1EarnSetWrapperStateIntent {
+  /// Address of the deployed Earn wrapper to update, from ListEarnVaults/ListEarnPositions. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  /// When true, deposits to this wrapper are rejected; withdrawals are unaffected. Set to false to re-enable deposits.
+  final bool depositsDisabled;
+
+  const v1EarnSetWrapperStateIntent({
+    required this.wrapperAddress,
+    required this.depositsDisabled,
+  });
+
+  factory v1EarnSetWrapperStateIntent.fromJson(Map<String, dynamic> json) {
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _depositsDisabled = json['depositsDisabled'] as bool;
+    return v1EarnSetWrapperStateIntent(
+      wrapperAddress: _wrapperAddress,
+      depositsDisabled: _depositsDisabled,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['depositsDisabled'] = depositsDisabled;
+    return _json;
+  }
+}
+
+class v1EarnSetWrapperStateRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EarnSetWrapperStateIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EarnSetWrapperStateRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1EarnSetWrapperStateRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EarnSetWrapperStateIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EarnSetWrapperStateRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EarnSetWrapperStateResult {
+  /// Address of the updated Earn wrapper.
+  final String wrapperAddress;
+
+  /// The wrapper's deposit state after this activity.
+  final bool depositsDisabled;
+
+  const v1EarnSetWrapperStateResult({
+    required this.wrapperAddress,
+    required this.depositsDisabled,
+  });
+
+  factory v1EarnSetWrapperStateResult.fromJson(Map<String, dynamic> json) {
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _depositsDisabled = json['depositsDisabled'] as bool;
+    return v1EarnSetWrapperStateResult(
+      wrapperAddress: _wrapperAddress,
+      depositsDisabled: _depositsDisabled,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['depositsDisabled'] = depositsDisabled;
+    return _json;
+  }
+}
+
+class v1EarnValueDisplay {
+  /// USD value, for display only.
+  final String? usd;
+
+  /// Normalized amount in the asset's own units, for display only.
+  final String? crypto;
+
+  const v1EarnValueDisplay({
+    this.usd,
+    this.crypto,
+  });
+
+  factory v1EarnValueDisplay.fromJson(Map<String, dynamic> json) {
+    final _usd = json['usd'] as String?;
+    final _crypto = json['crypto'] as String?;
+    return v1EarnValueDisplay(
+      usd: _usd,
+      crypto: _crypto,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (usd != null) {
+      _json['usd'] = usd;
+    }
+    if (crypto != null) {
+      _json['crypto'] = crypto;
+    }
+    return _json;
+  }
+}
+
+class v1EarnVault {
+  /// Address of the underlying yield vault.
+  final String? vaultAddress;
+
+  /// Yield provider for the vault.
+  final v1EarnProvider? provider;
+
+  /// CAIP-19 asset ID of the vault's underlying asset (e.g. 'eip155:8453/erc20:0x833589...'); the chain is encoded in the identifier.
+  final String? caip19;
+
+  /// Total value locked in the vault, in raw on-chain units of the underlying asset. The catalog is sorted by the USD value of this.
+  final String? tvl;
+
+  /// Current annual percentage yield, expressed as a decimal fraction (e.g., '0.0812' for 8.12%).
+  final String? apyPct;
+
+  /// Whether the organization has enabled this vault.
+  final bool? enabled;
+
+  /// Normalized TVL values for display purposes only (usd + crypto). Do not do arithmetic with these; use tvl instead.
+  final v1EarnValueDisplay? display;
+
+  /// Human-readable vault name from the provider (e.g. 'Steakhouse Prime USDC' for Morpho; the reserve symbol for Aave).
+  final String? name;
+
+  /// Vault curator name(s), comma-separated when a vault has multiple. Empty for providers without curators (e.g. Aave).
+  final String? curator;
+
+  /// Assets currently withdrawable from the vault without a reallocation, in raw on-chain units of the underlying asset. Empty when the provider does not report it.
+  final String? liquidity;
+
+  /// Normalized liquidity values for display purposes only (usd + crypto). Do not do arithmetic with these; use liquidity instead.
+  final v1EarnValueDisplay? liquidityDisplay;
+
+  /// Additional assets withdrawable from the vault by force-deallocating its non-liquidity adapters at zero penalty, in raw on-chain units of the underlying asset. Additive to liquidity. Empty when the provider does not report it.
+  final String? forceDeallocatableLiquidity;
+
+  /// Normalized force-deallocatable liquidity values for display purposes only (usd + crypto). Do not do arithmetic with these; use force_deallocatable_liquidity instead.
+  final v1EarnValueDisplay? forceDeallocatableLiquidityDisplay;
+
+  const v1EarnVault({
+    this.vaultAddress,
+    this.provider,
+    this.caip19,
+    this.tvl,
+    this.apyPct,
+    this.enabled,
+    this.display,
+    this.name,
+    this.curator,
+    this.liquidity,
+    this.liquidityDisplay,
+    this.forceDeallocatableLiquidity,
+    this.forceDeallocatableLiquidityDisplay,
+  });
+
+  factory v1EarnVault.fromJson(Map<String, dynamic> json) {
+    final _vaultAddress = json['vaultAddress'] as String?;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String?;
+    final _tvl = json['tvl'] as String?;
+    final _apyPct = json['apyPct'] as String?;
+    final _enabled = json['enabled'] as bool?;
+    final _display = json['display'] == null
+        ? null
+        : v1EarnValueDisplay.fromJson(json['display'] as Map<String, dynamic>);
+    final _name = json['name'] as String?;
+    final _curator = json['curator'] as String?;
+    final _liquidity = json['liquidity'] as String?;
+    final _liquidityDisplay = json['liquidityDisplay'] == null
+        ? null
+        : v1EarnValueDisplay
+            .fromJson(json['liquidityDisplay'] as Map<String, dynamic>);
+    final _forceDeallocatableLiquidity =
+        json['forceDeallocatableLiquidity'] as String?;
+    final _forceDeallocatableLiquidityDisplay =
+        json['forceDeallocatableLiquidityDisplay'] == null
+            ? null
+            : v1EarnValueDisplay.fromJson(
+                json['forceDeallocatableLiquidityDisplay']
+                    as Map<String, dynamic>);
+    return v1EarnVault(
+      vaultAddress: _vaultAddress,
+      provider: _provider,
+      caip19: _caip19,
+      tvl: _tvl,
+      apyPct: _apyPct,
+      enabled: _enabled,
+      display: _display,
+      name: _name,
+      curator: _curator,
+      liquidity: _liquidity,
+      liquidityDisplay: _liquidityDisplay,
+      forceDeallocatableLiquidity: _forceDeallocatableLiquidity,
+      forceDeallocatableLiquidityDisplay: _forceDeallocatableLiquidityDisplay,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (vaultAddress != null) {
+      _json['vaultAddress'] = vaultAddress;
+    }
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (tvl != null) {
+      _json['tvl'] = tvl;
+    }
+    if (apyPct != null) {
+      _json['apyPct'] = apyPct;
+    }
+    if (enabled != null) {
+      _json['enabled'] = enabled;
+    }
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    if (name != null) {
+      _json['name'] = name;
+    }
+    if (curator != null) {
+      _json['curator'] = curator;
+    }
+    if (liquidity != null) {
+      _json['liquidity'] = liquidity;
+    }
+    if (liquidityDisplay != null) {
+      _json['liquidityDisplay'] = liquidityDisplay?.toJson();
+    }
+    if (forceDeallocatableLiquidity != null) {
+      _json['forceDeallocatableLiquidity'] = forceDeallocatableLiquidity;
+    }
+    if (forceDeallocatableLiquidityDisplay != null) {
+      _json['forceDeallocatableLiquidityDisplay'] =
+          forceDeallocatableLiquidityDisplay?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1EarnVaultExposure {
+  /// Provider-specific identifier for the market (the Morpho Blue market id).
+  final String? marketId;
+
+  /// Symbol of the market's collateral asset (e.g. 'cbBTC'). Empty for an idle/uncollateralized market.
+  final String? collateralSymbol;
+
+  /// CAIP-19 asset ID of the market's collateral asset. Empty for an idle/uncollateralized market.
+  final String? collateralCaip19;
+
+  /// The market's liquidation loan-to-value, expressed as a decimal fraction (e.g. '0.86' for 86%).
+  final String? lltvPct;
+
+  /// Assets the vault supplies to this market, in raw on-chain units of the underlying asset.
+  final String? supplied;
+
+  /// Normalized supplied values for display purposes only (usd + crypto). Do not do arithmetic with these; use supplied instead.
+  final v1EarnValueDisplay? display;
+
+  /// This market's share of the vault's supplied assets, as a decimal fraction (e.g. '0.997' for 99.7%).
+  final String? sharePct;
+
+  const v1EarnVaultExposure({
+    this.marketId,
+    this.collateralSymbol,
+    this.collateralCaip19,
+    this.lltvPct,
+    this.supplied,
+    this.display,
+    this.sharePct,
+  });
+
+  factory v1EarnVaultExposure.fromJson(Map<String, dynamic> json) {
+    final _marketId = json['marketId'] as String?;
+    final _collateralSymbol = json['collateralSymbol'] as String?;
+    final _collateralCaip19 = json['collateralCaip19'] as String?;
+    final _lltvPct = json['lltvPct'] as String?;
+    final _supplied = json['supplied'] as String?;
+    final _display = json['display'] == null
+        ? null
+        : v1EarnValueDisplay.fromJson(json['display'] as Map<String, dynamic>);
+    final _sharePct = json['sharePct'] as String?;
+    return v1EarnVaultExposure(
+      marketId: _marketId,
+      collateralSymbol: _collateralSymbol,
+      collateralCaip19: _collateralCaip19,
+      lltvPct: _lltvPct,
+      supplied: _supplied,
+      display: _display,
+      sharePct: _sharePct,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (marketId != null) {
+      _json['marketId'] = marketId;
+    }
+    if (collateralSymbol != null) {
+      _json['collateralSymbol'] = collateralSymbol;
+    }
+    if (collateralCaip19 != null) {
+      _json['collateralCaip19'] = collateralCaip19;
+    }
+    if (lltvPct != null) {
+      _json['lltvPct'] = lltvPct;
+    }
+    if (supplied != null) {
+      _json['supplied'] = supplied;
+    }
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    if (sharePct != null) {
+      _json['sharePct'] = sharePct;
+    }
+    return _json;
+  }
+}
+
+class v1EarnWithdrawIntent {
+  /// Address of the deployed Earn wrapper holding the position to withdraw from, from ListEarnPositions. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  /// A Wallet account address or Private Key address to withdraw to and sign with. Must be an on-chain address; Private Key identifiers are not supported.
+  final String signWith;
+
+  /// CAIP-2 chain ID the vault lives on (e.g., 'eip155:8453' for Base).
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  /// The amount of the underlying asset to withdraw, in raw on-chain units. Pass 'MAX' to withdraw the entire position.
+  final String amountValue;
+
+  const v1EarnWithdrawIntent({
+    required this.wrapperAddress,
+    required this.signWith,
+    required this.caip2,
+    this.sponsor,
+    required this.amountValue,
+  });
+
+  factory v1EarnWithdrawIntent.fromJson(Map<String, dynamic> json) {
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _signWith = json['signWith'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _amountValue = json['amountValue'] as String;
+    return v1EarnWithdrawIntent(
+      wrapperAddress: _wrapperAddress,
+      signWith: _signWith,
+      caip2: _caip2,
+      sponsor: _sponsor,
+      amountValue: _amountValue,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['signWith'] = signWith;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['amountValue'] = amountValue;
+    return _json;
+  }
+}
+
+class v1EarnWithdrawRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EarnWithdrawIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1EarnWithdrawRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1EarnWithdrawRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EarnWithdrawIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EarnWithdrawRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EarnWithdrawResult {
+  /// Identifier to poll withdrawal status and tx hash via GetEarnWithdrawStatus.
+  final String withdrawRequestId;
+
+  const v1EarnWithdrawResult({
+    required this.withdrawRequestId,
+  });
+
+  factory v1EarnWithdrawResult.fromJson(Map<String, dynamic> json) {
+    final _withdrawRequestId = json['withdrawRequestId'] as String;
+    return v1EarnWithdrawResult(
+      withdrawRequestId: _withdrawRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['withdrawRequestId'] = withdrawRequestId;
     return _json;
   }
 }
@@ -9991,6 +13709,173 @@ class v1EmailCustomizationParamsV2 {
   }
 }
 
+class v1EmailEvent {
+  /// Unique identifier for the email event
+  final String id;
+
+  /// Unique identifier for the organization associated with the email event
+  final String organizationId;
+
+  /// Provider message identifier. Multiple events can share the same message ID
+  final String messageId;
+
+  /// Email event type, such as Send, Delivery, Bounce, or DeliveryDelay
+  final String eventType;
+
+  /// Sender email address
+  final String fromAddress;
+
+  /// Recipient email address
+  final String toAddress;
+
+  /// SES tenant that sent the email, when available
+  final String? senderTenant;
+
+  /// Event timestamp as millisecond epoch string
+  final String timestamp;
+
+  /// Creation timestamp as millisecond epoch string
+  final String createdAt;
+
+  /// Parsed email event details. Fields are populated based on event type and available provider metadata
+  final v1EmailEventDetails details;
+
+  const v1EmailEvent({
+    required this.id,
+    required this.organizationId,
+    required this.messageId,
+    required this.eventType,
+    required this.fromAddress,
+    required this.toAddress,
+    this.senderTenant,
+    required this.timestamp,
+    required this.createdAt,
+    required this.details,
+  });
+
+  factory v1EmailEvent.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _messageId = json['messageId'] as String;
+    final _eventType = json['eventType'] as String;
+    final _fromAddress = json['fromAddress'] as String;
+    final _toAddress = json['toAddress'] as String;
+    final _senderTenant = json['senderTenant'] as String?;
+    final _timestamp = json['timestamp'] as String;
+    final _createdAt = json['createdAt'] as String;
+    final _details =
+        v1EmailEventDetails.fromJson(json['details'] as Map<String, dynamic>);
+    return v1EmailEvent(
+      id: _id,
+      organizationId: _organizationId,
+      messageId: _messageId,
+      eventType: _eventType,
+      fromAddress: _fromAddress,
+      toAddress: _toAddress,
+      senderTenant: _senderTenant,
+      timestamp: _timestamp,
+      createdAt: _createdAt,
+      details: _details,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['organizationId'] = organizationId;
+    _json['messageId'] = messageId;
+    _json['eventType'] = eventType;
+    _json['fromAddress'] = fromAddress;
+    _json['toAddress'] = toAddress;
+    if (senderTenant != null) {
+      _json['senderTenant'] = senderTenant;
+    }
+    _json['timestamp'] = timestamp;
+    _json['createdAt'] = createdAt;
+    _json['details'] = details.toJson();
+    return _json;
+  }
+}
+
+class v1EmailEventDetails {
+  /// Bounce type for Bounce events
+  final String? bounceType;
+
+  /// Bounce subtype for Bounce events
+  final String? bounceSubType;
+
+  /// Diagnostic text for Bounce or DeliveryDelay events
+  final String? diagnosticCode;
+
+  /// SMTP response for Delivery events
+  final String? deliverySmtpResponse;
+
+  /// Processing time in milliseconds for Delivery events
+  final String? deliveryProcessingTimeMillis;
+
+  /// Delay type for DeliveryDelay events
+  final String? deliveryDelayType;
+
+  /// Feedback type for Complaint events
+  final String? complaintFeedbackType;
+
+  const v1EmailEventDetails({
+    this.bounceType,
+    this.bounceSubType,
+    this.diagnosticCode,
+    this.deliverySmtpResponse,
+    this.deliveryProcessingTimeMillis,
+    this.deliveryDelayType,
+    this.complaintFeedbackType,
+  });
+
+  factory v1EmailEventDetails.fromJson(Map<String, dynamic> json) {
+    final _bounceType = json['bounceType'] as String?;
+    final _bounceSubType = json['bounceSubType'] as String?;
+    final _diagnosticCode = json['diagnosticCode'] as String?;
+    final _deliverySmtpResponse = json['deliverySmtpResponse'] as String?;
+    final _deliveryProcessingTimeMillis =
+        json['deliveryProcessingTimeMillis'] as String?;
+    final _deliveryDelayType = json['deliveryDelayType'] as String?;
+    final _complaintFeedbackType = json['complaintFeedbackType'] as String?;
+    return v1EmailEventDetails(
+      bounceType: _bounceType,
+      bounceSubType: _bounceSubType,
+      diagnosticCode: _diagnosticCode,
+      deliverySmtpResponse: _deliverySmtpResponse,
+      deliveryProcessingTimeMillis: _deliveryProcessingTimeMillis,
+      deliveryDelayType: _deliveryDelayType,
+      complaintFeedbackType: _complaintFeedbackType,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (bounceType != null) {
+      _json['bounceType'] = bounceType;
+    }
+    if (bounceSubType != null) {
+      _json['bounceSubType'] = bounceSubType;
+    }
+    if (diagnosticCode != null) {
+      _json['diagnosticCode'] = diagnosticCode;
+    }
+    if (deliverySmtpResponse != null) {
+      _json['deliverySmtpResponse'] = deliverySmtpResponse;
+    }
+    if (deliveryProcessingTimeMillis != null) {
+      _json['deliveryProcessingTimeMillis'] = deliveryProcessingTimeMillis;
+    }
+    if (deliveryDelayType != null) {
+      _json['deliveryDelayType'] = deliveryDelayType;
+    }
+    if (complaintFeedbackType != null) {
+      _json['complaintFeedbackType'] = complaintFeedbackType;
+    }
+    return _json;
+  }
+}
+
 class v1EnableAuthProxyIntent {
   const v1EnableAuthProxyIntent();
   factory v1EnableAuthProxyIntent.fromJson(Map<String, dynamic> json) =>
@@ -10016,6 +13901,46 @@ class v1EnableAuthProxyResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['userId'] = userId;
+    return _json;
+  }
+}
+
+class v1EthCallParams {
+  /// Recipient address as a hex string with 0x prefix.
+  final String to;
+
+  /// Amount of native asset to send in wei.
+  final String? value;
+
+  /// Hex-encoded call data for contract interactions.
+  final String? data;
+
+  const v1EthCallParams({
+    required this.to,
+    this.value,
+    this.data,
+  });
+
+  factory v1EthCallParams.fromJson(Map<String, dynamic> json) {
+    final _to = json['to'] as String;
+    final _value = json['value'] as String?;
+    final _data = json['data'] as String?;
+    return v1EthCallParams(
+      to: _to,
+      value: _value,
+      data: _data,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['to'] = to;
+    if (value != null) {
+      _json['value'] = value;
+    }
+    if (data != null) {
+      _json['data'] = data;
+    }
     return _json;
   }
 }
@@ -10128,6 +14053,9 @@ class v1EthSendTransactionIntent {
   /// Maximum priority fee (tip) per gas unit in wei. Required for non-sponsored (EIP-1559) transactions. Not used for sponsored transactions.
   final String? maxPriorityFeePerGas;
 
+  /// Unix timestamp in seconds for EIP-712 execution deadline. Only used when sponsor=true.
+  final String? deadline;
+
   /// The gas station delegate contract nonce. Only used when sponsor=true. Include this if you want maximal security posture.
   final String? gasStationNonce;
 
@@ -10142,6 +14070,7 @@ class v1EthSendTransactionIntent {
     this.gasLimit,
     this.maxFeePerGas,
     this.maxPriorityFeePerGas,
+    this.deadline,
     this.gasStationNonce,
   });
 
@@ -10156,6 +14085,7 @@ class v1EthSendTransactionIntent {
     final _gasLimit = json['gasLimit'] as String?;
     final _maxFeePerGas = json['maxFeePerGas'] as String?;
     final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    final _deadline = json['deadline'] as String?;
     final _gasStationNonce = json['gasStationNonce'] as String?;
     return v1EthSendTransactionIntent(
       from: _from,
@@ -10168,6 +14098,7 @@ class v1EthSendTransactionIntent {
       gasLimit: _gasLimit,
       maxFeePerGas: _maxFeePerGas,
       maxPriorityFeePerGas: _maxPriorityFeePerGas,
+      deadline: _deadline,
       gasStationNonce: _gasStationNonce,
     );
   }
@@ -10198,9 +14129,113 @@ class v1EthSendTransactionIntent {
     if (maxPriorityFeePerGas != null) {
       _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
     }
+    if (deadline != null) {
+      _json['deadline'] = deadline;
+    }
     if (gasStationNonce != null) {
       _json['gasStationNonce'] = gasStationNonce;
     }
+    return _json;
+  }
+}
+
+class v1EthSendTransactionIntentV2 {
+  /// A wallet or private key address to sign with. This does not support private key IDs.
+  final String from;
+
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station. If false or unset, the EOA pays gas. A single call uses EIP-1559; multiple calls use EIP-7702 batch execution via Gas Station.
+  final bool? sponsor;
+
+  /// Outer transaction nonce. Omit to auto-fetch.
+  final String? nonce;
+
+  /// Maximum amount of gas for the outer transaction. Omit to auto-estimate.
+  final String? gasLimit;
+
+  /// Maximum total fee per gas unit (base fee + priority fee) in wei. Omit to auto-estimate.
+  final String? maxFeePerGas;
+
+  /// Maximum priority fee (tip) per gas unit in wei. Omit to auto-estimate.
+  final String? maxPriorityFeePerGas;
+
+  /// Unix timestamp in seconds for EIP-712 execution deadline. Only used when sponsor=true.
+  final String? deadline;
+
+  /// The gas station delegate contract nonce used in the BatchExecution EIP-712 message. Valid for sponsored transactions and non-sponsored multi-call batches. Omit to auto-fetch. Use the nonces endpoint for replay protection.
+  final String? gasStationNonce;
+
+  /// Ordered list of calls to execute. Must contain between 1 and 50 entries. A single entry with sponsor=false uses EIP-1559; multiple entries use EIP-7702 batch execution via Gas Station.
+  final List<v1EthCallParams> calls;
+
+  const v1EthSendTransactionIntentV2({
+    required this.from,
+    required this.caip2,
+    this.sponsor,
+    this.nonce,
+    this.gasLimit,
+    this.maxFeePerGas,
+    this.maxPriorityFeePerGas,
+    this.deadline,
+    this.gasStationNonce,
+    required this.calls,
+  });
+
+  factory v1EthSendTransactionIntentV2.fromJson(Map<String, dynamic> json) {
+    final _from = json['from'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _nonce = json['nonce'] as String?;
+    final _gasLimit = json['gasLimit'] as String?;
+    final _maxFeePerGas = json['maxFeePerGas'] as String?;
+    final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    final _deadline = json['deadline'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    final _calls = (json['calls'] as List)
+        .map((e) => v1EthCallParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1EthSendTransactionIntentV2(
+      from: _from,
+      caip2: _caip2,
+      sponsor: _sponsor,
+      nonce: _nonce,
+      gasLimit: _gasLimit,
+      maxFeePerGas: _maxFeePerGas,
+      maxPriorityFeePerGas: _maxPriorityFeePerGas,
+      deadline: _deadline,
+      gasStationNonce: _gasStationNonce,
+      calls: _calls,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['from'] = from;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasLimit != null) {
+      _json['gasLimit'] = gasLimit;
+    }
+    if (maxFeePerGas != null) {
+      _json['maxFeePerGas'] = maxFeePerGas;
+    }
+    if (maxPriorityFeePerGas != null) {
+      _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
+    }
+    if (deadline != null) {
+      _json['deadline'] = deadline;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    _json['calls'] = calls.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -10213,7 +14248,7 @@ class v1EthSendTransactionRequest {
 
   /// Unique identifier for a given Organization.
   final String organizationId;
-  final v1EthSendTransactionIntent parameters;
+  final v1EthSendTransactionIntentV2 parameters;
   final bool? generateAppProofs;
 
   const v1EthSendTransactionRequest({
@@ -10228,7 +14263,7 @@ class v1EthSendTransactionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1EthSendTransactionIntent
+    final _parameters = v1EthSendTransactionIntentV2
         .fromJson(json['parameters'] as Map<String, dynamic>);
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1EthSendTransactionRequest(
@@ -10275,6 +14310,28 @@ class v1EthSendTransactionResult {
   }
 }
 
+class v1EthSendTransactionResultV2 {
+  /// The send_transaction_status ID associated with the transaction submission
+  final String sendTransactionStatusId;
+
+  const v1EthSendTransactionResultV2({
+    required this.sendTransactionStatusId,
+  });
+
+  factory v1EthSendTransactionResultV2.fromJson(Map<String, dynamic> json) {
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return v1EthSendTransactionResultV2(
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
 class v1EthSendTransactionStatus {
   /// The Ethereum transaction hash, if available.
   final String? txHash;
@@ -10294,6 +14351,596 @@ class v1EthSendTransactionStatus {
     final _json = <String, dynamic>{};
     if (txHash != null) {
       _json['txHash'] = txHash;
+    }
+    return _json;
+  }
+}
+
+class v1EthTransactionHistoryItem {
+  /// EVM transaction hash.
+  final String transactionHash;
+
+  /// Block metadata for the transaction.
+  final v1TransactionHistoryBlock block;
+
+  /// Transaction confirmation status.
+  final String status;
+
+  /// Origin of the transaction. Examples include TURNKEY.
+  final String origin;
+
+  /// EVM sender address for the transaction.
+  final String from;
+
+  /// EVM transaction destination address, such as the called contract or EVM tx.to. Omitted for contract-creation transactions with no destination. Recipients and payers of value transfers are reflected in transfers[].counterparty.
+  final String? to;
+
+  /// Transaction fee information.
+  final v1TransactionHistoryFee fee;
+
+  /// Asset transfers associated with the transaction.
+  final List<v1TransactionHistoryTransfer> transfers;
+
+  /// Turnkey-specific metadata for transactions originated by Turnkey.
+  final v1TransactionHistoryTurnkey? turnkey;
+
+  /// Whether the transaction failed during on-chain execution. Omitted when execution outcome is unavailable.
+  final bool? executionFailed;
+
+  const v1EthTransactionHistoryItem({
+    required this.transactionHash,
+    required this.block,
+    required this.status,
+    required this.origin,
+    required this.from,
+    this.to,
+    required this.fee,
+    required this.transfers,
+    this.turnkey,
+    this.executionFailed,
+  });
+
+  factory v1EthTransactionHistoryItem.fromJson(Map<String, dynamic> json) {
+    final _transactionHash = json['transactionHash'] as String;
+    final _block = v1TransactionHistoryBlock
+        .fromJson(json['block'] as Map<String, dynamic>);
+    final _status = json['status'] as String;
+    final _origin = json['origin'] as String;
+    final _from = json['from'] as String;
+    final _to = json['to'] as String?;
+    final _fee =
+        v1TransactionHistoryFee.fromJson(json['fee'] as Map<String, dynamic>);
+    final _transfers = (json['transfers'] as List)
+        .map((e) =>
+            v1TransactionHistoryTransfer.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _turnkey = json['turnkey'] == null
+        ? null
+        : v1TransactionHistoryTurnkey
+            .fromJson(json['turnkey'] as Map<String, dynamic>);
+    final _executionFailed = json['executionFailed'] as bool?;
+    return v1EthTransactionHistoryItem(
+      transactionHash: _transactionHash,
+      block: _block,
+      status: _status,
+      origin: _origin,
+      from: _from,
+      to: _to,
+      fee: _fee,
+      transfers: _transfers,
+      turnkey: _turnkey,
+      executionFailed: _executionFailed,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactionHash'] = transactionHash;
+    _json['block'] = block.toJson();
+    _json['status'] = status;
+    _json['origin'] = origin;
+    _json['from'] = from;
+    if (to != null) {
+      _json['to'] = to;
+    }
+    _json['fee'] = fee.toJson();
+    _json['transfers'] = transfers.map((e) => e.toJson()).toList();
+    if (turnkey != null) {
+      _json['turnkey'] = turnkey?.toJson();
+    }
+    if (executionFailed != null) {
+      _json['executionFailed'] = executionFailed;
+    }
+    return _json;
+  }
+}
+
+class v1EthUndelegate7702Intent {
+  /// A wallet or private key address to undelegate. This does not support private key IDs.
+  final String from;
+
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  /// Outer transaction nonce. Omit to auto-fetch.
+  final String? nonce;
+
+  /// Maximum amount of gas for the undelegation transaction. Omit to use the fixed undelegation gas limit.
+  final String? gasLimit;
+
+  /// Maximum total fee per gas unit (base fee + priority fee) in wei. Omit to auto-estimate.
+  final String? maxFeePerGas;
+
+  /// Maximum priority fee (tip) per gas unit in wei. Omit to auto-estimate.
+  final String? maxPriorityFeePerGas;
+
+  const v1EthUndelegate7702Intent({
+    required this.from,
+    required this.caip2,
+    this.nonce,
+    this.gasLimit,
+    this.maxFeePerGas,
+    this.maxPriorityFeePerGas,
+  });
+
+  factory v1EthUndelegate7702Intent.fromJson(Map<String, dynamic> json) {
+    final _from = json['from'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _nonce = json['nonce'] as String?;
+    final _gasLimit = json['gasLimit'] as String?;
+    final _maxFeePerGas = json['maxFeePerGas'] as String?;
+    final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    return v1EthUndelegate7702Intent(
+      from: _from,
+      caip2: _caip2,
+      nonce: _nonce,
+      gasLimit: _gasLimit,
+      maxFeePerGas: _maxFeePerGas,
+      maxPriorityFeePerGas: _maxPriorityFeePerGas,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['from'] = from;
+    _json['caip2'] = caip2;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasLimit != null) {
+      _json['gasLimit'] = gasLimit;
+    }
+    if (maxFeePerGas != null) {
+      _json['maxFeePerGas'] = maxFeePerGas;
+    }
+    if (maxPriorityFeePerGas != null) {
+      _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
+    }
+    return _json;
+  }
+}
+
+class v1EthUndelegate7702Request {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1EthUndelegate7702Intent parameters;
+  final bool? generateAppProofs;
+
+  const v1EthUndelegate7702Request({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1EthUndelegate7702Request.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1EthUndelegate7702Intent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1EthUndelegate7702Request(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1EthUndelegate7702Result {
+  /// The send_transaction_status ID associated with the undelegation transaction submission
+  final String sendTransactionStatusId;
+
+  const v1EthUndelegate7702Result({
+    required this.sendTransactionStatusId,
+  });
+
+  factory v1EthUndelegate7702Result.fromJson(Map<String, dynamic> json) {
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return v1EthUndelegate7702Result(
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
+class v1ExecuteSwapIntent {
+  /// CAIP-19 asset ID for the input asset. The chain is derived from this value.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset. May be on a different chain than `input_token` for cross-chain swaps.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Wallet account address to sign and submit the swap transaction from. Cross-wallet swaps are not supported.
+  final String walletAccount;
+
+  /// Whether to sponsor the resulting swap transaction via Gas Station when supported by the chain.
+  final bool? sponsor;
+
+  /// Maximum allowed slippage in basis points.
+  final String? slippage;
+
+  /// Swap provider to execute with, as returned by create_swap_quote. When omitted, execution uses the default provider.
+  final String? provider;
+
+  /// Minimum acceptable base-unit amount of the output asset. Execution fails if the swap provider's quoted minimum output falls below this floor at execution time.
+  final String minOutputAmount;
+
+  const v1ExecuteSwapIntent({
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    required this.walletAccount,
+    this.sponsor,
+    this.slippage,
+    this.provider,
+    required this.minOutputAmount,
+  });
+
+  factory v1ExecuteSwapIntent.fromJson(Map<String, dynamic> json) {
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _walletAccount = json['walletAccount'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _slippage = json['slippage'] as String?;
+    final _provider = json['provider'] as String?;
+    final _minOutputAmount = json['minOutputAmount'] as String;
+    return v1ExecuteSwapIntent(
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      walletAccount: _walletAccount,
+      sponsor: _sponsor,
+      slippage: _slippage,
+      provider: _provider,
+      minOutputAmount: _minOutputAmount,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    _json['walletAccount'] = walletAccount;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    if (slippage != null) {
+      _json['slippage'] = slippage;
+    }
+    if (provider != null) {
+      _json['provider'] = provider;
+    }
+    _json['minOutputAmount'] = minOutputAmount;
+    return _json;
+  }
+}
+
+class v1ExecuteSwapIntentV2 {
+  /// Quote identifier returned by create_swap_quote. Execution is bound to this quote; the signer is derived from the quote and must not be resupplied.
+  final String quoteId;
+
+  /// CAIP-19 asset ID for the input asset.
+  final String inputToken;
+
+  /// Exact base-unit amount of the input asset committed by the quote.
+  final String inputAmount;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Exact quoted base-unit output amount committed by the quote.
+  final String quotedOutputAmount;
+
+  /// Exact minimum base-unit output committed by the quote.
+  final String minOutputAmount;
+
+  /// Whether the quoted transaction is sponsored.
+  final bool sponsor;
+
+  /// Exact EVM sender (EOA account) nonce. Valid only for a non-sponsored EVM swap. Honored for already-delegated (Type-2) batch swaps and single-call swaps; ignored for not-yet-delegated EIP-7702 (Type-4) batches where the outer nonce is derived from the authorization. Prefer gas_station_nonce for batch replay protection and use the nonces endpoint to fetch it. Omit to auto-fetch.
+  final String? evmNonce;
+
+  /// Exact Solana recent blockhash. Valid only for a Solana swap, including sponsored swaps. Omit to auto-fetch.
+  final String? recentBlockhash;
+
+  /// Exact gas station delegate contract nonce used in the BatchExecution EIP-712 message. Valid for sponsored EVM swaps and non-sponsored EVM swaps that execute as a multi-call batch (for example ERC-20 approve + swap). This is the replay-protection nonce for gas-station batches; use the nonces endpoint to fetch it. Omit to auto-fetch.
+  final String? gasStationNonce;
+
+  const v1ExecuteSwapIntentV2({
+    required this.quoteId,
+    required this.inputToken,
+    required this.inputAmount,
+    required this.outputToken,
+    required this.quotedOutputAmount,
+    required this.minOutputAmount,
+    required this.sponsor,
+    this.evmNonce,
+    this.recentBlockhash,
+    this.gasStationNonce,
+  });
+
+  factory v1ExecuteSwapIntentV2.fromJson(Map<String, dynamic> json) {
+    final _quoteId = json['quoteId'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _quotedOutputAmount = json['quotedOutputAmount'] as String;
+    final _minOutputAmount = json['minOutputAmount'] as String;
+    final _sponsor = json['sponsor'] as bool;
+    final _evmNonce = json['evmNonce'] as String?;
+    final _recentBlockhash = json['recentBlockhash'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    return v1ExecuteSwapIntentV2(
+      quoteId: _quoteId,
+      inputToken: _inputToken,
+      inputAmount: _inputAmount,
+      outputToken: _outputToken,
+      quotedOutputAmount: _quotedOutputAmount,
+      minOutputAmount: _minOutputAmount,
+      sponsor: _sponsor,
+      evmNonce: _evmNonce,
+      recentBlockhash: _recentBlockhash,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['quoteId'] = quoteId;
+    _json['inputToken'] = inputToken;
+    _json['inputAmount'] = inputAmount;
+    _json['outputToken'] = outputToken;
+    _json['quotedOutputAmount'] = quotedOutputAmount;
+    _json['minOutputAmount'] = minOutputAmount;
+    _json['sponsor'] = sponsor;
+    if (evmNonce != null) {
+      _json['evmNonce'] = evmNonce;
+    }
+    if (recentBlockhash != null) {
+      _json['recentBlockhash'] = recentBlockhash;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class v1ExecuteSwapIntentV3 {
+  /// Quote identifier returned by create_swap_quote. Execution is bound to this quote; the signer is derived from the quote and must not be resupplied.
+  final String quoteId;
+
+  /// CAIP-19 asset ID for the input asset.
+  final String inputToken;
+
+  /// Exact base-unit amount of the input asset committed by the quote.
+  final String inputAmount;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Exact quoted base-unit output amount committed by the quote.
+  final String quotedOutputAmount;
+
+  /// Exact minimum base-unit output committed by the quote.
+  final String minOutputAmount;
+
+  /// Whether the quoted transaction is sponsored.
+  final bool sponsor;
+
+  /// Exact EVM sender (EOA account) nonce. Valid only for a non-sponsored EVM swap. Honored for already-delegated (Type-2) batch swaps and single-call swaps; ignored for not-yet-delegated EIP-7702 (Type-4) batches where the outer nonce is derived from the authorization. Prefer gas_station_nonce for batch replay protection and use the nonces endpoint to fetch it. Omit to auto-fetch.
+  final String? evmNonce;
+
+  /// Exact Solana recent blockhash. Valid only for a Solana swap, including sponsored swaps. Omit to auto-fetch.
+  final String? recentBlockhash;
+
+  /// Exact gas station delegate contract nonce used in the BatchExecution EIP-712 message. Valid for sponsored EVM swaps and non-sponsored EVM swaps that execute as a multi-call batch (for example ERC-20 approve + swap). This is the replay-protection nonce for gas-station batches; use the nonces endpoint to fetch it. Omit to auto-fetch.
+  final String? gasStationNonce;
+
+  /// Raw public address that receives the output asset. Required for cross-protocol swaps. The address must match the output token protocol. Wallet account IDs, private key IDs, and CAIP account or asset identifiers are not supported.
+  final String? destinationAddress;
+
+  const v1ExecuteSwapIntentV3({
+    required this.quoteId,
+    required this.inputToken,
+    required this.inputAmount,
+    required this.outputToken,
+    required this.quotedOutputAmount,
+    required this.minOutputAmount,
+    required this.sponsor,
+    this.evmNonce,
+    this.recentBlockhash,
+    this.gasStationNonce,
+    this.destinationAddress,
+  });
+
+  factory v1ExecuteSwapIntentV3.fromJson(Map<String, dynamic> json) {
+    final _quoteId = json['quoteId'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _quotedOutputAmount = json['quotedOutputAmount'] as String;
+    final _minOutputAmount = json['minOutputAmount'] as String;
+    final _sponsor = json['sponsor'] as bool;
+    final _evmNonce = json['evmNonce'] as String?;
+    final _recentBlockhash = json['recentBlockhash'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    final _destinationAddress = json['destinationAddress'] as String?;
+    return v1ExecuteSwapIntentV3(
+      quoteId: _quoteId,
+      inputToken: _inputToken,
+      inputAmount: _inputAmount,
+      outputToken: _outputToken,
+      quotedOutputAmount: _quotedOutputAmount,
+      minOutputAmount: _minOutputAmount,
+      sponsor: _sponsor,
+      evmNonce: _evmNonce,
+      recentBlockhash: _recentBlockhash,
+      gasStationNonce: _gasStationNonce,
+      destinationAddress: _destinationAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['quoteId'] = quoteId;
+    _json['inputToken'] = inputToken;
+    _json['inputAmount'] = inputAmount;
+    _json['outputToken'] = outputToken;
+    _json['quotedOutputAmount'] = quotedOutputAmount;
+    _json['minOutputAmount'] = minOutputAmount;
+    _json['sponsor'] = sponsor;
+    if (evmNonce != null) {
+      _json['evmNonce'] = evmNonce;
+    }
+    if (recentBlockhash != null) {
+      _json['recentBlockhash'] = recentBlockhash;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    if (destinationAddress != null) {
+      _json['destinationAddress'] = destinationAddress;
+    }
+    return _json;
+  }
+}
+
+class v1ExecuteSwapRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1ExecuteSwapIntentV2 parameters;
+  final bool? generateAppProofs;
+
+  const v1ExecuteSwapRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1ExecuteSwapRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1ExecuteSwapIntentV2
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1ExecuteSwapRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1ExecuteSwapResult {
+  /// Identifier to poll swap status via GetSwapStatus.
+  final String swapRequestId;
+
+  /// Swap provider used to build the transaction.
+  final String? provider;
+
+  /// Quote identifier used for execution, if any.
+  final String? quoteId;
+
+  const v1ExecuteSwapResult({
+    required this.swapRequestId,
+    this.provider,
+    this.quoteId,
+  });
+
+  factory v1ExecuteSwapResult.fromJson(Map<String, dynamic> json) {
+    final _swapRequestId = json['swapRequestId'] as String;
+    final _provider = json['provider'] as String?;
+    final _quoteId = json['quoteId'] as String?;
+    return v1ExecuteSwapResult(
+      swapRequestId: _swapRequestId,
+      provider: _provider,
+      quoteId: _quoteId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['swapRequestId'] = swapRequestId;
+    if (provider != null) {
+      _json['provider'] = provider;
+    }
+    if (quoteId != null) {
+      _json['quoteId'] = quoteId;
     }
     return _json;
   }
@@ -10401,6 +15048,143 @@ class v1ExportPrivateKeyResult {
     final _json = <String, dynamic>{};
     _json['privateKeyId'] = privateKeyId;
     _json['exportBundle'] = exportBundle;
+    return _json;
+  }
+}
+
+class v1ExportSecretParams {
+  /// Unique identifier for the secret to export.
+  final String secretId;
+
+  /// Client-side public key generated by the user, to which the exported secret will be encrypted.
+  final String targetPublicKey;
+
+  /// Transport encryption suite used for the exported secret.
+  final v1TransportEncryptionSuite encryptionSuite;
+
+  /// Bind metadata to the request.
+  final List<v1KeyValue>? requestContext;
+
+  const v1ExportSecretParams({
+    required this.secretId,
+    required this.targetPublicKey,
+    required this.encryptionSuite,
+    this.requestContext,
+  });
+
+  factory v1ExportSecretParams.fromJson(Map<String, dynamic> json) {
+    final _secretId = json['secretId'] as String;
+    final _targetPublicKey = json['targetPublicKey'] as String;
+    final _encryptionSuite =
+        v1TransportEncryptionSuiteFromJson(json['encryptionSuite']);
+    final _requestContext = (json['requestContext'] as List?)
+        ?.map((e) => v1KeyValue.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ExportSecretParams(
+      secretId: _secretId,
+      targetPublicKey: _targetPublicKey,
+      encryptionSuite: _encryptionSuite,
+      requestContext: _requestContext,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secretId'] = secretId;
+    _json['targetPublicKey'] = targetPublicKey;
+    _json['encryptionSuite'] =
+        v1TransportEncryptionSuiteToJson(encryptionSuite);
+    if (requestContext != null) {
+      _json['requestContext'] = requestContext?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1ExportSecretsIntent {
+  /// A list of secrets to export.
+  final List<v1ExportSecretParams> secrets;
+
+  const v1ExportSecretsIntent({
+    required this.secrets,
+  });
+
+  factory v1ExportSecretsIntent.fromJson(Map<String, dynamic> json) {
+    final _secrets = (json['secrets'] as List)
+        .map((e) => v1ExportSecretParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ExportSecretsIntent(
+      secrets: _secrets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secrets'] = secrets.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1ExportSecretsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1ExportSecretsIntent parameters;
+
+  const v1ExportSecretsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1ExportSecretsRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1ExportSecretsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1ExportSecretsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1ExportSecretsResult {
+  /// Encryption suite specific payload containing each secret ciphertext, in the order the params were specified. For enclave encrypt v1 each entry is a JSON-encoded ServerSendMsg.
+  final List<String> secretPayloads;
+
+  const v1ExportSecretsResult({
+    required this.secretPayloads,
+  });
+
+  factory v1ExportSecretsResult.fromJson(Map<String, dynamic> json) {
+    final _secretPayloads =
+        (json['secretPayloads'] as List).map((e) => e as String).toList();
+    return v1ExportSecretsResult(
+      secretPayloads: _secretPayloads,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secretPayloads'] = secretPayloads;
     return _json;
   }
 }
@@ -10745,6 +15529,59 @@ class v1FiatOnRampCredential {
     }
     _json['createdAt'] = createdAt.toJson();
     _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1GetActivePoliciesRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  const v1GetActivePoliciesRequest({
+    required this.organizationId,
+  });
+
+  factory v1GetActivePoliciesRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetActivePoliciesRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetActivePoliciesResponse {
+  /// The active/inactive status of every policy in the organization.
+  final List<v1ActivePolicyStatus> statuses;
+
+  /// The enclave's trusted timestamp (Unix epoch milliseconds) used to evaluate every policy.
+  final String evaluatedAtMs;
+
+  const v1GetActivePoliciesResponse({
+    required this.statuses,
+    required this.evaluatedAtMs,
+  });
+
+  factory v1GetActivePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    final _statuses = (json['statuses'] as List)
+        .map((e) => v1ActivePolicyStatus.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _evaluatedAtMs = json['evaluatedAtMs'] as String;
+    return v1GetActivePoliciesResponse(
+      statuses: _statuses,
+      evaluatedAtMs: _evaluatedAtMs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['statuses'] = statuses.map((e) => e.toJson()).toList();
+    _json['evaluatedAtMs'] = evaluatedAtMs;
     return _json;
   }
 }
@@ -11204,6 +16041,353 @@ class v1GetBootProofRequest {
   }
 }
 
+class v1GetClaimEarnFeesStatusRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The claim_request_id returned by ClaimEarnFees.
+  final String claimRequestId;
+
+  const v1GetClaimEarnFeesStatusRequest({
+    required this.organizationId,
+    required this.claimRequestId,
+  });
+
+  factory v1GetClaimEarnFeesStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _claimRequestId = json['claimRequestId'] as String;
+    return v1GetClaimEarnFeesStatusRequest(
+      organizationId: _organizationId,
+      claimRequestId: _claimRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['claimRequestId'] = claimRequestId;
+    return _json;
+  }
+}
+
+class v1GetClaimEarnFeesStatusResponse {
+  /// Status of the fee claim.
+  final String status;
+
+  /// Transaction hash of the fee claim, once available.
+  final String? claimTxHash;
+
+  /// Reason the fee claim transaction failed, when status is FAILED.
+  final String? error;
+
+  const v1GetClaimEarnFeesStatusResponse({
+    required this.status,
+    this.claimTxHash,
+    this.error,
+  });
+
+  factory v1GetClaimEarnFeesStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _claimTxHash = json['claimTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return v1GetClaimEarnFeesStatusResponse(
+      status: _status,
+      claimTxHash: _claimTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (claimTxHash != null) {
+      _json['claimTxHash'] = claimTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class v1GetEarnClaimRewardsStatusRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The claim_request_id returned by EarnClaimRewards.
+  final String claimRequestId;
+
+  const v1GetEarnClaimRewardsStatusRequest({
+    required this.organizationId,
+    required this.claimRequestId,
+  });
+
+  factory v1GetEarnClaimRewardsStatusRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _claimRequestId = json['claimRequestId'] as String;
+    return v1GetEarnClaimRewardsStatusRequest(
+      organizationId: _organizationId,
+      claimRequestId: _claimRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['claimRequestId'] = claimRequestId;
+    return _json;
+  }
+}
+
+class v1GetEarnClaimRewardsStatusResponse {
+  /// Status of the rewards claim.
+  final String status;
+
+  /// Transaction hash of the rewards claim, once available.
+  final String? claimTxHash;
+
+  /// Reason the rewards claim transaction failed, when status is FAILED.
+  final String? error;
+
+  const v1GetEarnClaimRewardsStatusResponse({
+    required this.status,
+    this.claimTxHash,
+    this.error,
+  });
+
+  factory v1GetEarnClaimRewardsStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _claimTxHash = json['claimTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return v1GetEarnClaimRewardsStatusResponse(
+      status: _status,
+      claimTxHash: _claimTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (claimTxHash != null) {
+      _json['claimTxHash'] = claimTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class v1GetEarnDeployStatusRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The deploy_request_id returned by EarnDeployWrapper.
+  final String deployRequestId;
+
+  const v1GetEarnDeployStatusRequest({
+    required this.organizationId,
+    required this.deployRequestId,
+  });
+
+  factory v1GetEarnDeployStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _deployRequestId = json['deployRequestId'] as String;
+    return v1GetEarnDeployStatusRequest(
+      organizationId: _organizationId,
+      deployRequestId: _deployRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['deployRequestId'] = deployRequestId;
+    return _json;
+  }
+}
+
+class v1GetEarnDeployStatusResponse {
+  /// Status of the wrapper deployment.
+  final String status;
+
+  /// Transaction hash of the deployment, once available.
+  final String? deployTxHash;
+
+  /// Reason the deployment transaction failed, when status is FAILED.
+  final String? error;
+
+  const v1GetEarnDeployStatusResponse({
+    required this.status,
+    this.deployTxHash,
+    this.error,
+  });
+
+  factory v1GetEarnDeployStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _deployTxHash = json['deployTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return v1GetEarnDeployStatusResponse(
+      status: _status,
+      deployTxHash: _deployTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (deployTxHash != null) {
+      _json['deployTxHash'] = deployTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class v1GetEarnDepositStatusRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The deposit_request_id returned by EarnDeposit.
+  final String depositRequestId;
+
+  const v1GetEarnDepositStatusRequest({
+    required this.organizationId,
+    required this.depositRequestId,
+  });
+
+  factory v1GetEarnDepositStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _depositRequestId = json['depositRequestId'] as String;
+    return v1GetEarnDepositStatusRequest(
+      organizationId: _organizationId,
+      depositRequestId: _depositRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['depositRequestId'] = depositRequestId;
+    return _json;
+  }
+}
+
+class v1GetEarnDepositStatusResponse {
+  /// Status of the deposit.
+  final String status;
+
+  /// Transaction hash of the deposit, once available.
+  final String? depositTxHash;
+
+  /// Reason the deposit transaction failed, when status is FAILED.
+  final String? error;
+
+  const v1GetEarnDepositStatusResponse({
+    required this.status,
+    this.depositTxHash,
+    this.error,
+  });
+
+  factory v1GetEarnDepositStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _depositTxHash = json['depositTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return v1GetEarnDepositStatusResponse(
+      status: _status,
+      depositTxHash: _depositTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (depositTxHash != null) {
+      _json['depositTxHash'] = depositTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class v1GetEarnWithdrawStatusRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The withdraw_request_id returned by EarnWithdraw.
+  final String withdrawRequestId;
+
+  const v1GetEarnWithdrawStatusRequest({
+    required this.organizationId,
+    required this.withdrawRequestId,
+  });
+
+  factory v1GetEarnWithdrawStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _withdrawRequestId = json['withdrawRequestId'] as String;
+    return v1GetEarnWithdrawStatusRequest(
+      organizationId: _organizationId,
+      withdrawRequestId: _withdrawRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['withdrawRequestId'] = withdrawRequestId;
+    return _json;
+  }
+}
+
+class v1GetEarnWithdrawStatusResponse {
+  /// Status of the withdrawal.
+  final String status;
+
+  /// Transaction hash of the withdrawal, once available.
+  final String? withdrawTxHash;
+
+  /// Reason the withdrawal transaction failed, when status is FAILED.
+  final String? error;
+
+  const v1GetEarnWithdrawStatusResponse({
+    required this.status,
+    this.withdrawTxHash,
+    this.error,
+  });
+
+  factory v1GetEarnWithdrawStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _withdrawTxHash = json['withdrawTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return v1GetEarnWithdrawStatusResponse(
+      status: _status,
+      withdrawTxHash: _withdrawTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (withdrawTxHash != null) {
+      _json['withdrawTxHash'] = withdrawTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
 class v1GetGasUsageRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
@@ -11262,11 +16446,64 @@ class v1GetGasUsageResponse {
   }
 }
 
+class v1GetIpAllowlistRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// If provided, return only the allowlist for this specific API key.
+  final String? publicKey;
+
+  const v1GetIpAllowlistRequest({
+    required this.organizationId,
+    this.publicKey,
+  });
+
+  factory v1GetIpAllowlistRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _publicKey = json['publicKey'] as String?;
+    return v1GetIpAllowlistRequest(
+      organizationId: _organizationId,
+      publicKey: _publicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    return _json;
+  }
+}
+
+class v1GetIpAllowlistResponse {
+  final v1IpAllowlist allowlist;
+
+  const v1GetIpAllowlistResponse({
+    required this.allowlist,
+  });
+
+  factory v1GetIpAllowlistResponse.fromJson(Map<String, dynamic> json) {
+    final _allowlist =
+        v1IpAllowlist.fromJson(json['allowlist'] as Map<String, dynamic>);
+    return v1GetIpAllowlistResponse(
+      allowlist: _allowlist,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['allowlist'] = allowlist.toJson();
+    return _json;
+  }
+}
+
 class v1GetLatestBootProofRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  /// Name of enclave app.
+  /// Unique identifier (UUID) of the enclave app.
   final String appName;
 
   const v1GetLatestBootProofRequest({
@@ -11287,6 +16524,180 @@ class v1GetLatestBootProofRequest {
     final _json = <String, dynamic>{};
     _json['organizationId'] = organizationId;
     _json['appName'] = appName;
+    return _json;
+  }
+}
+
+class v1GetMfaPoliciesRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Unique identifier for a given user.
+  final String userId;
+
+  const v1GetMfaPoliciesRequest({
+    required this.organizationId,
+    required this.userId,
+  });
+
+  factory v1GetMfaPoliciesRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _userId = json['userId'] as String;
+    return v1GetMfaPoliciesRequest(
+      organizationId: _organizationId,
+      userId: _userId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['userId'] = userId;
+    return _json;
+  }
+}
+
+class v1GetMfaPoliciesResponse {
+  /// A list of multi-factor authentication policies for a user.
+  final List<v1MfaPolicy> mfaPolicies;
+
+  const v1GetMfaPoliciesResponse({
+    required this.mfaPolicies,
+  });
+
+  factory v1GetMfaPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicies = (json['mfaPolicies'] as List)
+        .map((e) => v1MfaPolicy.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetMfaPoliciesResponse(
+      mfaPolicies: _mfaPolicies,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicies'] = mfaPolicies.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetMfaPolicyRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Unique identifier for a given user.
+  final String userId;
+
+  /// Unique identifier for a given MFA policy.
+  final String mfaPolicyId;
+
+  const v1GetMfaPolicyRequest({
+    required this.organizationId,
+    required this.userId,
+    required this.mfaPolicyId,
+  });
+
+  factory v1GetMfaPolicyRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _userId = json['userId'] as String;
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return v1GetMfaPolicyRequest(
+      organizationId: _organizationId,
+      userId: _userId,
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['userId'] = userId;
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
+class v1GetMfaPolicyResponse {
+  /// Multi-factor authentication policy for a user.
+  final v1MfaPolicy mfaPolicy;
+
+  const v1GetMfaPolicyResponse({
+    required this.mfaPolicy,
+  });
+
+  factory v1GetMfaPolicyResponse.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicy =
+        v1MfaPolicy.fromJson(json['mfaPolicy'] as Map<String, dynamic>);
+    return v1GetMfaPolicyResponse(
+      mfaPolicy: _mfaPolicy,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicy'] = mfaPolicy.toJson();
+    return _json;
+  }
+}
+
+class v1GetMfaStatusRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// The unique identifier of the activity to get MFA status for.
+  final String activityId;
+
+  /// Optional user ID to filter MFA status for a specific user.
+  final String? userId;
+
+  const v1GetMfaStatusRequest({
+    required this.organizationId,
+    required this.activityId,
+    this.userId,
+  });
+
+  factory v1GetMfaStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _activityId = json['activityId'] as String;
+    final _userId = json['userId'] as String?;
+    return v1GetMfaStatusRequest(
+      organizationId: _organizationId,
+      activityId: _activityId,
+      userId: _userId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['activityId'] = activityId;
+    if (userId != null) {
+      _json['userId'] = userId;
+    }
+    return _json;
+  }
+}
+
+class v1GetMfaStatusResponse {
+  /// A list of MFA statuses for the activity's votes.
+  final List<v1MfaStatus> mfaStatuses;
+
+  const v1GetMfaStatusResponse({
+    required this.mfaStatuses,
+  });
+
+  factory v1GetMfaStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _mfaStatuses = (json['mfaStatuses'] as List)
+        .map((e) => v1MfaStatus.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetMfaStatusResponse(
+      mfaStatuses: _mfaStatuses,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaStatuses'] = mfaStatuses.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -11936,6 +17347,104 @@ class v1GetSendTransactionStatusResponse {
   }
 }
 
+class v1GetSessionProfileRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Unique identifier for a session profile.
+  final String sessionProfileId;
+
+  const v1GetSessionProfileRequest({
+    required this.organizationId,
+    required this.sessionProfileId,
+  });
+
+  factory v1GetSessionProfileRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _sessionProfileId = json['sessionProfileId'] as String;
+    return v1GetSessionProfileRequest(
+      organizationId: _organizationId,
+      sessionProfileId: _sessionProfileId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['sessionProfileId'] = sessionProfileId;
+    return _json;
+  }
+}
+
+class v1GetSessionProfileResponse {
+  /// Session profile for a user, including details about the user's authenticators, Oauth providers, API keys, and MFA policies.
+  final v1SessionProfile sessionProfile;
+
+  const v1GetSessionProfileResponse({
+    required this.sessionProfile,
+  });
+
+  factory v1GetSessionProfileResponse.fromJson(Map<String, dynamic> json) {
+    final _sessionProfile = v1SessionProfile
+        .fromJson(json['sessionProfile'] as Map<String, dynamic>);
+    return v1GetSessionProfileResponse(
+      sessionProfile: _sessionProfile,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfile'] = sessionProfile.toJson();
+    return _json;
+  }
+}
+
+class v1GetSessionProfilesRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  const v1GetSessionProfilesRequest({
+    required this.organizationId,
+  });
+
+  factory v1GetSessionProfilesRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetSessionProfilesRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetSessionProfilesResponse {
+  /// A list of session profiles for users in the organization.
+  final List<v1SessionProfile> sessionProfiles;
+
+  const v1GetSessionProfilesResponse({
+    required this.sessionProfiles,
+  });
+
+  factory v1GetSessionProfilesResponse.fromJson(Map<String, dynamic> json) {
+    final _sessionProfiles = (json['sessionProfiles'] as List)
+        .map((e) => v1SessionProfile.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetSessionProfilesResponse(
+      sessionProfiles: _sessionProfiles,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfiles'] = sessionProfiles.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
 class v1GetSmartContractInterfaceRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
@@ -12116,6 +17625,658 @@ class v1GetSubOrgIdsResponse {
   }
 }
 
+class v1GetSwapStatusRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The swap_request_id returned by ExecuteSwap.
+  final String swapRequestId;
+
+  const v1GetSwapStatusRequest({
+    required this.organizationId,
+    required this.swapRequestId,
+  });
+
+  factory v1GetSwapStatusRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _swapRequestId = json['swapRequestId'] as String;
+    return v1GetSwapStatusRequest(
+      organizationId: _organizationId,
+      swapRequestId: _swapRequestId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['swapRequestId'] = swapRequestId;
+    return _json;
+  }
+}
+
+class v1GetSwapStatusResponse {
+  /// Normalized swap status. One of PENDING, COMPLETED, FAILED.
+  final String status;
+
+  /// SAME_CHAIN or CROSS_CHAIN.
+  final String swapKind;
+
+  /// Swap provider that executed the swap.
+  final String provider;
+
+  /// CAIP-19 asset ID for the input asset.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Final included origin-chain transaction hash, when known.
+  final String? originTxHash;
+
+  /// Provider-reported destination-chain transaction hashes; cross-chain COMPLETED only.
+  final List<String>? destinationTxHashes;
+
+  /// Actual base-unit output amount on COMPLETED, when known. Unset on FAILED.
+  final String? outputAmount;
+
+  /// Funds returned by the provider after a successful origin transfer and failed cross-chain fill. Omitted for origin transaction failures and same-chain swaps.
+  final v1SwapRefund? refund;
+
+  /// Timestamp of the last swap status change, as millisecond epoch string.
+  final String updatedAt;
+
+  /// Normalized failure details, present whenever status is FAILED.
+  final v1SwapError? error;
+
+  /// Address that receives the output asset.
+  final String? destinationAddress;
+
+  const v1GetSwapStatusResponse({
+    required this.status,
+    required this.swapKind,
+    required this.provider,
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    this.originTxHash,
+    this.destinationTxHashes,
+    this.outputAmount,
+    this.refund,
+    required this.updatedAt,
+    this.error,
+    this.destinationAddress,
+  });
+
+  factory v1GetSwapStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _swapKind = json['swapKind'] as String;
+    final _provider = json['provider'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _originTxHash = json['originTxHash'] as String?;
+    final _destinationTxHashes = (json['destinationTxHashes'] as List?)
+        ?.map((e) => e as String)
+        .toList();
+    final _outputAmount = json['outputAmount'] as String?;
+    final _refund = json['refund'] == null
+        ? null
+        : v1SwapRefund.fromJson(json['refund'] as Map<String, dynamic>);
+    final _updatedAt = json['updatedAt'] as String;
+    final _error = json['error'] == null
+        ? null
+        : v1SwapError.fromJson(json['error'] as Map<String, dynamic>);
+    final _destinationAddress = json['destinationAddress'] as String?;
+    return v1GetSwapStatusResponse(
+      status: _status,
+      swapKind: _swapKind,
+      provider: _provider,
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      originTxHash: _originTxHash,
+      destinationTxHashes: _destinationTxHashes,
+      outputAmount: _outputAmount,
+      refund: _refund,
+      updatedAt: _updatedAt,
+      error: _error,
+      destinationAddress: _destinationAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    _json['swapKind'] = swapKind;
+    _json['provider'] = provider;
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    if (originTxHash != null) {
+      _json['originTxHash'] = originTxHash;
+    }
+    if (destinationTxHashes != null) {
+      _json['destinationTxHashes'] = destinationTxHashes;
+    }
+    if (outputAmount != null) {
+      _json['outputAmount'] = outputAmount;
+    }
+    if (refund != null) {
+      _json['refund'] = refund?.toJson();
+    }
+    _json['updatedAt'] = updatedAt;
+    if (error != null) {
+      _json['error'] = error?.toJson();
+    }
+    if (destinationAddress != null) {
+      _json['destinationAddress'] = destinationAddress;
+    }
+    return _json;
+  }
+}
+
+class v1GetTvcAppDeploymentsRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Unique identifier for a given TVC App.
+  final String appId;
+
+  const v1GetTvcAppDeploymentsRequest({
+    required this.organizationId,
+    required this.appId,
+  });
+
+  factory v1GetTvcAppDeploymentsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _appId = json['appId'] as String;
+    return v1GetTvcAppDeploymentsRequest(
+      organizationId: _organizationId,
+      appId: _appId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class v1GetTvcAppDeploymentsResponse {
+  /// List of deployments for this TVC App
+  final List<v1TvcDeployment> tvcDeployments;
+
+  const v1GetTvcAppDeploymentsResponse({
+    required this.tvcDeployments,
+  });
+
+  factory v1GetTvcAppDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployments = (json['tvcDeployments'] as List)
+        .map((e) => v1TvcDeployment.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetTvcAppDeploymentsResponse(
+      tvcDeployments: _tvcDeployments,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployments'] = tvcDeployments.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetTvcAppRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Unique identifier for a given TVC App.
+  final String tvcAppId;
+
+  const v1GetTvcAppRequest({
+    required this.organizationId,
+    required this.tvcAppId,
+  });
+
+  factory v1GetTvcAppRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _tvcAppId = json['tvcAppId'] as String;
+    return v1GetTvcAppRequest(
+      organizationId: _organizationId,
+      tvcAppId: _tvcAppId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['tvcAppId'] = tvcAppId;
+    return _json;
+  }
+}
+
+class v1GetTvcAppResponse {
+  /// Details about a single TVC App
+  final v1TvcApp tvcApp;
+
+  const v1GetTvcAppResponse({
+    required this.tvcApp,
+  });
+
+  factory v1GetTvcAppResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApp = v1TvcApp.fromJson(json['tvcApp'] as Map<String, dynamic>);
+    return v1GetTvcAppResponse(
+      tvcApp: _tvcApp,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApp'] = tvcApp.toJson();
+    return _json;
+  }
+}
+
+class v1GetTvcAppsRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Filter TVC Apps by whether they have a live deployment. If omitted, all TVC Apps are returned.
+  final bool? isLive;
+
+  const v1GetTvcAppsRequest({
+    required this.organizationId,
+    this.isLive,
+  });
+
+  factory v1GetTvcAppsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _isLive = json['isLive'] as bool?;
+    return v1GetTvcAppsRequest(
+      organizationId: _organizationId,
+      isLive: _isLive,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (isLive != null) {
+      _json['isLive'] = isLive;
+    }
+    return _json;
+  }
+}
+
+class v1GetTvcAppsResponse {
+  /// A list of TVC Apps.
+  final List<v1TvcApp> tvcApps;
+
+  const v1GetTvcAppsResponse({
+    required this.tvcApps,
+  });
+
+  factory v1GetTvcAppsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApps = (json['tvcApps'] as List)
+        .map((e) => v1TvcApp.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetTvcAppsResponse(
+      tvcApps: _tvcApps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApps'] = tvcApps.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentDebugLogsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// Unique identifier for a given TVC Deployment. The deployment must be running in debug mode.
+  final String deploymentId;
+
+  /// Limit returned history to the last N lines per replica. If unset or zero, no tail-line limit is applied.
+  final num? tailLines;
+
+  /// Return logs newer than this many seconds ago. If unset or zero, no since-time limit is applied. Useful for clients that poll to follow logs.
+  final String? sinceSeconds;
+
+  const v1GetTvcDeploymentDebugLogsRequest({
+    required this.organizationId,
+    required this.deploymentId,
+    this.tailLines,
+    this.sinceSeconds,
+  });
+
+  factory v1GetTvcDeploymentDebugLogsRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _deploymentId = json['deploymentId'] as String;
+    final _tailLines = json['tailLines'] as num?;
+    final _sinceSeconds = json['sinceSeconds'] as String?;
+    return v1GetTvcDeploymentDebugLogsRequest(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+      tailLines: _tailLines,
+      sinceSeconds: _sinceSeconds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['deploymentId'] = deploymentId;
+    if (tailLines != null) {
+      _json['tailLines'] = tailLines;
+    }
+    if (sinceSeconds != null) {
+      _json['sinceSeconds'] = sinceSeconds;
+    }
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentDebugLogsResponse {
+  /// Application log entries sorted by platform timestamp.
+  final List<v1TvcDeploymentDebugLogEntry> entries;
+
+  const v1GetTvcDeploymentDebugLogsResponse({
+    required this.entries,
+  });
+
+  factory v1GetTvcDeploymentDebugLogsResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _entries = (json['entries'] as List)
+        .map((e) =>
+            v1TvcDeploymentDebugLogEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetTvcDeploymentDebugLogsResponse(
+      entries: _entries,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['entries'] = entries.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentProvisioningDetailsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// Unique identifier for a given TVC Deployment.
+  final String deploymentId;
+
+  const v1GetTvcDeploymentProvisioningDetailsRequest({
+    required this.organizationId,
+    required this.deploymentId,
+  });
+
+  factory v1GetTvcDeploymentProvisioningDetailsRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _deploymentId = json['deploymentId'] as String;
+    return v1GetTvcDeploymentProvisioningDetailsRequest(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentProvisioningDetailsResponse {
+  /// The attestation document of the provisioning enclave. Present only when a deployment is awaiting provisioning.
+  final String? attestationDocument;
+
+  /// The manifest envelope containing the TVC deployment's manifest and signatures. Present only when a deployment is awaiting provisioning.
+  final String? manifestEnvelope;
+
+  /// Current provisioning state.
+  final v1ProvisioningState provisioningState;
+
+  const v1GetTvcDeploymentProvisioningDetailsResponse({
+    this.attestationDocument,
+    this.manifestEnvelope,
+    required this.provisioningState,
+  });
+
+  factory v1GetTvcDeploymentProvisioningDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _attestationDocument = json['attestationDocument'] as String?;
+    final _manifestEnvelope = json['manifestEnvelope'] as String?;
+    final _provisioningState =
+        v1ProvisioningStateFromJson(json['provisioningState']);
+    return v1GetTvcDeploymentProvisioningDetailsResponse(
+      attestationDocument: _attestationDocument,
+      manifestEnvelope: _manifestEnvelope,
+      provisioningState: _provisioningState,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (attestationDocument != null) {
+      _json['attestationDocument'] = attestationDocument;
+    }
+    if (manifestEnvelope != null) {
+      _json['manifestEnvelope'] = manifestEnvelope;
+    }
+    _json['provisioningState'] = v1ProvisioningStateToJson(provisioningState);
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Unique identifier for a given TVC Deployment.
+  final String deploymentId;
+
+  const v1GetTvcDeploymentRequest({
+    required this.organizationId,
+    required this.deploymentId,
+  });
+
+  factory v1GetTvcDeploymentRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _deploymentId = json['deploymentId'] as String;
+    return v1GetTvcDeploymentRequest(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class v1GetTvcDeploymentResponse {
+  /// Details about a single TVC Deployment
+  final v1TvcDeployment tvcDeployment;
+
+  const v1GetTvcDeploymentResponse({
+    required this.tvcDeployment,
+  });
+
+  factory v1GetTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployment =
+        v1TvcDeployment.fromJson(json['tvcDeployment'] as Map<String, dynamic>);
+    return v1GetTvcDeploymentResponse(
+      tvcDeployment: _tvcDeployment,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployment'] = tvcDeployment.toJson();
+    return _json;
+  }
+}
+
+class v1GetTvcOperatorsRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  const v1GetTvcOperatorsRequest({
+    required this.organizationId,
+  });
+
+  factory v1GetTvcOperatorsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetTvcOperatorsRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetTvcOperatorsResponse {
+  final List<v1TvcOperator> tvcOperators;
+
+  const v1GetTvcOperatorsResponse({
+    required this.tvcOperators,
+  });
+
+  factory v1GetTvcOperatorsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcOperators = (json['tvcOperators'] as List)
+        .map((e) => v1TvcOperator.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetTvcOperatorsResponse(
+      tvcOperators: _tvcOperators,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcOperators'] = tvcOperators.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1GetTvcQosVersionsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  const v1GetTvcQosVersionsRequest({
+    required this.organizationId,
+  });
+
+  factory v1GetTvcQosVersionsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetTvcQosVersionsRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetTvcQosVersionsResponse {
+  /// QOS versions supported for new TVC deployments.
+  final List<String> availableVersions;
+
+  /// Latest recommended QOS version for new TVC deployments.
+  final String latestVersion;
+
+  const v1GetTvcQosVersionsResponse({
+    required this.availableVersions,
+    required this.latestVersion,
+  });
+
+  factory v1GetTvcQosVersionsResponse.fromJson(Map<String, dynamic> json) {
+    final _availableVersions =
+        (json['availableVersions'] as List).map((e) => e as String).toList();
+    final _latestVersion = json['latestVersion'] as String;
+    return v1GetTvcQosVersionsResponse(
+      availableVersions: _availableVersions,
+      latestVersion: _latestVersion,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['availableVersions'] = availableVersions;
+    _json['latestVersion'] = latestVersion;
+    return _json;
+  }
+}
+
+class v1GetTvcQuorumKeysRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  const v1GetTvcQuorumKeysRequest({
+    required this.organizationId,
+  });
+
+  factory v1GetTvcQuorumKeysRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    return v1GetTvcQuorumKeysRequest(
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    return _json;
+  }
+}
+
+class v1GetTvcQuorumKeysResponse {
+  final List<v1TvcQuorumKey> tvcQuorumKeys;
+
+  const v1GetTvcQuorumKeysResponse({
+    required this.tvcQuorumKeys,
+  });
+
+  factory v1GetTvcQuorumKeysResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcQuorumKeys = (json['tvcQuorumKeys'] as List)
+        .map((e) => v1TvcQuorumKey.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1GetTvcQuorumKeysResponse(
+      tvcQuorumKeys: _tvcQuorumKeys,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcQuorumKeys'] = tvcQuorumKeys.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
 class v1GetUserRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
@@ -12217,7 +18378,7 @@ class v1GetVerifiedSubOrgIdsRequest {
   /// Unique identifier for the parent organization. This is used to find sub-organizations within it.
   final String organizationId;
 
-  /// Specifies the type of filter to apply, i.e 'EMAIL', 'PHONE_NUMBER'.
+  /// Specifies the type of filter to apply, i.e 'EMAIL', 'PHONE_NUMBER', 'OIDC_TOKEN', 'OAUTH_CLAIM', or 'PUBLIC_KEY'
   final String? filterType;
 
   /// The value of the filter to apply for the specified type. For example, a specific email or phone number string.
@@ -12793,6 +18954,153 @@ class v1ImportPrivateKeyResult {
   }
 }
 
+class v1ImportSecretParams {
+  /// Optional human-readable name for the secret. Names must be unique within an organization when provided.
+  final String? name;
+
+  /// Encryption suite specific payload containing the secret ciphertext. For enclave encrypt v1 this is a JSON-encoded ClientSendMsg.
+  final String secretPayload;
+
+  /// Targeted transport encryption public key, as returned by InitImportSecrets.
+  final String targetPublicKey;
+
+  /// Transport encryption suite used for the ingress secret.
+  final v1TransportEncryptionSuite encryptionSuite;
+
+  /// Policy-visible, static properties to permanently bind to the secret.
+  final List<v1KeyValue>? staticProperties;
+
+  const v1ImportSecretParams({
+    this.name,
+    required this.secretPayload,
+    required this.targetPublicKey,
+    required this.encryptionSuite,
+    this.staticProperties,
+  });
+
+  factory v1ImportSecretParams.fromJson(Map<String, dynamic> json) {
+    final _name = json['name'] as String?;
+    final _secretPayload = json['secretPayload'] as String;
+    final _targetPublicKey = json['targetPublicKey'] as String;
+    final _encryptionSuite =
+        v1TransportEncryptionSuiteFromJson(json['encryptionSuite']);
+    final _staticProperties = (json['staticProperties'] as List?)
+        ?.map((e) => v1KeyValue.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ImportSecretParams(
+      name: _name,
+      secretPayload: _secretPayload,
+      targetPublicKey: _targetPublicKey,
+      encryptionSuite: _encryptionSuite,
+      staticProperties: _staticProperties,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (name != null) {
+      _json['name'] = name;
+    }
+    _json['secretPayload'] = secretPayload;
+    _json['targetPublicKey'] = targetPublicKey;
+    _json['encryptionSuite'] =
+        v1TransportEncryptionSuiteToJson(encryptionSuite);
+    if (staticProperties != null) {
+      _json['staticProperties'] =
+          staticProperties?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1ImportSecretsIntent {
+  /// A list of secrets to import.
+  final List<v1ImportSecretParams> secrets;
+
+  const v1ImportSecretsIntent({
+    required this.secrets,
+  });
+
+  factory v1ImportSecretsIntent.fromJson(Map<String, dynamic> json) {
+    final _secrets = (json['secrets'] as List)
+        .map((e) => v1ImportSecretParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ImportSecretsIntent(
+      secrets: _secrets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secrets'] = secrets.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1ImportSecretsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1ImportSecretsIntent parameters;
+
+  const v1ImportSecretsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1ImportSecretsRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1ImportSecretsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1ImportSecretsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1ImportSecretsResult {
+  /// Unique identifier for each imported secret, in the order the params were specified.
+  final List<String> secretIds;
+
+  const v1ImportSecretsResult({
+    required this.secretIds,
+  });
+
+  factory v1ImportSecretsResult.fromJson(Map<String, dynamic> json) {
+    final _secretIds =
+        (json['secretIds'] as List).map((e) => e as String).toList();
+    return v1ImportSecretsResult(
+      secretIds: _secretIds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secretIds'] = secretIds;
+    return _json;
+  }
+}
+
 class v1ImportWalletIntent {
   /// The ID of the User importing a Wallet.
   final String userId;
@@ -13207,6 +19515,102 @@ class v1InitImportPrivateKeyResult {
   }
 }
 
+class v1InitImportSecretsIntent {
+  /// Transport encryption suite used for ingress secrets.
+  final v1TransportEncryptionSuite encryptionSuite;
+
+  /// The number of secrets the user intends to import.
+  final num numSecrets;
+
+  const v1InitImportSecretsIntent({
+    required this.encryptionSuite,
+    required this.numSecrets,
+  });
+
+  factory v1InitImportSecretsIntent.fromJson(Map<String, dynamic> json) {
+    final _encryptionSuite =
+        v1TransportEncryptionSuiteFromJson(json['encryptionSuite']);
+    final _numSecrets = json['numSecrets'] as num;
+    return v1InitImportSecretsIntent(
+      encryptionSuite: _encryptionSuite,
+      numSecrets: _numSecrets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['encryptionSuite'] =
+        v1TransportEncryptionSuiteToJson(encryptionSuite);
+    _json['numSecrets'] = numSecrets;
+    return _json;
+  }
+}
+
+class v1InitImportSecretsRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1InitImportSecretsIntent parameters;
+
+  const v1InitImportSecretsRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1InitImportSecretsRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1InitImportSecretsIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1InitImportSecretsRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1InitImportSecretsResult {
+  /// Enclave ingress target keys along with metadata specific to the encryption suite. For enclave encrypt v1 this will be ServerTargetMsgV1.
+  final List<String> enclaveTargetMessages;
+
+  const v1InitImportSecretsResult({
+    required this.enclaveTargetMessages,
+  });
+
+  factory v1InitImportSecretsResult.fromJson(Map<String, dynamic> json) {
+    final _enclaveTargetMessages = (json['enclaveTargetMessages'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1InitImportSecretsResult(
+      enclaveTargetMessages: _enclaveTargetMessages,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['enclaveTargetMessages'] = enclaveTargetMessages;
+    return _json;
+  }
+}
+
 class v1InitImportWalletIntent {
   /// The ID of the User importing a Wallet.
   final String userId;
@@ -13300,7 +19704,7 @@ class v1InitImportWalletResult {
 }
 
 class v1InitOtpAuthIntent {
-  /// Enum to specify whether to send OTP via SMS or email
+  /// Enum to specify whether to send OTP via SMS, email, or WhatsApp
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -13389,7 +19793,7 @@ class v1InitOtpAuthIntent {
 }
 
 class v1InitOtpAuthIntentV2 {
-  /// Enum to specify whether to send OTP via SMS or email
+  /// Enum to specify whether to send OTP via SMS, email, or WhatsApp
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -13496,7 +19900,7 @@ class v1InitOtpAuthIntentV2 {
 }
 
 class v1InitOtpAuthIntentV3 {
-  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  /// Whether to send OTP via SMS, email, or WhatsApp. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL, OTP_TYPE_WHATSAPP
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -13711,7 +20115,7 @@ class v1InitOtpAuthResultV2 {
 }
 
 class v1InitOtpIntent {
-  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  /// Whether to send OTP via SMS, email, or WhatsApp. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL, OTP_TYPE_WHATSAPP
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -13827,7 +20231,7 @@ class v1InitOtpIntent {
 }
 
 class v1InitOtpIntentV2 {
-  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  /// Whether to send OTP via SMS, email, or WhatsApp. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL, OTP_TYPE_WHATSAPP
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -13950,7 +20354,7 @@ class v1InitOtpIntentV2 {
 }
 
 class v1InitOtpIntentV3 {
-  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  /// Whether to send OTP via SMS, email, or WhatsApp. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL, OTP_TYPE_WHATSAPP
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -14522,6 +20926,50 @@ class v1Intent {
   final v1CreateWebhookEndpointIntent? createWebhookEndpointIntent;
   final v1UpdateWebhookEndpointIntent? updateWebhookEndpointIntent;
   final v1DeleteWebhookEndpointIntent? deleteWebhookEndpointIntent;
+  final v1SetIpAllowlistIntent? setIpAllowlistIntent;
+  final v1RemoveIpAllowlistIntent? removeIpAllowlistIntent;
+  final v1UpdateTvcAppLiveDeploymentIntent? updateTvcAppLiveDeploymentIntent;
+  final v1DeleteTvcDeploymentIntent? deleteTvcDeploymentIntent;
+  final v1DeleteTvcAppAndDeploymentsIntent? deleteTvcAppAndDeploymentsIntent;
+  final v1RestoreTvcDeploymentIntent? restoreTvcDeploymentIntent;
+  final v1SparkSignFrostIntent? sparkSignFrostIntent;
+  final v1SparkPrepareTransferIntent? sparkPrepareTransferIntent;
+  final v1SparkClaimTransferIntent? sparkClaimTransferIntent;
+  final v1SparkPrepareLightningReceiveIntent?
+      sparkPrepareLightningReceiveIntent;
+  final v1PostTvcQuorumKeyShareIntent? postTvcQuorumKeyShareIntent;
+  final v1EthSendTransactionIntentV2? ethSendTransactionIntentV2;
+  final v1CreateMfaPolicyIntent? createMfaPolicyIntent;
+  final v1UpdateMfaPolicyIntent? updateMfaPolicyIntent;
+  final v1DeleteMfaPolicyIntent? deleteMfaPolicyIntent;
+  final v1CreateSessionProfileIntent? createSessionProfileIntent;
+  final v1EarnDeployWrapperIntent? earnDeployWrapperIntent;
+  final v1EarnDepositIntent? earnDepositIntent;
+  final v1EarnWithdrawIntent? earnWithdrawIntent;
+  final v1ExecuteSwapIntent? executeSwapIntent;
+  final v1UpsertSwapConfigIntent? upsertSwapConfigIntent;
+  final v1CreateTvcOperatorIntent? createTvcOperatorIntent;
+  final v1CreateTvcQuorumKeyIntent? createTvcQuorumKeyIntent;
+  final v1ReEncryptTvcQuorumKeyShareIntent? reEncryptTvcQuorumKeyShareIntent;
+  final v1InitImportSecretsIntent? initImportSecretsIntent;
+  final v1SolSendTransactionIntentV2? solSendTransactionIntentV2;
+  final v1ClaimSwapFeesIntent? claimSwapFeesIntent;
+  final v1EarnSetWrapperStateIntent? earnSetWrapperStateIntent;
+  final v1ClaimEarnFeesIntent? claimEarnFeesIntent;
+  final v1UpdateWalletAccountNameIntent? updateWalletAccountNameIntent;
+  final v1EthUndelegate7702Intent? ethUndelegate7702Intent;
+  final v1ExecuteSwapIntentV2? executeSwapIntentV2;
+  final v1CreateSwapQuoteIntent? createSwapQuoteIntent;
+  final v1ImportSecretsIntent? importSecretsIntent;
+  final v1ExportSecretsIntent? exportSecretsIntent;
+  final v1CreateVelocityControlIntent? createVelocityControlIntent;
+  final v1DeleteVelocityControlIntent? deleteVelocityControlIntent;
+  final billingUpdatePaymentMethodIntent? updatePaymentMethodIntent;
+  final v1CreateSwapQuoteIntentV2? createSwapQuoteIntentV2;
+  final v1ExecuteSwapIntentV3? executeSwapIntentV3;
+  final v1DeleteSecretsIntent? deleteSecretsIntent;
+  final v1EarnClaimRewardsIntent? earnClaimRewardsIntent;
+  final v1CreateSwapQuoteIntentV3? createSwapQuoteIntentV3;
 
   const v1Intent({
     this.createOrganizationIntent,
@@ -14651,6 +21099,49 @@ class v1Intent {
     this.createWebhookEndpointIntent,
     this.updateWebhookEndpointIntent,
     this.deleteWebhookEndpointIntent,
+    this.setIpAllowlistIntent,
+    this.removeIpAllowlistIntent,
+    this.updateTvcAppLiveDeploymentIntent,
+    this.deleteTvcDeploymentIntent,
+    this.deleteTvcAppAndDeploymentsIntent,
+    this.restoreTvcDeploymentIntent,
+    this.sparkSignFrostIntent,
+    this.sparkPrepareTransferIntent,
+    this.sparkClaimTransferIntent,
+    this.sparkPrepareLightningReceiveIntent,
+    this.postTvcQuorumKeyShareIntent,
+    this.ethSendTransactionIntentV2,
+    this.createMfaPolicyIntent,
+    this.updateMfaPolicyIntent,
+    this.deleteMfaPolicyIntent,
+    this.createSessionProfileIntent,
+    this.earnDeployWrapperIntent,
+    this.earnDepositIntent,
+    this.earnWithdrawIntent,
+    this.executeSwapIntent,
+    this.upsertSwapConfigIntent,
+    this.createTvcOperatorIntent,
+    this.createTvcQuorumKeyIntent,
+    this.reEncryptTvcQuorumKeyShareIntent,
+    this.initImportSecretsIntent,
+    this.solSendTransactionIntentV2,
+    this.claimSwapFeesIntent,
+    this.earnSetWrapperStateIntent,
+    this.claimEarnFeesIntent,
+    this.updateWalletAccountNameIntent,
+    this.ethUndelegate7702Intent,
+    this.executeSwapIntentV2,
+    this.createSwapQuoteIntent,
+    this.importSecretsIntent,
+    this.exportSecretsIntent,
+    this.createVelocityControlIntent,
+    this.deleteVelocityControlIntent,
+    this.updatePaymentMethodIntent,
+    this.createSwapQuoteIntentV2,
+    this.executeSwapIntentV3,
+    this.deleteSecretsIntent,
+    this.earnClaimRewardsIntent,
+    this.createSwapQuoteIntentV3,
   });
 
   factory v1Intent.fromJson(Map<String, dynamic> json) {
@@ -15213,6 +21704,195 @@ class v1Intent {
             ? null
             : v1DeleteWebhookEndpointIntent.fromJson(
                 json['deleteWebhookEndpointIntent'] as Map<String, dynamic>);
+    final _setIpAllowlistIntent = json['setIpAllowlistIntent'] == null
+        ? null
+        : v1SetIpAllowlistIntent
+            .fromJson(json['setIpAllowlistIntent'] as Map<String, dynamic>);
+    final _removeIpAllowlistIntent = json['removeIpAllowlistIntent'] == null
+        ? null
+        : v1RemoveIpAllowlistIntent
+            .fromJson(json['removeIpAllowlistIntent'] as Map<String, dynamic>);
+    final _updateTvcAppLiveDeploymentIntent =
+        json['updateTvcAppLiveDeploymentIntent'] == null
+            ? null
+            : v1UpdateTvcAppLiveDeploymentIntent.fromJson(
+                json['updateTvcAppLiveDeploymentIntent']
+                    as Map<String, dynamic>);
+    final _deleteTvcDeploymentIntent = json['deleteTvcDeploymentIntent'] == null
+        ? null
+        : v1DeleteTvcDeploymentIntent.fromJson(
+            json['deleteTvcDeploymentIntent'] as Map<String, dynamic>);
+    final _deleteTvcAppAndDeploymentsIntent =
+        json['deleteTvcAppAndDeploymentsIntent'] == null
+            ? null
+            : v1DeleteTvcAppAndDeploymentsIntent.fromJson(
+                json['deleteTvcAppAndDeploymentsIntent']
+                    as Map<String, dynamic>);
+    final _restoreTvcDeploymentIntent =
+        json['restoreTvcDeploymentIntent'] == null
+            ? null
+            : v1RestoreTvcDeploymentIntent.fromJson(
+                json['restoreTvcDeploymentIntent'] as Map<String, dynamic>);
+    final _sparkSignFrostIntent = json['sparkSignFrostIntent'] == null
+        ? null
+        : v1SparkSignFrostIntent
+            .fromJson(json['sparkSignFrostIntent'] as Map<String, dynamic>);
+    final _sparkPrepareTransferIntent =
+        json['sparkPrepareTransferIntent'] == null
+            ? null
+            : v1SparkPrepareTransferIntent.fromJson(
+                json['sparkPrepareTransferIntent'] as Map<String, dynamic>);
+    final _sparkClaimTransferIntent = json['sparkClaimTransferIntent'] == null
+        ? null
+        : v1SparkClaimTransferIntent
+            .fromJson(json['sparkClaimTransferIntent'] as Map<String, dynamic>);
+    final _sparkPrepareLightningReceiveIntent =
+        json['sparkPrepareLightningReceiveIntent'] == null
+            ? null
+            : v1SparkPrepareLightningReceiveIntent.fromJson(
+                json['sparkPrepareLightningReceiveIntent']
+                    as Map<String, dynamic>);
+    final _postTvcQuorumKeyShareIntent =
+        json['postTvcQuorumKeyShareIntent'] == null
+            ? null
+            : v1PostTvcQuorumKeyShareIntent.fromJson(
+                json['postTvcQuorumKeyShareIntent'] as Map<String, dynamic>);
+    final _ethSendTransactionIntentV2 =
+        json['ethSendTransactionIntentV2'] == null
+            ? null
+            : v1EthSendTransactionIntentV2.fromJson(
+                json['ethSendTransactionIntentV2'] as Map<String, dynamic>);
+    final _createMfaPolicyIntent = json['createMfaPolicyIntent'] == null
+        ? null
+        : v1CreateMfaPolicyIntent
+            .fromJson(json['createMfaPolicyIntent'] as Map<String, dynamic>);
+    final _updateMfaPolicyIntent = json['updateMfaPolicyIntent'] == null
+        ? null
+        : v1UpdateMfaPolicyIntent
+            .fromJson(json['updateMfaPolicyIntent'] as Map<String, dynamic>);
+    final _deleteMfaPolicyIntent = json['deleteMfaPolicyIntent'] == null
+        ? null
+        : v1DeleteMfaPolicyIntent
+            .fromJson(json['deleteMfaPolicyIntent'] as Map<String, dynamic>);
+    final _createSessionProfileIntent =
+        json['createSessionProfileIntent'] == null
+            ? null
+            : v1CreateSessionProfileIntent.fromJson(
+                json['createSessionProfileIntent'] as Map<String, dynamic>);
+    final _earnDeployWrapperIntent = json['earnDeployWrapperIntent'] == null
+        ? null
+        : v1EarnDeployWrapperIntent
+            .fromJson(json['earnDeployWrapperIntent'] as Map<String, dynamic>);
+    final _earnDepositIntent = json['earnDepositIntent'] == null
+        ? null
+        : v1EarnDepositIntent
+            .fromJson(json['earnDepositIntent'] as Map<String, dynamic>);
+    final _earnWithdrawIntent = json['earnWithdrawIntent'] == null
+        ? null
+        : v1EarnWithdrawIntent
+            .fromJson(json['earnWithdrawIntent'] as Map<String, dynamic>);
+    final _executeSwapIntent = json['executeSwapIntent'] == null
+        ? null
+        : v1ExecuteSwapIntent
+            .fromJson(json['executeSwapIntent'] as Map<String, dynamic>);
+    final _upsertSwapConfigIntent = json['upsertSwapConfigIntent'] == null
+        ? null
+        : v1UpsertSwapConfigIntent
+            .fromJson(json['upsertSwapConfigIntent'] as Map<String, dynamic>);
+    final _createTvcOperatorIntent = json['createTvcOperatorIntent'] == null
+        ? null
+        : v1CreateTvcOperatorIntent
+            .fromJson(json['createTvcOperatorIntent'] as Map<String, dynamic>);
+    final _createTvcQuorumKeyIntent = json['createTvcQuorumKeyIntent'] == null
+        ? null
+        : v1CreateTvcQuorumKeyIntent
+            .fromJson(json['createTvcQuorumKeyIntent'] as Map<String, dynamic>);
+    final _reEncryptTvcQuorumKeyShareIntent =
+        json['reEncryptTvcQuorumKeyShareIntent'] == null
+            ? null
+            : v1ReEncryptTvcQuorumKeyShareIntent.fromJson(
+                json['reEncryptTvcQuorumKeyShareIntent']
+                    as Map<String, dynamic>);
+    final _initImportSecretsIntent = json['initImportSecretsIntent'] == null
+        ? null
+        : v1InitImportSecretsIntent
+            .fromJson(json['initImportSecretsIntent'] as Map<String, dynamic>);
+    final _solSendTransactionIntentV2 =
+        json['solSendTransactionIntentV2'] == null
+            ? null
+            : v1SolSendTransactionIntentV2.fromJson(
+                json['solSendTransactionIntentV2'] as Map<String, dynamic>);
+    final _claimSwapFeesIntent = json['claimSwapFeesIntent'] == null
+        ? null
+        : v1ClaimSwapFeesIntent
+            .fromJson(json['claimSwapFeesIntent'] as Map<String, dynamic>);
+    final _earnSetWrapperStateIntent = json['earnSetWrapperStateIntent'] == null
+        ? null
+        : v1EarnSetWrapperStateIntent.fromJson(
+            json['earnSetWrapperStateIntent'] as Map<String, dynamic>);
+    final _claimEarnFeesIntent = json['claimEarnFeesIntent'] == null
+        ? null
+        : v1ClaimEarnFeesIntent
+            .fromJson(json['claimEarnFeesIntent'] as Map<String, dynamic>);
+    final _updateWalletAccountNameIntent =
+        json['updateWalletAccountNameIntent'] == null
+            ? null
+            : v1UpdateWalletAccountNameIntent.fromJson(
+                json['updateWalletAccountNameIntent'] as Map<String, dynamic>);
+    final _ethUndelegate7702Intent = json['ethUndelegate7702Intent'] == null
+        ? null
+        : v1EthUndelegate7702Intent
+            .fromJson(json['ethUndelegate7702Intent'] as Map<String, dynamic>);
+    final _executeSwapIntentV2 = json['executeSwapIntentV2'] == null
+        ? null
+        : v1ExecuteSwapIntentV2
+            .fromJson(json['executeSwapIntentV2'] as Map<String, dynamic>);
+    final _createSwapQuoteIntent = json['createSwapQuoteIntent'] == null
+        ? null
+        : v1CreateSwapQuoteIntent
+            .fromJson(json['createSwapQuoteIntent'] as Map<String, dynamic>);
+    final _importSecretsIntent = json['importSecretsIntent'] == null
+        ? null
+        : v1ImportSecretsIntent
+            .fromJson(json['importSecretsIntent'] as Map<String, dynamic>);
+    final _exportSecretsIntent = json['exportSecretsIntent'] == null
+        ? null
+        : v1ExportSecretsIntent
+            .fromJson(json['exportSecretsIntent'] as Map<String, dynamic>);
+    final _createVelocityControlIntent =
+        json['createVelocityControlIntent'] == null
+            ? null
+            : v1CreateVelocityControlIntent.fromJson(
+                json['createVelocityControlIntent'] as Map<String, dynamic>);
+    final _deleteVelocityControlIntent =
+        json['deleteVelocityControlIntent'] == null
+            ? null
+            : v1DeleteVelocityControlIntent.fromJson(
+                json['deleteVelocityControlIntent'] as Map<String, dynamic>);
+    final _updatePaymentMethodIntent = json['updatePaymentMethodIntent'] == null
+        ? null
+        : billingUpdatePaymentMethodIntent.fromJson(
+            json['updatePaymentMethodIntent'] as Map<String, dynamic>);
+    final _createSwapQuoteIntentV2 = json['createSwapQuoteIntentV2'] == null
+        ? null
+        : v1CreateSwapQuoteIntentV2
+            .fromJson(json['createSwapQuoteIntentV2'] as Map<String, dynamic>);
+    final _executeSwapIntentV3 = json['executeSwapIntentV3'] == null
+        ? null
+        : v1ExecuteSwapIntentV3
+            .fromJson(json['executeSwapIntentV3'] as Map<String, dynamic>);
+    final _deleteSecretsIntent = json['deleteSecretsIntent'] == null
+        ? null
+        : v1DeleteSecretsIntent
+            .fromJson(json['deleteSecretsIntent'] as Map<String, dynamic>);
+    final _earnClaimRewardsIntent = json['earnClaimRewardsIntent'] == null
+        ? null
+        : v1EarnClaimRewardsIntent
+            .fromJson(json['earnClaimRewardsIntent'] as Map<String, dynamic>);
+    final _createSwapQuoteIntentV3 = json['createSwapQuoteIntentV3'] == null
+        ? null
+        : v1CreateSwapQuoteIntentV3
+            .fromJson(json['createSwapQuoteIntentV3'] as Map<String, dynamic>);
     return v1Intent(
       createOrganizationIntent: _createOrganizationIntent,
       createAuthenticatorsIntent: _createAuthenticatorsIntent,
@@ -15341,6 +22021,49 @@ class v1Intent {
       createWebhookEndpointIntent: _createWebhookEndpointIntent,
       updateWebhookEndpointIntent: _updateWebhookEndpointIntent,
       deleteWebhookEndpointIntent: _deleteWebhookEndpointIntent,
+      setIpAllowlistIntent: _setIpAllowlistIntent,
+      removeIpAllowlistIntent: _removeIpAllowlistIntent,
+      updateTvcAppLiveDeploymentIntent: _updateTvcAppLiveDeploymentIntent,
+      deleteTvcDeploymentIntent: _deleteTvcDeploymentIntent,
+      deleteTvcAppAndDeploymentsIntent: _deleteTvcAppAndDeploymentsIntent,
+      restoreTvcDeploymentIntent: _restoreTvcDeploymentIntent,
+      sparkSignFrostIntent: _sparkSignFrostIntent,
+      sparkPrepareTransferIntent: _sparkPrepareTransferIntent,
+      sparkClaimTransferIntent: _sparkClaimTransferIntent,
+      sparkPrepareLightningReceiveIntent: _sparkPrepareLightningReceiveIntent,
+      postTvcQuorumKeyShareIntent: _postTvcQuorumKeyShareIntent,
+      ethSendTransactionIntentV2: _ethSendTransactionIntentV2,
+      createMfaPolicyIntent: _createMfaPolicyIntent,
+      updateMfaPolicyIntent: _updateMfaPolicyIntent,
+      deleteMfaPolicyIntent: _deleteMfaPolicyIntent,
+      createSessionProfileIntent: _createSessionProfileIntent,
+      earnDeployWrapperIntent: _earnDeployWrapperIntent,
+      earnDepositIntent: _earnDepositIntent,
+      earnWithdrawIntent: _earnWithdrawIntent,
+      executeSwapIntent: _executeSwapIntent,
+      upsertSwapConfigIntent: _upsertSwapConfigIntent,
+      createTvcOperatorIntent: _createTvcOperatorIntent,
+      createTvcQuorumKeyIntent: _createTvcQuorumKeyIntent,
+      reEncryptTvcQuorumKeyShareIntent: _reEncryptTvcQuorumKeyShareIntent,
+      initImportSecretsIntent: _initImportSecretsIntent,
+      solSendTransactionIntentV2: _solSendTransactionIntentV2,
+      claimSwapFeesIntent: _claimSwapFeesIntent,
+      earnSetWrapperStateIntent: _earnSetWrapperStateIntent,
+      claimEarnFeesIntent: _claimEarnFeesIntent,
+      updateWalletAccountNameIntent: _updateWalletAccountNameIntent,
+      ethUndelegate7702Intent: _ethUndelegate7702Intent,
+      executeSwapIntentV2: _executeSwapIntentV2,
+      createSwapQuoteIntent: _createSwapQuoteIntent,
+      importSecretsIntent: _importSecretsIntent,
+      exportSecretsIntent: _exportSecretsIntent,
+      createVelocityControlIntent: _createVelocityControlIntent,
+      deleteVelocityControlIntent: _deleteVelocityControlIntent,
+      updatePaymentMethodIntent: _updatePaymentMethodIntent,
+      createSwapQuoteIntentV2: _createSwapQuoteIntentV2,
+      executeSwapIntentV3: _executeSwapIntentV3,
+      deleteSecretsIntent: _deleteSecretsIntent,
+      earnClaimRewardsIntent: _earnClaimRewardsIntent,
+      createSwapQuoteIntentV3: _createSwapQuoteIntentV3,
     );
   }
 
@@ -15772,6 +22495,148 @@ class v1Intent {
       _json['deleteWebhookEndpointIntent'] =
           deleteWebhookEndpointIntent?.toJson();
     }
+    if (setIpAllowlistIntent != null) {
+      _json['setIpAllowlistIntent'] = setIpAllowlistIntent?.toJson();
+    }
+    if (removeIpAllowlistIntent != null) {
+      _json['removeIpAllowlistIntent'] = removeIpAllowlistIntent?.toJson();
+    }
+    if (updateTvcAppLiveDeploymentIntent != null) {
+      _json['updateTvcAppLiveDeploymentIntent'] =
+          updateTvcAppLiveDeploymentIntent?.toJson();
+    }
+    if (deleteTvcDeploymentIntent != null) {
+      _json['deleteTvcDeploymentIntent'] = deleteTvcDeploymentIntent?.toJson();
+    }
+    if (deleteTvcAppAndDeploymentsIntent != null) {
+      _json['deleteTvcAppAndDeploymentsIntent'] =
+          deleteTvcAppAndDeploymentsIntent?.toJson();
+    }
+    if (restoreTvcDeploymentIntent != null) {
+      _json['restoreTvcDeploymentIntent'] =
+          restoreTvcDeploymentIntent?.toJson();
+    }
+    if (sparkSignFrostIntent != null) {
+      _json['sparkSignFrostIntent'] = sparkSignFrostIntent?.toJson();
+    }
+    if (sparkPrepareTransferIntent != null) {
+      _json['sparkPrepareTransferIntent'] =
+          sparkPrepareTransferIntent?.toJson();
+    }
+    if (sparkClaimTransferIntent != null) {
+      _json['sparkClaimTransferIntent'] = sparkClaimTransferIntent?.toJson();
+    }
+    if (sparkPrepareLightningReceiveIntent != null) {
+      _json['sparkPrepareLightningReceiveIntent'] =
+          sparkPrepareLightningReceiveIntent?.toJson();
+    }
+    if (postTvcQuorumKeyShareIntent != null) {
+      _json['postTvcQuorumKeyShareIntent'] =
+          postTvcQuorumKeyShareIntent?.toJson();
+    }
+    if (ethSendTransactionIntentV2 != null) {
+      _json['ethSendTransactionIntentV2'] =
+          ethSendTransactionIntentV2?.toJson();
+    }
+    if (createMfaPolicyIntent != null) {
+      _json['createMfaPolicyIntent'] = createMfaPolicyIntent?.toJson();
+    }
+    if (updateMfaPolicyIntent != null) {
+      _json['updateMfaPolicyIntent'] = updateMfaPolicyIntent?.toJson();
+    }
+    if (deleteMfaPolicyIntent != null) {
+      _json['deleteMfaPolicyIntent'] = deleteMfaPolicyIntent?.toJson();
+    }
+    if (createSessionProfileIntent != null) {
+      _json['createSessionProfileIntent'] =
+          createSessionProfileIntent?.toJson();
+    }
+    if (earnDeployWrapperIntent != null) {
+      _json['earnDeployWrapperIntent'] = earnDeployWrapperIntent?.toJson();
+    }
+    if (earnDepositIntent != null) {
+      _json['earnDepositIntent'] = earnDepositIntent?.toJson();
+    }
+    if (earnWithdrawIntent != null) {
+      _json['earnWithdrawIntent'] = earnWithdrawIntent?.toJson();
+    }
+    if (executeSwapIntent != null) {
+      _json['executeSwapIntent'] = executeSwapIntent?.toJson();
+    }
+    if (upsertSwapConfigIntent != null) {
+      _json['upsertSwapConfigIntent'] = upsertSwapConfigIntent?.toJson();
+    }
+    if (createTvcOperatorIntent != null) {
+      _json['createTvcOperatorIntent'] = createTvcOperatorIntent?.toJson();
+    }
+    if (createTvcQuorumKeyIntent != null) {
+      _json['createTvcQuorumKeyIntent'] = createTvcQuorumKeyIntent?.toJson();
+    }
+    if (reEncryptTvcQuorumKeyShareIntent != null) {
+      _json['reEncryptTvcQuorumKeyShareIntent'] =
+          reEncryptTvcQuorumKeyShareIntent?.toJson();
+    }
+    if (initImportSecretsIntent != null) {
+      _json['initImportSecretsIntent'] = initImportSecretsIntent?.toJson();
+    }
+    if (solSendTransactionIntentV2 != null) {
+      _json['solSendTransactionIntentV2'] =
+          solSendTransactionIntentV2?.toJson();
+    }
+    if (claimSwapFeesIntent != null) {
+      _json['claimSwapFeesIntent'] = claimSwapFeesIntent?.toJson();
+    }
+    if (earnSetWrapperStateIntent != null) {
+      _json['earnSetWrapperStateIntent'] = earnSetWrapperStateIntent?.toJson();
+    }
+    if (claimEarnFeesIntent != null) {
+      _json['claimEarnFeesIntent'] = claimEarnFeesIntent?.toJson();
+    }
+    if (updateWalletAccountNameIntent != null) {
+      _json['updateWalletAccountNameIntent'] =
+          updateWalletAccountNameIntent?.toJson();
+    }
+    if (ethUndelegate7702Intent != null) {
+      _json['ethUndelegate7702Intent'] = ethUndelegate7702Intent?.toJson();
+    }
+    if (executeSwapIntentV2 != null) {
+      _json['executeSwapIntentV2'] = executeSwapIntentV2?.toJson();
+    }
+    if (createSwapQuoteIntent != null) {
+      _json['createSwapQuoteIntent'] = createSwapQuoteIntent?.toJson();
+    }
+    if (importSecretsIntent != null) {
+      _json['importSecretsIntent'] = importSecretsIntent?.toJson();
+    }
+    if (exportSecretsIntent != null) {
+      _json['exportSecretsIntent'] = exportSecretsIntent?.toJson();
+    }
+    if (createVelocityControlIntent != null) {
+      _json['createVelocityControlIntent'] =
+          createVelocityControlIntent?.toJson();
+    }
+    if (deleteVelocityControlIntent != null) {
+      _json['deleteVelocityControlIntent'] =
+          deleteVelocityControlIntent?.toJson();
+    }
+    if (updatePaymentMethodIntent != null) {
+      _json['updatePaymentMethodIntent'] = updatePaymentMethodIntent?.toJson();
+    }
+    if (createSwapQuoteIntentV2 != null) {
+      _json['createSwapQuoteIntentV2'] = createSwapQuoteIntentV2?.toJson();
+    }
+    if (executeSwapIntentV3 != null) {
+      _json['executeSwapIntentV3'] = executeSwapIntentV3?.toJson();
+    }
+    if (deleteSecretsIntent != null) {
+      _json['deleteSecretsIntent'] = deleteSecretsIntent?.toJson();
+    }
+    if (earnClaimRewardsIntent != null) {
+      _json['earnClaimRewardsIntent'] = earnClaimRewardsIntent?.toJson();
+    }
+    if (createSwapQuoteIntentV3 != null) {
+      _json['createSwapQuoteIntentV3'] = createSwapQuoteIntentV3?.toJson();
+    }
     return _json;
   }
 }
@@ -15823,6 +22688,608 @@ class v1InvitationParams {
     _json['receiverUserTags'] = receiverUserTags;
     _json['accessType'] = v1AccessTypeToJson(accessType);
     _json['senderUserId'] = senderUserId;
+    return _json;
+  }
+}
+
+class v1IpAllowlist {
+  /// Unique identifier for the organization this allowlist belongs to.
+  final String organizationId;
+
+  /// List of IP allowlist rules with their metadata.
+  final List<v1IpAllowlistRule> rules;
+
+  /// Public key of the API key this allowlist applies to. Null means the allowlist applies to the entire organization.
+  final String? publicKey;
+
+  /// Whether the IP allowlist is enabled. Only present for organization-level allowlists. Null for API key-level allowlists (presence of the allowlist implies enablement).
+  final bool? enabled;
+
+  /// Behavior when an error occurs during IP allowlist evaluation. Valid values: ALLOW, DENY. Defaults to DENY.
+  final String? onEvaluationError;
+
+  const v1IpAllowlist({
+    required this.organizationId,
+    required this.rules,
+    this.publicKey,
+    this.enabled,
+    this.onEvaluationError,
+  });
+
+  factory v1IpAllowlist.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _rules = (json['rules'] as List)
+        .map((e) => v1IpAllowlistRule.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _publicKey = json['publicKey'] as String?;
+    final _enabled = json['enabled'] as bool?;
+    final _onEvaluationError = json['onEvaluationError'] as String?;
+    return v1IpAllowlist(
+      organizationId: _organizationId,
+      rules: _rules,
+      publicKey: _publicKey,
+      enabled: _enabled,
+      onEvaluationError: _onEvaluationError,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['rules'] = rules.map((e) => e.toJson()).toList();
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    if (enabled != null) {
+      _json['enabled'] = enabled;
+    }
+    if (onEvaluationError != null) {
+      _json['onEvaluationError'] = onEvaluationError;
+    }
+    return _json;
+  }
+}
+
+class v1IpAllowlistIntentRule {
+  /// CIDR block (e.g., '192.168.1.0/24', '2001:db8::/32').
+  final String cidr;
+
+  /// Optional human-readable label for this rule (e.g., 'Office VPN').
+  final String? label;
+
+  const v1IpAllowlistIntentRule({
+    required this.cidr,
+    this.label,
+  });
+
+  factory v1IpAllowlistIntentRule.fromJson(Map<String, dynamic> json) {
+    final _cidr = json['cidr'] as String;
+    final _label = json['label'] as String?;
+    return v1IpAllowlistIntentRule(
+      cidr: _cidr,
+      label: _label,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['cidr'] = cidr;
+    if (label != null) {
+      _json['label'] = label;
+    }
+    return _json;
+  }
+}
+
+class v1IpAllowlistRule {
+  /// CIDR block (e.g., '192.168.1.0/24').
+  final String cidr;
+
+  /// Optional human-readable label for this rule.
+  final String? label;
+
+  /// Creation timestamp as millisecond epoch string.
+  final String? createdAt;
+
+  const v1IpAllowlistRule({
+    required this.cidr,
+    this.label,
+    this.createdAt,
+  });
+
+  factory v1IpAllowlistRule.fromJson(Map<String, dynamic> json) {
+    final _cidr = json['cidr'] as String;
+    final _label = json['label'] as String?;
+    final _createdAt = json['createdAt'] as String?;
+    return v1IpAllowlistRule(
+      cidr: _cidr,
+      label: _label,
+      createdAt: _createdAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['cidr'] = cidr;
+    if (label != null) {
+      _json['label'] = label;
+    }
+    if (createdAt != null) {
+      _json['createdAt'] = createdAt;
+    }
+    return _json;
+  }
+}
+
+class v1KeyValue {
+  final String? key;
+  final String? value;
+
+  const v1KeyValue({
+    this.key,
+    this.value,
+  });
+
+  factory v1KeyValue.fromJson(Map<String, dynamic> json) {
+    final _key = json['key'] as String?;
+    final _value = json['value'] as String?;
+    return v1KeyValue(
+      key: _key,
+      value: _value,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (key != null) {
+      _json['key'] = key;
+    }
+    if (value != null) {
+      _json['value'] = value;
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnEnabledVaultsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// Optional filter: only return enabled vaults from this provider. Leave EARN_PROVIDER_UNSPECIFIED to return all providers.
+  final v1EarnProvider? provider;
+
+  /// Optional filter: only return enabled vaults whose underlying asset matches this CAIP-19 asset ID (e.g. 'eip155:8453/erc20:0x833589...'). The chain is taken from the CAIP-19 identifier.
+  final String? caip19;
+
+  /// When true, populate each vault's exposures (the underlying markets it allocates into). This costs an extra provider query per vault, so leave it off for list views.
+  final bool? includeExposure;
+
+  const v1ListEarnEnabledVaultsRequest({
+    required this.organizationId,
+    this.provider,
+    this.caip19,
+    this.includeExposure,
+  });
+
+  factory v1ListEarnEnabledVaultsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String?;
+    final _includeExposure = json['includeExposure'] as bool?;
+    return v1ListEarnEnabledVaultsRequest(
+      organizationId: _organizationId,
+      provider: _provider,
+      caip19: _caip19,
+      includeExposure: _includeExposure,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (includeExposure != null) {
+      _json['includeExposure'] = includeExposure;
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnEnabledVaultsResponse {
+  /// The organization's deployed wrappers.
+  final List<v1EarnEnabledVault>? enabledVaults;
+
+  const v1ListEarnEnabledVaultsResponse({
+    this.enabledVaults,
+  });
+
+  factory v1ListEarnEnabledVaultsResponse.fromJson(Map<String, dynamic> json) {
+    final _enabledVaults = (json['enabledVaults'] as List?)
+        ?.map((e) => v1EarnEnabledVault.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ListEarnEnabledVaultsResponse(
+      enabledVaults: _enabledVaults,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (enabledVaults != null) {
+      _json['enabledVaults'] = enabledVaults?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnPositionsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The wallet address to return positions for.
+  final String walletAddress;
+
+  const v1ListEarnPositionsRequest({
+    required this.organizationId,
+    required this.walletAddress,
+  });
+
+  factory v1ListEarnPositionsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _walletAddress = json['walletAddress'] as String;
+    return v1ListEarnPositionsRequest(
+      organizationId: _organizationId,
+      walletAddress: _walletAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['walletAddress'] = walletAddress;
+    return _json;
+  }
+}
+
+class v1ListEarnPositionsResponse {
+  /// The wallet's active Earn positions.
+  final List<v1EarnPosition>? positions;
+
+  const v1ListEarnPositionsResponse({
+    this.positions,
+  });
+
+  factory v1ListEarnPositionsResponse.fromJson(Map<String, dynamic> json) {
+    final _positions = (json['positions'] as List?)
+        ?.map((e) => v1EarnPosition.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ListEarnPositionsResponse(
+      positions: _positions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (positions != null) {
+      _json['positions'] = positions?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnRewardsRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// The wallet address to return rewards for.
+  final String walletAddress;
+
+  /// Optional filter: only return rewards on this chain (e.g. 'eip155:8453'). When unset, every chain the organization has deployed Earn wrappers on is queried.
+  final String? caip2;
+
+  const v1ListEarnRewardsRequest({
+    required this.organizationId,
+    required this.walletAddress,
+    this.caip2,
+  });
+
+  factory v1ListEarnRewardsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _walletAddress = json['walletAddress'] as String;
+    final _caip2 = json['caip2'] as String?;
+    return v1ListEarnRewardsRequest(
+      organizationId: _organizationId,
+      walletAddress: _walletAddress,
+      caip2: _caip2,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['walletAddress'] = walletAddress;
+    if (caip2 != null) {
+      _json['caip2'] = caip2;
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnRewardsResponse {
+  /// The wallet's rewards, one entry per (chain, reward token), sorted by chain then token. Entries where every amount is zero are omitted.
+  final List<v1EarnReward>? rewards;
+
+  const v1ListEarnRewardsResponse({
+    this.rewards,
+  });
+
+  factory v1ListEarnRewardsResponse.fromJson(Map<String, dynamic> json) {
+    final _rewards = (json['rewards'] as List?)
+        ?.map((e) => v1EarnReward.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ListEarnRewardsResponse(
+      rewards: _rewards,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (rewards != null) {
+      _json['rewards'] = rewards?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnVaultsRequest {
+  /// Unique identifier for a given Organization. Annotates which vaults the organization has already enabled.
+  final String organizationId;
+
+  /// Optional filter: only return vaults from this provider. Leave EARN_PROVIDER_UNSPECIFIED to return all providers.
+  final v1EarnProvider? provider;
+
+  /// CAIP-19 asset ID (e.g. 'eip155:8453/erc20:0x833589...') to return vaults for. Only vaults whose underlying asset matches are returned; the chain is taken from the CAIP-19 identifier.
+  final String caip19;
+
+  /// Pagination over the TVL-sorted catalog. before/after cursors are a vault_address from a prior page.
+  final v1Pagination? paginationOptions;
+
+  const v1ListEarnVaultsRequest({
+    required this.organizationId,
+    this.provider,
+    required this.caip19,
+    this.paginationOptions,
+  });
+
+  factory v1ListEarnVaultsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return v1ListEarnVaultsRequest(
+      organizationId: _organizationId,
+      provider: _provider,
+      caip19: _caip19,
+      paginationOptions: _paginationOptions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    _json['caip19'] = caip19;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1ListEarnVaultsResponse {
+  /// The catalog of wrappable vaults, sorted by TVL (USD) descending. To page, pass page_info.end_cursor as the pagination after cursor.
+  final List<v1EarnVault>? vaults;
+
+  /// Pagination metadata for the returned page. Pass end_cursor as the next request's after cursor (or start_cursor as the before cursor) to page through the catalog. Cursors are opaque; do not parse them.
+  final v1PageInfo? pageInfo;
+
+  const v1ListEarnVaultsResponse({
+    this.vaults,
+    this.pageInfo,
+  });
+
+  factory v1ListEarnVaultsResponse.fromJson(Map<String, dynamic> json) {
+    final _vaults = (json['vaults'] as List?)
+        ?.map((e) => v1EarnVault.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _pageInfo = json['pageInfo'] == null
+        ? null
+        : v1PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>);
+    return v1ListEarnVaultsResponse(
+      vaults: _vaults,
+      pageInfo: _pageInfo,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (vaults != null) {
+      _json['vaults'] = vaults?.map((e) => e.toJson()).toList();
+    }
+    if (pageInfo != null) {
+      _json['pageInfo'] = pageInfo?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1ListEmailEventsRequest {
+  /// Unique identifier for a given organization
+  final String organizationId;
+
+  /// Recipient email address to list email events for
+  final String email;
+
+  /// Optional email event type to filter by. Examples include Send, Delivery, Bounce, and DeliveryDelay
+  final String? eventType;
+
+  /// Parameters used for cursor-based pagination
+  final v1Pagination? paginationOptions;
+
+  const v1ListEmailEventsRequest({
+    required this.organizationId,
+    required this.email,
+    this.eventType,
+    this.paginationOptions,
+  });
+
+  factory v1ListEmailEventsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _email = json['email'] as String;
+    final _eventType = json['eventType'] as String?;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return v1ListEmailEventsRequest(
+      organizationId: _organizationId,
+      email: _email,
+      eventType: _eventType,
+      paginationOptions: _paginationOptions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['email'] = email;
+    if (eventType != null) {
+      _json['eventType'] = eventType;
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1ListEmailEventsResponse {
+  /// Email events matching the requested filters, ordered by most recent event first.
+  final List<v1EmailEvent> emailEvents;
+
+  const v1ListEmailEventsResponse({
+    required this.emailEvents,
+  });
+
+  factory v1ListEmailEventsResponse.fromJson(Map<String, dynamic> json) {
+    final _emailEvents = (json['emailEvents'] as List)
+        .map((e) => v1EmailEvent.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ListEmailEventsResponse(
+      emailEvents: _emailEvents,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['emailEvents'] = emailEvents.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1ListEthTransactionHistoryRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Address corresponding to a wallet account. Private key addresses are not supported.
+  final String address;
+
+  /// EVM CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  /// Cursor-based pagination options. Cursors are opaque and valid only for the same address and CAIP-2 query.
+  final v1Pagination? paginationOptions;
+
+  const v1ListEthTransactionHistoryRequest({
+    required this.organizationId,
+    required this.address,
+    required this.caip2,
+    this.paginationOptions,
+  });
+
+  factory v1ListEthTransactionHistoryRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return v1ListEthTransactionHistoryRequest(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+      paginationOptions: _paginationOptions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1ListEthTransactionHistoryResponse {
+  /// EVM transactions for the requested address, ordered by most recent first.
+  final List<v1EthTransactionHistoryItem> transactions;
+  final v1PageInfo? pageInfo;
+
+  const v1ListEthTransactionHistoryResponse({
+    required this.transactions,
+    this.pageInfo,
+  });
+
+  factory v1ListEthTransactionHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _transactions = (json['transactions'] as List)
+        .map((e) =>
+            v1EthTransactionHistoryItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _pageInfo = json['pageInfo'] == null
+        ? null
+        : v1PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>);
+    return v1ListEthTransactionHistoryResponse(
+      transactions: _transactions,
+      pageInfo: _pageInfo,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactions'] = transactions.map((e) => e.toJson()).toList();
+    if (pageInfo != null) {
+      _json['pageInfo'] = pageInfo?.toJson();
+    }
     return _json;
   }
 }
@@ -15963,6 +23430,148 @@ class v1ListPrivateKeyTagsResponse {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['privateKeyTags'] = privateKeyTags.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1ListSecretsRequest {
+  /// Unique identifier for the organization or sub-organization whose secrets are listed.
+  final String organizationId;
+
+  /// Parameters used for cursor-based pagination.
+  final v1Pagination? paginationOptions;
+
+  const v1ListSecretsRequest({
+    required this.organizationId,
+    this.paginationOptions,
+  });
+
+  factory v1ListSecretsRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return v1ListSecretsRequest(
+      organizationId: _organizationId,
+      paginationOptions: _paginationOptions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1ListSecretsResponse {
+  /// Metadata for each secret in the organization, ordered by most recently created first.
+  final List<v1SecretMetadata> secrets;
+
+  const v1ListSecretsResponse({
+    required this.secrets,
+  });
+
+  factory v1ListSecretsResponse.fromJson(Map<String, dynamic> json) {
+    final _secrets = (json['secrets'] as List)
+        .map((e) => v1SecretMetadata.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1ListSecretsResponse(
+      secrets: _secrets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secrets'] = secrets.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1ListSolTransactionHistoryRequest {
+  /// Unique identifier for a given organization.
+  final String organizationId;
+
+  /// Address corresponding to a wallet account. Private key addresses are not supported.
+  final String address;
+
+  /// Solana CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet). Human-readable Solana aliases ('solana:mainnet', 'solana:devnet') are also accepted and normalized to canonical CAIP-2 values.
+  final String caip2;
+
+  /// Cursor-based pagination options. Cursors are opaque and valid only for the same address and CAIP-2 query.
+  final v1Pagination? paginationOptions;
+
+  const v1ListSolTransactionHistoryRequest({
+    required this.organizationId,
+    required this.address,
+    required this.caip2,
+    this.paginationOptions,
+  });
+
+  factory v1ListSolTransactionHistoryRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return v1ListSolTransactionHistoryRequest(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+      paginationOptions: _paginationOptions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1ListSolTransactionHistoryResponse {
+  /// Solana transactions for the requested address, ordered by most recent first.
+  final List<v1SolTransactionHistoryItem> transactions;
+  final v1PageInfo? pageInfo;
+
+  const v1ListSolTransactionHistoryResponse({
+    required this.transactions,
+    this.pageInfo,
+  });
+
+  factory v1ListSolTransactionHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _transactions = (json['transactions'] as List)
+        .map((e) =>
+            v1SolTransactionHistoryItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _pageInfo = json['pageInfo'] == null
+        ? null
+        : v1PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>);
+    return v1ListSolTransactionHistoryResponse(
+      transactions: _transactions,
+      pageInfo: _pageInfo,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactions'] = transactions.map((e) => e.toJson()).toList();
+    if (pageInfo != null) {
+      _json['pageInfo'] = pageInfo?.toJson();
+    }
     return _json;
   }
 }
@@ -16114,6 +23723,39 @@ class v1ListWebhookEndpointsResponse {
   }
 }
 
+class v1LogLine {
+  /// One log line, exactly as the application printed it (without the trailing newline)
+  final String content;
+
+  /// When the line was logged. Stable across replays, so lines can be chronologically merged across pods
+  final externaldatav1Timestamp? ts;
+
+  const v1LogLine({
+    required this.content,
+    this.ts,
+  });
+
+  factory v1LogLine.fromJson(Map<String, dynamic> json) {
+    final _content = json['content'] as String;
+    final _ts = json['ts'] == null
+        ? null
+        : externaldatav1Timestamp.fromJson(json['ts'] as Map<String, dynamic>);
+    return v1LogLine(
+      content: _content,
+      ts: _ts,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['content'] = content;
+    if (ts != null) {
+      _json['ts'] = ts?.toJson();
+    }
+    return _json;
+  }
+}
+
 class v1LoginUsage {
   /// Public key for authentication
   final String publicKey;
@@ -16132,6 +23774,185 @@ class v1LoginUsage {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['publicKey'] = publicKey;
+    return _json;
+  }
+}
+
+class v1LoginUsageV2 {
+  final String organizationId;
+  final String publicKey;
+  final bool? invalidateExisting;
+  final String? expirationSeconds;
+  final String? sessionProfileId;
+
+  const v1LoginUsageV2({
+    required this.organizationId,
+    required this.publicKey,
+    this.invalidateExisting,
+    this.expirationSeconds,
+    this.sessionProfileId,
+  });
+
+  factory v1LoginUsageV2.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
+    return v1LoginUsageV2(
+      organizationId: _organizationId,
+      publicKey: _publicKey,
+      invalidateExisting: _invalidateExisting,
+      expirationSeconds: _expirationSeconds,
+      sessionProfileId: _sessionProfileId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['publicKey'] = publicKey;
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
+    }
+    return _json;
+  }
+}
+
+class v1MfaPolicy {
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  /// Human-readable name for an MFA Policy.
+  final String mfaPolicyName;
+
+  /// A condition expression that evaluates to true or false, determining when this MFA policy applies.
+  final String condition;
+
+  /// An ordered list of authentication requirements. Each requirement must be satisfied sequentially to complete MFA.
+  final List<v1RequiredAuthenticationMethod> requiredAuthenticationMethods;
+
+  /// The order in which this policy is evaluated relative to other MFA policies.
+  final num order;
+
+  /// Optional human-readable notes added by a User to describe a particular MFA policy.
+  final String? notes;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1MfaPolicy({
+    required this.mfaPolicyId,
+    required this.mfaPolicyName,
+    required this.condition,
+    required this.requiredAuthenticationMethods,
+    required this.order,
+    this.notes,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory v1MfaPolicy.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    final _mfaPolicyName = json['mfaPolicyName'] as String;
+    final _condition = json['condition'] as String;
+    final _requiredAuthenticationMethods =
+        (json['requiredAuthenticationMethods'] as List)
+            .map((e) => v1RequiredAuthenticationMethod
+                .fromJson(e as Map<String, dynamic>))
+            .toList();
+    final _order = json['order'] as num;
+    final _notes = json['notes'] as String?;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1MfaPolicy(
+      mfaPolicyId: _mfaPolicyId,
+      mfaPolicyName: _mfaPolicyName,
+      condition: _condition,
+      requiredAuthenticationMethods: _requiredAuthenticationMethods,
+      order: _order,
+      notes: _notes,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicyId'] = mfaPolicyId;
+    _json['mfaPolicyName'] = mfaPolicyName;
+    _json['condition'] = condition;
+    _json['requiredAuthenticationMethods'] =
+        requiredAuthenticationMethods.map((e) => e.toJson()).toList();
+    _json['order'] = order;
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1MfaStatus {
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  /// Unique identifier for a given User.
+  final String userId;
+
+  /// Whether the MFA policy requirements are currently satisfied.
+  final bool satisfied;
+
+  /// A list of authentication methods already satisfied for this MFA policy.
+  final List<v1AuthenticationMethod> satisfiedMethods;
+
+  /// An ordered list of authentication requirements needed to satisfy this MFA policy.
+  final List<v1RequiredAuthenticationMethod> requiredMethods;
+
+  const v1MfaStatus({
+    required this.mfaPolicyId,
+    required this.userId,
+    required this.satisfied,
+    required this.satisfiedMethods,
+    required this.requiredMethods,
+  });
+
+  factory v1MfaStatus.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    final _userId = json['userId'] as String;
+    final _satisfied = json['satisfied'] as bool;
+    final _satisfiedMethods = (json['satisfiedMethods'] as List)
+        .map((e) => v1AuthenticationMethod.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _requiredMethods = (json['requiredMethods'] as List)
+        .map((e) =>
+            v1RequiredAuthenticationMethod.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1MfaStatus(
+      mfaPolicyId: _mfaPolicyId,
+      userId: _userId,
+      satisfied: _satisfied,
+      satisfiedMethods: _satisfiedMethods,
+      requiredMethods: _requiredMethods,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicyId'] = mfaPolicyId;
+    _json['userId'] = userId;
+    _json['satisfied'] = satisfied;
+    _json['satisfiedMethods'] =
+        satisfiedMethods.map((e) => e.toJson()).toList();
+    _json['requiredMethods'] = requiredMethods.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -16222,8 +24043,8 @@ class v1Oauth2AuthenticateIntent {
   /// The code verifier used by OAuth 2.0 PKCE providers
   final String codeVerifier;
 
-  /// An optional nonce used by the client to prevent replay/substitution of an ID token
-  final String? nonce;
+  /// A nonce value set to sha256(publicKey), used to bind the OIDC token to a specific public key
+  final String nonce;
 
   /// An optional P256 public key to which, if provided, the bearer token will be encrypted and returned via the `encrypted_bearer_token` claim of the OIDC Token
   final String? bearerTokenTargetPublicKey;
@@ -16233,7 +24054,7 @@ class v1Oauth2AuthenticateIntent {
     required this.authCode,
     required this.redirectUri,
     required this.codeVerifier,
-    this.nonce,
+    required this.nonce,
     this.bearerTokenTargetPublicKey,
   });
 
@@ -16242,7 +24063,7 @@ class v1Oauth2AuthenticateIntent {
     final _authCode = json['authCode'] as String;
     final _redirectUri = json['redirectUri'] as String;
     final _codeVerifier = json['codeVerifier'] as String;
-    final _nonce = json['nonce'] as String?;
+    final _nonce = json['nonce'] as String;
     final _bearerTokenTargetPublicKey =
         json['bearerTokenTargetPublicKey'] as String?;
     return v1Oauth2AuthenticateIntent(
@@ -16261,9 +24082,7 @@ class v1Oauth2AuthenticateIntent {
     _json['authCode'] = authCode;
     _json['redirectUri'] = redirectUri;
     _json['codeVerifier'] = codeVerifier;
-    if (nonce != null) {
-      _json['nonce'] = nonce;
-    }
+    _json['nonce'] = nonce;
     if (bearerTokenTargetPublicKey != null) {
       _json['bearerTokenTargetPublicKey'] = bearerTokenTargetPublicKey;
     }
@@ -16472,11 +24291,15 @@ class v1OauthLoginIntent {
   /// Invalidate all other previously generated Login API keys
   final bool? invalidateExisting;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const v1OauthLoginIntent({
     required this.oidcToken,
     required this.publicKey,
     this.expirationSeconds,
     this.invalidateExisting,
+    this.sessionProfileId,
   });
 
   factory v1OauthLoginIntent.fromJson(Map<String, dynamic> json) {
@@ -16484,11 +24307,13 @@ class v1OauthLoginIntent {
     final _publicKey = json['publicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return v1OauthLoginIntent(
       oidcToken: _oidcToken,
       publicKey: _publicKey,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
+      sessionProfileId: _sessionProfileId,
     );
   }
 
@@ -16501,6 +24326,9 @@ class v1OauthLoginIntent {
     }
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
     }
     return _json;
   }
@@ -17005,12 +24833,16 @@ class v1OtpLoginIntent {
   /// Optional signature proving authorization for this login. The signature is over the verification token ID and the public key. Only required if a public key was provided during the verification step.
   final v1ClientSignature? clientSignature;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const v1OtpLoginIntent({
     required this.verificationToken,
     required this.publicKey,
     this.expirationSeconds,
     this.invalidateExisting,
     this.clientSignature,
+    this.sessionProfileId,
   });
 
   factory v1OtpLoginIntent.fromJson(Map<String, dynamic> json) {
@@ -17022,12 +24854,14 @@ class v1OtpLoginIntent {
         ? null
         : v1ClientSignature
             .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return v1OtpLoginIntent(
       verificationToken: _verificationToken,
       publicKey: _publicKey,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
       clientSignature: _clientSignature,
+      sessionProfileId: _sessionProfileId,
     );
   }
 
@@ -17043,6 +24877,9 @@ class v1OtpLoginIntent {
     }
     if (clientSignature != null) {
       _json['clientSignature'] = clientSignature?.toJson();
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
     }
     return _json;
   }
@@ -17064,12 +24901,16 @@ class v1OtpLoginIntentV2 {
   /// Invalidate all other previously generated Login sessions
   final bool? invalidateExisting;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const v1OtpLoginIntentV2({
     required this.verificationToken,
     required this.publicKey,
     required this.clientSignature,
     this.expirationSeconds,
     this.invalidateExisting,
+    this.sessionProfileId,
   });
 
   factory v1OtpLoginIntentV2.fromJson(Map<String, dynamic> json) {
@@ -17079,12 +24920,14 @@ class v1OtpLoginIntentV2 {
         .fromJson(json['clientSignature'] as Map<String, dynamic>);
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return v1OtpLoginIntentV2(
       verificationToken: _verificationToken,
       publicKey: _publicKey,
       clientSignature: _clientSignature,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
+      sessionProfileId: _sessionProfileId,
     );
   }
 
@@ -17098,6 +24941,9 @@ class v1OtpLoginIntentV2 {
     }
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
     }
     return _json;
   }
@@ -17173,6 +25019,50 @@ class v1OtpLoginResult {
   }
 }
 
+class v1PageInfo {
+  final bool? hasNextPage;
+  final bool? hasPreviousPage;
+  final String? startCursor;
+  final String? endCursor;
+
+  const v1PageInfo({
+    this.hasNextPage,
+    this.hasPreviousPage,
+    this.startCursor,
+    this.endCursor,
+  });
+
+  factory v1PageInfo.fromJson(Map<String, dynamic> json) {
+    final _hasNextPage = json['hasNextPage'] as bool?;
+    final _hasPreviousPage = json['hasPreviousPage'] as bool?;
+    final _startCursor = json['startCursor'] as String?;
+    final _endCursor = json['endCursor'] as String?;
+    return v1PageInfo(
+      hasNextPage: _hasNextPage,
+      hasPreviousPage: _hasPreviousPage,
+      startCursor: _startCursor,
+      endCursor: _endCursor,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (hasNextPage != null) {
+      _json['hasNextPage'] = hasNextPage;
+    }
+    if (hasPreviousPage != null) {
+      _json['hasPreviousPage'] = hasPreviousPage;
+    }
+    if (startCursor != null) {
+      _json['startCursor'] = startCursor;
+    }
+    if (endCursor != null) {
+      _json['endCursor'] = endCursor;
+    }
+    return _json;
+  }
+}
+
 class v1Pagination {
   /// A limit of the number of object to be returned, between 1 and 100. Defaults to 10.
   final String? limit;
@@ -17236,6 +25126,9 @@ class v1Policy {
   /// A condition expression that evalutes to true or false.
   final String condition;
 
+  /// A time expression that evalutes to true or false.
+  final String? time;
+
   const v1Policy({
     required this.policyId,
     required this.policyName,
@@ -17245,6 +25138,7 @@ class v1Policy {
     required this.notes,
     required this.consensus,
     required this.condition,
+    this.time,
   });
 
   factory v1Policy.fromJson(Map<String, dynamic> json) {
@@ -17258,6 +25152,7 @@ class v1Policy {
     final _notes = json['notes'] as String;
     final _consensus = json['consensus'] as String;
     final _condition = json['condition'] as String;
+    final _time = json['time'] as String?;
     return v1Policy(
       policyId: _policyId,
       policyName: _policyName,
@@ -17267,6 +25162,7 @@ class v1Policy {
       notes: _notes,
       consensus: _consensus,
       condition: _condition,
+      time: _time,
     );
   }
 
@@ -17280,6 +25176,109 @@ class v1Policy {
     _json['notes'] = notes;
     _json['consensus'] = consensus;
     _json['condition'] = condition;
+    if (time != null) {
+      _json['time'] = time;
+    }
+    return _json;
+  }
+}
+
+class v1PostTvcQuorumKeyShareIntent {
+  /// Unique identifier of the TVC deployment receiving quorum key share
+  final String deploymentId;
+
+  /// Hex-encoded ephemeral public key used to encrypt the quorum key share
+  final String ephemeralPublicKeyHex;
+
+  /// Re-encrypted quorum key share and approval
+  final v1QuorumKeyShareApprovalBundle shareApprovalBundle;
+
+  const v1PostTvcQuorumKeyShareIntent({
+    required this.deploymentId,
+    required this.ephemeralPublicKeyHex,
+    required this.shareApprovalBundle,
+  });
+
+  factory v1PostTvcQuorumKeyShareIntent.fromJson(Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    final _ephemeralPublicKeyHex = json['ephemeralPublicKeyHex'] as String;
+    final _shareApprovalBundle = v1QuorumKeyShareApprovalBundle
+        .fromJson(json['shareApprovalBundle'] as Map<String, dynamic>);
+    return v1PostTvcQuorumKeyShareIntent(
+      deploymentId: _deploymentId,
+      ephemeralPublicKeyHex: _ephemeralPublicKeyHex,
+      shareApprovalBundle: _shareApprovalBundle,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
+    _json['ephemeralPublicKeyHex'] = ephemeralPublicKeyHex;
+    _json['shareApprovalBundle'] = shareApprovalBundle.toJson();
+    return _json;
+  }
+}
+
+class v1PostTvcQuorumKeyShareRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1PostTvcQuorumKeyShareIntent parameters;
+
+  const v1PostTvcQuorumKeyShareRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1PostTvcQuorumKeyShareRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1PostTvcQuorumKeyShareIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1PostTvcQuorumKeyShareRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1PostTvcQuorumKeyShareResult {
+  /// The unique identifier for the provisioning quorum key share
+  final String provisioningShareId;
+
+  const v1PostTvcQuorumKeyShareResult({
+    required this.provisioningShareId,
+  });
+
+  factory v1PostTvcQuorumKeyShareResult.fromJson(Map<String, dynamic> json) {
+    final _provisioningShareId = json['provisioningShareId'] as String;
+    return v1PostTvcQuorumKeyShareResult(
+      provisioningShareId: _provisioningShareId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['provisioningShareId'] = provisioningShareId;
     return _json;
   }
 }
@@ -17501,6 +25500,172 @@ class v1PublicKeyCredentialWithAttestation {
   }
 }
 
+class v1QuorumKeyShareApprovalBundle {
+  /// Unique identifier of the operator providing this quorum key share
+  final String operatorId;
+
+  /// Hex-encoded re-encrypted quorum key share
+  final String reEncryptedShareHex;
+
+  /// Signature from the share set operator approving the manifest
+  final String signature;
+
+  const v1QuorumKeyShareApprovalBundle({
+    required this.operatorId,
+    required this.reEncryptedShareHex,
+    required this.signature,
+  });
+
+  factory v1QuorumKeyShareApprovalBundle.fromJson(Map<String, dynamic> json) {
+    final _operatorId = json['operatorId'] as String;
+    final _reEncryptedShareHex = json['reEncryptedShareHex'] as String;
+    final _signature = json['signature'] as String;
+    return v1QuorumKeyShareApprovalBundle(
+      operatorId: _operatorId,
+      reEncryptedShareHex: _reEncryptedShareHex,
+      signature: _signature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorId'] = operatorId;
+    _json['reEncryptedShareHex'] = reEncryptedShareHex;
+    _json['signature'] = signature;
+    return _json;
+  }
+}
+
+class v1ReEncryptTvcQuorumKeyShareIntent {
+  /// Base64-encoded attestation document for the TVC deployment provisioning enclave
+  final String attestationDocB64;
+
+  /// Base64-encoded manifest for the TVC deployment
+  final String manifestB64;
+
+  /// Operator encryption public key used to encrypt the hosted TVC quorum key share
+  final String operatorEncryptKey;
+
+  /// Operator signing public key used to approve the TVC manifest
+  final String operatorSignKey;
+
+  /// Unique identifier of the TVC deployment receiving the re-encrypted quorum key share
+  final String deploymentId;
+
+  /// Quorum key for the TVC application
+  final String appQuorumKey;
+
+  const v1ReEncryptTvcQuorumKeyShareIntent({
+    required this.attestationDocB64,
+    required this.manifestB64,
+    required this.operatorEncryptKey,
+    required this.operatorSignKey,
+    required this.deploymentId,
+    required this.appQuorumKey,
+  });
+
+  factory v1ReEncryptTvcQuorumKeyShareIntent.fromJson(
+      Map<String, dynamic> json) {
+    final _attestationDocB64 = json['attestationDocB64'] as String;
+    final _manifestB64 = json['manifestB64'] as String;
+    final _operatorEncryptKey = json['operatorEncryptKey'] as String;
+    final _operatorSignKey = json['operatorSignKey'] as String;
+    final _deploymentId = json['deploymentId'] as String;
+    final _appQuorumKey = json['appQuorumKey'] as String;
+    return v1ReEncryptTvcQuorumKeyShareIntent(
+      attestationDocB64: _attestationDocB64,
+      manifestB64: _manifestB64,
+      operatorEncryptKey: _operatorEncryptKey,
+      operatorSignKey: _operatorSignKey,
+      deploymentId: _deploymentId,
+      appQuorumKey: _appQuorumKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['attestationDocB64'] = attestationDocB64;
+    _json['manifestB64'] = manifestB64;
+    _json['operatorEncryptKey'] = operatorEncryptKey;
+    _json['operatorSignKey'] = operatorSignKey;
+    _json['deploymentId'] = deploymentId;
+    _json['appQuorumKey'] = appQuorumKey;
+    return _json;
+  }
+}
+
+class v1ReEncryptTvcQuorumKeyShareRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1ReEncryptTvcQuorumKeyShareIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1ReEncryptTvcQuorumKeyShareRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1ReEncryptTvcQuorumKeyShareRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1ReEncryptTvcQuorumKeyShareIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1ReEncryptTvcQuorumKeyShareRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1ReEncryptTvcQuorumKeyShareResult {
+  /// The unique identifier for the provisioning quorum key share
+  final String provisioningShareId;
+
+  const v1ReEncryptTvcQuorumKeyShareResult({
+    required this.provisioningShareId,
+  });
+
+  factory v1ReEncryptTvcQuorumKeyShareResult.fromJson(
+      Map<String, dynamic> json) {
+    final _provisioningShareId = json['provisioningShareId'] as String;
+    return v1ReEncryptTvcQuorumKeyShareResult(
+      provisioningShareId: _provisioningShareId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['provisioningShareId'] = provisioningShareId;
+    return _json;
+  }
+}
+
 class v1RecoverUserIntent {
   /// The new authenticator to register.
   final v1AuthenticatorParamsV2 authenticator;
@@ -17672,6 +25837,85 @@ class v1RejectActivityRequest {
   }
 }
 
+class v1RemoveIpAllowlistIntent {
+  /// The public component of an API key. If null, removes the organization-level IP allowlist. If set, removes the IP allowlist for this specific API key.
+  final String? publicKey;
+
+  const v1RemoveIpAllowlistIntent({
+    this.publicKey,
+  });
+
+  factory v1RemoveIpAllowlistIntent.fromJson(Map<String, dynamic> json) {
+    final _publicKey = json['publicKey'] as String?;
+    return v1RemoveIpAllowlistIntent(
+      publicKey: _publicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    return _json;
+  }
+}
+
+class v1RemoveIpAllowlistRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1RemoveIpAllowlistIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1RemoveIpAllowlistRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1RemoveIpAllowlistRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1RemoveIpAllowlistIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1RemoveIpAllowlistRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1RemoveIpAllowlistResult {
+  const v1RemoveIpAllowlistResult();
+  factory v1RemoveIpAllowlistResult.fromJson(Map<String, dynamic> json) =>
+      const v1RemoveIpAllowlistResult();
+  Map<String, dynamic> toJson() => {};
+}
+
 class v1RemoveOrganizationFeatureIntent {
   /// Name of the feature to remove
   final v1FeatureName name;
@@ -17765,6 +26009,148 @@ class v1RemoveOrganizationFeatureResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['features'] = features.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1RequiredAuthenticationMethod {
+  /// A list of authentication methods for this MFA step. If only one method is provided, it is required. If multiple are provided, the user must satisfy ANY one of them.
+  final List<v1AuthenticationMethod> any;
+
+  const v1RequiredAuthenticationMethod({
+    required this.any,
+  });
+
+  factory v1RequiredAuthenticationMethod.fromJson(Map<String, dynamic> json) {
+    final _any = (json['any'] as List)
+        .map((e) => v1AuthenticationMethod.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1RequiredAuthenticationMethod(
+      any: _any,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['any'] = any.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1RequiredAuthenticationMethodParams {
+  /// A list of authentication methods for this MFA step. If only one method is provided, it is required. If multiple are provided, the user must satisfy ANY one of them.
+  final List<v1AuthenticationMethodParams> any;
+
+  const v1RequiredAuthenticationMethodParams({
+    required this.any,
+  });
+
+  factory v1RequiredAuthenticationMethodParams.fromJson(
+      Map<String, dynamic> json) {
+    final _any = (json['any'] as List)
+        .map((e) =>
+            v1AuthenticationMethodParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1RequiredAuthenticationMethodParams(
+      any: _any,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['any'] = any.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1RestoreTvcDeploymentIntent {
+  /// The unique identifier of the TVC deployment to restore.
+  final String deploymentId;
+
+  const v1RestoreTvcDeploymentIntent({
+    required this.deploymentId,
+  });
+
+  factory v1RestoreTvcDeploymentIntent.fromJson(Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    return v1RestoreTvcDeploymentIntent(
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class v1RestoreTvcDeploymentRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1RestoreTvcDeploymentIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1RestoreTvcDeploymentRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1RestoreTvcDeploymentRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1RestoreTvcDeploymentIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1RestoreTvcDeploymentRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1RestoreTvcDeploymentResult {
+  /// The unique identifier of the restored TVC deployment.
+  final String deploymentId;
+
+  const v1RestoreTvcDeploymentResult({
+    required this.deploymentId,
+  });
+
+  factory v1RestoreTvcDeploymentResult.fromJson(Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    return v1RestoreTvcDeploymentResult(
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
     return _json;
   }
 }
@@ -17877,6 +26263,47 @@ class v1Result {
   final v1CreateWebhookEndpointResult? createWebhookEndpointResult;
   final v1UpdateWebhookEndpointResult? updateWebhookEndpointResult;
   final v1DeleteWebhookEndpointResult? deleteWebhookEndpointResult;
+  final v1SetIpAllowlistResult? setIpAllowlistResult;
+  final v1RemoveIpAllowlistResult? removeIpAllowlistResult;
+  final v1UpdateTvcAppLiveDeploymentResult? updateTvcAppLiveDeploymentResult;
+  final v1DeleteTvcDeploymentResult? deleteTvcDeploymentResult;
+  final v1DeleteTvcAppAndDeploymentsResult? deleteTvcAppAndDeploymentsResult;
+  final v1RestoreTvcDeploymentResult? restoreTvcDeploymentResult;
+  final v1SparkSignFrostResult? sparkSignFrostResult;
+  final v1SparkPrepareTransferResult? sparkPrepareTransferResult;
+  final v1SparkClaimTransferResult? sparkClaimTransferResult;
+  final v1SparkPrepareLightningReceiveResult?
+      sparkPrepareLightningReceiveResult;
+  final v1PostTvcQuorumKeyShareResult? postTvcQuorumKeyShareResult;
+  final v1EthSendTransactionResultV2? ethSendTransactionResultV2;
+  final v1CreateMfaPolicyResult? createMfaPolicyResult;
+  final v1UpdateMfaPolicyResult? updateMfaPolicyResult;
+  final v1DeleteMfaPolicyResult? deleteMfaPolicyResult;
+  final v1CreateSessionProfileResult? createSessionProfileResult;
+  final v1EarnDeployWrapperResult? earnDeployWrapperResult;
+  final v1EarnDepositResult? earnDepositResult;
+  final v1EarnWithdrawResult? earnWithdrawResult;
+  final v1ExecuteSwapResult? executeSwapResult;
+  final v1UpsertSwapConfigResult? upsertSwapConfigResult;
+  final v1CreateTvcOperatorResult? createTvcOperatorResult;
+  final v1CreateTvcQuorumKeyResult? createTvcQuorumKeyResult;
+  final v1ReEncryptTvcQuorumKeyShareResult? reEncryptTvcQuorumKeyShareResult;
+  final v1InitImportSecretsResult? initImportSecretsResult;
+  final v1SolSendTransactionResultV2? solSendTransactionResultV2;
+  final v1ClaimSwapFeesResult? claimSwapFeesResult;
+  final v1EarnSetWrapperStateResult? earnSetWrapperStateResult;
+  final v1ClaimEarnFeesResult? claimEarnFeesResult;
+  final v1UpdateWalletAccountNameResult? updateWalletAccountNameResult;
+  final v1EthUndelegate7702Result? ethUndelegate7702Result;
+  final v1CreateSwapQuoteResult? createSwapQuoteResult;
+  final v1ImportSecretsResult? importSecretsResult;
+  final v1ExportSecretsResult? exportSecretsResult;
+  final v1CreateVelocityControlResult? createVelocityControlResult;
+  final v1DeleteVelocityControlResult? deleteVelocityControlResult;
+  final billingUpdatePaymentMethodResult? updatePaymentMethodResult;
+  final v1DeleteSecretsResult? deleteSecretsResult;
+  final v1EarnClaimRewardsResult? earnClaimRewardsResult;
+  final v1CreateSwapQuoteResultV2? createSwapQuoteResultV2;
 
   const v1Result({
     this.createOrganizationResult,
@@ -17984,6 +26411,46 @@ class v1Result {
     this.createWebhookEndpointResult,
     this.updateWebhookEndpointResult,
     this.deleteWebhookEndpointResult,
+    this.setIpAllowlistResult,
+    this.removeIpAllowlistResult,
+    this.updateTvcAppLiveDeploymentResult,
+    this.deleteTvcDeploymentResult,
+    this.deleteTvcAppAndDeploymentsResult,
+    this.restoreTvcDeploymentResult,
+    this.sparkSignFrostResult,
+    this.sparkPrepareTransferResult,
+    this.sparkClaimTransferResult,
+    this.sparkPrepareLightningReceiveResult,
+    this.postTvcQuorumKeyShareResult,
+    this.ethSendTransactionResultV2,
+    this.createMfaPolicyResult,
+    this.updateMfaPolicyResult,
+    this.deleteMfaPolicyResult,
+    this.createSessionProfileResult,
+    this.earnDeployWrapperResult,
+    this.earnDepositResult,
+    this.earnWithdrawResult,
+    this.executeSwapResult,
+    this.upsertSwapConfigResult,
+    this.createTvcOperatorResult,
+    this.createTvcQuorumKeyResult,
+    this.reEncryptTvcQuorumKeyShareResult,
+    this.initImportSecretsResult,
+    this.solSendTransactionResultV2,
+    this.claimSwapFeesResult,
+    this.earnSetWrapperStateResult,
+    this.claimEarnFeesResult,
+    this.updateWalletAccountNameResult,
+    this.ethUndelegate7702Result,
+    this.createSwapQuoteResult,
+    this.importSecretsResult,
+    this.exportSecretsResult,
+    this.createVelocityControlResult,
+    this.deleteVelocityControlResult,
+    this.updatePaymentMethodResult,
+    this.deleteSecretsResult,
+    this.earnClaimRewardsResult,
+    this.createSwapQuoteResultV2,
   });
 
   factory v1Result.fromJson(Map<String, dynamic> json) {
@@ -18454,6 +26921,183 @@ class v1Result {
             ? null
             : v1DeleteWebhookEndpointResult.fromJson(
                 json['deleteWebhookEndpointResult'] as Map<String, dynamic>);
+    final _setIpAllowlistResult = json['setIpAllowlistResult'] == null
+        ? null
+        : v1SetIpAllowlistResult
+            .fromJson(json['setIpAllowlistResult'] as Map<String, dynamic>);
+    final _removeIpAllowlistResult = json['removeIpAllowlistResult'] == null
+        ? null
+        : v1RemoveIpAllowlistResult
+            .fromJson(json['removeIpAllowlistResult'] as Map<String, dynamic>);
+    final _updateTvcAppLiveDeploymentResult =
+        json['updateTvcAppLiveDeploymentResult'] == null
+            ? null
+            : v1UpdateTvcAppLiveDeploymentResult.fromJson(
+                json['updateTvcAppLiveDeploymentResult']
+                    as Map<String, dynamic>);
+    final _deleteTvcDeploymentResult = json['deleteTvcDeploymentResult'] == null
+        ? null
+        : v1DeleteTvcDeploymentResult.fromJson(
+            json['deleteTvcDeploymentResult'] as Map<String, dynamic>);
+    final _deleteTvcAppAndDeploymentsResult =
+        json['deleteTvcAppAndDeploymentsResult'] == null
+            ? null
+            : v1DeleteTvcAppAndDeploymentsResult.fromJson(
+                json['deleteTvcAppAndDeploymentsResult']
+                    as Map<String, dynamic>);
+    final _restoreTvcDeploymentResult =
+        json['restoreTvcDeploymentResult'] == null
+            ? null
+            : v1RestoreTvcDeploymentResult.fromJson(
+                json['restoreTvcDeploymentResult'] as Map<String, dynamic>);
+    final _sparkSignFrostResult = json['sparkSignFrostResult'] == null
+        ? null
+        : v1SparkSignFrostResult
+            .fromJson(json['sparkSignFrostResult'] as Map<String, dynamic>);
+    final _sparkPrepareTransferResult =
+        json['sparkPrepareTransferResult'] == null
+            ? null
+            : v1SparkPrepareTransferResult.fromJson(
+                json['sparkPrepareTransferResult'] as Map<String, dynamic>);
+    final _sparkClaimTransferResult = json['sparkClaimTransferResult'] == null
+        ? null
+        : v1SparkClaimTransferResult
+            .fromJson(json['sparkClaimTransferResult'] as Map<String, dynamic>);
+    final _sparkPrepareLightningReceiveResult =
+        json['sparkPrepareLightningReceiveResult'] == null
+            ? null
+            : v1SparkPrepareLightningReceiveResult.fromJson(
+                json['sparkPrepareLightningReceiveResult']
+                    as Map<String, dynamic>);
+    final _postTvcQuorumKeyShareResult =
+        json['postTvcQuorumKeyShareResult'] == null
+            ? null
+            : v1PostTvcQuorumKeyShareResult.fromJson(
+                json['postTvcQuorumKeyShareResult'] as Map<String, dynamic>);
+    final _ethSendTransactionResultV2 =
+        json['ethSendTransactionResultV2'] == null
+            ? null
+            : v1EthSendTransactionResultV2.fromJson(
+                json['ethSendTransactionResultV2'] as Map<String, dynamic>);
+    final _createMfaPolicyResult = json['createMfaPolicyResult'] == null
+        ? null
+        : v1CreateMfaPolicyResult
+            .fromJson(json['createMfaPolicyResult'] as Map<String, dynamic>);
+    final _updateMfaPolicyResult = json['updateMfaPolicyResult'] == null
+        ? null
+        : v1UpdateMfaPolicyResult
+            .fromJson(json['updateMfaPolicyResult'] as Map<String, dynamic>);
+    final _deleteMfaPolicyResult = json['deleteMfaPolicyResult'] == null
+        ? null
+        : v1DeleteMfaPolicyResult
+            .fromJson(json['deleteMfaPolicyResult'] as Map<String, dynamic>);
+    final _createSessionProfileResult =
+        json['createSessionProfileResult'] == null
+            ? null
+            : v1CreateSessionProfileResult.fromJson(
+                json['createSessionProfileResult'] as Map<String, dynamic>);
+    final _earnDeployWrapperResult = json['earnDeployWrapperResult'] == null
+        ? null
+        : v1EarnDeployWrapperResult
+            .fromJson(json['earnDeployWrapperResult'] as Map<String, dynamic>);
+    final _earnDepositResult = json['earnDepositResult'] == null
+        ? null
+        : v1EarnDepositResult
+            .fromJson(json['earnDepositResult'] as Map<String, dynamic>);
+    final _earnWithdrawResult = json['earnWithdrawResult'] == null
+        ? null
+        : v1EarnWithdrawResult
+            .fromJson(json['earnWithdrawResult'] as Map<String, dynamic>);
+    final _executeSwapResult = json['executeSwapResult'] == null
+        ? null
+        : v1ExecuteSwapResult
+            .fromJson(json['executeSwapResult'] as Map<String, dynamic>);
+    final _upsertSwapConfigResult = json['upsertSwapConfigResult'] == null
+        ? null
+        : v1UpsertSwapConfigResult
+            .fromJson(json['upsertSwapConfigResult'] as Map<String, dynamic>);
+    final _createTvcOperatorResult = json['createTvcOperatorResult'] == null
+        ? null
+        : v1CreateTvcOperatorResult
+            .fromJson(json['createTvcOperatorResult'] as Map<String, dynamic>);
+    final _createTvcQuorumKeyResult = json['createTvcQuorumKeyResult'] == null
+        ? null
+        : v1CreateTvcQuorumKeyResult
+            .fromJson(json['createTvcQuorumKeyResult'] as Map<String, dynamic>);
+    final _reEncryptTvcQuorumKeyShareResult =
+        json['reEncryptTvcQuorumKeyShareResult'] == null
+            ? null
+            : v1ReEncryptTvcQuorumKeyShareResult.fromJson(
+                json['reEncryptTvcQuorumKeyShareResult']
+                    as Map<String, dynamic>);
+    final _initImportSecretsResult = json['initImportSecretsResult'] == null
+        ? null
+        : v1InitImportSecretsResult
+            .fromJson(json['initImportSecretsResult'] as Map<String, dynamic>);
+    final _solSendTransactionResultV2 =
+        json['solSendTransactionResultV2'] == null
+            ? null
+            : v1SolSendTransactionResultV2.fromJson(
+                json['solSendTransactionResultV2'] as Map<String, dynamic>);
+    final _claimSwapFeesResult = json['claimSwapFeesResult'] == null
+        ? null
+        : v1ClaimSwapFeesResult
+            .fromJson(json['claimSwapFeesResult'] as Map<String, dynamic>);
+    final _earnSetWrapperStateResult = json['earnSetWrapperStateResult'] == null
+        ? null
+        : v1EarnSetWrapperStateResult.fromJson(
+            json['earnSetWrapperStateResult'] as Map<String, dynamic>);
+    final _claimEarnFeesResult = json['claimEarnFeesResult'] == null
+        ? null
+        : v1ClaimEarnFeesResult
+            .fromJson(json['claimEarnFeesResult'] as Map<String, dynamic>);
+    final _updateWalletAccountNameResult =
+        json['updateWalletAccountNameResult'] == null
+            ? null
+            : v1UpdateWalletAccountNameResult.fromJson(
+                json['updateWalletAccountNameResult'] as Map<String, dynamic>);
+    final _ethUndelegate7702Result = json['ethUndelegate7702Result'] == null
+        ? null
+        : v1EthUndelegate7702Result
+            .fromJson(json['ethUndelegate7702Result'] as Map<String, dynamic>);
+    final _createSwapQuoteResult = json['createSwapQuoteResult'] == null
+        ? null
+        : v1CreateSwapQuoteResult
+            .fromJson(json['createSwapQuoteResult'] as Map<String, dynamic>);
+    final _importSecretsResult = json['importSecretsResult'] == null
+        ? null
+        : v1ImportSecretsResult
+            .fromJson(json['importSecretsResult'] as Map<String, dynamic>);
+    final _exportSecretsResult = json['exportSecretsResult'] == null
+        ? null
+        : v1ExportSecretsResult
+            .fromJson(json['exportSecretsResult'] as Map<String, dynamic>);
+    final _createVelocityControlResult =
+        json['createVelocityControlResult'] == null
+            ? null
+            : v1CreateVelocityControlResult.fromJson(
+                json['createVelocityControlResult'] as Map<String, dynamic>);
+    final _deleteVelocityControlResult =
+        json['deleteVelocityControlResult'] == null
+            ? null
+            : v1DeleteVelocityControlResult.fromJson(
+                json['deleteVelocityControlResult'] as Map<String, dynamic>);
+    final _updatePaymentMethodResult = json['updatePaymentMethodResult'] == null
+        ? null
+        : billingUpdatePaymentMethodResult.fromJson(
+            json['updatePaymentMethodResult'] as Map<String, dynamic>);
+    final _deleteSecretsResult = json['deleteSecretsResult'] == null
+        ? null
+        : v1DeleteSecretsResult
+            .fromJson(json['deleteSecretsResult'] as Map<String, dynamic>);
+    final _earnClaimRewardsResult = json['earnClaimRewardsResult'] == null
+        ? null
+        : v1EarnClaimRewardsResult
+            .fromJson(json['earnClaimRewardsResult'] as Map<String, dynamic>);
+    final _createSwapQuoteResultV2 = json['createSwapQuoteResultV2'] == null
+        ? null
+        : v1CreateSwapQuoteResultV2
+            .fromJson(json['createSwapQuoteResultV2'] as Map<String, dynamic>);
     return v1Result(
       createOrganizationResult: _createOrganizationResult,
       createAuthenticatorsResult: _createAuthenticatorsResult,
@@ -18560,6 +27204,46 @@ class v1Result {
       createWebhookEndpointResult: _createWebhookEndpointResult,
       updateWebhookEndpointResult: _updateWebhookEndpointResult,
       deleteWebhookEndpointResult: _deleteWebhookEndpointResult,
+      setIpAllowlistResult: _setIpAllowlistResult,
+      removeIpAllowlistResult: _removeIpAllowlistResult,
+      updateTvcAppLiveDeploymentResult: _updateTvcAppLiveDeploymentResult,
+      deleteTvcDeploymentResult: _deleteTvcDeploymentResult,
+      deleteTvcAppAndDeploymentsResult: _deleteTvcAppAndDeploymentsResult,
+      restoreTvcDeploymentResult: _restoreTvcDeploymentResult,
+      sparkSignFrostResult: _sparkSignFrostResult,
+      sparkPrepareTransferResult: _sparkPrepareTransferResult,
+      sparkClaimTransferResult: _sparkClaimTransferResult,
+      sparkPrepareLightningReceiveResult: _sparkPrepareLightningReceiveResult,
+      postTvcQuorumKeyShareResult: _postTvcQuorumKeyShareResult,
+      ethSendTransactionResultV2: _ethSendTransactionResultV2,
+      createMfaPolicyResult: _createMfaPolicyResult,
+      updateMfaPolicyResult: _updateMfaPolicyResult,
+      deleteMfaPolicyResult: _deleteMfaPolicyResult,
+      createSessionProfileResult: _createSessionProfileResult,
+      earnDeployWrapperResult: _earnDeployWrapperResult,
+      earnDepositResult: _earnDepositResult,
+      earnWithdrawResult: _earnWithdrawResult,
+      executeSwapResult: _executeSwapResult,
+      upsertSwapConfigResult: _upsertSwapConfigResult,
+      createTvcOperatorResult: _createTvcOperatorResult,
+      createTvcQuorumKeyResult: _createTvcQuorumKeyResult,
+      reEncryptTvcQuorumKeyShareResult: _reEncryptTvcQuorumKeyShareResult,
+      initImportSecretsResult: _initImportSecretsResult,
+      solSendTransactionResultV2: _solSendTransactionResultV2,
+      claimSwapFeesResult: _claimSwapFeesResult,
+      earnSetWrapperStateResult: _earnSetWrapperStateResult,
+      claimEarnFeesResult: _claimEarnFeesResult,
+      updateWalletAccountNameResult: _updateWalletAccountNameResult,
+      ethUndelegate7702Result: _ethUndelegate7702Result,
+      createSwapQuoteResult: _createSwapQuoteResult,
+      importSecretsResult: _importSecretsResult,
+      exportSecretsResult: _exportSecretsResult,
+      createVelocityControlResult: _createVelocityControlResult,
+      deleteVelocityControlResult: _deleteVelocityControlResult,
+      updatePaymentMethodResult: _updatePaymentMethodResult,
+      deleteSecretsResult: _deleteSecretsResult,
+      earnClaimRewardsResult: _earnClaimRewardsResult,
+      createSwapQuoteResultV2: _createSwapQuoteResultV2,
     );
   }
 
@@ -18920,6 +27604,139 @@ class v1Result {
     if (deleteWebhookEndpointResult != null) {
       _json['deleteWebhookEndpointResult'] =
           deleteWebhookEndpointResult?.toJson();
+    }
+    if (setIpAllowlistResult != null) {
+      _json['setIpAllowlistResult'] = setIpAllowlistResult?.toJson();
+    }
+    if (removeIpAllowlistResult != null) {
+      _json['removeIpAllowlistResult'] = removeIpAllowlistResult?.toJson();
+    }
+    if (updateTvcAppLiveDeploymentResult != null) {
+      _json['updateTvcAppLiveDeploymentResult'] =
+          updateTvcAppLiveDeploymentResult?.toJson();
+    }
+    if (deleteTvcDeploymentResult != null) {
+      _json['deleteTvcDeploymentResult'] = deleteTvcDeploymentResult?.toJson();
+    }
+    if (deleteTvcAppAndDeploymentsResult != null) {
+      _json['deleteTvcAppAndDeploymentsResult'] =
+          deleteTvcAppAndDeploymentsResult?.toJson();
+    }
+    if (restoreTvcDeploymentResult != null) {
+      _json['restoreTvcDeploymentResult'] =
+          restoreTvcDeploymentResult?.toJson();
+    }
+    if (sparkSignFrostResult != null) {
+      _json['sparkSignFrostResult'] = sparkSignFrostResult?.toJson();
+    }
+    if (sparkPrepareTransferResult != null) {
+      _json['sparkPrepareTransferResult'] =
+          sparkPrepareTransferResult?.toJson();
+    }
+    if (sparkClaimTransferResult != null) {
+      _json['sparkClaimTransferResult'] = sparkClaimTransferResult?.toJson();
+    }
+    if (sparkPrepareLightningReceiveResult != null) {
+      _json['sparkPrepareLightningReceiveResult'] =
+          sparkPrepareLightningReceiveResult?.toJson();
+    }
+    if (postTvcQuorumKeyShareResult != null) {
+      _json['postTvcQuorumKeyShareResult'] =
+          postTvcQuorumKeyShareResult?.toJson();
+    }
+    if (ethSendTransactionResultV2 != null) {
+      _json['ethSendTransactionResultV2'] =
+          ethSendTransactionResultV2?.toJson();
+    }
+    if (createMfaPolicyResult != null) {
+      _json['createMfaPolicyResult'] = createMfaPolicyResult?.toJson();
+    }
+    if (updateMfaPolicyResult != null) {
+      _json['updateMfaPolicyResult'] = updateMfaPolicyResult?.toJson();
+    }
+    if (deleteMfaPolicyResult != null) {
+      _json['deleteMfaPolicyResult'] = deleteMfaPolicyResult?.toJson();
+    }
+    if (createSessionProfileResult != null) {
+      _json['createSessionProfileResult'] =
+          createSessionProfileResult?.toJson();
+    }
+    if (earnDeployWrapperResult != null) {
+      _json['earnDeployWrapperResult'] = earnDeployWrapperResult?.toJson();
+    }
+    if (earnDepositResult != null) {
+      _json['earnDepositResult'] = earnDepositResult?.toJson();
+    }
+    if (earnWithdrawResult != null) {
+      _json['earnWithdrawResult'] = earnWithdrawResult?.toJson();
+    }
+    if (executeSwapResult != null) {
+      _json['executeSwapResult'] = executeSwapResult?.toJson();
+    }
+    if (upsertSwapConfigResult != null) {
+      _json['upsertSwapConfigResult'] = upsertSwapConfigResult?.toJson();
+    }
+    if (createTvcOperatorResult != null) {
+      _json['createTvcOperatorResult'] = createTvcOperatorResult?.toJson();
+    }
+    if (createTvcQuorumKeyResult != null) {
+      _json['createTvcQuorumKeyResult'] = createTvcQuorumKeyResult?.toJson();
+    }
+    if (reEncryptTvcQuorumKeyShareResult != null) {
+      _json['reEncryptTvcQuorumKeyShareResult'] =
+          reEncryptTvcQuorumKeyShareResult?.toJson();
+    }
+    if (initImportSecretsResult != null) {
+      _json['initImportSecretsResult'] = initImportSecretsResult?.toJson();
+    }
+    if (solSendTransactionResultV2 != null) {
+      _json['solSendTransactionResultV2'] =
+          solSendTransactionResultV2?.toJson();
+    }
+    if (claimSwapFeesResult != null) {
+      _json['claimSwapFeesResult'] = claimSwapFeesResult?.toJson();
+    }
+    if (earnSetWrapperStateResult != null) {
+      _json['earnSetWrapperStateResult'] = earnSetWrapperStateResult?.toJson();
+    }
+    if (claimEarnFeesResult != null) {
+      _json['claimEarnFeesResult'] = claimEarnFeesResult?.toJson();
+    }
+    if (updateWalletAccountNameResult != null) {
+      _json['updateWalletAccountNameResult'] =
+          updateWalletAccountNameResult?.toJson();
+    }
+    if (ethUndelegate7702Result != null) {
+      _json['ethUndelegate7702Result'] = ethUndelegate7702Result?.toJson();
+    }
+    if (createSwapQuoteResult != null) {
+      _json['createSwapQuoteResult'] = createSwapQuoteResult?.toJson();
+    }
+    if (importSecretsResult != null) {
+      _json['importSecretsResult'] = importSecretsResult?.toJson();
+    }
+    if (exportSecretsResult != null) {
+      _json['exportSecretsResult'] = exportSecretsResult?.toJson();
+    }
+    if (createVelocityControlResult != null) {
+      _json['createVelocityControlResult'] =
+          createVelocityControlResult?.toJson();
+    }
+    if (deleteVelocityControlResult != null) {
+      _json['deleteVelocityControlResult'] =
+          deleteVelocityControlResult?.toJson();
+    }
+    if (updatePaymentMethodResult != null) {
+      _json['updatePaymentMethodResult'] = updatePaymentMethodResult?.toJson();
+    }
+    if (deleteSecretsResult != null) {
+      _json['deleteSecretsResult'] = deleteSecretsResult?.toJson();
+    }
+    if (earnClaimRewardsResult != null) {
+      _json['earnClaimRewardsResult'] = earnClaimRewardsResult?.toJson();
+    }
+    if (createSwapQuoteResultV2 != null) {
+      _json['createSwapQuoteResultV2'] = createSwapQuoteResultV2?.toJson();
     }
     return _json;
   }
@@ -19300,6 +28117,54 @@ class v1RootUserParamsV5 {
   }
 }
 
+class v1SecretMetadata {
+  /// Unique identifier for the secret.
+  final String secretId;
+
+  /// Optional human-readable name for the secret.
+  final String? name;
+
+  /// Policy visible static properties bound to the secret at creation time.
+  final List<v1KeyValue> staticProperties;
+
+  /// Unix timestamp in milliseconds for when the secret was created.
+  final String createdAtUnixMs;
+
+  const v1SecretMetadata({
+    required this.secretId,
+    this.name,
+    required this.staticProperties,
+    required this.createdAtUnixMs,
+  });
+
+  factory v1SecretMetadata.fromJson(Map<String, dynamic> json) {
+    final _secretId = json['secretId'] as String;
+    final _name = json['name'] as String?;
+    final _staticProperties = (json['staticProperties'] as List)
+        .map((e) => v1KeyValue.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _createdAtUnixMs = json['createdAtUnixMs'] as String;
+    return v1SecretMetadata(
+      secretId: _secretId,
+      name: _name,
+      staticProperties: _staticProperties,
+      createdAtUnixMs: _createdAtUnixMs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secretId'] = secretId;
+    if (name != null) {
+      _json['name'] = name;
+    }
+    _json['staticProperties'] =
+        staticProperties.map((e) => e.toJson()).toList();
+    _json['createdAtUnixMs'] = createdAtUnixMs;
+    return _json;
+  }
+}
+
 class v1Selector {
   final String? subject;
   final v1Operator? operator;
@@ -19375,6 +28240,181 @@ class v1SelectorV2 {
     }
     return _json;
   }
+}
+
+class v1SessionProfile {
+  /// Unique identifier for a given Session Profile.
+  final String sessionProfileId;
+
+  /// Human-readable name for a Session Profile.
+  final String sessionProfileName;
+
+  /// The specific scope that a session created with this profile is limited to.
+  final String scope;
+
+  /// Optional window (in seconds) indicating how long sessions created with this profile should last.
+  final String? expirationSeconds;
+
+  /// Optional human-readable notes added by a User to describe a particular Session Profile.
+  final String? notes;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1SessionProfile({
+    required this.sessionProfileId,
+    required this.sessionProfileName,
+    required this.scope,
+    this.expirationSeconds,
+    this.notes,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory v1SessionProfile.fromJson(Map<String, dynamic> json) {
+    final _sessionProfileId = json['sessionProfileId'] as String;
+    final _sessionProfileName = json['sessionProfileName'] as String;
+    final _scope = json['scope'] as String;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _notes = json['notes'] as String?;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1SessionProfile(
+      sessionProfileId: _sessionProfileId,
+      sessionProfileName: _sessionProfileName,
+      scope: _scope,
+      expirationSeconds: _expirationSeconds,
+      notes: _notes,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfileId'] = sessionProfileId;
+    _json['sessionProfileName'] = sessionProfileName;
+    _json['scope'] = scope;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
+class v1SetIpAllowlistIntent {
+  /// The public component of an API key. If null, the IP allowlist applies at the organization level. If set, it applies only to this specific API key.
+  final String? publicKey;
+
+  /// Whether the IP allowlist is enabled. Only meaningful for organization-level allowlists. Omit for API key-level allowlists.
+  final bool? enabled;
+
+  /// List of IP allowlist rules with CIDR blocks and optional labels.
+  final List<v1IpAllowlistIntentRule>? rules;
+
+  /// Behavior when an error occurs during IP allowlist evaluation. Valid values: ALLOW, DENY. Defaults to DENY.
+  final String? onEvaluationError;
+
+  const v1SetIpAllowlistIntent({
+    this.publicKey,
+    this.enabled,
+    this.rules,
+    this.onEvaluationError,
+  });
+
+  factory v1SetIpAllowlistIntent.fromJson(Map<String, dynamic> json) {
+    final _publicKey = json['publicKey'] as String?;
+    final _enabled = json['enabled'] as bool?;
+    final _rules = (json['rules'] as List?)
+        ?.map(
+            (e) => v1IpAllowlistIntentRule.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _onEvaluationError = json['onEvaluationError'] as String?;
+    return v1SetIpAllowlistIntent(
+      publicKey: _publicKey,
+      enabled: _enabled,
+      rules: _rules,
+      onEvaluationError: _onEvaluationError,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    if (enabled != null) {
+      _json['enabled'] = enabled;
+    }
+    if (rules != null) {
+      _json['rules'] = rules?.map((e) => e.toJson()).toList();
+    }
+    if (onEvaluationError != null) {
+      _json['onEvaluationError'] = onEvaluationError;
+    }
+    return _json;
+  }
+}
+
+class v1SetIpAllowlistRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1SetIpAllowlistIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1SetIpAllowlistRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1SetIpAllowlistRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1SetIpAllowlistIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1SetIpAllowlistRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1SetIpAllowlistResult {
+  const v1SetIpAllowlistResult();
+  factory v1SetIpAllowlistResult.fromJson(Map<String, dynamic> json) =>
+      const v1SetIpAllowlistResult();
+  Map<String, dynamic> toJson() => {};
 }
 
 class v1SetOrganizationFeatureIntent {
@@ -19613,13 +28653,13 @@ class v1SignRawPayloadRequest {
 }
 
 class v1SignRawPayloadResult {
-  /// Component of an ECSDA signature.
+  /// Component of a cryptographic signature, meaning varies based on signing scheme.
   final String r;
 
-  /// Component of an ECSDA signature.
+  /// Component of a cryptographic signature, meaning varies based on signing scheme.
   final String s;
 
-  /// Component of an ECSDA signature.
+  /// Recovery ID for ECDSA signatures, "00" otherwise.
   final String v;
 
   const v1SignRawPayloadResult({
@@ -20019,6 +29059,81 @@ class v1SignupUsageV2 {
   }
 }
 
+class v1SignupUsageV3 {
+  final String parentOrganizationId;
+  final String subOrganizationName;
+  final List<v1RootUserParamsV5> rootUsers;
+  final num rootQuorumThreshold;
+  final v1WalletParams? wallet;
+  final bool? disableEmailRecovery;
+  final bool? disableEmailAuth;
+  final bool? disableSmsAuth;
+  final bool? disableOtpEmailAuth;
+
+  const v1SignupUsageV3({
+    required this.parentOrganizationId,
+    required this.subOrganizationName,
+    required this.rootUsers,
+    required this.rootQuorumThreshold,
+    this.wallet,
+    this.disableEmailRecovery,
+    this.disableEmailAuth,
+    this.disableSmsAuth,
+    this.disableOtpEmailAuth,
+  });
+
+  factory v1SignupUsageV3.fromJson(Map<String, dynamic> json) {
+    final _parentOrganizationId = json['parentOrganizationId'] as String;
+    final _subOrganizationName = json['subOrganizationName'] as String;
+    final _rootUsers = (json['rootUsers'] as List)
+        .map((e) => v1RootUserParamsV5.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _rootQuorumThreshold = json['rootQuorumThreshold'] as num;
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _disableEmailRecovery = json['disableEmailRecovery'] as bool?;
+    final _disableEmailAuth = json['disableEmailAuth'] as bool?;
+    final _disableSmsAuth = json['disableSmsAuth'] as bool?;
+    final _disableOtpEmailAuth = json['disableOtpEmailAuth'] as bool?;
+    return v1SignupUsageV3(
+      parentOrganizationId: _parentOrganizationId,
+      subOrganizationName: _subOrganizationName,
+      rootUsers: _rootUsers,
+      rootQuorumThreshold: _rootQuorumThreshold,
+      wallet: _wallet,
+      disableEmailRecovery: _disableEmailRecovery,
+      disableEmailAuth: _disableEmailAuth,
+      disableSmsAuth: _disableSmsAuth,
+      disableOtpEmailAuth: _disableOtpEmailAuth,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['parentOrganizationId'] = parentOrganizationId;
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    if (disableEmailRecovery != null) {
+      _json['disableEmailRecovery'] = disableEmailRecovery;
+    }
+    if (disableEmailAuth != null) {
+      _json['disableEmailAuth'] = disableEmailAuth;
+    }
+    if (disableSmsAuth != null) {
+      _json['disableSmsAuth'] = disableSmsAuth;
+    }
+    if (disableOtpEmailAuth != null) {
+      _json['disableOtpEmailAuth'] = disableOtpEmailAuth;
+    }
+    return _json;
+  }
+}
+
 class v1SimpleClientExtensionResults {
   final bool? appid;
   final bool? appidExclude;
@@ -20084,7 +29199,7 @@ class v1SmsCustomizationParams {
 }
 
 class v1SolSendTransactionIntent {
-  /// Base64-encoded serialized unsigned Solana transaction
+  /// Hex-encoded serialized unsigned Solana transaction in full wire format. Legacy/V0 transactions allow 1232 bytes. V1 allows 4096 bytes with up to 12 trailing 64-byte signature slots, including the paymaster for sponsored transactions. Fill unsigned slots with zeroes.
   final String unsignedTransaction;
 
   /// A wallet or private key address to sign with. This does not support private key IDs.
@@ -20093,7 +29208,7 @@ class v1SolSendTransactionIntent {
   /// Whether to sponsor this transaction via Gas Station.
   final bool? sponsor;
 
-  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet).
+  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet). Human-readable Solana aliases ('solana:mainnet', 'solana:devnet') are also accepted and normalized to canonical CAIP-2 values.
   final String caip2;
 
   /// user-provided blockhash for replay protection / deadline control. If omitted and sponsor=true, we fetch a fresh blockhash during execution
@@ -20137,6 +29252,61 @@ class v1SolSendTransactionIntent {
   }
 }
 
+class v1SolSendTransactionIntentV2 {
+  /// Hex-encoded serialized unsigned Solana transaction in full wire format. Legacy/V0 transactions allow 1232 bytes. V1 allows 4096 bytes with up to 12 trailing 64-byte signature slots, including the paymaster for sponsored transactions. Fill unsigned slots with zeroes.
+  final String unsignedTransaction;
+
+  /// Ordered Solana signer addresses Turnkey signs with. Between 1 and 16 signers for legacy/V0, or up to 12 for V1 (11 when sponsored). For sponsored transactions this must list every required signer of the transaction in transaction order.
+  final List<String> signWiths;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet). Human-readable Solana aliases ('solana:mainnet', 'solana:devnet') are also accepted and normalized to canonical CAIP-2 values.
+  final String caip2;
+
+  /// User-provided blockhash for replay protection / deadline control. If provided, it is used as-is, including for sponsored transactions (the transaction is only broadcastable while the blockhash is current). If omitted and sponsor=true, a fresh blockhash is fetched during execution.
+  final String? recentBlockhash;
+
+  const v1SolSendTransactionIntentV2({
+    required this.unsignedTransaction,
+    required this.signWiths,
+    this.sponsor,
+    required this.caip2,
+    this.recentBlockhash,
+  });
+
+  factory v1SolSendTransactionIntentV2.fromJson(Map<String, dynamic> json) {
+    final _unsignedTransaction = json['unsignedTransaction'] as String;
+    final _signWiths =
+        (json['signWiths'] as List).map((e) => e as String).toList();
+    final _sponsor = json['sponsor'] as bool?;
+    final _caip2 = json['caip2'] as String;
+    final _recentBlockhash = json['recentBlockhash'] as String?;
+    return v1SolSendTransactionIntentV2(
+      unsignedTransaction: _unsignedTransaction,
+      signWiths: _signWiths,
+      sponsor: _sponsor,
+      caip2: _caip2,
+      recentBlockhash: _recentBlockhash,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['unsignedTransaction'] = unsignedTransaction;
+    _json['signWiths'] = signWiths;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['caip2'] = caip2;
+    if (recentBlockhash != null) {
+      _json['recentBlockhash'] = recentBlockhash;
+    }
+    return _json;
+  }
+}
+
 class v1SolSendTransactionRequest {
   final String type;
 
@@ -20145,7 +29315,7 @@ class v1SolSendTransactionRequest {
 
   /// Unique identifier for a given Organization.
   final String organizationId;
-  final v1SolSendTransactionIntent parameters;
+  final v1SolSendTransactionIntentV2 parameters;
   final bool? generateAppProofs;
 
   const v1SolSendTransactionRequest({
@@ -20160,7 +29330,7 @@ class v1SolSendTransactionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1SolSendTransactionIntent
+    final _parameters = v1SolSendTransactionIntentV2
         .fromJson(json['parameters'] as Map<String, dynamic>);
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SolSendTransactionRequest(
@@ -20203,6 +29373,157 @@ class v1SolSendTransactionResult {
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
+class v1SolSendTransactionResultV2 {
+  /// The send_transaction_status ID associated with the transaction submission
+  final String sendTransactionStatusId;
+
+  const v1SolSendTransactionResultV2({
+    required this.sendTransactionStatusId,
+  });
+
+  factory v1SolSendTransactionResultV2.fromJson(Map<String, dynamic> json) {
+    final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
+    return v1SolSendTransactionResultV2(
+      sendTransactionStatusId: _sendTransactionStatusId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sendTransactionStatusId'] = sendTransactionStatusId;
+    return _json;
+  }
+}
+
+class v1SolTransactionHistoryItem {
+  /// Solana transaction signature.
+  final String signature;
+
+  /// Block metadata for the transaction.
+  final v1TransactionHistoryBlock block;
+
+  /// Transaction confirmation status.
+  final String status;
+
+  /// Origin of the transaction. Examples include TURNKEY.
+  final String origin;
+
+  /// Address that paid the Solana transaction fee. This is the first signer in the transaction message.
+  final String feePayer;
+
+  /// Addresses that signed the Solana transaction, in message order.
+  final List<v1SolTransactionHistorySigner> signers;
+
+  /// Transaction fee information.
+  final v1TransactionHistoryFee fee;
+
+  /// Asset transfers associated with the transaction.
+  final List<v1TransactionHistoryTransfer> transfers;
+
+  /// Turnkey-specific metadata for transactions originated by Turnkey.
+  final v1TransactionHistoryTurnkey? turnkey;
+
+  /// Whether the transaction failed during on-chain execution. Omitted when execution outcome is unavailable.
+  final bool? executionFailed;
+
+  const v1SolTransactionHistoryItem({
+    required this.signature,
+    required this.block,
+    required this.status,
+    required this.origin,
+    required this.feePayer,
+    required this.signers,
+    required this.fee,
+    required this.transfers,
+    this.turnkey,
+    this.executionFailed,
+  });
+
+  factory v1SolTransactionHistoryItem.fromJson(Map<String, dynamic> json) {
+    final _signature = json['signature'] as String;
+    final _block = v1TransactionHistoryBlock
+        .fromJson(json['block'] as Map<String, dynamic>);
+    final _status = json['status'] as String;
+    final _origin = json['origin'] as String;
+    final _feePayer = json['feePayer'] as String;
+    final _signers = (json['signers'] as List)
+        .map((e) =>
+            v1SolTransactionHistorySigner.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _fee =
+        v1TransactionHistoryFee.fromJson(json['fee'] as Map<String, dynamic>);
+    final _transfers = (json['transfers'] as List)
+        .map((e) =>
+            v1TransactionHistoryTransfer.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _turnkey = json['turnkey'] == null
+        ? null
+        : v1TransactionHistoryTurnkey
+            .fromJson(json['turnkey'] as Map<String, dynamic>);
+    final _executionFailed = json['executionFailed'] as bool?;
+    return v1SolTransactionHistoryItem(
+      signature: _signature,
+      block: _block,
+      status: _status,
+      origin: _origin,
+      feePayer: _feePayer,
+      signers: _signers,
+      fee: _fee,
+      transfers: _transfers,
+      turnkey: _turnkey,
+      executionFailed: _executionFailed,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signature'] = signature;
+    _json['block'] = block.toJson();
+    _json['status'] = status;
+    _json['origin'] = origin;
+    _json['feePayer'] = feePayer;
+    _json['signers'] = signers.map((e) => e.toJson()).toList();
+    _json['fee'] = fee.toJson();
+    _json['transfers'] = transfers.map((e) => e.toJson()).toList();
+    if (turnkey != null) {
+      _json['turnkey'] = turnkey?.toJson();
+    }
+    if (executionFailed != null) {
+      _json['executionFailed'] = executionFailed;
+    }
+    return _json;
+  }
+}
+
+class v1SolTransactionHistorySigner {
+  /// Address of the Solana transaction signer.
+  final String address;
+
+  /// Whether the signer account was writable in the Solana transaction message.
+  final bool writable;
+
+  const v1SolTransactionHistorySigner({
+    required this.address,
+    required this.writable,
+  });
+
+  factory v1SolTransactionHistorySigner.fromJson(Map<String, dynamic> json) {
+    final _address = json['address'] as String;
+    final _writable = json['writable'] as bool;
+    return v1SolTransactionHistorySigner(
+      address: _address,
+      writable: _writable,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['address'] = address;
+    _json['writable'] = writable;
     return _json;
   }
 }
@@ -20333,6 +29654,1032 @@ class v1SolanaSendTransactionStatus {
   }
 }
 
+class v1SparkClaimLeaf {
+  /// Leaf identifier (UUID).
+  final String leafId;
+
+  /// ECIES ciphertext (hex-encoded) containing the inbound transfer secret. Decrypted inside the enclave using the wallet's Identity key.
+  final String ciphertext;
+
+  /// Hex-encoded 64-byte compact ECDSA signature binding (leaf_id, transfer_id, ciphertext) to the sender's identity key. Verified inside the enclave before decryption.
+  final String senderSignature;
+
+  const v1SparkClaimLeaf({
+    required this.leafId,
+    required this.ciphertext,
+    required this.senderSignature,
+  });
+
+  factory v1SparkClaimLeaf.fromJson(Map<String, dynamic> json) {
+    final _leafId = json['leafId'] as String;
+    final _ciphertext = json['ciphertext'] as String;
+    final _senderSignature = json['senderSignature'] as String;
+    return v1SparkClaimLeaf(
+      leafId: _leafId,
+      ciphertext: _ciphertext,
+      senderSignature: _senderSignature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['leafId'] = leafId;
+    _json['ciphertext'] = ciphertext;
+    _json['senderSignature'] = senderSignature;
+    return _json;
+  }
+}
+
+class v1SparkClaimPackage {
+  /// Leaves being claimed.
+  final List<v1SparkClaimLeaf> leaves;
+
+  /// Shamir threshold for reconstructing the per-leaf claim secret.
+  final num threshold;
+
+  /// Operators that will receive Shamir shares.
+  final List<v1SparkOperatorRecipient> operatorRecipients;
+
+  /// Spark transfer identifier (UUID). Used together with each leaf's sender_signature to verify the sender bound this ciphertext to this transfer.
+  final String transferId;
+
+  /// Sender's compressed secp256k1 identity public key (hex-encoded, 33 bytes). Used to verify the per-leaf sender_signature fields.
+  final String senderIdentityPublicKey;
+
+  const v1SparkClaimPackage({
+    required this.leaves,
+    required this.threshold,
+    required this.operatorRecipients,
+    required this.transferId,
+    required this.senderIdentityPublicKey,
+  });
+
+  factory v1SparkClaimPackage.fromJson(Map<String, dynamic> json) {
+    final _leaves = (json['leaves'] as List)
+        .map((e) => v1SparkClaimLeaf.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _threshold = json['threshold'] as num;
+    final _operatorRecipients = (json['operatorRecipients'] as List)
+        .map(
+            (e) => v1SparkOperatorRecipient.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _transferId = json['transferId'] as String;
+    final _senderIdentityPublicKey = json['senderIdentityPublicKey'] as String;
+    return v1SparkClaimPackage(
+      leaves: _leaves,
+      threshold: _threshold,
+      operatorRecipients: _operatorRecipients,
+      transferId: _transferId,
+      senderIdentityPublicKey: _senderIdentityPublicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['leaves'] = leaves.map((e) => e.toJson()).toList();
+    _json['threshold'] = threshold;
+    _json['operatorRecipients'] =
+        operatorRecipients.map((e) => e.toJson()).toList();
+    _json['transferId'] = transferId;
+    _json['senderIdentityPublicKey'] = senderIdentityPublicKey;
+    return _json;
+  }
+}
+
+class v1SparkClaimTransferIntent {
+  /// A Spark wallet account address identifying the wallet.
+  final String signWith;
+
+  /// Claim package parameters.
+  final v1SparkClaimPackage claim;
+
+  const v1SparkClaimTransferIntent({
+    required this.signWith,
+    required this.claim,
+  });
+
+  factory v1SparkClaimTransferIntent.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _claim =
+        v1SparkClaimPackage.fromJson(json['claim'] as Map<String, dynamic>);
+    return v1SparkClaimTransferIntent(
+      signWith: _signWith,
+      claim: _claim,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['claim'] = claim.toJson();
+    return _json;
+  }
+}
+
+class v1SparkClaimTransferRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1SparkClaimTransferIntent parameters;
+
+  const v1SparkClaimTransferRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1SparkClaimTransferRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1SparkClaimTransferIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1SparkClaimTransferRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1SparkClaimTransferResult {
+  /// Per-operator ECIES-encrypted packages.
+  final List<v1SparkEncryptedOperatorPackage> operatorPackages;
+
+  /// Newly-derived SigningLeaf public keys, one per leaf, in input order.
+  final List<v1SparkLeafPublicKey> newLeafPublicKeys;
+
+  const v1SparkClaimTransferResult({
+    required this.operatorPackages,
+    required this.newLeafPublicKeys,
+  });
+
+  factory v1SparkClaimTransferResult.fromJson(Map<String, dynamic> json) {
+    final _operatorPackages = (json['operatorPackages'] as List)
+        .map((e) =>
+            v1SparkEncryptedOperatorPackage.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _newLeafPublicKeys = (json['newLeafPublicKeys'] as List)
+        .map((e) => v1SparkLeafPublicKey.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SparkClaimTransferResult(
+      operatorPackages: _operatorPackages,
+      newLeafPublicKeys: _newLeafPublicKeys,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorPackages'] =
+        operatorPackages.map((e) => e.toJson()).toList();
+    _json['newLeafPublicKeys'] =
+        newLeafPublicKeys.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1SparkDepositDerivation {
+  const v1SparkDepositDerivation();
+  factory v1SparkDepositDerivation.fromJson(Map<String, dynamic> json) =>
+      const v1SparkDepositDerivation();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1SparkEncryptedOperatorPackage {
+  /// Spark operator identifier (UUID).
+  final String operatorId;
+
+  /// ECIES ciphertext (hex-encoded) opaque to Turnkey after emission.
+  final String encryptedPackage;
+
+  const v1SparkEncryptedOperatorPackage({
+    required this.operatorId,
+    required this.encryptedPackage,
+  });
+
+  factory v1SparkEncryptedOperatorPackage.fromJson(Map<String, dynamic> json) {
+    final _operatorId = json['operatorId'] as String;
+    final _encryptedPackage = json['encryptedPackage'] as String;
+    return v1SparkEncryptedOperatorPackage(
+      operatorId: _operatorId,
+      encryptedPackage: _encryptedPackage,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorId'] = operatorId;
+    _json['encryptedPackage'] = encryptedPackage;
+    return _json;
+  }
+}
+
+class v1SparkFrostCommitment {
+  /// FROST participant identifier, hex-encoded (32-byte scalar).
+  final String id;
+
+  /// Hiding commitment D, hex-encoded compressed secp256k1 point.
+  final String hiding;
+
+  /// Binding commitment E, hex-encoded compressed secp256k1 point.
+  final String binding;
+
+  const v1SparkFrostCommitment({
+    required this.id,
+    required this.hiding,
+    required this.binding,
+  });
+
+  factory v1SparkFrostCommitment.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _hiding = json['hiding'] as String;
+    final _binding = json['binding'] as String;
+    return v1SparkFrostCommitment(
+      id: _id,
+      hiding: _hiding,
+      binding: _binding,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['hiding'] = hiding;
+    _json['binding'] = binding;
+    return _json;
+  }
+}
+
+class v1SparkHtlcPreimageDerivation {
+  const v1SparkHtlcPreimageDerivation();
+  factory v1SparkHtlcPreimageDerivation.fromJson(Map<String, dynamic> json) =>
+      const v1SparkHtlcPreimageDerivation();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1SparkIdentityDerivation {
+  const v1SparkIdentityDerivation();
+  factory v1SparkIdentityDerivation.fromJson(Map<String, dynamic> json) =>
+      const v1SparkIdentityDerivation();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1SparkKeyDerivation {
+  /// Spark identity key derivation.
+  final v1SparkIdentityDerivation? identity;
+
+  /// Spark signing leaf key derivation, identified by leaf ID.
+  final v1SparkSigningLeafDerivation? signingLeaf;
+
+  /// Spark deposit key derivation.
+  final v1SparkDepositDerivation? deposit;
+
+  /// Spark static deposit key derivation, identified by index.
+  final v1SparkStaticDepositDerivation? staticDeposit;
+
+  /// Spark HTLC preimage key derivation.
+  final v1SparkHtlcPreimageDerivation? htlcPreimage;
+
+  const v1SparkKeyDerivation({
+    this.identity,
+    this.signingLeaf,
+    this.deposit,
+    this.staticDeposit,
+    this.htlcPreimage,
+  });
+
+  factory v1SparkKeyDerivation.fromJson(Map<String, dynamic> json) {
+    final _identity = json['identity'] == null
+        ? null
+        : v1SparkIdentityDerivation
+            .fromJson(json['identity'] as Map<String, dynamic>);
+    final _signingLeaf = json['signingLeaf'] == null
+        ? null
+        : v1SparkSigningLeafDerivation
+            .fromJson(json['signingLeaf'] as Map<String, dynamic>);
+    final _deposit = json['deposit'] == null
+        ? null
+        : v1SparkDepositDerivation
+            .fromJson(json['deposit'] as Map<String, dynamic>);
+    final _staticDeposit = json['staticDeposit'] == null
+        ? null
+        : v1SparkStaticDepositDerivation
+            .fromJson(json['staticDeposit'] as Map<String, dynamic>);
+    final _htlcPreimage = json['htlcPreimage'] == null
+        ? null
+        : v1SparkHtlcPreimageDerivation
+            .fromJson(json['htlcPreimage'] as Map<String, dynamic>);
+    return v1SparkKeyDerivation(
+      identity: _identity,
+      signingLeaf: _signingLeaf,
+      deposit: _deposit,
+      staticDeposit: _staticDeposit,
+      htlcPreimage: _htlcPreimage,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (identity != null) {
+      _json['identity'] = identity?.toJson();
+    }
+    if (signingLeaf != null) {
+      _json['signingLeaf'] = signingLeaf?.toJson();
+    }
+    if (deposit != null) {
+      _json['deposit'] = deposit?.toJson();
+    }
+    if (staticDeposit != null) {
+      _json['staticDeposit'] = staticDeposit?.toJson();
+    }
+    if (htlcPreimage != null) {
+      _json['htlcPreimage'] = htlcPreimage?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1SparkLeafPublicKey {
+  /// The Spark leaf_id this public key was derived for.
+  final String leafId;
+
+  /// Hex-encoded compressed secp256k1 point (33 bytes) for the SigningLeaf derivation at leaf_id.
+  final String publicKey;
+
+  const v1SparkLeafPublicKey({
+    required this.leafId,
+    required this.publicKey,
+  });
+
+  factory v1SparkLeafPublicKey.fromJson(Map<String, dynamic> json) {
+    final _leafId = json['leafId'] as String;
+    final _publicKey = json['publicKey'] as String;
+    return v1SparkLeafPublicKey(
+      leafId: _leafId,
+      publicKey: _publicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['leafId'] = leafId;
+    _json['publicKey'] = publicKey;
+    return _json;
+  }
+}
+
+class v1SparkLightningReceivePackage {
+  /// Feldman VSS threshold for reconstructing the preimage.
+  final num threshold;
+
+  /// Operators that will receive Feldman shares of the preimage. Order must match the operators' numeric IDs in the Spark operator config - share index is the 1-based position in this list.
+  final List<v1SparkOperatorRecipient> operatorRecipients;
+
+  const v1SparkLightningReceivePackage({
+    required this.threshold,
+    required this.operatorRecipients,
+  });
+
+  factory v1SparkLightningReceivePackage.fromJson(Map<String, dynamic> json) {
+    final _threshold = json['threshold'] as num;
+    final _operatorRecipients = (json['operatorRecipients'] as List)
+        .map(
+            (e) => v1SparkOperatorRecipient.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SparkLightningReceivePackage(
+      threshold: _threshold,
+      operatorRecipients: _operatorRecipients,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['threshold'] = threshold;
+    _json['operatorRecipients'] =
+        operatorRecipients.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1SparkOperatorRecipient {
+  /// Spark operator identifier (UUID).
+  final String operatorId;
+
+  /// Operator's ECIES encryption pubkey (hex-encoded compressed secp256k1 point).
+  final String encryptionPublicKey;
+
+  const v1SparkOperatorRecipient({
+    required this.operatorId,
+    required this.encryptionPublicKey,
+  });
+
+  factory v1SparkOperatorRecipient.fromJson(Map<String, dynamic> json) {
+    final _operatorId = json['operatorId'] as String;
+    final _encryptionPublicKey = json['encryptionPublicKey'] as String;
+    return v1SparkOperatorRecipient(
+      operatorId: _operatorId,
+      encryptionPublicKey: _encryptionPublicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorId'] = operatorId;
+    _json['encryptionPublicKey'] = encryptionPublicKey;
+    return _json;
+  }
+}
+
+class v1SparkPartialSignature {
+  /// Hex-encoded FROST partial signature.
+  final String signatureShare;
+
+  /// Turnkey's hiding commitment D (hex-encoded compressed secp256k1 point). Forward to the Spark Operator.
+  final String hiding;
+
+  /// Turnkey's binding commitment E (hex-encoded compressed secp256k1 point). Forward to the Spark Operator.
+  final String binding;
+
+  const v1SparkPartialSignature({
+    required this.signatureShare,
+    required this.hiding,
+    required this.binding,
+  });
+
+  factory v1SparkPartialSignature.fromJson(Map<String, dynamic> json) {
+    final _signatureShare = json['signatureShare'] as String;
+    final _hiding = json['hiding'] as String;
+    final _binding = json['binding'] as String;
+    return v1SparkPartialSignature(
+      signatureShare: _signatureShare,
+      hiding: _hiding,
+      binding: _binding,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signatureShare'] = signatureShare;
+    _json['hiding'] = hiding;
+    _json['binding'] = binding;
+    return _json;
+  }
+}
+
+class v1SparkPrepareLightningReceiveIntent {
+  /// A Spark wallet account address identifying the wallet.
+  final String signWith;
+
+  /// Lightning receive package parameters: threshold and operator recipients.
+  final v1SparkLightningReceivePackage lightningReceive;
+
+  const v1SparkPrepareLightningReceiveIntent({
+    required this.signWith,
+    required this.lightningReceive,
+  });
+
+  factory v1SparkPrepareLightningReceiveIntent.fromJson(
+      Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _lightningReceive = v1SparkLightningReceivePackage
+        .fromJson(json['lightningReceive'] as Map<String, dynamic>);
+    return v1SparkPrepareLightningReceiveIntent(
+      signWith: _signWith,
+      lightningReceive: _lightningReceive,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['lightningReceive'] = lightningReceive.toJson();
+    return _json;
+  }
+}
+
+class v1SparkPrepareLightningReceiveRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1SparkPrepareLightningReceiveIntent parameters;
+
+  const v1SparkPrepareLightningReceiveRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1SparkPrepareLightningReceiveRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1SparkPrepareLightningReceiveIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1SparkPrepareLightningReceiveRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1SparkPrepareLightningReceiveResult {
+  /// Per-operator ECIES-encrypted Feldman share packages.
+  final List<v1SparkEncryptedOperatorPackage> operatorPackages;
+
+  /// Hex-encoded SHA256(preimage). Forward to the Lightning node.
+  final String paymentHash;
+
+  const v1SparkPrepareLightningReceiveResult({
+    required this.operatorPackages,
+    required this.paymentHash,
+  });
+
+  factory v1SparkPrepareLightningReceiveResult.fromJson(
+      Map<String, dynamic> json) {
+    final _operatorPackages = (json['operatorPackages'] as List)
+        .map((e) =>
+            v1SparkEncryptedOperatorPackage.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _paymentHash = json['paymentHash'] as String;
+    return v1SparkPrepareLightningReceiveResult(
+      operatorPackages: _operatorPackages,
+      paymentHash: _paymentHash,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorPackages'] =
+        operatorPackages.map((e) => e.toJson()).toList();
+    _json['paymentHash'] = paymentHash;
+    return _json;
+  }
+}
+
+class v1SparkPrepareTransferIntent {
+  /// A Spark wallet account address identifying the wallet.
+  final String signWith;
+
+  /// Transfer package parameters for HD key tweak splitting.
+  final v1SparkTransferPackage transfer;
+
+  const v1SparkPrepareTransferIntent({
+    required this.signWith,
+    required this.transfer,
+  });
+
+  factory v1SparkPrepareTransferIntent.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _transfer = v1SparkTransferPackage
+        .fromJson(json['transfer'] as Map<String, dynamic>);
+    return v1SparkPrepareTransferIntent(
+      signWith: _signWith,
+      transfer: _transfer,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['transfer'] = transfer.toJson();
+    return _json;
+  }
+}
+
+class v1SparkPrepareTransferRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1SparkPrepareTransferIntent parameters;
+
+  const v1SparkPrepareTransferRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1SparkPrepareTransferRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1SparkPrepareTransferIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1SparkPrepareTransferRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1SparkPrepareTransferResult {
+  /// Per-operator ECIES-encrypted packages.
+  final List<v1SparkEncryptedOperatorPackage> operatorPackages;
+
+  /// Hex-encoded ECDSA-DER signature of the TransferPackage signing payload, signed with the wallet's IDENTITY key.
+  final String transferUserSignature;
+
+  /// Newly-derived SigningLeaf public keys, one per leaf, in input order.
+  final List<v1SparkLeafPublicKey> newLeafPublicKeys;
+
+  const v1SparkPrepareTransferResult({
+    required this.operatorPackages,
+    required this.transferUserSignature,
+    required this.newLeafPublicKeys,
+  });
+
+  factory v1SparkPrepareTransferResult.fromJson(Map<String, dynamic> json) {
+    final _operatorPackages = (json['operatorPackages'] as List)
+        .map((e) =>
+            v1SparkEncryptedOperatorPackage.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _transferUserSignature = json['transferUserSignature'] as String;
+    final _newLeafPublicKeys = (json['newLeafPublicKeys'] as List)
+        .map((e) => v1SparkLeafPublicKey.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SparkPrepareTransferResult(
+      operatorPackages: _operatorPackages,
+      transferUserSignature: _transferUserSignature,
+      newLeafPublicKeys: _newLeafPublicKeys,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['operatorPackages'] =
+        operatorPackages.map((e) => e.toJson()).toList();
+    _json['transferUserSignature'] = transferUserSignature;
+    _json['newLeafPublicKeys'] =
+        newLeafPublicKeys.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1SparkSignFrostIntent {
+  /// A Spark wallet account address identifying the wallet to sign with.
+  final String signWith;
+
+  /// Batched sign requests. Each produces a partial signature plus Turnkey's public commitments.
+  final List<v1SparkSignatureRequest> signatures;
+
+  const v1SparkSignFrostIntent({
+    required this.signWith,
+    required this.signatures,
+  });
+
+  factory v1SparkSignFrostIntent.fromJson(Map<String, dynamic> json) {
+    final _signWith = json['signWith'] as String;
+    final _signatures = (json['signatures'] as List)
+        .map((e) => v1SparkSignatureRequest.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SparkSignFrostIntent(
+      signWith: _signWith,
+      signatures: _signatures,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signWith'] = signWith;
+    _json['signatures'] = signatures.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1SparkSignFrostRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1SparkSignFrostIntent parameters;
+
+  const v1SparkSignFrostRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1SparkSignFrostRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1SparkSignFrostIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1SparkSignFrostRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1SparkSignFrostResult {
+  /// Partial signatures plus Turnkey commitments, one per request, in order.
+  final List<v1SparkPartialSignature> signatures;
+
+  const v1SparkSignFrostResult({
+    required this.signatures,
+  });
+
+  factory v1SparkSignFrostResult.fromJson(Map<String, dynamic> json) {
+    final _signatures = (json['signatures'] as List)
+        .map((e) => v1SparkPartialSignature.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SparkSignFrostResult(
+      signatures: _signatures,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['signatures'] = signatures.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class v1SparkSignatureRequest {
+  /// Which key to sign with.
+  final v1SparkKeyDerivation derivation;
+
+  /// Hex-encoded 32-byte sighash to sign.
+  final String message;
+
+  /// Aggregate group verifying key (hex-encoded compressed secp256k1 point), computed as P_ops + P_user. Bound into the nonce HMAC.
+  final String verifyingKey;
+
+  /// Commitments for every non-Turnkey participant. MUST NOT include an entry under Turnkey's identifier. Bound into the nonce HMAC.
+  final List<v1SparkFrostCommitment> operatorCommitments;
+
+  /// Optional adaptor point T (hex-encoded 33-byte compressed secp256k1 pubkey). When set, Turnkey produces a Schnorr adaptor pre-signature with the FROST challenge bound to `R+T` (where `R` is the aggregate group nonce commitment from FROST). The party holding the discrete log `t` completes the pre-sig to a valid BIP-340 signature by adding `t` (or `-t`, for parity) to the signature scalar `s`. This is primarily used by Spark leaves-swap and other adaptor-bound flows; absent or empty leads to plain FROST signing (the typical case).
+  final String? adaptorPublicKey;
+
+  const v1SparkSignatureRequest({
+    required this.derivation,
+    required this.message,
+    required this.verifyingKey,
+    required this.operatorCommitments,
+    this.adaptorPublicKey,
+  });
+
+  factory v1SparkSignatureRequest.fromJson(Map<String, dynamic> json) {
+    final _derivation = v1SparkKeyDerivation
+        .fromJson(json['derivation'] as Map<String, dynamic>);
+    final _message = json['message'] as String;
+    final _verifyingKey = json['verifyingKey'] as String;
+    final _operatorCommitments = (json['operatorCommitments'] as List)
+        .map((e) => v1SparkFrostCommitment.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _adaptorPublicKey = json['adaptorPublicKey'] as String?;
+    return v1SparkSignatureRequest(
+      derivation: _derivation,
+      message: _message,
+      verifyingKey: _verifyingKey,
+      operatorCommitments: _operatorCommitments,
+      adaptorPublicKey: _adaptorPublicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['derivation'] = derivation.toJson();
+    _json['message'] = message;
+    _json['verifyingKey'] = verifyingKey;
+    _json['operatorCommitments'] =
+        operatorCommitments.map((e) => e.toJson()).toList();
+    if (adaptorPublicKey != null) {
+      _json['adaptorPublicKey'] = adaptorPublicKey;
+    }
+    return _json;
+  }
+}
+
+class v1SparkSigningLeafDerivation {
+  /// Unique identifier for the Spark signing leaf.
+  final String leafId;
+
+  const v1SparkSigningLeafDerivation({
+    required this.leafId,
+  });
+
+  factory v1SparkSigningLeafDerivation.fromJson(Map<String, dynamic> json) {
+    final _leafId = json['leafId'] as String;
+    return v1SparkSigningLeafDerivation(
+      leafId: _leafId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['leafId'] = leafId;
+    return _json;
+  }
+}
+
+class v1SparkStaticDepositDerivation {
+  /// Index used to derive the static deposit key.
+  final num index;
+
+  const v1SparkStaticDepositDerivation({
+    required this.index,
+  });
+
+  factory v1SparkStaticDepositDerivation.fromJson(Map<String, dynamic> json) {
+    final _index = json['index'] as num;
+    return v1SparkStaticDepositDerivation(
+      index: _index,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['index'] = index;
+    return _json;
+  }
+}
+
+class v1SparkTransferLeaf {
+  /// Leaf identifier (UUID).
+  final String leafId;
+
+  /// Derivation for the existing (pre-transfer) leaf key. Always a SigningLeaf derivation.
+  final v1SparkKeyDerivation oldLeafDerivation;
+
+  /// Derivation for the new (post-transfer) leaf key. Always a SigningLeaf derivation. The enclave ECIES-encrypts this private key to receiver_public_key as the per-leaf secret_cipher; HD-derived rather than random so the sender can re-derive on retry (Turnkey's enclave is stateless).
+  final v1SparkKeyDerivation newLeafDerivation;
+
+  /// Client-produced CPFP refund signature (hex-encoded), passed through verbatim into the per-operator SendLeafKeyTweak. Empty omits the field from the operator package.
+  final String? refundSignature;
+
+  /// Client-produced direct refund signature (hex-encoded). Passed through verbatim.
+  final String? directRefundSignature;
+
+  /// Client-produced direct-from-CPFP refund signature (hex-encoded). Passed through verbatim.
+  final String? directFromCpfpRefundSignature;
+
+  const v1SparkTransferLeaf({
+    required this.leafId,
+    required this.oldLeafDerivation,
+    required this.newLeafDerivation,
+    this.refundSignature,
+    this.directRefundSignature,
+    this.directFromCpfpRefundSignature,
+  });
+
+  factory v1SparkTransferLeaf.fromJson(Map<String, dynamic> json) {
+    final _leafId = json['leafId'] as String;
+    final _oldLeafDerivation = v1SparkKeyDerivation
+        .fromJson(json['oldLeafDerivation'] as Map<String, dynamic>);
+    final _newLeafDerivation = v1SparkKeyDerivation
+        .fromJson(json['newLeafDerivation'] as Map<String, dynamic>);
+    final _refundSignature = json['refundSignature'] as String?;
+    final _directRefundSignature = json['directRefundSignature'] as String?;
+    final _directFromCpfpRefundSignature =
+        json['directFromCpfpRefundSignature'] as String?;
+    return v1SparkTransferLeaf(
+      leafId: _leafId,
+      oldLeafDerivation: _oldLeafDerivation,
+      newLeafDerivation: _newLeafDerivation,
+      refundSignature: _refundSignature,
+      directRefundSignature: _directRefundSignature,
+      directFromCpfpRefundSignature: _directFromCpfpRefundSignature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['leafId'] = leafId;
+    _json['oldLeafDerivation'] = oldLeafDerivation.toJson();
+    _json['newLeafDerivation'] = newLeafDerivation.toJson();
+    if (refundSignature != null) {
+      _json['refundSignature'] = refundSignature;
+    }
+    if (directRefundSignature != null) {
+      _json['directRefundSignature'] = directRefundSignature;
+    }
+    if (directFromCpfpRefundSignature != null) {
+      _json['directFromCpfpRefundSignature'] = directFromCpfpRefundSignature;
+    }
+    return _json;
+  }
+}
+
+class v1SparkTransferPackage {
+  /// Spark transfer identifier (UUID).
+  final String transferId;
+
+  /// Leaves being transferred.
+  final List<v1SparkTransferLeaf> leaves;
+
+  /// Feldman VSS threshold for reconstructing the per-leaf tweak scalar.
+  final num threshold;
+
+  /// Operators that will receive Feldman shares of the per-leaf tweak. Order must match the operators' numeric IDs in the Spark operator config - share index is the 1-based position in this list.
+  final List<v1SparkOperatorRecipient> operatorRecipients;
+
+  /// Recipient's identity pubkey (hex-encoded compressed secp256k1 point). Each leaf's new_priv is ECIES-encrypted to this key and embedded in the per-operator package for claim-time delivery.
+  final String receiverPublicKey;
+
+  const v1SparkTransferPackage({
+    required this.transferId,
+    required this.leaves,
+    required this.threshold,
+    required this.operatorRecipients,
+    required this.receiverPublicKey,
+  });
+
+  factory v1SparkTransferPackage.fromJson(Map<String, dynamic> json) {
+    final _transferId = json['transferId'] as String;
+    final _leaves = (json['leaves'] as List)
+        .map((e) => v1SparkTransferLeaf.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _threshold = json['threshold'] as num;
+    final _operatorRecipients = (json['operatorRecipients'] as List)
+        .map(
+            (e) => v1SparkOperatorRecipient.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _receiverPublicKey = json['receiverPublicKey'] as String;
+    return v1SparkTransferPackage(
+      transferId: _transferId,
+      leaves: _leaves,
+      threshold: _threshold,
+      operatorRecipients: _operatorRecipients,
+      receiverPublicKey: _receiverPublicKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transferId'] = transferId;
+    _json['leaves'] = leaves.map((e) => e.toJson()).toList();
+    _json['threshold'] = threshold;
+    _json['operatorRecipients'] =
+        operatorRecipients.map((e) => e.toJson()).toList();
+    _json['receiverPublicKey'] = receiverPublicKey;
+    return _json;
+  }
+}
+
 class v1StampLoginIntent {
   /// Client-side public key generated by the user, which will be conditionally added to org data based on the passkey stamp associated with this request
   final String publicKey;
@@ -20343,20 +30690,26 @@ class v1StampLoginIntent {
   /// Invalidate all other previously generated Login API keys
   final bool? invalidateExisting;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const v1StampLoginIntent({
     required this.publicKey,
     this.expirationSeconds,
     this.invalidateExisting,
+    this.sessionProfileId,
   });
 
   factory v1StampLoginIntent.fromJson(Map<String, dynamic> json) {
     final _publicKey = json['publicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return v1StampLoginIntent(
       publicKey: _publicKey,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
+      sessionProfileId: _sessionProfileId,
     );
   }
 
@@ -20368,6 +30721,9 @@ class v1StampLoginIntent {
     }
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
     }
     return _json;
   }
@@ -20443,6 +30799,282 @@ class v1StampLoginResult {
   }
 }
 
+class v1SwapError {
+  /// Stable machine-readable failure reason. One of ORIGIN_TRANSACTION_FAILED or PROVIDER_FILL_FAILED.
+  final String reason;
+
+  /// Human-readable description of the swap failure.
+  final String message;
+
+  /// Origin-chain transaction failure details, present when reason is ORIGIN_TRANSACTION_FAILED and details are available.
+  final v1TxError? originTxError;
+
+  /// Optional detail from the swap provider about why the fill did not complete, when available.
+  final String? providerReason;
+
+  const v1SwapError({
+    required this.reason,
+    required this.message,
+    this.originTxError,
+    this.providerReason,
+  });
+
+  factory v1SwapError.fromJson(Map<String, dynamic> json) {
+    final _reason = json['reason'] as String;
+    final _message = json['message'] as String;
+    final _originTxError = json['originTxError'] == null
+        ? null
+        : v1TxError.fromJson(json['originTxError'] as Map<String, dynamic>);
+    final _providerReason = json['providerReason'] as String?;
+    return v1SwapError(
+      reason: _reason,
+      message: _message,
+      originTxError: _originTxError,
+      providerReason: _providerReason,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['reason'] = reason;
+    _json['message'] = message;
+    if (originTxError != null) {
+      _json['originTxError'] = originTxError?.toJson();
+    }
+    if (providerReason != null) {
+      _json['providerReason'] = providerReason;
+    }
+    return _json;
+  }
+}
+
+class v1SwapQuote {
+  /// Identifier for this provider quote. Pass this value to execute_swap_v2 to bind execution to this exact quote. The signer is derived from the quote; clients do not resupply sign_with on execute.
+  final String quoteId;
+
+  /// Swap provider that produced this quote.
+  final String provider;
+
+  /// Estimated base-unit amount of the output asset.
+  final String outputAmount;
+
+  /// Minimum acceptable base-unit amount of the output asset after slippage.
+  final String minOutputAmount;
+
+  /// Quote expiration as a millisecond epoch string.
+  final String expiresAt;
+
+  /// Effective total slippage tolerance in basis points for this quote, taken from the provider response when present. When the request omits input slippage_bps, the provider may calculate this value.
+  final String? slippageBps;
+
+  /// Client fee in basis points applied for this pair. Informational only; already reflected in output_amount and min_output_amount.
+  final String clientFeeBps;
+
+  /// Provider-estimated completion time in seconds, when available.
+  final String? estimatedTimeSeconds;
+
+  const v1SwapQuote({
+    required this.quoteId,
+    required this.provider,
+    required this.outputAmount,
+    required this.minOutputAmount,
+    required this.expiresAt,
+    this.slippageBps,
+    required this.clientFeeBps,
+    this.estimatedTimeSeconds,
+  });
+
+  factory v1SwapQuote.fromJson(Map<String, dynamic> json) {
+    final _quoteId = json['quoteId'] as String;
+    final _provider = json['provider'] as String;
+    final _outputAmount = json['outputAmount'] as String;
+    final _minOutputAmount = json['minOutputAmount'] as String;
+    final _expiresAt = json['expiresAt'] as String;
+    final _slippageBps = json['slippageBps'] as String?;
+    final _clientFeeBps = json['clientFeeBps'] as String;
+    final _estimatedTimeSeconds = json['estimatedTimeSeconds'] as String?;
+    return v1SwapQuote(
+      quoteId: _quoteId,
+      provider: _provider,
+      outputAmount: _outputAmount,
+      minOutputAmount: _minOutputAmount,
+      expiresAt: _expiresAt,
+      slippageBps: _slippageBps,
+      clientFeeBps: _clientFeeBps,
+      estimatedTimeSeconds: _estimatedTimeSeconds,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['quoteId'] = quoteId;
+    _json['provider'] = provider;
+    _json['outputAmount'] = outputAmount;
+    _json['minOutputAmount'] = minOutputAmount;
+    _json['expiresAt'] = expiresAt;
+    if (slippageBps != null) {
+      _json['slippageBps'] = slippageBps;
+    }
+    _json['clientFeeBps'] = clientFeeBps;
+    if (estimatedTimeSeconds != null) {
+      _json['estimatedTimeSeconds'] = estimatedTimeSeconds;
+    }
+    return _json;
+  }
+}
+
+class v1SwapQuoteV2 {
+  /// Identifier for this provider quote. Pass this value to execute_swap_v2 to bind execution to this exact quote. The signer is derived from the quote; clients do not resupply sign_with on execute.
+  final String quoteId;
+
+  /// Swap provider that produced this quote.
+  final String provider;
+
+  /// Estimated base-unit amount of the output asset.
+  final String outputAmount;
+
+  /// Minimum acceptable base-unit amount of the output asset after slippage.
+  final String minOutputAmount;
+
+  /// Quote expiration as a millisecond epoch string.
+  final String expiresAt;
+
+  /// Effective total slippage tolerance in basis points for this quote, taken from the provider response when present. When the request omits input slippage_bps, the provider may calculate this value.
+  final String? slippageBps;
+
+  /// Client fee in basis points applied for this pair. Informational only; already reflected in output_amount and min_output_amount.
+  final String clientFeeBps;
+
+  /// Provider-estimated completion time in seconds, when available.
+  final String? estimatedTimeSeconds;
+  final bool? feeSponsorship;
+  final bool? fixedRate;
+  final String? turnkeyFeeCollection;
+  final List<String>? sponsoredFeeComponents;
+  final List<String>? remainingFeeComponents;
+
+  const v1SwapQuoteV2({
+    required this.quoteId,
+    required this.provider,
+    required this.outputAmount,
+    required this.minOutputAmount,
+    required this.expiresAt,
+    this.slippageBps,
+    required this.clientFeeBps,
+    this.estimatedTimeSeconds,
+    this.feeSponsorship,
+    this.fixedRate,
+    this.turnkeyFeeCollection,
+    this.sponsoredFeeComponents,
+    this.remainingFeeComponents,
+  });
+
+  factory v1SwapQuoteV2.fromJson(Map<String, dynamic> json) {
+    final _quoteId = json['quoteId'] as String;
+    final _provider = json['provider'] as String;
+    final _outputAmount = json['outputAmount'] as String;
+    final _minOutputAmount = json['minOutputAmount'] as String;
+    final _expiresAt = json['expiresAt'] as String;
+    final _slippageBps = json['slippageBps'] as String?;
+    final _clientFeeBps = json['clientFeeBps'] as String;
+    final _estimatedTimeSeconds = json['estimatedTimeSeconds'] as String?;
+    final _feeSponsorship = json['feeSponsorship'] as bool?;
+    final _fixedRate = json['fixedRate'] as bool?;
+    final _turnkeyFeeCollection = json['turnkeyFeeCollection'] as String?;
+    final _sponsoredFeeComponents = (json['sponsoredFeeComponents'] as List?)
+        ?.map((e) => e as String)
+        .toList();
+    final _remainingFeeComponents = (json['remainingFeeComponents'] as List?)
+        ?.map((e) => e as String)
+        .toList();
+    return v1SwapQuoteV2(
+      quoteId: _quoteId,
+      provider: _provider,
+      outputAmount: _outputAmount,
+      minOutputAmount: _minOutputAmount,
+      expiresAt: _expiresAt,
+      slippageBps: _slippageBps,
+      clientFeeBps: _clientFeeBps,
+      estimatedTimeSeconds: _estimatedTimeSeconds,
+      feeSponsorship: _feeSponsorship,
+      fixedRate: _fixedRate,
+      turnkeyFeeCollection: _turnkeyFeeCollection,
+      sponsoredFeeComponents: _sponsoredFeeComponents,
+      remainingFeeComponents: _remainingFeeComponents,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['quoteId'] = quoteId;
+    _json['provider'] = provider;
+    _json['outputAmount'] = outputAmount;
+    _json['minOutputAmount'] = minOutputAmount;
+    _json['expiresAt'] = expiresAt;
+    if (slippageBps != null) {
+      _json['slippageBps'] = slippageBps;
+    }
+    _json['clientFeeBps'] = clientFeeBps;
+    if (estimatedTimeSeconds != null) {
+      _json['estimatedTimeSeconds'] = estimatedTimeSeconds;
+    }
+    if (feeSponsorship != null) {
+      _json['feeSponsorship'] = feeSponsorship;
+    }
+    if (fixedRate != null) {
+      _json['fixedRate'] = fixedRate;
+    }
+    if (turnkeyFeeCollection != null) {
+      _json['turnkeyFeeCollection'] = turnkeyFeeCollection;
+    }
+    if (sponsoredFeeComponents != null) {
+      _json['sponsoredFeeComponents'] = sponsoredFeeComponents;
+    }
+    if (remainingFeeComponents != null) {
+      _json['remainingFeeComponents'] = remainingFeeComponents;
+    }
+    return _json;
+  }
+}
+
+class v1SwapRefund {
+  /// CAIP-19 asset returned by the swap provider after a failed cross-chain fill.
+  final String asset;
+
+  /// Base-unit amount returned by the swap provider.
+  final String amount;
+
+  /// Transaction that delivered the provider refund, when applicable.
+  final String? txHash;
+
+  const v1SwapRefund({
+    required this.asset,
+    required this.amount,
+    this.txHash,
+  });
+
+  factory v1SwapRefund.fromJson(Map<String, dynamic> json) {
+    final _asset = json['asset'] as String;
+    final _amount = json['amount'] as String;
+    final _txHash = json['txHash'] as String?;
+    return v1SwapRefund(
+      asset: _asset,
+      amount: _amount,
+      txHash: _txHash,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['asset'] = asset;
+    _json['amount'] = amount;
+    if (txHash != null) {
+      _json['txHash'] = txHash;
+    }
+    return _json;
+  }
+}
+
 class v1TokenUsage {
   /// Type of token usage
   final v1UsageType type;
@@ -20452,6 +31084,8 @@ class v1TokenUsage {
   final v1SignupUsage? signup;
   final v1LoginUsage? login;
   final v1SignupUsageV2? signupV2;
+  final v1LoginUsageV2? loginV2;
+  final v1SignupUsageV3? signupV3;
 
   const v1TokenUsage({
     required this.type,
@@ -20459,6 +31093,8 @@ class v1TokenUsage {
     this.signup,
     this.login,
     this.signupV2,
+    this.loginV2,
+    this.signupV3,
   });
 
   factory v1TokenUsage.fromJson(Map<String, dynamic> json) {
@@ -20473,12 +31109,20 @@ class v1TokenUsage {
     final _signupV2 = json['signupV2'] == null
         ? null
         : v1SignupUsageV2.fromJson(json['signupV2'] as Map<String, dynamic>);
+    final _loginV2 = json['loginV2'] == null
+        ? null
+        : v1LoginUsageV2.fromJson(json['loginV2'] as Map<String, dynamic>);
+    final _signupV3 = json['signupV3'] == null
+        ? null
+        : v1SignupUsageV3.fromJson(json['signupV3'] as Map<String, dynamic>);
     return v1TokenUsage(
       type: _type,
       tokenId: _tokenId,
       signup: _signup,
       login: _login,
       signupV2: _signupV2,
+      loginV2: _loginV2,
+      signupV3: _signupV3,
     );
   }
 
@@ -20495,6 +31139,619 @@ class v1TokenUsage {
     if (signupV2 != null) {
       _json['signupV2'] = signupV2?.toJson();
     }
+    if (loginV2 != null) {
+      _json['loginV2'] = loginV2?.toJson();
+    }
+    if (signupV3 != null) {
+      _json['signupV3'] = signupV3?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1TransactionHistoryAsset {
+  /// The CAIP-19 asset identifier.
+  final String caip19;
+
+  /// The asset symbol.
+  final String symbol;
+
+  /// The asset name.
+  final String name;
+
+  /// The number of decimals this asset uses.
+  final num decimals;
+
+  const v1TransactionHistoryAsset({
+    required this.caip19,
+    required this.symbol,
+    required this.name,
+    required this.decimals,
+  });
+
+  factory v1TransactionHistoryAsset.fromJson(Map<String, dynamic> json) {
+    final _caip19 = json['caip19'] as String;
+    final _symbol = json['symbol'] as String;
+    final _name = json['name'] as String;
+    final _decimals = json['decimals'] as num;
+    return v1TransactionHistoryAsset(
+      caip19: _caip19,
+      symbol: _symbol,
+      name: _name,
+      decimals: _decimals,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['caip19'] = caip19;
+    _json['symbol'] = symbol;
+    _json['name'] = name;
+    _json['decimals'] = decimals;
+    return _json;
+  }
+}
+
+class v1TransactionHistoryBlock {
+  /// Block number containing the transaction.
+  final String number;
+
+  /// Block hash containing the transaction.
+  final String hash;
+
+  /// Block timestamp in RFC 3339 format.
+  final String timestamp;
+
+  const v1TransactionHistoryBlock({
+    required this.number,
+    required this.hash,
+    required this.timestamp,
+  });
+
+  factory v1TransactionHistoryBlock.fromJson(Map<String, dynamic> json) {
+    final _number = json['number'] as String;
+    final _hash = json['hash'] as String;
+    final _timestamp = json['timestamp'] as String;
+    return v1TransactionHistoryBlock(
+      number: _number,
+      hash: _hash,
+      timestamp: _timestamp,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['number'] = number;
+    _json['hash'] = hash;
+    _json['timestamp'] = timestamp;
+    return _json;
+  }
+}
+
+class v1TransactionHistoryDisplay {
+  /// Normalized crypto value for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise.
+  final String? crypto;
+
+  /// USD value for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise.
+  final String? usd;
+
+  const v1TransactionHistoryDisplay({
+    this.crypto,
+    this.usd,
+  });
+
+  factory v1TransactionHistoryDisplay.fromJson(Map<String, dynamic> json) {
+    final _crypto = json['crypto'] as String?;
+    final _usd = json['usd'] as String?;
+    return v1TransactionHistoryDisplay(
+      crypto: _crypto,
+      usd: _usd,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (crypto != null) {
+      _json['crypto'] = crypto;
+    }
+    if (usd != null) {
+      _json['usd'] = usd;
+    }
+    return _json;
+  }
+}
+
+class v1TransactionHistoryFee {
+  /// Fee amount in atomic units.
+  final String amount;
+
+  /// The CAIP-19 asset identifier.
+  final String caip19;
+
+  const v1TransactionHistoryFee({
+    required this.amount,
+    required this.caip19,
+  });
+
+  factory v1TransactionHistoryFee.fromJson(Map<String, dynamic> json) {
+    final _amount = json['amount'] as String;
+    final _caip19 = json['caip19'] as String;
+    return v1TransactionHistoryFee(
+      amount: _amount,
+      caip19: _caip19,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['amount'] = amount;
+    _json['caip19'] = caip19;
+    return _json;
+  }
+}
+
+class v1TransactionHistoryTransfer {
+  /// Transfer direction relative to the queried address.
+  final String direction;
+
+  /// Asset metadata for the transfer. Omitted when the asset cannot be determined.
+  final v1TransactionHistoryAsset? asset;
+
+  /// Transfer amount in atomic units.
+  final String amount;
+
+  /// Counterparty address for the transfer.
+  final String counterparty;
+
+  /// Normalized transfer values for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise. Use the amount field instead.
+  final v1TransactionHistoryDisplay? display;
+
+  const v1TransactionHistoryTransfer({
+    required this.direction,
+    this.asset,
+    required this.amount,
+    required this.counterparty,
+    this.display,
+  });
+
+  factory v1TransactionHistoryTransfer.fromJson(Map<String, dynamic> json) {
+    final _direction = json['direction'] as String;
+    final _asset = json['asset'] == null
+        ? null
+        : v1TransactionHistoryAsset
+            .fromJson(json['asset'] as Map<String, dynamic>);
+    final _amount = json['amount'] as String;
+    final _counterparty = json['counterparty'] as String;
+    final _display = json['display'] == null
+        ? null
+        : v1TransactionHistoryDisplay
+            .fromJson(json['display'] as Map<String, dynamic>);
+    return v1TransactionHistoryTransfer(
+      direction: _direction,
+      asset: _asset,
+      amount: _amount,
+      counterparty: _counterparty,
+      display: _display,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['direction'] = direction;
+    if (asset != null) {
+      _json['asset'] = asset?.toJson();
+    }
+    _json['amount'] = amount;
+    _json['counterparty'] = counterparty;
+    if (display != null) {
+      _json['display'] = display?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1TransactionHistoryTurnkey {
+  /// Whether the transaction fee was sponsored by Turnkey.
+  final bool sponsored;
+
+  /// Fingerprint of the Turnkey activity that submitted the transaction.
+  final String? activityFingerprint;
+
+  /// Timestamp when Turnkey submitted the transaction, in RFC 3339 format.
+  final String? submittedAt;
+
+  const v1TransactionHistoryTurnkey({
+    required this.sponsored,
+    this.activityFingerprint,
+    this.submittedAt,
+  });
+
+  factory v1TransactionHistoryTurnkey.fromJson(Map<String, dynamic> json) {
+    final _sponsored = json['sponsored'] as bool;
+    final _activityFingerprint = json['activityFingerprint'] as String?;
+    final _submittedAt = json['submittedAt'] as String?;
+    return v1TransactionHistoryTurnkey(
+      sponsored: _sponsored,
+      activityFingerprint: _activityFingerprint,
+      submittedAt: _submittedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sponsored'] = sponsored;
+    if (activityFingerprint != null) {
+      _json['activityFingerprint'] = activityFingerprint;
+    }
+    if (submittedAt != null) {
+      _json['submittedAt'] = submittedAt;
+    }
+    return _json;
+  }
+}
+
+class v1TvcApp {
+  /// Unique Identifier for this TVC App.
+  final String id;
+
+  /// Unique Identifier of the Organization for this TVC App
+  final String organizationId;
+
+  /// Name for this TVC App.
+  final String name;
+
+  /// Public key for the Quorum Key associated with this TVC App
+  final String quorumPublicKey;
+
+  /// Manifest Set (people who can approve manifests)
+  final v1TvcOperatorSet manifestSet;
+
+  /// Share Set (people who have a share of the Quorum Key)
+  final v1TvcOperatorSet shareSet;
+
+  /// Whether or not this TVC App has network egress enabled.
+  final bool enableEgress;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  /// The deployment currently designated to receive traffic. Null if no deployment for this app is deployed.
+  final String? liveDeploymentId;
+
+  /// The public domain for ingress to this TVC App (in the format "app-<ID>.turnkey.cloud").
+  final String publicDomain;
+
+  /// Whether this app permits debug-mode deployments. Set at app creation via CreateTvcAppIntent.enable_debug_mode_deployments and never updated thereafter. Debug-mode deployments expose logs and emit zero'd attestation PCRs, so remote attestation cannot succeed. The app's quorum key is therefore considered permanently insecure once enabled — a new app with a fresh quorum key must be created to return to a secure posture.
+  final bool enableDebugModeDeployments;
+
+  const v1TvcApp({
+    required this.id,
+    required this.organizationId,
+    required this.name,
+    required this.quorumPublicKey,
+    required this.manifestSet,
+    required this.shareSet,
+    required this.enableEgress,
+    required this.createdAt,
+    required this.updatedAt,
+    this.liveDeploymentId,
+    required this.publicDomain,
+    required this.enableDebugModeDeployments,
+  });
+
+  factory v1TvcApp.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _name = json['name'] as String;
+    final _quorumPublicKey = json['quorumPublicKey'] as String;
+    final _manifestSet =
+        v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
+    final _shareSet =
+        v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
+    final _enableEgress = json['enableEgress'] as bool;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _liveDeploymentId = json['liveDeploymentId'] as String?;
+    final _publicDomain = json['publicDomain'] as String;
+    final _enableDebugModeDeployments =
+        json['enableDebugModeDeployments'] as bool;
+    return v1TvcApp(
+      id: _id,
+      organizationId: _organizationId,
+      name: _name,
+      quorumPublicKey: _quorumPublicKey,
+      manifestSet: _manifestSet,
+      shareSet: _shareSet,
+      enableEgress: _enableEgress,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      liveDeploymentId: _liveDeploymentId,
+      publicDomain: _publicDomain,
+      enableDebugModeDeployments: _enableDebugModeDeployments,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['organizationId'] = organizationId;
+    _json['name'] = name;
+    _json['quorumPublicKey'] = quorumPublicKey;
+    _json['manifestSet'] = manifestSet.toJson();
+    _json['shareSet'] = shareSet.toJson();
+    _json['enableEgress'] = enableEgress;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    if (liveDeploymentId != null) {
+      _json['liveDeploymentId'] = liveDeploymentId;
+    }
+    _json['publicDomain'] = publicDomain;
+    _json['enableDebugModeDeployments'] = enableDebugModeDeployments;
+    return _json;
+  }
+}
+
+class v1TvcContainerSpec {
+  /// The URL for this container image.
+  final String containerUrl;
+
+  /// The path (in-container) to the executable binary.
+  final String path;
+
+  /// The arguments to pass to the executable.
+  final List<String> args;
+
+  /// Whether or not this container requires a pull secret to access.
+  final bool hasPullSecret;
+
+  /// The type of health check to perform against this executable.
+  final v1TvcHealthCheckType healthCheckType;
+
+  /// The port to use for health checks against this executable.
+  final num healthCheckPort;
+
+  /// The port to use for public ingress to this executable.
+  final num publicIngressPort;
+
+  const v1TvcContainerSpec({
+    required this.containerUrl,
+    required this.path,
+    required this.args,
+    required this.hasPullSecret,
+    required this.healthCheckType,
+    required this.healthCheckPort,
+    required this.publicIngressPort,
+  });
+
+  factory v1TvcContainerSpec.fromJson(Map<String, dynamic> json) {
+    final _containerUrl = json['containerUrl'] as String;
+    final _path = json['path'] as String;
+    final _args = (json['args'] as List).map((e) => e as String).toList();
+    final _hasPullSecret = json['hasPullSecret'] as bool;
+    final _healthCheckType =
+        v1TvcHealthCheckTypeFromJson(json['healthCheckType']);
+    final _healthCheckPort = json['healthCheckPort'] as num;
+    final _publicIngressPort = json['publicIngressPort'] as num;
+    return v1TvcContainerSpec(
+      containerUrl: _containerUrl,
+      path: _path,
+      args: _args,
+      hasPullSecret: _hasPullSecret,
+      healthCheckType: _healthCheckType,
+      healthCheckPort: _healthCheckPort,
+      publicIngressPort: _publicIngressPort,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['containerUrl'] = containerUrl;
+    _json['path'] = path;
+    _json['args'] = args;
+    _json['hasPullSecret'] = hasPullSecret;
+    _json['healthCheckType'] = v1TvcHealthCheckTypeToJson(healthCheckType);
+    _json['healthCheckPort'] = healthCheckPort;
+    _json['publicIngressPort'] = publicIngressPort;
+    return _json;
+  }
+}
+
+class v1TvcDeployment {
+  /// Unique Identifier for this TVC Deployment.
+  final String id;
+
+  /// Unique Identifier of the Organization for this TVC Deployment
+  final String organizationId;
+
+  /// Unique Identifier of the TVC App for this deployment
+  final String appId;
+
+  /// Set of TVC operators who can approve this deployment
+  final v1TvcOperatorSet manifestSet;
+
+  /// Set of TVC operators who have a share of the Quorum Key
+  final v1TvcOperatorSet shareSet;
+
+  /// The manifest used for this deployment
+  final v1TvcManifest manifest;
+
+  /// List of operator approvals for this manifest
+  final List<v1TvcOperatorApproval> manifestApprovals;
+
+  /// QOS Version used for this deployment
+  final String qosVersion;
+
+  /// The pivot container spec for this deployment
+  final v1TvcContainerSpec pivotContainer;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  /// Whether or not the user wants this deployment deleted from the cluster.
+  final bool delete;
+
+  /// Whether this deployment is running in debug mode. Debug-mode deployments expose enclave logs and cannot be remotely attested.
+  final bool debugMode;
+
+  /// The instance cpu count for this enclave.
+  final num? instanceSizeCpus;
+
+  /// The instance memory size in GiB for this enclave.
+  final num? instanceSizeRam;
+
+  const v1TvcDeployment({
+    required this.id,
+    required this.organizationId,
+    required this.appId,
+    required this.manifestSet,
+    required this.shareSet,
+    required this.manifest,
+    required this.manifestApprovals,
+    required this.qosVersion,
+    required this.pivotContainer,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.delete,
+    required this.debugMode,
+    this.instanceSizeCpus,
+    this.instanceSizeRam,
+  });
+
+  factory v1TvcDeployment.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _appId = json['appId'] as String;
+    final _manifestSet =
+        v1TvcOperatorSet.fromJson(json['manifestSet'] as Map<String, dynamic>);
+    final _shareSet =
+        v1TvcOperatorSet.fromJson(json['shareSet'] as Map<String, dynamic>);
+    final _manifest =
+        v1TvcManifest.fromJson(json['manifest'] as Map<String, dynamic>);
+    final _manifestApprovals = (json['manifestApprovals'] as List)
+        .map((e) => v1TvcOperatorApproval.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _qosVersion = json['qosVersion'] as String;
+    final _pivotContainer = v1TvcContainerSpec
+        .fromJson(json['pivotContainer'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _delete = json['delete'] as bool;
+    final _debugMode = json['debugMode'] as bool;
+    final _instanceSizeCpus = json['instanceSizeCpus'] as num?;
+    final _instanceSizeRam = json['instanceSizeRam'] as num?;
+    return v1TvcDeployment(
+      id: _id,
+      organizationId: _organizationId,
+      appId: _appId,
+      manifestSet: _manifestSet,
+      shareSet: _shareSet,
+      manifest: _manifest,
+      manifestApprovals: _manifestApprovals,
+      qosVersion: _qosVersion,
+      pivotContainer: _pivotContainer,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      delete: _delete,
+      debugMode: _debugMode,
+      instanceSizeCpus: _instanceSizeCpus,
+      instanceSizeRam: _instanceSizeRam,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['organizationId'] = organizationId;
+    _json['appId'] = appId;
+    _json['manifestSet'] = manifestSet.toJson();
+    _json['shareSet'] = shareSet.toJson();
+    _json['manifest'] = manifest.toJson();
+    _json['manifestApprovals'] =
+        manifestApprovals.map((e) => e.toJson()).toList();
+    _json['qosVersion'] = qosVersion;
+    _json['pivotContainer'] = pivotContainer.toJson();
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    _json['delete'] = delete;
+    _json['debugMode'] = debugMode;
+    if (instanceSizeCpus != null) {
+      _json['instanceSizeCpus'] = instanceSizeCpus;
+    }
+    if (instanceSizeRam != null) {
+      _json['instanceSizeRam'] = instanceSizeRam;
+    }
+    return _json;
+  }
+}
+
+class v1TvcDeploymentDebugLogEntry {
+  /// Application log line with its platform timestamp.
+  final v1LogLine line;
+
+  /// Public replica label that produced this log line, for example 'replica 2/3'.
+  final String replicaLabel;
+
+  const v1TvcDeploymentDebugLogEntry({
+    required this.line,
+    required this.replicaLabel,
+  });
+
+  factory v1TvcDeploymentDebugLogEntry.fromJson(Map<String, dynamic> json) {
+    final _line = v1LogLine.fromJson(json['line'] as Map<String, dynamic>);
+    final _replicaLabel = json['replicaLabel'] as String;
+    return v1TvcDeploymentDebugLogEntry(
+      line: _line,
+      replicaLabel: _replicaLabel,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['line'] = line.toJson();
+    _json['replicaLabel'] = replicaLabel;
+    return _json;
+  }
+}
+
+class v1TvcManifest {
+  /// Unique Identifier for this TVC Manifest.
+  final String id;
+
+  /// The manifest content (raw UTF-8 JSON bytes)
+  final String manifest;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcManifest({
+    required this.id,
+    required this.manifest,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory v1TvcManifest.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _manifest = json['manifest'] as String;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcManifest(
+      id: _id,
+      manifest: _manifest,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['manifest'] = manifest;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -20528,6 +31785,133 @@ class v1TvcManifestApproval {
   }
 }
 
+class v1TvcOperator {
+  /// Unique Identifier for this TVC Operator.
+  final String id;
+
+  /// Name of this TVC Operator.
+  final String name;
+
+  /// Public key for this TVC Operator.
+  final String publicKey;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  /// Encryption public key for this TVC Operator.
+  final String encryptPublicKey;
+
+  /// Signing public key for this TVC Operator.
+  final String signPublicKey;
+
+  /// Source of the operator keys: EXTERNAL_KEY or ORG_WALLET_ACCOUNT. Absent for legacy operators whose source was not recorded.
+  final String? keySource;
+
+  const v1TvcOperator({
+    required this.id,
+    required this.name,
+    required this.publicKey,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.encryptPublicKey,
+    required this.signPublicKey,
+    this.keySource,
+  });
+
+  factory v1TvcOperator.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _name = json['name'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _encryptPublicKey = json['encryptPublicKey'] as String;
+    final _signPublicKey = json['signPublicKey'] as String;
+    final _keySource = json['keySource'] as String?;
+    return v1TvcOperator(
+      id: _id,
+      name: _name,
+      publicKey: _publicKey,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+      encryptPublicKey: _encryptPublicKey,
+      signPublicKey: _signPublicKey,
+      keySource: _keySource,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['name'] = name;
+    _json['publicKey'] = publicKey;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    _json['encryptPublicKey'] = encryptPublicKey;
+    _json['signPublicKey'] = signPublicKey;
+    if (keySource != null) {
+      _json['keySource'] = keySource;
+    }
+    return _json;
+  }
+}
+
+class v1TvcOperatorApproval {
+  /// Unique ID for this approval
+  final String id;
+
+  /// Unique Identifier of the TVC Manifest being approved
+  final String manifestId;
+
+  /// The TVC Operator who made this approval
+  final v1TvcOperator operator;
+
+  /// Signature of the operator over the deployment manifest
+  final String approval;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperatorApproval({
+    required this.id,
+    required this.manifestId,
+    required this.operator,
+    required this.approval,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory v1TvcOperatorApproval.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _manifestId = json['manifestId'] as String;
+    final _operator =
+        v1TvcOperator.fromJson(json['operator'] as Map<String, dynamic>);
+    final _approval = json['approval'] as String;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperatorApproval(
+      id: _id,
+      manifestId: _manifestId,
+      operator: _operator,
+      approval: _approval,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['manifestId'] = manifestId;
+    _json['operator'] = operator.toJson();
+    _json['approval'] = approval;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
+    return _json;
+  }
+}
+
 class v1TvcOperatorParams {
   /// The name for this new operator
   final String name;
@@ -20553,6 +31937,70 @@ class v1TvcOperatorParams {
     final _json = <String, dynamic>{};
     _json['name'] = name;
     _json['publicKey'] = publicKey;
+    return _json;
+  }
+}
+
+class v1TvcOperatorSet {
+  /// Unique Identifier for this TVC Operator Set.
+  final String id;
+
+  /// Name of this TVC Operator Set.
+  final String name;
+
+  /// Unique Identifier of the Organization for this TVC Operator Set
+  final String organizationId;
+
+  /// List of TVC Operators in this set
+  final List<v1TvcOperator> operators;
+
+  /// Threshold number of operators required for quorum.
+  final num threshold;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcOperatorSet({
+    required this.id,
+    required this.name,
+    required this.organizationId,
+    required this.operators,
+    required this.threshold,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory v1TvcOperatorSet.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _name = json['name'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _operators = (json['operators'] as List)
+        .map((e) => v1TvcOperator.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _threshold = json['threshold'] as num;
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcOperatorSet(
+      id: _id,
+      name: _name,
+      organizationId: _organizationId,
+      operators: _operators,
+      threshold: _threshold,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['name'] = name;
+    _json['organizationId'] = organizationId;
+    _json['operators'] = operators.map((e) => e.toJson()).toList();
+    _json['threshold'] = threshold;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -20604,6 +32052,55 @@ class v1TvcOperatorSetParams {
       _json['existingOperatorIds'] = existingOperatorIds;
     }
     _json['threshold'] = threshold;
+    return _json;
+  }
+}
+
+class v1TvcQuorumKey {
+  final String id;
+  final String publicKey;
+  final num threshold;
+  final List<String> operatorIds;
+  final externaldatav1Timestamp createdAt;
+  final externaldatav1Timestamp updatedAt;
+
+  const v1TvcQuorumKey({
+    required this.id,
+    required this.publicKey,
+    required this.threshold,
+    required this.operatorIds,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory v1TvcQuorumKey.fromJson(Map<String, dynamic> json) {
+    final _id = json['id'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _threshold = json['threshold'] as num;
+    final _operatorIds =
+        (json['operatorIds'] as List).map((e) => e as String).toList();
+    final _createdAt = externaldatav1Timestamp
+        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _updatedAt = externaldatav1Timestamp
+        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    return v1TvcQuorumKey(
+      id: _id,
+      publicKey: _publicKey,
+      threshold: _threshold,
+      operatorIds: _operatorIds,
+      createdAt: _createdAt,
+      updatedAt: _updatedAt,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['id'] = id;
+    _json['publicKey'] = publicKey;
+    _json['threshold'] = threshold;
+    _json['operatorIds'] = operatorIds;
+    _json['createdAt'] = createdAt.toJson();
+    _json['updatedAt'] = updatedAt.toJson();
     return _json;
   }
 }
@@ -20781,6 +32278,9 @@ class v1UpdateAuthProxyConfigIntent {
   /// Whitelisted OAuth client IDs for social account linking. When a user authenticates via a social provider with an email matching an existing account, the accounts will be linked if the client ID is in this list and the issuer is considered a trusted provider.
   final List<String>? socialLinkingClientIds;
 
+  /// Whether captcha verification is required on sign up & otp init.
+  final bool? captchaEnabled;
+
   const v1UpdateAuthProxyConfigIntent({
     this.allowedOrigins,
     this.allowedAuthMethods,
@@ -20799,6 +32299,7 @@ class v1UpdateAuthProxyConfigIntent {
     this.sendFromEmailSenderName,
     this.verificationTokenRequiredForGetAccountPii,
     this.socialLinkingClientIds,
+    this.captchaEnabled,
   });
 
   factory v1UpdateAuthProxyConfigIntent.fromJson(Map<String, dynamic> json) {
@@ -20834,6 +32335,7 @@ class v1UpdateAuthProxyConfigIntent {
     final _socialLinkingClientIds = (json['socialLinkingClientIds'] as List?)
         ?.map((e) => e as String)
         .toList();
+    final _captchaEnabled = json['captchaEnabled'] as bool?;
     return v1UpdateAuthProxyConfigIntent(
       allowedOrigins: _allowedOrigins,
       allowedAuthMethods: _allowedAuthMethods,
@@ -20853,6 +32355,7 @@ class v1UpdateAuthProxyConfigIntent {
       verificationTokenRequiredForGetAccountPii:
           _verificationTokenRequiredForGetAccountPii,
       socialLinkingClientIds: _socialLinkingClientIds,
+      captchaEnabled: _captchaEnabled,
     );
   }
 
@@ -20910,6 +32413,9 @@ class v1UpdateAuthProxyConfigIntent {
     }
     if (socialLinkingClientIds != null) {
       _json['socialLinkingClientIds'] = socialLinkingClientIds;
+    }
+    if (captchaEnabled != null) {
+      _json['captchaEnabled'] = captchaEnabled;
     }
     return _json;
   }
@@ -21074,6 +32580,149 @@ class v1UpdateFiatOnRampCredentialResult {
   }
 }
 
+class v1UpdateMfaPolicyIntent {
+  /// The ID of the User to update the MFA Policy for.
+  final String userId;
+
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  /// Human-readable name for a Policy.
+  final String? mfaPolicyName;
+
+  /// A condition expression that evaluates to true or false, determining when this MFA policy applies.
+  final String? condition;
+
+  /// An ordered list of authentication requirements. Each requirement must be satisfied sequentially to complete MFA.
+  final List<v1RequiredAuthenticationMethodParams>?
+      requiredAuthenticationMethods;
+
+  /// The order in which this MFA policy is evaluated, starting from 0, relative to other MFA policies. Lower order values are evaluated first.
+  final num? order;
+
+  /// Notes for an MFA Policy.
+  final String? notes;
+
+  const v1UpdateMfaPolicyIntent({
+    required this.userId,
+    required this.mfaPolicyId,
+    this.mfaPolicyName,
+    this.condition,
+    this.requiredAuthenticationMethods,
+    this.order,
+    this.notes,
+  });
+
+  factory v1UpdateMfaPolicyIntent.fromJson(Map<String, dynamic> json) {
+    final _userId = json['userId'] as String;
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    final _mfaPolicyName = json['mfaPolicyName'] as String?;
+    final _condition = json['condition'] as String?;
+    final _requiredAuthenticationMethods =
+        (json['requiredAuthenticationMethods'] as List?)
+            ?.map((e) => v1RequiredAuthenticationMethodParams
+                .fromJson(e as Map<String, dynamic>))
+            .toList();
+    final _order = json['order'] as num?;
+    final _notes = json['notes'] as String?;
+    return v1UpdateMfaPolicyIntent(
+      userId: _userId,
+      mfaPolicyId: _mfaPolicyId,
+      mfaPolicyName: _mfaPolicyName,
+      condition: _condition,
+      requiredAuthenticationMethods: _requiredAuthenticationMethods,
+      order: _order,
+      notes: _notes,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['userId'] = userId;
+    _json['mfaPolicyId'] = mfaPolicyId;
+    if (mfaPolicyName != null) {
+      _json['mfaPolicyName'] = mfaPolicyName;
+    }
+    if (condition != null) {
+      _json['condition'] = condition;
+    }
+    if (requiredAuthenticationMethods != null) {
+      _json['requiredAuthenticationMethods'] =
+          requiredAuthenticationMethods?.map((e) => e.toJson()).toList();
+    }
+    if (order != null) {
+      _json['order'] = order;
+    }
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    return _json;
+  }
+}
+
+class v1UpdateMfaPolicyRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1UpdateMfaPolicyIntent parameters;
+
+  const v1UpdateMfaPolicyRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+  });
+
+  factory v1UpdateMfaPolicyRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1UpdateMfaPolicyIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    return v1UpdateMfaPolicyRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    return _json;
+  }
+}
+
+class v1UpdateMfaPolicyResult {
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  const v1UpdateMfaPolicyResult({
+    required this.mfaPolicyId,
+  });
+
+  factory v1UpdateMfaPolicyResult.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return v1UpdateMfaPolicyResult(
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
 class v1UpdateOauth2CredentialIntent {
   /// The ID of the OAuth 2.0 credential to update
   final String oauth2CredentialId;
@@ -21218,12 +32867,14 @@ class v1UpdateOrganizationNameRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
   final v1UpdateOrganizationNameIntent parameters;
+  final bool? generateAppProofs;
 
   const v1UpdateOrganizationNameRequest({
     required this.type,
     required this.timestampMs,
     required this.organizationId,
     required this.parameters,
+    this.generateAppProofs,
   });
 
   factory v1UpdateOrganizationNameRequest.fromJson(Map<String, dynamic> json) {
@@ -21232,11 +32883,13 @@ class v1UpdateOrganizationNameRequest {
     final _organizationId = json['organizationId'] as String;
     final _parameters = v1UpdateOrganizationNameIntent
         .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateOrganizationNameRequest(
       type: _type,
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
     );
   }
 
@@ -21246,6 +32899,9 @@ class v1UpdateOrganizationNameRequest {
     _json['timestampMs'] = timestampMs;
     _json['organizationId'] = organizationId;
     _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
     return _json;
   }
 }
@@ -21367,6 +33023,9 @@ class v1UpdatePolicyIntentV2 {
   /// Accompanying notes for a Policy (optional).
   final String? policyNotes;
 
+  /// The time expression that triggers the Effect (optional).
+  final String? time;
+
   const v1UpdatePolicyIntentV2({
     required this.policyId,
     this.policyName,
@@ -21374,6 +33033,7 @@ class v1UpdatePolicyIntentV2 {
     this.policyCondition,
     this.policyConsensus,
     this.policyNotes,
+    this.time,
   });
 
   factory v1UpdatePolicyIntentV2.fromJson(Map<String, dynamic> json) {
@@ -21385,6 +33045,7 @@ class v1UpdatePolicyIntentV2 {
     final _policyCondition = json['policyCondition'] as String?;
     final _policyConsensus = json['policyConsensus'] as String?;
     final _policyNotes = json['policyNotes'] as String?;
+    final _time = json['time'] as String?;
     return v1UpdatePolicyIntentV2(
       policyId: _policyId,
       policyName: _policyName,
@@ -21392,6 +33053,7 @@ class v1UpdatePolicyIntentV2 {
       policyCondition: _policyCondition,
       policyConsensus: _policyConsensus,
       policyNotes: _policyNotes,
+      time: _time,
     );
   }
 
@@ -21412,6 +33074,9 @@ class v1UpdatePolicyIntentV2 {
     }
     if (policyNotes != null) {
       _json['policyNotes'] = policyNotes;
+    }
+    if (time != null) {
+      _json['time'] = time;
     }
     return _json;
   }
@@ -21707,6 +33372,86 @@ class v1UpdateRootQuorumResult {
   const v1UpdateRootQuorumResult();
   factory v1UpdateRootQuorumResult.fromJson(Map<String, dynamic> json) =>
       const v1UpdateRootQuorumResult();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1UpdateTvcAppLiveDeploymentIntent {
+  /// The unique identifier of the TVC deployment to set as live for the app.
+  final String deploymentId;
+
+  const v1UpdateTvcAppLiveDeploymentIntent({
+    required this.deploymentId,
+  });
+
+  factory v1UpdateTvcAppLiveDeploymentIntent.fromJson(
+      Map<String, dynamic> json) {
+    final _deploymentId = json['deploymentId'] as String;
+    return v1UpdateTvcAppLiveDeploymentIntent(
+      deploymentId: _deploymentId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class v1UpdateTvcAppLiveDeploymentRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1UpdateTvcAppLiveDeploymentIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1UpdateTvcAppLiveDeploymentRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1UpdateTvcAppLiveDeploymentRequest.fromJson(
+      Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1UpdateTvcAppLiveDeploymentIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1UpdateTvcAppLiveDeploymentRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1UpdateTvcAppLiveDeploymentResult {
+  const v1UpdateTvcAppLiveDeploymentResult();
+  factory v1UpdateTvcAppLiveDeploymentResult.fromJson(
+          Map<String, dynamic> json) =>
+      const v1UpdateTvcAppLiveDeploymentResult();
   Map<String, dynamic> toJson() => {};
 }
 
@@ -22271,6 +34016,57 @@ class v1UpdateUserTagResult {
   }
 }
 
+class v1UpdateWalletAccountNameIntent {
+  /// Unique identifier for a given Wallet Account.
+  final String walletAccountId;
+
+  /// Human-readable name for this Wallet Account.
+  final String name;
+
+  const v1UpdateWalletAccountNameIntent({
+    required this.walletAccountId,
+    required this.name,
+  });
+
+  factory v1UpdateWalletAccountNameIntent.fromJson(Map<String, dynamic> json) {
+    final _walletAccountId = json['walletAccountId'] as String;
+    final _name = json['name'] as String;
+    return v1UpdateWalletAccountNameIntent(
+      walletAccountId: _walletAccountId,
+      name: _name,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['walletAccountId'] = walletAccountId;
+    _json['name'] = name;
+    return _json;
+  }
+}
+
+class v1UpdateWalletAccountNameResult {
+  /// Unique identifier for a given Wallet Account.
+  final String walletAccountId;
+
+  const v1UpdateWalletAccountNameResult({
+    required this.walletAccountId,
+  });
+
+  factory v1UpdateWalletAccountNameResult.fromJson(Map<String, dynamic> json) {
+    final _walletAccountId = json['walletAccountId'] as String;
+    return v1UpdateWalletAccountNameResult(
+      walletAccountId: _walletAccountId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['walletAccountId'] = walletAccountId;
+    return _json;
+  }
+}
+
 class v1UpdateWalletIntent {
   /// Unique identifier for a given Wallet.
   final String walletId;
@@ -22506,7 +34302,7 @@ class v1UpsertGasUsageConfigIntent {
   /// Gas sponsorship USD limit for sub-organizations under the billing organization.
   final String subOrgWindowLimitUsd;
 
-  /// Rolling sponsorship window duration, expressed in minutes.
+  /// Rolling sponsorship window duration, expressed in minutes. This value can't exceed 30 days (43200 minutes).
   final String windowDurationMinutes;
 
   /// Whether gas sponsorship is enabled for the organization.
@@ -22577,6 +34373,134 @@ class v1UpsertGasUsageConfigResult {
   }
 }
 
+class v1UpsertSwapConfigIntent {
+  final String? feeReceiverWalletAddress;
+
+  /// Client fee in basis points applied to swaps; used for all pairs unless stable_fee_bps is set.
+  final String? feeBps;
+
+  /// Optional Enterprise-only override applied when both swap assets are stablecoins; falls back to fee_bps when unset. Non-Enterprise orgs may only set fee_bps.
+  final String? stableFeeBps;
+
+  const v1UpsertSwapConfigIntent({
+    this.feeReceiverWalletAddress,
+    this.feeBps,
+    this.stableFeeBps,
+  });
+
+  factory v1UpsertSwapConfigIntent.fromJson(Map<String, dynamic> json) {
+    final _feeReceiverWalletAddress =
+        json['feeReceiverWalletAddress'] as String?;
+    final _feeBps = json['feeBps'] as String?;
+    final _stableFeeBps = json['stableFeeBps'] as String?;
+    return v1UpsertSwapConfigIntent(
+      feeReceiverWalletAddress: _feeReceiverWalletAddress,
+      feeBps: _feeBps,
+      stableFeeBps: _stableFeeBps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (feeReceiverWalletAddress != null) {
+      _json['feeReceiverWalletAddress'] = feeReceiverWalletAddress;
+    }
+    if (feeBps != null) {
+      _json['feeBps'] = feeBps;
+    }
+    if (stableFeeBps != null) {
+      _json['stableFeeBps'] = stableFeeBps;
+    }
+    return _json;
+  }
+}
+
+class v1UpsertSwapConfigRequest {
+  final String type;
+
+  /// Timestamp (in milliseconds) of the request, used to verify liveness of user requests.
+  final String timestampMs;
+
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+  final v1UpsertSwapConfigIntent parameters;
+  final bool? generateAppProofs;
+
+  const v1UpsertSwapConfigRequest({
+    required this.type,
+    required this.timestampMs,
+    required this.organizationId,
+    required this.parameters,
+    this.generateAppProofs,
+  });
+
+  factory v1UpsertSwapConfigRequest.fromJson(Map<String, dynamic> json) {
+    final _type = json['type'] as String;
+    final _timestampMs = json['timestampMs'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _parameters = v1UpsertSwapConfigIntent
+        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _generateAppProofs = json['generateAppProofs'] as bool?;
+    return v1UpsertSwapConfigRequest(
+      type: _type,
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      parameters: _parameters,
+      generateAppProofs: _generateAppProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['type'] = type;
+    _json['timestampMs'] = timestampMs;
+    _json['organizationId'] = organizationId;
+    _json['parameters'] = parameters.toJson();
+    if (generateAppProofs != null) {
+      _json['generateAppProofs'] = generateAppProofs;
+    }
+    return _json;
+  }
+}
+
+class v1UpsertSwapConfigResult {
+  final String? feeReceiverWalletAddress;
+  final String? feeBps;
+  final String? stableFeeBps;
+
+  const v1UpsertSwapConfigResult({
+    this.feeReceiverWalletAddress,
+    this.feeBps,
+    this.stableFeeBps,
+  });
+
+  factory v1UpsertSwapConfigResult.fromJson(Map<String, dynamic> json) {
+    final _feeReceiverWalletAddress =
+        json['feeReceiverWalletAddress'] as String?;
+    final _feeBps = json['feeBps'] as String?;
+    final _stableFeeBps = json['stableFeeBps'] as String?;
+    return v1UpsertSwapConfigResult(
+      feeReceiverWalletAddress: _feeReceiverWalletAddress,
+      feeBps: _feeBps,
+      stableFeeBps: _stableFeeBps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (feeReceiverWalletAddress != null) {
+      _json['feeReceiverWalletAddress'] = feeReceiverWalletAddress;
+    }
+    if (feeBps != null) {
+      _json['feeBps'] = feeBps;
+    }
+    if (stableFeeBps != null) {
+      _json['stableFeeBps'] = stableFeeBps;
+    }
+    return _json;
+  }
+}
+
 class v1User {
   /// Unique identifier for a given User.
   final String userId;
@@ -22604,6 +34528,9 @@ class v1User {
   final externaldatav1Timestamp createdAt;
   final externaldatav1Timestamp updatedAt;
 
+  /// A list of MFA Policies that define multi-factor authentication requirements for this user.
+  final List<v1MfaPolicy> mfaPolicies;
+
   const v1User({
     required this.userId,
     required this.userName,
@@ -22615,6 +34542,7 @@ class v1User {
     required this.oauthProviders,
     required this.createdAt,
     required this.updatedAt,
+    required this.mfaPolicies,
   });
 
   factory v1User.fromJson(Map<String, dynamic> json) {
@@ -22637,6 +34565,9 @@ class v1User {
         .fromJson(json['createdAt'] as Map<String, dynamic>);
     final _updatedAt = externaldatav1Timestamp
         .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _mfaPolicies = (json['mfaPolicies'] as List)
+        .map((e) => v1MfaPolicy.fromJson(e as Map<String, dynamic>))
+        .toList();
     return v1User(
       userId: _userId,
       userName: _userName,
@@ -22648,6 +34579,7 @@ class v1User {
       oauthProviders: _oauthProviders,
       createdAt: _createdAt,
       updatedAt: _updatedAt,
+      mfaPolicies: _mfaPolicies,
     );
   }
 
@@ -22667,6 +34599,7 @@ class v1User {
     _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
     _json['createdAt'] = createdAt.toJson();
     _json['updatedAt'] = updatedAt.toJson();
+    _json['mfaPolicies'] = mfaPolicies.map((e) => e.toJson()).toList();
     return _json;
   }
 }
@@ -22940,6 +34873,551 @@ class v1UserParamsV4 {
     _json['userTags'] = userTags;
     return _json;
   }
+}
+
+class v1ValidateTvcImageRequest {
+  /// Unique identifier for a given Organization.
+  final String organizationId;
+
+  /// URL of the container image.
+  final String pivotContainerImageUrl;
+
+  /// HPKE-encrypted pull secret for private images.
+  final String? pivotContainerEncryptedPullSecret;
+
+  const v1ValidateTvcImageRequest({
+    required this.organizationId,
+    required this.pivotContainerImageUrl,
+    this.pivotContainerEncryptedPullSecret,
+  });
+
+  factory v1ValidateTvcImageRequest.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _pivotContainerImageUrl = json['pivotContainerImageUrl'] as String;
+    final _pivotContainerEncryptedPullSecret =
+        json['pivotContainerEncryptedPullSecret'] as String?;
+    return v1ValidateTvcImageRequest(
+      organizationId: _organizationId,
+      pivotContainerImageUrl: _pivotContainerImageUrl,
+      pivotContainerEncryptedPullSecret: _pivotContainerEncryptedPullSecret,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['pivotContainerImageUrl'] = pivotContainerImageUrl;
+    if (pivotContainerEncryptedPullSecret != null) {
+      _json['pivotContainerEncryptedPullSecret'] =
+          pivotContainerEncryptedPullSecret;
+    }
+    return _json;
+  }
+}
+
+class v1ValidateTvcImageResponse {
+  final String? resolvedImageDigest;
+
+  const v1ValidateTvcImageResponse({
+    this.resolvedImageDigest,
+  });
+
+  factory v1ValidateTvcImageResponse.fromJson(Map<String, dynamic> json) {
+    final _resolvedImageDigest = json['resolvedImageDigest'] as String?;
+    return v1ValidateTvcImageResponse(
+      resolvedImageDigest: _resolvedImageDigest,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (resolvedImageDigest != null) {
+      _json['resolvedImageDigest'] = resolvedImageDigest;
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlAggregation {
+  /// Method that aggregates matching data points.
+  final v1VelocityControlAggregationMethod method;
+
+  /// Comparison between the aggregate and the threshold.
+  final v1VelocityControlAggregationOperator operator;
+
+  /// Non-negative base-10 decimal string with at most 38 total digits and 18 fractional digits.
+  final String threshold;
+
+  /// Time window for the aggregation.
+  final v1VelocityControlAggregationWindow window;
+
+  /// Scope that partitions matching data before aggregation.
+  final v1VelocityControlAggregationGroupBy groupBy;
+
+  const v1VelocityControlAggregation({
+    required this.method,
+    required this.operator,
+    required this.threshold,
+    required this.window,
+    required this.groupBy,
+  });
+
+  factory v1VelocityControlAggregation.fromJson(Map<String, dynamic> json) {
+    final _method = v1VelocityControlAggregationMethodFromJson(json['method']);
+    final _operator =
+        v1VelocityControlAggregationOperatorFromJson(json['operator']);
+    final _threshold = json['threshold'] as String;
+    final _window = v1VelocityControlAggregationWindow
+        .fromJson(json['window'] as Map<String, dynamic>);
+    final _groupBy = v1VelocityControlAggregationGroupBy
+        .fromJson(json['groupBy'] as Map<String, dynamic>);
+    return v1VelocityControlAggregation(
+      method: _method,
+      operator: _operator,
+      threshold: _threshold,
+      window: _window,
+      groupBy: _groupBy,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['method'] = v1VelocityControlAggregationMethodToJson(method);
+    _json['operator'] = v1VelocityControlAggregationOperatorToJson(operator);
+    _json['threshold'] = threshold;
+    _json['window'] = window.toJson();
+    _json['groupBy'] = groupBy.toJson();
+    return _json;
+  }
+}
+
+class v1VelocityControlAggregationGroupBy {
+  /// Uses one shared bucket for the Organization.
+  final v1VelocityControlAggregationGroupByOrganization? organization;
+
+  /// Uses one bucket for each User.
+  final v1VelocityControlAggregationGroupByUser? user;
+
+  /// Uses one bucket for each Wallet.
+  final v1VelocityControlAggregationGroupByWallet? wallet;
+
+  const v1VelocityControlAggregationGroupBy({
+    this.organization,
+    this.user,
+    this.wallet,
+  });
+
+  factory v1VelocityControlAggregationGroupBy.fromJson(
+      Map<String, dynamic> json) {
+    final _organization = json['organization'] == null
+        ? null
+        : v1VelocityControlAggregationGroupByOrganization
+            .fromJson(json['organization'] as Map<String, dynamic>);
+    final _user = json['user'] == null
+        ? null
+        : v1VelocityControlAggregationGroupByUser
+            .fromJson(json['user'] as Map<String, dynamic>);
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1VelocityControlAggregationGroupByWallet
+            .fromJson(json['wallet'] as Map<String, dynamic>);
+    return v1VelocityControlAggregationGroupBy(
+      organization: _organization,
+      user: _user,
+      wallet: _wallet,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organization != null) {
+      _json['organization'] = organization?.toJson();
+    }
+    if (user != null) {
+      _json['user'] = user?.toJson();
+    }
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlAggregationGroupByOrganization {
+  const v1VelocityControlAggregationGroupByOrganization();
+  factory v1VelocityControlAggregationGroupByOrganization.fromJson(
+          Map<String, dynamic> json) =>
+      const v1VelocityControlAggregationGroupByOrganization();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1VelocityControlAggregationGroupByUser {
+  const v1VelocityControlAggregationGroupByUser();
+  factory v1VelocityControlAggregationGroupByUser.fromJson(
+          Map<String, dynamic> json) =>
+      const v1VelocityControlAggregationGroupByUser();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1VelocityControlAggregationGroupByWallet {
+  const v1VelocityControlAggregationGroupByWallet();
+  factory v1VelocityControlAggregationGroupByWallet.fromJson(
+          Map<String, dynamic> json) =>
+      const v1VelocityControlAggregationGroupByWallet();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1VelocityControlAggregationWindow {
+  /// Uses a rolling time window.
+  final v1VelocityControlAggregationWindowRolling? rolling;
+
+  /// Uses all matching data without a time limit.
+  final v1VelocityControlAggregationWindowInfinite? infinite;
+
+  const v1VelocityControlAggregationWindow({
+    this.rolling,
+    this.infinite,
+  });
+
+  factory v1VelocityControlAggregationWindow.fromJson(
+      Map<String, dynamic> json) {
+    final _rolling = json['rolling'] == null
+        ? null
+        : v1VelocityControlAggregationWindowRolling
+            .fromJson(json['rolling'] as Map<String, dynamic>);
+    final _infinite = json['infinite'] == null
+        ? null
+        : v1VelocityControlAggregationWindowInfinite
+            .fromJson(json['infinite'] as Map<String, dynamic>);
+    return v1VelocityControlAggregationWindow(
+      rolling: _rolling,
+      infinite: _infinite,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (rolling != null) {
+      _json['rolling'] = rolling?.toJson();
+    }
+    if (infinite != null) {
+      _json['infinite'] = infinite?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlAggregationWindowInfinite {
+  const v1VelocityControlAggregationWindowInfinite();
+  factory v1VelocityControlAggregationWindowInfinite.fromJson(
+          Map<String, dynamic> json) =>
+      const v1VelocityControlAggregationWindowInfinite();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1VelocityControlAggregationWindowRolling {
+  /// Duration of the rolling window, in seconds.
+  final num duration;
+
+  const v1VelocityControlAggregationWindowRolling({
+    required this.duration,
+  });
+
+  factory v1VelocityControlAggregationWindowRolling.fromJson(
+      Map<String, dynamic> json) {
+    final _duration = json['duration'] as num;
+    return v1VelocityControlAggregationWindowRolling(
+      duration: _duration,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['duration'] = duration;
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSource {
+  /// Uses transfers of the listed on-chain assets as input data.
+  final v1VelocityControlDataSourceChainAssetTransfer? chainAssetTransfer;
+
+  /// Uses executed Turnkey activities as input data.
+  final v1VelocityControlDataSourceActivityExecution? activityExecution;
+
+  const v1VelocityControlDataSource({
+    this.chainAssetTransfer,
+    this.activityExecution,
+  });
+
+  factory v1VelocityControlDataSource.fromJson(Map<String, dynamic> json) {
+    final _chainAssetTransfer = json['chainAssetTransfer'] == null
+        ? null
+        : v1VelocityControlDataSourceChainAssetTransfer
+            .fromJson(json['chainAssetTransfer'] as Map<String, dynamic>);
+    final _activityExecution = json['activityExecution'] == null
+        ? null
+        : v1VelocityControlDataSourceActivityExecution
+            .fromJson(json['activityExecution'] as Map<String, dynamic>);
+    return v1VelocityControlDataSource(
+      chainAssetTransfer: _chainAssetTransfer,
+      activityExecution: _activityExecution,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (chainAssetTransfer != null) {
+      _json['chainAssetTransfer'] = chainAssetTransfer?.toJson();
+    }
+    if (activityExecution != null) {
+      _json['activityExecution'] = activityExecution?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourceActivityExecution {
+  /// Filters activity executions by type.
+  final v1VelocityControlDataSourceActivityExecutionFilter? filter;
+
+  const v1VelocityControlDataSourceActivityExecution({
+    this.filter,
+  });
+
+  factory v1VelocityControlDataSourceActivityExecution.fromJson(
+      Map<String, dynamic> json) {
+    final _filter = json['filter'] == null
+        ? null
+        : v1VelocityControlDataSourceActivityExecutionFilter
+            .fromJson(json['filter'] as Map<String, dynamic>);
+    return v1VelocityControlDataSourceActivityExecution(
+      filter: _filter,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (filter != null) {
+      _json['filter'] = filter?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourceActivityExecutionFilter {
+  /// Activity types whose executions are included.
+  final List<v1VelocityControlDataSourceFilterActivity>? activity;
+
+  const v1VelocityControlDataSourceActivityExecutionFilter({
+    this.activity,
+  });
+
+  factory v1VelocityControlDataSourceActivityExecutionFilter.fromJson(
+      Map<String, dynamic> json) {
+    final _activity = (json['activity'] as List?)
+        ?.map((e) => v1VelocityControlDataSourceFilterActivity
+            .fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1VelocityControlDataSourceActivityExecutionFilter(
+      activity: _activity,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (activity != null) {
+      _json['activity'] = activity?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourceChainAssetTransfer {
+  /// Assets whose transfers are included in the data source.
+  final List<v1VelocityControlDataSourceChainAssetTransferDefinition>
+      definition;
+
+  /// Filters asset transfers by activity type.
+  final v1VelocityControlDataSourceChainAssetTransferFilter? filter;
+
+  /// Selects when to measure an asset transfer.
+  final v1VelocityControlDataSourcePhase? phase;
+
+  const v1VelocityControlDataSourceChainAssetTransfer({
+    required this.definition,
+    this.filter,
+    this.phase,
+  });
+
+  factory v1VelocityControlDataSourceChainAssetTransfer.fromJson(
+      Map<String, dynamic> json) {
+    final _definition = (json['definition'] as List)
+        .map((e) => v1VelocityControlDataSourceChainAssetTransferDefinition
+            .fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _filter = json['filter'] == null
+        ? null
+        : v1VelocityControlDataSourceChainAssetTransferFilter
+            .fromJson(json['filter'] as Map<String, dynamic>);
+    final _phase = json['phase'] == null
+        ? null
+        : v1VelocityControlDataSourcePhase
+            .fromJson(json['phase'] as Map<String, dynamic>);
+    return v1VelocityControlDataSourceChainAssetTransfer(
+      definition: _definition,
+      filter: _filter,
+      phase: _phase,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['definition'] = definition.map((e) => e.toJson()).toList();
+    if (filter != null) {
+      _json['filter'] = filter?.toJson();
+    }
+    if (phase != null) {
+      _json['phase'] = phase?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourceChainAssetTransferDefinition {
+  /// CAIP-19 identifier for the asset.
+  final String caip19;
+
+  /// Integer between 0 and 255 (inclusive) that specifies the number of decimal places for the asset.
+  final num decimals;
+
+  const v1VelocityControlDataSourceChainAssetTransferDefinition({
+    required this.caip19,
+    required this.decimals,
+  });
+
+  factory v1VelocityControlDataSourceChainAssetTransferDefinition.fromJson(
+      Map<String, dynamic> json) {
+    final _caip19 = json['caip19'] as String;
+    final _decimals = json['decimals'] as num;
+    return v1VelocityControlDataSourceChainAssetTransferDefinition(
+      caip19: _caip19,
+      decimals: _decimals,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['caip19'] = caip19;
+    _json['decimals'] = decimals;
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourceChainAssetTransferFilter {
+  /// Activity types whose asset transfers are included.
+  final List<v1VelocityControlDataSourceFilterActivity>? activity;
+
+  const v1VelocityControlDataSourceChainAssetTransferFilter({
+    this.activity,
+  });
+
+  factory v1VelocityControlDataSourceChainAssetTransferFilter.fromJson(
+      Map<String, dynamic> json) {
+    final _activity = (json['activity'] as List?)
+        ?.map((e) => v1VelocityControlDataSourceFilterActivity
+            .fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1VelocityControlDataSourceChainAssetTransferFilter(
+      activity: _activity,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (activity != null) {
+      _json['activity'] = activity?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourceFilterActivity {
+  /// Name of an activity type to include, such as `ACTIVITY_TYPE_SOL_SEND_TRANSACTION`.
+  final String activityType;
+
+  const v1VelocityControlDataSourceFilterActivity({
+    required this.activityType,
+  });
+
+  factory v1VelocityControlDataSourceFilterActivity.fromJson(
+      Map<String, dynamic> json) {
+    final _activityType = json['activityType'] as String;
+    return v1VelocityControlDataSourceFilterActivity(
+      activityType: _activityType,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['activityType'] = activityType;
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourcePhase {
+  /// Measures the transfer when Turnkey signs the transaction and returns it to the user.
+  final v1VelocityControlDataSourcePhaseSignature? signature;
+
+  /// Reserved for future use. Measures the transfer after the transaction lands on chain.
+  final v1VelocityControlDataSourcePhaseSubmission? submission;
+
+  const v1VelocityControlDataSourcePhase({
+    this.signature,
+    this.submission,
+  });
+
+  factory v1VelocityControlDataSourcePhase.fromJson(Map<String, dynamic> json) {
+    final _signature = json['signature'] == null
+        ? null
+        : v1VelocityControlDataSourcePhaseSignature
+            .fromJson(json['signature'] as Map<String, dynamic>);
+    final _submission = json['submission'] == null
+        ? null
+        : v1VelocityControlDataSourcePhaseSubmission
+            .fromJson(json['submission'] as Map<String, dynamic>);
+    return v1VelocityControlDataSourcePhase(
+      signature: _signature,
+      submission: _submission,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (signature != null) {
+      _json['signature'] = signature?.toJson();
+    }
+    if (submission != null) {
+      _json['submission'] = submission?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1VelocityControlDataSourcePhaseSignature {
+  const v1VelocityControlDataSourcePhaseSignature();
+  factory v1VelocityControlDataSourcePhaseSignature.fromJson(
+          Map<String, dynamic> json) =>
+      const v1VelocityControlDataSourcePhaseSignature();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1VelocityControlDataSourcePhaseSubmission {
+  const v1VelocityControlDataSourcePhaseSubmission();
+  factory v1VelocityControlDataSourcePhaseSubmission.fromJson(
+          Map<String, dynamic> json) =>
+      const v1VelocityControlDataSourcePhaseSubmission();
+  Map<String, dynamic> toJson() => {};
 }
 
 class v1VerifyOtpIntent {
@@ -23267,6 +35745,12 @@ class v1WalletAccount {
   /// Wallet details for this account. This is only present when include_wallet_details=true.
   final v1Wallet? walletDetails;
 
+  /// Human-readable name for this Wallet Account, unique within the organization.
+  final String? name;
+
+  /// The CAIP-2 namespace shared by the chains supported by this account (for example, 'eip155' or 'solana').
+  final String? caip2Prefix;
+
   const v1WalletAccount({
     required this.walletAccountId,
     required this.organizationId,
@@ -23280,6 +35764,8 @@ class v1WalletAccount {
     required this.updatedAt,
     this.publicKey,
     this.walletDetails,
+    this.name,
+    this.caip2Prefix,
   });
 
   factory v1WalletAccount.fromJson(Map<String, dynamic> json) {
@@ -23299,6 +35785,8 @@ class v1WalletAccount {
     final _walletDetails = json['walletDetails'] == null
         ? null
         : v1Wallet.fromJson(json['walletDetails'] as Map<String, dynamic>);
+    final _name = json['name'] as String?;
+    final _caip2Prefix = json['caip2Prefix'] as String?;
     return v1WalletAccount(
       walletAccountId: _walletAccountId,
       organizationId: _organizationId,
@@ -23312,6 +35800,8 @@ class v1WalletAccount {
       updatedAt: _updatedAt,
       publicKey: _publicKey,
       walletDetails: _walletDetails,
+      name: _name,
+      caip2Prefix: _caip2Prefix,
     );
   }
 
@@ -23333,6 +35823,12 @@ class v1WalletAccount {
     if (walletDetails != null) {
       _json['walletDetails'] = walletDetails?.toJson();
     }
+    if (name != null) {
+      _json['name'] = name;
+    }
+    if (caip2Prefix != null) {
+      _json['caip2Prefix'] = caip2Prefix;
+    }
     return _json;
   }
 }
@@ -23350,11 +35846,15 @@ class v1WalletAccountParams {
   /// Address format used to generate a wallet Acccount.
   final v1AddressFormat addressFormat;
 
+  /// Optional human-readable name for the account.
+  final String? name;
+
   const v1WalletAccountParams({
     required this.curve,
     required this.pathFormat,
     required this.path,
     required this.addressFormat,
+    this.name,
   });
 
   factory v1WalletAccountParams.fromJson(Map<String, dynamic> json) {
@@ -23362,11 +35862,13 @@ class v1WalletAccountParams {
     final _pathFormat = v1PathFormatFromJson(json['pathFormat']);
     final _path = json['path'] as String;
     final _addressFormat = v1AddressFormatFromJson(json['addressFormat']);
+    final _name = json['name'] as String?;
     return v1WalletAccountParams(
       curve: _curve,
       pathFormat: _pathFormat,
       path: _path,
       addressFormat: _addressFormat,
+      name: _name,
     );
   }
 
@@ -23376,6 +35878,9 @@ class v1WalletAccountParams {
     _json['pathFormat'] = v1PathFormatToJson(pathFormat);
     _json['path'] = path;
     _json['addressFormat'] = v1AddressFormatToJson(addressFormat);
+    if (name != null) {
+      _json['name'] = name;
+    }
     return _json;
   }
 }
@@ -23599,7 +36104,7 @@ class v1WebhookEndpointData {
 }
 
 class v1WebhookSubscriptionParams {
-  /// The event type to subscribe to (for example, ACTIVITY_UPDATES or BALANCE_UPDATES).
+  /// The event type to subscribe to (for example, ACTIVITY_UPDATES, BALANCE_CONFIRMED_UPDATES, or BALANCE_FINALIZED_UPDATES).
   final String eventType;
 
   /// JSON-encoded filter criteria for this subscription.
@@ -23638,7 +36143,1021 @@ class v1WebhookSubscriptionParams {
   }
 }
 
+class v1GetAccountRequest {
+  /// Specifies the type of filter to apply, i.e 'CREDENTIAL_ID', 'NAME', 'USERNAME', 'EMAIL', 'PHONE_NUMBER', 'OIDC_TOKEN' or 'PUBLIC_KEY'
+  final String filterType;
+
+  /// The value of the filter to apply for the specified type. For example, a specific email or name string.
+  final String filterValue;
+
+  /// Signed JWT containing a unique id, expiry, verification type, contact. Used to verify access to PII (email/phone number) when filter_type is 'EMAIL' or 'PHONE_NUMBER'.
+  final String? verificationToken;
+
+  /// OIDC token to verify access to PII (email/phone number) when filter_type is 'EMAIL' or 'PHONE_NUMBER'. Needed for social linking when verification_token is not available.
+  final String? oidcToken;
+
+  /// Whether to include requires_social_linking in the response. Only applies when filter_type is 'OIDC_TOKEN'.
+  final bool? includeRequiresSocialLinking;
+
+  const v1GetAccountRequest({
+    required this.filterType,
+    required this.filterValue,
+    this.verificationToken,
+    this.oidcToken,
+    this.includeRequiresSocialLinking,
+  });
+
+  factory v1GetAccountRequest.fromJson(Map<String, dynamic> json) {
+    final _filterType = json['filterType'] as String;
+    final _filterValue = json['filterValue'] as String;
+    final _verificationToken = json['verificationToken'] as String?;
+    final _oidcToken = json['oidcToken'] as String?;
+    final _includeRequiresSocialLinking =
+        json['includeRequiresSocialLinking'] as bool?;
+    return v1GetAccountRequest(
+      filterType: _filterType,
+      filterValue: _filterValue,
+      verificationToken: _verificationToken,
+      oidcToken: _oidcToken,
+      includeRequiresSocialLinking: _includeRequiresSocialLinking,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['filterType'] = filterType;
+    _json['filterValue'] = filterValue;
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
+    if (oidcToken != null) {
+      _json['oidcToken'] = oidcToken;
+    }
+    if (includeRequiresSocialLinking != null) {
+      _json['includeRequiresSocialLinking'] = includeRequiresSocialLinking;
+    }
+    return _json;
+  }
+}
+
+class v1GetAccountResponse {
+  final String? organizationId;
+
+  /// True when the organization was matched by verified email and the OIDC token is not yet a registered identity on it.
+  final bool? requiresSocialLinking;
+
+  const v1GetAccountResponse({
+    this.organizationId,
+    this.requiresSocialLinking,
+  });
+
+  factory v1GetAccountResponse.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _requiresSocialLinking = json['requiresSocialLinking'] as bool?;
+    return v1GetAccountResponse(
+      organizationId: _organizationId,
+      requiresSocialLinking: _requiresSocialLinking,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (requiresSocialLinking != null) {
+      _json['requiresSocialLinking'] = requiresSocialLinking;
+    }
+    return _json;
+  }
+}
+
+class v1GetWalletKitClientParamsRequest {
+  const v1GetWalletKitClientParamsRequest();
+  factory v1GetWalletKitClientParamsRequest.fromJson(
+          Map<String, dynamic> json) =>
+      const v1GetWalletKitClientParamsRequest();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1GetWalletKitClientParamsResponse {
+  /// Site key for Turnstile, used to protect WalletKit flows with bot detection.
+  final String? turnstileSiteKey;
+
+  const v1GetWalletKitClientParamsResponse({
+    this.turnstileSiteKey,
+  });
+
+  factory v1GetWalletKitClientParamsResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _turnstileSiteKey = json['turnstileSiteKey'] as String?;
+    return v1GetWalletKitClientParamsResponse(
+      turnstileSiteKey: _turnstileSiteKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (turnstileSiteKey != null) {
+      _json['turnstileSiteKey'] = turnstileSiteKey;
+    }
+    return _json;
+  }
+}
+
+class v1GetWalletKitConfigRequest {
+  const v1GetWalletKitConfigRequest();
+  factory v1GetWalletKitConfigRequest.fromJson(Map<String, dynamic> json) =>
+      const v1GetWalletKitConfigRequest();
+  Map<String, dynamic> toJson() => {};
+}
+
+class v1GetWalletKitConfigResponse {
+  /// List of enabled authentication providers (e.g., 'facebook', 'google', 'apple', 'email', 'sms', 'passkey', 'wallet')
+  final List<String> enabledProviders;
+
+  /// Session expiration duration in seconds
+  final String sessionExpirationSeconds;
+
+  /// The organization ID this configuration applies to
+  final String organizationId;
+
+  /// Mapping of social login providers to their OAuth client IDs.
+  final Map<String, dynamic>? oauthClientIds;
+
+  /// OAuth redirect URL to be used for social login flows.
+  final String? oauthRedirectUrl;
+  final bool? otpAlphanumeric;
+  final String? otpLength;
+
+  const v1GetWalletKitConfigResponse({
+    required this.enabledProviders,
+    required this.sessionExpirationSeconds,
+    required this.organizationId,
+    this.oauthClientIds,
+    this.oauthRedirectUrl,
+    this.otpAlphanumeric,
+    this.otpLength,
+  });
+
+  factory v1GetWalletKitConfigResponse.fromJson(Map<String, dynamic> json) {
+    final _enabledProviders =
+        (json['enabledProviders'] as List).map((e) => e as String).toList();
+    final _sessionExpirationSeconds =
+        json['sessionExpirationSeconds'] as String;
+    final _organizationId = json['organizationId'] as String;
+    final _oauthClientIds = json['oauthClientIds'] as Map<String, dynamic>?;
+    final _oauthRedirectUrl = json['oauthRedirectUrl'] as String?;
+    final _otpAlphanumeric = json['otpAlphanumeric'] as bool?;
+    final _otpLength = json['otpLength'] as String?;
+    return v1GetWalletKitConfigResponse(
+      enabledProviders: _enabledProviders,
+      sessionExpirationSeconds: _sessionExpirationSeconds,
+      organizationId: _organizationId,
+      oauthClientIds: _oauthClientIds,
+      oauthRedirectUrl: _oauthRedirectUrl,
+      otpAlphanumeric: _otpAlphanumeric,
+      otpLength: _otpLength,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['enabledProviders'] = enabledProviders;
+    _json['sessionExpirationSeconds'] = sessionExpirationSeconds;
+    _json['organizationId'] = organizationId;
+    if (oauthClientIds != null) {
+      _json['oauthClientIds'] = oauthClientIds;
+    }
+    if (oauthRedirectUrl != null) {
+      _json['oauthRedirectUrl'] = oauthRedirectUrl;
+    }
+    if (otpAlphanumeric != null) {
+      _json['otpAlphanumeric'] = otpAlphanumeric;
+    }
+    if (otpLength != null) {
+      _json['otpLength'] = otpLength;
+    }
+    return _json;
+  }
+}
+
+class v1InitOtpResponse {
+  /// Unique identifier for an OTP authentication
+  final String otpId;
+
+  const v1InitOtpResponse({
+    required this.otpId,
+  });
+
+  factory v1InitOtpResponse.fromJson(Map<String, dynamic> json) {
+    final _otpId = json['otpId'] as String;
+    return v1InitOtpResponse(
+      otpId: _otpId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['otpId'] = otpId;
+    return _json;
+  }
+}
+
+class v1InitOtpV2Request {
+  /// Enum to specify whether to send OTP code via SMS, email, or WhatsApp
+  final String otpType;
+
+  /// Email or phone number to send the OTP code to
+  final String contact;
+
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1ProxyEmailCustomizationParams? emailCustomization;
+
+  const v1InitOtpV2Request({
+    required this.otpType,
+    required this.contact,
+    this.emailCustomization,
+  });
+
+  factory v1InitOtpV2Request.fromJson(Map<String, dynamic> json) {
+    final _otpType = json['otpType'] as String;
+    final _contact = json['contact'] as String;
+    final _emailCustomization = json['emailCustomization'] == null
+        ? null
+        : v1ProxyEmailCustomizationParams
+            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    return v1InitOtpV2Request(
+      otpType: _otpType,
+      contact: _contact,
+      emailCustomization: _emailCustomization,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['otpType'] = otpType;
+    _json['contact'] = contact;
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1InitOtpV2Response {
+  /// Unique identifier for an OTP flow.
+  final String otpId;
+
+  /// Signed bundle containing a target encryption key to use when submitting OTP codes.
+  final String otpEncryptionTargetBundle;
+
+  const v1InitOtpV2Response({
+    required this.otpId,
+    required this.otpEncryptionTargetBundle,
+  });
+
+  factory v1InitOtpV2Response.fromJson(Map<String, dynamic> json) {
+    final _otpId = json['otpId'] as String;
+    final _otpEncryptionTargetBundle =
+        json['otpEncryptionTargetBundle'] as String;
+    return v1InitOtpV2Response(
+      otpId: _otpId,
+      otpEncryptionTargetBundle: _otpEncryptionTargetBundle,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['otpId'] = otpId;
+    _json['otpEncryptionTargetBundle'] = otpEncryptionTargetBundle;
+    return _json;
+  }
+}
+
+class v1OAuth2AuthenticateRequest {
+  /// The OAuth 2.0 provider to authenticate with
+  final v1Oauth2Provider provider;
+
+  /// The auth_code provided by the OAuth 2.0 to the end user to be exchanged for a Bearer token in the OAuth 2.0 flow
+  final String authCode;
+
+  /// The URI the user is redirected to after they have authenticated with the OAuth 2.0 provider
+  final String redirectUri;
+
+  /// The code verifier used by OAuth 2.0 PKCE providers
+  final String codeVerifier;
+
+  /// A nonce value set to sha256(publicKey), used to bind the OIDC token to a specific public key
+  final String nonce;
+
+  /// The client ID registered with the OAuth 2.0 provider
+  final String clientId;
+
+  const v1OAuth2AuthenticateRequest({
+    required this.provider,
+    required this.authCode,
+    required this.redirectUri,
+    required this.codeVerifier,
+    required this.nonce,
+    required this.clientId,
+  });
+
+  factory v1OAuth2AuthenticateRequest.fromJson(Map<String, dynamic> json) {
+    final _provider = v1Oauth2ProviderFromJson(json['provider']);
+    final _authCode = json['authCode'] as String;
+    final _redirectUri = json['redirectUri'] as String;
+    final _codeVerifier = json['codeVerifier'] as String;
+    final _nonce = json['nonce'] as String;
+    final _clientId = json['clientId'] as String;
+    return v1OAuth2AuthenticateRequest(
+      provider: _provider,
+      authCode: _authCode,
+      redirectUri: _redirectUri,
+      codeVerifier: _codeVerifier,
+      nonce: _nonce,
+      clientId: _clientId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['provider'] = v1Oauth2ProviderToJson(provider);
+    _json['authCode'] = authCode;
+    _json['redirectUri'] = redirectUri;
+    _json['codeVerifier'] = codeVerifier;
+    _json['nonce'] = nonce;
+    _json['clientId'] = clientId;
+    return _json;
+  }
+}
+
+class v1OAuth2AuthenticateResponse {
+  /// A Turnkey issued OIDC token to be used with the LoginWithOAuth activity
+  final String oidcToken;
+
+  const v1OAuth2AuthenticateResponse({
+    required this.oidcToken,
+  });
+
+  factory v1OAuth2AuthenticateResponse.fromJson(Map<String, dynamic> json) {
+    final _oidcToken = json['oidcToken'] as String;
+    return v1OAuth2AuthenticateResponse(
+      oidcToken: _oidcToken,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['oidcToken'] = oidcToken;
+    return _json;
+  }
+}
+
+class v1OAuthLoginRequest {
+  /// Base64 encoded OIDC token
+  final String oidcToken;
+
+  /// Client-side public key generated by the user, which will be conditionally added to org data based on the validity of the oidc token associated with this request
+  final String publicKey;
+
+  /// Invalidate all other previously generated Login API keys
+  final bool? invalidateExisting;
+
+  /// Unique identifier for a given Organization. If provided, this organization id will be used directly. If omitted, uses the OIDC token to look up the associated organization id.
+  final String? organizationId;
+
+  const v1OAuthLoginRequest({
+    required this.oidcToken,
+    required this.publicKey,
+    this.invalidateExisting,
+    this.organizationId,
+  });
+
+  factory v1OAuthLoginRequest.fromJson(Map<String, dynamic> json) {
+    final _oidcToken = json['oidcToken'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _organizationId = json['organizationId'] as String?;
+    return v1OAuthLoginRequest(
+      oidcToken: _oidcToken,
+      publicKey: _publicKey,
+      invalidateExisting: _invalidateExisting,
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['oidcToken'] = oidcToken;
+    _json['publicKey'] = publicKey;
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class v1OAuthLoginResponse {
+  /// Signed JWT containing an expiry, public key, session type, user id, and organization id
+  final String session;
+
+  const v1OAuthLoginResponse({
+    required this.session,
+  });
+
+  factory v1OAuthLoginResponse.fromJson(Map<String, dynamic> json) {
+    final _session = json['session'] as String;
+    return v1OAuthLoginResponse(
+      session: _session,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['session'] = session;
+    return _json;
+  }
+}
+
+class v1OtpLoginResponse {
+  /// Signed JWT containing an expiry, public key, session type, user id, and organization id
+  final String session;
+
+  const v1OtpLoginResponse({
+    required this.session,
+  });
+
+  factory v1OtpLoginResponse.fromJson(Map<String, dynamic> json) {
+    final _session = json['session'] as String;
+    return v1OtpLoginResponse(
+      session: _session,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['session'] = session;
+    return _json;
+  }
+}
+
+class v1OtpLoginV2Request {
+  /// Session containing a unique id, expiry, verification type, contact. Verification status of a user is updated when the token is consumed (in OTP_LOGIN requests)
+  final String verificationToken;
+
+  /// Client-side public key generated by the user, used as the session public key upon successful login.
+  final String publicKey;
+
+  /// Signature proving authorization for this login. The signature is over the verification token ID and the new session public key.
+  final v1ClientSignature clientSignature;
+
+  /// Invalidate all other previously generated Login sessions
+  final bool? invalidateExisting;
+
+  /// Unique identifier for a given Organization. If provided, this organization id will be used directly. If omitted, uses the verification token to look up the verified sub-organization based on the contact and verification type.
+  final String? organizationId;
+
+  const v1OtpLoginV2Request({
+    required this.verificationToken,
+    required this.publicKey,
+    required this.clientSignature,
+    this.invalidateExisting,
+    this.organizationId,
+  });
+
+  factory v1OtpLoginV2Request.fromJson(Map<String, dynamic> json) {
+    final _verificationToken = json['verificationToken'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _clientSignature = v1ClientSignature
+        .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _organizationId = json['organizationId'] as String?;
+    return v1OtpLoginV2Request(
+      verificationToken: _verificationToken,
+      publicKey: _publicKey,
+      clientSignature: _clientSignature,
+      invalidateExisting: _invalidateExisting,
+      organizationId: _organizationId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['verificationToken'] = verificationToken;
+    _json['publicKey'] = publicKey;
+    _json['clientSignature'] = clientSignature.toJson();
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class v1OtpLoginV2Response {
+  /// Session containing an expiry, public key, session type, user id, and organization id
+  final String session;
+
+  const v1OtpLoginV2Response({
+    required this.session,
+  });
+
+  factory v1OtpLoginV2Response.fromJson(Map<String, dynamic> json) {
+    final _session = json['session'] as String;
+    return v1OtpLoginV2Response(
+      session: _session,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['session'] = session;
+    return _json;
+  }
+}
+
+class v1ProxyEmailCustomizationParams {
+  /// Unique identifier for a given Email Template. If not specified, the default is the most recent Email Template.
+  final String? templateId;
+
+  const v1ProxyEmailCustomizationParams({
+    this.templateId,
+  });
+
+  factory v1ProxyEmailCustomizationParams.fromJson(Map<String, dynamic> json) {
+    final _templateId = json['templateId'] as String?;
+    return v1ProxyEmailCustomizationParams(
+      templateId: _templateId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (templateId != null) {
+      _json['templateId'] = templateId;
+    }
+    return _json;
+  }
+}
+
+class v1SignupRequest {
+  final String? userEmail;
+  final String? userPhoneNumber;
+  final String? userTag;
+  final String? userName;
+  final String? organizationName;
+  final String? verificationToken;
+
+  /// A list of API Key parameters. This field, if not needed, should be an empty array in your request body.
+  final List<v1ApiKeyParamsV2> apiKeys;
+
+  /// A list of Authenticator parameters. This field, if not needed, should be an empty array in your request body.
+  final List<v1AuthenticatorParamsV2> authenticators;
+
+  /// A list of Oauth providers. This field, if not needed, should be an empty array in your request body.
+  final List<v1OauthProviderParams> oauthProviders;
+
+  /// The wallet to create for the sub-organization
+  final v1WalletParams? wallet;
+
+  /// Optional signature proving authorization for this signup. The signature is over the verification token ID and the root user parameters for the root user associated with the verification token. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
+
+  const v1SignupRequest({
+    this.userEmail,
+    this.userPhoneNumber,
+    this.userTag,
+    this.userName,
+    this.organizationName,
+    this.verificationToken,
+    required this.apiKeys,
+    required this.authenticators,
+    required this.oauthProviders,
+    this.wallet,
+    this.clientSignature,
+  });
+
+  factory v1SignupRequest.fromJson(Map<String, dynamic> json) {
+    final _userEmail = json['userEmail'] as String?;
+    final _userPhoneNumber = json['userPhoneNumber'] as String?;
+    final _userTag = json['userTag'] as String?;
+    final _userName = json['userName'] as String?;
+    final _organizationName = json['organizationName'] as String?;
+    final _verificationToken = json['verificationToken'] as String?;
+    final _apiKeys = (json['apiKeys'] as List)
+        .map((e) => v1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _authenticators = (json['authenticators'] as List)
+        .map((e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _oauthProviders = (json['oauthProviders'] as List)
+        .map((e) => v1OauthProviderParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _clientSignature = json['clientSignature'] == null
+        ? null
+        : v1ClientSignature
+            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    return v1SignupRequest(
+      userEmail: _userEmail,
+      userPhoneNumber: _userPhoneNumber,
+      userTag: _userTag,
+      userName: _userName,
+      organizationName: _organizationName,
+      verificationToken: _verificationToken,
+      apiKeys: _apiKeys,
+      authenticators: _authenticators,
+      oauthProviders: _oauthProviders,
+      wallet: _wallet,
+      clientSignature: _clientSignature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (userEmail != null) {
+      _json['userEmail'] = userEmail;
+    }
+    if (userPhoneNumber != null) {
+      _json['userPhoneNumber'] = userPhoneNumber;
+    }
+    if (userTag != null) {
+      _json['userTag'] = userTag;
+    }
+    if (userName != null) {
+      _json['userName'] = userName;
+    }
+    if (organizationName != null) {
+      _json['organizationName'] = organizationName;
+    }
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1SignupResponse {
+  final String organizationId;
+
+  /// Wallet created for the sub-organization, if provided in the request
+  final v1WalletResult? wallet;
+
+  /// Root user ID created for this sub-organization
+  final String userId;
+
+  /// A list of App Proofs generated by enclaves during activity execution, providing verifiable attestations of performed operations.
+  final List<v1AppProof>? appProofs;
+
+  const v1SignupResponse({
+    required this.organizationId,
+    this.wallet,
+    required this.userId,
+    this.appProofs,
+  });
+
+  factory v1SignupResponse.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _userId = json['userId'] as String;
+    final _appProofs = (json['appProofs'] as List?)
+        ?.map((e) => v1AppProof.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SignupResponse(
+      organizationId: _organizationId,
+      wallet: _wallet,
+      userId: _userId,
+      appProofs: _appProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    _json['userId'] = userId;
+    if (appProofs != null) {
+      _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1SignupV2Request {
+  final String? userEmail;
+  final String? userPhoneNumber;
+  final String? userTag;
+  final String? userName;
+  final String? organizationName;
+  final String? verificationToken;
+
+  /// A list of API Key parameters. This field, if not needed, should be an empty array in your request body.
+  final List<v1ApiKeyParamsV2> apiKeys;
+
+  /// A list of Authenticator parameters. This field, if not needed, should be an empty array in your request body.
+  final List<v1AuthenticatorParamsV2> authenticators;
+
+  /// A list of Oauth providers. This field, if not needed, should be an empty array in your request body.
+  final List<v1OauthProviderParamsV2> oauthProviders;
+
+  /// The wallet to create for the sub-organization
+  final v1WalletParams? wallet;
+
+  /// Optional signature proving authorization for this signup. The signature is over the verification token ID and the root user parameters for the root user associated with the verification token. Only required if a public key was provided during the verification step.
+  final v1ClientSignature? clientSignature;
+
+  const v1SignupV2Request({
+    this.userEmail,
+    this.userPhoneNumber,
+    this.userTag,
+    this.userName,
+    this.organizationName,
+    this.verificationToken,
+    required this.apiKeys,
+    required this.authenticators,
+    required this.oauthProviders,
+    this.wallet,
+    this.clientSignature,
+  });
+
+  factory v1SignupV2Request.fromJson(Map<String, dynamic> json) {
+    final _userEmail = json['userEmail'] as String?;
+    final _userPhoneNumber = json['userPhoneNumber'] as String?;
+    final _userTag = json['userTag'] as String?;
+    final _userName = json['userName'] as String?;
+    final _organizationName = json['organizationName'] as String?;
+    final _verificationToken = json['verificationToken'] as String?;
+    final _apiKeys = (json['apiKeys'] as List)
+        .map((e) => v1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _authenticators = (json['authenticators'] as List)
+        .map((e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _oauthProviders = (json['oauthProviders'] as List)
+        .map((e) => v1OauthProviderParamsV2.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _clientSignature = json['clientSignature'] == null
+        ? null
+        : v1ClientSignature
+            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    return v1SignupV2Request(
+      userEmail: _userEmail,
+      userPhoneNumber: _userPhoneNumber,
+      userTag: _userTag,
+      userName: _userName,
+      organizationName: _organizationName,
+      verificationToken: _verificationToken,
+      apiKeys: _apiKeys,
+      authenticators: _authenticators,
+      oauthProviders: _oauthProviders,
+      wallet: _wallet,
+      clientSignature: _clientSignature,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (userEmail != null) {
+      _json['userEmail'] = userEmail;
+    }
+    if (userPhoneNumber != null) {
+      _json['userPhoneNumber'] = userPhoneNumber;
+    }
+    if (userTag != null) {
+      _json['userTag'] = userTag;
+    }
+    if (userName != null) {
+      _json['userName'] = userName;
+    }
+    if (organizationName != null) {
+      _json['organizationName'] = organizationName;
+    }
+    if (verificationToken != null) {
+      _json['verificationToken'] = verificationToken;
+    }
+    _json['apiKeys'] = apiKeys.map((e) => e.toJson()).toList();
+    _json['authenticators'] = authenticators.map((e) => e.toJson()).toList();
+    _json['oauthProviders'] = oauthProviders.map((e) => e.toJson()).toList();
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    if (clientSignature != null) {
+      _json['clientSignature'] = clientSignature?.toJson();
+    }
+    return _json;
+  }
+}
+
+class v1SignupV2Response {
+  final String organizationId;
+
+  /// Wallet created for the sub-organization, if provided in the request
+  final v1WalletResult? wallet;
+
+  /// Root user ID created for this sub-organization
+  final String userId;
+
+  /// A list of App Proofs generated by enclaves during activity execution, providing verifiable attestations of performed operations.
+  final List<v1AppProof>? appProofs;
+
+  const v1SignupV2Response({
+    required this.organizationId,
+    this.wallet,
+    required this.userId,
+    this.appProofs,
+  });
+
+  factory v1SignupV2Response.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _userId = json['userId'] as String;
+    final _appProofs = (json['appProofs'] as List?)
+        ?.map((e) => v1AppProof.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return v1SignupV2Response(
+      organizationId: _organizationId,
+      wallet: _wallet,
+      userId: _userId,
+      appProofs: _appProofs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    _json['userId'] = userId;
+    if (appProofs != null) {
+      _json['appProofs'] = appProofs?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class v1VerifyOtpResponse {
+  /// Signed JWT containing a unique id, expiry, verification type, contact. Verification status of a user is updated when the token is consumed (in OTP_LOGIN requests)
+  final String verificationToken;
+
+  const v1VerifyOtpResponse({
+    required this.verificationToken,
+  });
+
+  factory v1VerifyOtpResponse.fromJson(Map<String, dynamic> json) {
+    final _verificationToken = json['verificationToken'] as String;
+    return v1VerifyOtpResponse(
+      verificationToken: _verificationToken,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['verificationToken'] = verificationToken;
+    return _json;
+  }
+}
+
+class v1VerifyOtpV2Request {
+  /// ID representing the result of an init OTP activity.
+  final String otpId;
+
+  /// Encrypted bundle containing the OTP code and a client-generated public key. Turnkey's secure enclaves will decrypt this bundle, verify the OTP code, and issue a new Verification Token. Encrypted using the target encryption key provided in the INIT_OTP activity result.
+  final String encryptedOtpBundle;
+
+  const v1VerifyOtpV2Request({
+    required this.otpId,
+    required this.encryptedOtpBundle,
+  });
+
+  factory v1VerifyOtpV2Request.fromJson(Map<String, dynamic> json) {
+    final _otpId = json['otpId'] as String;
+    final _encryptedOtpBundle = json['encryptedOtpBundle'] as String;
+    return v1VerifyOtpV2Request(
+      otpId: _otpId,
+      encryptedOtpBundle: _encryptedOtpBundle,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['otpId'] = otpId;
+    _json['encryptedOtpBundle'] = encryptedOtpBundle;
+    return _json;
+  }
+}
+
+class v1VerifyOtpV2Response {
+  /// Verification Token containing a unique id, expiry, verification type, contact signed by Turnkey's enclaves. Verification status of a user is updated when the token is consumed (in OTP_LOGIN requests)
+  final String verificationToken;
+
+  const v1VerifyOtpV2Response({
+    required this.verificationToken,
+  });
+
+  factory v1VerifyOtpV2Response.fromJson(Map<String, dynamic> json) {
+    final _verificationToken = json['verificationToken'] as String;
+    return v1VerifyOtpV2Response(
+      verificationToken: _verificationToken,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['verificationToken'] = verificationToken;
+    return _json;
+  }
+}
+
 // --- API shapes ---
+
+class TGetActivePoliciesResponse {
+  /// The active/inactive status of every policy in the organization.
+  final List<v1ActivePolicyStatus> statuses;
+
+  /// The enclave's trusted timestamp (Unix epoch milliseconds) used to evaluate every policy.
+  final String evaluatedAtMs;
+
+  const TGetActivePoliciesResponse({
+    required this.statuses,
+    required this.evaluatedAtMs,
+  });
+
+  factory TGetActivePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    final _statuses = (json['statuses'] as List)
+        .map((e) => v1ActivePolicyStatus.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _evaluatedAtMs = json['evaluatedAtMs'] as String;
+    return TGetActivePoliciesResponse(
+      statuses: _statuses,
+      evaluatedAtMs: _evaluatedAtMs,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['statuses'] = statuses.map((e) => e.toJson()).toList();
+    _json['evaluatedAtMs'] = evaluatedAtMs;
+    return _json;
+  }
+}
+
+class TGetActivePoliciesBody {
+  final String? organizationId;
+
+  const TGetActivePoliciesBody({
+    this.organizationId,
+  });
+  factory TGetActivePoliciesBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetActivePoliciesBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetActivePoliciesInput {
+  final TGetActivePoliciesBody body;
+  const TGetActivePoliciesInput({required this.body});
+  factory TGetActivePoliciesInput.fromJson(Map<String, dynamic> json) =>
+      TGetActivePoliciesInput(
+          body: TGetActivePoliciesBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
 
 class TGetActivityResponse {
   /// An action that can be taken within the Turnkey infrastructure.
@@ -24067,6 +37586,397 @@ class TGetBootProofInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetClaimEarnFeesStatusResponse {
+  /// Status of the fee claim.
+  final String status;
+
+  /// Transaction hash of the fee claim, once available.
+  final String? claimTxHash;
+
+  /// Reason the fee claim transaction failed, when status is FAILED.
+  final String? error;
+
+  const TGetClaimEarnFeesStatusResponse({
+    required this.status,
+    this.claimTxHash,
+    this.error,
+  });
+
+  factory TGetClaimEarnFeesStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _claimTxHash = json['claimTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return TGetClaimEarnFeesStatusResponse(
+      status: _status,
+      claimTxHash: _claimTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (claimTxHash != null) {
+      _json['claimTxHash'] = claimTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class TGetClaimEarnFeesStatusBody {
+  final String? organizationId;
+
+  /// The claim_request_id returned by ClaimEarnFees.
+  final String claimRequestId;
+
+  const TGetClaimEarnFeesStatusBody({
+    this.organizationId,
+    required this.claimRequestId,
+  });
+  factory TGetClaimEarnFeesStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _claimRequestId = json['claimRequestId'] as String;
+    return TGetClaimEarnFeesStatusBody(
+      organizationId: _organizationId,
+      claimRequestId: _claimRequestId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['claimRequestId'] = claimRequestId;
+    return _json;
+  }
+}
+
+class TGetClaimEarnFeesStatusInput {
+  final TGetClaimEarnFeesStatusBody body;
+  const TGetClaimEarnFeesStatusInput({required this.body});
+  factory TGetClaimEarnFeesStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetClaimEarnFeesStatusInput(
+          body: TGetClaimEarnFeesStatusBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetEarnClaimRewardsStatusResponse {
+  /// Status of the rewards claim.
+  final String status;
+
+  /// Transaction hash of the rewards claim, once available.
+  final String? claimTxHash;
+
+  /// Reason the rewards claim transaction failed, when status is FAILED.
+  final String? error;
+
+  const TGetEarnClaimRewardsStatusResponse({
+    required this.status,
+    this.claimTxHash,
+    this.error,
+  });
+
+  factory TGetEarnClaimRewardsStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _claimTxHash = json['claimTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return TGetEarnClaimRewardsStatusResponse(
+      status: _status,
+      claimTxHash: _claimTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (claimTxHash != null) {
+      _json['claimTxHash'] = claimTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class TGetEarnClaimRewardsStatusBody {
+  final String? organizationId;
+
+  /// The claim_request_id returned by EarnClaimRewards.
+  final String claimRequestId;
+
+  const TGetEarnClaimRewardsStatusBody({
+    this.organizationId,
+    required this.claimRequestId,
+  });
+  factory TGetEarnClaimRewardsStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _claimRequestId = json['claimRequestId'] as String;
+    return TGetEarnClaimRewardsStatusBody(
+      organizationId: _organizationId,
+      claimRequestId: _claimRequestId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['claimRequestId'] = claimRequestId;
+    return _json;
+  }
+}
+
+class TGetEarnClaimRewardsStatusInput {
+  final TGetEarnClaimRewardsStatusBody body;
+  const TGetEarnClaimRewardsStatusInput({required this.body});
+  factory TGetEarnClaimRewardsStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetEarnClaimRewardsStatusInput(
+          body: TGetEarnClaimRewardsStatusBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetEarnDeployStatusResponse {
+  /// Status of the wrapper deployment.
+  final String status;
+
+  /// Transaction hash of the deployment, once available.
+  final String? deployTxHash;
+
+  /// Reason the deployment transaction failed, when status is FAILED.
+  final String? error;
+
+  const TGetEarnDeployStatusResponse({
+    required this.status,
+    this.deployTxHash,
+    this.error,
+  });
+
+  factory TGetEarnDeployStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _deployTxHash = json['deployTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return TGetEarnDeployStatusResponse(
+      status: _status,
+      deployTxHash: _deployTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (deployTxHash != null) {
+      _json['deployTxHash'] = deployTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class TGetEarnDeployStatusBody {
+  final String? organizationId;
+
+  /// The deploy_request_id returned by EarnDeployWrapper.
+  final String deployRequestId;
+
+  const TGetEarnDeployStatusBody({
+    this.organizationId,
+    required this.deployRequestId,
+  });
+  factory TGetEarnDeployStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _deployRequestId = json['deployRequestId'] as String;
+    return TGetEarnDeployStatusBody(
+      organizationId: _organizationId,
+      deployRequestId: _deployRequestId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deployRequestId'] = deployRequestId;
+    return _json;
+  }
+}
+
+class TGetEarnDeployStatusInput {
+  final TGetEarnDeployStatusBody body;
+  const TGetEarnDeployStatusInput({required this.body});
+  factory TGetEarnDeployStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetEarnDeployStatusInput(
+          body: TGetEarnDeployStatusBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetEarnDepositStatusResponse {
+  /// Status of the deposit.
+  final String status;
+
+  /// Transaction hash of the deposit, once available.
+  final String? depositTxHash;
+
+  /// Reason the deposit transaction failed, when status is FAILED.
+  final String? error;
+
+  const TGetEarnDepositStatusResponse({
+    required this.status,
+    this.depositTxHash,
+    this.error,
+  });
+
+  factory TGetEarnDepositStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _depositTxHash = json['depositTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return TGetEarnDepositStatusResponse(
+      status: _status,
+      depositTxHash: _depositTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (depositTxHash != null) {
+      _json['depositTxHash'] = depositTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class TGetEarnDepositStatusBody {
+  final String? organizationId;
+
+  /// The deposit_request_id returned by EarnDeposit.
+  final String depositRequestId;
+
+  const TGetEarnDepositStatusBody({
+    this.organizationId,
+    required this.depositRequestId,
+  });
+  factory TGetEarnDepositStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _depositRequestId = json['depositRequestId'] as String;
+    return TGetEarnDepositStatusBody(
+      organizationId: _organizationId,
+      depositRequestId: _depositRequestId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['depositRequestId'] = depositRequestId;
+    return _json;
+  }
+}
+
+class TGetEarnDepositStatusInput {
+  final TGetEarnDepositStatusBody body;
+  const TGetEarnDepositStatusInput({required this.body});
+  factory TGetEarnDepositStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetEarnDepositStatusInput(
+          body: TGetEarnDepositStatusBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetEarnWithdrawStatusResponse {
+  /// Status of the withdrawal.
+  final String status;
+
+  /// Transaction hash of the withdrawal, once available.
+  final String? withdrawTxHash;
+
+  /// Reason the withdrawal transaction failed, when status is FAILED.
+  final String? error;
+
+  const TGetEarnWithdrawStatusResponse({
+    required this.status,
+    this.withdrawTxHash,
+    this.error,
+  });
+
+  factory TGetEarnWithdrawStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _withdrawTxHash = json['withdrawTxHash'] as String?;
+    final _error = json['error'] as String?;
+    return TGetEarnWithdrawStatusResponse(
+      status: _status,
+      withdrawTxHash: _withdrawTxHash,
+      error: _error,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    if (withdrawTxHash != null) {
+      _json['withdrawTxHash'] = withdrawTxHash;
+    }
+    if (error != null) {
+      _json['error'] = error;
+    }
+    return _json;
+  }
+}
+
+class TGetEarnWithdrawStatusBody {
+  final String? organizationId;
+
+  /// The withdraw_request_id returned by EarnWithdraw.
+  final String withdrawRequestId;
+
+  const TGetEarnWithdrawStatusBody({
+    this.organizationId,
+    required this.withdrawRequestId,
+  });
+  factory TGetEarnWithdrawStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _withdrawRequestId = json['withdrawRequestId'] as String;
+    return TGetEarnWithdrawStatusBody(
+      organizationId: _organizationId,
+      withdrawRequestId: _withdrawRequestId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['withdrawRequestId'] = withdrawRequestId;
+    return _json;
+  }
+}
+
+class TGetEarnWithdrawStatusInput {
+  final TGetEarnWithdrawStatusBody body;
+  const TGetEarnWithdrawStatusInput({required this.body});
+  factory TGetEarnWithdrawStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetEarnWithdrawStatusInput(
+          body: TGetEarnWithdrawStatusBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetGasUsageResponse {
   /// The window duration (in minutes) for the organization or sub-organization.
   final num windowDurationMinutes;
@@ -24134,6 +38044,68 @@ class TGetGasUsageInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetIpAllowlistResponse {
+  final v1IpAllowlist allowlist;
+
+  const TGetIpAllowlistResponse({
+    required this.allowlist,
+  });
+
+  factory TGetIpAllowlistResponse.fromJson(Map<String, dynamic> json) {
+    final _allowlist =
+        v1IpAllowlist.fromJson(json['allowlist'] as Map<String, dynamic>);
+    return TGetIpAllowlistResponse(
+      allowlist: _allowlist,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['allowlist'] = allowlist.toJson();
+    return _json;
+  }
+}
+
+class TGetIpAllowlistBody {
+  final String? organizationId;
+
+  /// If provided, return only the allowlist for this specific API key.
+  final String? publicKey;
+
+  const TGetIpAllowlistBody({
+    this.organizationId,
+    this.publicKey,
+  });
+  factory TGetIpAllowlistBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _publicKey = json['publicKey'] as String?;
+    return TGetIpAllowlistBody(
+      organizationId: _organizationId,
+      publicKey: _publicKey,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    return _json;
+  }
+}
+
+class TGetIpAllowlistInput {
+  final TGetIpAllowlistBody body;
+  const TGetIpAllowlistInput({required this.body});
+  factory TGetIpAllowlistInput.fromJson(Map<String, dynamic> json) =>
+      TGetIpAllowlistInput(
+          body: TGetIpAllowlistBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetLatestBootProofResponse {
   final v1BootProof bootProof;
 
@@ -24159,7 +38131,7 @@ class TGetLatestBootProofResponse {
 class TGetLatestBootProofBody {
   final String? organizationId;
 
-  /// Name of enclave app.
+  /// Unique identifier (UUID) of the enclave app.
   final String appName;
 
   const TGetLatestBootProofBody({
@@ -24191,6 +38163,207 @@ class TGetLatestBootProofInput {
       TGetLatestBootProofInput(
           body: TGetLatestBootProofBody.fromJson(
               json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetMfaPoliciesResponse {
+  /// A list of multi-factor authentication policies for a user.
+  final List<v1MfaPolicy> mfaPolicies;
+
+  const TGetMfaPoliciesResponse({
+    required this.mfaPolicies,
+  });
+
+  factory TGetMfaPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicies = (json['mfaPolicies'] as List)
+        .map((e) => v1MfaPolicy.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetMfaPoliciesResponse(
+      mfaPolicies: _mfaPolicies,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicies'] = mfaPolicies.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetMfaPoliciesBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given user.
+  final String userId;
+
+  const TGetMfaPoliciesBody({
+    this.organizationId,
+    required this.userId,
+  });
+  factory TGetMfaPoliciesBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _userId = json['userId'] as String;
+    return TGetMfaPoliciesBody(
+      organizationId: _organizationId,
+      userId: _userId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    return _json;
+  }
+}
+
+class TGetMfaPoliciesInput {
+  final TGetMfaPoliciesBody body;
+  const TGetMfaPoliciesInput({required this.body});
+  factory TGetMfaPoliciesInput.fromJson(Map<String, dynamic> json) =>
+      TGetMfaPoliciesInput(
+          body: TGetMfaPoliciesBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetMfaPolicyResponse {
+  /// Multi-factor authentication policy for a user.
+  final v1MfaPolicy mfaPolicy;
+
+  const TGetMfaPolicyResponse({
+    required this.mfaPolicy,
+  });
+
+  factory TGetMfaPolicyResponse.fromJson(Map<String, dynamic> json) {
+    final _mfaPolicy =
+        v1MfaPolicy.fromJson(json['mfaPolicy'] as Map<String, dynamic>);
+    return TGetMfaPolicyResponse(
+      mfaPolicy: _mfaPolicy,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaPolicy'] = mfaPolicy.toJson();
+    return _json;
+  }
+}
+
+class TGetMfaPolicyBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given user.
+  final String userId;
+
+  /// Unique identifier for a given MFA policy.
+  final String mfaPolicyId;
+
+  const TGetMfaPolicyBody({
+    this.organizationId,
+    required this.userId,
+    required this.mfaPolicyId,
+  });
+  factory TGetMfaPolicyBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _userId = json['userId'] as String;
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return TGetMfaPolicyBody(
+      organizationId: _organizationId,
+      userId: _userId,
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
+class TGetMfaPolicyInput {
+  final TGetMfaPolicyBody body;
+  const TGetMfaPolicyInput({required this.body});
+  factory TGetMfaPolicyInput.fromJson(Map<String, dynamic> json) =>
+      TGetMfaPolicyInput(
+          body:
+              TGetMfaPolicyBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetMfaStatusResponse {
+  /// A list of MFA statuses for the activity's votes.
+  final List<v1MfaStatus> mfaStatuses;
+
+  const TGetMfaStatusResponse({
+    required this.mfaStatuses,
+  });
+
+  factory TGetMfaStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _mfaStatuses = (json['mfaStatuses'] as List)
+        .map((e) => v1MfaStatus.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetMfaStatusResponse(
+      mfaStatuses: _mfaStatuses,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['mfaStatuses'] = mfaStatuses.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetMfaStatusBody {
+  final String? organizationId;
+
+  /// The unique identifier of the activity to get MFA status for.
+  final String activityId;
+
+  /// Optional user ID to filter MFA status for a specific user.
+  final String? userId;
+
+  const TGetMfaStatusBody({
+    this.organizationId,
+    required this.activityId,
+    this.userId,
+  });
+  factory TGetMfaStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _activityId = json['activityId'] as String;
+    final _userId = json['userId'] as String?;
+    return TGetMfaStatusBody(
+      organizationId: _organizationId,
+      activityId: _activityId,
+      userId: _userId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['activityId'] = activityId;
+    if (userId != null) {
+      _json['userId'] = userId;
+    }
+    return _json;
+  }
+}
+
+class TGetMfaStatusInput {
+  final TGetMfaStatusBody body;
+  const TGetMfaStatusInput({required this.body});
+  factory TGetMfaStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetMfaStatusInput(
+          body:
+              TGetMfaStatusBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24825,6 +38998,122 @@ class TGetSendTransactionStatusInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetSessionProfileResponse {
+  /// Session profile for a user, including details about the user's authenticators, Oauth providers, API keys, and MFA policies.
+  final v1SessionProfile sessionProfile;
+
+  const TGetSessionProfileResponse({
+    required this.sessionProfile,
+  });
+
+  factory TGetSessionProfileResponse.fromJson(Map<String, dynamic> json) {
+    final _sessionProfile = v1SessionProfile
+        .fromJson(json['sessionProfile'] as Map<String, dynamic>);
+    return TGetSessionProfileResponse(
+      sessionProfile: _sessionProfile,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfile'] = sessionProfile.toJson();
+    return _json;
+  }
+}
+
+class TGetSessionProfileBody {
+  final String? organizationId;
+
+  /// Unique identifier for a session profile.
+  final String sessionProfileId;
+
+  const TGetSessionProfileBody({
+    this.organizationId,
+    required this.sessionProfileId,
+  });
+  factory TGetSessionProfileBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _sessionProfileId = json['sessionProfileId'] as String;
+    return TGetSessionProfileBody(
+      organizationId: _organizationId,
+      sessionProfileId: _sessionProfileId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['sessionProfileId'] = sessionProfileId;
+    return _json;
+  }
+}
+
+class TGetSessionProfileInput {
+  final TGetSessionProfileBody body;
+  const TGetSessionProfileInput({required this.body});
+  factory TGetSessionProfileInput.fromJson(Map<String, dynamic> json) =>
+      TGetSessionProfileInput(
+          body: TGetSessionProfileBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetSessionProfilesResponse {
+  /// A list of session profiles for users in the organization.
+  final List<v1SessionProfile> sessionProfiles;
+
+  const TGetSessionProfilesResponse({
+    required this.sessionProfiles,
+  });
+
+  factory TGetSessionProfilesResponse.fromJson(Map<String, dynamic> json) {
+    final _sessionProfiles = (json['sessionProfiles'] as List)
+        .map((e) => v1SessionProfile.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetSessionProfilesResponse(
+      sessionProfiles: _sessionProfiles,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['sessionProfiles'] = sessionProfiles.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetSessionProfilesBody {
+  final String? organizationId;
+
+  const TGetSessionProfilesBody({
+    this.organizationId,
+  });
+  factory TGetSessionProfilesBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetSessionProfilesBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetSessionProfilesInput {
+  final TGetSessionProfilesBody body;
+  const TGetSessionProfilesInput({required this.body});
+  factory TGetSessionProfilesInput.fromJson(Map<String, dynamic> json) =>
+      TGetSessionProfilesInput(
+          body: TGetSessionProfilesBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetSmartContractInterfaceResponse {
   /// Object to be used in conjunction with policies to guard transaction signing.
   final externaldatav1SmartContractInterface smartContractInterface;
@@ -24884,6 +39173,513 @@ class TGetSmartContractInterfaceInput {
   factory TGetSmartContractInterfaceInput.fromJson(Map<String, dynamic> json) =>
       TGetSmartContractInterfaceInput(
           body: TGetSmartContractInterfaceBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetSwapStatusResponse {
+  /// Normalized swap status. One of PENDING, COMPLETED, FAILED.
+  final String status;
+
+  /// SAME_CHAIN or CROSS_CHAIN.
+  final String swapKind;
+
+  /// Swap provider that executed the swap.
+  final String provider;
+
+  /// CAIP-19 asset ID for the input asset.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Final included origin-chain transaction hash, when known.
+  final String? originTxHash;
+
+  /// Provider-reported destination-chain transaction hashes; cross-chain COMPLETED only.
+  final List<String>? destinationTxHashes;
+
+  /// Actual base-unit output amount on COMPLETED, when known. Unset on FAILED.
+  final String? outputAmount;
+
+  /// Funds returned by the provider after a successful origin transfer and failed cross-chain fill. Omitted for origin transaction failures and same-chain swaps.
+  final v1SwapRefund? refund;
+
+  /// Timestamp of the last swap status change, as millisecond epoch string.
+  final String updatedAt;
+
+  /// Normalized failure details, present whenever status is FAILED.
+  final v1SwapError? error;
+
+  /// Address that receives the output asset.
+  final String? destinationAddress;
+
+  const TGetSwapStatusResponse({
+    required this.status,
+    required this.swapKind,
+    required this.provider,
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    this.originTxHash,
+    this.destinationTxHashes,
+    this.outputAmount,
+    this.refund,
+    required this.updatedAt,
+    this.error,
+    this.destinationAddress,
+  });
+
+  factory TGetSwapStatusResponse.fromJson(Map<String, dynamic> json) {
+    final _status = json['status'] as String;
+    final _swapKind = json['swapKind'] as String;
+    final _provider = json['provider'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _originTxHash = json['originTxHash'] as String?;
+    final _destinationTxHashes = (json['destinationTxHashes'] as List?)
+        ?.map((e) => e as String)
+        .toList();
+    final _outputAmount = json['outputAmount'] as String?;
+    final _refund = json['refund'] == null
+        ? null
+        : v1SwapRefund.fromJson(json['refund'] as Map<String, dynamic>);
+    final _updatedAt = json['updatedAt'] as String;
+    final _error = json['error'] == null
+        ? null
+        : v1SwapError.fromJson(json['error'] as Map<String, dynamic>);
+    final _destinationAddress = json['destinationAddress'] as String?;
+    return TGetSwapStatusResponse(
+      status: _status,
+      swapKind: _swapKind,
+      provider: _provider,
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      originTxHash: _originTxHash,
+      destinationTxHashes: _destinationTxHashes,
+      outputAmount: _outputAmount,
+      refund: _refund,
+      updatedAt: _updatedAt,
+      error: _error,
+      destinationAddress: _destinationAddress,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['status'] = status;
+    _json['swapKind'] = swapKind;
+    _json['provider'] = provider;
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    if (originTxHash != null) {
+      _json['originTxHash'] = originTxHash;
+    }
+    if (destinationTxHashes != null) {
+      _json['destinationTxHashes'] = destinationTxHashes;
+    }
+    if (outputAmount != null) {
+      _json['outputAmount'] = outputAmount;
+    }
+    if (refund != null) {
+      _json['refund'] = refund?.toJson();
+    }
+    _json['updatedAt'] = updatedAt;
+    if (error != null) {
+      _json['error'] = error?.toJson();
+    }
+    if (destinationAddress != null) {
+      _json['destinationAddress'] = destinationAddress;
+    }
+    return _json;
+  }
+}
+
+class TGetSwapStatusBody {
+  final String? organizationId;
+
+  /// The swap_request_id returned by ExecuteSwap.
+  final String swapRequestId;
+
+  const TGetSwapStatusBody({
+    this.organizationId,
+    required this.swapRequestId,
+  });
+  factory TGetSwapStatusBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _swapRequestId = json['swapRequestId'] as String;
+    return TGetSwapStatusBody(
+      organizationId: _organizationId,
+      swapRequestId: _swapRequestId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['swapRequestId'] = swapRequestId;
+    return _json;
+  }
+}
+
+class TGetSwapStatusInput {
+  final TGetSwapStatusBody body;
+  const TGetSwapStatusInput({required this.body});
+  factory TGetSwapStatusInput.fromJson(Map<String, dynamic> json) =>
+      TGetSwapStatusInput(
+          body: TGetSwapStatusBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcAppResponse {
+  /// Details about a single TVC App
+  final v1TvcApp tvcApp;
+
+  const TGetTvcAppResponse({
+    required this.tvcApp,
+  });
+
+  factory TGetTvcAppResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApp = v1TvcApp.fromJson(json['tvcApp'] as Map<String, dynamic>);
+    return TGetTvcAppResponse(
+      tvcApp: _tvcApp,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApp'] = tvcApp.toJson();
+    return _json;
+  }
+}
+
+class TGetTvcAppBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given TVC App.
+  final String tvcAppId;
+
+  const TGetTvcAppBody({
+    this.organizationId,
+    required this.tvcAppId,
+  });
+  factory TGetTvcAppBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _tvcAppId = json['tvcAppId'] as String;
+    return TGetTvcAppBody(
+      organizationId: _organizationId,
+      tvcAppId: _tvcAppId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['tvcAppId'] = tvcAppId;
+    return _json;
+  }
+}
+
+class TGetTvcAppInput {
+  final TGetTvcAppBody body;
+  const TGetTvcAppInput({required this.body});
+  factory TGetTvcAppInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcAppInput(
+          body: TGetTvcAppBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcDeploymentResponse {
+  /// Details about a single TVC Deployment
+  final v1TvcDeployment tvcDeployment;
+
+  const TGetTvcDeploymentResponse({
+    required this.tvcDeployment,
+  });
+
+  factory TGetTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployment =
+        v1TvcDeployment.fromJson(json['tvcDeployment'] as Map<String, dynamic>);
+    return TGetTvcDeploymentResponse(
+      tvcDeployment: _tvcDeployment,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployment'] = tvcDeployment.toJson();
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given TVC Deployment.
+  final String deploymentId;
+
+  const TGetTvcDeploymentBody({
+    this.organizationId,
+    required this.deploymentId,
+  });
+  factory TGetTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    return TGetTvcDeploymentBody(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentInput {
+  final TGetTvcDeploymentBody body;
+  const TGetTvcDeploymentInput({required this.body});
+  factory TGetTvcDeploymentInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcDeploymentInput(
+          body: TGetTvcDeploymentBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcDeploymentDebugLogsResponse {
+  /// Application log entries sorted by platform timestamp.
+  final List<v1TvcDeploymentDebugLogEntry> entries;
+
+  const TGetTvcDeploymentDebugLogsResponse({
+    required this.entries,
+  });
+
+  factory TGetTvcDeploymentDebugLogsResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _entries = (json['entries'] as List)
+        .map((e) =>
+            v1TvcDeploymentDebugLogEntry.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetTvcDeploymentDebugLogsResponse(
+      entries: _entries,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['entries'] = entries.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentDebugLogsBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given TVC Deployment. The deployment must be running in debug mode.
+  final String deploymentId;
+
+  /// Limit returned history to the last N lines per replica. If unset or zero, no tail-line limit is applied.
+  final num? tailLines;
+
+  /// Return logs newer than this many seconds ago. If unset or zero, no since-time limit is applied. Useful for clients that poll to follow logs.
+  final String? sinceSeconds;
+
+  const TGetTvcDeploymentDebugLogsBody({
+    this.organizationId,
+    required this.deploymentId,
+    this.tailLines,
+    this.sinceSeconds,
+  });
+  factory TGetTvcDeploymentDebugLogsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    final _tailLines = json['tailLines'] as num?;
+    final _sinceSeconds = json['sinceSeconds'] as String?;
+    return TGetTvcDeploymentDebugLogsBody(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+      tailLines: _tailLines,
+      sinceSeconds: _sinceSeconds,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    if (tailLines != null) {
+      _json['tailLines'] = tailLines;
+    }
+    if (sinceSeconds != null) {
+      _json['sinceSeconds'] = sinceSeconds;
+    }
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentDebugLogsInput {
+  final TGetTvcDeploymentDebugLogsBody body;
+  const TGetTvcDeploymentDebugLogsInput({required this.body});
+  factory TGetTvcDeploymentDebugLogsInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcDeploymentDebugLogsInput(
+          body: TGetTvcDeploymentDebugLogsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcDeploymentProvisioningDetailsResponse {
+  /// The attestation document of the provisioning enclave. Present only when a deployment is awaiting provisioning.
+  final String? attestationDocument;
+
+  /// The manifest envelope containing the TVC deployment's manifest and signatures. Present only when a deployment is awaiting provisioning.
+  final String? manifestEnvelope;
+
+  /// Current provisioning state.
+  final v1ProvisioningState provisioningState;
+
+  const TGetTvcDeploymentProvisioningDetailsResponse({
+    this.attestationDocument,
+    this.manifestEnvelope,
+    required this.provisioningState,
+  });
+
+  factory TGetTvcDeploymentProvisioningDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _attestationDocument = json['attestationDocument'] as String?;
+    final _manifestEnvelope = json['manifestEnvelope'] as String?;
+    final _provisioningState =
+        v1ProvisioningStateFromJson(json['provisioningState']);
+    return TGetTvcDeploymentProvisioningDetailsResponse(
+      attestationDocument: _attestationDocument,
+      manifestEnvelope: _manifestEnvelope,
+      provisioningState: _provisioningState,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (attestationDocument != null) {
+      _json['attestationDocument'] = attestationDocument;
+    }
+    if (manifestEnvelope != null) {
+      _json['manifestEnvelope'] = manifestEnvelope;
+    }
+    _json['provisioningState'] = v1ProvisioningStateToJson(provisioningState);
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentProvisioningDetailsBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given TVC Deployment.
+  final String deploymentId;
+
+  const TGetTvcDeploymentProvisioningDetailsBody({
+    this.organizationId,
+    required this.deploymentId,
+  });
+  factory TGetTvcDeploymentProvisioningDetailsBody.fromJson(
+      Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    return TGetTvcDeploymentProvisioningDetailsBody(
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class TGetTvcDeploymentProvisioningDetailsInput {
+  final TGetTvcDeploymentProvisioningDetailsBody body;
+  const TGetTvcDeploymentProvisioningDetailsInput({required this.body});
+  factory TGetTvcDeploymentProvisioningDetailsInput.fromJson(
+          Map<String, dynamic> json) =>
+      TGetTvcDeploymentProvisioningDetailsInput(
+          body: TGetTvcDeploymentProvisioningDetailsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcQosVersionsResponse {
+  /// QOS versions supported for new TVC deployments.
+  final List<String> availableVersions;
+
+  /// Latest recommended QOS version for new TVC deployments.
+  final String latestVersion;
+
+  const TGetTvcQosVersionsResponse({
+    required this.availableVersions,
+    required this.latestVersion,
+  });
+
+  factory TGetTvcQosVersionsResponse.fromJson(Map<String, dynamic> json) {
+    final _availableVersions =
+        (json['availableVersions'] as List).map((e) => e as String).toList();
+    final _latestVersion = json['latestVersion'] as String;
+    return TGetTvcQosVersionsResponse(
+      availableVersions: _availableVersions,
+      latestVersion: _latestVersion,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['availableVersions'] = availableVersions;
+    _json['latestVersion'] = latestVersion;
+    return _json;
+  }
+}
+
+class TGetTvcQosVersionsBody {
+  final String? organizationId;
+
+  const TGetTvcQosVersionsBody({
+    this.organizationId,
+  });
+  factory TGetTvcQosVersionsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetTvcQosVersionsBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetTvcQosVersionsInput {
+  final TGetTvcQosVersionsBody body;
+  const TGetTvcQosVersionsInput({required this.body});
+  factory TGetTvcQosVersionsInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcQosVersionsInput(
+          body: TGetTvcQosVersionsBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -25308,6 +40104,502 @@ class TGetAppProofsInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TListEarnEnabledVaultsResponse {
+  /// The organization's deployed wrappers.
+  final List<v1EarnEnabledVault>? enabledVaults;
+
+  const TListEarnEnabledVaultsResponse({
+    this.enabledVaults,
+  });
+
+  factory TListEarnEnabledVaultsResponse.fromJson(Map<String, dynamic> json) {
+    final _enabledVaults = (json['enabledVaults'] as List?)
+        ?.map((e) => v1EarnEnabledVault.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TListEarnEnabledVaultsResponse(
+      enabledVaults: _enabledVaults,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (enabledVaults != null) {
+      _json['enabledVaults'] = enabledVaults?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class TListEarnEnabledVaultsBody {
+  final String? organizationId;
+
+  /// Optional filter: only return enabled vaults from this provider. Leave EARN_PROVIDER_UNSPECIFIED to return all providers.
+  final v1EarnProvider? provider;
+
+  /// Optional filter: only return enabled vaults whose underlying asset matches this CAIP-19 asset ID (e.g. 'eip155:8453/erc20:0x833589...'). The chain is taken from the CAIP-19 identifier.
+  final String? caip19;
+
+  /// When true, populate each vault's exposures (the underlying markets it allocates into). This costs an extra provider query per vault, so leave it off for list views.
+  final bool? includeExposure;
+
+  const TListEarnEnabledVaultsBody({
+    this.organizationId,
+    this.provider,
+    this.caip19,
+    this.includeExposure,
+  });
+  factory TListEarnEnabledVaultsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String?;
+    final _includeExposure = json['includeExposure'] as bool?;
+    return TListEarnEnabledVaultsBody(
+      organizationId: _organizationId,
+      provider: _provider,
+      caip19: _caip19,
+      includeExposure: _includeExposure,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    if (caip19 != null) {
+      _json['caip19'] = caip19;
+    }
+    if (includeExposure != null) {
+      _json['includeExposure'] = includeExposure;
+    }
+    return _json;
+  }
+}
+
+class TListEarnEnabledVaultsInput {
+  final TListEarnEnabledVaultsBody body;
+  const TListEarnEnabledVaultsInput({required this.body});
+  factory TListEarnEnabledVaultsInput.fromJson(Map<String, dynamic> json) =>
+      TListEarnEnabledVaultsInput(
+          body: TListEarnEnabledVaultsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListEarnPositionsResponse {
+  /// The wallet's active Earn positions.
+  final List<v1EarnPosition>? positions;
+
+  const TListEarnPositionsResponse({
+    this.positions,
+  });
+
+  factory TListEarnPositionsResponse.fromJson(Map<String, dynamic> json) {
+    final _positions = (json['positions'] as List?)
+        ?.map((e) => v1EarnPosition.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TListEarnPositionsResponse(
+      positions: _positions,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (positions != null) {
+      _json['positions'] = positions?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class TListEarnPositionsBody {
+  final String? organizationId;
+
+  /// The wallet address to return positions for.
+  final String walletAddress;
+
+  const TListEarnPositionsBody({
+    this.organizationId,
+    required this.walletAddress,
+  });
+  factory TListEarnPositionsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _walletAddress = json['walletAddress'] as String;
+    return TListEarnPositionsBody(
+      organizationId: _organizationId,
+      walletAddress: _walletAddress,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletAddress'] = walletAddress;
+    return _json;
+  }
+}
+
+class TListEarnPositionsInput {
+  final TListEarnPositionsBody body;
+  const TListEarnPositionsInput({required this.body});
+  factory TListEarnPositionsInput.fromJson(Map<String, dynamic> json) =>
+      TListEarnPositionsInput(
+          body: TListEarnPositionsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListEarnRewardsResponse {
+  /// The wallet's rewards, one entry per (chain, reward token), sorted by chain then token. Entries where every amount is zero are omitted.
+  final List<v1EarnReward>? rewards;
+
+  const TListEarnRewardsResponse({
+    this.rewards,
+  });
+
+  factory TListEarnRewardsResponse.fromJson(Map<String, dynamic> json) {
+    final _rewards = (json['rewards'] as List?)
+        ?.map((e) => v1EarnReward.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TListEarnRewardsResponse(
+      rewards: _rewards,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (rewards != null) {
+      _json['rewards'] = rewards?.map((e) => e.toJson()).toList();
+    }
+    return _json;
+  }
+}
+
+class TListEarnRewardsBody {
+  final String? organizationId;
+
+  /// The wallet address to return rewards for.
+  final String walletAddress;
+
+  /// Optional filter: only return rewards on this chain (e.g. 'eip155:8453'). When unset, every chain the organization has deployed Earn wrappers on is queried.
+  final String? caip2;
+
+  const TListEarnRewardsBody({
+    this.organizationId,
+    required this.walletAddress,
+    this.caip2,
+  });
+  factory TListEarnRewardsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _walletAddress = json['walletAddress'] as String;
+    final _caip2 = json['caip2'] as String?;
+    return TListEarnRewardsBody(
+      organizationId: _organizationId,
+      walletAddress: _walletAddress,
+      caip2: _caip2,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['walletAddress'] = walletAddress;
+    if (caip2 != null) {
+      _json['caip2'] = caip2;
+    }
+    return _json;
+  }
+}
+
+class TListEarnRewardsInput {
+  final TListEarnRewardsBody body;
+  const TListEarnRewardsInput({required this.body});
+  factory TListEarnRewardsInput.fromJson(Map<String, dynamic> json) =>
+      TListEarnRewardsInput(
+          body: TListEarnRewardsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListEarnVaultsResponse {
+  /// The catalog of wrappable vaults, sorted by TVL (USD) descending. To page, pass page_info.end_cursor as the pagination after cursor.
+  final List<v1EarnVault>? vaults;
+
+  /// Pagination metadata for the returned page. Pass end_cursor as the next request's after cursor (or start_cursor as the before cursor) to page through the catalog. Cursors are opaque; do not parse them.
+  final v1PageInfo? pageInfo;
+
+  const TListEarnVaultsResponse({
+    this.vaults,
+    this.pageInfo,
+  });
+
+  factory TListEarnVaultsResponse.fromJson(Map<String, dynamic> json) {
+    final _vaults = (json['vaults'] as List?)
+        ?.map((e) => v1EarnVault.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _pageInfo = json['pageInfo'] == null
+        ? null
+        : v1PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>);
+    return TListEarnVaultsResponse(
+      vaults: _vaults,
+      pageInfo: _pageInfo,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (vaults != null) {
+      _json['vaults'] = vaults?.map((e) => e.toJson()).toList();
+    }
+    if (pageInfo != null) {
+      _json['pageInfo'] = pageInfo?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListEarnVaultsBody {
+  final String? organizationId;
+
+  /// Optional filter: only return vaults from this provider. Leave EARN_PROVIDER_UNSPECIFIED to return all providers.
+  final v1EarnProvider? provider;
+
+  /// CAIP-19 asset ID (e.g. 'eip155:8453/erc20:0x833589...') to return vaults for. Only vaults whose underlying asset matches are returned; the chain is taken from the CAIP-19 identifier.
+  final String caip19;
+
+  /// Pagination over the TVL-sorted catalog. before/after cursors are a vault_address from a prior page.
+  final v1Pagination? paginationOptions;
+
+  const TListEarnVaultsBody({
+    this.organizationId,
+    this.provider,
+    required this.caip19,
+    this.paginationOptions,
+  });
+  factory TListEarnVaultsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _provider = json['provider'] == null
+        ? null
+        : v1EarnProviderFromJson(json['provider']);
+    final _caip19 = json['caip19'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return TListEarnVaultsBody(
+      organizationId: _organizationId,
+      provider: _provider,
+      caip19: _caip19,
+      paginationOptions: _paginationOptions,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (provider != null) {
+      _json['provider'] = v1EarnProviderToJson(provider!);
+    }
+    _json['caip19'] = caip19;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListEarnVaultsInput {
+  final TListEarnVaultsBody body;
+  const TListEarnVaultsInput({required this.body});
+  factory TListEarnVaultsInput.fromJson(Map<String, dynamic> json) =>
+      TListEarnVaultsInput(
+          body: TListEarnVaultsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListEmailEventsResponse {
+  /// Email events matching the requested filters, ordered by most recent event first.
+  final List<v1EmailEvent> emailEvents;
+
+  const TListEmailEventsResponse({
+    required this.emailEvents,
+  });
+
+  factory TListEmailEventsResponse.fromJson(Map<String, dynamic> json) {
+    final _emailEvents = (json['emailEvents'] as List)
+        .map((e) => v1EmailEvent.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TListEmailEventsResponse(
+      emailEvents: _emailEvents,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['emailEvents'] = emailEvents.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TListEmailEventsBody {
+  final String? organizationId;
+
+  /// Recipient email address to list email events for
+  final String email;
+
+  /// Optional email event type to filter by. Examples include Send, Delivery, Bounce, and DeliveryDelay
+  final String? eventType;
+
+  /// Parameters used for cursor-based pagination
+  final v1Pagination? paginationOptions;
+
+  const TListEmailEventsBody({
+    this.organizationId,
+    required this.email,
+    this.eventType,
+    this.paginationOptions,
+  });
+  factory TListEmailEventsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _email = json['email'] as String;
+    final _eventType = json['eventType'] as String?;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return TListEmailEventsBody(
+      organizationId: _organizationId,
+      email: _email,
+      eventType: _eventType,
+      paginationOptions: _paginationOptions,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['email'] = email;
+    if (eventType != null) {
+      _json['eventType'] = eventType;
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListEmailEventsInput {
+  final TListEmailEventsBody body;
+  const TListEmailEventsInput({required this.body});
+  factory TListEmailEventsInput.fromJson(Map<String, dynamic> json) =>
+      TListEmailEventsInput(
+          body: TListEmailEventsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListEthTransactionHistoryResponse {
+  /// EVM transactions for the requested address, ordered by most recent first.
+  final List<v1EthTransactionHistoryItem> transactions;
+  final v1PageInfo? pageInfo;
+
+  const TListEthTransactionHistoryResponse({
+    required this.transactions,
+    this.pageInfo,
+  });
+
+  factory TListEthTransactionHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _transactions = (json['transactions'] as List)
+        .map((e) =>
+            v1EthTransactionHistoryItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _pageInfo = json['pageInfo'] == null
+        ? null
+        : v1PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>);
+    return TListEthTransactionHistoryResponse(
+      transactions: _transactions,
+      pageInfo: _pageInfo,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactions'] = transactions.map((e) => e.toJson()).toList();
+    if (pageInfo != null) {
+      _json['pageInfo'] = pageInfo?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListEthTransactionHistoryBody {
+  final String? organizationId;
+
+  /// Address corresponding to a wallet account. Private key addresses are not supported.
+  final String address;
+
+  /// EVM CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  /// Cursor-based pagination options. Cursors are opaque and valid only for the same address and CAIP-2 query.
+  final v1Pagination? paginationOptions;
+
+  const TListEthTransactionHistoryBody({
+    this.organizationId,
+    required this.address,
+    required this.caip2,
+    this.paginationOptions,
+  });
+  factory TListEthTransactionHistoryBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return TListEthTransactionHistoryBody(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+      paginationOptions: _paginationOptions,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListEthTransactionHistoryInput {
+  final TListEthTransactionHistoryBody body;
+  const TListEthTransactionHistoryInput({required this.body});
+  factory TListEthTransactionHistoryInput.fromJson(Map<String, dynamic> json) =>
+      TListEthTransactionHistoryInput(
+          body: TListEthTransactionHistoryBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TListFiatOnRampCredentialsResponse {
   final List<v1FiatOnRampCredential> fiatOnRampCredentials;
 
@@ -25584,6 +40876,73 @@ class TGetPrivateKeysInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TListSecretsResponse {
+  /// Metadata for each secret in the organization, ordered by most recently created first.
+  final List<v1SecretMetadata> secrets;
+
+  const TListSecretsResponse({
+    required this.secrets,
+  });
+
+  factory TListSecretsResponse.fromJson(Map<String, dynamic> json) {
+    final _secrets = (json['secrets'] as List)
+        .map((e) => v1SecretMetadata.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TListSecretsResponse(
+      secrets: _secrets,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['secrets'] = secrets.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TListSecretsBody {
+  final String? organizationId;
+
+  /// Parameters used for cursor-based pagination.
+  final v1Pagination? paginationOptions;
+
+  const TListSecretsBody({
+    this.organizationId,
+    this.paginationOptions,
+  });
+  factory TListSecretsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return TListSecretsBody(
+      organizationId: _organizationId,
+      paginationOptions: _paginationOptions,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListSecretsInput {
+  final TListSecretsBody body;
+  const TListSecretsInput({required this.body});
+  factory TListSecretsInput.fromJson(Map<String, dynamic> json) =>
+      TListSecretsInput(
+          body:
+              TListSecretsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetSmartContractInterfacesResponse {
   /// A list of smart contract interfaces.
   final List<externaldatav1SmartContractInterface> smartContractInterfaces;
@@ -25639,6 +40998,98 @@ class TGetSmartContractInterfacesInput {
           Map<String, dynamic> json) =>
       TGetSmartContractInterfacesInput(
           body: TGetSmartContractInterfacesBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TListSolTransactionHistoryResponse {
+  /// Solana transactions for the requested address, ordered by most recent first.
+  final List<v1SolTransactionHistoryItem> transactions;
+  final v1PageInfo? pageInfo;
+
+  const TListSolTransactionHistoryResponse({
+    required this.transactions,
+    this.pageInfo,
+  });
+
+  factory TListSolTransactionHistoryResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _transactions = (json['transactions'] as List)
+        .map((e) =>
+            v1SolTransactionHistoryItem.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _pageInfo = json['pageInfo'] == null
+        ? null
+        : v1PageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>);
+    return TListSolTransactionHistoryResponse(
+      transactions: _transactions,
+      pageInfo: _pageInfo,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['transactions'] = transactions.map((e) => e.toJson()).toList();
+    if (pageInfo != null) {
+      _json['pageInfo'] = pageInfo?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListSolTransactionHistoryBody {
+  final String? organizationId;
+
+  /// Address corresponding to a wallet account. Private key addresses are not supported.
+  final String address;
+
+  /// Solana CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet). Human-readable Solana aliases ('solana:mainnet', 'solana:devnet') are also accepted and normalized to canonical CAIP-2 values.
+  final String caip2;
+
+  /// Cursor-based pagination options. Cursors are opaque and valid only for the same address and CAIP-2 query.
+  final v1Pagination? paginationOptions;
+
+  const TListSolTransactionHistoryBody({
+    this.organizationId,
+    required this.address,
+    required this.caip2,
+    this.paginationOptions,
+  });
+  factory TListSolTransactionHistoryBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _address = json['address'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _paginationOptions = json['paginationOptions'] == null
+        ? null
+        : v1Pagination
+            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+    return TListSolTransactionHistoryBody(
+      organizationId: _organizationId,
+      address: _address,
+      caip2: _caip2,
+      paginationOptions: _paginationOptions,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['address'] = address;
+    _json['caip2'] = caip2;
+    if (paginationOptions != null) {
+      _json['paginationOptions'] = paginationOptions?.toJson();
+    }
+    return _json;
+  }
+}
+
+class TListSolTransactionHistoryInput {
+  final TListSolTransactionHistoryBody body;
+  const TListSolTransactionHistoryInput({required this.body});
+  factory TListSolTransactionHistoryInput.fromJson(Map<String, dynamic> json) =>
+      TListSolTransactionHistoryInput(
+          body: TListSolTransactionHistoryBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -25791,6 +41242,239 @@ class TListSupportedAssetsInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TGetTvcAppDeploymentsResponse {
+  /// List of deployments for this TVC App
+  final List<v1TvcDeployment> tvcDeployments;
+
+  const TGetTvcAppDeploymentsResponse({
+    required this.tvcDeployments,
+  });
+
+  factory TGetTvcAppDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcDeployments = (json['tvcDeployments'] as List)
+        .map((e) => v1TvcDeployment.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetTvcAppDeploymentsResponse(
+      tvcDeployments: _tvcDeployments,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcDeployments'] = tvcDeployments.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcAppDeploymentsBody {
+  final String? organizationId;
+
+  /// Unique identifier for a given TVC App.
+  final String appId;
+
+  const TGetTvcAppDeploymentsBody({
+    this.organizationId,
+    required this.appId,
+  });
+  factory TGetTvcAppDeploymentsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _appId = json['appId'] as String;
+    return TGetTvcAppDeploymentsBody(
+      organizationId: _organizationId,
+      appId: _appId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class TGetTvcAppDeploymentsInput {
+  final TGetTvcAppDeploymentsBody body;
+  const TGetTvcAppDeploymentsInput({required this.body});
+  factory TGetTvcAppDeploymentsInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcAppDeploymentsInput(
+          body: TGetTvcAppDeploymentsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcAppsResponse {
+  /// A list of TVC Apps.
+  final List<v1TvcApp> tvcApps;
+
+  const TGetTvcAppsResponse({
+    required this.tvcApps,
+  });
+
+  factory TGetTvcAppsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcApps = (json['tvcApps'] as List)
+        .map((e) => v1TvcApp.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetTvcAppsResponse(
+      tvcApps: _tvcApps,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcApps'] = tvcApps.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcAppsBody {
+  final String? organizationId;
+
+  /// Filter TVC Apps by whether they have a live deployment. If omitted, all TVC Apps are returned.
+  final bool? isLive;
+
+  const TGetTvcAppsBody({
+    this.organizationId,
+    this.isLive,
+  });
+  factory TGetTvcAppsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    final _isLive = json['isLive'] as bool?;
+    return TGetTvcAppsBody(
+      organizationId: _organizationId,
+      isLive: _isLive,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (isLive != null) {
+      _json['isLive'] = isLive;
+    }
+    return _json;
+  }
+}
+
+class TGetTvcAppsInput {
+  final TGetTvcAppsBody body;
+  const TGetTvcAppsInput({required this.body});
+  factory TGetTvcAppsInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcAppsInput(
+          body: TGetTvcAppsBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcOperatorsResponse {
+  final List<v1TvcOperator> tvcOperators;
+
+  const TGetTvcOperatorsResponse({
+    required this.tvcOperators,
+  });
+
+  factory TGetTvcOperatorsResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcOperators = (json['tvcOperators'] as List)
+        .map((e) => v1TvcOperator.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetTvcOperatorsResponse(
+      tvcOperators: _tvcOperators,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcOperators'] = tvcOperators.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcOperatorsBody {
+  final String? organizationId;
+
+  const TGetTvcOperatorsBody({
+    this.organizationId,
+  });
+  factory TGetTvcOperatorsBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetTvcOperatorsBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetTvcOperatorsInput {
+  final TGetTvcOperatorsBody body;
+  const TGetTvcOperatorsInput({required this.body});
+  factory TGetTvcOperatorsInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcOperatorsInput(
+          body: TGetTvcOperatorsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TGetTvcQuorumKeysResponse {
+  final List<v1TvcQuorumKey> tvcQuorumKeys;
+
+  const TGetTvcQuorumKeysResponse({
+    required this.tvcQuorumKeys,
+  });
+
+  factory TGetTvcQuorumKeysResponse.fromJson(Map<String, dynamic> json) {
+    final _tvcQuorumKeys = (json['tvcQuorumKeys'] as List)
+        .map((e) => v1TvcQuorumKey.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TGetTvcQuorumKeysResponse(
+      tvcQuorumKeys: _tvcQuorumKeys,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['tvcQuorumKeys'] = tvcQuorumKeys.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TGetTvcQuorumKeysBody {
+  final String? organizationId;
+
+  const TGetTvcQuorumKeysBody({
+    this.organizationId,
+  });
+  factory TGetTvcQuorumKeysBody.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String?;
+    return TGetTvcQuorumKeysBody(
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TGetTvcQuorumKeysInput {
+  final TGetTvcQuorumKeysBody body;
+  const TGetTvcQuorumKeysInput({required this.body});
+  factory TGetTvcQuorumKeysInput.fromJson(Map<String, dynamic> json) =>
+      TGetTvcQuorumKeysInput(
+          body: TGetTvcQuorumKeysBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TListUserTagsResponse {
   /// A list of user tags.
   final List<datav1Tag> userTags;
@@ -25925,7 +41609,7 @@ class TGetVerifiedSubOrgIdsResponse {
 class TGetVerifiedSubOrgIdsBody {
   final String? organizationId;
 
-  /// Specifies the type of filter to apply, i.e 'EMAIL', 'PHONE_NUMBER'.
+  /// Specifies the type of filter to apply, i.e 'EMAIL', 'PHONE_NUMBER', 'OIDC_TOKEN', 'OAUTH_CLAIM', or 'PUBLIC_KEY'
   final String? filterType;
 
   /// The value of the filter to apply for the specified type. For example, a specific email or phone number string.
@@ -26177,6 +41861,59 @@ class TListWebhookEndpointsInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TValidateTvcImageResponse {
+  final v1Activity activity;
+  const TValidateTvcImageResponse({
+    required this.activity,
+  });
+  factory TValidateTvcImageResponse.fromJson(Map<String, dynamic> json) {
+    return TValidateTvcImageResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+      };
+}
+
+class TValidateTvcImageBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  const TValidateTvcImageBody({
+    this.timestampMs,
+    this.organizationId,
+  });
+  factory TValidateTvcImageBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    return TValidateTvcImageBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TValidateTvcImageInput {
+  final TValidateTvcImageBody body;
+  const TValidateTvcImageInput({required this.body});
+  factory TValidateTvcImageInput.fromJson(Map<String, dynamic> json) =>
+      TValidateTvcImageInput(
+          body: TValidateTvcImageBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TGetWhoamiResponse {
   /// Unique identifier for a given organization.
   final String organizationId;
@@ -26306,6 +42043,133 @@ class TApproveActivityInput {
   factory TApproveActivityInput.fromJson(Map<String, dynamic> json) =>
       TApproveActivityInput(
           body: TApproveActivityBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TClaimEarnFeesResponse {
+  final v1Activity activity;
+  final v1ClaimEarnFeesResult? result;
+  const TClaimEarnFeesResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TClaimEarnFeesResponse.fromJson(Map<String, dynamic> json) {
+    return TClaimEarnFeesResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1ClaimEarnFeesResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TClaimEarnFeesBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Address of the deployed Earn wrapper to claim fees for. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  const TClaimEarnFeesBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.wrapperAddress,
+  });
+  factory TClaimEarnFeesBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    return TClaimEarnFeesBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      wrapperAddress: _wrapperAddress,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['wrapperAddress'] = wrapperAddress;
+    return _json;
+  }
+}
+
+class TClaimEarnFeesInput {
+  final TClaimEarnFeesBody body;
+  const TClaimEarnFeesInput({required this.body});
+  factory TClaimEarnFeesInput.fromJson(Map<String, dynamic> json) =>
+      TClaimEarnFeesInput(
+          body: TClaimEarnFeesBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TClaimSwapFeesResponse {
+  final v1Activity activity;
+  final v1ClaimSwapFeesResult? result;
+  const TClaimSwapFeesResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TClaimSwapFeesResponse.fromJson(Map<String, dynamic> json) {
+    return TClaimSwapFeesResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1ClaimSwapFeesResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TClaimSwapFeesBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  const TClaimSwapFeesBody({
+    this.timestampMs,
+    this.organizationId,
+  });
+  factory TClaimSwapFeesBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    return TClaimSwapFeesBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    return _json;
+  }
+}
+
+class TClaimSwapFeesInput {
+  final TClaimSwapFeesBody body;
+  const TClaimSwapFeesInput({required this.body});
+  factory TClaimSwapFeesInput.fromJson(Map<String, dynamic> json) =>
+      TClaimSwapFeesInput(
+          body: TClaimSwapFeesBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -26642,6 +42506,116 @@ class TCreateInvitationsInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TCreateMfaPolicyResponse {
+  final v1Activity activity;
+  final v1CreateMfaPolicyResult? result;
+  const TCreateMfaPolicyResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateMfaPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateMfaPolicyResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateMfaPolicyResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateMfaPolicyBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The ID of the User to add the MFA Policy to.
+  final String userId;
+
+  /// Human-readable name for a Policy.
+  final String mfaPolicyName;
+
+  /// A condition expression that evaluates to true or false, determining when this MFA policy applies.
+  final String condition;
+
+  /// An ordered list of authentication requirements. Each requirement must be satisfied sequentially to complete MFA.
+  final List<v1RequiredAuthenticationMethodParams>
+      requiredAuthenticationMethods;
+
+  /// The order in which this MFA policy is evaluated, starting from 0, relative to other MFA policies. Lower order values are evaluated first.
+  final num order;
+
+  /// Notes for an MFA Policy.
+  final String? notes;
+
+  const TCreateMfaPolicyBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.userId,
+    required this.mfaPolicyName,
+    required this.condition,
+    required this.requiredAuthenticationMethods,
+    required this.order,
+    this.notes,
+  });
+  factory TCreateMfaPolicyBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _userId = json['userId'] as String;
+    final _mfaPolicyName = json['mfaPolicyName'] as String;
+    final _condition = json['condition'] as String;
+    final _requiredAuthenticationMethods =
+        (json['requiredAuthenticationMethods'] as List)
+            .map((e) => v1RequiredAuthenticationMethodParams
+                .fromJson(e as Map<String, dynamic>))
+            .toList();
+    final _order = json['order'] as num;
+    final _notes = json['notes'] as String?;
+    return TCreateMfaPolicyBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      userId: _userId,
+      mfaPolicyName: _mfaPolicyName,
+      condition: _condition,
+      requiredAuthenticationMethods: _requiredAuthenticationMethods,
+      order: _order,
+      notes: _notes,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['mfaPolicyName'] = mfaPolicyName;
+    _json['condition'] = condition;
+    _json['requiredAuthenticationMethods'] =
+        requiredAuthenticationMethods.map((e) => e.toJson()).toList();
+    _json['order'] = order;
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    return _json;
+  }
+}
+
+class TCreateMfaPolicyInput {
+  final TCreateMfaPolicyBody body;
+  const TCreateMfaPolicyInput({required this.body});
+  factory TCreateMfaPolicyInput.fromJson(Map<String, dynamic> json) =>
+      TCreateMfaPolicyInput(
+          body: TCreateMfaPolicyBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TCreateOauth2CredentialResponse {
   final v1Activity activity;
   final v1CreateOauth2CredentialResult? result;
@@ -26909,6 +42883,9 @@ class TCreatePolicyBody {
   /// Notes for a Policy.
   final String notes;
 
+  /// The time expression that triggers the Effect
+  final String? time;
+
   const TCreatePolicyBody({
     this.timestampMs,
     this.organizationId,
@@ -26917,6 +42894,7 @@ class TCreatePolicyBody {
     this.condition,
     this.consensus,
     required this.notes,
+    this.time,
   });
   factory TCreatePolicyBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -26926,6 +42904,7 @@ class TCreatePolicyBody {
     final _condition = json['condition'] as String?;
     final _consensus = json['consensus'] as String?;
     final _notes = json['notes'] as String;
+    final _time = json['time'] as String?;
     return TCreatePolicyBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -26934,6 +42913,7 @@ class TCreatePolicyBody {
       condition: _condition,
       consensus: _consensus,
       notes: _notes,
+      time: _time,
     );
   }
   Map<String, dynamic> toJson() {
@@ -26953,6 +42933,9 @@ class TCreatePolicyBody {
       _json['consensus'] = consensus;
     }
     _json['notes'] = notes;
+    if (time != null) {
+      _json['time'] = time;
+    }
     return _json;
   }
 }
@@ -27200,7 +43183,7 @@ class TCreateReadWriteSessionBody {
   /// Client-side public key generated by the user, to which the read write session bundle (credentials) will be encrypted.
   final String targetPublicKey;
 
-  /// Unique identifier for a given User.
+  /// Optional unique identifier for a given User. If none provided, the read write session will be created for the user who is making the request.
   final String? userId;
 
   /// Optional human-readable name for an API Key. If none provided, default to Read Write Session - <Timestamp>
@@ -27270,6 +43253,98 @@ class TCreateReadWriteSessionInput {
   factory TCreateReadWriteSessionInput.fromJson(Map<String, dynamic> json) =>
       TCreateReadWriteSessionInput(
           body: TCreateReadWriteSessionBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateSessionProfileResponse {
+  final v1Activity activity;
+  final v1CreateSessionProfileResult? result;
+  const TCreateSessionProfileResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateSessionProfileResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateSessionProfileResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateSessionProfileResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateSessionProfileBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Human-readable name for a Session Profile.
+  final String sessionProfileName;
+
+  /// The scope string that defines the permissions for this Session Profile.
+  final String scope;
+
+  /// The duration in seconds for which sessions created with this Session Profile are valid. If not set, expiration will be determined by the value passed in to the intent of login activities.
+  final String? expirationSeconds;
+
+  /// Notes for a Session Profile.
+  final String? notes;
+
+  const TCreateSessionProfileBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.sessionProfileName,
+    required this.scope,
+    this.expirationSeconds,
+    this.notes,
+  });
+  factory TCreateSessionProfileBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _sessionProfileName = json['sessionProfileName'] as String;
+    final _scope = json['scope'] as String;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _notes = json['notes'] as String?;
+    return TCreateSessionProfileBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      sessionProfileName: _sessionProfileName,
+      scope: _scope,
+      expirationSeconds: _expirationSeconds,
+      notes: _notes,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['sessionProfileName'] = sessionProfileName;
+    _json['scope'] = scope;
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    return _json;
+  }
+}
+
+class TCreateSessionProfileInput {
+  final TCreateSessionProfileBody body;
+  const TCreateSessionProfileInput({required this.body});
+  factory TCreateSessionProfileInput.fromJson(Map<String, dynamic> json) =>
+      TCreateSessionProfileInput(
+          body: TCreateSessionProfileBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -27519,6 +43594,664 @@ class TCreateSubOrganizationInput {
   factory TCreateSubOrganizationInput.fromJson(Map<String, dynamic> json) =>
       TCreateSubOrganizationInput(
           body: TCreateSubOrganizationBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateSwapQuoteResponse {
+  final v1Activity activity;
+  final v1CreateSwapQuoteResultV2? result;
+  const TCreateSwapQuoteResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateSwapQuoteResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateSwapQuoteResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateSwapQuoteResultV2
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateSwapQuoteBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Wallet account or Private Key address used to price the executable provider quote. Private Key identifiers are not supported.
+  final String signWith;
+
+  /// CAIP-19 asset ID for the input asset. The chain is derived from this value.
+  final String inputToken;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Base-unit amount of the input asset.
+  final String inputAmount;
+
+  /// Provider-neutral maximum allowed slippage in basis points. Turnkey converts this value to each provider's request format. When omitted, each provider applies its default slippage behavior.
+  final String? slippageBps;
+
+  const TCreateSwapQuoteBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.signWith,
+    required this.inputToken,
+    required this.outputToken,
+    required this.inputAmount,
+    this.slippageBps,
+  });
+  factory TCreateSwapQuoteBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signWith = json['signWith'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _slippageBps = json['slippageBps'] as String?;
+    return TCreateSwapQuoteBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signWith: _signWith,
+      inputToken: _inputToken,
+      outputToken: _outputToken,
+      inputAmount: _inputAmount,
+      slippageBps: _slippageBps,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['inputToken'] = inputToken;
+    _json['outputToken'] = outputToken;
+    _json['inputAmount'] = inputAmount;
+    if (slippageBps != null) {
+      _json['slippageBps'] = slippageBps;
+    }
+    return _json;
+  }
+}
+
+class TCreateSwapQuoteInput {
+  final TCreateSwapQuoteBody body;
+  const TCreateSwapQuoteInput({required this.body});
+  factory TCreateSwapQuoteInput.fromJson(Map<String, dynamic> json) =>
+      TCreateSwapQuoteInput(
+          body: TCreateSwapQuoteBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcAppResponse {
+  final v1Activity activity;
+  final v1CreateTvcAppResult? result;
+  const TCreateTvcAppResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateTvcAppResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcAppResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateTvcAppResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateTvcAppBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The name of the new TVC application
+  final String name;
+
+  /// Quorum public key to use for this application
+  final String quorumPublicKey;
+
+  /// Unique identifier for an existing TVC operator set to use as the Manifest Set for this TVC application. If left empty, a new Manifest Set configuration is required
+  final String? manifestSetId;
+
+  /// Configuration to create a new TVC operator set, used as the Manifest Set for this TVC application. If left empty, a Manifest Set ID is required
+  final v1TvcOperatorSetParams? manifestSetParams;
+
+  /// Unique identifier for an existing TVC operator set to use as the Share Set for this TVC application. If left empty, a new Share Set configuration is required
+  final String? shareSetId;
+
+  /// Configuration to create a new TVC operator set, used as the Share Set for this TVC application. If left empty, a Share Set ID is required
+  final v1TvcOperatorSetParams? shareSetParams;
+
+  /// Enables network egress for this TVC app. Default if not provided: false.
+  final bool? enableEgress;
+
+  /// When true, this app may create deployments in debug-mode. Debug-mode deployments expose logs and emit zero'd attestation PCRs, so remote attestation cannot succeed. Cannot be changed after app creation. Setting this true means the app's quorum key is considered permanently insecure, and a new app with a fresh quorum key must be created. Default if not provided: false.
+  final bool? enableDebugModeDeployments;
+
+  const TCreateTvcAppBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.name,
+    required this.quorumPublicKey,
+    this.manifestSetId,
+    this.manifestSetParams,
+    this.shareSetId,
+    this.shareSetParams,
+    this.enableEgress,
+    this.enableDebugModeDeployments,
+  });
+  factory TCreateTvcAppBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _name = json['name'] as String;
+    final _quorumPublicKey = json['quorumPublicKey'] as String;
+    final _manifestSetId = json['manifestSetId'] as String?;
+    final _manifestSetParams = json['manifestSetParams'] == null
+        ? null
+        : v1TvcOperatorSetParams
+            .fromJson(json['manifestSetParams'] as Map<String, dynamic>);
+    final _shareSetId = json['shareSetId'] as String?;
+    final _shareSetParams = json['shareSetParams'] == null
+        ? null
+        : v1TvcOperatorSetParams
+            .fromJson(json['shareSetParams'] as Map<String, dynamic>);
+    final _enableEgress = json['enableEgress'] as bool?;
+    final _enableDebugModeDeployments =
+        json['enableDebugModeDeployments'] as bool?;
+    return TCreateTvcAppBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      name: _name,
+      quorumPublicKey: _quorumPublicKey,
+      manifestSetId: _manifestSetId,
+      manifestSetParams: _manifestSetParams,
+      shareSetId: _shareSetId,
+      shareSetParams: _shareSetParams,
+      enableEgress: _enableEgress,
+      enableDebugModeDeployments: _enableDebugModeDeployments,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['name'] = name;
+    _json['quorumPublicKey'] = quorumPublicKey;
+    if (manifestSetId != null) {
+      _json['manifestSetId'] = manifestSetId;
+    }
+    if (manifestSetParams != null) {
+      _json['manifestSetParams'] = manifestSetParams?.toJson();
+    }
+    if (shareSetId != null) {
+      _json['shareSetId'] = shareSetId;
+    }
+    if (shareSetParams != null) {
+      _json['shareSetParams'] = shareSetParams?.toJson();
+    }
+    if (enableEgress != null) {
+      _json['enableEgress'] = enableEgress;
+    }
+    if (enableDebugModeDeployments != null) {
+      _json['enableDebugModeDeployments'] = enableDebugModeDeployments;
+    }
+    return _json;
+  }
+}
+
+class TCreateTvcAppInput {
+  final TCreateTvcAppBody body;
+  const TCreateTvcAppInput({required this.body});
+  factory TCreateTvcAppInput.fromJson(Map<String, dynamic> json) =>
+      TCreateTvcAppInput(
+          body:
+              TCreateTvcAppBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcDeploymentResponse {
+  final v1Activity activity;
+  final v1CreateTvcDeploymentResult? result;
+  const TCreateTvcDeploymentResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcDeploymentResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateTvcDeploymentResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateTvcDeploymentBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The unique identifier of the to-be-deployed TVC application
+  final String appId;
+
+  /// The QuorumOS version to use to deploy this application
+  final String qosVersion;
+
+  /// URL of the container containing the pivot binary
+  final String pivotContainerImageUrl;
+
+  /// Location of the binary in the pivot container
+  final String pivotPath;
+
+  /// Arguments to pass to the pivot binary at startup. Encoded as a list of strings, for example ["--foo", "bar"]
+  final List<String> pivotArgs;
+
+  /// Digest of the pivot binary in the pivot container. This value will be inserted in the QOS manifest to ensure application integrity.
+  final String expectedPivotDigest;
+
+  /// Optional nonce to ensure uniqueness of the deployment manifest. If not provided, it defaults to the current Unix timestamp in seconds.
+  final num? nonce;
+
+  /// Optional encrypted pull secret to authorize Turnkey to pull the pivot container image. If your image is public, leave this empty.
+  final String? pivotContainerEncryptedPullSecret;
+
+  /// Optional flag to indicate whether to deploy the TVC app in debug mode, which includes additional logging and debugging tools. Default is false.
+  final bool? debugMode;
+
+  /// Health check type (TVC_HEALTH_CHECK_TYPE_HTTP or TVC_HEALTH_CHECK_TYPE_GRPC). HTTP health checks are made with a GET request on /health, and gRPC health checks follow the standard gRPC health checking protocol.
+  final v1TvcHealthCheckType healthCheckType;
+
+  /// Port to use for health checks.
+  final num healthCheckPort;
+
+  /// Port to use for public ingress.
+  final num publicIngressPort;
+
+  /// Optional desired replica count for this deployment.
+  final num? replicas;
+
+  /// Optional desired instance cpu count.
+  final num? instanceSizeCpus;
+
+  /// Optional desired instance memory size in GiB.
+  final num? instanceSizeRam;
+
+  const TCreateTvcDeploymentBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.appId,
+    required this.qosVersion,
+    required this.pivotContainerImageUrl,
+    required this.pivotPath,
+    required this.pivotArgs,
+    required this.expectedPivotDigest,
+    this.nonce,
+    this.pivotContainerEncryptedPullSecret,
+    this.debugMode,
+    required this.healthCheckType,
+    required this.healthCheckPort,
+    required this.publicIngressPort,
+    this.replicas,
+    this.instanceSizeCpus,
+    this.instanceSizeRam,
+  });
+  factory TCreateTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _appId = json['appId'] as String;
+    final _qosVersion = json['qosVersion'] as String;
+    final _pivotContainerImageUrl = json['pivotContainerImageUrl'] as String;
+    final _pivotPath = json['pivotPath'] as String;
+    final _pivotArgs =
+        (json['pivotArgs'] as List).map((e) => e as String).toList();
+    final _expectedPivotDigest = json['expectedPivotDigest'] as String;
+    final _nonce = json['nonce'] as num?;
+    final _pivotContainerEncryptedPullSecret =
+        json['pivotContainerEncryptedPullSecret'] as String?;
+    final _debugMode = json['debugMode'] as bool?;
+    final _healthCheckType =
+        v1TvcHealthCheckTypeFromJson(json['healthCheckType']);
+    final _healthCheckPort = json['healthCheckPort'] as num;
+    final _publicIngressPort = json['publicIngressPort'] as num;
+    final _replicas = json['replicas'] as num?;
+    final _instanceSizeCpus = json['instanceSizeCpus'] as num?;
+    final _instanceSizeRam = json['instanceSizeRam'] as num?;
+    return TCreateTvcDeploymentBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      appId: _appId,
+      qosVersion: _qosVersion,
+      pivotContainerImageUrl: _pivotContainerImageUrl,
+      pivotPath: _pivotPath,
+      pivotArgs: _pivotArgs,
+      expectedPivotDigest: _expectedPivotDigest,
+      nonce: _nonce,
+      pivotContainerEncryptedPullSecret: _pivotContainerEncryptedPullSecret,
+      debugMode: _debugMode,
+      healthCheckType: _healthCheckType,
+      healthCheckPort: _healthCheckPort,
+      publicIngressPort: _publicIngressPort,
+      replicas: _replicas,
+      instanceSizeCpus: _instanceSizeCpus,
+      instanceSizeRam: _instanceSizeRam,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['appId'] = appId;
+    _json['qosVersion'] = qosVersion;
+    _json['pivotContainerImageUrl'] = pivotContainerImageUrl;
+    _json['pivotPath'] = pivotPath;
+    _json['pivotArgs'] = pivotArgs;
+    _json['expectedPivotDigest'] = expectedPivotDigest;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (pivotContainerEncryptedPullSecret != null) {
+      _json['pivotContainerEncryptedPullSecret'] =
+          pivotContainerEncryptedPullSecret;
+    }
+    if (debugMode != null) {
+      _json['debugMode'] = debugMode;
+    }
+    _json['healthCheckType'] = v1TvcHealthCheckTypeToJson(healthCheckType);
+    _json['healthCheckPort'] = healthCheckPort;
+    _json['publicIngressPort'] = publicIngressPort;
+    if (replicas != null) {
+      _json['replicas'] = replicas;
+    }
+    if (instanceSizeCpus != null) {
+      _json['instanceSizeCpus'] = instanceSizeCpus;
+    }
+    if (instanceSizeRam != null) {
+      _json['instanceSizeRam'] = instanceSizeRam;
+    }
+    return _json;
+  }
+}
+
+class TCreateTvcDeploymentInput {
+  final TCreateTvcDeploymentBody body;
+  const TCreateTvcDeploymentInput({required this.body});
+  factory TCreateTvcDeploymentInput.fromJson(Map<String, dynamic> json) =>
+      TCreateTvcDeploymentInput(
+          body: TCreateTvcDeploymentBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcManifestApprovalsResponse {
+  final v1Activity activity;
+  final v1CreateTvcManifestApprovalsResult? result;
+  const TCreateTvcManifestApprovalsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateTvcManifestApprovalsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TCreateTvcManifestApprovalsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateTvcManifestApprovalsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateTvcManifestApprovalsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Unique identifier of the TVC deployment to approve
+  final String manifestId;
+
+  /// List of manifest approvals
+  final List<v1TvcManifestApproval> approvals;
+
+  const TCreateTvcManifestApprovalsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.manifestId,
+    required this.approvals,
+  });
+  factory TCreateTvcManifestApprovalsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _manifestId = json['manifestId'] as String;
+    final _approvals = (json['approvals'] as List)
+        .map((e) => v1TvcManifestApproval.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TCreateTvcManifestApprovalsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      manifestId: _manifestId,
+      approvals: _approvals,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['manifestId'] = manifestId;
+    _json['approvals'] = approvals.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TCreateTvcManifestApprovalsInput {
+  final TCreateTvcManifestApprovalsBody body;
+  const TCreateTvcManifestApprovalsInput({required this.body});
+  factory TCreateTvcManifestApprovalsInput.fromJson(
+          Map<String, dynamic> json) =>
+      TCreateTvcManifestApprovalsInput(
+          body: TCreateTvcManifestApprovalsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcOperatorResponse {
+  final v1Activity activity;
+  final v1CreateTvcOperatorResult? result;
+  const TCreateTvcOperatorResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateTvcOperatorResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcOperatorResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateTvcOperatorResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateTvcOperatorBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Human-readable name for a new wallet created for this TVC operator
+  final String? walletName;
+
+  /// Unique identifier for an existing wallet to reuse for this TVC operator
+  final String? walletId;
+
+  /// Base derivation path for creating TVC operator wallet accounts
+  final String path;
+
+  /// Human-readable name for this new TVC operator
+  final String operatorName;
+
+  const TCreateTvcOperatorBody({
+    this.timestampMs,
+    this.organizationId,
+    this.walletName,
+    this.walletId,
+    required this.path,
+    required this.operatorName,
+  });
+  factory TCreateTvcOperatorBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _walletName = json['walletName'] as String?;
+    final _walletId = json['walletId'] as String?;
+    final _path = json['path'] as String;
+    final _operatorName = json['operatorName'] as String;
+    return TCreateTvcOperatorBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      walletName: _walletName,
+      walletId: _walletId,
+      path: _path,
+      operatorName: _operatorName,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (walletName != null) {
+      _json['walletName'] = walletName;
+    }
+    if (walletId != null) {
+      _json['walletId'] = walletId;
+    }
+    _json['path'] = path;
+    _json['operatorName'] = operatorName;
+    return _json;
+  }
+}
+
+class TCreateTvcOperatorInput {
+  final TCreateTvcOperatorBody body;
+  const TCreateTvcOperatorInput({required this.body});
+  factory TCreateTvcOperatorInput.fromJson(Map<String, dynamic> json) =>
+      TCreateTvcOperatorInput(
+          body: TCreateTvcOperatorBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TCreateTvcQuorumKeyResponse {
+  final v1Activity activity;
+  final v1CreateTvcQuorumKeyResult? result;
+  const TCreateTvcQuorumKeyResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TCreateTvcQuorumKeyResponse.fromJson(Map<String, dynamic> json) {
+    return TCreateTvcQuorumKeyResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1CreateTvcQuorumKeyResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TCreateTvcQuorumKeyBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The threshold of operators needed to reassemble this TVC quorum key
+  final num threshold;
+
+  /// Operator public keys used to encrypt and later approve the generated TVC quorum key shares
+  final List<String> operatorEncryptKeys;
+
+  const TCreateTvcQuorumKeyBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.threshold,
+    required this.operatorEncryptKeys,
+  });
+  factory TCreateTvcQuorumKeyBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _threshold = json['threshold'] as num;
+    final _operatorEncryptKeys =
+        (json['operatorEncryptKeys'] as List).map((e) => e as String).toList();
+    return TCreateTvcQuorumKeyBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      threshold: _threshold,
+      operatorEncryptKeys: _operatorEncryptKeys,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['threshold'] = threshold;
+    _json['operatorEncryptKeys'] = operatorEncryptKeys;
+    return _json;
+  }
+}
+
+class TCreateTvcQuorumKeyInput {
+  final TCreateTvcQuorumKeyBody body;
+  const TCreateTvcQuorumKeyInput({required this.body});
+  factory TCreateTvcQuorumKeyInput.fromJson(Map<String, dynamic> json) =>
+      TCreateTvcQuorumKeyInput(
+          body: TCreateTvcQuorumKeyBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -28207,6 +44940,80 @@ class TDeleteInvitationInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TDeleteMfaPolicyResponse {
+  final v1Activity activity;
+  final v1DeleteMfaPolicyResult? result;
+  const TDeleteMfaPolicyResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TDeleteMfaPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return TDeleteMfaPolicyResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1DeleteMfaPolicyResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TDeleteMfaPolicyBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The ID of the User to delete the MFA Policy from.
+  final String userId;
+
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  const TDeleteMfaPolicyBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.userId,
+    required this.mfaPolicyId,
+  });
+  factory TDeleteMfaPolicyBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _userId = json['userId'] as String;
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    return TDeleteMfaPolicyBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      userId: _userId,
+      mfaPolicyId: _mfaPolicyId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['mfaPolicyId'] = mfaPolicyId;
+    return _json;
+  }
+}
+
+class TDeleteMfaPolicyInput {
+  final TDeleteMfaPolicyBody body;
+  const TDeleteMfaPolicyInput({required this.body});
+  factory TDeleteMfaPolicyInput.fromJson(Map<String, dynamic> json) =>
+      TDeleteMfaPolicyInput(
+          body: TDeleteMfaPolicyBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TDeleteOauth2CredentialResponse {
   final v1Activity activity;
   final v1DeleteOauth2CredentialResult? result;
@@ -28629,6 +45436,74 @@ class TDeletePrivateKeysInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TDeleteSecretsResponse {
+  final v1Activity activity;
+  final v1DeleteSecretsResult? result;
+  const TDeleteSecretsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TDeleteSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return TDeleteSecretsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1DeleteSecretsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TDeleteSecretsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Unique identifiers of the secrets to delete. Must contain between 1 and 32 distinct UUIDs. All secrets must belong to the organization.
+  final List<String> secretIds;
+
+  const TDeleteSecretsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.secretIds,
+  });
+  factory TDeleteSecretsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _secretIds =
+        (json['secretIds'] as List).map((e) => e as String).toList();
+    return TDeleteSecretsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      secretIds: _secretIds,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['secretIds'] = secretIds;
+    return _json;
+  }
+}
+
+class TDeleteSecretsInput {
+  final TDeleteSecretsBody body;
+  const TDeleteSecretsInput({required this.body});
+  factory TDeleteSecretsInput.fromJson(Map<String, dynamic> json) =>
+      TDeleteSecretsInput(
+          body: TDeleteSecretsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TDeleteSmartContractInterfaceResponse {
   final v1Activity activity;
   final v1DeleteSmartContractInterfaceResult? result;
@@ -28765,6 +45640,142 @@ class TDeleteSubOrganizationInput {
   factory TDeleteSubOrganizationInput.fromJson(Map<String, dynamic> json) =>
       TDeleteSubOrganizationInput(
           body: TDeleteSubOrganizationBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TDeleteTvcAppAndDeploymentsResponse {
+  final v1Activity activity;
+  final v1DeleteTvcAppAndDeploymentsResult? result;
+  const TDeleteTvcAppAndDeploymentsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TDeleteTvcAppAndDeploymentsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TDeleteTvcAppAndDeploymentsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1DeleteTvcAppAndDeploymentsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TDeleteTvcAppAndDeploymentsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The unique identifier of the TVC app to delete. The app and all associated deployments will be removed.
+  final String appId;
+
+  const TDeleteTvcAppAndDeploymentsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.appId,
+  });
+  factory TDeleteTvcAppAndDeploymentsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _appId = json['appId'] as String;
+    return TDeleteTvcAppAndDeploymentsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      appId: _appId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['appId'] = appId;
+    return _json;
+  }
+}
+
+class TDeleteTvcAppAndDeploymentsInput {
+  final TDeleteTvcAppAndDeploymentsBody body;
+  const TDeleteTvcAppAndDeploymentsInput({required this.body});
+  factory TDeleteTvcAppAndDeploymentsInput.fromJson(
+          Map<String, dynamic> json) =>
+      TDeleteTvcAppAndDeploymentsInput(
+          body: TDeleteTvcAppAndDeploymentsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TDeleteTvcDeploymentResponse {
+  final v1Activity activity;
+  final v1DeleteTvcDeploymentResult? result;
+  const TDeleteTvcDeploymentResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TDeleteTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return TDeleteTvcDeploymentResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1DeleteTvcDeploymentResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TDeleteTvcDeploymentBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The unique identifier of the TVC deployment to delete.
+  final String deploymentId;
+
+  const TDeleteTvcDeploymentBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.deploymentId,
+  });
+  factory TDeleteTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    return TDeleteTvcDeploymentBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class TDeleteTvcDeploymentInput {
+  final TDeleteTvcDeploymentBody body;
+  const TDeleteTvcDeploymentInput({required this.body});
+  factory TDeleteTvcDeploymentInput.fromJson(Map<String, dynamic> json) =>
+      TDeleteTvcDeploymentInput(
+          body: TDeleteTvcDeploymentBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -29124,6 +46135,444 @@ class TDeleteWebhookEndpointInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TEarnClaimRewardsResponse {
+  final v1Activity activity;
+  final v1EarnClaimRewardsResult? result;
+  const TEarnClaimRewardsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TEarnClaimRewardsResponse.fromJson(Map<String, dynamic> json) {
+    return TEarnClaimRewardsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1EarnClaimRewardsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TEarnClaimRewardsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A Turnkey-managed wallet address the rewards are attributed to. The claim transaction is signed by this wallet and the Merkl Distributor transfers every reward token to it.
+  final String signWith;
+
+  /// CAIP-2 chain to claim rewards on (e.g. 'eip155:8453'). Rewards accrue per chain; see ListEarnRewards.
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  const TEarnClaimRewardsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.signWith,
+    required this.caip2,
+    this.sponsor,
+  });
+  factory TEarnClaimRewardsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signWith = json['signWith'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    return TEarnClaimRewardsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signWith: _signWith,
+      caip2: _caip2,
+      sponsor: _sponsor,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    return _json;
+  }
+}
+
+class TEarnClaimRewardsInput {
+  final TEarnClaimRewardsBody body;
+  const TEarnClaimRewardsInput({required this.body});
+  factory TEarnClaimRewardsInput.fromJson(Map<String, dynamic> json) =>
+      TEarnClaimRewardsInput(
+          body: TEarnClaimRewardsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEarnDeployWrapperResponse {
+  final v1Activity activity;
+  final v1EarnDeployWrapperResult? result;
+  const TEarnDeployWrapperResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TEarnDeployWrapperResponse.fromJson(Map<String, dynamic> json) {
+    return TEarnDeployWrapperResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1EarnDeployWrapperResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TEarnDeployWrapperBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Address of the underlying yield vault to wrap (from the ListEarnVaults catalog).
+  final String vaultAddress;
+
+  /// CAIP-2 chain ID the vault lives on (e.g., 'eip155:8453' for Base).
+  final String caip2;
+
+  /// Your fee on gross yield, in basis points (e.g., '2000' for 20%). Maximum is 4000 (40%).
+  final String clientFeeBps;
+
+  /// The wallet address that receives the client's fee payouts on-chain. Must be a Turnkey-managed wallet address.
+  final String clientFeeWallet;
+
+  const TEarnDeployWrapperBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.vaultAddress,
+    required this.caip2,
+    required this.clientFeeBps,
+    required this.clientFeeWallet,
+  });
+  factory TEarnDeployWrapperBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _vaultAddress = json['vaultAddress'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _clientFeeBps = json['clientFeeBps'] as String;
+    final _clientFeeWallet = json['clientFeeWallet'] as String;
+    return TEarnDeployWrapperBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      vaultAddress: _vaultAddress,
+      caip2: _caip2,
+      clientFeeBps: _clientFeeBps,
+      clientFeeWallet: _clientFeeWallet,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['vaultAddress'] = vaultAddress;
+    _json['caip2'] = caip2;
+    _json['clientFeeBps'] = clientFeeBps;
+    _json['clientFeeWallet'] = clientFeeWallet;
+    return _json;
+  }
+}
+
+class TEarnDeployWrapperInput {
+  final TEarnDeployWrapperBody body;
+  const TEarnDeployWrapperInput({required this.body});
+  factory TEarnDeployWrapperInput.fromJson(Map<String, dynamic> json) =>
+      TEarnDeployWrapperInput(
+          body: TEarnDeployWrapperBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEarnDepositResponse {
+  final v1Activity activity;
+  final v1EarnDepositResult? result;
+  const TEarnDepositResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TEarnDepositResponse.fromJson(Map<String, dynamic> json) {
+    return TEarnDepositResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1EarnDepositResult.fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TEarnDepositBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Address of the deployed Earn wrapper to deposit into, from ListEarnVaults/ListEarnPositions. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  /// A Wallet account address or Private Key address to deposit from and sign with. Must be an on-chain address; Private Key identifiers are not supported.
+  final String signWith;
+
+  /// Amount of the underlying asset to deposit, in raw on-chain units (e.g., '1000000' for 1 USDC at 6 decimals).
+  final String assets;
+
+  /// CAIP-2 chain ID the vault lives on (e.g., 'eip155:8453' for Base).
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  const TEarnDepositBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.wrapperAddress,
+    required this.signWith,
+    required this.assets,
+    required this.caip2,
+    this.sponsor,
+  });
+  factory TEarnDepositBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _signWith = json['signWith'] as String;
+    final _assets = json['assets'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    return TEarnDepositBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      wrapperAddress: _wrapperAddress,
+      signWith: _signWith,
+      assets: _assets,
+      caip2: _caip2,
+      sponsor: _sponsor,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['signWith'] = signWith;
+    _json['assets'] = assets;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    return _json;
+  }
+}
+
+class TEarnDepositInput {
+  final TEarnDepositBody body;
+  const TEarnDepositInput({required this.body});
+  factory TEarnDepositInput.fromJson(Map<String, dynamic> json) =>
+      TEarnDepositInput(
+          body:
+              TEarnDepositBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEarnSetWrapperStateResponse {
+  final v1Activity activity;
+  final v1EarnSetWrapperStateResult? result;
+  const TEarnSetWrapperStateResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TEarnSetWrapperStateResponse.fromJson(Map<String, dynamic> json) {
+    return TEarnSetWrapperStateResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1EarnSetWrapperStateResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TEarnSetWrapperStateBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Address of the deployed Earn wrapper to update, from ListEarnVaults/ListEarnPositions. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  /// When true, deposits to this wrapper are rejected; withdrawals are unaffected. Set to false to re-enable deposits.
+  final bool depositsDisabled;
+
+  const TEarnSetWrapperStateBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.wrapperAddress,
+    required this.depositsDisabled,
+  });
+  factory TEarnSetWrapperStateBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _depositsDisabled = json['depositsDisabled'] as bool;
+    return TEarnSetWrapperStateBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      wrapperAddress: _wrapperAddress,
+      depositsDisabled: _depositsDisabled,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['depositsDisabled'] = depositsDisabled;
+    return _json;
+  }
+}
+
+class TEarnSetWrapperStateInput {
+  final TEarnSetWrapperStateBody body;
+  const TEarnSetWrapperStateInput({required this.body});
+  factory TEarnSetWrapperStateInput.fromJson(Map<String, dynamic> json) =>
+      TEarnSetWrapperStateInput(
+          body: TEarnSetWrapperStateBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEarnWithdrawResponse {
+  final v1Activity activity;
+  final v1EarnWithdrawResult? result;
+  const TEarnWithdrawResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TEarnWithdrawResponse.fromJson(Map<String, dynamic> json) {
+    return TEarnWithdrawResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1EarnWithdrawResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TEarnWithdrawBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Address of the deployed Earn wrapper holding the position to withdraw from, from ListEarnPositions. Must be one of the org's deployed wrappers.
+  final String wrapperAddress;
+
+  /// A Wallet account address or Private Key address to withdraw to and sign with. Must be an on-chain address; Private Key identifiers are not supported.
+  final String signWith;
+
+  /// CAIP-2 chain ID the vault lives on (e.g., 'eip155:8453' for Base).
+  final String caip2;
+
+  /// Whether to sponsor this transaction via Gas Station.
+  final bool? sponsor;
+
+  /// The amount of the underlying asset to withdraw, in raw on-chain units. Pass 'MAX' to withdraw the entire position.
+  final String amountValue;
+
+  const TEarnWithdrawBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.wrapperAddress,
+    required this.signWith,
+    required this.caip2,
+    this.sponsor,
+    required this.amountValue,
+  });
+  factory TEarnWithdrawBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _wrapperAddress = json['wrapperAddress'] as String;
+    final _signWith = json['signWith'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _sponsor = json['sponsor'] as bool?;
+    final _amountValue = json['amountValue'] as String;
+    return TEarnWithdrawBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      wrapperAddress: _wrapperAddress,
+      signWith: _signWith,
+      caip2: _caip2,
+      sponsor: _sponsor,
+      amountValue: _amountValue,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['wrapperAddress'] = wrapperAddress;
+    _json['signWith'] = signWith;
+    _json['caip2'] = caip2;
+    if (sponsor != null) {
+      _json['sponsor'] = sponsor;
+    }
+    _json['amountValue'] = amountValue;
+    return _json;
+  }
+}
+
+class TEarnWithdrawInput {
+  final TEarnWithdrawBody body;
+  const TEarnWithdrawInput({required this.body});
+  factory TEarnWithdrawInput.fromJson(Map<String, dynamic> json) =>
+      TEarnWithdrawInput(
+          body:
+              TEarnWithdrawBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TEmailAuthResponse {
   final v1Activity activity;
   final v1EmailAuthResult? result;
@@ -29314,6 +46763,9 @@ class TEthSendTransactionBody {
   /// Maximum priority fee (tip) per gas unit in wei. Required for non-sponsored (EIP-1559) transactions. Not used for sponsored transactions.
   final String? maxPriorityFeePerGas;
 
+  /// Unix timestamp in seconds for EIP-712 execution deadline. Only used when sponsor=true.
+  final String? deadline;
+
   /// The gas station delegate contract nonce. Only used when sponsor=true. Include this if you want maximal security posture.
   final String? gasStationNonce;
 
@@ -29330,6 +46782,7 @@ class TEthSendTransactionBody {
     this.gasLimit,
     this.maxFeePerGas,
     this.maxPriorityFeePerGas,
+    this.deadline,
     this.gasStationNonce,
   });
   factory TEthSendTransactionBody.fromJson(Map<String, dynamic> json) {
@@ -29345,6 +46798,7 @@ class TEthSendTransactionBody {
     final _gasLimit = json['gasLimit'] as String?;
     final _maxFeePerGas = json['maxFeePerGas'] as String?;
     final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    final _deadline = json['deadline'] as String?;
     final _gasStationNonce = json['gasStationNonce'] as String?;
     return TEthSendTransactionBody(
       timestampMs: _timestampMs,
@@ -29359,6 +46813,7 @@ class TEthSendTransactionBody {
       gasLimit: _gasLimit,
       maxFeePerGas: _maxFeePerGas,
       maxPriorityFeePerGas: _maxPriorityFeePerGas,
+      deadline: _deadline,
       gasStationNonce: _gasStationNonce,
     );
   }
@@ -29394,6 +46849,9 @@ class TEthSendTransactionBody {
     if (maxPriorityFeePerGas != null) {
       _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
     }
+    if (deadline != null) {
+      _json['deadline'] = deadline;
+    }
     if (gasStationNonce != null) {
       _json['gasStationNonce'] = gasStationNonce;
     }
@@ -29408,6 +46866,251 @@ class TEthSendTransactionInput {
       TEthSendTransactionInput(
           body: TEthSendTransactionBody.fromJson(
               json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TEthUndelegate7702Response {
+  final v1Activity activity;
+  final v1EthUndelegate7702Result? result;
+  const TEthUndelegate7702Response({
+    required this.activity,
+    this.result,
+  });
+  factory TEthUndelegate7702Response.fromJson(Map<String, dynamic> json) {
+    return TEthUndelegate7702Response(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1EthUndelegate7702Result
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TEthUndelegate7702Body {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A wallet or private key address to undelegate. This does not support private key IDs.
+  final String from;
+
+  /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet).
+  final String caip2;
+
+  /// Outer transaction nonce. Omit to auto-fetch.
+  final String? nonce;
+
+  /// Maximum amount of gas for the undelegation transaction. Omit to use the fixed undelegation gas limit.
+  final String? gasLimit;
+
+  /// Maximum total fee per gas unit (base fee + priority fee) in wei. Omit to auto-estimate.
+  final String? maxFeePerGas;
+
+  /// Maximum priority fee (tip) per gas unit in wei. Omit to auto-estimate.
+  final String? maxPriorityFeePerGas;
+
+  const TEthUndelegate7702Body({
+    this.timestampMs,
+    this.organizationId,
+    required this.from,
+    required this.caip2,
+    this.nonce,
+    this.gasLimit,
+    this.maxFeePerGas,
+    this.maxPriorityFeePerGas,
+  });
+  factory TEthUndelegate7702Body.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _from = json['from'] as String;
+    final _caip2 = json['caip2'] as String;
+    final _nonce = json['nonce'] as String?;
+    final _gasLimit = json['gasLimit'] as String?;
+    final _maxFeePerGas = json['maxFeePerGas'] as String?;
+    final _maxPriorityFeePerGas = json['maxPriorityFeePerGas'] as String?;
+    return TEthUndelegate7702Body(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      from: _from,
+      caip2: _caip2,
+      nonce: _nonce,
+      gasLimit: _gasLimit,
+      maxFeePerGas: _maxFeePerGas,
+      maxPriorityFeePerGas: _maxPriorityFeePerGas,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['from'] = from;
+    _json['caip2'] = caip2;
+    if (nonce != null) {
+      _json['nonce'] = nonce;
+    }
+    if (gasLimit != null) {
+      _json['gasLimit'] = gasLimit;
+    }
+    if (maxFeePerGas != null) {
+      _json['maxFeePerGas'] = maxFeePerGas;
+    }
+    if (maxPriorityFeePerGas != null) {
+      _json['maxPriorityFeePerGas'] = maxPriorityFeePerGas;
+    }
+    return _json;
+  }
+}
+
+class TEthUndelegate7702Input {
+  final TEthUndelegate7702Body body;
+  const TEthUndelegate7702Input({required this.body});
+  factory TEthUndelegate7702Input.fromJson(Map<String, dynamic> json) =>
+      TEthUndelegate7702Input(
+          body: TEthUndelegate7702Body.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TExecuteSwapResponse {
+  final v1Activity activity;
+  final v1ExecuteSwapResult? result;
+  const TExecuteSwapResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TExecuteSwapResponse.fromJson(Map<String, dynamic> json) {
+    return TExecuteSwapResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1ExecuteSwapResult.fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TExecuteSwapBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Quote identifier returned by create_swap_quote. Execution is bound to this quote; the signer is derived from the quote and must not be resupplied.
+  final String quoteId;
+
+  /// CAIP-19 asset ID for the input asset.
+  final String inputToken;
+
+  /// Exact base-unit amount of the input asset committed by the quote.
+  final String inputAmount;
+
+  /// CAIP-19 asset ID for the output asset.
+  final String outputToken;
+
+  /// Exact quoted base-unit output amount committed by the quote.
+  final String quotedOutputAmount;
+
+  /// Exact minimum base-unit output committed by the quote.
+  final String minOutputAmount;
+
+  /// Whether the quoted transaction is sponsored.
+  final bool sponsor;
+
+  /// Exact EVM sender (EOA account) nonce. Valid only for a non-sponsored EVM swap. Honored for already-delegated (Type-2) batch swaps and single-call swaps; ignored for not-yet-delegated EIP-7702 (Type-4) batches where the outer nonce is derived from the authorization. Prefer gas_station_nonce for batch replay protection and use the nonces endpoint to fetch it. Omit to auto-fetch.
+  final String? evmNonce;
+
+  /// Exact Solana recent blockhash. Valid only for a Solana swap, including sponsored swaps. Omit to auto-fetch.
+  final String? recentBlockhash;
+
+  /// Exact gas station delegate contract nonce used in the BatchExecution EIP-712 message. Valid for sponsored EVM swaps and non-sponsored EVM swaps that execute as a multi-call batch (for example ERC-20 approve + swap). This is the replay-protection nonce for gas-station batches; use the nonces endpoint to fetch it. Omit to auto-fetch.
+  final String? gasStationNonce;
+
+  const TExecuteSwapBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.quoteId,
+    required this.inputToken,
+    required this.inputAmount,
+    required this.outputToken,
+    required this.quotedOutputAmount,
+    required this.minOutputAmount,
+    required this.sponsor,
+    this.evmNonce,
+    this.recentBlockhash,
+    this.gasStationNonce,
+  });
+  factory TExecuteSwapBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _quoteId = json['quoteId'] as String;
+    final _inputToken = json['inputToken'] as String;
+    final _inputAmount = json['inputAmount'] as String;
+    final _outputToken = json['outputToken'] as String;
+    final _quotedOutputAmount = json['quotedOutputAmount'] as String;
+    final _minOutputAmount = json['minOutputAmount'] as String;
+    final _sponsor = json['sponsor'] as bool;
+    final _evmNonce = json['evmNonce'] as String?;
+    final _recentBlockhash = json['recentBlockhash'] as String?;
+    final _gasStationNonce = json['gasStationNonce'] as String?;
+    return TExecuteSwapBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      quoteId: _quoteId,
+      inputToken: _inputToken,
+      inputAmount: _inputAmount,
+      outputToken: _outputToken,
+      quotedOutputAmount: _quotedOutputAmount,
+      minOutputAmount: _minOutputAmount,
+      sponsor: _sponsor,
+      evmNonce: _evmNonce,
+      recentBlockhash: _recentBlockhash,
+      gasStationNonce: _gasStationNonce,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['quoteId'] = quoteId;
+    _json['inputToken'] = inputToken;
+    _json['inputAmount'] = inputAmount;
+    _json['outputToken'] = outputToken;
+    _json['quotedOutputAmount'] = quotedOutputAmount;
+    _json['minOutputAmount'] = minOutputAmount;
+    _json['sponsor'] = sponsor;
+    if (evmNonce != null) {
+      _json['evmNonce'] = evmNonce;
+    }
+    if (recentBlockhash != null) {
+      _json['recentBlockhash'] = recentBlockhash;
+    }
+    if (gasStationNonce != null) {
+      _json['gasStationNonce'] = gasStationNonce;
+    }
+    return _json;
+  }
+}
+
+class TExecuteSwapInput {
+  final TExecuteSwapBody body;
+  const TExecuteSwapInput({required this.body});
+  factory TExecuteSwapInput.fromJson(Map<String, dynamic> json) =>
+      TExecuteSwapInput(
+          body:
+              TExecuteSwapBody.fromJson(json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -29481,6 +47184,75 @@ class TExportPrivateKeyInput {
   factory TExportPrivateKeyInput.fromJson(Map<String, dynamic> json) =>
       TExportPrivateKeyInput(
           body: TExportPrivateKeyBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TExportSecretsResponse {
+  final v1Activity activity;
+  final v1ExportSecretsResult? result;
+  const TExportSecretsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TExportSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return TExportSecretsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1ExportSecretsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TExportSecretsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A list of secrets to export.
+  final List<v1ExportSecretParams> secrets;
+
+  const TExportSecretsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.secrets,
+  });
+  factory TExportSecretsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _secrets = (json['secrets'] as List)
+        .map((e) => v1ExportSecretParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TExportSecretsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      secrets: _secrets,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['secrets'] = secrets.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TExportSecretsInput {
+  final TExportSecretsBody body;
+  const TExportSecretsInput({required this.body});
+  factory TExportSecretsInput.fromJson(Map<String, dynamic> json) =>
+      TExportSecretsInput(
+          body: TExportSecretsBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -29738,6 +47510,75 @@ class TImportPrivateKeyInput {
   factory TImportPrivateKeyInput.fromJson(Map<String, dynamic> json) =>
       TImportPrivateKeyInput(
           body: TImportPrivateKeyBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TImportSecretsResponse {
+  final v1Activity activity;
+  final v1ImportSecretsResult? result;
+  const TImportSecretsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TImportSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return TImportSecretsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1ImportSecretsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TImportSecretsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A list of secrets to import.
+  final List<v1ImportSecretParams> secrets;
+
+  const TImportSecretsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.secrets,
+  });
+  factory TImportSecretsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _secrets = (json['secrets'] as List)
+        .map((e) => v1ImportSecretParams.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TImportSecretsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      secrets: _secrets,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['secrets'] = secrets.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TImportSecretsInput {
+  final TImportSecretsBody body;
+  const TImportSecretsInput({required this.body});
+  factory TImportSecretsInput.fromJson(Map<String, dynamic> json) =>
+      TImportSecretsInput(
+          body: TImportSecretsBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -30057,6 +47898,82 @@ class TInitImportPrivateKeyInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TInitImportSecretsResponse {
+  final v1Activity activity;
+  final v1InitImportSecretsResult? result;
+  const TInitImportSecretsResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TInitImportSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return TInitImportSecretsResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1InitImportSecretsResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TInitImportSecretsBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Transport encryption suite used for ingress secrets.
+  final v1TransportEncryptionSuite encryptionSuite;
+
+  /// The number of secrets the user intends to import.
+  final num numSecrets;
+
+  const TInitImportSecretsBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.encryptionSuite,
+    required this.numSecrets,
+  });
+  factory TInitImportSecretsBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _encryptionSuite =
+        v1TransportEncryptionSuiteFromJson(json['encryptionSuite']);
+    final _numSecrets = json['numSecrets'] as num;
+    return TInitImportSecretsBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      encryptionSuite: _encryptionSuite,
+      numSecrets: _numSecrets,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['encryptionSuite'] =
+        v1TransportEncryptionSuiteToJson(encryptionSuite);
+    _json['numSecrets'] = numSecrets;
+    return _json;
+  }
+}
+
+class TInitImportSecretsInput {
+  final TInitImportSecretsBody body;
+  const TInitImportSecretsInput({required this.body});
+  factory TInitImportSecretsInput.fromJson(Map<String, dynamic> json) =>
+      TInitImportSecretsInput(
+          body: TInitImportSecretsBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TInitImportWalletResponse {
   final v1Activity activity;
   final v1InitImportWalletResult? result;
@@ -30149,7 +48066,7 @@ class TInitOtpBody {
   final String? timestampMs;
   final String? organizationId;
 
-  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  /// Whether to send OTP via SMS, email, or WhatsApp. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL, OTP_TYPE_WHATSAPP
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -30315,7 +48232,7 @@ class TInitOtpAuthBody {
   final String? timestampMs;
   final String? organizationId;
 
-  /// Whether to send OTP via SMS or email. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL
+  /// Whether to send OTP via SMS, email, or WhatsApp. Possible values: OTP_TYPE_SMS, OTP_TYPE_EMAIL, OTP_TYPE_WHATSAPP
   final String otpType;
 
   /// Email or phone number to send the OTP code to
@@ -30711,8 +48628,8 @@ class TOauth2AuthenticateBody {
   /// The code verifier used by OAuth 2.0 PKCE providers
   final String codeVerifier;
 
-  /// An optional nonce used by the client to prevent replay/substitution of an ID token
-  final String? nonce;
+  /// A nonce value set to sha256(publicKey), used to bind the OIDC token to a specific public key
+  final String nonce;
 
   /// An optional P256 public key to which, if provided, the bearer token will be encrypted and returned via the `encrypted_bearer_token` claim of the OIDC Token
   final String? bearerTokenTargetPublicKey;
@@ -30724,7 +48641,7 @@ class TOauth2AuthenticateBody {
     required this.authCode,
     required this.redirectUri,
     required this.codeVerifier,
-    this.nonce,
+    required this.nonce,
     this.bearerTokenTargetPublicKey,
   });
   factory TOauth2AuthenticateBody.fromJson(Map<String, dynamic> json) {
@@ -30734,7 +48651,7 @@ class TOauth2AuthenticateBody {
     final _authCode = json['authCode'] as String;
     final _redirectUri = json['redirectUri'] as String;
     final _codeVerifier = json['codeVerifier'] as String;
-    final _nonce = json['nonce'] as String?;
+    final _nonce = json['nonce'] as String;
     final _bearerTokenTargetPublicKey =
         json['bearerTokenTargetPublicKey'] as String?;
     return TOauth2AuthenticateBody(
@@ -30760,9 +48677,7 @@ class TOauth2AuthenticateBody {
     _json['authCode'] = authCode;
     _json['redirectUri'] = redirectUri;
     _json['codeVerifier'] = codeVerifier;
-    if (nonce != null) {
-      _json['nonce'] = nonce;
-    }
+    _json['nonce'] = nonce;
     if (bearerTokenTargetPublicKey != null) {
       _json['bearerTokenTargetPublicKey'] = bearerTokenTargetPublicKey;
     }
@@ -30817,6 +48732,9 @@ class TOauthLoginBody {
   /// Invalidate all other previously generated Login API keys
   final bool? invalidateExisting;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const TOauthLoginBody({
     this.timestampMs,
     this.organizationId,
@@ -30824,6 +48742,7 @@ class TOauthLoginBody {
     required this.publicKey,
     this.expirationSeconds,
     this.invalidateExisting,
+    this.sessionProfileId,
   });
   factory TOauthLoginBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -30832,6 +48751,7 @@ class TOauthLoginBody {
     final _publicKey = json['publicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return TOauthLoginBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -30839,6 +48759,7 @@ class TOauthLoginBody {
       publicKey: _publicKey,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
+      sessionProfileId: _sessionProfileId,
     );
   }
   Map<String, dynamic> toJson() {
@@ -30856,6 +48777,9 @@ class TOauthLoginBody {
     }
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
     }
     return _json;
   }
@@ -31015,6 +48939,9 @@ class TOtpLoginBody {
   /// Invalidate all other previously generated Login sessions
   final bool? invalidateExisting;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const TOtpLoginBody({
     this.timestampMs,
     this.organizationId,
@@ -31023,6 +48950,7 @@ class TOtpLoginBody {
     required this.clientSignature,
     this.expirationSeconds,
     this.invalidateExisting,
+    this.sessionProfileId,
   });
   factory TOtpLoginBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -31033,6 +48961,7 @@ class TOtpLoginBody {
         .fromJson(json['clientSignature'] as Map<String, dynamic>);
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return TOtpLoginBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -31041,6 +48970,7 @@ class TOtpLoginBody {
       clientSignature: _clientSignature,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
+      sessionProfileId: _sessionProfileId,
     );
   }
   Map<String, dynamic> toJson() {
@@ -31060,6 +48990,9 @@ class TOtpLoginBody {
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
     }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
+    }
     return _json;
   }
 }
@@ -31069,6 +49002,192 @@ class TOtpLoginInput {
   const TOtpLoginInput({required this.body});
   factory TOtpLoginInput.fromJson(Map<String, dynamic> json) => TOtpLoginInput(
       body: TOtpLoginBody.fromJson(json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TPostTvcQuorumKeyShareResponse {
+  final v1Activity activity;
+  final v1PostTvcQuorumKeyShareResult? result;
+  const TPostTvcQuorumKeyShareResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TPostTvcQuorumKeyShareResponse.fromJson(Map<String, dynamic> json) {
+    return TPostTvcQuorumKeyShareResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1PostTvcQuorumKeyShareResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TPostTvcQuorumKeyShareBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Unique identifier of the TVC deployment receiving quorum key share
+  final String deploymentId;
+
+  /// Hex-encoded ephemeral public key used to encrypt the quorum key share
+  final String ephemeralPublicKeyHex;
+
+  /// Re-encrypted quorum key share and approval
+  final v1QuorumKeyShareApprovalBundle shareApprovalBundle;
+
+  const TPostTvcQuorumKeyShareBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.deploymentId,
+    required this.ephemeralPublicKeyHex,
+    required this.shareApprovalBundle,
+  });
+  factory TPostTvcQuorumKeyShareBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    final _ephemeralPublicKeyHex = json['ephemeralPublicKeyHex'] as String;
+    final _shareApprovalBundle = v1QuorumKeyShareApprovalBundle
+        .fromJson(json['shareApprovalBundle'] as Map<String, dynamic>);
+    return TPostTvcQuorumKeyShareBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+      ephemeralPublicKeyHex: _ephemeralPublicKeyHex,
+      shareApprovalBundle: _shareApprovalBundle,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    _json['ephemeralPublicKeyHex'] = ephemeralPublicKeyHex;
+    _json['shareApprovalBundle'] = shareApprovalBundle.toJson();
+    return _json;
+  }
+}
+
+class TPostTvcQuorumKeyShareInput {
+  final TPostTvcQuorumKeyShareBody body;
+  const TPostTvcQuorumKeyShareInput({required this.body});
+  factory TPostTvcQuorumKeyShareInput.fromJson(Map<String, dynamic> json) =>
+      TPostTvcQuorumKeyShareInput(
+          body: TPostTvcQuorumKeyShareBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TReEncryptTvcQuorumKeyShareResponse {
+  final v1Activity activity;
+  final v1ReEncryptTvcQuorumKeyShareResult? result;
+  const TReEncryptTvcQuorumKeyShareResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TReEncryptTvcQuorumKeyShareResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TReEncryptTvcQuorumKeyShareResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1ReEncryptTvcQuorumKeyShareResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TReEncryptTvcQuorumKeyShareBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// Base64-encoded attestation document for the TVC deployment provisioning enclave
+  final String attestationDocB64;
+
+  /// Base64-encoded manifest for the TVC deployment
+  final String manifestB64;
+
+  /// Operator encryption public key used to encrypt the hosted TVC quorum key share
+  final String operatorEncryptKey;
+
+  /// Operator signing public key used to approve the TVC manifest
+  final String operatorSignKey;
+
+  /// Unique identifier of the TVC deployment receiving the re-encrypted quorum key share
+  final String deploymentId;
+
+  /// Quorum key for the TVC application
+  final String appQuorumKey;
+
+  const TReEncryptTvcQuorumKeyShareBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.attestationDocB64,
+    required this.manifestB64,
+    required this.operatorEncryptKey,
+    required this.operatorSignKey,
+    required this.deploymentId,
+    required this.appQuorumKey,
+  });
+  factory TReEncryptTvcQuorumKeyShareBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _attestationDocB64 = json['attestationDocB64'] as String;
+    final _manifestB64 = json['manifestB64'] as String;
+    final _operatorEncryptKey = json['operatorEncryptKey'] as String;
+    final _operatorSignKey = json['operatorSignKey'] as String;
+    final _deploymentId = json['deploymentId'] as String;
+    final _appQuorumKey = json['appQuorumKey'] as String;
+    return TReEncryptTvcQuorumKeyShareBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      attestationDocB64: _attestationDocB64,
+      manifestB64: _manifestB64,
+      operatorEncryptKey: _operatorEncryptKey,
+      operatorSignKey: _operatorSignKey,
+      deploymentId: _deploymentId,
+      appQuorumKey: _appQuorumKey,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['attestationDocB64'] = attestationDocB64;
+    _json['manifestB64'] = manifestB64;
+    _json['operatorEncryptKey'] = operatorEncryptKey;
+    _json['operatorSignKey'] = operatorSignKey;
+    _json['deploymentId'] = deploymentId;
+    _json['appQuorumKey'] = appQuorumKey;
+    return _json;
+  }
+}
+
+class TReEncryptTvcQuorumKeyShareInput {
+  final TReEncryptTvcQuorumKeyShareBody body;
+  const TReEncryptTvcQuorumKeyShareInput({required this.body});
+  factory TReEncryptTvcQuorumKeyShareInput.fromJson(
+          Map<String, dynamic> json) =>
+      TReEncryptTvcQuorumKeyShareInput(
+          body: TReEncryptTvcQuorumKeyShareBody.fromJson(
+              json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -31206,6 +49325,75 @@ class TRejectActivityInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TRemoveIpAllowlistResponse {
+  final v1Activity activity;
+  final v1RemoveIpAllowlistResult? result;
+  const TRemoveIpAllowlistResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TRemoveIpAllowlistResponse.fromJson(Map<String, dynamic> json) {
+    return TRemoveIpAllowlistResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1RemoveIpAllowlistResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TRemoveIpAllowlistBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The public component of an API key. If null, removes the organization-level IP allowlist. If set, removes the IP allowlist for this specific API key.
+  final String? publicKey;
+
+  const TRemoveIpAllowlistBody({
+    this.timestampMs,
+    this.organizationId,
+    this.publicKey,
+  });
+  factory TRemoveIpAllowlistBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _publicKey = json['publicKey'] as String?;
+    return TRemoveIpAllowlistBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      publicKey: _publicKey,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    return _json;
+  }
+}
+
+class TRemoveIpAllowlistInput {
+  final TRemoveIpAllowlistBody body;
+  const TRemoveIpAllowlistInput({required this.body});
+  factory TRemoveIpAllowlistInput.fromJson(Map<String, dynamic> json) =>
+      TRemoveIpAllowlistInput(
+          body: TRemoveIpAllowlistBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TRemoveOrganizationFeatureResponse {
   final v1Activity activity;
   final v1RemoveOrganizationFeatureResult? result;
@@ -31270,6 +49458,172 @@ class TRemoveOrganizationFeatureInput {
   factory TRemoveOrganizationFeatureInput.fromJson(Map<String, dynamic> json) =>
       TRemoveOrganizationFeatureInput(
           body: TRemoveOrganizationFeatureBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TRestoreTvcDeploymentResponse {
+  final v1Activity activity;
+  final v1RestoreTvcDeploymentResult? result;
+  const TRestoreTvcDeploymentResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TRestoreTvcDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return TRestoreTvcDeploymentResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1RestoreTvcDeploymentResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TRestoreTvcDeploymentBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The unique identifier of the TVC deployment to restore.
+  final String deploymentId;
+
+  const TRestoreTvcDeploymentBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.deploymentId,
+  });
+  factory TRestoreTvcDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    return TRestoreTvcDeploymentBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class TRestoreTvcDeploymentInput {
+  final TRestoreTvcDeploymentBody body;
+  const TRestoreTvcDeploymentInput({required this.body});
+  factory TRestoreTvcDeploymentInput.fromJson(Map<String, dynamic> json) =>
+      TRestoreTvcDeploymentInput(
+          body: TRestoreTvcDeploymentBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TSetIpAllowlistResponse {
+  final v1Activity activity;
+  final v1SetIpAllowlistResult? result;
+  const TSetIpAllowlistResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TSetIpAllowlistResponse.fromJson(Map<String, dynamic> json) {
+    return TSetIpAllowlistResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1SetIpAllowlistResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TSetIpAllowlistBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The public component of an API key. If null, the IP allowlist applies at the organization level. If set, it applies only to this specific API key.
+  final String? publicKey;
+
+  /// Whether the IP allowlist is enabled. Only meaningful for organization-level allowlists. Omit for API key-level allowlists.
+  final bool? enabled;
+
+  /// List of IP allowlist rules with CIDR blocks and optional labels.
+  final List<v1IpAllowlistIntentRule>? rules;
+
+  /// Behavior when an error occurs during IP allowlist evaluation. Valid values: ALLOW, DENY. Defaults to DENY.
+  final String? onEvaluationError;
+
+  const TSetIpAllowlistBody({
+    this.timestampMs,
+    this.organizationId,
+    this.publicKey,
+    this.enabled,
+    this.rules,
+    this.onEvaluationError,
+  });
+  factory TSetIpAllowlistBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _publicKey = json['publicKey'] as String?;
+    final _enabled = json['enabled'] as bool?;
+    final _rules = (json['rules'] as List?)
+        ?.map(
+            (e) => v1IpAllowlistIntentRule.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _onEvaluationError = json['onEvaluationError'] as String?;
+    return TSetIpAllowlistBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      publicKey: _publicKey,
+      enabled: _enabled,
+      rules: _rules,
+      onEvaluationError: _onEvaluationError,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (publicKey != null) {
+      _json['publicKey'] = publicKey;
+    }
+    if (enabled != null) {
+      _json['enabled'] = enabled;
+    }
+    if (rules != null) {
+      _json['rules'] = rules?.map((e) => e.toJson()).toList();
+    }
+    if (onEvaluationError != null) {
+      _json['onEvaluationError'] = onEvaluationError;
+    }
+    return _json;
+  }
+}
+
+class TSetIpAllowlistInput {
+  final TSetIpAllowlistBody body;
+  const TSetIpAllowlistInput({required this.body});
+  factory TSetIpAllowlistInput.fromJson(Map<String, dynamic> json) =>
+      TSetIpAllowlistInput(
+          body: TSetIpAllowlistBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -31344,6 +49698,75 @@ class TSetOrganizationFeatureInput {
   factory TSetOrganizationFeatureInput.fromJson(Map<String, dynamic> json) =>
       TSetOrganizationFeatureInput(
           body: TSetOrganizationFeatureBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TUpdateTvcAppLiveDeploymentResponse {
+  final v1Activity activity;
+  final v1UpdateTvcAppLiveDeploymentResult? result;
+  const TUpdateTvcAppLiveDeploymentResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TUpdateTvcAppLiveDeploymentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TUpdateTvcAppLiveDeploymentResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1UpdateTvcAppLiveDeploymentResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TUpdateTvcAppLiveDeploymentBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The unique identifier of the TVC deployment to set as live for the app.
+  final String deploymentId;
+
+  const TUpdateTvcAppLiveDeploymentBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.deploymentId,
+  });
+  factory TUpdateTvcAppLiveDeploymentBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _deploymentId = json['deploymentId'] as String;
+    return TUpdateTvcAppLiveDeploymentBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      deploymentId: _deploymentId,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['deploymentId'] = deploymentId;
+    return _json;
+  }
+}
+
+class TUpdateTvcAppLiveDeploymentInput {
+  final TUpdateTvcAppLiveDeploymentBody body;
+  const TUpdateTvcAppLiveDeploymentInput({required this.body});
+  factory TUpdateTvcAppLiveDeploymentInput.fromJson(
+          Map<String, dynamic> json) =>
+      TUpdateTvcAppLiveDeploymentInput(
+          body: TUpdateTvcAppLiveDeploymentBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -31606,7 +50029,7 @@ class TSignTransactionInput {
 
 class TSolSendTransactionResponse {
   final v1Activity activity;
-  final v1SolSendTransactionResult? result;
+  final v1SolSendTransactionResultV2? result;
   const TSolSendTransactionResponse({
     required this.activity,
     this.result,
@@ -31615,7 +50038,7 @@ class TSolSendTransactionResponse {
     return TSolSendTransactionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1SolSendTransactionResult
+          ? v1SolSendTransactionResultV2
               .fromJson(json['result'] as Map<String, dynamic>)
           : null,
     );
@@ -31630,26 +50053,26 @@ class TSolSendTransactionBody {
   final String? timestampMs;
   final String? organizationId;
 
-  /// Base64-encoded serialized unsigned Solana transaction
+  /// Hex-encoded serialized unsigned Solana transaction in full wire format. Legacy/V0 transactions allow 1232 bytes. V1 allows 4096 bytes with up to 12 trailing 64-byte signature slots, including the paymaster for sponsored transactions. Fill unsigned slots with zeroes.
   final String unsignedTransaction;
 
-  /// A wallet or private key address to sign with. This does not support private key IDs.
-  final String signWith;
+  /// Ordered Solana signer addresses Turnkey signs with. Between 1 and 16 signers for legacy/V0, or up to 12 for V1 (11 when sponsored). For sponsored transactions this must list every required signer of the transaction in transaction order.
+  final List<String> signWiths;
 
   /// Whether to sponsor this transaction via Gas Station.
   final bool? sponsor;
 
-  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet).
+  /// CAIP-2 chain ID (e.g., 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet). Human-readable Solana aliases ('solana:mainnet', 'solana:devnet') are also accepted and normalized to canonical CAIP-2 values.
   final String caip2;
 
-  /// user-provided blockhash for replay protection / deadline control. If omitted and sponsor=true, we fetch a fresh blockhash during execution
+  /// User-provided blockhash for replay protection / deadline control. If provided, it is used as-is, including for sponsored transactions (the transaction is only broadcastable while the blockhash is current). If omitted and sponsor=true, a fresh blockhash is fetched during execution.
   final String? recentBlockhash;
 
   const TSolSendTransactionBody({
     this.timestampMs,
     this.organizationId,
     required this.unsignedTransaction,
-    required this.signWith,
+    required this.signWiths,
     this.sponsor,
     required this.caip2,
     this.recentBlockhash,
@@ -31658,7 +50081,8 @@ class TSolSendTransactionBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _unsignedTransaction = json['unsignedTransaction'] as String;
-    final _signWith = json['signWith'] as String;
+    final _signWiths =
+        (json['signWiths'] as List).map((e) => e as String).toList();
     final _sponsor = json['sponsor'] as bool?;
     final _caip2 = json['caip2'] as String;
     final _recentBlockhash = json['recentBlockhash'] as String?;
@@ -31666,7 +50090,7 @@ class TSolSendTransactionBody {
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       unsignedTransaction: _unsignedTransaction,
-      signWith: _signWith,
+      signWiths: _signWiths,
       sponsor: _sponsor,
       caip2: _caip2,
       recentBlockhash: _recentBlockhash,
@@ -31681,7 +50105,7 @@ class TSolSendTransactionBody {
       _json['organizationId'] = organizationId;
     }
     _json['unsignedTransaction'] = unsignedTransaction;
-    _json['signWith'] = signWith;
+    _json['signWiths'] = signWiths;
     if (sponsor != null) {
       _json['sponsor'] = sponsor;
     }
@@ -31699,6 +50123,310 @@ class TSolSendTransactionInput {
   factory TSolSendTransactionInput.fromJson(Map<String, dynamic> json) =>
       TSolSendTransactionInput(
           body: TSolSendTransactionBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TSparkClaimTransferResponse {
+  final v1Activity activity;
+  final v1SparkClaimTransferResult? result;
+  const TSparkClaimTransferResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TSparkClaimTransferResponse.fromJson(Map<String, dynamic> json) {
+    return TSparkClaimTransferResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1SparkClaimTransferResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TSparkClaimTransferBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A Spark wallet account address identifying the wallet.
+  final String signWith;
+
+  /// Claim package parameters.
+  final v1SparkClaimPackage claim;
+
+  const TSparkClaimTransferBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.signWith,
+    required this.claim,
+  });
+  factory TSparkClaimTransferBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signWith = json['signWith'] as String;
+    final _claim =
+        v1SparkClaimPackage.fromJson(json['claim'] as Map<String, dynamic>);
+    return TSparkClaimTransferBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signWith: _signWith,
+      claim: _claim,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['claim'] = claim.toJson();
+    return _json;
+  }
+}
+
+class TSparkClaimTransferInput {
+  final TSparkClaimTransferBody body;
+  const TSparkClaimTransferInput({required this.body});
+  factory TSparkClaimTransferInput.fromJson(Map<String, dynamic> json) =>
+      TSparkClaimTransferInput(
+          body: TSparkClaimTransferBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TSparkPrepareLightningReceiveResponse {
+  final v1Activity activity;
+  final v1SparkPrepareLightningReceiveResult? result;
+  const TSparkPrepareLightningReceiveResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TSparkPrepareLightningReceiveResponse.fromJson(
+      Map<String, dynamic> json) {
+    return TSparkPrepareLightningReceiveResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1SparkPrepareLightningReceiveResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TSparkPrepareLightningReceiveBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A Spark wallet account address identifying the wallet.
+  final String signWith;
+
+  /// Lightning receive package parameters: threshold and operator recipients.
+  final v1SparkLightningReceivePackage lightningReceive;
+
+  const TSparkPrepareLightningReceiveBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.signWith,
+    required this.lightningReceive,
+  });
+  factory TSparkPrepareLightningReceiveBody.fromJson(
+      Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signWith = json['signWith'] as String;
+    final _lightningReceive = v1SparkLightningReceivePackage
+        .fromJson(json['lightningReceive'] as Map<String, dynamic>);
+    return TSparkPrepareLightningReceiveBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signWith: _signWith,
+      lightningReceive: _lightningReceive,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['lightningReceive'] = lightningReceive.toJson();
+    return _json;
+  }
+}
+
+class TSparkPrepareLightningReceiveInput {
+  final TSparkPrepareLightningReceiveBody body;
+  const TSparkPrepareLightningReceiveInput({required this.body});
+  factory TSparkPrepareLightningReceiveInput.fromJson(
+          Map<String, dynamic> json) =>
+      TSparkPrepareLightningReceiveInput(
+          body: TSparkPrepareLightningReceiveBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TSparkPrepareTransferResponse {
+  final v1Activity activity;
+  final v1SparkPrepareTransferResult? result;
+  const TSparkPrepareTransferResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TSparkPrepareTransferResponse.fromJson(Map<String, dynamic> json) {
+    return TSparkPrepareTransferResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1SparkPrepareTransferResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TSparkPrepareTransferBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A Spark wallet account address identifying the wallet.
+  final String signWith;
+
+  /// Transfer package parameters for HD key tweak splitting.
+  final v1SparkTransferPackage transfer;
+
+  const TSparkPrepareTransferBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.signWith,
+    required this.transfer,
+  });
+  factory TSparkPrepareTransferBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signWith = json['signWith'] as String;
+    final _transfer = v1SparkTransferPackage
+        .fromJson(json['transfer'] as Map<String, dynamic>);
+    return TSparkPrepareTransferBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signWith: _signWith,
+      transfer: _transfer,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['transfer'] = transfer.toJson();
+    return _json;
+  }
+}
+
+class TSparkPrepareTransferInput {
+  final TSparkPrepareTransferBody body;
+  const TSparkPrepareTransferInput({required this.body});
+  factory TSparkPrepareTransferInput.fromJson(Map<String, dynamic> json) =>
+      TSparkPrepareTransferInput(
+          body: TSparkPrepareTransferBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TSparkSignFrostResponse {
+  final v1Activity activity;
+  final v1SparkSignFrostResult? result;
+  const TSparkSignFrostResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TSparkSignFrostResponse.fromJson(Map<String, dynamic> json) {
+    return TSparkSignFrostResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1SparkSignFrostResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TSparkSignFrostBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// A Spark wallet account address identifying the wallet to sign with.
+  final String signWith;
+
+  /// Batched sign requests. Each produces a partial signature plus Turnkey's public commitments.
+  final List<v1SparkSignatureRequest> signatures;
+
+  const TSparkSignFrostBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.signWith,
+    required this.signatures,
+  });
+  factory TSparkSignFrostBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _signWith = json['signWith'] as String;
+    final _signatures = (json['signatures'] as List)
+        .map((e) => v1SparkSignatureRequest.fromJson(e as Map<String, dynamic>))
+        .toList();
+    return TSparkSignFrostBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      signWith: _signWith,
+      signatures: _signatures,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['signWith'] = signWith;
+    _json['signatures'] = signatures.map((e) => e.toJson()).toList();
+    return _json;
+  }
+}
+
+class TSparkSignFrostInput {
+  final TSparkSignFrostBody body;
+  const TSparkSignFrostInput({required this.body});
+  factory TSparkSignFrostInput.fromJson(Map<String, dynamic> json) =>
+      TSparkSignFrostInput(
+          body: TSparkSignFrostBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -31737,12 +50465,16 @@ class TStampLoginBody {
   /// Invalidate all other previously generated Login API keys
   final bool? invalidateExisting;
 
+  /// Optional session profile ID to specify which Session Profile to use for this login. If not provided, the default read/write session will be used.
+  final String? sessionProfileId;
+
   const TStampLoginBody({
     this.timestampMs,
     this.organizationId,
     required this.publicKey,
     this.expirationSeconds,
     this.invalidateExisting,
+    this.sessionProfileId,
   });
   factory TStampLoginBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -31750,12 +50482,14 @@ class TStampLoginBody {
     final _publicKey = json['publicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
     return TStampLoginBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
       publicKey: _publicKey,
       expirationSeconds: _expirationSeconds,
       invalidateExisting: _invalidateExisting,
+      sessionProfileId: _sessionProfileId,
     );
   }
   Map<String, dynamic> toJson() {
@@ -31772,6 +50506,9 @@ class TStampLoginBody {
     }
     if (invalidateExisting != null) {
       _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
     }
     return _json;
   }
@@ -31891,6 +50628,131 @@ class TUpdateFiatOnRampCredentialInput {
           Map<String, dynamic> json) =>
       TUpdateFiatOnRampCredentialInput(
           body: TUpdateFiatOnRampCredentialBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class TUpdateMfaPolicyResponse {
+  final v1Activity activity;
+  final v1UpdateMfaPolicyResult? result;
+  const TUpdateMfaPolicyResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TUpdateMfaPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return TUpdateMfaPolicyResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1UpdateMfaPolicyResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TUpdateMfaPolicyBody {
+  final String? timestampMs;
+  final String? organizationId;
+
+  /// The ID of the User to update the MFA Policy for.
+  final String userId;
+
+  /// Unique identifier for a given MFA Policy.
+  final String mfaPolicyId;
+
+  /// Human-readable name for a Policy.
+  final String? mfaPolicyName;
+
+  /// A condition expression that evaluates to true or false, determining when this MFA policy applies.
+  final String? condition;
+
+  /// An ordered list of authentication requirements. Each requirement must be satisfied sequentially to complete MFA.
+  final List<v1RequiredAuthenticationMethodParams>?
+      requiredAuthenticationMethods;
+
+  /// The order in which this MFA policy is evaluated, starting from 0, relative to other MFA policies. Lower order values are evaluated first.
+  final num? order;
+
+  /// Notes for an MFA Policy.
+  final String? notes;
+
+  const TUpdateMfaPolicyBody({
+    this.timestampMs,
+    this.organizationId,
+    required this.userId,
+    required this.mfaPolicyId,
+    this.mfaPolicyName,
+    this.condition,
+    this.requiredAuthenticationMethods,
+    this.order,
+    this.notes,
+  });
+  factory TUpdateMfaPolicyBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _userId = json['userId'] as String;
+    final _mfaPolicyId = json['mfaPolicyId'] as String;
+    final _mfaPolicyName = json['mfaPolicyName'] as String?;
+    final _condition = json['condition'] as String?;
+    final _requiredAuthenticationMethods =
+        (json['requiredAuthenticationMethods'] as List?)
+            ?.map((e) => v1RequiredAuthenticationMethodParams
+                .fromJson(e as Map<String, dynamic>))
+            .toList();
+    final _order = json['order'] as num?;
+    final _notes = json['notes'] as String?;
+    return TUpdateMfaPolicyBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      userId: _userId,
+      mfaPolicyId: _mfaPolicyId,
+      mfaPolicyName: _mfaPolicyName,
+      condition: _condition,
+      requiredAuthenticationMethods: _requiredAuthenticationMethods,
+      order: _order,
+      notes: _notes,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    _json['userId'] = userId;
+    _json['mfaPolicyId'] = mfaPolicyId;
+    if (mfaPolicyName != null) {
+      _json['mfaPolicyName'] = mfaPolicyName;
+    }
+    if (condition != null) {
+      _json['condition'] = condition;
+    }
+    if (requiredAuthenticationMethods != null) {
+      _json['requiredAuthenticationMethods'] =
+          requiredAuthenticationMethods?.map((e) => e.toJson()).toList();
+    }
+    if (order != null) {
+      _json['order'] = order;
+    }
+    if (notes != null) {
+      _json['notes'] = notes;
+    }
+    return _json;
+  }
+}
+
+class TUpdateMfaPolicyInput {
+  final TUpdateMfaPolicyBody body;
+  const TUpdateMfaPolicyInput({required this.body});
+  factory TUpdateMfaPolicyInput.fromJson(Map<String, dynamic> json) =>
+      TUpdateMfaPolicyInput(
+          body: TUpdateMfaPolicyBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
@@ -32094,6 +50956,9 @@ class TUpdatePolicyBody {
   /// Accompanying notes for a Policy (optional).
   final String? policyNotes;
 
+  /// The time expression that triggers the Effect (optional).
+  final String? time;
+
   const TUpdatePolicyBody({
     this.timestampMs,
     this.organizationId,
@@ -32103,6 +50968,7 @@ class TUpdatePolicyBody {
     this.policyCondition,
     this.policyConsensus,
     this.policyNotes,
+    this.time,
   });
   factory TUpdatePolicyBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
@@ -32115,6 +50981,7 @@ class TUpdatePolicyBody {
     final _policyCondition = json['policyCondition'] as String?;
     final _policyConsensus = json['policyConsensus'] as String?;
     final _policyNotes = json['policyNotes'] as String?;
+    final _time = json['time'] as String?;
     return TUpdatePolicyBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -32124,6 +50991,7 @@ class TUpdatePolicyBody {
       policyCondition: _policyCondition,
       policyConsensus: _policyConsensus,
       policyNotes: _policyNotes,
+      time: _time,
     );
   }
   Map<String, dynamic> toJson() {
@@ -32149,6 +51017,9 @@ class TUpdatePolicyBody {
     }
     if (policyNotes != null) {
       _json['policyNotes'] = policyNotes;
+    }
+    if (time != null) {
+      _json['time'] = time;
     }
     return _json;
   }
@@ -32934,6 +51805,92 @@ class TUpdateWebhookEndpointInput {
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
+class TUpsertSwapConfigResponse {
+  final v1Activity activity;
+  final v1UpsertSwapConfigResult? result;
+  const TUpsertSwapConfigResponse({
+    required this.activity,
+    this.result,
+  });
+  factory TUpsertSwapConfigResponse.fromJson(Map<String, dynamic> json) {
+    return TUpsertSwapConfigResponse(
+      activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
+      result: json.containsKey('result') && json['result'] != null
+          ? v1UpsertSwapConfigResult
+              .fromJson(json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+  Map<String, dynamic> toJson() => {
+        'activity': activity.toJson(),
+        if (result != null) 'result': result!.toJson(),
+      };
+}
+
+class TUpsertSwapConfigBody {
+  final String? timestampMs;
+  final String? organizationId;
+  final String? feeReceiverWalletAddress;
+
+  /// Client fee in basis points applied to swaps; used for all pairs unless stable_fee_bps is set.
+  final String? feeBps;
+
+  /// Optional Enterprise-only override applied when both swap assets are stablecoins; falls back to fee_bps when unset. Non-Enterprise orgs may only set fee_bps.
+  final String? stableFeeBps;
+
+  const TUpsertSwapConfigBody({
+    this.timestampMs,
+    this.organizationId,
+    this.feeReceiverWalletAddress,
+    this.feeBps,
+    this.stableFeeBps,
+  });
+  factory TUpsertSwapConfigBody.fromJson(Map<String, dynamic> json) {
+    final _timestampMs = json['timestampMs'] as String?;
+    final _organizationId = json['organizationId'] as String?;
+    final _feeReceiverWalletAddress =
+        json['feeReceiverWalletAddress'] as String?;
+    final _feeBps = json['feeBps'] as String?;
+    final _stableFeeBps = json['stableFeeBps'] as String?;
+    return TUpsertSwapConfigBody(
+      timestampMs: _timestampMs,
+      organizationId: _organizationId,
+      feeReceiverWalletAddress: _feeReceiverWalletAddress,
+      feeBps: _feeBps,
+      stableFeeBps: _stableFeeBps,
+    );
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (timestampMs != null) {
+      _json['timestampMs'] = timestampMs;
+    }
+    if (organizationId != null) {
+      _json['organizationId'] = organizationId;
+    }
+    if (feeReceiverWalletAddress != null) {
+      _json['feeReceiverWalletAddress'] = feeReceiverWalletAddress;
+    }
+    if (feeBps != null) {
+      _json['feeBps'] = feeBps;
+    }
+    if (stableFeeBps != null) {
+      _json['stableFeeBps'] = stableFeeBps;
+    }
+    return _json;
+  }
+}
+
+class TUpsertSwapConfigInput {
+  final TUpsertSwapConfigBody body;
+  const TUpsertSwapConfigInput({required this.body});
+  factory TUpsertSwapConfigInput.fromJson(Map<String, dynamic> json) =>
+      TUpsertSwapConfigInput(
+          body: TUpsertSwapConfigBody.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
 class TVerifyOtpResponse {
   final v1Activity activity;
   final v1VerifyOtpResult? result;
@@ -33068,14 +52025,20 @@ class TNOOPCodegenAnchorInput {
 class ProxyTGetAccountResponse {
   final String? organizationId;
 
+  /// True when the organization was matched by verified email and the OIDC token is not yet a registered identity on it.
+  final bool? requiresSocialLinking;
+
   const ProxyTGetAccountResponse({
     this.organizationId,
+    this.requiresSocialLinking,
   });
 
   factory ProxyTGetAccountResponse.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
+    final _requiresSocialLinking = json['requiresSocialLinking'] as bool?;
     return ProxyTGetAccountResponse(
       organizationId: _organizationId,
+      requiresSocialLinking: _requiresSocialLinking,
     );
   }
 
@@ -33083,6 +52046,9 @@ class ProxyTGetAccountResponse {
     final _json = <String, dynamic>{};
     if (organizationId != null) {
       _json['organizationId'] = organizationId;
+    }
+    if (requiresSocialLinking != null) {
+      _json['requiresSocialLinking'] = requiresSocialLinking;
     }
     return _json;
   }
@@ -33101,22 +52067,29 @@ class ProxyTGetAccountBody {
   /// OIDC token to verify access to PII (email/phone number) when filter_type is 'EMAIL' or 'PHONE_NUMBER'. Needed for social linking when verification_token is not available.
   final String? oidcToken;
 
+  /// Whether to include requires_social_linking in the response. Only applies when filter_type is 'OIDC_TOKEN'.
+  final bool? includeRequiresSocialLinking;
+
   const ProxyTGetAccountBody({
     required this.filterType,
     required this.filterValue,
     this.verificationToken,
     this.oidcToken,
+    this.includeRequiresSocialLinking,
   });
   factory ProxyTGetAccountBody.fromJson(Map<String, dynamic> json) {
     final _filterType = json['filterType'] as String;
     final _filterValue = json['filterValue'] as String;
     final _verificationToken = json['verificationToken'] as String?;
     final _oidcToken = json['oidcToken'] as String?;
+    final _includeRequiresSocialLinking =
+        json['includeRequiresSocialLinking'] as bool?;
     return ProxyTGetAccountBody(
       filterType: _filterType,
       filterValue: _filterValue,
       verificationToken: _verificationToken,
       oidcToken: _oidcToken,
+      includeRequiresSocialLinking: _includeRequiresSocialLinking,
     );
   }
   Map<String, dynamic> toJson() {
@@ -33128,6 +52101,9 @@ class ProxyTGetAccountBody {
     }
     if (oidcToken != null) {
       _json['oidcToken'] = oidcToken;
+    }
+    if (includeRequiresSocialLinking != null) {
+      _json['includeRequiresSocialLinking'] = includeRequiresSocialLinking;
     }
     return _json;
   }
@@ -33178,8 +52154,8 @@ class ProxyTOAuth2AuthenticateBody {
   /// The code verifier used by OAuth 2.0 PKCE providers
   final String codeVerifier;
 
-  /// An optional nonce used by the client to prevent replay/substitution of an ID token
-  final String? nonce;
+  /// A nonce value set to sha256(publicKey), used to bind the OIDC token to a specific public key
+  final String nonce;
 
   /// The client ID registered with the OAuth 2.0 provider
   final String clientId;
@@ -33189,7 +52165,7 @@ class ProxyTOAuth2AuthenticateBody {
     required this.authCode,
     required this.redirectUri,
     required this.codeVerifier,
-    this.nonce,
+    required this.nonce,
     required this.clientId,
   });
   factory ProxyTOAuth2AuthenticateBody.fromJson(Map<String, dynamic> json) {
@@ -33197,7 +52173,7 @@ class ProxyTOAuth2AuthenticateBody {
     final _authCode = json['authCode'] as String;
     final _redirectUri = json['redirectUri'] as String;
     final _codeVerifier = json['codeVerifier'] as String;
-    final _nonce = json['nonce'] as String?;
+    final _nonce = json['nonce'] as String;
     final _clientId = json['clientId'] as String;
     return ProxyTOAuth2AuthenticateBody(
       provider: _provider,
@@ -33214,9 +52190,7 @@ class ProxyTOAuth2AuthenticateBody {
     _json['authCode'] = authCode;
     _json['redirectUri'] = redirectUri;
     _json['codeVerifier'] = codeVerifier;
-    if (nonce != null) {
-      _json['nonce'] = nonce;
-    }
+    _json['nonce'] = nonce;
     _json['clientId'] = clientId;
     return _json;
   }
@@ -33332,28 +52306,40 @@ class ProxyTInitOtpResponse {
 }
 
 class ProxyTInitOtpBody {
-  /// Enum to specify whether to send OTP via SMS or email
+  /// Enum to specify whether to send OTP via SMS, email, or WhatsApp
   final String otpType;
 
   /// Email or phone number to send the OTP code to
   final String contact;
 
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1ProxyEmailCustomizationParams? emailCustomization;
+
   const ProxyTInitOtpBody({
     required this.otpType,
     required this.contact,
+    this.emailCustomization,
   });
   factory ProxyTInitOtpBody.fromJson(Map<String, dynamic> json) {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
+    final _emailCustomization = json['emailCustomization'] == null
+        ? null
+        : v1ProxyEmailCustomizationParams
+            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
     return ProxyTInitOtpBody(
       otpType: _otpType,
       contact: _contact,
+      emailCustomization: _emailCustomization,
     );
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['otpType'] = otpType;
     _json['contact'] = contact;
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
     return _json;
   }
 }
@@ -33399,28 +52385,40 @@ class ProxyTInitOtpV2Response {
 }
 
 class ProxyTInitOtpV2Body {
-  /// Enum to specify whether to send OTP code via SMS or email
+  /// Enum to specify whether to send OTP code via SMS, email, or WhatsApp
   final String otpType;
 
   /// Email or phone number to send the OTP code to
   final String contact;
 
+  /// Optional parameters for customizing emails. If not provided, the default email will be used.
+  final v1ProxyEmailCustomizationParams? emailCustomization;
+
   const ProxyTInitOtpV2Body({
     required this.otpType,
     required this.contact,
+    this.emailCustomization,
   });
   factory ProxyTInitOtpV2Body.fromJson(Map<String, dynamic> json) {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
+    final _emailCustomization = json['emailCustomization'] == null
+        ? null
+        : v1ProxyEmailCustomizationParams
+            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
     return ProxyTInitOtpV2Body(
       otpType: _otpType,
       contact: _contact,
+      emailCustomization: _emailCustomization,
     );
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
     _json['otpType'] = otpType;
     _json['contact'] = contact;
+    if (emailCustomization != null) {
+      _json['emailCustomization'] = emailCustomization?.toJson();
+    }
     return _json;
   }
 }
@@ -34064,6 +53062,54 @@ class ProxyTSignupV2Input {
   factory ProxyTSignupV2Input.fromJson(Map<String, dynamic> json) =>
       ProxyTSignupV2Input(
           body: ProxyTSignupV2Body.fromJson(
+              json['body'] as Map<String, dynamic>));
+  Map<String, dynamic> toJson() => {'body': body.toJson()};
+}
+
+class ProxyTGetWalletKitClientParamsResponse {
+  /// Site key for Turnstile, used to protect WalletKit flows with bot detection.
+  final String? turnstileSiteKey;
+
+  const ProxyTGetWalletKitClientParamsResponse({
+    this.turnstileSiteKey,
+  });
+
+  factory ProxyTGetWalletKitClientParamsResponse.fromJson(
+      Map<String, dynamic> json) {
+    final _turnstileSiteKey = json['turnstileSiteKey'] as String?;
+    return ProxyTGetWalletKitClientParamsResponse(
+      turnstileSiteKey: _turnstileSiteKey,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    if (turnstileSiteKey != null) {
+      _json['turnstileSiteKey'] = turnstileSiteKey;
+    }
+    return _json;
+  }
+}
+
+class ProxyTGetWalletKitClientParamsBody {
+  const ProxyTGetWalletKitClientParamsBody();
+  factory ProxyTGetWalletKitClientParamsBody.fromJson(
+      Map<String, dynamic> json) {
+    return ProxyTGetWalletKitClientParamsBody();
+  }
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    return _json;
+  }
+}
+
+class ProxyTGetWalletKitClientParamsInput {
+  final ProxyTGetWalletKitClientParamsBody body;
+  const ProxyTGetWalletKitClientParamsInput({required this.body});
+  factory ProxyTGetWalletKitClientParamsInput.fromJson(
+          Map<String, dynamic> json) =>
+      ProxyTGetWalletKitClientParamsInput(
+          body: ProxyTGetWalletKitClientParamsBody.fromJson(
               json['body'] as Map<String, dynamic>));
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
