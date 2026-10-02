@@ -105,59 +105,16 @@ extension AuthProxyExtension on TurnkeyProvider {
     String? sessionKey,
   }) async {
     try {
-      // Strict login usage is valid only when both the final target and the
-      // current provider's authoritative WalletKit configuration are known.
-      // Otherwise preserve the legacy payload rather than signing unresolved
-      // server behavior.
-      final activeProxyConfig = await _getActiveAuthProxyConfig();
-      final configuredExpirationSeconds =
-          activeProxyConfig?.sessionExpirationSeconds;
-      final useStrictUsage = organizationId?.isNotEmpty == true &&
-          configuredExpirationSeconds?.isNotEmpty == true;
-      final payload = useStrictUsage
-          ? ClientSignature.forLoginV2(
-              verificationToken: verificationToken,
-              organizationId: organizationId!,
-              invalidateExisting: invalidateExisting,
-              expirationSeconds: configuredExpirationSeconds,
-            )
-          : ClientSignature.forLogin(verificationToken: verificationToken);
-      final verificationPublicKey = payload.clientSignaturePublicKey;
-
-      secureStorageStamper.setPublicKey(verificationPublicKey);
-      final signature = await secureStorageStamper.sign(
-        payload.message,
-        format: SignatureFormat.raw,
+      final snapshot = _captureActiveAuthProxyClient();
+      final session = await _otpAuthFlow(snapshot).loginWithOtp(
+        verificationToken: verificationToken,
+        organizationId: organizationId,
+        invalidateExisting: invalidateExisting,
       );
 
-      if (signature.isEmpty) {
-        throw Exception('Failed to create client signature on OTP login');
-      }
+      await storeSession(sessionJwt: session, sessionKey: sessionKey);
 
-      final clientSignature = v1ClientSignature(
-        message: payload.message,
-        publicKey: verificationPublicKey,
-        scheme: v1ClientSignatureScheme.client_signature_scheme_api_p256,
-        signature: signature,
-      );
-
-      final res = await requireClient.proxyOtpLoginV2(
-        input: ProxyTOtpLoginV2Body(
-          verificationToken: verificationToken,
-          publicKey: verificationPublicKey,
-          clientSignature: clientSignature,
-          invalidateExisting: invalidateExisting,
-          organizationId: organizationId,
-        ),
-      );
-
-      if (res.session.isEmpty) {
-        throw Exception('No session returned from OTP login');
-      }
-
-      await storeSession(sessionJwt: res.session, sessionKey: sessionKey);
-
-      return LoginWithOtpResult(sessionToken: res.session);
+      return LoginWithOtpResult(sessionToken: session);
     } catch (error) {
       await deleteUnusedKeyPairs();
       throw Exception('Failed to login with otp: $error');
@@ -201,75 +158,17 @@ extension AuthProxyExtension on TurnkeyProvider {
     final signUpBody =
         buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
 
-    // Derive verificationPublicKey from the token — this is the key bound during verifyOtp()
-    // and is what Turnkey expects to sign the client signature for signup.
-    // Use V3 only when the active provider supplies the authoritative parent
-    // organization. An unresolved provider configuration must remain legacy.
-    final activeProxyConfig = await _getActiveAuthProxyConfig();
-    final parentOrganizationId = activeProxyConfig?.organizationId;
-    final payload = parentOrganizationId?.isNotEmpty == true
-        ? ClientSignature.forSignupV3(
-            verificationToken: verificationToken,
-            parentOrganizationId: parentOrganizationId!,
-            signup: signUpBody,
-          )
-        : ClientSignature.forSignup(
-            verificationToken: verificationToken,
-            email: signUpBody.userEmail,
-            phoneNumber: signUpBody.userPhoneNumber,
-            apiKeys: signUpBody.apiKeys,
-            authenticators: signUpBody.authenticators,
-            oauthProviders: signUpBody.oauthProviders,
-          );
-    final verificationPublicKey = payload.clientSignaturePublicKey;
-
     try {
-      secureStorageStamper.setPublicKey(verificationPublicKey);
-      final signature = await secureStorageStamper.sign(
-        payload.message,
-        format: SignatureFormat.raw,
-      );
-
-      if (signature.isEmpty) {
-        throw Exception('Failed to create client signature on OTP signup');
-      }
-
-      final clientSignature = v1ClientSignature(
-        message: payload.message,
-        publicKey: verificationPublicKey,
-        scheme: v1ClientSignatureScheme.client_signature_scheme_api_p256,
-        signature: signature,
-      );
-
-      final signUpBodyWithSignature = ProxyTSignupV2Body(
-        userEmail: signUpBody.userEmail,
-        userPhoneNumber: signUpBody.userPhoneNumber,
-        userTag: signUpBody.userTag,
-        userName: signUpBody.userName,
-        organizationName: signUpBody.organizationName,
-        verificationToken: signUpBody.verificationToken,
-        apiKeys: signUpBody.apiKeys,
-        authenticators: signUpBody.authenticators,
-        oauthProviders: signUpBody.oauthProviders,
-        wallet: signUpBody.wallet,
-        clientSignature: clientSignature,
-      );
-
-      final signupRes =
-          await requireClient.proxySignupV2(input: signUpBodyWithSignature);
-
-      if (signupRes.organizationId.isEmpty) {
-        throw Exception('Auth proxy OTP sign up failed');
-      }
-
-      final otpRes = await loginWithOtp(
+      final snapshot = _captureActiveAuthProxyClient();
+      final session = await _otpAuthFlow(snapshot).signUpWithOtp(
         verificationToken: verificationToken,
-        organizationId: signupRes.organizationId,
+        signUpBody: signUpBody,
         invalidateExisting: invalidateExisting,
-        sessionKey: sessionKey,
       );
 
-      return SignUpWithOtpResult(sessionToken: otpRes.sessionToken);
+      await storeSession(sessionJwt: session, sessionKey: sessionKey);
+
+      return SignUpWithOtpResult(sessionToken: session);
     } catch (e) {
       await deleteUnusedKeyPairs();
       throw Exception('Sign up failed: $e');
