@@ -91,4 +91,53 @@ void main() {
       expect(usage['expirationSeconds'], '7200');
     });
   });
+
+  group('ClientSignature.forSignupV3', () {
+    test('matches the final OTP signup request semantics', () {
+      final signup = ProxyTSignupV2Body(
+        userEmail: 'user@example.com',
+        userPhoneNumber: '+15555550123',
+        userName: 'User Name',
+        organizationName: 'Sub Organization',
+        verificationToken: _verificationToken(),
+        apiKeys: const [],
+        authenticators: const [],
+        oauthProviders: const [],
+        wallet: const v1WalletParams(walletName: 'Wallet', accounts: []),
+      );
+      final usage = _payload(ClientSignature.forSignupV3(
+        verificationToken: _verificationToken(),
+        parentOrganizationId: 'provider-org-id',
+        signup: signup,
+      ))['signupV3'] as Map<String, dynamic>;
+      final rootUser =
+          (usage['rootUsers'] as List<dynamic>).single as Map<String, dynamic>;
+
+      expect(usage['parentOrganizationId'], 'provider-org-id');
+      expect(usage['subOrganizationName'], signup.organizationName);
+      expect(usage['rootQuorumThreshold'], 1);
+      expect(rootUser['userName'], signup.userName);
+      expect(rootUser['userEmail'], signup.userEmail);
+      expect(rootUser['userPhoneNumber'], signup.userPhoneNumber);
+      expect(rootUser['apiKeys'], isEmpty);
+      expect(rootUser['authenticators'], isEmpty);
+      expect(rootUser['oauthProviders'], isEmpty);
+      expect(usage['wallet'], signup.wallet?.toJson());
+    });
+
+    test('rejects unresolved strict signup values', () {
+      expect(
+        () => ClientSignature.forSignupV3(
+          verificationToken: _verificationToken(),
+          parentOrganizationId: '',
+          signup: ProxyTSignupV2Body(
+            apiKeys: const [],
+            authenticators: const [],
+            oauthProviders: const [],
+          ),
+        ),
+        throwsArgumentError,
+      );
+    });
+  });
 }

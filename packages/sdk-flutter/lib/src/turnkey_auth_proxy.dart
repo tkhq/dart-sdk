@@ -106,13 +106,12 @@ extension AuthProxyExtension on TurnkeyProvider {
   }) async {
     try {
       // Strict login usage is valid only when both the final target and the
-      // WalletKit-configured expiration are known. Otherwise preserve the
-      // legacy payload rather than signing unresolved server behavior.
+      // current provider's authoritative WalletKit configuration are known.
+      // Otherwise preserve the legacy payload rather than signing unresolved
+      // server behavior.
+      final activeProxyConfig = await _getActiveAuthProxyConfig();
       final configuredExpirationSeconds =
-          (config.authProxyConfigId?.isNotEmpty == true &&
-                  config.authConfig?.autoFetchWalletKitConfig == true)
-              ? runtimeConfig?.authConfig.sessionExpirationSeconds
-              : null;
+          activeProxyConfig?.sessionExpirationSeconds;
       final useStrictUsage = organizationId?.isNotEmpty == true &&
           configuredExpirationSeconds?.isNotEmpty == true;
       final payload = useStrictUsage
@@ -204,11 +203,24 @@ extension AuthProxyExtension on TurnkeyProvider {
 
     // Derive verificationPublicKey from the token — this is the key bound during verifyOtp()
     // and is what Turnkey expects to sign the client signature for signup.
-    final payload = ClientSignature.forSignupV3(
-      verificationToken: verificationToken,
-      parentOrganizationId: config.organizationId,
-      signup: signUpBody,
-    );
+    // Use V3 only when the active provider supplies the authoritative parent
+    // organization. An unresolved provider configuration must remain legacy.
+    final activeProxyConfig = await _getActiveAuthProxyConfig();
+    final parentOrganizationId = activeProxyConfig?.organizationId;
+    final payload = parentOrganizationId?.isNotEmpty == true
+        ? ClientSignature.forSignupV3(
+            verificationToken: verificationToken,
+            parentOrganizationId: parentOrganizationId!,
+            signup: signUpBody,
+          )
+        : ClientSignature.forSignup(
+            verificationToken: verificationToken,
+            email: signUpBody.userEmail,
+            phoneNumber: signUpBody.userPhoneNumber,
+            apiKeys: signUpBody.apiKeys,
+            authenticators: signUpBody.authenticators,
+            oauthProviders: signUpBody.oauthProviders,
+          );
     final verificationPublicKey = payload.clientSignaturePublicKey;
 
     try {

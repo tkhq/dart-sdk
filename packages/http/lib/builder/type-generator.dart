@@ -876,13 +876,7 @@ void generateTypesFromSwagger() {
 
   // ----- DEFINITIONS (Enums + Classes) -----
   out.writeln('// --- Base definitions ---');
-  final mainDefs = (swaggerMain['definitions'] as Map).cast<String, dynamic>();
-  final authDefs = (swaggerAuth['definitions'] as Map).cast<String, dynamic>();
-  final defs = <String, dynamic>{
-    ...mainDefs,
-    for (final entry in authDefs.entries)
-      if (!mainDefs.containsKey(entry.key)) entry.key: entry.value,
-  };
+  final defs = (swaggerMain['definitions'] as Map).cast<String, dynamic>();
 
   // Emit enums first so classes can reference them
   for (final entry in defs.entries) {

@@ -148,13 +148,20 @@ class ClientSignature {
     if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
       throw Exception("Verification token is missing a public key");
     }
+    if (parentOrganizationId.isEmpty ||
+        signup.organizationName?.isEmpty != false ||
+        signup.userName?.isEmpty != false) {
+      throw ArgumentError(
+        'Strict signup requires concrete organization, user, and sub-organization names',
+      );
+    }
 
     final usage = v1SignupUsageV3(
       parentOrganizationId: parentOrganizationId,
-      subOrganizationName: signup.organizationName ?? '',
+      subOrganizationName: signup.organizationName!,
       rootUsers: [
         v1RootUserParamsV5(
-          userName: signup.userName ?? '',
+          userName: signup.userName!,
           userEmail: signup.userEmail,
           userPhoneNumber: signup.userPhoneNumber,
           apiKeys: signup.apiKeys,

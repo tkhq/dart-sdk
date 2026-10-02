@@ -42,6 +42,8 @@ class TurnkeyProvider with ChangeNotifier {
 
   // these are internal
   TurnkeyRuntimeConfig? _runtimeConfig;
+  String? _activeAuthProxyConfigId;
+  String? _activeAuthProxyBaseUrl;
 
   // immutable
   final TurnkeyConfig config;
@@ -212,7 +214,9 @@ class TurnkeyProvider with ChangeNotifier {
 
     return TurnkeyRuntimeConfig(
       apiBaseUrl: resolvedApiBaseUrl,
-      organizationId: config.organizationId,
+      organizationId: proxyAuthConfig?.organizationId.isNotEmpty == true
+          ? proxyAuthConfig!.organizationId
+          : config.organizationId,
       appScheme: config.appScheme,
       authConfig: resolvedAuth,
       passkeyConfig: config.passkeyConfig,
@@ -263,6 +267,26 @@ class TurnkeyProvider with ChangeNotifier {
     );
   }
 
+  /// Fetches the WalletKit configuration for the currently active provider.
+  ///
+  /// Strict client signatures are only safe when this authoritative response is
+  /// available. A missing or unavailable configuration leaves the caller on
+  /// the legacy signature path.
+  Future<ProxyTGetWalletKitConfigResponse?> _getActiveAuthProxyConfig() async {
+    final configId = _activeAuthProxyConfigId;
+    if (configId == null ||
+        configId.isEmpty ||
+        config.authConfig?.autoFetchWalletKitConfig != true) {
+      return null;
+    }
+
+    try {
+      return await _getAuthProxyConfig(configId, _activeAuthProxyBaseUrl);
+    } catch (_) {
+      return null;
+    }
+  }
+
   /// Creates a new TurnkeyClient instance using the provided parameters.
   ///
   /// [organizationId] The ID of the organization to which the client will be associated.
@@ -281,9 +305,11 @@ class TurnkeyProvider with ChangeNotifier {
       bool? overrideExisting = true}) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
     apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
-    authProxyBaseUrl ??=
-        runtimeConfig?.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
-    authProxyConfigId ??= runtimeConfig?.authProxyConfigId;
+    authProxyBaseUrl ??= _activeAuthProxyBaseUrl ??
+        runtimeConfig?.authProxyBaseUrl ??
+        "https://authproxy.turnkey.com";
+    authProxyConfigId ??=
+        _activeAuthProxyConfigId ?? runtimeConfig?.authProxyConfigId;
     organizationId ??= runtimeConfig?.organizationId;
 
     final newClient = TurnkeyClient(
@@ -296,7 +322,11 @@ class TurnkeyProvider with ChangeNotifier {
       stamper: secureStorageStamper,
     );
 
-    if (overrideExisting == true) client = newClient;
+    if (overrideExisting == true) {
+      _activeAuthProxyConfigId = authProxyConfigId;
+      _activeAuthProxyBaseUrl = authProxyBaseUrl;
+      client = newClient;
+    }
 
     return newClient;
   }
@@ -325,9 +355,11 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
-    authProxyBaseUrl ??=
-        runtimeConfig?.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
-    authProxyConfigId ??= runtimeConfig?.authProxyConfigId;
+    authProxyBaseUrl ??= _activeAuthProxyBaseUrl ??
+        runtimeConfig?.authProxyBaseUrl ??
+        "https://authproxy.turnkey.com";
+    authProxyConfigId ??=
+        _activeAuthProxyConfigId ?? runtimeConfig?.authProxyConfigId;
     organizationId ??= runtimeConfig?.organizationId;
 
     final passkeyStamper = PasskeyStamper(
@@ -353,7 +385,11 @@ class TurnkeyProvider with ChangeNotifier {
         ),
         stamper: passkeyStamper);
 
-    if (overrideExisting == true) client = passkeyClient;
+    if (overrideExisting == true) {
+      _activeAuthProxyConfigId = authProxyConfigId;
+      _activeAuthProxyBaseUrl = authProxyBaseUrl;
+      client = passkeyClient;
+    }
 
     return passkeyClient;
   }
