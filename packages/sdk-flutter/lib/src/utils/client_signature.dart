@@ -46,23 +46,34 @@ class ClientSignature {
 
   /// Creates a strict client signature payload for an OTP login request.
   ///
-  /// The payload binds the final request values. An omitted organization ID is
-  /// represented by the required empty value rather than enclave normalization.
+  /// The payload binds the final request values. A concrete organization ID is
+  /// required because the strict usage cannot authorize an unresolved target.
   static ClientSignaturePayload forLoginV2({
     required String verificationToken,
-    required String? organizationId,
-    required bool invalidateExisting,
+    required String organizationId,
+    bool? invalidateExisting,
+    String? expirationSeconds,
+    String? sessionProfileId,
   }) {
     final decoded = VerificationToken.fromJwt(verificationToken);
 
     if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
       throw Exception("Verification token is missing a public key");
     }
+    if (organizationId.isEmpty) {
+      throw ArgumentError.value(
+        organizationId,
+        'organizationId',
+        'must be a concrete target organization ID',
+      );
+    }
 
     final usage = v1LoginUsageV2(
-      organizationId: organizationId ?? '',
+      organizationId: organizationId,
       publicKey: decoded.publicKey!,
       invalidateExisting: invalidateExisting,
+      expirationSeconds: expirationSeconds,
+      sessionProfileId: sessionProfileId,
     );
     final payload = v1TokenUsage(
       loginV2: usage,

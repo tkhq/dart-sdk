@@ -105,13 +105,24 @@ extension AuthProxyExtension on TurnkeyProvider {
     String? sessionKey,
   }) async {
     try {
-      // Derive verificationPublicKey from the token — this is the key bound during verifyOtp()
-      // and is what Turnkey expects to sign the client signature for login.
-      final payload = ClientSignature.forLoginV2(
-        verificationToken: verificationToken,
-        organizationId: organizationId,
-        invalidateExisting: invalidateExisting,
-      );
+      // Strict login usage is valid only when both the final target and the
+      // WalletKit-configured expiration are known. Otherwise preserve the
+      // legacy payload rather than signing unresolved server behavior.
+      final configuredExpirationSeconds =
+          (config.authProxyConfigId?.isNotEmpty == true &&
+                  config.authConfig?.autoFetchWalletKitConfig == true)
+              ? runtimeConfig?.authConfig.sessionExpirationSeconds
+              : null;
+      final useStrictUsage = organizationId?.isNotEmpty == true &&
+          configuredExpirationSeconds?.isNotEmpty == true;
+      final payload = useStrictUsage
+          ? ClientSignature.forLoginV2(
+              verificationToken: verificationToken,
+              organizationId: organizationId!,
+              invalidateExisting: invalidateExisting,
+              expirationSeconds: configuredExpirationSeconds,
+            )
+          : ClientSignature.forLogin(verificationToken: verificationToken);
       final verificationPublicKey = payload.clientSignaturePublicKey;
 
       secureStorageStamper.setPublicKey(verificationPublicKey);
