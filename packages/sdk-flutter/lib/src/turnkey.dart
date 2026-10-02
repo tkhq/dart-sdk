@@ -12,8 +12,8 @@ import 'package:turnkey_flutter_passkey_stamper/turnkey_flutter_passkey_stamper.
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:turnkey_http/base.dart';
 import 'package:turnkey_http/turnkey_http.dart';
+import 'package:turnkey_sdk_flutter/src/internal/otp_auth_flow.dart';
 import 'package:turnkey_sdk_flutter/src/internal/turnkey_helpers.dart';
-import 'package:turnkey_sdk_flutter/src/utils/client_signature.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 import 'package:turnkey_sdk_flutter/src/utils/types.dart';
@@ -42,6 +42,8 @@ class TurnkeyProvider with ChangeNotifier {
 
   // these are internal
   TurnkeyRuntimeConfig? _runtimeConfig;
+  String? _activeAuthProxyConfigId;
+  String? _activeAuthProxyBaseUrl;
 
   // immutable
   final TurnkeyConfig config;
@@ -212,7 +214,9 @@ class TurnkeyProvider with ChangeNotifier {
 
     return TurnkeyRuntimeConfig(
       apiBaseUrl: resolvedApiBaseUrl,
-      organizationId: config.organizationId,
+      organizationId: proxyAuthConfig?.organizationId.isNotEmpty == true
+          ? proxyAuthConfig!.organizationId
+          : config.organizationId,
       appScheme: config.appScheme,
       authConfig: resolvedAuth,
       passkeyConfig: config.passkeyConfig,
@@ -263,6 +267,27 @@ class TurnkeyProvider with ChangeNotifier {
     );
   }
 
+  OtpAuthFlow _otpAuthFlow(_ActiveAuthProxyClientSnapshot snapshot) {
+    return OtpAuthFlow(
+      client: _TurnkeyOtpAuthProxyClient(snapshot),
+      sign: (message, publicKey) async {
+        secureStorageStamper.setPublicKey(publicKey);
+        return await secureStorageStamper.sign(
+          message,
+          format: SignatureFormat.raw,
+        );
+      },
+    );
+  }
+
+  _ActiveAuthProxyClientSnapshot _captureActiveAuthProxyClient() {
+    return _ActiveAuthProxyClientSnapshot(
+      client: requireClient,
+      configId: _activeAuthProxyConfigId,
+      fetchWalletKitConfig: config.authConfig?.autoFetchWalletKitConfig == true,
+    );
+  }
+
   /// Creates a new TurnkeyClient instance using the provided parameters.
   ///
   /// [organizationId] The ID of the organization to which the client will be associated.
@@ -281,9 +306,11 @@ class TurnkeyProvider with ChangeNotifier {
       bool? overrideExisting = true}) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
     apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
-    authProxyBaseUrl ??=
-        runtimeConfig?.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
-    authProxyConfigId ??= runtimeConfig?.authProxyConfigId;
+    authProxyBaseUrl ??= _activeAuthProxyBaseUrl ??
+        runtimeConfig?.authProxyBaseUrl ??
+        "https://authproxy.turnkey.com";
+    authProxyConfigId ??=
+        _activeAuthProxyConfigId ?? runtimeConfig?.authProxyConfigId;
     organizationId ??= runtimeConfig?.organizationId;
 
     final newClient = TurnkeyClient(
@@ -296,7 +323,11 @@ class TurnkeyProvider with ChangeNotifier {
       stamper: secureStorageStamper,
     );
 
-    if (overrideExisting == true) client = newClient;
+    if (overrideExisting == true) {
+      _activeAuthProxyConfigId = authProxyConfigId;
+      _activeAuthProxyBaseUrl = authProxyBaseUrl;
+      client = newClient;
+    }
 
     return newClient;
   }
@@ -325,9 +356,11 @@ class TurnkeyProvider with ChangeNotifier {
     }
 
     apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
-    authProxyBaseUrl ??=
-        runtimeConfig?.authProxyBaseUrl ?? "https://authproxy.turnkey.com";
-    authProxyConfigId ??= runtimeConfig?.authProxyConfigId;
+    authProxyBaseUrl ??= _activeAuthProxyBaseUrl ??
+        runtimeConfig?.authProxyBaseUrl ??
+        "https://authproxy.turnkey.com";
+    authProxyConfigId ??=
+        _activeAuthProxyConfigId ?? runtimeConfig?.authProxyConfigId;
     organizationId ??= runtimeConfig?.organizationId;
 
     final passkeyStamper = PasskeyStamper(
@@ -353,7 +386,11 @@ class TurnkeyProvider with ChangeNotifier {
         ),
         stamper: passkeyStamper);
 
-    if (overrideExisting == true) client = passkeyClient;
+    if (overrideExisting == true) {
+      _activeAuthProxyConfigId = authProxyConfigId;
+      _activeAuthProxyBaseUrl = authProxyBaseUrl;
+      client = passkeyClient;
+    }
 
     return passkeyClient;
   }
@@ -490,5 +527,50 @@ class TurnkeyProvider with ChangeNotifier {
         await SecureStorageStamper.deleteKeyPair(pk);
       }
     }
+  }
+}
+
+class _ActiveAuthProxyClientSnapshot {
+  final TurnkeyClient client;
+  final String? configId;
+  final bool fetchWalletKitConfig;
+
+  const _ActiveAuthProxyClientSnapshot({
+    required this.client,
+    required this.configId,
+    required this.fetchWalletKitConfig,
+  });
+}
+
+class _TurnkeyOtpAuthProxyClient implements OtpAuthProxyClient {
+  final _ActiveAuthProxyClientSnapshot _snapshot;
+
+  const _TurnkeyOtpAuthProxyClient(this._snapshot);
+
+  @override
+  Future<ProxyTGetWalletKitConfigResponse?> getWalletKitConfig() async {
+    if (!_snapshot.fetchWalletKitConfig ||
+        _snapshot.configId == null ||
+        _snapshot.configId!.isEmpty) {
+      return null;
+    }
+
+    try {
+      return await _snapshot.client.proxyGetWalletKitConfig(
+        input: ProxyTGetWalletKitConfigBody(),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<ProxyTOtpLoginV2Response> otpLoginV2(ProxyTOtpLoginV2Body input) {
+    return _snapshot.client.proxyOtpLoginV2(input: input);
+  }
+
+  @override
+  Future<ProxyTSignupV2Response> signupV2(ProxyTSignupV2Body input) {
+    return _snapshot.client.proxySignupV2(input: input);
   }
 }

@@ -44,6 +44,51 @@ class ClientSignature {
     );
   }
 
+  /// Creates a strict client signature payload for an OTP login request.
+  ///
+  /// The payload binds the final request values. A concrete organization ID is
+  /// required because the strict usage cannot authorize an unresolved target.
+  static ClientSignaturePayload forLoginV2({
+    required String verificationToken,
+    required String organizationId,
+    bool? invalidateExisting,
+    String? expirationSeconds,
+    String? sessionProfileId,
+  }) {
+    final decoded = VerificationToken.fromJwt(verificationToken);
+
+    if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
+      throw Exception("Verification token is missing a public key");
+    }
+    if (organizationId.isEmpty) {
+      throw ArgumentError.value(
+        organizationId,
+        'organizationId',
+        'must be a concrete target organization ID',
+      );
+    }
+
+    final usage = v1LoginUsageV2(
+      organizationId: organizationId,
+      publicKey: decoded.publicKey!,
+      invalidateExisting: invalidateExisting,
+      expirationSeconds: expirationSeconds,
+      sessionProfileId: sessionProfileId,
+    );
+    final payload = v1TokenUsage(
+      loginV2: usage,
+      tokenId: decoded.id,
+      type: v1UsageType.usage_type_login,
+    );
+
+    final json = jsonEncode(payload.toJson());
+
+    return ClientSignaturePayload(
+      message: json,
+      clientSignaturePublicKey: decoded.publicKey!,
+    );
+  }
+
   /// Creates a client signature payload for signup
   ///
   /// - Parameters:
@@ -78,6 +123,57 @@ class ClientSignature {
 
     final payload = v1TokenUsage(
       signupV2: usage,
+      tokenId: decoded.id,
+      type: v1UsageType.usage_type_signup,
+    );
+
+    final json = jsonEncode(payload.toJson());
+
+    return ClientSignaturePayload(
+      message: json,
+      clientSignaturePublicKey: decoded.publicKey!,
+    );
+  }
+
+  /// Creates a strict client signature payload for an OTP signup request.
+  ///
+  /// The payload binds the final parent organization and request values. All
+  /// required values are included, including empty collections.
+  static ClientSignaturePayload forSignupV3({
+    required String verificationToken,
+    required String parentOrganizationId,
+    required ProxyTSignupV2Body signup,
+  }) {
+    final decoded = VerificationToken.fromJwt(verificationToken);
+    if (decoded.publicKey == null || decoded.publicKey!.isEmpty) {
+      throw Exception("Verification token is missing a public key");
+    }
+    if (parentOrganizationId.isEmpty ||
+        signup.organizationName?.isEmpty != false ||
+        signup.userName?.isEmpty != false) {
+      throw ArgumentError(
+        'Strict signup requires concrete organization, user, and sub-organization names',
+      );
+    }
+
+    final usage = v1SignupUsageV3(
+      parentOrganizationId: parentOrganizationId,
+      subOrganizationName: signup.organizationName!,
+      rootUsers: [
+        v1RootUserParamsV5(
+          userName: signup.userName!,
+          userEmail: signup.userEmail,
+          userPhoneNumber: signup.userPhoneNumber,
+          apiKeys: signup.apiKeys,
+          authenticators: signup.authenticators,
+          oauthProviders: signup.oauthProviders,
+        ),
+      ],
+      rootQuorumThreshold: 1,
+      wallet: signup.wallet,
+    );
+    final payload = v1TokenUsage(
+      signupV3: usage,
       tokenId: decoded.id,
       type: v1UsageType.usage_type_signup,
     );

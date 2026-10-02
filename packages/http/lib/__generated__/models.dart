@@ -16136,6 +16136,53 @@ class v1LoginUsage {
   }
 }
 
+class v1LoginUsageV2 {
+  final String organizationId;
+  final String publicKey;
+  final bool? invalidateExisting;
+  final String? expirationSeconds;
+  final String? sessionProfileId;
+
+  const v1LoginUsageV2({
+    required this.organizationId,
+    required this.publicKey,
+    this.invalidateExisting,
+    this.expirationSeconds,
+    this.sessionProfileId,
+  });
+
+  factory v1LoginUsageV2.fromJson(Map<String, dynamic> json) {
+    final _organizationId = json['organizationId'] as String;
+    final _publicKey = json['publicKey'] as String;
+    final _invalidateExisting = json['invalidateExisting'] as bool?;
+    final _expirationSeconds = json['expirationSeconds'] as String?;
+    final _sessionProfileId = json['sessionProfileId'] as String?;
+    return v1LoginUsageV2(
+      organizationId: _organizationId,
+      publicKey: _publicKey,
+      invalidateExisting: _invalidateExisting,
+      expirationSeconds: _expirationSeconds,
+      sessionProfileId: _sessionProfileId,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['organizationId'] = organizationId;
+    _json['publicKey'] = publicKey;
+    if (invalidateExisting != null) {
+      _json['invalidateExisting'] = invalidateExisting;
+    }
+    if (expirationSeconds != null) {
+      _json['expirationSeconds'] = expirationSeconds;
+    }
+    if (sessionProfileId != null) {
+      _json['sessionProfileId'] = sessionProfileId;
+    }
+    return _json;
+  }
+}
+
 class v1NOOPCodegenAnchorResponse {
   final v1WebAuthnStamp stamp;
   final v1TokenUsage? tokenUsage;
@@ -20019,6 +20066,81 @@ class v1SignupUsageV2 {
   }
 }
 
+class v1SignupUsageV3 {
+  final String parentOrganizationId;
+  final String subOrganizationName;
+  final List<v1RootUserParamsV5> rootUsers;
+  final num rootQuorumThreshold;
+  final v1WalletParams? wallet;
+  final bool? disableEmailRecovery;
+  final bool? disableEmailAuth;
+  final bool? disableSmsAuth;
+  final bool? disableOtpEmailAuth;
+
+  const v1SignupUsageV3({
+    required this.parentOrganizationId,
+    required this.subOrganizationName,
+    required this.rootUsers,
+    required this.rootQuorumThreshold,
+    this.wallet,
+    this.disableEmailRecovery,
+    this.disableEmailAuth,
+    this.disableSmsAuth,
+    this.disableOtpEmailAuth,
+  });
+
+  factory v1SignupUsageV3.fromJson(Map<String, dynamic> json) {
+    final _parentOrganizationId = json['parentOrganizationId'] as String;
+    final _subOrganizationName = json['subOrganizationName'] as String;
+    final _rootUsers = (json['rootUsers'] as List)
+        .map((e) => v1RootUserParamsV5.fromJson(e as Map<String, dynamic>))
+        .toList();
+    final _rootQuorumThreshold = json['rootQuorumThreshold'] as num;
+    final _wallet = json['wallet'] == null
+        ? null
+        : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
+    final _disableEmailRecovery = json['disableEmailRecovery'] as bool?;
+    final _disableEmailAuth = json['disableEmailAuth'] as bool?;
+    final _disableSmsAuth = json['disableSmsAuth'] as bool?;
+    final _disableOtpEmailAuth = json['disableOtpEmailAuth'] as bool?;
+    return v1SignupUsageV3(
+      parentOrganizationId: _parentOrganizationId,
+      subOrganizationName: _subOrganizationName,
+      rootUsers: _rootUsers,
+      rootQuorumThreshold: _rootQuorumThreshold,
+      wallet: _wallet,
+      disableEmailRecovery: _disableEmailRecovery,
+      disableEmailAuth: _disableEmailAuth,
+      disableSmsAuth: _disableSmsAuth,
+      disableOtpEmailAuth: _disableOtpEmailAuth,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final _json = <String, dynamic>{};
+    _json['parentOrganizationId'] = parentOrganizationId;
+    _json['subOrganizationName'] = subOrganizationName;
+    _json['rootUsers'] = rootUsers.map((e) => e.toJson()).toList();
+    _json['rootQuorumThreshold'] = rootQuorumThreshold;
+    if (wallet != null) {
+      _json['wallet'] = wallet?.toJson();
+    }
+    if (disableEmailRecovery != null) {
+      _json['disableEmailRecovery'] = disableEmailRecovery;
+    }
+    if (disableEmailAuth != null) {
+      _json['disableEmailAuth'] = disableEmailAuth;
+    }
+    if (disableSmsAuth != null) {
+      _json['disableSmsAuth'] = disableSmsAuth;
+    }
+    if (disableOtpEmailAuth != null) {
+      _json['disableOtpEmailAuth'] = disableOtpEmailAuth;
+    }
+    return _json;
+  }
+}
+
 class v1SimpleClientExtensionResults {
   final bool? appid;
   final bool? appidExclude;
@@ -20452,6 +20574,8 @@ class v1TokenUsage {
   final v1SignupUsage? signup;
   final v1LoginUsage? login;
   final v1SignupUsageV2? signupV2;
+  final v1LoginUsageV2? loginV2;
+  final v1SignupUsageV3? signupV3;
 
   const v1TokenUsage({
     required this.type,
@@ -20459,6 +20583,8 @@ class v1TokenUsage {
     this.signup,
     this.login,
     this.signupV2,
+    this.loginV2,
+    this.signupV3,
   });
 
   factory v1TokenUsage.fromJson(Map<String, dynamic> json) {
@@ -20473,12 +20599,20 @@ class v1TokenUsage {
     final _signupV2 = json['signupV2'] == null
         ? null
         : v1SignupUsageV2.fromJson(json['signupV2'] as Map<String, dynamic>);
+    final _loginV2 = json['loginV2'] == null
+        ? null
+        : v1LoginUsageV2.fromJson(json['loginV2'] as Map<String, dynamic>);
+    final _signupV3 = json['signupV3'] == null
+        ? null
+        : v1SignupUsageV3.fromJson(json['signupV3'] as Map<String, dynamic>);
     return v1TokenUsage(
       type: _type,
       tokenId: _tokenId,
       signup: _signup,
       login: _login,
       signupV2: _signupV2,
+      loginV2: _loginV2,
+      signupV3: _signupV3,
     );
   }
 
@@ -20494,6 +20628,12 @@ class v1TokenUsage {
     }
     if (signupV2 != null) {
       _json['signupV2'] = signupV2?.toJson();
+    }
+    if (loginV2 != null) {
+      _json['loginV2'] = loginV2?.toJson();
+    }
+    if (signupV3 != null) {
+      _json['signupV3'] = signupV3?.toJson();
     }
     return _json;
   }

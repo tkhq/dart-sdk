@@ -1,5 +1,5 @@
 test:
-	dart run melos exec --dir-exists=test -- dart test
+	flutter pub run melos exec --dir-exists=test -- flutter test
 
 .PHONY: fmt
 fmt:
