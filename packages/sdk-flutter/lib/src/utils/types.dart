@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 
@@ -10,10 +11,12 @@ Map<String, dynamic>? decodeJwtPayload(String token) {
   final parts = token.split('.');
   if (parts.length < 2) return null;
   try {
-    final normalized =
-        base64.normalize(parts[1].replaceAll('-', '+').replaceAll('_', '/'));
-    final decoded = jsonDecode(utf8.decode(base64.decode(normalized)))
-        as Map<String, dynamic>;
+    final normalized = base64.normalize(
+      parts[1].replaceAll('-', '+').replaceAll('_', '/'),
+    );
+    final decoded = jsonDecode(
+      utf8.decode(base64.decode(normalized)),
+    ) as Map<String, dynamic>;
     return decoded;
   } catch (_) {
     return null;
@@ -157,18 +160,14 @@ class Wallet {
   final String id;
   final List<v1WalletAccount> accounts;
 
-  Wallet({
-    required this.name,
-    required this.id,
-    required this.accounts,
-  });
+  Wallet({required this.name, required this.id, required this.accounts});
 
   /// Converts the wallet to a JSON map.
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'id': id,
-        'accounts': accounts.map((account) => account.toJson()).toList(),
-      };
+    'name': name,
+    'id': id,
+    'accounts': accounts.map((account) => account.toJson()).toList(),
+  };
 
   /// Creates a wallet from a JSON map.
   factory Wallet.fromJson(Map<String, dynamic> json) {
@@ -199,21 +198,21 @@ class TurnkeyRuntimeConfig extends TurnkeyConfig {
     void Function()? onSessionEmpty,
     void Function(Object? error)? onInitialized,
   }) : super(
-          organizationId: organizationId,
-          apiBaseUrl: apiBaseUrl,
-          authProxyBaseUrl: authProxyBaseUrl,
-          authProxyConfigId: authProxyConfigId,
-          authConfig: authConfig,
-          passkeyConfig: passkeyConfig,
-          appScheme: appScheme,
-          onSessionCreated: onSessionCreated,
-          onSessionSelected: onSessionSelected,
-          onSessionExpired: onSessionExpired,
-          onSessionCleared: onSessionCleared,
-          onSessionRefreshed: onSessionRefreshed,
-          onSessionEmpty: onSessionEmpty,
-          onInitialized: onInitialized,
-        );
+         organizationId: organizationId,
+         apiBaseUrl: apiBaseUrl,
+         authProxyBaseUrl: authProxyBaseUrl,
+         authProxyConfigId: authProxyConfigId,
+         authConfig: authConfig,
+         passkeyConfig: passkeyConfig,
+         appScheme: appScheme,
+         onSessionCreated: onSessionCreated,
+         onSessionSelected: onSessionSelected,
+         onSessionExpired: onSessionExpired,
+         onSessionCleared: onSessionCleared,
+         onSessionRefreshed: onSessionRefreshed,
+         onSessionEmpty: onSessionEmpty,
+         onInitialized: onInitialized,
+       );
   @override
   RuntimeAuthConfig get authConfig => super.authConfig as RuntimeAuthConfig;
 }
@@ -234,11 +233,11 @@ class RuntimeAuthConfig extends AuthConfig {
     bool autoFetchWalletKitConfig = true,
     bool autoRefreshManagedState = true,
   }) : super(
-          oAuthConfig: oAuthConfig,
-          createSubOrgParams: createSubOrgParams,
-          autoFetchWalletKitConfig: autoFetchWalletKitConfig,
-          autoRefreshManagedState: autoRefreshManagedState,
-        );
+         oAuthConfig: oAuthConfig,
+         createSubOrgParams: createSubOrgParams,
+         autoFetchWalletKitConfig: autoFetchWalletKitConfig,
+         autoRefreshManagedState: autoRefreshManagedState,
+       );
 }
 
 class TurnkeyConfig {
@@ -264,8 +263,7 @@ class TurnkeyConfig {
     this.apiBaseUrl,
     this.authProxyBaseUrl,
     this.authProxyConfigId,
-    this.authConfig =
-        const AuthConfig(), // Default to empty config. We set a default inside this object so we need to do this.
+    this.authConfig = const AuthConfig(), // Default to empty config. We set a default inside this object so we need to do this.
     this.passkeyConfig,
     this.appScheme,
     this.onSessionCreated,
@@ -298,10 +296,7 @@ class PasskeyConfig {
   final String? rpId;
   final String? rpName;
 
-  const PasskeyConfig({
-    this.rpId,
-    this.rpName,
-  });
+  const PasskeyConfig({this.rpId, this.rpName});
 }
 
 class MethodCreateSubOrgParams {
@@ -393,10 +388,7 @@ class OAuthConfig {
   /// Per-provider OAuth configuration.
   final OAuthProviders? providers;
 
-  const OAuthConfig({
-    this.oauthRedirectUri,
-    this.providers,
-  });
+  const OAuthConfig({this.oauthRedirectUri, this.providers});
 }
 
 /// CreateSubOrgParams defines the parameters to pass on sub-organization creation.
@@ -459,8 +451,9 @@ class CreateSubOrgParams {
     return CreateSubOrgParams(
       userName: userName ?? this.userName,
       subOrgName: subOrgName ?? this.subOrgName,
-      userEmail:
-          identical(userEmail, _no) ? this.userEmail : userEmail as String?,
+      userEmail: identical(userEmail, _no)
+          ? this.userEmail
+          : userEmail as String?,
       userTag: userTag ?? this.userTag,
       authenticators: authenticators ?? this.authenticators,
       userPhoneNumber: identical(userPhoneNumber, _no)
@@ -526,10 +519,7 @@ class CustomWallet {
   /// list of wallet accounts to create (required)
   final List<v1WalletAccountParams> walletAccounts;
 
-  const CustomWallet({
-    required this.walletName,
-    required this.walletAccounts,
-  });
+  const CustomWallet({required this.walletName, required this.walletAccounts});
 }
 
 class InitOtpResult {
@@ -555,8 +545,10 @@ class LoginWithPasskeyResult extends BaseAuthResult {
 
 class SignUpWithPasskeyResult extends BaseAuthResult {
   final String credentialId;
-  const SignUpWithPasskeyResult(
-      {required super.sessionToken, required this.credentialId});
+  const SignUpWithPasskeyResult({
+    required super.sessionToken,
+    required this.credentialId,
+  });
 }
 
 class LoginWithOtpResult extends BaseAuthResult {
@@ -617,12 +609,12 @@ class Policy extends v1CreatePolicyIntentV3 {
     String? condition,
     String? consensus,
   }) : super(
-          policyName: policyName,
-          effect: effect,
-          condition: condition,
-          consensus: consensus,
-          notes: notes,
-        );
+         policyName: policyName,
+         effect: effect,
+         condition: condition,
+         consensus: consensus,
+         notes: notes,
+       );
 
   /// Construct from a policy creation intent and attach a policyId.
   factory Policy.fromCreateIntent(

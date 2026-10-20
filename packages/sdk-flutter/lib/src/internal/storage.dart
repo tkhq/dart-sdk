@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:turnkey_sdk_flutter/src/utils/constants.dart';
 import 'package:turnkey_sdk_flutter/src/utils/types.dart';
@@ -30,8 +31,10 @@ class SessionStorageManager {
   }
 
   /// ✅ Store a session from a JWT string
-  static Future<void> storeSession(String jwtToken,
-      {String? sessionKey}) async {
+  static Future<void> storeSession(
+    String jwtToken, {
+    String? sessionKey,
+  }) async {
     sessionKey ??= StorageKeys.DefaultSession.value;
     final sessionWithMetadata = Session.fromJwt(jwtToken);
     await setStorageValue(sessionKey, sessionWithMetadata.toJson());

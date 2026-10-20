@@ -66,13 +66,13 @@ extension DelegatedAccessExtension on TurnkeyProvider {
     // At this point we know the user doesn't exist, so we create it
     final String newUserName =
         (createParams?.userName?.trim().isNotEmpty ?? false)
-            ? createParams!.userName!.trim()
-            : "Public Key User";
+        ? createParams!.userName!.trim()
+        : "Public Key User";
 
     final String newApiKeyName =
         (createParams?.apiKeyName?.trim().isNotEmpty ?? false)
-            ? createParams!.apiKeyName!.trim()
-            : "public-key-user-$publicKey";
+        ? createParams!.apiKeyName!.trim()
+        : "public-key-user-$publicKey";
 
     final createUsersResp = await requireClient.createUsers(
       input: TCreateUsersBody(
@@ -135,13 +135,15 @@ extension DelegatedAccessExtension on TurnkeyProvider {
     }
     if (policies.isEmpty) {
       throw Exception(
-          "'policies' must be a non-empty list of policy definitions.");
+        "'policies' must be a non-empty list of policy definitions.",
+      );
     }
 
     final String? orgId = organizationId ?? session?.organizationId;
     if (orgId == null || orgId.trim().isEmpty) {
       throw Exception(
-          "Organization ID is required to fetch or create policies.");
+        "Organization ID is required to fetch or create policies.",
+      );
     }
 
     // We first fetch existing policies
@@ -185,10 +187,7 @@ extension DelegatedAccessExtension on TurnkeyProvider {
     // At this point we know there is at least one missing policy.
     // so we create the missing policies and then return the full list
     final createResp = await requireClient.createPolicies(
-      input: TCreatePoliciesBody(
-        organizationId: orgId,
-        policies: missing,
-      ),
+      input: TCreatePoliciesBody(organizationId: orgId, policies: missing),
     );
 
     // Assign returned IDs back to the missing ones in order

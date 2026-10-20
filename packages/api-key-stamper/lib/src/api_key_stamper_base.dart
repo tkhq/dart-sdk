@@ -20,8 +20,12 @@ class ApiKeyStamperConfig {
 
 enum SignatureFormat { der, raw }
 
-String signWithApiKey(String publicKey, String privateKey, String content,
-    {SignatureFormat format = SignatureFormat.der}) {
+String signWithApiKey(
+  String publicKey,
+  String privateKey,
+  String content, {
+  SignatureFormat format = SignatureFormat.der,
+}) {
   var ec = getP256();
 
   var ecPrivateKey = PrivateKey.fromHex(ec, privateKey);
@@ -30,7 +34,8 @@ String signWithApiKey(String publicKey, String privateKey, String content,
 
   if (publicKeyString != publicKey) {
     throw Exception(
-        'Bad API key. Expected to get public key $publicKey, got $publicKeyString');
+      'Bad API key. Expected to get public key $publicKey, got $publicKeyString',
+    );
   }
 
   var bytes = utf8.encode(content);
@@ -62,8 +67,8 @@ class ApiKeyStamper implements TStamper {
   var stampHeaderName = "X-Stamp";
 
   ApiKeyStamper(ApiKeyStamperConfig config)
-      : apiPublicKey = config.apiPublicKey,
-        apiPrivateKey = config.apiPrivateKey;
+    : apiPublicKey = config.apiPublicKey,
+      apiPrivateKey = config.apiPrivateKey;
 
   @override
   Future<TStamp> stamp(String content) async {

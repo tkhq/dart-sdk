@@ -15,11 +15,7 @@ class NullableTConfig {
   String? apiPrivateKey;
   String? baseUrl;
 
-  NullableTConfig({
-    this.apiPublicKey,
-    this.apiPrivateKey,
-    this.baseUrl,
-  });
+  NullableTConfig({this.apiPublicKey, this.apiPrivateKey, this.baseUrl});
 }
 
 final NullableTConfig config = NullableTConfig(

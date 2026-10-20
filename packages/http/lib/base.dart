@@ -1,5 +1,7 @@
 import 'dart:convert';
+
 import 'config.dart';
+
 import 'package:turnkey_encoding/turnkey_encoding.dart';
 import 'package:turnkey_api_key_stamper/turnkey_api_key_stamper.dart';
 
@@ -33,10 +35,7 @@ Future<Map<String, String>> sealAndStampRequestBody({
 
   final String xStamp = stringToBase64urlString(sealedStamp);
 
-  return {
-    'sealedBody': sealedBody,
-    'xStamp': xStamp,
-  };
+  return {'sealedBody': sealedBody, 'xStamp': xStamp};
 }
 
 class THttpConfig {
@@ -59,11 +58,7 @@ class TSignedRequest {
   final TStamp stamp;
   final String url;
 
-  TSignedRequest({
-    required this.body,
-    required this.stamp,
-    required this.url,
-  });
+  TSignedRequest({required this.body, required this.stamp, required this.url});
 }
 
 // Represents a stamp header name/value pair
@@ -71,10 +66,7 @@ class TStamp {
   final String stampHeaderName;
   final String stampHeaderValue;
 
-  TStamp({
-    required this.stampHeaderName,
-    required this.stampHeaderValue,
-  });
+  TStamp({required this.stampHeaderName, required this.stampHeaderValue});
 }
 
 class GrpcStatus {
@@ -82,11 +74,7 @@ class GrpcStatus {
   final int code;
   final List<dynamic>? details;
 
-  GrpcStatus({
-    required this.message,
-    required this.code,
-    this.details,
-  });
+  GrpcStatus({required this.message, required this.code, this.details});
 
   factory GrpcStatus.fromJson(Map<String, dynamic> json) {
     return GrpcStatus(
@@ -112,9 +100,9 @@ class TurnkeyRequestError implements Exception {
   final String message;
 
   TurnkeyRequestError(GrpcStatus status)
-      : details = status.details,
-        code = status.code,
-        message = _generateMessage(status);
+    : details = status.details,
+      code = status.code,
+      message = _generateMessage(status);
 
   static String _generateMessage(GrpcStatus status) {
     var errorMessage = 'Turnkey error ${status.code}: ${status.message}';

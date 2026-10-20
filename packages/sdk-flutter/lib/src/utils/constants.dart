@@ -37,11 +37,7 @@ enum AuthAction {
   bool get isSignup => this == AuthAction.signup;
 }
 
-enum AuthState {
-  loading,
-  unauthenticated,
-  authenticated,
-}
+enum AuthState { loading, unauthenticated, authenticated }
 
 const Map<OtpType, FilterType> otpTypeToFilterTypeMap = {
   OtpType.Email: FilterType.Email,
@@ -68,7 +64,8 @@ final DEFAULT_ETHEREUM_ACCOUNT = v1WalletAccountParams(
 );
 
 final DEFAULT_SOLANA_ACCOUNT = v1WalletAccountParams(
-    curve: v1Curve.curve_ed25519,
-    pathFormat: v1PathFormat.path_format_bip32,
-    path: "m/44'/501'/0'/0'",
-    addressFormat: v1AddressFormat.address_format_solana);
+  curve: v1Curve.curve_ed25519,
+  pathFormat: v1PathFormat.path_format_bip32,
+  path: "m/44'/501'/0'/0'",
+  addressFormat: v1AddressFormat.address_format_solana,
+);

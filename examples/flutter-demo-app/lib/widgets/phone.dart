@@ -5,6 +5,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:intl_phone_number_input/src/models/country_list.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+
 import 'buttons.dart';
 
 class PhoneNumberInput extends StatefulWidget {
@@ -33,18 +34,22 @@ class PhoneNumberInputState extends State<PhoneNumberInput> {
 
   List<String> getAllowedCountryCodes() {
     return Countries.countryList
-        .where((country) =>
-            country['dial_code'] != null &&
-            country['alpha_2_code'] != null &&
-            !unsupportedCountryCodes.contains(country['dial_code']))
+        .where(
+          (country) =>
+              country['dial_code'] != null &&
+              country['alpha_2_code'] != null &&
+              !unsupportedCountryCodes.contains(country['dial_code']),
+        )
         .map((country) => country['alpha_2_code'] as String)
         .toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider = Provider.of<TurnkeyProvider>(
+      context,
+      listen: false,
+    );
 
     return Column(
       children: <Widget>[

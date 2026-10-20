@@ -1,10 +1,15 @@
 import 'dart:math';
 import 'dart:typed_data';
+
 import 'package:turnkey_encoding/turnkey_encoding.dart';
+
 import 'constant.dart';
 import 'math.dart';
+
 import 'package:pointycastle/export.dart';
+
 import 'type.dart';
+
 import 'package:bs58/bs58.dart';
 
 /// Converts a [BigInt] to a hexadecimal string of a specified length.
@@ -22,7 +27,8 @@ String bigIntToHex(BigInt num, int length) {
   final hexString = num.toRadixString(16);
   if (hexString.length > length) {
     throw ArgumentError(
-        'Number cannot fit in a hex string of $length characters');
+      'Number cannot fit in a hex string of $length characters',
+    );
   }
   return hexString.padLeft(length, '0');
 }
@@ -39,8 +45,10 @@ String bigIntToHex(BigInt num, int length) {
 /// Throws:
 /// - [ArgumentError]: If the [value] cannot be represented within the specified [length].
 Uint8List bigIntToFixedLength(BigInt value, int length) {
-  final bytes =
-      value.toUnsigned(8 * length).toRadixString(16).padLeft(length * 2, '0');
+  final bytes = value
+      .toUnsigned(8 * length)
+      .toRadixString(16)
+      .padLeft(length * 2, '0');
   final result = Uint8List(length);
   for (int i = 0; i < length; i++) {
     result[i] = int.parse(bytes.substring(i * 2, i * 2 + 2), radix: 16);
@@ -93,15 +101,19 @@ Uint8List uncompressRawPublicKey(Uint8List rawPublicKey) {
   // point[0] must be 2 (false) or 3 (true).
   // this maps to the initial "02" or "03" prefix
   final lsb = rawPublicKey[0] == 3;
-  final x =
-      BigInt.parse(uint8ArrayToHexString(rawPublicKey.sublist(1)), radix: 16);
+  final x = BigInt.parse(
+    uint8ArrayToHexString(rawPublicKey.sublist(1)),
+    radix: 16,
+  );
 
   // https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.186-4.pdf (Appendix D).
   final p = BigInt.parse(
-      "115792089210356248762697446949407573530086143415290314195533631308867097853951");
+    "115792089210356248762697446949407573530086143415290314195533631308867097853951",
+  );
   final b = BigInt.parse(
-      "5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b",
-      radix: 16);
+    "5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b",
+    radix: 16,
+  );
   final a = p - BigInt.from(3);
 
   // Now compute y based on x
@@ -139,7 +151,8 @@ Uint8List decodeKey(String privateKey, String keyFormat) {
       final decodedKeyBytes = base58.decode(privateKey);
       if (decodedKeyBytes.length != 64) {
         throw Exception(
-            'Invalid key length. Expected 64 bytes. Got ${decodedKeyBytes.length}.');
+          'Invalid key length. Expected 64 bytes. Got ${decodedKeyBytes.length}.',
+        );
       }
       return Uint8List.fromList(decodedKeyBytes.sublist(0, 32));
     case "HEXADECIMAL":
@@ -228,10 +241,10 @@ Uint8List buildLabeledInfo(
   Uint8List suiteId,
   int len,
 ) {
-  const suiteIdStartIndex =
-      9; // first two are reserved for length bytes (unused in this case), the next 7 are for the HPKE_VERSION, then the suiteId starts at 9
+  const suiteIdStartIndex = 9; // first two are reserved for length bytes (unused in this case), the next 7 are for the HPKE_VERSION, then the suiteId starts at 9
   final result = Uint8List(
-      suiteIdStartIndex + suiteId.length + label.length + info.length);
+    suiteIdStartIndex + suiteId.length + label.length + info.length,
+  );
 
   // this isn’t an error, we’re starting at index 2 because the first two bytes should be 0. See <https://github.com/dajiaji/hpke-js/blob/1e7fb1372fbcdb6d06bf2f4fa27ff676329d633e/src/kdfs/hkdf.ts#L41> for reference.
   result[0] = 0;
@@ -240,7 +253,10 @@ Uint8List buildLabeledInfo(
   result.setRange(2, suiteIdStartIndex, HPKE_VERSION);
 
   result.setRange(
-      suiteIdStartIndex, suiteIdStartIndex + suiteId.length, suiteId);
+    suiteIdStartIndex,
+    suiteIdStartIndex + suiteId.length,
+    suiteId,
+  );
 
   final labelStartIndex = suiteIdStartIndex + suiteId.length;
   result.setRange(labelStartIndex, labelStartIndex + label.length, label);
@@ -286,7 +302,9 @@ Uint8List buildLabeledIkm(Uint8List label, Uint8List ikm, Uint8List suiteId) {
 /// Returns:
 /// - A `Uint8List` containing the concatenation of the sender and receiver public keys.
 Uint8List buildAdditionalAssociatedData(
-    Uint8List senderPubBuf, Uint8List receiverPubBuf) {
+  Uint8List senderPubBuf,
+  Uint8List receiverPubBuf,
+) {
   return Uint8List.fromList([...senderPubBuf, ...receiverPubBuf]);
 }
 
@@ -318,8 +336,9 @@ KeyPair generateP256KeyPair() {
   }
 
   final publicKey = getPublicKey(privateKey, isCompressed: true);
-  final publicKeyUncompressed =
-      uint8ArrayToHexString(uncompressRawPublicKey(publicKey));
+  final publicKeyUncompressed = uint8ArrayToHexString(
+    uncompressRawPublicKey(publicKey),
+  );
 
   return KeyPair(
     privateKey: uint8ArrayToHexString(privateKey),
@@ -341,8 +360,12 @@ Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
     if (privateKey.length != 64) {
       throw ArgumentError('Private key must be a 32-byte hexadecimal string.');
     }
-    privKeyBytes = Uint8List.fromList(List<int>.generate(privateKey.length ~/ 2,
-        (i) => int.parse(privateKey.substring(i * 2, i * 2 + 2), radix: 16)));
+    privKeyBytes = Uint8List.fromList(
+      List<int>.generate(
+        privateKey.length ~/ 2,
+        (i) => int.parse(privateKey.substring(i * 2, i * 2 + 2), radix: 16),
+      ),
+    );
   } else if (privateKey is Uint8List) {
     if (privateKey.length != 32) {
       throw ArgumentError('Private key must be exactly 32 bytes.');
@@ -350,14 +373,16 @@ Uint8List getPublicKey(dynamic privateKey, {bool isCompressed = true}) {
     privKeyBytes = privateKey;
   } else {
     throw ArgumentError(
-        'Private key must be a Uint8List or a hexadecimal string.');
+      'Private key must be a Uint8List or a hexadecimal string.',
+    );
   }
 
   final domain = ECDomainParameters('secp256r1');
 
   final privateKeyValue = BigInt.parse(
-      privKeyBytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(),
-      radix: 16);
+    privKeyBytes.map((byte) => byte.toRadixString(16).padLeft(2, '0')).join(),
+    radix: 16,
+  );
   final privateKeyParam = ECPrivateKey(privateKeyValue, domain);
   final publicKeyPoint = domain.G * privateKeyParam.d;
 
@@ -408,7 +433,8 @@ Uint8List deriveSS(Uint8List encappedKeyBuf, String priv) {
 
   if (privateKeyValue <= BigInt.zero || privateKeyValue >= domain.n) {
     throw ArgumentError(
-        'Private key is invalid or out of range for the curve.');
+      'Private key is invalid or out of range for the curve.',
+    );
   }
 
   final privateKey = ECPrivateKey(privateKeyValue, domain);
@@ -504,8 +530,9 @@ bool verifyEnclaveSignature({
     );
   }
 
-  final encryptionQuorumPublicBuf =
-      uint8ArrayFromHexString(enclaveQuorumPublic);
+  final encryptionQuorumPublicBuf = uint8ArrayFromHexString(
+    enclaveQuorumPublic,
+  );
   final quorumKey = loadPublicKey(encryptionQuorumPublicBuf);
 
   // The ECDSA signature is ASN.1 DER encoded but WebCrypto uses raw format

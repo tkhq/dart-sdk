@@ -17,6 +17,9 @@ extension on TurnkeyProvider {
       throw Exception("Failed to refresh user. Sessions not initialized");
     }
     user = await fetchUser(
-        requireClient, session!.organizationId, session!.userId);
+      requireClient,
+      session!.organizationId,
+      session!.userId,
+    );
   }
 }

@@ -2,13 +2,16 @@ import 'constant.dart';
 import 'helper.dart';
 import 'types.dart';
 import 'type-gen/helpers.dart';
+
 import 'package:swagger_dart_code_generator/src/swagger_models/swagger_root.dart';
+
 // import 'package:swagger_dart_code_generator/src/swagger_models/requests/swagger_request_parameter.dart';
 
 /// Builds a map of base activity type -> highest versioned activity type
 /// by scanning all string values in the swagger JSON for ACTIVITY_TYPE_* patterns.
 Map<String, String> buildDynamicVersionMap(
-    List<Map<String, dynamic>> rawSpecs) {
+  List<Map<String, dynamic>> rawSpecs,
+) {
   final allActivityTypes = <String>{};
 
   void collect(dynamic value) {
@@ -52,10 +55,8 @@ String getActivityTypeFromOperationId(
   Map<String, String> dynamicVersionMap,
 ) {
   // Convert operationId to activity type format
-  final activityTypeName = 'ACTIVITY_TYPE_${operationId.replaceAllMapped(
-        RegExp(r'([A-Z])'),
-        (match) => '_${match.group(1)}',
-      ).toUpperCase().substring(1)}';
+  final activityTypeName =
+      'ACTIVITY_TYPE_${operationId.replaceAllMapped(RegExp(r'([A-Z])'), (match) => '_${match.group(1)}').toUpperCase().substring(1)}';
 
   // 1. Explicit static override wins
   final recordTriple = VERSIONED_ACTIVITY_TYPES[activityTypeName];
@@ -271,7 +272,9 @@ Future<void> generateClientFromSwagger({
 
     final SwaggerRoot spec = SwaggerRoot.fromJson(file.parsedData);
 
-    final namespace = spec.tags.map((tag) => tag.name).firstWhere(
+    final namespace = spec.tags
+        .map((tag) => tag.name)
+        .firstWhere(
           (name) => name.isNotEmpty,
           orElse: () => throw Exception(
             'Invalid namespace in spec, cannot generate HTTP client',
@@ -280,27 +283,26 @@ Future<void> generateClientFromSwagger({
 
     if (namespace.isEmpty) {
       throw Exception(
-          'Invalid namespace "$namespace" in spec, cannot generate HTTP client');
+        'Invalid namespace "$namespace" in spec, cannot generate HTTP client',
+      );
     }
 
-    final String prefix = NAMESPACE_TO_DART_PREFIX[namespace] ??
+    final String prefix =
+        NAMESPACE_TO_DART_PREFIX[namespace] ??
         (throw Exception(
-            'No Dart prefix mapping found for namespace "$namespace"'));
+          'No Dart prefix mapping found for namespace "$namespace"',
+        ));
     final bool isProxy = prefix == 'Proxy';
 
     for (final endpointEntry in spec.paths.entries) {
       final String endpointPath = endpointEntry.key;
       final methodMap = endpointEntry.value.requests;
       if (methodMap['post'] == null) {
-        throw Exception(
-          'Found a non-POST endpoint in public API swagger!',
-        );
+        throw Exception('Found a non-POST endpoint in public API swagger!');
       }
 
       if (methodMap['post']!.operationId.isEmpty) {
-        throw Exception(
-          'Invalid operationId in path ${endpointPath}',
-        );
+        throw Exception('Invalid operationId in path ${endpointPath}');
       }
 
       final operation = methodMap['post']!;
@@ -319,16 +321,20 @@ Future<void> generateClientFromSwagger({
       final inputType = '${prefix}T${operationId}Body';
       final responseType = '${prefix}T${operationId}Response';
 
-      codeBuffer.add(assembleDartDocComment([
-        operation.description,
-        'Sign the provided `$inputType` with the client\'s `stamp` function and submit the request (POST $endpointPath).',
-        'See also: `stamp$operationId`.',
-        if (isEndpointDeprecated) '@deprecated',
-      ]));
+      codeBuffer.add(
+        assembleDartDocComment([
+          operation.description,
+          'Sign the provided `$inputType` with the client\'s `stamp` function and submit the request (POST $endpointPath).',
+          'See also: `stamp$operationId`.',
+          if (isEndpointDeprecated) '@deprecated',
+        ]),
+      );
 
       if (mType == 'activityDecision' || mType == 'command') {
-        final activityType =
-            getActivityTypeFromOperationId(operationId, dynamicVersionMap);
+        final activityType = getActivityTypeFromOperationId(
+          operationId,
+          dynamicVersionMap,
+        );
         codeBuffer.add('''
       Future<$responseType> ${prefix.toLowerCase()}${prefix.isEmpty ? methodName : methodName.capitalize()}({
         required $inputType input,
@@ -373,17 +379,21 @@ Future<void> generateClientFromSwagger({
         throw Exception('Unknown method type "$mType"');
       }
 
-      codeBuffer.add(assembleDartDocComment([
-        'Produce a `SignedRequest` from `$inputType` by using the client\'s `stamp` function.',
-        'See also: `$operationId`.',
-        if (isEndpointDeprecated) '@deprecated',
-        '\n',
-      ]));
+      codeBuffer.add(
+        assembleDartDocComment([
+          'Produce a `SignedRequest` from `$inputType` by using the client\'s `stamp` function.',
+          'See also: `$operationId`.',
+          if (isEndpointDeprecated) '@deprecated',
+          '\n',
+        ]),
+      );
 
       if (!isProxy) {
         if (mType == 'activityDecision' || mType == 'command') {
-          final activityType =
-              getActivityTypeFromOperationId(operationId, dynamicVersionMap);
+          final activityType = getActivityTypeFromOperationId(
+            operationId,
+            dynamicVersionMap,
+          );
           codeBuffer.add('''
       Future<TSignedRequest> stamp$operationId({
         required $inputType input,
@@ -434,12 +444,8 @@ Future<void> generateClientFromSwagger({
       .where((importStatement) => importStatement.isNotEmpty)
       .join("\n");
 
-// Combine the comment header, imports, and code buffer
-  final output = [
-    COMMENT_HEADER,
-    imports,
-    ...codeBuffer,
-  ].join("\n\n");
+  // Combine the comment header, imports, and code buffer
+  final output = [COMMENT_HEADER, imports, ...codeBuffer].join("\n\n");
 
   await safeWriteFileAsync("$targetPath/public_api.client.dart", output);
   await formatDocument(targetPath);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:passkeys/authenticator.dart';
 import 'package:passkeys/types.dart';
 import 'package:turnkey_encoding/turnkey_encoding.dart';
@@ -25,10 +26,7 @@ class RelyingParty {
   final String id;
   final String name;
 
-  const RelyingParty({
-    required this.id,
-    required this.name,
-  });
+  const RelyingParty({required this.id, required this.name});
 }
 
 class WebAuthnUser {
@@ -52,7 +50,7 @@ class PasskeyRegistrationConfig {
   final List<CredentialType>? excludeCredentials; // Credentials to exclude
   final String? attestation; // Attestation type: none, direct, indirect
   final AuthenticatorSelectionType?
-      authenticatorSelection; // Authenticator selection criteria
+  authenticatorSelection; // Authenticator selection criteria
   final String? authenticatorName; // Optional authenticator name
 
   const PasskeyRegistrationConfig({
@@ -103,16 +101,14 @@ Future<CreatePasskeyResult> createPasskey(
   final String challenge = config.challenge ?? generateChallenge();
 
   // Encode userId to base64url-safe value
-  final String userId =
-      base64Url.encode(utf8.encode(config.user.id)).replaceAll('=', '');
+  final String userId = base64Url
+      .encode(utf8.encode(config.user.id))
+      .replaceAll('=', '');
 
   final authenticator = PasskeyAuthenticator();
 
   final options = RegisterRequestType(
-    relyingParty: RelyingPartyType(
-      name: config.rp.name,
-      id: config.rp.id,
-    ),
+    relyingParty: RelyingPartyType(name: config.rp.name, id: config.rp.id),
     user: UserType(
       displayName: config.user.displayName,
       name: config.user.name,
@@ -126,7 +122,8 @@ Future<CreatePasskeyResult> createPasskey(
       PubKeyCredParamType(type: "public-key", alg: -257),
     ],
     attestation: config.attestation ?? 'none',
-    authSelectionType: config.authenticatorSelection ??
+    authSelectionType:
+        config.authenticatorSelection ??
         AuthenticatorSelectionType(
           requireResidentKey: true,
           authenticatorAttachment: "platform",
@@ -139,10 +136,12 @@ Future<CreatePasskeyResult> createPasskey(
 
   final attestation = v1Attestation(
     credentialId: base64StringToBase64UrlEncodedString(credential.id),
-    clientDataJson:
-        base64StringToBase64UrlEncodedString(credential.clientDataJSON),
-    attestationObject:
-        base64StringToBase64UrlEncodedString(credential.attestationObject),
+    clientDataJson: base64StringToBase64UrlEncodedString(
+      credential.clientDataJSON,
+    ),
+    attestationObject: base64StringToBase64UrlEncodedString(
+      credential.attestationObject,
+    ),
     transports: [v1AuthenticatorTransport.authenticator_transport_hybrid],
   );
 
@@ -163,13 +162,13 @@ class PasskeyStamper implements TStamper {
   final bool preferImmediatelyAvailableCredentials;
 
   PasskeyStamper(PasskeyStamperConfig config)
-      : rpId = config.rpId,
-        timeout = config.timeout ?? 300000,
-        userVerification = config.userVerification ?? 'preferred',
-        allowCredentials = config.allowCredentials ?? const [],
-        mediation = config.mediation ?? MediationType.Silent,
-        preferImmediatelyAvailableCredentials =
-            config.preferImmediatelyAvailableCredentials ?? true;
+    : rpId = config.rpId,
+      timeout = config.timeout ?? 300000,
+      userVerification = config.userVerification ?? 'preferred',
+      allowCredentials = config.allowCredentials ?? const [],
+      mediation = config.mediation ?? MediationType.Silent,
+      preferImmediatelyAvailableCredentials =
+          config.preferImmediatelyAvailableCredentials ?? true;
 
   final stampHeaderName = "X-Stamp-Webauthn";
 
@@ -190,18 +189,23 @@ class PasskeyStamper implements TStamper {
           preferImmediatelyAvailableCredentials,
     );
 
-    final authenticationResult =
-        await authenticator.authenticate(signingOptions);
+    final authenticationResult = await authenticator.authenticate(
+      signingOptions,
+    );
 
     final stamp = {
       "authenticatorData": base64StringToBase64UrlEncodedString(
-          authenticationResult.authenticatorData),
+        authenticationResult.authenticatorData,
+      ),
       "clientDataJson": base64StringToBase64UrlEncodedString(
-          authenticationResult.clientDataJSON),
-      "credentialId":
-          base64StringToBase64UrlEncodedString(authenticationResult.id),
-      "signature":
-          base64StringToBase64UrlEncodedString(authenticationResult.signature),
+        authenticationResult.clientDataJSON,
+      ),
+      "credentialId": base64StringToBase64UrlEncodedString(
+        authenticationResult.id,
+      ),
+      "signature": base64StringToBase64UrlEncodedString(
+        authenticationResult.signature,
+      ),
     };
 
     return TStamp(

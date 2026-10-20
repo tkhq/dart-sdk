@@ -17,8 +17,10 @@ class PasskeyInputState extends State<PasskeyInput> {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider = Provider.of<TurnkeyProvider>(
+      context,
+      listen: false,
+    );
 
     return Column(
       children: <Widget>[

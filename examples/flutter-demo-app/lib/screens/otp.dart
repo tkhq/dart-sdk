@@ -30,8 +30,10 @@ class _OTPScreenState extends State<OTPScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider = Provider.of<TurnkeyProvider>(
+      context,
+      listen: false,
+    );
 
     return Scaffold(
       body: Center(
@@ -51,10 +53,7 @@ class _OTPScreenState extends State<OTPScreen> {
               const SizedBox(height: 20),
               const Text(
                 'Enter OTP Code',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
               Pinput(
@@ -127,9 +126,7 @@ class _OTPScreenState extends State<OTPScreen> {
                         } catch (e) {
                           if (!context.mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Failed to verify OTP: $e'),
-                            ),
+                            SnackBar(content: Text('Failed to verify OTP: $e')),
                           );
                         } finally {
                           if (mounted) setState(() => _isLoading = false);

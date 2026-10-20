@@ -42,7 +42,8 @@ Uint8List uint8ArrayFromHexString(String hexString, [int? length]) {
       hexString.length % 2 != 0 ||
       !hexRegex.hasMatch(hexString)) {
     throw ArgumentError(
-        'Cannot create Uint8List from invalid hex string: "$hexString"');
+      'Cannot create Uint8List from invalid hex string: "$hexString"',
+    );
   }
 
   final buffer = Uint8List.fromList(
@@ -103,7 +104,10 @@ Uint8List normalizePadding(Uint8List byteArray, int targetLength) {
       );
     }
     return Uint8List.sublistView(
-        byteArray, expectedZeroCount, expectedZeroCount + targetLength);
+      byteArray,
+      expectedZeroCount,
+      expectedZeroCount + targetLength,
+    );
   }
 
   return byteArray;
@@ -162,7 +166,8 @@ String btoa(String s) {
   for (int i = 0; i < s.length; i++) {
     if (s.codeUnitAt(i) > 255) {
       throw ArgumentError(
-          'InvalidCharacterError: found code point greater than 255: ${s.codeUnitAt(i)} at position $i');
+        'InvalidCharacterError: found code point greater than 255: ${s.codeUnitAt(i)} at position $i',
+      );
     }
   }
 

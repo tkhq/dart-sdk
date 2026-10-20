@@ -33,16 +33,18 @@ extension PasskeyExtension on TurnkeyProvider {
     try {
       if (rpId == null || rpId.isEmpty) {
         throw Exception(
-            "Relying Party ID (rpId) must be provided either in the method call or in the TurnkeyConfig.passkeyConfig");
+          "Relying Party ID (rpId) must be provided either in the method call or in the TurnkeyConfig.passkeyConfig",
+        );
       }
 
       generatedPublicKey =
           publicKey ?? await createApiKeyPair(storeOverride: true);
 
       final passkeyClient = createPasskeyClient(
-          organizationId: organizationId,
-          apiBaseUrl: apiBaseUrl,
-          passkeyStamperConfig: PasskeyStamperConfig(rpId: rpId));
+        organizationId: organizationId,
+        apiBaseUrl: apiBaseUrl,
+        passkeyStamperConfig: PasskeyStamperConfig(rpId: rpId),
+      );
 
       final loginResponse = await passkeyClient.stampLogin(
         input: TStampLoginBody(
@@ -57,10 +59,7 @@ extension PasskeyExtension on TurnkeyProvider {
         throw Exception('No session returned from stampLogin');
       }
 
-      await storeSession(
-        sessionJwt: sessionToken,
-        sessionKey: sessionKey,
-      );
+      await storeSession(sessionJwt: sessionToken, sessionKey: sessionKey);
 
       return LoginWithPasskeyResult(sessionToken: sessionToken);
     } catch (error) {
@@ -114,23 +113,21 @@ extension PasskeyExtension on TurnkeyProvider {
 
       if (rpId == null || rpId.isEmpty) {
         throw Exception(
-            "Relying Party ID (rpId) must be provided either in the method call or in the TurnkeyConfig.passkeyConfig");
+          "Relying Party ID (rpId) must be provided either in the method call or in the TurnkeyConfig.passkeyConfig",
+        );
       }
 
       temporaryPublicKey = await createApiKeyPair(storeOverride: true);
-      final passkeyName = passkeyDisplayName ??
+      final passkeyName =
+          passkeyDisplayName ??
           'passkey-${DateTime.now().millisecondsSinceEpoch}';
 
       // create a passkey
       final passkey = await createPasskey(
         PasskeyRegistrationConfig(
-          rp: RelyingParty(
-            id: rpId,
-            name: rpName,
-          ),
+          rp: RelyingParty(id: rpId, name: rpName),
           user: WebAuthnUser(
-            id: const Uuid()
-                .v4(), // WARNING: WebAuthnUser id must be a valid UUIDv4 on some devices
+            id: const Uuid().v4(), // WARNING: WebAuthnUser id must be a valid UUIDv4 on some devices
             name: passkeyName,
             displayName: passkeyName,
           ),
@@ -142,15 +139,20 @@ extension PasskeyExtension on TurnkeyProvider {
       final attestation = passkey.attestation;
 
       final overrideParams = PasskeyOverridedParams(
-          passkeyName: passkeyName,
-          attestation: attestation,
-          encodedChallenge: encodedChallenge,
-          temporaryPublicKey: temporaryPublicKey);
-      final updatedCreateSubOrgParams =
-          getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+        passkeyName: passkeyName,
+        attestation: attestation,
+        encodedChallenge: encodedChallenge,
+        temporaryPublicKey: temporaryPublicKey,
+      );
+      final updatedCreateSubOrgParams = getCreateSubOrgParams(
+        createSubOrgParams,
+        config,
+        overrideParams,
+      );
 
-      final signUpBody =
-          buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+      final signUpBody = buildSignUpBody(
+        createSubOrgParams: updatedCreateSubOrgParams,
+      );
 
       final res = await requireClient.proxySignupV2(input: signUpBody);
 

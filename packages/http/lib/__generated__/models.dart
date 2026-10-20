@@ -2,12 +2,11 @@
 // ignore_for_file: constant_identifier_names, non_constant_identifier_names
 
 // --- Base definitions ---
-enum externaldatav1SignatureScheme {
-  signature_scheme_ephemeral_key_p256,
-}
+enum externaldatav1SignatureScheme { signature_scheme_ephemeral_key_p256 }
 
 externaldatav1SignatureScheme externaldatav1SignatureSchemeFromJson(
-    dynamic value) {
+  dynamic value,
+) {
   switch (value) {
     case 'SIGNATURE_SCHEME_EPHEMERAL_KEY_P256':
       return externaldatav1SignatureScheme.signature_scheme_ephemeral_key_p256;
@@ -17,18 +16,15 @@ externaldatav1SignatureScheme externaldatav1SignatureSchemeFromJson(
 }
 
 dynamic externaldatav1SignatureSchemeToJson(
-    externaldatav1SignatureScheme value) {
+  externaldatav1SignatureScheme value,
+) {
   switch (value) {
     case externaldatav1SignatureScheme.signature_scheme_ephemeral_key_p256:
       return "SIGNATURE_SCHEME_EPHEMERAL_KEY_P256";
   }
 }
 
-enum v1AccessType {
-  access_type_web,
-  access_type_api,
-  access_type_all,
-}
+enum v1AccessType { access_type_web, access_type_api, access_type_all }
 
 v1AccessType v1AccessTypeFromJson(dynamic value) {
   switch (value) {
@@ -1014,9 +1010,7 @@ dynamic v1AuthenticatorTransportToJson(v1AuthenticatorTransport value) {
   }
 }
 
-enum v1ClientSignatureScheme {
-  client_signature_scheme_api_p256,
-}
+enum v1ClientSignatureScheme { client_signature_scheme_api_p256 }
 
 v1ClientSignatureScheme v1ClientSignatureSchemeFromJson(dynamic value) {
   switch (value) {
@@ -1099,11 +1093,7 @@ dynamic v1CredentialTypeToJson(v1CredentialType value) {
   }
 }
 
-enum v1Curve {
-  curve_secp256k1,
-  curve_ed25519,
-  curve_p256,
-}
+enum v1Curve { curve_secp256k1, curve_ed25519, curve_p256 }
 
 v1Curve v1CurveFromJson(dynamic value) {
   switch (value) {
@@ -1129,10 +1119,7 @@ dynamic v1CurveToJson(v1Curve value) {
   }
 }
 
-enum v1Effect {
-  effect_allow,
-  effect_deny,
-}
+enum v1Effect { effect_allow, effect_deny }
 
 v1Effect v1EffectFromJson(dynamic value) {
   switch (value) {
@@ -1222,7 +1209,8 @@ enum v1FiatOnRampBlockchainNetwork {
 }
 
 v1FiatOnRampBlockchainNetwork v1FiatOnRampBlockchainNetworkFromJson(
-    dynamic value) {
+  dynamic value,
+) {
   switch (value) {
     case 'FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_BITCOIN':
       return v1FiatOnRampBlockchainNetwork
@@ -1241,7 +1229,8 @@ v1FiatOnRampBlockchainNetwork v1FiatOnRampBlockchainNetworkFromJson(
 }
 
 dynamic v1FiatOnRampBlockchainNetworkToJson(
-    v1FiatOnRampBlockchainNetwork value) {
+  v1FiatOnRampBlockchainNetwork value,
+) {
   switch (value) {
     case v1FiatOnRampBlockchainNetwork.fiat_on_ramp_blockchain_network_bitcoin:
       return "FIAT_ON_RAMP_BLOCKCHAIN_NETWORK_BITCOIN";
@@ -1534,23 +1523,23 @@ v1FiatOnRampPaymentMethod v1FiatOnRampPaymentMethodFromJson(dynamic value) {
 dynamic v1FiatOnRampPaymentMethodToJson(v1FiatOnRampPaymentMethod value) {
   switch (value) {
     case v1FiatOnRampPaymentMethod
-          .fiat_on_ramp_payment_method_credit_debit_card:
+        .fiat_on_ramp_payment_method_credit_debit_card:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_CREDIT_DEBIT_CARD";
     case v1FiatOnRampPaymentMethod.fiat_on_ramp_payment_method_apple_pay:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_APPLE_PAY";
     case v1FiatOnRampPaymentMethod
-          .fiat_on_ramp_payment_method_gbp_bank_transfer:
+        .fiat_on_ramp_payment_method_gbp_bank_transfer:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_GBP_BANK_TRANSFER";
     case v1FiatOnRampPaymentMethod
-          .fiat_on_ramp_payment_method_gbp_open_banking_payment:
+        .fiat_on_ramp_payment_method_gbp_open_banking_payment:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_GBP_OPEN_BANKING_PAYMENT";
     case v1FiatOnRampPaymentMethod.fiat_on_ramp_payment_method_google_pay:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_GOOGLE_PAY";
     case v1FiatOnRampPaymentMethod
-          .fiat_on_ramp_payment_method_sepa_bank_transfer:
+        .fiat_on_ramp_payment_method_sepa_bank_transfer:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_SEPA_BANK_TRANSFER";
     case v1FiatOnRampPaymentMethod
-          .fiat_on_ramp_payment_method_pix_instant_payment:
+        .fiat_on_ramp_payment_method_pix_instant_payment:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_PIX_INSTANT_PAYMENT";
     case v1FiatOnRampPaymentMethod.fiat_on_ramp_payment_method_paypal:
       return "FIAT_ON_RAMP_PAYMENT_METHOD_PAYPAL";
@@ -1687,10 +1676,7 @@ dynamic v1MnemonicLanguageToJson(v1MnemonicLanguage value) {
   }
 }
 
-enum v1Oauth2Provider {
-  oauth2_provider_x,
-  oauth2_provider_discord,
-}
+enum v1Oauth2Provider { oauth2_provider_x, oauth2_provider_discord }
 
 v1Oauth2Provider v1Oauth2ProviderFromJson(dynamic value) {
   switch (value) {
@@ -1827,9 +1813,7 @@ dynamic v1OutcomeToJson(v1Outcome value) {
   }
 }
 
-enum v1PathFormat {
-  path_format_bip32,
-}
+enum v1PathFormat { path_format_bip32 }
 
 v1PathFormat v1PathFormatFromJson(dynamic value) {
   switch (value) {
@@ -1888,7 +1872,8 @@ enum v1SmartContractInterfaceType {
 }
 
 v1SmartContractInterfaceType v1SmartContractInterfaceTypeFromJson(
-    dynamic value) {
+  dynamic value,
+) {
   switch (value) {
     case 'SMART_CONTRACT_INTERFACE_TYPE_ETHEREUM':
       return v1SmartContractInterfaceType
@@ -1909,10 +1894,7 @@ dynamic v1SmartContractInterfaceTypeToJson(v1SmartContractInterfaceType value) {
   }
 }
 
-enum v1TagType {
-  tag_type_user,
-  tag_type_private_key,
-}
+enum v1TagType { tag_type_user, tag_type_private_key }
 
 v1TagType v1TagTypeFromJson(dynamic value) {
   switch (value) {
@@ -1999,10 +1981,7 @@ dynamic v1TvcHealthCheckTypeToJson(v1TvcHealthCheckType value) {
   }
 }
 
-enum v1UsageType {
-  usage_type_signup,
-  usage_type_login,
-}
+enum v1UsageType { usage_type_signup, usage_type_login }
 
 v1UsageType v1UsageTypeFromJson(dynamic value) {
   switch (value) {
@@ -2066,15 +2045,11 @@ class billingActivateBillingTierIntent {
   /// The product that the customer wants to subscribe to.
   final String productId;
 
-  const billingActivateBillingTierIntent({
-    required this.productId,
-  });
+  const billingActivateBillingTierIntent({required this.productId});
 
   factory billingActivateBillingTierIntent.fromJson(Map<String, dynamic> json) {
     final _productId = json['productId'] as String;
-    return billingActivateBillingTierIntent(
-      productId: _productId,
-    );
+    return billingActivateBillingTierIntent(productId: _productId);
   }
 
   Map<String, dynamic> toJson() {
@@ -2088,15 +2063,11 @@ class billingActivateBillingTierResult {
   /// The id of the product being subscribed to.
   final String productId;
 
-  const billingActivateBillingTierResult({
-    required this.productId,
-  });
+  const billingActivateBillingTierResult({required this.productId});
 
   factory billingActivateBillingTierResult.fromJson(Map<String, dynamic> json) {
     final _productId = json['productId'] as String;
-    return billingActivateBillingTierResult(
-      productId: _productId,
-    );
+    return billingActivateBillingTierResult(productId: _productId);
   }
 
   Map<String, dynamic> toJson() {
@@ -2110,15 +2081,11 @@ class billingDeletePaymentMethodIntent {
   /// The payment method that the customer wants to remove.
   final String paymentMethodId;
 
-  const billingDeletePaymentMethodIntent({
-    required this.paymentMethodId,
-  });
+  const billingDeletePaymentMethodIntent({required this.paymentMethodId});
 
   factory billingDeletePaymentMethodIntent.fromJson(Map<String, dynamic> json) {
     final _paymentMethodId = json['paymentMethodId'] as String;
-    return billingDeletePaymentMethodIntent(
-      paymentMethodId: _paymentMethodId,
-    );
+    return billingDeletePaymentMethodIntent(paymentMethodId: _paymentMethodId);
   }
 
   Map<String, dynamic> toJson() {
@@ -2132,15 +2099,11 @@ class billingDeletePaymentMethodResult {
   /// The payment method that was removed.
   final String paymentMethodId;
 
-  const billingDeletePaymentMethodResult({
-    required this.paymentMethodId,
-  });
+  const billingDeletePaymentMethodResult({required this.paymentMethodId});
 
   factory billingDeletePaymentMethodResult.fromJson(Map<String, dynamic> json) {
     final _paymentMethodId = json['paymentMethodId'] as String;
-    return billingDeletePaymentMethodResult(
-      paymentMethodId: _paymentMethodId,
-    );
+    return billingDeletePaymentMethodResult(paymentMethodId: _paymentMethodId);
   }
 
   Map<String, dynamic> toJson() {
@@ -2301,10 +2264,12 @@ class datav1Tag {
     final _tagId = json['tagId'] as String;
     final _tagName = json['tagName'] as String;
     final _tagType = v1TagTypeFromJson(json['tagType']);
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return datav1Tag(
       tagId: _tagId,
       tagName: _tagName,
@@ -2352,17 +2317,22 @@ class externalactivityv1PolicyEvaluation {
   });
 
   factory externalactivityv1PolicyEvaluation.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _id = json['id'] as String;
     final _activityId = json['activityId'] as String;
     final _organizationId = json['organizationId'] as String;
     final _voteId = json['voteId'] as String;
     final _policyEvaluations = (json['policyEvaluations'] as List)
-        .map((e) => immutablecommonv1PolicyEvaluation
-            .fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => immutablecommonv1PolicyEvaluation.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
     return externalactivityv1PolicyEvaluation(
       id: _id,
       activityId: _activityId,
@@ -2379,8 +2349,9 @@ class externalactivityv1PolicyEvaluation {
     _json['activityId'] = activityId;
     _json['organizationId'] = organizationId;
     _json['voteId'] = voteId;
-    _json['policyEvaluations'] =
-        policyEvaluations.map((e) => e.toJson()).toList();
+    _json['policyEvaluations'] = policyEvaluations
+        .map((e) => e.toJson())
+        .toList();
     _json['createdAt'] = createdAt.toJson();
     return _json;
   }
@@ -2390,19 +2361,14 @@ class externaldatav1Address {
   final v1AddressFormat? format;
   final String? address;
 
-  const externaldatav1Address({
-    this.format,
-    this.address,
-  });
+  const externaldatav1Address({this.format, this.address});
 
   factory externaldatav1Address.fromJson(Map<String, dynamic> json) {
-    final _format =
-        json['format'] == null ? null : v1AddressFormatFromJson(json['format']);
+    final _format = json['format'] == null
+        ? null
+        : v1AddressFormatFromJson(json['format']);
     final _address = json['address'] as String?;
-    return externaldatav1Address(
-      format: _format,
-      address: _address,
-    );
+    return externaldatav1Address(format: _format, address: _address);
   }
 
   Map<String, dynamic> toJson() {
@@ -2422,18 +2388,12 @@ class externaldatav1Credential {
   final String publicKey;
   final v1CredentialType type;
 
-  const externaldatav1Credential({
-    required this.publicKey,
-    required this.type,
-  });
+  const externaldatav1Credential({required this.publicKey, required this.type});
 
   factory externaldatav1Credential.fromJson(Map<String, dynamic> json) {
     final _publicKey = json['publicKey'] as String;
     final _type = v1CredentialTypeFromJson(json['type']);
-    return externaldatav1Credential(
-      publicKey: _publicKey,
-      type: _type,
-    );
+    return externaldatav1Credential(publicKey: _publicKey, type: _type);
   }
 
   Map<String, dynamic> toJson() {
@@ -2451,18 +2411,12 @@ class externaldatav1Quorum {
   /// Unique identifiers of quorum set members.
   final List<String> userIds;
 
-  const externaldatav1Quorum({
-    required this.threshold,
-    required this.userIds,
-  });
+  const externaldatav1Quorum({required this.threshold, required this.userIds});
 
   factory externaldatav1Quorum.fromJson(Map<String, dynamic> json) {
     final _threshold = json['threshold'] as num;
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return externaldatav1Quorum(
-      threshold: _threshold,
-      userIds: _userIds,
-    );
+    return externaldatav1Quorum(threshold: _threshold, userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -2510,7 +2464,8 @@ class externaldatav1SmartContractInterface {
   });
 
   factory externaldatav1SmartContractInterface.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
     final _smartContractInterfaceId =
         json['smartContractInterfaceId'] as String;
@@ -2519,10 +2474,12 @@ class externaldatav1SmartContractInterface {
     final _type = json['type'] as String;
     final _label = json['label'] as String;
     final _notes = json['notes'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return externaldatav1SmartContractInterface(
       organizationId: _organizationId,
       smartContractInterfaceId: _smartContractInterfaceId,
@@ -2555,18 +2512,12 @@ class externaldatav1Timestamp {
   final String seconds;
   final String nanos;
 
-  const externaldatav1Timestamp({
-    required this.seconds,
-    required this.nanos,
-  });
+  const externaldatav1Timestamp({required this.seconds, required this.nanos});
 
   factory externaldatav1Timestamp.fromJson(Map<String, dynamic> json) {
     final _seconds = json['seconds'] as String;
     final _nanos = json['nanos'] as String;
-    return externaldatav1Timestamp(
-      seconds: _seconds,
-      nanos: _nanos,
-    );
+    return externaldatav1Timestamp(seconds: _seconds, nanos: _nanos);
   }
 
   Map<String, dynamic> toJson() {
@@ -2581,19 +2532,14 @@ class immutableactivityv1Address {
   final v1AddressFormat? format;
   final String? address;
 
-  const immutableactivityv1Address({
-    this.format,
-    this.address,
-  });
+  const immutableactivityv1Address({this.format, this.address});
 
   factory immutableactivityv1Address.fromJson(Map<String, dynamic> json) {
-    final _format =
-        json['format'] == null ? null : v1AddressFormatFromJson(json['format']);
+    final _format = json['format'] == null
+        ? null
+        : v1AddressFormatFromJson(json['format']);
     final _address = json['address'] as String?;
-    return immutableactivityv1Address(
-      format: _format,
-      address: _address,
-    );
+    return immutableactivityv1Address(format: _format, address: _address);
   }
 
   Map<String, dynamic> toJson() {
@@ -2612,16 +2558,15 @@ class immutablecommonv1PolicyEvaluation {
   final String? policyId;
   final v1Outcome? outcome;
 
-  const immutablecommonv1PolicyEvaluation({
-    this.policyId,
-    this.outcome,
-  });
+  const immutablecommonv1PolicyEvaluation({this.policyId, this.outcome});
 
   factory immutablecommonv1PolicyEvaluation.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _policyId = json['policyId'] as String?;
-    final _outcome =
-        json['outcome'] == null ? null : v1OutcomeFromJson(json['outcome']);
+    final _outcome = json['outcome'] == null
+        ? null
+        : v1OutcomeFromJson(json['outcome']);
     return immutablecommonv1PolicyEvaluation(
       policyId: _policyId,
       outcome: _outcome,
@@ -2646,10 +2591,7 @@ class protobufAny {
   /// Unrecognized properties captured here.
   final Map<String, dynamic>? additionalProperties;
 
-  const protobufAny({
-    this.type,
-    this.additionalProperties,
-  });
+  const protobufAny({this.type, this.additionalProperties});
 
   factory protobufAny.fromJson(Map<String, dynamic> json) {
     final extras = <String, dynamic>{};
@@ -2682,11 +2624,7 @@ class rpcStatus {
   final String? message;
   final List<protobufAny>? details;
 
-  const rpcStatus({
-    this.code,
-    this.message,
-    this.details,
-  });
+  const rpcStatus({this.code, this.message, this.details});
 
   factory rpcStatus.fromJson(Map<String, dynamic> json) {
     final _code = json['code'] as num?;
@@ -2694,11 +2632,7 @@ class rpcStatus {
     final _details = (json['details'] as List?)
         ?.map((e) => protobufAny.fromJson(e as Map<String, dynamic>))
         .toList();
-    return rpcStatus(
-      code: _code,
-      message: _message,
-      details: _details,
-    );
+    return rpcStatus(code: _code, message: _message, details: _details);
   }
 
   Map<String, dynamic> toJson() {
@@ -2735,8 +2669,9 @@ class v1AcceptInvitationIntent {
   factory v1AcceptInvitationIntent.fromJson(Map<String, dynamic> json) {
     final _invitationId = json['invitationId'] as String;
     final _userId = json['userId'] as String;
-    final _authenticator = v1AuthenticatorParams
-        .fromJson(json['authenticator'] as Map<String, dynamic>);
+    final _authenticator = v1AuthenticatorParams.fromJson(
+      json['authenticator'] as Map<String, dynamic>,
+    );
     return v1AcceptInvitationIntent(
       invitationId: _invitationId,
       userId: _userId,
@@ -2772,8 +2707,9 @@ class v1AcceptInvitationIntentV2 {
   factory v1AcceptInvitationIntentV2.fromJson(Map<String, dynamic> json) {
     final _invitationId = json['invitationId'] as String;
     final _userId = json['userId'] as String;
-    final _authenticator = v1AuthenticatorParamsV2
-        .fromJson(json['authenticator'] as Map<String, dynamic>);
+    final _authenticator = v1AuthenticatorParamsV2.fromJson(
+      json['authenticator'] as Map<String, dynamic>,
+    );
     return v1AcceptInvitationIntentV2(
       invitationId: _invitationId,
       userId: _userId,
@@ -2889,10 +2825,12 @@ class v1Activity {
     final _fingerprint = json['fingerprint'] as String;
     final _canApprove = json['canApprove'] as bool;
     final _canReject = json['canReject'] as bool;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     final _failure = json['failure'] == null
         ? null
         : rpcStatus.fromJson(json['failure'] as Map<String, dynamic>);
@@ -2944,16 +2882,13 @@ class v1ActivityResponse {
   /// An action that can be taken within the Turnkey infrastructure.
   final v1Activity activity;
 
-  const v1ActivityResponse({
-    required this.activity,
-  });
+  const v1ActivityResponse({required this.activity});
 
   factory v1ActivityResponse.fromJson(Map<String, dynamic> json) {
-    final _activity =
-        v1Activity.fromJson(json['activity'] as Map<String, dynamic>);
-    return v1ActivityResponse(
-      activity: _activity,
+    final _activity = v1Activity.fromJson(
+      json['activity'] as Map<String, dynamic>,
     );
+    return v1ActivityResponse(activity: _activity);
   }
 
   Map<String, dynamic> toJson() {
@@ -2988,14 +2923,17 @@ class v1ApiKey {
   });
 
   factory v1ApiKey.fromJson(Map<String, dynamic> json) {
-    final _credential = externaldatav1Credential
-        .fromJson(json['credential'] as Map<String, dynamic>);
+    final _credential = externaldatav1Credential.fromJson(
+      json['credential'] as Map<String, dynamic>,
+    );
     final _apiKeyId = json['apiKeyId'] as String;
     final _apiKeyName = json['apiKeyName'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     final _expirationSeconds = json['expirationSeconds'] as String?;
     return v1ApiKey(
       credential: _credential,
@@ -3089,8 +3027,9 @@ class v1ApiOnlyUserParams {
   factory v1ApiOnlyUserParams.fromJson(Map<String, dynamic> json) {
     final _userName = json['userName'] as String;
     final _userEmail = json['userEmail'] as String?;
-    final _userTags =
-        (json['userTags'] as List).map((e) => e as String).toList();
+    final _userTags = (json['userTags'] as List)
+        .map((e) => e as String)
+        .toList();
     final _apiKeys = (json['apiKeys'] as List)
         .map((e) => apiApiKeyParams.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -3199,15 +3138,11 @@ class v1ApproveActivityIntent {
   /// An artifact verifying a User's action.
   final String fingerprint;
 
-  const v1ApproveActivityIntent({
-    required this.fingerprint,
-  });
+  const v1ApproveActivityIntent({required this.fingerprint});
 
   factory v1ApproveActivityIntent.fromJson(Map<String, dynamic> json) {
     final _fingerprint = json['fingerprint'] as String;
-    return v1ApproveActivityIntent(
-      fingerprint: _fingerprint,
-    );
+    return v1ApproveActivityIntent(fingerprint: _fingerprint);
   }
 
   Map<String, dynamic> toJson() {
@@ -3240,8 +3175,9 @@ class v1ApproveActivityRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1ApproveActivityIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1ApproveActivityIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ApproveActivityRequest(
       type: _type,
@@ -3300,8 +3236,9 @@ class v1AssetBalance {
     final _decimals = json['decimals'] as num?;
     final _display = json['display'] == null
         ? null
-        : v1AssetBalanceDisplay
-            .fromJson(json['display'] as Map<String, dynamic>);
+        : v1AssetBalanceDisplay.fromJson(
+            json['display'] as Map<String, dynamic>,
+          );
     final _name = json['name'] as String?;
     return v1AssetBalance(
       caip19: _caip19,
@@ -3344,18 +3281,12 @@ class v1AssetBalanceDisplay {
   /// Normalized crypto value for display purposes only. Do not do any arithmetic or calculations with these, as the results could be imprecise.
   final String? crypto;
 
-  const v1AssetBalanceDisplay({
-    this.usd,
-    this.crypto,
-  });
+  const v1AssetBalanceDisplay({this.usd, this.crypto});
 
   factory v1AssetBalanceDisplay.fromJson(Map<String, dynamic> json) {
     final _usd = json['usd'] as String?;
     final _crypto = json['crypto'] as String?;
-    return v1AssetBalanceDisplay(
-      usd: _usd,
-      crypto: _crypto,
-    );
+    return v1AssetBalanceDisplay(usd: _usd, crypto: _crypto);
   }
 
   Map<String, dynamic> toJson() {
@@ -3470,8 +3401,9 @@ class v1Attestation {
     _json['credentialId'] = credentialId;
     _json['clientDataJson'] = clientDataJson;
     _json['attestationObject'] = attestationObject;
-    _json['transports'] =
-        transports.map((e) => v1AuthenticatorTransportToJson(e)).toList();
+    _json['transports'] = transports
+        .map((e) => v1AuthenticatorTransportToJson(e))
+        .toList();
     return _json;
   }
 }
@@ -3522,14 +3454,17 @@ class v1Authenticator {
     final _aaguid = json['aaguid'] as String;
     final _credentialId = json['credentialId'] as String;
     final _model = json['model'] as String;
-    final _credential = externaldatav1Credential
-        .fromJson(json['credential'] as Map<String, dynamic>);
+    final _credential = externaldatav1Credential.fromJson(
+      json['credential'] as Map<String, dynamic>,
+    );
     final _authenticatorId = json['authenticatorId'] as String;
     final _authenticatorName = json['authenticatorName'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return v1Authenticator(
       transports: _transports,
       attestationType: _attestationType,
@@ -3546,8 +3481,9 @@ class v1Authenticator {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['transports'] =
-        transports.map((e) => v1AuthenticatorTransportToJson(e)).toList();
+    _json['transports'] = transports
+        .map((e) => v1AuthenticatorTransportToJson(e))
+        .toList();
     _json['attestationType'] = attestationType;
     _json['aaguid'] = aaguid;
     _json['credentialId'] = credentialId;
@@ -3575,7 +3511,8 @@ class v1AuthenticatorAttestationResponse {
   });
 
   factory v1AuthenticatorAttestationResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _clientDataJson = json['clientDataJson'] as String;
     final _attestationObject = json['attestationObject'] as String;
     final _transports = (json['transports'] as List?)
@@ -3595,8 +3532,9 @@ class v1AuthenticatorAttestationResponse {
     _json['clientDataJson'] = clientDataJson;
     _json['attestationObject'] = attestationObject;
     if (transports != null) {
-      _json['transports'] =
-          transports?.map((e) => v1AuthenticatorTransportToJson(e)).toList();
+      _json['transports'] = transports
+          ?.map((e) => v1AuthenticatorTransportToJson(e))
+          .toList();
     }
     if (authenticatorAttachment != null) {
       _json['authenticatorAttachment'] = authenticatorAttachment;
@@ -3626,8 +3564,9 @@ class v1AuthenticatorParams {
   factory v1AuthenticatorParams.fromJson(Map<String, dynamic> json) {
     final _authenticatorName = json['authenticatorName'] as String;
     final _userId = json['userId'] as String;
-    final _attestation = v1PublicKeyCredentialWithAttestation
-        .fromJson(json['attestation'] as Map<String, dynamic>);
+    final _attestation = v1PublicKeyCredentialWithAttestation.fromJson(
+      json['attestation'] as Map<String, dynamic>,
+    );
     final _challenge = json['challenge'] as String;
     return v1AuthenticatorParams(
       authenticatorName: _authenticatorName,
@@ -3666,8 +3605,9 @@ class v1AuthenticatorParamsV2 {
   factory v1AuthenticatorParamsV2.fromJson(Map<String, dynamic> json) {
     final _authenticatorName = json['authenticatorName'] as String;
     final _challenge = json['challenge'] as String;
-    final _attestation =
-        v1Attestation.fromJson(json['attestation'] as Map<String, dynamic>);
+    final _attestation = v1Attestation.fromJson(
+      json['attestation'] as Map<String, dynamic>,
+    );
     return v1AuthenticatorParamsV2(
       authenticatorName: _authenticatorName,
       challenge: _challenge,
@@ -3726,8 +3666,9 @@ class v1BootProof {
     final _deploymentLabel = json['deploymentLabel'] as String;
     final _enclaveApp = json['enclaveApp'] as String;
     final _owner = json['owner'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
     return v1BootProof(
       ephemeralPublicKeyHex: _ephemeralPublicKeyHex,
       awsAttestationDocB64: _awsAttestationDocB64,
@@ -3757,16 +3698,13 @@ class v1BootProof {
 class v1BootProofResponse {
   final v1BootProof bootProof;
 
-  const v1BootProofResponse({
-    required this.bootProof,
-  });
+  const v1BootProofResponse({required this.bootProof});
 
   factory v1BootProofResponse.fromJson(Map<String, dynamic> json) {
-    final _bootProof =
-        v1BootProof.fromJson(json['bootProof'] as Map<String, dynamic>);
-    return v1BootProofResponse(
-      bootProof: _bootProof,
+    final _bootProof = v1BootProof.fromJson(
+      json['bootProof'] as Map<String, dynamic>,
     );
+    return v1BootProofResponse(bootProof: _bootProof);
   }
 
   Map<String, dynamic> toJson() {
@@ -3823,10 +3761,7 @@ class v1Config {
   final List<v1Feature>? features;
   final externaldatav1Quorum? quorum;
 
-  const v1Config({
-    this.features,
-    this.quorum,
-  });
+  const v1Config({this.features, this.quorum});
 
   factory v1Config.fromJson(Map<String, dynamic> json) {
     final _features = (json['features'] as List?)
@@ -3835,10 +3770,7 @@ class v1Config {
     final _quorum = json['quorum'] == null
         ? null
         : externaldatav1Quorum.fromJson(json['quorum'] as Map<String, dynamic>);
-    return v1Config(
-      features: _features,
-      quorum: _quorum,
-    );
+    return v1Config(features: _features, quorum: _quorum);
   }
 
   Map<String, dynamic> toJson() {
@@ -3860,20 +3792,14 @@ class v1CreateApiKeysIntent {
   /// Unique identifier for a given User.
   final String userId;
 
-  const v1CreateApiKeysIntent({
-    required this.apiKeys,
-    required this.userId,
-  });
+  const v1CreateApiKeysIntent({required this.apiKeys, required this.userId});
 
   factory v1CreateApiKeysIntent.fromJson(Map<String, dynamic> json) {
     final _apiKeys = (json['apiKeys'] as List)
         .map((e) => apiApiKeyParams.fromJson(e as Map<String, dynamic>))
         .toList();
     final _userId = json['userId'] as String;
-    return v1CreateApiKeysIntent(
-      apiKeys: _apiKeys,
-      userId: _userId,
-    );
+    return v1CreateApiKeysIntent(apiKeys: _apiKeys, userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -3891,20 +3817,14 @@ class v1CreateApiKeysIntentV2 {
   /// Unique identifier for a given User.
   final String userId;
 
-  const v1CreateApiKeysIntentV2({
-    required this.apiKeys,
-    required this.userId,
-  });
+  const v1CreateApiKeysIntentV2({required this.apiKeys, required this.userId});
 
   factory v1CreateApiKeysIntentV2.fromJson(Map<String, dynamic> json) {
     final _apiKeys = (json['apiKeys'] as List)
         .map((e) => v1ApiKeyParamsV2.fromJson(e as Map<String, dynamic>))
         .toList();
     final _userId = json['userId'] as String;
-    return v1CreateApiKeysIntentV2(
-      apiKeys: _apiKeys,
-      userId: _userId,
-    );
+    return v1CreateApiKeysIntentV2(apiKeys: _apiKeys, userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -3938,8 +3858,9 @@ class v1CreateApiKeysRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateApiKeysIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateApiKeysIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateApiKeysRequest(
       type: _type,
@@ -3967,16 +3888,13 @@ class v1CreateApiKeysResult {
   /// A list of API Key IDs.
   final List<String> apiKeyIds;
 
-  const v1CreateApiKeysResult({
-    required this.apiKeyIds,
-  });
+  const v1CreateApiKeysResult({required this.apiKeyIds});
 
   factory v1CreateApiKeysResult.fromJson(Map<String, dynamic> json) {
-    final _apiKeyIds =
-        (json['apiKeyIds'] as List).map((e) => e as String).toList();
-    return v1CreateApiKeysResult(
-      apiKeyIds: _apiKeyIds,
-    );
+    final _apiKeyIds = (json['apiKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateApiKeysResult(apiKeyIds: _apiKeyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -3990,17 +3908,13 @@ class v1CreateApiOnlyUsersIntent {
   /// A list of API-only Users to create.
   final List<v1ApiOnlyUserParams> apiOnlyUsers;
 
-  const v1CreateApiOnlyUsersIntent({
-    required this.apiOnlyUsers,
-  });
+  const v1CreateApiOnlyUsersIntent({required this.apiOnlyUsers});
 
   factory v1CreateApiOnlyUsersIntent.fromJson(Map<String, dynamic> json) {
     final _apiOnlyUsers = (json['apiOnlyUsers'] as List)
         .map((e) => v1ApiOnlyUserParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreateApiOnlyUsersIntent(
-      apiOnlyUsers: _apiOnlyUsers,
-    );
+    return v1CreateApiOnlyUsersIntent(apiOnlyUsers: _apiOnlyUsers);
   }
 
   Map<String, dynamic> toJson() {
@@ -4014,15 +3928,11 @@ class v1CreateApiOnlyUsersResult {
   /// A list of API-only User IDs.
   final List<String> userIds;
 
-  const v1CreateApiOnlyUsersResult({
-    required this.userIds,
-  });
+  const v1CreateApiOnlyUsersResult({required this.userIds});
 
   factory v1CreateApiOnlyUsersResult.fromJson(Map<String, dynamic> json) {
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1CreateApiOnlyUsersResult(
-      userIds: _userIds,
-    );
+    return v1CreateApiOnlyUsersResult(userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -4117,8 +4027,9 @@ class v1CreateAuthenticatorsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateAuthenticatorsIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateAuthenticatorsIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateAuthenticatorsRequest(
       type: _type,
@@ -4146,16 +4057,13 @@ class v1CreateAuthenticatorsResult {
   /// A list of Authenticator IDs.
   final List<String> authenticatorIds;
 
-  const v1CreateAuthenticatorsResult({
-    required this.authenticatorIds,
-  });
+  const v1CreateAuthenticatorsResult({required this.authenticatorIds});
 
   factory v1CreateAuthenticatorsResult.fromJson(Map<String, dynamic> json) {
-    final _authenticatorIds =
-        (json['authenticatorIds'] as List).map((e) => e as String).toList();
-    return v1CreateAuthenticatorsResult(
-      authenticatorIds: _authenticatorIds,
-    );
+    final _authenticatorIds = (json['authenticatorIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateAuthenticatorsResult(authenticatorIds: _authenticatorIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -4194,9 +4102,11 @@ class v1CreateFiatOnRampCredentialIntent {
   });
 
   factory v1CreateFiatOnRampCredentialIntent.fromJson(
-      Map<String, dynamic> json) {
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    Map<String, dynamic> json,
+  ) {
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _projectId = json['projectId'] as String?;
     final _publishableApiKey = json['publishableApiKey'] as String;
     final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
@@ -4250,12 +4160,14 @@ class v1CreateFiatOnRampCredentialRequest {
   });
 
   factory v1CreateFiatOnRampCredentialRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateFiatOnRampCredentialIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateFiatOnRampCredentialIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateFiatOnRampCredentialRequest(
       type: _type,
@@ -4288,7 +4200,8 @@ class v1CreateFiatOnRampCredentialResult {
   });
 
   factory v1CreateFiatOnRampCredentialResult.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnRampCredentialId = json['fiatOnRampCredentialId'] as String;
     return v1CreateFiatOnRampCredentialResult(
       fiatOnRampCredentialId: _fiatOnRampCredentialId,
@@ -4306,17 +4219,13 @@ class v1CreateInvitationsIntent {
   /// A list of Invitations.
   final List<v1InvitationParams> invitations;
 
-  const v1CreateInvitationsIntent({
-    required this.invitations,
-  });
+  const v1CreateInvitationsIntent({required this.invitations});
 
   factory v1CreateInvitationsIntent.fromJson(Map<String, dynamic> json) {
     final _invitations = (json['invitations'] as List)
         .map((e) => v1InvitationParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreateInvitationsIntent(
-      invitations: _invitations,
-    );
+    return v1CreateInvitationsIntent(invitations: _invitations);
   }
 
   Map<String, dynamic> toJson() {
@@ -4349,8 +4258,9 @@ class v1CreateInvitationsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateInvitationsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateInvitationsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateInvitationsRequest(
       type: _type,
@@ -4378,16 +4288,13 @@ class v1CreateInvitationsResult {
   /// A list of Invitation IDs
   final List<String> invitationIds;
 
-  const v1CreateInvitationsResult({
-    required this.invitationIds,
-  });
+  const v1CreateInvitationsResult({required this.invitationIds});
 
   factory v1CreateInvitationsResult.fromJson(Map<String, dynamic> json) {
-    final _invitationIds =
-        (json['invitationIds'] as List).map((e) => e as String).toList();
-    return v1CreateInvitationsResult(
-      invitationIds: _invitationIds,
-    );
+    final _invitationIds = (json['invitationIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateInvitationsResult(invitationIds: _invitationIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -4456,8 +4363,9 @@ class v1CreateOauth2CredentialRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateOauth2CredentialIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateOauth2CredentialIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateOauth2CredentialRequest(
       type: _type,
@@ -4485,9 +4393,7 @@ class v1CreateOauth2CredentialResult {
   /// Unique identifier of the OAuth 2.0 credential that was created
   final String oauth2CredentialId;
 
-  const v1CreateOauth2CredentialResult({
-    required this.oauth2CredentialId,
-  });
+  const v1CreateOauth2CredentialResult({required this.oauth2CredentialId});
 
   factory v1CreateOauth2CredentialResult.fromJson(Map<String, dynamic> json) {
     final _oauth2CredentialId = json['oauth2CredentialId'] as String;
@@ -4588,8 +4494,9 @@ class v1CreateOauthProvidersRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateOauthProvidersIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateOauthProvidersIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateOauthProvidersRequest(
       type: _type,
@@ -4617,16 +4524,13 @@ class v1CreateOauthProvidersResult {
   /// A list of unique identifiers for Oauth Providers
   final List<String> providerIds;
 
-  const v1CreateOauthProvidersResult({
-    required this.providerIds,
-  });
+  const v1CreateOauthProvidersResult({required this.providerIds});
 
   factory v1CreateOauthProvidersResult.fromJson(Map<String, dynamic> json) {
-    final _providerIds =
-        (json['providerIds'] as List).map((e) => e as String).toList();
-    return v1CreateOauthProvidersResult(
-      providerIds: _providerIds,
-    );
+    final _providerIds = (json['providerIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateOauthProvidersResult(providerIds: _providerIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -4640,16 +4544,13 @@ class v1CreateOauthProvidersResultV2 {
   /// A list of unique identifiers for Oauth Providers
   final List<String> providerIds;
 
-  const v1CreateOauthProvidersResultV2({
-    required this.providerIds,
-  });
+  const v1CreateOauthProvidersResultV2({required this.providerIds});
 
   factory v1CreateOauthProvidersResultV2.fromJson(Map<String, dynamic> json) {
-    final _providerIds =
-        (json['providerIds'] as List).map((e) => e as String).toList();
-    return v1CreateOauthProvidersResultV2(
-      providerIds: _providerIds,
-    );
+    final _providerIds = (json['providerIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateOauthProvidersResultV2(providerIds: _providerIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -4682,8 +4583,9 @@ class v1CreateOrganizationIntent {
   factory v1CreateOrganizationIntent.fromJson(Map<String, dynamic> json) {
     final _organizationName = json['organizationName'] as String;
     final _rootEmail = json['rootEmail'] as String;
-    final _rootAuthenticator = v1AuthenticatorParams
-        .fromJson(json['rootAuthenticator'] as Map<String, dynamic>);
+    final _rootAuthenticator = v1AuthenticatorParams.fromJson(
+      json['rootAuthenticator'] as Map<String, dynamic>,
+    );
     final _rootUserId = json['rootUserId'] as String?;
     return v1CreateOrganizationIntent(
       organizationName: _organizationName,
@@ -4728,8 +4630,9 @@ class v1CreateOrganizationIntentV2 {
   factory v1CreateOrganizationIntentV2.fromJson(Map<String, dynamic> json) {
     final _organizationName = json['organizationName'] as String;
     final _rootEmail = json['rootEmail'] as String;
-    final _rootAuthenticator = v1AuthenticatorParamsV2
-        .fromJson(json['rootAuthenticator'] as Map<String, dynamic>);
+    final _rootAuthenticator = v1AuthenticatorParamsV2.fromJson(
+      json['rootAuthenticator'] as Map<String, dynamic>,
+    );
     final _rootUserId = json['rootUserId'] as String?;
     return v1CreateOrganizationIntentV2(
       organizationName: _organizationName,
@@ -4755,15 +4658,11 @@ class v1CreateOrganizationResult {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1CreateOrganizationResult({
-    required this.organizationId,
-  });
+  const v1CreateOrganizationResult({required this.organizationId});
 
   factory v1CreateOrganizationResult.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1CreateOrganizationResult(
-      organizationId: _organizationId,
-    );
+    return v1CreateOrganizationResult(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -4777,17 +4676,13 @@ class v1CreatePoliciesIntent {
   /// An array of policy intents to be created.
   final List<v1CreatePolicyIntentV3> policies;
 
-  const v1CreatePoliciesIntent({
-    required this.policies,
-  });
+  const v1CreatePoliciesIntent({required this.policies});
 
   factory v1CreatePoliciesIntent.fromJson(Map<String, dynamic> json) {
     final _policies = (json['policies'] as List)
         .map((e) => v1CreatePolicyIntentV3.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreatePoliciesIntent(
-      policies: _policies,
-    );
+    return v1CreatePoliciesIntent(policies: _policies);
   }
 
   Map<String, dynamic> toJson() {
@@ -4820,8 +4715,9 @@ class v1CreatePoliciesRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreatePoliciesIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreatePoliciesIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePoliciesRequest(
       type: _type,
@@ -4849,16 +4745,13 @@ class v1CreatePoliciesResult {
   /// A list of unique identifiers for the created policies.
   final List<String> policyIds;
 
-  const v1CreatePoliciesResult({
-    required this.policyIds,
-  });
+  const v1CreatePoliciesResult({required this.policyIds});
 
   factory v1CreatePoliciesResult.fromJson(Map<String, dynamic> json) {
-    final _policyIds =
-        (json['policyIds'] as List).map((e) => e as String).toList();
-    return v1CreatePoliciesResult(
-      policyIds: _policyIds,
-    );
+    final _policyIds = (json['policyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreatePoliciesResult(policyIds: _policyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -5035,8 +4928,9 @@ class v1CreatePolicyRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreatePolicyIntentV3
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreatePolicyIntentV3.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePolicyRequest(
       type: _type,
@@ -5064,15 +4958,11 @@ class v1CreatePolicyResult {
   /// Unique identifier for a given Policy.
   final String policyId;
 
-  const v1CreatePolicyResult({
-    required this.policyId,
-  });
+  const v1CreatePolicyResult({required this.policyId});
 
   factory v1CreatePolicyResult.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
-    return v1CreatePolicyResult(
-      policyId: _policyId,
-    );
+    return v1CreatePolicyResult(policyId: _policyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -5096,8 +4986,9 @@ class v1CreatePrivateKeyTagIntent {
 
   factory v1CreatePrivateKeyTagIntent.fromJson(Map<String, dynamic> json) {
     final _privateKeyTagName = json['privateKeyTagName'] as String;
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1CreatePrivateKeyTagIntent(
       privateKeyTagName: _privateKeyTagName,
       privateKeyIds: _privateKeyIds,
@@ -5135,8 +5026,9 @@ class v1CreatePrivateKeyTagRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreatePrivateKeyTagIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreatePrivateKeyTagIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePrivateKeyTagRequest(
       type: _type,
@@ -5174,8 +5066,9 @@ class v1CreatePrivateKeyTagResult {
 
   factory v1CreatePrivateKeyTagResult.fromJson(Map<String, dynamic> json) {
     final _privateKeyTagId = json['privateKeyTagId'] as String;
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1CreatePrivateKeyTagResult(
       privateKeyTagId: _privateKeyTagId,
       privateKeyIds: _privateKeyIds,
@@ -5194,17 +5087,13 @@ class v1CreatePrivateKeysIntent {
   /// A list of Private Keys.
   final List<v1PrivateKeyParams> privateKeys;
 
-  const v1CreatePrivateKeysIntent({
-    required this.privateKeys,
-  });
+  const v1CreatePrivateKeysIntent({required this.privateKeys});
 
   factory v1CreatePrivateKeysIntent.fromJson(Map<String, dynamic> json) {
     final _privateKeys = (json['privateKeys'] as List)
         .map((e) => v1PrivateKeyParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreatePrivateKeysIntent(
-      privateKeys: _privateKeys,
-    );
+    return v1CreatePrivateKeysIntent(privateKeys: _privateKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -5218,17 +5107,13 @@ class v1CreatePrivateKeysIntentV2 {
   /// A list of Private Keys.
   final List<v1PrivateKeyParams> privateKeys;
 
-  const v1CreatePrivateKeysIntentV2({
-    required this.privateKeys,
-  });
+  const v1CreatePrivateKeysIntentV2({required this.privateKeys});
 
   factory v1CreatePrivateKeysIntentV2.fromJson(Map<String, dynamic> json) {
     final _privateKeys = (json['privateKeys'] as List)
         .map((e) => v1PrivateKeyParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreatePrivateKeysIntentV2(
-      privateKeys: _privateKeys,
-    );
+    return v1CreatePrivateKeysIntentV2(privateKeys: _privateKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -5261,8 +5146,9 @@ class v1CreatePrivateKeysRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreatePrivateKeysIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreatePrivateKeysIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreatePrivateKeysRequest(
       type: _type,
@@ -5290,16 +5176,13 @@ class v1CreatePrivateKeysResult {
   /// A list of Private Key IDs.
   final List<String> privateKeyIds;
 
-  const v1CreatePrivateKeysResult({
-    required this.privateKeyIds,
-  });
+  const v1CreatePrivateKeysResult({required this.privateKeyIds});
 
   factory v1CreatePrivateKeysResult.fromJson(Map<String, dynamic> json) {
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
-    return v1CreatePrivateKeysResult(
-      privateKeyIds: _privateKeyIds,
-    );
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreatePrivateKeysResult(privateKeyIds: _privateKeyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -5313,17 +5196,13 @@ class v1CreatePrivateKeysResultV2 {
   /// A list of Private Key IDs and addresses.
   final List<v1PrivateKeyResult> privateKeys;
 
-  const v1CreatePrivateKeysResultV2({
-    required this.privateKeys,
-  });
+  const v1CreatePrivateKeysResultV2({required this.privateKeys});
 
   factory v1CreatePrivateKeysResultV2.fromJson(Map<String, dynamic> json) {
     final _privateKeys = (json['privateKeys'] as List)
         .map((e) => v1PrivateKeyResult.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreatePrivateKeysResultV2(
-      privateKeys: _privateKeys,
-    );
+    return v1CreatePrivateKeysResultV2(privateKeys: _privateKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -5363,8 +5242,9 @@ class v1CreateReadOnlySessionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateReadOnlySessionIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateReadOnlySessionIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateReadOnlySessionRequest(
       type: _type,
@@ -5573,8 +5453,9 @@ class v1CreateReadWriteSessionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateReadWriteSessionIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateReadWriteSessionIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateReadWriteSessionRequest(
       type: _type,
@@ -5735,7 +5616,8 @@ class v1CreateSmartContractInterfaceIntent {
   });
 
   factory v1CreateSmartContractInterfaceIntent.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractAddress = json['smartContractAddress'] as String;
     final _smartContractInterface = json['smartContractInterface'] as String;
     final _type = v1SmartContractInterfaceTypeFromJson(json['type']);
@@ -5783,12 +5665,14 @@ class v1CreateSmartContractInterfaceRequest {
   });
 
   factory v1CreateSmartContractInterfaceRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateSmartContractInterfaceIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateSmartContractInterfaceIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateSmartContractInterfaceRequest(
       type: _type,
@@ -5821,7 +5705,8 @@ class v1CreateSmartContractInterfaceResult {
   });
 
   factory v1CreateSmartContractInterfaceResult.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterfaceId =
         json['smartContractInterfaceId'] as String;
     return v1CreateSmartContractInterfaceResult(
@@ -5850,8 +5735,9 @@ class v1CreateSubOrganizationIntent {
 
   factory v1CreateSubOrganizationIntent.fromJson(Map<String, dynamic> json) {
     final _name = json['name'] as String;
-    final _rootAuthenticator = v1AuthenticatorParamsV2
-        .fromJson(json['rootAuthenticator'] as Map<String, dynamic>);
+    final _rootAuthenticator = v1AuthenticatorParamsV2.fromJson(
+      json['rootAuthenticator'] as Map<String, dynamic>,
+    );
     return v1CreateSubOrganizationIntent(
       name: _name,
       rootAuthenticator: _rootAuthenticator,
@@ -6212,8 +6098,9 @@ class v1CreateSubOrganizationIntentV7 {
     final _verificationToken = json['verificationToken'] as String?;
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return v1CreateSubOrganizationIntentV7(
       subOrganizationName: _subOrganizationName,
       rootUsers: _rootUsers,
@@ -6318,8 +6205,9 @@ class v1CreateSubOrganizationIntentV8 {
     final _verificationToken = json['verificationToken'] as String?;
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return v1CreateSubOrganizationIntentV8(
       subOrganizationName: _subOrganizationName,
       rootUsers: _rootUsers,
@@ -6387,8 +6275,9 @@ class v1CreateSubOrganizationRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateSubOrganizationIntentV8
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateSubOrganizationIntentV8.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateSubOrganizationRequest(
       type: _type,
@@ -6423,8 +6312,9 @@ class v1CreateSubOrganizationResult {
 
   factory v1CreateSubOrganizationResult.fromJson(Map<String, dynamic> json) {
     final _subOrganizationId = json['subOrganizationId'] as String;
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResult(
       subOrganizationId: _subOrganizationId,
       rootUserIds: _rootUserIds,
@@ -6459,8 +6349,9 @@ class v1CreateSubOrganizationResultV3 {
     final _privateKeys = (json['privateKeys'] as List)
         .map((e) => v1PrivateKeyResult.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResultV3(
       subOrganizationId: _subOrganizationId,
       privateKeys: _privateKeys,
@@ -6495,8 +6386,9 @@ class v1CreateSubOrganizationResultV4 {
     final _wallet = json['wallet'] == null
         ? null
         : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResultV4(
       subOrganizationId: _subOrganizationId,
       wallet: _wallet,
@@ -6533,8 +6425,9 @@ class v1CreateSubOrganizationResultV5 {
     final _wallet = json['wallet'] == null
         ? null
         : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResultV5(
       subOrganizationId: _subOrganizationId,
       wallet: _wallet,
@@ -6571,8 +6464,9 @@ class v1CreateSubOrganizationResultV6 {
     final _wallet = json['wallet'] == null
         ? null
         : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResultV6(
       subOrganizationId: _subOrganizationId,
       wallet: _wallet,
@@ -6609,8 +6503,9 @@ class v1CreateSubOrganizationResultV7 {
     final _wallet = json['wallet'] == null
         ? null
         : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResultV7(
       subOrganizationId: _subOrganizationId,
       wallet: _wallet,
@@ -6647,8 +6542,9 @@ class v1CreateSubOrganizationResultV8 {
     final _wallet = json['wallet'] == null
         ? null
         : v1WalletResult.fromJson(json['wallet'] as Map<String, dynamic>);
-    final _rootUserIds =
-        (json['rootUserIds'] as List?)?.map((e) => e as String).toList();
+    final _rootUserIds = (json['rootUserIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1CreateSubOrganizationResultV8(
       subOrganizationId: _subOrganizationId,
       wallet: _wallet,
@@ -6707,13 +6603,15 @@ class v1CreateTvcAppIntent {
     final _manifestSetId = json['manifestSetId'] as String?;
     final _manifestSetParams = json['manifestSetParams'] == null
         ? null
-        : v1TvcOperatorSetParams
-            .fromJson(json['manifestSetParams'] as Map<String, dynamic>);
+        : v1TvcOperatorSetParams.fromJson(
+            json['manifestSetParams'] as Map<String, dynamic>,
+          );
     final _shareSetId = json['shareSetId'] as String?;
     final _shareSetParams = json['shareSetParams'] == null
         ? null
-        : v1TvcOperatorSetParams
-            .fromJson(json['shareSetParams'] as Map<String, dynamic>);
+        : v1TvcOperatorSetParams.fromJson(
+            json['shareSetParams'] as Map<String, dynamic>,
+          );
     final _enableEgress = json['enableEgress'] as bool?;
     return v1CreateTvcAppIntent(
       name: _name,
@@ -6851,15 +6749,17 @@ class v1CreateTvcDeploymentIntent {
     final _qosVersion = json['qosVersion'] as String;
     final _pivotContainerImageUrl = json['pivotContainerImageUrl'] as String;
     final _pivotPath = json['pivotPath'] as String;
-    final _pivotArgs =
-        (json['pivotArgs'] as List).map((e) => e as String).toList();
+    final _pivotArgs = (json['pivotArgs'] as List)
+        .map((e) => e as String)
+        .toList();
     final _expectedPivotDigest = json['expectedPivotDigest'] as String;
     final _nonce = json['nonce'] as num?;
     final _pivotContainerEncryptedPullSecret =
         json['pivotContainerEncryptedPullSecret'] as String?;
     final _debugMode = json['debugMode'] as bool?;
-    final _healthCheckType =
-        v1TvcHealthCheckTypeFromJson(json['healthCheckType']);
+    final _healthCheckType = v1TvcHealthCheckTypeFromJson(
+      json['healthCheckType'],
+    );
     final _healthCheckPort = json['healthCheckPort'] as num;
     final _publicIngressPort = json['publicIngressPort'] as num;
     return v1CreateTvcDeploymentIntent(
@@ -6945,7 +6845,8 @@ class v1CreateTvcManifestApprovalsIntent {
   });
 
   factory v1CreateTvcManifestApprovalsIntent.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _manifestId = json['manifestId'] as String;
     final _approvals = (json['approvals'] as List)
         .map((e) => v1TvcManifestApproval.fromJson(e as Map<String, dynamic>))
@@ -6968,17 +6869,15 @@ class v1CreateTvcManifestApprovalsResult {
   /// The unique identifier(s) for the manifest approvals
   final List<String> approvalIds;
 
-  const v1CreateTvcManifestApprovalsResult({
-    required this.approvalIds,
-  });
+  const v1CreateTvcManifestApprovalsResult({required this.approvalIds});
 
   factory v1CreateTvcManifestApprovalsResult.fromJson(
-      Map<String, dynamic> json) {
-    final _approvalIds =
-        (json['approvalIds'] as List).map((e) => e as String).toList();
-    return v1CreateTvcManifestApprovalsResult(
-      approvalIds: _approvalIds,
-    );
+    Map<String, dynamic> json,
+  ) {
+    final _approvalIds = (json['approvalIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateTvcManifestApprovalsResult(approvalIds: _approvalIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7003,10 +6902,7 @@ class v1CreateUserTagIntent {
   factory v1CreateUserTagIntent.fromJson(Map<String, dynamic> json) {
     final _userTagName = json['userTagName'] as String;
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1CreateUserTagIntent(
-      userTagName: _userTagName,
-      userIds: _userIds,
-    );
+    return v1CreateUserTagIntent(userTagName: _userTagName, userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7040,8 +6936,9 @@ class v1CreateUserTagRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateUserTagIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateUserTagIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateUserTagRequest(
       type: _type,
@@ -7072,18 +6969,12 @@ class v1CreateUserTagResult {
   /// A list of User IDs.
   final List<String> userIds;
 
-  const v1CreateUserTagResult({
-    required this.userTagId,
-    required this.userIds,
-  });
+  const v1CreateUserTagResult({required this.userTagId, required this.userIds});
 
   factory v1CreateUserTagResult.fromJson(Map<String, dynamic> json) {
     final _userTagId = json['userTagId'] as String;
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1CreateUserTagResult(
-      userTagId: _userTagId,
-      userIds: _userIds,
-    );
+    return v1CreateUserTagResult(userTagId: _userTagId, userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7098,17 +6989,13 @@ class v1CreateUsersIntent {
   /// A list of Users.
   final List<v1UserParams> users;
 
-  const v1CreateUsersIntent({
-    required this.users,
-  });
+  const v1CreateUsersIntent({required this.users});
 
   factory v1CreateUsersIntent.fromJson(Map<String, dynamic> json) {
     final _users = (json['users'] as List)
         .map((e) => v1UserParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreateUsersIntent(
-      users: _users,
-    );
+    return v1CreateUsersIntent(users: _users);
   }
 
   Map<String, dynamic> toJson() {
@@ -7122,17 +7009,13 @@ class v1CreateUsersIntentV2 {
   /// A list of Users.
   final List<v1UserParamsV2> users;
 
-  const v1CreateUsersIntentV2({
-    required this.users,
-  });
+  const v1CreateUsersIntentV2({required this.users});
 
   factory v1CreateUsersIntentV2.fromJson(Map<String, dynamic> json) {
     final _users = (json['users'] as List)
         .map((e) => v1UserParamsV2.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreateUsersIntentV2(
-      users: _users,
-    );
+    return v1CreateUsersIntentV2(users: _users);
   }
 
   Map<String, dynamic> toJson() {
@@ -7146,17 +7029,13 @@ class v1CreateUsersIntentV3 {
   /// A list of Users.
   final List<v1UserParamsV3> users;
 
-  const v1CreateUsersIntentV3({
-    required this.users,
-  });
+  const v1CreateUsersIntentV3({required this.users});
 
   factory v1CreateUsersIntentV3.fromJson(Map<String, dynamic> json) {
     final _users = (json['users'] as List)
         .map((e) => v1UserParamsV3.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreateUsersIntentV3(
-      users: _users,
-    );
+    return v1CreateUsersIntentV3(users: _users);
   }
 
   Map<String, dynamic> toJson() {
@@ -7170,17 +7049,13 @@ class v1CreateUsersIntentV4 {
   /// A list of Users.
   final List<v1UserParamsV4> users;
 
-  const v1CreateUsersIntentV4({
-    required this.users,
-  });
+  const v1CreateUsersIntentV4({required this.users});
 
   factory v1CreateUsersIntentV4.fromJson(Map<String, dynamic> json) {
     final _users = (json['users'] as List)
         .map((e) => v1UserParamsV4.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1CreateUsersIntentV4(
-      users: _users,
-    );
+    return v1CreateUsersIntentV4(users: _users);
   }
 
   Map<String, dynamic> toJson() {
@@ -7213,8 +7088,9 @@ class v1CreateUsersRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateUsersIntentV4
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateUsersIntentV4.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateUsersRequest(
       type: _type,
@@ -7242,15 +7118,11 @@ class v1CreateUsersResult {
   /// A list of User IDs.
   final List<String> userIds;
 
-  const v1CreateUsersResult({
-    required this.userIds,
-  });
+  const v1CreateUsersResult({required this.userIds});
 
   factory v1CreateUsersResult.fromJson(Map<String, dynamic> json) {
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1CreateUsersResult(
-      userIds: _userIds,
-    );
+    return v1CreateUsersResult(userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7323,8 +7195,9 @@ class v1CreateWalletAccountsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateWalletAccountsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateWalletAccountsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateWalletAccountsRequest(
       type: _type,
@@ -7352,16 +7225,13 @@ class v1CreateWalletAccountsResult {
   /// A list of derived addresses.
   final List<String> addresses;
 
-  const v1CreateWalletAccountsResult({
-    required this.addresses,
-  });
+  const v1CreateWalletAccountsResult({required this.addresses});
 
   factory v1CreateWalletAccountsResult.fromJson(Map<String, dynamic> json) {
-    final _addresses =
-        (json['addresses'] as List).map((e) => e as String).toList();
-    return v1CreateWalletAccountsResult(
-      addresses: _addresses,
-    );
+    final _addresses = (json['addresses'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateWalletAccountsResult(addresses: _addresses);
   }
 
   Map<String, dynamic> toJson() {
@@ -7434,8 +7304,9 @@ class v1CreateWalletRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateWalletIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateWalletIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateWalletRequest(
       type: _type,
@@ -7466,19 +7337,14 @@ class v1CreateWalletResult {
   /// A list of account addresses.
   final List<String> addresses;
 
-  const v1CreateWalletResult({
-    required this.walletId,
-    required this.addresses,
-  });
+  const v1CreateWalletResult({required this.walletId, required this.addresses});
 
   factory v1CreateWalletResult.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
-    final _addresses =
-        (json['addresses'] as List).map((e) => e as String).toList();
-    return v1CreateWalletResult(
-      walletId: _walletId,
-      addresses: _addresses,
-    );
+    final _addresses = (json['addresses'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1CreateWalletResult(walletId: _walletId, addresses: _addresses);
   }
 
   Map<String, dynamic> toJson() {
@@ -7509,8 +7375,10 @@ class v1CreateWebhookEndpointIntent {
     final _url = json['url'] as String;
     final _name = json['name'] as String;
     final _subscriptions = (json['subscriptions'] as List?)
-        ?.map((e) =>
-            v1WebhookSubscriptionParams.fromJson(e as Map<String, dynamic>))
+        ?.map(
+          (e) =>
+              v1WebhookSubscriptionParams.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     return v1CreateWebhookEndpointIntent(
       url: _url,
@@ -7553,8 +7421,9 @@ class v1CreateWebhookEndpointRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1CreateWebhookEndpointIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1CreateWebhookEndpointIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1CreateWebhookEndpointRequest(
       type: _type,
@@ -7592,8 +7461,9 @@ class v1CreateWebhookEndpointResult {
 
   factory v1CreateWebhookEndpointResult.fromJson(Map<String, dynamic> json) {
     final _endpointId = json['endpointId'] as String;
-    final _webhookEndpoint = v1WebhookEndpointData
-        .fromJson(json['webhookEndpoint'] as Map<String, dynamic>);
+    final _webhookEndpoint = v1WebhookEndpointData.fromJson(
+      json['webhookEndpoint'] as Map<String, dynamic>,
+    );
     return v1CreateWebhookEndpointResult(
       endpointId: _endpointId,
       webhookEndpoint: _webhookEndpoint,
@@ -7611,16 +7481,13 @@ class v1CreateWebhookEndpointResult {
 class v1CredPropsAuthenticationExtensionsClientOutputs {
   final bool rk;
 
-  const v1CredPropsAuthenticationExtensionsClientOutputs({
-    required this.rk,
-  });
+  const v1CredPropsAuthenticationExtensionsClientOutputs({required this.rk});
 
   factory v1CredPropsAuthenticationExtensionsClientOutputs.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _rk = json['rk'] as bool;
-    return v1CredPropsAuthenticationExtensionsClientOutputs(
-      rk: _rk,
-    );
+    return v1CredPropsAuthenticationExtensionsClientOutputs(rk: _rk);
   }
 
   Map<String, dynamic> toJson() {
@@ -7637,18 +7504,12 @@ class v1CustomRevertError {
   /// The decoded parameters as a JSON object.
   final String? paramsJson;
 
-  const v1CustomRevertError({
-    this.errorName,
-    this.paramsJson,
-  });
+  const v1CustomRevertError({this.errorName, this.paramsJson});
 
   factory v1CustomRevertError.fromJson(Map<String, dynamic> json) {
     final _errorName = json['errorName'] as String?;
     final _paramsJson = json['paramsJson'] as String?;
-    return v1CustomRevertError(
-      errorName: _errorName,
-      paramsJson: _paramsJson,
-    );
+    return v1CustomRevertError(errorName: _errorName, paramsJson: _paramsJson);
   }
 
   Map<String, dynamic> toJson() {
@@ -7670,19 +7531,14 @@ class v1DeleteApiKeysIntent {
   /// A list of API Key IDs.
   final List<String> apiKeyIds;
 
-  const v1DeleteApiKeysIntent({
-    required this.userId,
-    required this.apiKeyIds,
-  });
+  const v1DeleteApiKeysIntent({required this.userId, required this.apiKeyIds});
 
   factory v1DeleteApiKeysIntent.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    final _apiKeyIds =
-        (json['apiKeyIds'] as List).map((e) => e as String).toList();
-    return v1DeleteApiKeysIntent(
-      userId: _userId,
-      apiKeyIds: _apiKeyIds,
-    );
+    final _apiKeyIds = (json['apiKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteApiKeysIntent(userId: _userId, apiKeyIds: _apiKeyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7716,8 +7572,9 @@ class v1DeleteApiKeysRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteApiKeysIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteApiKeysIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteApiKeysRequest(
       type: _type,
@@ -7745,16 +7602,13 @@ class v1DeleteApiKeysResult {
   /// A list of API Key IDs.
   final List<String> apiKeyIds;
 
-  const v1DeleteApiKeysResult({
-    required this.apiKeyIds,
-  });
+  const v1DeleteApiKeysResult({required this.apiKeyIds});
 
   factory v1DeleteApiKeysResult.fromJson(Map<String, dynamic> json) {
-    final _apiKeyIds =
-        (json['apiKeyIds'] as List).map((e) => e as String).toList();
-    return v1DeleteApiKeysResult(
-      apiKeyIds: _apiKeyIds,
-    );
+    final _apiKeyIds = (json['apiKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteApiKeysResult(apiKeyIds: _apiKeyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7778,8 +7632,9 @@ class v1DeleteAuthenticatorsIntent {
 
   factory v1DeleteAuthenticatorsIntent.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    final _authenticatorIds =
-        (json['authenticatorIds'] as List).map((e) => e as String).toList();
+    final _authenticatorIds = (json['authenticatorIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1DeleteAuthenticatorsIntent(
       userId: _userId,
       authenticatorIds: _authenticatorIds,
@@ -7817,8 +7672,9 @@ class v1DeleteAuthenticatorsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteAuthenticatorsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteAuthenticatorsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteAuthenticatorsRequest(
       type: _type,
@@ -7846,16 +7702,13 @@ class v1DeleteAuthenticatorsResult {
   /// Unique identifier for a given Authenticator.
   final List<String> authenticatorIds;
 
-  const v1DeleteAuthenticatorsResult({
-    required this.authenticatorIds,
-  });
+  const v1DeleteAuthenticatorsResult({required this.authenticatorIds});
 
   factory v1DeleteAuthenticatorsResult.fromJson(Map<String, dynamic> json) {
-    final _authenticatorIds =
-        (json['authenticatorIds'] as List).map((e) => e as String).toList();
-    return v1DeleteAuthenticatorsResult(
-      authenticatorIds: _authenticatorIds,
-    );
+    final _authenticatorIds = (json['authenticatorIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteAuthenticatorsResult(authenticatorIds: _authenticatorIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -7874,7 +7727,8 @@ class v1DeleteFiatOnRampCredentialIntent {
   });
 
   factory v1DeleteFiatOnRampCredentialIntent.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
     return v1DeleteFiatOnRampCredentialIntent(
       fiatOnrampCredentialId: _fiatOnrampCredentialId,
@@ -7908,12 +7762,14 @@ class v1DeleteFiatOnRampCredentialRequest {
   });
 
   factory v1DeleteFiatOnRampCredentialRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteFiatOnRampCredentialIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteFiatOnRampCredentialIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteFiatOnRampCredentialRequest(
       type: _type,
@@ -7946,7 +7802,8 @@ class v1DeleteFiatOnRampCredentialResult {
   });
 
   factory v1DeleteFiatOnRampCredentialResult.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnRampCredentialId = json['fiatOnRampCredentialId'] as String;
     return v1DeleteFiatOnRampCredentialResult(
       fiatOnRampCredentialId: _fiatOnRampCredentialId,
@@ -7964,15 +7821,11 @@ class v1DeleteInvitationIntent {
   /// Unique identifier for a given Invitation object.
   final String invitationId;
 
-  const v1DeleteInvitationIntent({
-    required this.invitationId,
-  });
+  const v1DeleteInvitationIntent({required this.invitationId});
 
   factory v1DeleteInvitationIntent.fromJson(Map<String, dynamic> json) {
     final _invitationId = json['invitationId'] as String;
-    return v1DeleteInvitationIntent(
-      invitationId: _invitationId,
-    );
+    return v1DeleteInvitationIntent(invitationId: _invitationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -8005,8 +7858,9 @@ class v1DeleteInvitationRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteInvitationIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteInvitationIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteInvitationRequest(
       type: _type,
@@ -8034,15 +7888,11 @@ class v1DeleteInvitationResult {
   /// Unique identifier for a given Invitation.
   final String invitationId;
 
-  const v1DeleteInvitationResult({
-    required this.invitationId,
-  });
+  const v1DeleteInvitationResult({required this.invitationId});
 
   factory v1DeleteInvitationResult.fromJson(Map<String, dynamic> json) {
     final _invitationId = json['invitationId'] as String;
-    return v1DeleteInvitationResult(
-      invitationId: _invitationId,
-    );
+    return v1DeleteInvitationResult(invitationId: _invitationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -8056,9 +7906,7 @@ class v1DeleteOauth2CredentialIntent {
   /// The ID of the OAuth 2.0 credential to delete
   final String oauth2CredentialId;
 
-  const v1DeleteOauth2CredentialIntent({
-    required this.oauth2CredentialId,
-  });
+  const v1DeleteOauth2CredentialIntent({required this.oauth2CredentialId});
 
   factory v1DeleteOauth2CredentialIntent.fromJson(Map<String, dynamic> json) {
     final _oauth2CredentialId = json['oauth2CredentialId'] as String;
@@ -8097,8 +7945,9 @@ class v1DeleteOauth2CredentialRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteOauth2CredentialIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteOauth2CredentialIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteOauth2CredentialRequest(
       type: _type,
@@ -8126,9 +7975,7 @@ class v1DeleteOauth2CredentialResult {
   /// Unique identifier of the OAuth 2.0 credential that was deleted
   final String oauth2CredentialId;
 
-  const v1DeleteOauth2CredentialResult({
-    required this.oauth2CredentialId,
-  });
+  const v1DeleteOauth2CredentialResult({required this.oauth2CredentialId});
 
   factory v1DeleteOauth2CredentialResult.fromJson(Map<String, dynamic> json) {
     final _oauth2CredentialId = json['oauth2CredentialId'] as String;
@@ -8158,8 +8005,9 @@ class v1DeleteOauthProvidersIntent {
 
   factory v1DeleteOauthProvidersIntent.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    final _providerIds =
-        (json['providerIds'] as List).map((e) => e as String).toList();
+    final _providerIds = (json['providerIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1DeleteOauthProvidersIntent(
       userId: _userId,
       providerIds: _providerIds,
@@ -8197,8 +8045,9 @@ class v1DeleteOauthProvidersRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteOauthProvidersIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteOauthProvidersIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteOauthProvidersRequest(
       type: _type,
@@ -8226,16 +8075,13 @@ class v1DeleteOauthProvidersResult {
   /// A list of unique identifiers for Oauth Providers
   final List<String> providerIds;
 
-  const v1DeleteOauthProvidersResult({
-    required this.providerIds,
-  });
+  const v1DeleteOauthProvidersResult({required this.providerIds});
 
   factory v1DeleteOauthProvidersResult.fromJson(Map<String, dynamic> json) {
-    final _providerIds =
-        (json['providerIds'] as List).map((e) => e as String).toList();
-    return v1DeleteOauthProvidersResult(
-      providerIds: _providerIds,
-    );
+    final _providerIds = (json['providerIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteOauthProvidersResult(providerIds: _providerIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8249,15 +8095,11 @@ class v1DeleteOrganizationIntent {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1DeleteOrganizationIntent({
-    required this.organizationId,
-  });
+  const v1DeleteOrganizationIntent({required this.organizationId});
 
   factory v1DeleteOrganizationIntent.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1DeleteOrganizationIntent(
-      organizationId: _organizationId,
-    );
+    return v1DeleteOrganizationIntent(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -8271,15 +8113,11 @@ class v1DeleteOrganizationResult {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1DeleteOrganizationResult({
-    required this.organizationId,
-  });
+  const v1DeleteOrganizationResult({required this.organizationId});
 
   factory v1DeleteOrganizationResult.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1DeleteOrganizationResult(
-      organizationId: _organizationId,
-    );
+    return v1DeleteOrganizationResult(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -8293,16 +8131,13 @@ class v1DeletePoliciesIntent {
   /// List of unique identifiers for policies within an organization
   final List<String> policyIds;
 
-  const v1DeletePoliciesIntent({
-    required this.policyIds,
-  });
+  const v1DeletePoliciesIntent({required this.policyIds});
 
   factory v1DeletePoliciesIntent.fromJson(Map<String, dynamic> json) {
-    final _policyIds =
-        (json['policyIds'] as List).map((e) => e as String).toList();
-    return v1DeletePoliciesIntent(
-      policyIds: _policyIds,
-    );
+    final _policyIds = (json['policyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeletePoliciesIntent(policyIds: _policyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8335,8 +8170,9 @@ class v1DeletePoliciesRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeletePoliciesIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeletePoliciesIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePoliciesRequest(
       type: _type,
@@ -8364,16 +8200,13 @@ class v1DeletePoliciesResult {
   /// A list of unique identifiers for the deleted policies.
   final List<String> policyIds;
 
-  const v1DeletePoliciesResult({
-    required this.policyIds,
-  });
+  const v1DeletePoliciesResult({required this.policyIds});
 
   factory v1DeletePoliciesResult.fromJson(Map<String, dynamic> json) {
-    final _policyIds =
-        (json['policyIds'] as List).map((e) => e as String).toList();
-    return v1DeletePoliciesResult(
-      policyIds: _policyIds,
-    );
+    final _policyIds = (json['policyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeletePoliciesResult(policyIds: _policyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8387,15 +8220,11 @@ class v1DeletePolicyIntent {
   /// Unique identifier for a given Policy.
   final String policyId;
 
-  const v1DeletePolicyIntent({
-    required this.policyId,
-  });
+  const v1DeletePolicyIntent({required this.policyId});
 
   factory v1DeletePolicyIntent.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
-    return v1DeletePolicyIntent(
-      policyId: _policyId,
-    );
+    return v1DeletePolicyIntent(policyId: _policyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -8428,8 +8257,9 @@ class v1DeletePolicyRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeletePolicyIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeletePolicyIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePolicyRequest(
       type: _type,
@@ -8457,15 +8287,11 @@ class v1DeletePolicyResult {
   /// Unique identifier for a given Policy.
   final String policyId;
 
-  const v1DeletePolicyResult({
-    required this.policyId,
-  });
+  const v1DeletePolicyResult({required this.policyId});
 
   factory v1DeletePolicyResult.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
-    return v1DeletePolicyResult(
-      policyId: _policyId,
-    );
+    return v1DeletePolicyResult(policyId: _policyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -8479,16 +8305,13 @@ class v1DeletePrivateKeyTagsIntent {
   /// A list of Private Key Tag IDs.
   final List<String> privateKeyTagIds;
 
-  const v1DeletePrivateKeyTagsIntent({
-    required this.privateKeyTagIds,
-  });
+  const v1DeletePrivateKeyTagsIntent({required this.privateKeyTagIds});
 
   factory v1DeletePrivateKeyTagsIntent.fromJson(Map<String, dynamic> json) {
-    final _privateKeyTagIds =
-        (json['privateKeyTagIds'] as List).map((e) => e as String).toList();
-    return v1DeletePrivateKeyTagsIntent(
-      privateKeyTagIds: _privateKeyTagIds,
-    );
+    final _privateKeyTagIds = (json['privateKeyTagIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeletePrivateKeyTagsIntent(privateKeyTagIds: _privateKeyTagIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8521,8 +8344,9 @@ class v1DeletePrivateKeyTagsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeletePrivateKeyTagsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeletePrivateKeyTagsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePrivateKeyTagsRequest(
       type: _type,
@@ -8559,10 +8383,12 @@ class v1DeletePrivateKeyTagsResult {
   });
 
   factory v1DeletePrivateKeyTagsResult.fromJson(Map<String, dynamic> json) {
-    final _privateKeyTagIds =
-        (json['privateKeyTagIds'] as List).map((e) => e as String).toList();
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
+    final _privateKeyTagIds = (json['privateKeyTagIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1DeletePrivateKeyTagsResult(
       privateKeyTagIds: _privateKeyTagIds,
       privateKeyIds: _privateKeyIds,
@@ -8590,8 +8416,9 @@ class v1DeletePrivateKeysIntent {
   });
 
   factory v1DeletePrivateKeysIntent.fromJson(Map<String, dynamic> json) {
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
     return v1DeletePrivateKeysIntent(
       privateKeyIds: _privateKeyIds,
@@ -8632,8 +8459,9 @@ class v1DeletePrivateKeysRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeletePrivateKeysIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeletePrivateKeysIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeletePrivateKeysRequest(
       type: _type,
@@ -8661,16 +8489,13 @@ class v1DeletePrivateKeysResult {
   /// A list of private key unique identifiers that were removed
   final List<String> privateKeyIds;
 
-  const v1DeletePrivateKeysResult({
-    required this.privateKeyIds,
-  });
+  const v1DeletePrivateKeysResult({required this.privateKeyIds});
 
   factory v1DeletePrivateKeysResult.fromJson(Map<String, dynamic> json) {
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
-    return v1DeletePrivateKeysResult(
-      privateKeyIds: _privateKeyIds,
-    );
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeletePrivateKeysResult(privateKeyIds: _privateKeyIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8689,7 +8514,8 @@ class v1DeleteSmartContractInterfaceIntent {
   });
 
   factory v1DeleteSmartContractInterfaceIntent.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterfaceId =
         json['smartContractInterfaceId'] as String;
     return v1DeleteSmartContractInterfaceIntent(
@@ -8724,12 +8550,14 @@ class v1DeleteSmartContractInterfaceRequest {
   });
 
   factory v1DeleteSmartContractInterfaceRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteSmartContractInterfaceIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteSmartContractInterfaceIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteSmartContractInterfaceRequest(
       type: _type,
@@ -8762,7 +8590,8 @@ class v1DeleteSmartContractInterfaceResult {
   });
 
   factory v1DeleteSmartContractInterfaceResult.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterfaceId =
         json['smartContractInterfaceId'] as String;
     return v1DeleteSmartContractInterfaceResult(
@@ -8781,9 +8610,7 @@ class v1DeleteSubOrganizationIntent {
   /// Sub-organization deletion, by default, requires associated wallets and private keys to be exported for security reasons. Set this boolean to true to force sub-organization deletion even if some wallets or private keys within it have not been exported yet. Default: false.
   final bool? deleteWithoutExport;
 
-  const v1DeleteSubOrganizationIntent({
-    this.deleteWithoutExport,
-  });
+  const v1DeleteSubOrganizationIntent({this.deleteWithoutExport});
 
   factory v1DeleteSubOrganizationIntent.fromJson(Map<String, dynamic> json) {
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
@@ -8824,8 +8651,9 @@ class v1DeleteSubOrganizationRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteSubOrganizationIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteSubOrganizationIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteSubOrganizationRequest(
       type: _type,
@@ -8853,9 +8681,7 @@ class v1DeleteSubOrganizationResult {
   /// Unique identifier of the sub organization that was removed
   final String subOrganizationUuid;
 
-  const v1DeleteSubOrganizationResult({
-    required this.subOrganizationUuid,
-  });
+  const v1DeleteSubOrganizationResult({required this.subOrganizationUuid});
 
   factory v1DeleteSubOrganizationResult.fromJson(Map<String, dynamic> json) {
     final _subOrganizationUuid = json['subOrganizationUuid'] as String;
@@ -8875,16 +8701,13 @@ class v1DeleteUserTagsIntent {
   /// A list of User Tag IDs.
   final List<String> userTagIds;
 
-  const v1DeleteUserTagsIntent({
-    required this.userTagIds,
-  });
+  const v1DeleteUserTagsIntent({required this.userTagIds});
 
   factory v1DeleteUserTagsIntent.fromJson(Map<String, dynamic> json) {
-    final _userTagIds =
-        (json['userTagIds'] as List).map((e) => e as String).toList();
-    return v1DeleteUserTagsIntent(
-      userTagIds: _userTagIds,
-    );
+    final _userTagIds = (json['userTagIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteUserTagsIntent(userTagIds: _userTagIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8917,8 +8740,9 @@ class v1DeleteUserTagsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteUserTagsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteUserTagsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteUserTagsRequest(
       type: _type,
@@ -8955,13 +8779,11 @@ class v1DeleteUserTagsResult {
   });
 
   factory v1DeleteUserTagsResult.fromJson(Map<String, dynamic> json) {
-    final _userTagIds =
-        (json['userTagIds'] as List).map((e) => e as String).toList();
+    final _userTagIds = (json['userTagIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1DeleteUserTagsResult(
-      userTagIds: _userTagIds,
-      userIds: _userIds,
-    );
+    return v1DeleteUserTagsResult(userTagIds: _userTagIds, userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -8976,15 +8798,11 @@ class v1DeleteUsersIntent {
   /// A list of User IDs.
   final List<String> userIds;
 
-  const v1DeleteUsersIntent({
-    required this.userIds,
-  });
+  const v1DeleteUsersIntent({required this.userIds});
 
   factory v1DeleteUsersIntent.fromJson(Map<String, dynamic> json) {
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1DeleteUsersIntent(
-      userIds: _userIds,
-    );
+    return v1DeleteUsersIntent(userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -9017,8 +8835,9 @@ class v1DeleteUsersRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteUsersIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteUsersIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteUsersRequest(
       type: _type,
@@ -9046,15 +8865,11 @@ class v1DeleteUsersResult {
   /// A list of User IDs.
   final List<String> userIds;
 
-  const v1DeleteUsersResult({
-    required this.userIds,
-  });
+  const v1DeleteUsersResult({required this.userIds});
 
   factory v1DeleteUsersResult.fromJson(Map<String, dynamic> json) {
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1DeleteUsersResult(
-      userIds: _userIds,
-    );
+    return v1DeleteUsersResult(userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -9077,8 +8892,9 @@ class v1DeleteWalletAccountsIntent {
   });
 
   factory v1DeleteWalletAccountsIntent.fromJson(Map<String, dynamic> json) {
-    final _walletAccountIds =
-        (json['walletAccountIds'] as List).map((e) => e as String).toList();
+    final _walletAccountIds = (json['walletAccountIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
     return v1DeleteWalletAccountsIntent(
       walletAccountIds: _walletAccountIds,
@@ -9119,8 +8935,9 @@ class v1DeleteWalletAccountsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteWalletAccountsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteWalletAccountsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteWalletAccountsRequest(
       type: _type,
@@ -9148,16 +8965,13 @@ class v1DeleteWalletAccountsResult {
   /// A list of wallet account unique identifiers that were removed
   final List<String> walletAccountIds;
 
-  const v1DeleteWalletAccountsResult({
-    required this.walletAccountIds,
-  });
+  const v1DeleteWalletAccountsResult({required this.walletAccountIds});
 
   factory v1DeleteWalletAccountsResult.fromJson(Map<String, dynamic> json) {
-    final _walletAccountIds =
-        (json['walletAccountIds'] as List).map((e) => e as String).toList();
-    return v1DeleteWalletAccountsResult(
-      walletAccountIds: _walletAccountIds,
-    );
+    final _walletAccountIds = (json['walletAccountIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteWalletAccountsResult(walletAccountIds: _walletAccountIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -9180,8 +8994,9 @@ class v1DeleteWalletsIntent {
   });
 
   factory v1DeleteWalletsIntent.fromJson(Map<String, dynamic> json) {
-    final _walletIds =
-        (json['walletIds'] as List).map((e) => e as String).toList();
+    final _walletIds = (json['walletIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
     return v1DeleteWalletsIntent(
       walletIds: _walletIds,
@@ -9222,8 +9037,9 @@ class v1DeleteWalletsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteWalletsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteWalletsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteWalletsRequest(
       type: _type,
@@ -9251,16 +9067,13 @@ class v1DeleteWalletsResult {
   /// A list of wallet unique identifiers that were removed
   final List<String> walletIds;
 
-  const v1DeleteWalletsResult({
-    required this.walletIds,
-  });
+  const v1DeleteWalletsResult({required this.walletIds});
 
   factory v1DeleteWalletsResult.fromJson(Map<String, dynamic> json) {
-    final _walletIds =
-        (json['walletIds'] as List).map((e) => e as String).toList();
-    return v1DeleteWalletsResult(
-      walletIds: _walletIds,
-    );
+    final _walletIds = (json['walletIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1DeleteWalletsResult(walletIds: _walletIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -9274,15 +9087,11 @@ class v1DeleteWebhookEndpointIntent {
   /// Unique identifier of the webhook endpoint to delete.
   final String endpointId;
 
-  const v1DeleteWebhookEndpointIntent({
-    required this.endpointId,
-  });
+  const v1DeleteWebhookEndpointIntent({required this.endpointId});
 
   factory v1DeleteWebhookEndpointIntent.fromJson(Map<String, dynamic> json) {
     final _endpointId = json['endpointId'] as String;
-    return v1DeleteWebhookEndpointIntent(
-      endpointId: _endpointId,
-    );
+    return v1DeleteWebhookEndpointIntent(endpointId: _endpointId);
   }
 
   Map<String, dynamic> toJson() {
@@ -9315,8 +9124,9 @@ class v1DeleteWebhookEndpointRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1DeleteWebhookEndpointIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1DeleteWebhookEndpointIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1DeleteWebhookEndpointRequest(
       type: _type,
@@ -9344,15 +9154,11 @@ class v1DeleteWebhookEndpointResult {
   /// Unique identifier of the deleted webhook endpoint.
   final String endpointId;
 
-  const v1DeleteWebhookEndpointResult({
-    required this.endpointId,
-  });
+  const v1DeleteWebhookEndpointResult({required this.endpointId});
 
   factory v1DeleteWebhookEndpointResult.fromJson(Map<String, dynamic> json) {
     final _endpointId = json['endpointId'] as String;
-    return v1DeleteWebhookEndpointResult(
-      endpointId: _endpointId,
-    );
+    return v1DeleteWebhookEndpointResult(endpointId: _endpointId);
   }
 
   Map<String, dynamic> toJson() {
@@ -9386,8 +9192,9 @@ class v1DeploymentStatus {
     final _deploymentId = json['deploymentId'] as String;
     final _readyReplicas = json['readyReplicas'] as num;
     final _desiredReplicas = json['desiredReplicas'] as num;
-    final _lastUpdatedTime = externaldatav1Timestamp
-        .fromJson(json['lastUpdatedTime'] as Map<String, dynamic>);
+    final _lastUpdatedTime = externaldatav1Timestamp.fromJson(
+      json['lastUpdatedTime'] as Map<String, dynamic>,
+    );
     return v1DeploymentStatus(
       deploymentId: _deploymentId,
       readyReplicas: _readyReplicas,
@@ -9424,15 +9231,11 @@ class v1DisablePrivateKeyIntent {
   /// Unique identifier for a given Private Key.
   final String privateKeyId;
 
-  const v1DisablePrivateKeyIntent({
-    required this.privateKeyId,
-  });
+  const v1DisablePrivateKeyIntent({required this.privateKeyId});
 
   factory v1DisablePrivateKeyIntent.fromJson(Map<String, dynamic> json) {
     final _privateKeyId = json['privateKeyId'] as String;
-    return v1DisablePrivateKeyIntent(
-      privateKeyId: _privateKeyId,
-    );
+    return v1DisablePrivateKeyIntent(privateKeyId: _privateKeyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -9446,15 +9249,11 @@ class v1DisablePrivateKeyResult {
   /// Unique identifier for a given Private Key.
   final String privateKeyId;
 
-  const v1DisablePrivateKeyResult({
-    required this.privateKeyId,
-  });
+  const v1DisablePrivateKeyResult({required this.privateKeyId});
 
   factory v1DisablePrivateKeyResult.fromJson(Map<String, dynamic> json) {
     final _privateKeyId = json['privateKeyId'] as String;
-    return v1DisablePrivateKeyResult(
-      privateKeyId: _privateKeyId,
-    );
+    return v1DisablePrivateKeyResult(privateKeyId: _privateKeyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -9569,8 +9368,9 @@ class v1EmailAuthIntent {
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -9664,8 +9464,9 @@ class v1EmailAuthIntentV2 {
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -9757,8 +9558,9 @@ class v1EmailAuthIntentV3 {
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _apiKeyName = json['apiKeyName'] as String?;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = v1EmailAuthCustomizationParams
-        .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams.fromJson(
+      json['emailCustomization'] as Map<String, dynamic>,
+    );
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -9826,8 +9628,9 @@ class v1EmailAuthRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1EmailAuthIntentV3
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1EmailAuthIntentV3.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1EmailAuthRequest(
       type: _type,
@@ -9858,18 +9661,12 @@ class v1EmailAuthResult {
   /// Unique identifier for the created API key.
   final String apiKeyId;
 
-  const v1EmailAuthResult({
-    required this.userId,
-    required this.apiKeyId,
-  });
+  const v1EmailAuthResult({required this.userId, required this.apiKeyId});
 
   factory v1EmailAuthResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
     final _apiKeyId = json['apiKeyId'] as String;
-    return v1EmailAuthResult(
-      userId: _userId,
-      apiKeyId: _apiKeyId,
-    );
+    return v1EmailAuthResult(userId: _userId, apiKeyId: _apiKeyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -10002,15 +9799,11 @@ class v1EnableAuthProxyResult {
   /// A User ID with permission to initiate authentication.
   final String userId;
 
-  const v1EnableAuthProxyResult({
-    required this.userId,
-  });
+  const v1EnableAuthProxyResult({required this.userId});
 
   factory v1EnableAuthProxyResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1EnableAuthProxyResult(
-      userId: _userId,
-    );
+    return v1EnableAuthProxyResult(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -10024,17 +9817,13 @@ class v1EthFailureDetails {
   /// Ethereum revert chain, ordered from outermost to innermost.
   final List<v1RevertChainEntry>? revertChain;
 
-  const v1EthFailureDetails({
-    this.revertChain,
-  });
+  const v1EthFailureDetails({this.revertChain});
 
   factory v1EthFailureDetails.fromJson(Map<String, dynamic> json) {
     final _revertChain = (json['revertChain'] as List?)
         ?.map((e) => v1RevertChainEntry.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1EthFailureDetails(
-      revertChain: _revertChain,
-    );
+    return v1EthFailureDetails(revertChain: _revertChain);
   }
 
   Map<String, dynamic> toJson() {
@@ -10079,15 +9868,11 @@ class v1EthSendRawTransactionResult {
   /// The transaction hash of the sent transaction
   final String transactionHash;
 
-  const v1EthSendRawTransactionResult({
-    required this.transactionHash,
-  });
+  const v1EthSendRawTransactionResult({required this.transactionHash});
 
   factory v1EthSendRawTransactionResult.fromJson(Map<String, dynamic> json) {
     final _transactionHash = json['transactionHash'] as String;
-    return v1EthSendRawTransactionResult(
-      transactionHash: _transactionHash,
-    );
+    return v1EthSendRawTransactionResult(transactionHash: _transactionHash);
   }
 
   Map<String, dynamic> toJson() {
@@ -10228,8 +10013,9 @@ class v1EthSendTransactionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1EthSendTransactionIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1EthSendTransactionIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1EthSendTransactionRequest(
       type: _type,
@@ -10257,9 +10043,7 @@ class v1EthSendTransactionResult {
   /// The send_transaction_status ID associated with the transaction submission
   final String sendTransactionStatusId;
 
-  const v1EthSendTransactionResult({
-    required this.sendTransactionStatusId,
-  });
+  const v1EthSendTransactionResult({required this.sendTransactionStatusId});
 
   factory v1EthSendTransactionResult.fromJson(Map<String, dynamic> json) {
     final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
@@ -10279,15 +10063,11 @@ class v1EthSendTransactionStatus {
   /// The Ethereum transaction hash, if available.
   final String? txHash;
 
-  const v1EthSendTransactionStatus({
-    this.txHash,
-  });
+  const v1EthSendTransactionStatus({this.txHash});
 
   factory v1EthSendTransactionStatus.fromJson(Map<String, dynamic> json) {
     final _txHash = json['txHash'] as String?;
-    return v1EthSendTransactionStatus(
-      txHash: _txHash,
-    );
+    return v1EthSendTransactionStatus(txHash: _txHash);
   }
 
   Map<String, dynamic> toJson() {
@@ -10351,8 +10131,9 @@ class v1ExportPrivateKeyRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1ExportPrivateKeyIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1ExportPrivateKeyIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ExportPrivateKeyRequest(
       type: _type,
@@ -10457,8 +10238,9 @@ class v1ExportWalletAccountRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1ExportWalletAccountIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1ExportWalletAccountIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ExportWalletAccountRequest(
       type: _type,
@@ -10574,8 +10356,9 @@ class v1ExportWalletRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1ExportWalletIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1ExportWalletIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ExportWalletRequest(
       type: _type,
@@ -10632,19 +10415,14 @@ class v1Feature {
   final v1FeatureName? name;
   final String? value;
 
-  const v1Feature({
-    this.name,
-    this.value,
-  });
+  const v1Feature({this.name, this.value});
 
   factory v1Feature.fromJson(Map<String, dynamic> json) {
-    final _name =
-        json['name'] == null ? null : v1FeatureNameFromJson(json['name']);
+    final _name = json['name'] == null
+        ? null
+        : v1FeatureNameFromJson(json['name']);
     final _value = json['value'] as String?;
-    return v1Feature(
-      name: _name,
-      value: _value,
-    );
+    return v1Feature(name: _name, value: _value);
   }
 
   Map<String, dynamic> toJson() {
@@ -10702,17 +10480,20 @@ class v1FiatOnRampCredential {
   factory v1FiatOnRampCredential.fromJson(Map<String, dynamic> json) {
     final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _projectId = json['projectId'] as String?;
     final _publishableApiKey = json['publishableApiKey'] as String;
     final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
     final _encryptedPrivateApiKey = json['encryptedPrivateApiKey'] as String?;
     final _sandboxMode = json['sandboxMode'] as bool?;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return v1FiatOnRampCredential(
       fiatOnrampCredentialId: _fiatOnrampCredentialId,
       organizationId: _organizationId,
@@ -10776,8 +10557,9 @@ class v1GetActivitiesRequest {
         .toList();
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     final _filterByType = (json['filterByType'] as List?)
         ?.map((e) => v1ActivityTypeFromJson(e))
         .toList();
@@ -10793,15 +10575,17 @@ class v1GetActivitiesRequest {
     final _json = <String, dynamic>{};
     _json['organizationId'] = organizationId;
     if (filterByStatus != null) {
-      _json['filterByStatus'] =
-          filterByStatus?.map((e) => v1ActivityStatusToJson(e)).toList();
+      _json['filterByStatus'] = filterByStatus
+          ?.map((e) => v1ActivityStatusToJson(e))
+          .toList();
     }
     if (paginationOptions != null) {
       _json['paginationOptions'] = paginationOptions?.toJson();
     }
     if (filterByType != null) {
-      _json['filterByType'] =
-          filterByType?.map((e) => v1ActivityTypeToJson(e)).toList();
+      _json['filterByType'] = filterByType
+          ?.map((e) => v1ActivityTypeToJson(e))
+          .toList();
     }
     return _json;
   }
@@ -10811,17 +10595,13 @@ class v1GetActivitiesResponse {
   /// A list of activities.
   final List<v1Activity> activities;
 
-  const v1GetActivitiesResponse({
-    required this.activities,
-  });
+  const v1GetActivitiesResponse({required this.activities});
 
   factory v1GetActivitiesResponse.fromJson(Map<String, dynamic> json) {
     final _activities = (json['activities'] as List)
         .map((e) => v1Activity.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetActivitiesResponse(
-      activities: _activities,
-    );
+    return v1GetActivitiesResponse(activities: _activities);
   }
 
   Map<String, dynamic> toJson() {
@@ -10893,15 +10673,11 @@ class v1GetApiKeyResponse {
   /// An API key.
   final v1ApiKey apiKey;
 
-  const v1GetApiKeyResponse({
-    required this.apiKey,
-  });
+  const v1GetApiKeyResponse({required this.apiKey});
 
   factory v1GetApiKeyResponse.fromJson(Map<String, dynamic> json) {
     final _apiKey = v1ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>);
-    return v1GetApiKeyResponse(
-      apiKey: _apiKey,
-    );
+    return v1GetApiKeyResponse(apiKey: _apiKey);
   }
 
   Map<String, dynamic> toJson() {
@@ -10918,10 +10694,7 @@ class v1GetApiKeysRequest {
   /// Unique identifier for a given user.
   final String? userId;
 
-  const v1GetApiKeysRequest({
-    required this.organizationId,
-    this.userId,
-  });
+  const v1GetApiKeysRequest({required this.organizationId, this.userId});
 
   factory v1GetApiKeysRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
@@ -10946,17 +10719,13 @@ class v1GetApiKeysResponse {
   /// A list of API keys.
   final List<v1ApiKey> apiKeys;
 
-  const v1GetApiKeysResponse({
-    required this.apiKeys,
-  });
+  const v1GetApiKeysResponse({required this.apiKeys});
 
   factory v1GetApiKeysResponse.fromJson(Map<String, dynamic> json) {
     final _apiKeys = (json['apiKeys'] as List)
         .map((e) => v1ApiKey.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetApiKeysResponse(
-      apiKeys: _apiKeys,
-    );
+    return v1GetApiKeysResponse(apiKeys: _apiKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -10998,17 +10767,13 @@ class v1GetAppProofsRequest {
 class v1GetAppProofsResponse {
   final List<v1AppProof> appProofs;
 
-  const v1GetAppProofsResponse({
-    required this.appProofs,
-  });
+  const v1GetAppProofsResponse({required this.appProofs});
 
   factory v1GetAppProofsResponse.fromJson(Map<String, dynamic> json) {
     final _appProofs = (json['appProofs'] as List)
         .map((e) => v1AppProof.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetAppProofsResponse(
-      appProofs: _appProofs,
-    );
+    return v1GetAppProofsResponse(appProofs: _appProofs);
   }
 
   Map<String, dynamic> toJson() {
@@ -11051,16 +10816,13 @@ class v1GetAppStatusResponse {
   /// Live runtime status for the TVC App
   final v1AppStatus appStatus;
 
-  const v1GetAppStatusResponse({
-    required this.appStatus,
-  });
+  const v1GetAppStatusResponse({required this.appStatus});
 
   factory v1GetAppStatusResponse.fromJson(Map<String, dynamic> json) {
-    final _appStatus =
-        v1AppStatus.fromJson(json['appStatus'] as Map<String, dynamic>);
-    return v1GetAppStatusResponse(
-      appStatus: _appStatus,
+    final _appStatus = v1AppStatus.fromJson(
+      json['appStatus'] as Map<String, dynamic>,
     );
+    return v1GetAppStatusResponse(appStatus: _appStatus);
   }
 
   Map<String, dynamic> toJson() {
@@ -11103,16 +10865,13 @@ class v1GetAuthenticatorResponse {
   /// An authenticator.
   final v1Authenticator authenticator;
 
-  const v1GetAuthenticatorResponse({
-    required this.authenticator,
-  });
+  const v1GetAuthenticatorResponse({required this.authenticator});
 
   factory v1GetAuthenticatorResponse.fromJson(Map<String, dynamic> json) {
-    final _authenticator =
-        v1Authenticator.fromJson(json['authenticator'] as Map<String, dynamic>);
-    return v1GetAuthenticatorResponse(
-      authenticator: _authenticator,
+    final _authenticator = v1Authenticator.fromJson(
+      json['authenticator'] as Map<String, dynamic>,
     );
+    return v1GetAuthenticatorResponse(authenticator: _authenticator);
   }
 
   Map<String, dynamic> toJson() {
@@ -11155,17 +10914,13 @@ class v1GetAuthenticatorsResponse {
   /// A list of authenticators.
   final List<v1Authenticator> authenticators;
 
-  const v1GetAuthenticatorsResponse({
-    required this.authenticators,
-  });
+  const v1GetAuthenticatorsResponse({required this.authenticators});
 
   factory v1GetAuthenticatorsResponse.fromJson(Map<String, dynamic> json) {
     final _authenticators = (json['authenticators'] as List)
         .map((e) => v1Authenticator.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetAuthenticatorsResponse(
-      authenticators: _authenticators,
-    );
+    return v1GetAuthenticatorsResponse(authenticators: _authenticators);
   }
 
   Map<String, dynamic> toJson() {
@@ -11208,15 +10963,11 @@ class v1GetGasUsageRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1GetGasUsageRequest({
-    required this.organizationId,
-  });
+  const v1GetGasUsageRequest({required this.organizationId});
 
   factory v1GetGasUsageRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetGasUsageRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetGasUsageRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -11352,10 +11103,7 @@ class v1GetNoncesResponse {
   /// The gas station nonce for sponsored transactions, if requested.
   final String? gasStationNonce;
 
-  const v1GetNoncesResponse({
-    this.nonce,
-    this.gasStationNonce,
-  });
+  const v1GetNoncesResponse({this.nonce, this.gasStationNonce});
 
   factory v1GetNoncesResponse.fromJson(Map<String, dynamic> json) {
     final _nonce = json['nonce'] as String?;
@@ -11410,16 +11158,13 @@ class v1GetOauth2CredentialRequest {
 class v1GetOauth2CredentialResponse {
   final v1Oauth2Credential oauth2Credential;
 
-  const v1GetOauth2CredentialResponse({
-    required this.oauth2Credential,
-  });
+  const v1GetOauth2CredentialResponse({required this.oauth2Credential});
 
   factory v1GetOauth2CredentialResponse.fromJson(Map<String, dynamic> json) {
-    final _oauth2Credential = v1Oauth2Credential
-        .fromJson(json['oauth2Credential'] as Map<String, dynamic>);
-    return v1GetOauth2CredentialResponse(
-      oauth2Credential: _oauth2Credential,
+    final _oauth2Credential = v1Oauth2Credential.fromJson(
+      json['oauth2Credential'] as Map<String, dynamic>,
     );
+    return v1GetOauth2CredentialResponse(oauth2Credential: _oauth2Credential);
   }
 
   Map<String, dynamic> toJson() {
@@ -11436,10 +11181,7 @@ class v1GetOauthProvidersRequest {
   /// Unique identifier for a given user.
   final String? userId;
 
-  const v1GetOauthProvidersRequest({
-    required this.organizationId,
-    this.userId,
-  });
+  const v1GetOauthProvidersRequest({required this.organizationId, this.userId});
 
   factory v1GetOauthProvidersRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
@@ -11464,17 +11206,13 @@ class v1GetOauthProvidersResponse {
   /// A list of Oauth providers.
   final List<v1OauthProvider> oauthProviders;
 
-  const v1GetOauthProvidersResponse({
-    required this.oauthProviders,
-  });
+  const v1GetOauthProvidersResponse({required this.oauthProviders});
 
   factory v1GetOauthProvidersResponse.fromJson(Map<String, dynamic> json) {
     final _oauthProviders = (json['oauthProviders'] as List)
         .map((e) => v1OauthProvider.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetOauthProvidersResponse(
-      oauthProviders: _oauthProviders,
-    );
+    return v1GetOauthProvidersResponse(oauthProviders: _oauthProviders);
   }
 
   Map<String, dynamic> toJson() {
@@ -11501,7 +11239,8 @@ class v1GetOnRampTransactionStatusRequest {
   });
 
   factory v1GetOnRampTransactionStatusRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
     final _transactionId = json['transactionId'] as String;
     final _refresh = json['refresh'] as bool?;
@@ -11527,12 +11266,11 @@ class v1GetOnRampTransactionStatusResponse {
   /// The status of the fiat on ramp transaction.
   final String transactionStatus;
 
-  const v1GetOnRampTransactionStatusResponse({
-    required this.transactionStatus,
-  });
+  const v1GetOnRampTransactionStatusResponse({required this.transactionStatus});
 
   factory v1GetOnRampTransactionStatusResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _transactionStatus = json['transactionStatus'] as String;
     return v1GetOnRampTransactionStatusResponse(
       transactionStatus: _transactionStatus,
@@ -11550,15 +11288,11 @@ class v1GetOrganizationConfigsRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1GetOrganizationConfigsRequest({
-    required this.organizationId,
-  });
+  const v1GetOrganizationConfigsRequest({required this.organizationId});
 
   factory v1GetOrganizationConfigsRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetOrganizationConfigsRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetOrganizationConfigsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -11572,15 +11306,11 @@ class v1GetOrganizationConfigsResponse {
   /// Organization configs including quorum settings and organization features.
   final v1Config configs;
 
-  const v1GetOrganizationConfigsResponse({
-    required this.configs,
-  });
+  const v1GetOrganizationConfigsResponse({required this.configs});
 
   factory v1GetOrganizationConfigsResponse.fromJson(Map<String, dynamic> json) {
     final _configs = v1Config.fromJson(json['configs'] as Map<String, dynamic>);
-    return v1GetOrganizationConfigsResponse(
-      configs: _configs,
-    );
+    return v1GetOrganizationConfigsResponse(configs: _configs);
   }
 
   Map<String, dynamic> toJson() {
@@ -11594,15 +11324,11 @@ class v1GetPoliciesRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1GetPoliciesRequest({
-    required this.organizationId,
-  });
+  const v1GetPoliciesRequest({required this.organizationId});
 
   factory v1GetPoliciesRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetPoliciesRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetPoliciesRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -11616,17 +11342,13 @@ class v1GetPoliciesResponse {
   /// A list of policies.
   final List<v1Policy> policies;
 
-  const v1GetPoliciesResponse({
-    required this.policies,
-  });
+  const v1GetPoliciesResponse({required this.policies});
 
   factory v1GetPoliciesResponse.fromJson(Map<String, dynamic> json) {
     final _policies = (json['policies'] as List)
         .map((e) => v1Policy.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetPoliciesResponse(
-      policies: _policies,
-    );
+    return v1GetPoliciesResponse(policies: _policies);
   }
 
   Map<String, dynamic> toJson() {
@@ -11668,14 +11390,15 @@ class v1GetPolicyEvaluationsRequest {
 class v1GetPolicyEvaluationsResponse {
   final List<externalactivityv1PolicyEvaluation> policyEvaluations;
 
-  const v1GetPolicyEvaluationsResponse({
-    required this.policyEvaluations,
-  });
+  const v1GetPolicyEvaluationsResponse({required this.policyEvaluations});
 
   factory v1GetPolicyEvaluationsResponse.fromJson(Map<String, dynamic> json) {
     final _policyEvaluations = (json['policyEvaluations'] as List)
-        .map((e) => externalactivityv1PolicyEvaluation
-            .fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => externalactivityv1PolicyEvaluation.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
     return v1GetPolicyEvaluationsResponse(
       policyEvaluations: _policyEvaluations,
@@ -11684,8 +11407,9 @@ class v1GetPolicyEvaluationsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['policyEvaluations'] =
-        policyEvaluations.map((e) => e.toJson()).toList();
+    _json['policyEvaluations'] = policyEvaluations
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -11723,15 +11447,11 @@ class v1GetPolicyResponse {
   /// Object that codifies rules defining the actions that are permissible within an organization.
   final v1Policy policy;
 
-  const v1GetPolicyResponse({
-    required this.policy,
-  });
+  const v1GetPolicyResponse({required this.policy});
 
   factory v1GetPolicyResponse.fromJson(Map<String, dynamic> json) {
     final _policy = v1Policy.fromJson(json['policy'] as Map<String, dynamic>);
-    return v1GetPolicyResponse(
-      policy: _policy,
-    );
+    return v1GetPolicyResponse(policy: _policy);
   }
 
   Map<String, dynamic> toJson() {
@@ -11774,16 +11494,13 @@ class v1GetPrivateKeyResponse {
   /// Cryptographic public/private key pair that can be used for cryptocurrency needs or more generalized encryption.
   final v1PrivateKey privateKey;
 
-  const v1GetPrivateKeyResponse({
-    required this.privateKey,
-  });
+  const v1GetPrivateKeyResponse({required this.privateKey});
 
   factory v1GetPrivateKeyResponse.fromJson(Map<String, dynamic> json) {
-    final _privateKey =
-        v1PrivateKey.fromJson(json['privateKey'] as Map<String, dynamic>);
-    return v1GetPrivateKeyResponse(
-      privateKey: _privateKey,
+    final _privateKey = v1PrivateKey.fromJson(
+      json['privateKey'] as Map<String, dynamic>,
     );
+    return v1GetPrivateKeyResponse(privateKey: _privateKey);
   }
 
   Map<String, dynamic> toJson() {
@@ -11797,15 +11514,11 @@ class v1GetPrivateKeysRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1GetPrivateKeysRequest({
-    required this.organizationId,
-  });
+  const v1GetPrivateKeysRequest({required this.organizationId});
 
   factory v1GetPrivateKeysRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetPrivateKeysRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetPrivateKeysRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -11819,17 +11532,13 @@ class v1GetPrivateKeysResponse {
   /// A list of private keys.
   final List<v1PrivateKey> privateKeys;
 
-  const v1GetPrivateKeysResponse({
-    required this.privateKeys,
-  });
+  const v1GetPrivateKeysResponse({required this.privateKeys});
 
   factory v1GetPrivateKeysResponse.fromJson(Map<String, dynamic> json) {
     final _privateKeys = (json['privateKeys'] as List)
         .map((e) => v1PrivateKey.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetPrivateKeysResponse(
-      privateKeys: _privateKeys,
-    );
+    return v1GetPrivateKeysResponse(privateKeys: _privateKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -11852,7 +11561,8 @@ class v1GetSendTransactionStatusRequest {
   });
 
   factory v1GetSendTransactionStatusRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
     final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
     return v1GetSendTransactionStatusRequest(
@@ -11894,16 +11604,19 @@ class v1GetSendTransactionStatusResponse {
   });
 
   factory v1GetSendTransactionStatusResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _txStatus = json['txStatus'] as String;
     final _eth = json['eth'] == null
         ? null
-        : v1EthSendTransactionStatus
-            .fromJson(json['eth'] as Map<String, dynamic>);
+        : v1EthSendTransactionStatus.fromJson(
+            json['eth'] as Map<String, dynamic>,
+          );
     final _solana = json['solana'] == null
         ? null
-        : v1SolanaSendTransactionStatus
-            .fromJson(json['solana'] as Map<String, dynamic>);
+        : v1SolanaSendTransactionStatus.fromJson(
+            json['solana'] as Map<String, dynamic>,
+          );
     final _txError = json['txError'] as String?;
     final _error = json['error'] == null
         ? null
@@ -11949,7 +11662,8 @@ class v1GetSmartContractInterfaceRequest {
   });
 
   factory v1GetSmartContractInterfaceRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
     final _smartContractInterfaceId =
         json['smartContractInterfaceId'] as String;
@@ -11976,7 +11690,8 @@ class v1GetSmartContractInterfaceResponse {
   });
 
   factory v1GetSmartContractInterfaceResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterface = externaldatav1SmartContractInterface
         .fromJson(json['smartContractInterface'] as Map<String, dynamic>);
     return v1GetSmartContractInterfaceResponse(
@@ -11995,16 +11710,13 @@ class v1GetSmartContractInterfacesRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1GetSmartContractInterfacesRequest({
-    required this.organizationId,
-  });
+  const v1GetSmartContractInterfacesRequest({required this.organizationId});
 
   factory v1GetSmartContractInterfacesRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetSmartContractInterfacesRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetSmartContractInterfacesRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -12023,10 +11735,14 @@ class v1GetSmartContractInterfacesResponse {
   });
 
   factory v1GetSmartContractInterfacesResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterfaces = (json['smartContractInterfaces'] as List)
-        .map((e) => externaldatav1SmartContractInterface
-            .fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => externaldatav1SmartContractInterface.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
     return v1GetSmartContractInterfacesResponse(
       smartContractInterfaces: _smartContractInterfaces,
@@ -12035,8 +11751,9 @@ class v1GetSmartContractInterfacesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['smartContractInterfaces'] =
-        smartContractInterfaces.map((e) => e.toJson()).toList();
+    _json['smartContractInterfaces'] = smartContractInterfaces
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -12067,8 +11784,9 @@ class v1GetSubOrgIdsRequest {
     final _filterValue = json['filterValue'] as String?;
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     return v1GetSubOrgIdsRequest(
       organizationId: _organizationId,
       filterType: _filterType,
@@ -12097,16 +11815,13 @@ class v1GetSubOrgIdsResponse {
   /// List of unique identifiers for the matching sub-organizations.
   final List<String> organizationIds;
 
-  const v1GetSubOrgIdsResponse({
-    required this.organizationIds,
-  });
+  const v1GetSubOrgIdsResponse({required this.organizationIds});
 
   factory v1GetSubOrgIdsResponse.fromJson(Map<String, dynamic> json) {
-    final _organizationIds =
-        (json['organizationIds'] as List).map((e) => e as String).toList();
-    return v1GetSubOrgIdsResponse(
-      organizationIds: _organizationIds,
-    );
+    final _organizationIds = (json['organizationIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1GetSubOrgIdsResponse(organizationIds: _organizationIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -12123,18 +11838,12 @@ class v1GetUserRequest {
   /// Unique identifier for a given user.
   final String userId;
 
-  const v1GetUserRequest({
-    required this.organizationId,
-    required this.userId,
-  });
+  const v1GetUserRequest({required this.organizationId, required this.userId});
 
   factory v1GetUserRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
     final _userId = json['userId'] as String;
-    return v1GetUserRequest(
-      organizationId: _organizationId,
-      userId: _userId,
-    );
+    return v1GetUserRequest(organizationId: _organizationId, userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -12149,15 +11858,11 @@ class v1GetUserResponse {
   /// Web and/or API user within your organization.
   final v1User user;
 
-  const v1GetUserResponse({
-    required this.user,
-  });
+  const v1GetUserResponse({required this.user});
 
   factory v1GetUserResponse.fromJson(Map<String, dynamic> json) {
     final _user = v1User.fromJson(json['user'] as Map<String, dynamic>);
-    return v1GetUserResponse(
-      user: _user,
-    );
+    return v1GetUserResponse(user: _user);
   }
 
   Map<String, dynamic> toJson() {
@@ -12171,15 +11876,11 @@ class v1GetUsersRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1GetUsersRequest({
-    required this.organizationId,
-  });
+  const v1GetUsersRequest({required this.organizationId});
 
   factory v1GetUsersRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetUsersRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetUsersRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -12193,17 +11894,13 @@ class v1GetUsersResponse {
   /// A list of users.
   final List<v1User> users;
 
-  const v1GetUsersResponse({
-    required this.users,
-  });
+  const v1GetUsersResponse({required this.users});
 
   factory v1GetUsersResponse.fromJson(Map<String, dynamic> json) {
     final _users = (json['users'] as List)
         .map((e) => v1User.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetUsersResponse(
-      users: _users,
-    );
+    return v1GetUsersResponse(users: _users);
   }
 
   Map<String, dynamic> toJson() {
@@ -12239,8 +11936,9 @@ class v1GetVerifiedSubOrgIdsRequest {
     final _filterValue = json['filterValue'] as String?;
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     return v1GetVerifiedSubOrgIdsRequest(
       organizationId: _organizationId,
       filterType: _filterType,
@@ -12269,16 +11967,13 @@ class v1GetVerifiedSubOrgIdsResponse {
   /// List of unique identifiers for the matching sub-organizations.
   final List<String> organizationIds;
 
-  const v1GetVerifiedSubOrgIdsResponse({
-    required this.organizationIds,
-  });
+  const v1GetVerifiedSubOrgIdsResponse({required this.organizationIds});
 
   factory v1GetVerifiedSubOrgIdsResponse.fromJson(Map<String, dynamic> json) {
-    final _organizationIds =
-        (json['organizationIds'] as List).map((e) => e as String).toList();
-    return v1GetVerifiedSubOrgIdsResponse(
-      organizationIds: _organizationIds,
-    );
+    final _organizationIds = (json['organizationIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1GetVerifiedSubOrgIdsResponse(organizationIds: _organizationIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -12339,16 +12034,13 @@ class v1GetWalletAccountResponse {
   /// The resulting wallet account.
   final v1WalletAccount account;
 
-  const v1GetWalletAccountResponse({
-    required this.account,
-  });
+  const v1GetWalletAccountResponse({required this.account});
 
   factory v1GetWalletAccountResponse.fromJson(Map<String, dynamic> json) {
-    final _account =
-        v1WalletAccount.fromJson(json['account'] as Map<String, dynamic>);
-    return v1GetWalletAccountResponse(
-      account: _account,
+    final _account = v1WalletAccount.fromJson(
+      json['account'] as Map<String, dynamic>,
     );
+    return v1GetWalletAccountResponse(account: _account);
   }
 
   Map<String, dynamic> toJson() {
@@ -12384,8 +12076,9 @@ class v1GetWalletAccountsRequest {
     final _includeWalletDetails = json['includeWalletDetails'] as bool?;
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     return v1GetWalletAccountsRequest(
       organizationId: _organizationId,
       walletId: _walletId,
@@ -12414,17 +12107,13 @@ class v1GetWalletAccountsResponse {
   /// A list of accounts generated from a wallet that share a common seed.
   final List<v1WalletAccount> accounts;
 
-  const v1GetWalletAccountsResponse({
-    required this.accounts,
-  });
+  const v1GetWalletAccountsResponse({required this.accounts});
 
   factory v1GetWalletAccountsResponse.fromJson(Map<String, dynamic> json) {
     final _accounts = (json['accounts'] as List)
         .map((e) => v1WalletAccount.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetWalletAccountsResponse(
-      accounts: _accounts,
-    );
+    return v1GetWalletAccountsResponse(accounts: _accounts);
   }
 
   Map<String, dynamic> toJson() {
@@ -12451,7 +12140,8 @@ class v1GetWalletAddressBalancesRequest {
   });
 
   factory v1GetWalletAddressBalancesRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
     final _address = json['address'] as String;
     final _caip2 = json['caip2'] as String;
@@ -12475,18 +12165,15 @@ class v1GetWalletAddressBalancesResponse {
   /// List of asset balances
   final List<v1AssetBalance>? balances;
 
-  const v1GetWalletAddressBalancesResponse({
-    this.balances,
-  });
+  const v1GetWalletAddressBalancesResponse({this.balances});
 
   factory v1GetWalletAddressBalancesResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _balances = (json['balances'] as List?)
         ?.map((e) => v1AssetBalance.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetWalletAddressBalancesResponse(
-      balances: _balances,
-    );
+    return v1GetWalletAddressBalancesResponse(balances: _balances);
   }
 
   Map<String, dynamic> toJson() {
@@ -12531,15 +12218,11 @@ class v1GetWalletResponse {
   /// A collection of deterministically generated cryptographic public / private key pairs that share a common seed.
   final v1Wallet wallet;
 
-  const v1GetWalletResponse({
-    required this.wallet,
-  });
+  const v1GetWalletResponse({required this.wallet});
 
   factory v1GetWalletResponse.fromJson(Map<String, dynamic> json) {
     final _wallet = v1Wallet.fromJson(json['wallet'] as Map<String, dynamic>);
-    return v1GetWalletResponse(
-      wallet: _wallet,
-    );
+    return v1GetWalletResponse(wallet: _wallet);
   }
 
   Map<String, dynamic> toJson() {
@@ -12553,15 +12236,11 @@ class v1GetWalletsRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1GetWalletsRequest({
-    required this.organizationId,
-  });
+  const v1GetWalletsRequest({required this.organizationId});
 
   factory v1GetWalletsRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetWalletsRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetWalletsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -12575,17 +12254,13 @@ class v1GetWalletsResponse {
   /// A list of wallets.
   final List<v1Wallet> wallets;
 
-  const v1GetWalletsResponse({
-    required this.wallets,
-  });
+  const v1GetWalletsResponse({required this.wallets});
 
   factory v1GetWalletsResponse.fromJson(Map<String, dynamic> json) {
     final _wallets = (json['wallets'] as List)
         .map((e) => v1Wallet.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1GetWalletsResponse(
-      wallets: _wallets,
-    );
+    return v1GetWalletsResponse(wallets: _wallets);
   }
 
   Map<String, dynamic> toJson() {
@@ -12599,15 +12274,11 @@ class v1GetWhoamiRequest {
   /// Unique identifier for a given organization. If the request is being made by a WebAuthN user and their sub-organization ID is unknown, this can be the parent organization ID; using the sub-organization ID when possible is preferred due to performance reasons.
   final String organizationId;
 
-  const v1GetWhoamiRequest({
-    required this.organizationId,
-  });
+  const v1GetWhoamiRequest({required this.organizationId});
 
   factory v1GetWhoamiRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1GetWhoamiRequest(
-      organizationId: _organizationId,
-    );
+    return v1GetWhoamiRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -12707,8 +12378,9 @@ class v1ImportPrivateKeyIntent {
     _json['privateKeyName'] = privateKeyName;
     _json['encryptedBundle'] = encryptedBundle;
     _json['curve'] = v1CurveToJson(curve);
-    _json['addressFormats'] =
-        addressFormats.map((e) => v1AddressFormatToJson(e)).toList();
+    _json['addressFormats'] = addressFormats
+        .map((e) => v1AddressFormatToJson(e))
+        .toList();
     return _json;
   }
 }
@@ -12736,8 +12408,9 @@ class v1ImportPrivateKeyRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1ImportPrivateKeyIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1ImportPrivateKeyIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ImportPrivateKeyRequest(
       type: _type,
@@ -12776,8 +12449,9 @@ class v1ImportPrivateKeyResult {
   factory v1ImportPrivateKeyResult.fromJson(Map<String, dynamic> json) {
     final _privateKeyId = json['privateKeyId'] as String;
     final _addresses = (json['addresses'] as List)
-        .map((e) =>
-            immutableactivityv1Address.fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => immutableactivityv1Address.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     return v1ImportPrivateKeyResult(
       privateKeyId: _privateKeyId,
@@ -12861,8 +12535,9 @@ class v1ImportWalletRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1ImportWalletIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1ImportWalletIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1ImportWalletRequest(
       type: _type,
@@ -12893,19 +12568,14 @@ class v1ImportWalletResult {
   /// A list of account addresses.
   final List<String> addresses;
 
-  const v1ImportWalletResult({
-    required this.walletId,
-    required this.addresses,
-  });
+  const v1ImportWalletResult({required this.walletId, required this.addresses});
 
   factory v1ImportWalletResult.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
-    final _addresses =
-        (json['addresses'] as List).map((e) => e as String).toList();
-    return v1ImportWalletResult(
-      walletId: _walletId,
-      addresses: _addresses,
-    );
+    final _addresses = (json['addresses'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1ImportWalletResult(walletId: _walletId, addresses: _addresses);
   }
 
   Map<String, dynamic> toJson() {
@@ -12965,12 +12635,14 @@ class v1InitFiatOnRampIntent {
   });
 
   factory v1InitFiatOnRampIntent.fromJson(Map<String, dynamic> json) {
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _walletAddress = json['walletAddress'] as String;
     final _network = v1FiatOnRampBlockchainNetworkFromJson(json['network']);
-    final _cryptoCurrencyCode =
-        v1FiatOnRampCryptoCurrencyFromJson(json['cryptoCurrencyCode']);
+    final _cryptoCurrencyCode = v1FiatOnRampCryptoCurrencyFromJson(
+      json['cryptoCurrencyCode'],
+    );
     final _fiatCurrencyCode = json['fiatCurrencyCode'] == null
         ? null
         : v1FiatOnRampCurrencyFromJson(json['fiatCurrencyCode']);
@@ -13002,8 +12674,9 @@ class v1InitFiatOnRampIntent {
     _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
     _json['walletAddress'] = walletAddress;
     _json['network'] = v1FiatOnRampBlockchainNetworkToJson(network);
-    _json['cryptoCurrencyCode'] =
-        v1FiatOnRampCryptoCurrencyToJson(cryptoCurrencyCode);
+    _json['cryptoCurrencyCode'] = v1FiatOnRampCryptoCurrencyToJson(
+      cryptoCurrencyCode,
+    );
     if (fiatCurrencyCode != null) {
       _json['fiatCurrencyCode'] = v1FiatOnRampCurrencyToJson(fiatCurrencyCode!);
     }
@@ -13052,8 +12725,9 @@ class v1InitFiatOnRampRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitFiatOnRampIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitFiatOnRampIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitFiatOnRampRequest(
       type: _type,
@@ -13119,15 +12793,11 @@ class v1InitImportPrivateKeyIntent {
   /// The ID of the User importing a Private Key.
   final String userId;
 
-  const v1InitImportPrivateKeyIntent({
-    required this.userId,
-  });
+  const v1InitImportPrivateKeyIntent({required this.userId});
 
   factory v1InitImportPrivateKeyIntent.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1InitImportPrivateKeyIntent(
-      userId: _userId,
-    );
+    return v1InitImportPrivateKeyIntent(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -13160,8 +12830,9 @@ class v1InitImportPrivateKeyRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitImportPrivateKeyIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitImportPrivateKeyIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitImportPrivateKeyRequest(
       type: _type,
@@ -13189,15 +12860,11 @@ class v1InitImportPrivateKeyResult {
   /// Import bundle containing a public key and signature to use for importing client data.
   final String importBundle;
 
-  const v1InitImportPrivateKeyResult({
-    required this.importBundle,
-  });
+  const v1InitImportPrivateKeyResult({required this.importBundle});
 
   factory v1InitImportPrivateKeyResult.fromJson(Map<String, dynamic> json) {
     final _importBundle = json['importBundle'] as String;
-    return v1InitImportPrivateKeyResult(
-      importBundle: _importBundle,
-    );
+    return v1InitImportPrivateKeyResult(importBundle: _importBundle);
   }
 
   Map<String, dynamic> toJson() {
@@ -13211,15 +12878,11 @@ class v1InitImportWalletIntent {
   /// The ID of the User importing a Wallet.
   final String userId;
 
-  const v1InitImportWalletIntent({
-    required this.userId,
-  });
+  const v1InitImportWalletIntent({required this.userId});
 
   factory v1InitImportWalletIntent.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1InitImportWalletIntent(
-      userId: _userId,
-    );
+    return v1InitImportWalletIntent(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -13252,8 +12915,9 @@ class v1InitImportWalletRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitImportWalletIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitImportWalletIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitImportWalletRequest(
       type: _type,
@@ -13281,15 +12945,11 @@ class v1InitImportWalletResult {
   /// Import bundle containing a public key and signature to use for importing client data.
   final String importBundle;
 
-  const v1InitImportWalletResult({
-    required this.importBundle,
-  });
+  const v1InitImportWalletResult({required this.importBundle});
 
   factory v1InitImportWalletResult.fromJson(Map<String, dynamic> json) {
     final _importBundle = json['importBundle'] as String;
-    return v1InitImportWalletResult(
-      importBundle: _importBundle,
-    );
+    return v1InitImportWalletResult(importBundle: _importBundle);
   }
 
   Map<String, dynamic> toJson() {
@@ -13340,12 +13000,14 @@ class v1InitOtpAuthIntent {
     final _contact = json['contact'] as String;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -13438,12 +13100,14 @@ class v1InitOtpAuthIntentV2 {
     final _otpLength = json['otpLength'] as num?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -13554,12 +13218,14 @@ class v1InitOtpAuthIntentV3 {
     final _appName = json['appName'] as String;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParamsV2
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParamsV2.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -13641,8 +13307,9 @@ class v1InitOtpAuthRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitOtpAuthIntentV3
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitOtpAuthIntentV3.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitOtpAuthRequest(
       type: _type,
@@ -13670,15 +13337,11 @@ class v1InitOtpAuthResult {
   /// Unique identifier for an OTP authentication
   final String otpId;
 
-  const v1InitOtpAuthResult({
-    required this.otpId,
-  });
+  const v1InitOtpAuthResult({required this.otpId});
 
   factory v1InitOtpAuthResult.fromJson(Map<String, dynamic> json) {
     final _otpId = json['otpId'] as String;
-    return v1InitOtpAuthResult(
-      otpId: _otpId,
-    );
+    return v1InitOtpAuthResult(otpId: _otpId);
   }
 
   Map<String, dynamic> toJson() {
@@ -13692,15 +13355,11 @@ class v1InitOtpAuthResultV2 {
   /// Unique identifier for an OTP authentication
   final String otpId;
 
-  const v1InitOtpAuthResultV2({
-    required this.otpId,
-  });
+  const v1InitOtpAuthResultV2({required this.otpId});
 
   factory v1InitOtpAuthResultV2.fromJson(Map<String, dynamic> json) {
     final _otpId = json['otpId'] as String;
-    return v1InitOtpAuthResultV2(
-      otpId: _otpId,
-    );
+    return v1InitOtpAuthResultV2(otpId: _otpId);
   }
 
   Map<String, dynamic> toJson() {
@@ -13764,12 +13423,14 @@ class v1InitOtpIntent {
     final _otpLength = json['otpLength'] as num?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -13885,12 +13546,14 @@ class v1InitOtpIntentV2 {
     final _appName = json['appName'] as String;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParamsV2
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParamsV2.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -14008,12 +13671,14 @@ class v1InitOtpIntentV3 {
     final _otpLength = json['otpLength'] as num?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParamsV2
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParamsV2.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -14095,8 +13760,9 @@ class v1InitOtpRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1InitOtpIntentV3.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitOtpIntentV3.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitOtpRequest(
       type: _type,
@@ -14124,15 +13790,11 @@ class v1InitOtpResult {
   /// Unique identifier for an OTP authentication
   final String otpId;
 
-  const v1InitOtpResult({
-    required this.otpId,
-  });
+  const v1InitOtpResult({required this.otpId});
 
   factory v1InitOtpResult.fromJson(Map<String, dynamic> json) {
     final _otpId = json['otpId'] as String;
-    return v1InitOtpResult(
-      otpId: _otpId,
-    );
+    return v1InitOtpResult(otpId: _otpId);
   }
 
   Map<String, dynamic> toJson() {
@@ -14210,8 +13872,9 @@ class v1InitUserEmailRecoveryIntent {
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
@@ -14285,8 +13948,9 @@ class v1InitUserEmailRecoveryIntentV2 {
     final _email = json['email'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = v1EmailAuthCustomizationParams
-        .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams.fromJson(
+      json['emailCustomization'] as Map<String, dynamic>,
+    );
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
@@ -14345,8 +14009,9 @@ class v1InitUserEmailRecoveryRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1InitUserEmailRecoveryIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1InitUserEmailRecoveryIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1InitUserEmailRecoveryRequest(
       type: _type,
@@ -14374,15 +14039,11 @@ class v1InitUserEmailRecoveryResult {
   /// Unique identifier for the user being recovered.
   final String userId;
 
-  const v1InitUserEmailRecoveryResult({
-    required this.userId,
-  });
+  const v1InitUserEmailRecoveryResult({required this.userId});
 
   factory v1InitUserEmailRecoveryResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1InitUserEmailRecoveryResult(
-      userId: _userId,
-    );
+    return v1InitUserEmailRecoveryResult(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -14486,9 +14147,9 @@ class v1Intent {
   final v1UpdateUserPhoneNumberIntent? updateUserPhoneNumberIntent;
   final v1InitFiatOnRampIntent? initFiatOnRampIntent;
   final v1CreateSmartContractInterfaceIntent?
-      createSmartContractInterfaceIntent;
+  createSmartContractInterfaceIntent;
   final v1DeleteSmartContractInterfaceIntent?
-      deleteSmartContractInterfaceIntent;
+  deleteSmartContractInterfaceIntent;
   final v1EnableAuthProxyIntent? enableAuthProxyIntent;
   final v1DisableAuthProxyIntent? disableAuthProxyIntent;
   final v1UpdateAuthProxyConfigIntent? updateAuthProxyConfigIntent;
@@ -14656,563 +14317,682 @@ class v1Intent {
   factory v1Intent.fromJson(Map<String, dynamic> json) {
     final _createOrganizationIntent = json['createOrganizationIntent'] == null
         ? null
-        : v1CreateOrganizationIntent
-            .fromJson(json['createOrganizationIntent'] as Map<String, dynamic>);
+        : v1CreateOrganizationIntent.fromJson(
+            json['createOrganizationIntent'] as Map<String, dynamic>,
+          );
     final _createAuthenticatorsIntent =
         json['createAuthenticatorsIntent'] == null
-            ? null
-            : v1CreateAuthenticatorsIntent.fromJson(
-                json['createAuthenticatorsIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateAuthenticatorsIntent.fromJson(
+            json['createAuthenticatorsIntent'] as Map<String, dynamic>,
+          );
     final _createUsersIntent = json['createUsersIntent'] == null
         ? null
-        : v1CreateUsersIntent
-            .fromJson(json['createUsersIntent'] as Map<String, dynamic>);
+        : v1CreateUsersIntent.fromJson(
+            json['createUsersIntent'] as Map<String, dynamic>,
+          );
     final _createPrivateKeysIntent = json['createPrivateKeysIntent'] == null
         ? null
-        : v1CreatePrivateKeysIntent
-            .fromJson(json['createPrivateKeysIntent'] as Map<String, dynamic>);
+        : v1CreatePrivateKeysIntent.fromJson(
+            json['createPrivateKeysIntent'] as Map<String, dynamic>,
+          );
     final _signRawPayloadIntent = json['signRawPayloadIntent'] == null
         ? null
-        : v1SignRawPayloadIntent
-            .fromJson(json['signRawPayloadIntent'] as Map<String, dynamic>);
+        : v1SignRawPayloadIntent.fromJson(
+            json['signRawPayloadIntent'] as Map<String, dynamic>,
+          );
     final _createInvitationsIntent = json['createInvitationsIntent'] == null
         ? null
-        : v1CreateInvitationsIntent
-            .fromJson(json['createInvitationsIntent'] as Map<String, dynamic>);
+        : v1CreateInvitationsIntent.fromJson(
+            json['createInvitationsIntent'] as Map<String, dynamic>,
+          );
     final _acceptInvitationIntent = json['acceptInvitationIntent'] == null
         ? null
-        : v1AcceptInvitationIntent
-            .fromJson(json['acceptInvitationIntent'] as Map<String, dynamic>);
+        : v1AcceptInvitationIntent.fromJson(
+            json['acceptInvitationIntent'] as Map<String, dynamic>,
+          );
     final _createPolicyIntent = json['createPolicyIntent'] == null
         ? null
-        : v1CreatePolicyIntent
-            .fromJson(json['createPolicyIntent'] as Map<String, dynamic>);
+        : v1CreatePolicyIntent.fromJson(
+            json['createPolicyIntent'] as Map<String, dynamic>,
+          );
     final _disablePrivateKeyIntent = json['disablePrivateKeyIntent'] == null
         ? null
-        : v1DisablePrivateKeyIntent
-            .fromJson(json['disablePrivateKeyIntent'] as Map<String, dynamic>);
+        : v1DisablePrivateKeyIntent.fromJson(
+            json['disablePrivateKeyIntent'] as Map<String, dynamic>,
+          );
     final _deleteUsersIntent = json['deleteUsersIntent'] == null
         ? null
-        : v1DeleteUsersIntent
-            .fromJson(json['deleteUsersIntent'] as Map<String, dynamic>);
+        : v1DeleteUsersIntent.fromJson(
+            json['deleteUsersIntent'] as Map<String, dynamic>,
+          );
     final _deleteAuthenticatorsIntent =
         json['deleteAuthenticatorsIntent'] == null
-            ? null
-            : v1DeleteAuthenticatorsIntent.fromJson(
-                json['deleteAuthenticatorsIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteAuthenticatorsIntent.fromJson(
+            json['deleteAuthenticatorsIntent'] as Map<String, dynamic>,
+          );
     final _deleteInvitationIntent = json['deleteInvitationIntent'] == null
         ? null
-        : v1DeleteInvitationIntent
-            .fromJson(json['deleteInvitationIntent'] as Map<String, dynamic>);
+        : v1DeleteInvitationIntent.fromJson(
+            json['deleteInvitationIntent'] as Map<String, dynamic>,
+          );
     final _deleteOrganizationIntent = json['deleteOrganizationIntent'] == null
         ? null
-        : v1DeleteOrganizationIntent
-            .fromJson(json['deleteOrganizationIntent'] as Map<String, dynamic>);
+        : v1DeleteOrganizationIntent.fromJson(
+            json['deleteOrganizationIntent'] as Map<String, dynamic>,
+          );
     final _deletePolicyIntent = json['deletePolicyIntent'] == null
         ? null
-        : v1DeletePolicyIntent
-            .fromJson(json['deletePolicyIntent'] as Map<String, dynamic>);
+        : v1DeletePolicyIntent.fromJson(
+            json['deletePolicyIntent'] as Map<String, dynamic>,
+          );
     final _createUserTagIntent = json['createUserTagIntent'] == null
         ? null
-        : v1CreateUserTagIntent
-            .fromJson(json['createUserTagIntent'] as Map<String, dynamic>);
+        : v1CreateUserTagIntent.fromJson(
+            json['createUserTagIntent'] as Map<String, dynamic>,
+          );
     final _deleteUserTagsIntent = json['deleteUserTagsIntent'] == null
         ? null
-        : v1DeleteUserTagsIntent
-            .fromJson(json['deleteUserTagsIntent'] as Map<String, dynamic>);
+        : v1DeleteUserTagsIntent.fromJson(
+            json['deleteUserTagsIntent'] as Map<String, dynamic>,
+          );
     final _signTransactionIntent = json['signTransactionIntent'] == null
         ? null
-        : v1SignTransactionIntent
-            .fromJson(json['signTransactionIntent'] as Map<String, dynamic>);
+        : v1SignTransactionIntent.fromJson(
+            json['signTransactionIntent'] as Map<String, dynamic>,
+          );
     final _createApiKeysIntent = json['createApiKeysIntent'] == null
         ? null
-        : v1CreateApiKeysIntent
-            .fromJson(json['createApiKeysIntent'] as Map<String, dynamic>);
+        : v1CreateApiKeysIntent.fromJson(
+            json['createApiKeysIntent'] as Map<String, dynamic>,
+          );
     final _deleteApiKeysIntent = json['deleteApiKeysIntent'] == null
         ? null
-        : v1DeleteApiKeysIntent
-            .fromJson(json['deleteApiKeysIntent'] as Map<String, dynamic>);
+        : v1DeleteApiKeysIntent.fromJson(
+            json['deleteApiKeysIntent'] as Map<String, dynamic>,
+          );
     final _approveActivityIntent = json['approveActivityIntent'] == null
         ? null
-        : v1ApproveActivityIntent
-            .fromJson(json['approveActivityIntent'] as Map<String, dynamic>);
+        : v1ApproveActivityIntent.fromJson(
+            json['approveActivityIntent'] as Map<String, dynamic>,
+          );
     final _rejectActivityIntent = json['rejectActivityIntent'] == null
         ? null
-        : v1RejectActivityIntent
-            .fromJson(json['rejectActivityIntent'] as Map<String, dynamic>);
+        : v1RejectActivityIntent.fromJson(
+            json['rejectActivityIntent'] as Map<String, dynamic>,
+          );
     final _createPrivateKeyTagIntent = json['createPrivateKeyTagIntent'] == null
         ? null
         : v1CreatePrivateKeyTagIntent.fromJson(
-            json['createPrivateKeyTagIntent'] as Map<String, dynamic>);
+            json['createPrivateKeyTagIntent'] as Map<String, dynamic>,
+          );
     final _deletePrivateKeyTagsIntent =
         json['deletePrivateKeyTagsIntent'] == null
-            ? null
-            : v1DeletePrivateKeyTagsIntent.fromJson(
-                json['deletePrivateKeyTagsIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeletePrivateKeyTagsIntent.fromJson(
+            json['deletePrivateKeyTagsIntent'] as Map<String, dynamic>,
+          );
     final _createPolicyIntentV2 = json['createPolicyIntentV2'] == null
         ? null
-        : v1CreatePolicyIntentV2
-            .fromJson(json['createPolicyIntentV2'] as Map<String, dynamic>);
+        : v1CreatePolicyIntentV2.fromJson(
+            json['createPolicyIntentV2'] as Map<String, dynamic>,
+          );
     final _setPaymentMethodIntent = json['setPaymentMethodIntent'] == null
         ? null
-        : billingSetPaymentMethodIntent
-            .fromJson(json['setPaymentMethodIntent'] as Map<String, dynamic>);
+        : billingSetPaymentMethodIntent.fromJson(
+            json['setPaymentMethodIntent'] as Map<String, dynamic>,
+          );
     final _activateBillingTierIntent = json['activateBillingTierIntent'] == null
         ? null
         : billingActivateBillingTierIntent.fromJson(
-            json['activateBillingTierIntent'] as Map<String, dynamic>);
+            json['activateBillingTierIntent'] as Map<String, dynamic>,
+          );
     final _deletePaymentMethodIntent = json['deletePaymentMethodIntent'] == null
         ? null
         : billingDeletePaymentMethodIntent.fromJson(
-            json['deletePaymentMethodIntent'] as Map<String, dynamic>);
+            json['deletePaymentMethodIntent'] as Map<String, dynamic>,
+          );
     final _createPolicyIntentV3 = json['createPolicyIntentV3'] == null
         ? null
-        : v1CreatePolicyIntentV3
-            .fromJson(json['createPolicyIntentV3'] as Map<String, dynamic>);
+        : v1CreatePolicyIntentV3.fromJson(
+            json['createPolicyIntentV3'] as Map<String, dynamic>,
+          );
     final _createApiOnlyUsersIntent = json['createApiOnlyUsersIntent'] == null
         ? null
-        : v1CreateApiOnlyUsersIntent
-            .fromJson(json['createApiOnlyUsersIntent'] as Map<String, dynamic>);
+        : v1CreateApiOnlyUsersIntent.fromJson(
+            json['createApiOnlyUsersIntent'] as Map<String, dynamic>,
+          );
     final _updateRootQuorumIntent = json['updateRootQuorumIntent'] == null
         ? null
-        : v1UpdateRootQuorumIntent
-            .fromJson(json['updateRootQuorumIntent'] as Map<String, dynamic>);
+        : v1UpdateRootQuorumIntent.fromJson(
+            json['updateRootQuorumIntent'] as Map<String, dynamic>,
+          );
     final _updateUserTagIntent = json['updateUserTagIntent'] == null
         ? null
-        : v1UpdateUserTagIntent
-            .fromJson(json['updateUserTagIntent'] as Map<String, dynamic>);
+        : v1UpdateUserTagIntent.fromJson(
+            json['updateUserTagIntent'] as Map<String, dynamic>,
+          );
     final _updatePrivateKeyTagIntent = json['updatePrivateKeyTagIntent'] == null
         ? null
         : v1UpdatePrivateKeyTagIntent.fromJson(
-            json['updatePrivateKeyTagIntent'] as Map<String, dynamic>);
+            json['updatePrivateKeyTagIntent'] as Map<String, dynamic>,
+          );
     final _createAuthenticatorsIntentV2 =
         json['createAuthenticatorsIntentV2'] == null
-            ? null
-            : v1CreateAuthenticatorsIntentV2.fromJson(
-                json['createAuthenticatorsIntentV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateAuthenticatorsIntentV2.fromJson(
+            json['createAuthenticatorsIntentV2'] as Map<String, dynamic>,
+          );
     final _acceptInvitationIntentV2 = json['acceptInvitationIntentV2'] == null
         ? null
-        : v1AcceptInvitationIntentV2
-            .fromJson(json['acceptInvitationIntentV2'] as Map<String, dynamic>);
+        : v1AcceptInvitationIntentV2.fromJson(
+            json['acceptInvitationIntentV2'] as Map<String, dynamic>,
+          );
     final _createOrganizationIntentV2 =
         json['createOrganizationIntentV2'] == null
-            ? null
-            : v1CreateOrganizationIntentV2.fromJson(
-                json['createOrganizationIntentV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOrganizationIntentV2.fromJson(
+            json['createOrganizationIntentV2'] as Map<String, dynamic>,
+          );
     final _createUsersIntentV2 = json['createUsersIntentV2'] == null
         ? null
-        : v1CreateUsersIntentV2
-            .fromJson(json['createUsersIntentV2'] as Map<String, dynamic>);
+        : v1CreateUsersIntentV2.fromJson(
+            json['createUsersIntentV2'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntent =
         json['createSubOrganizationIntent'] == null
-            ? null
-            : v1CreateSubOrganizationIntent.fromJson(
-                json['createSubOrganizationIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntent.fromJson(
+            json['createSubOrganizationIntent'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV2 =
         json['createSubOrganizationIntentV2'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV2.fromJson(
-                json['createSubOrganizationIntentV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV2.fromJson(
+            json['createSubOrganizationIntentV2'] as Map<String, dynamic>,
+          );
     final _updateAllowedOriginsIntent =
         json['updateAllowedOriginsIntent'] == null
-            ? null
-            : v1UpdateAllowedOriginsIntent.fromJson(
-                json['updateAllowedOriginsIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateAllowedOriginsIntent.fromJson(
+            json['updateAllowedOriginsIntent'] as Map<String, dynamic>,
+          );
     final _createPrivateKeysIntentV2 = json['createPrivateKeysIntentV2'] == null
         ? null
         : v1CreatePrivateKeysIntentV2.fromJson(
-            json['createPrivateKeysIntentV2'] as Map<String, dynamic>);
+            json['createPrivateKeysIntentV2'] as Map<String, dynamic>,
+          );
     final _updateUserIntent = json['updateUserIntent'] == null
         ? null
-        : v1UpdateUserIntent
-            .fromJson(json['updateUserIntent'] as Map<String, dynamic>);
+        : v1UpdateUserIntent.fromJson(
+            json['updateUserIntent'] as Map<String, dynamic>,
+          );
     final _updatePolicyIntent = json['updatePolicyIntent'] == null
         ? null
-        : v1UpdatePolicyIntent
-            .fromJson(json['updatePolicyIntent'] as Map<String, dynamic>);
+        : v1UpdatePolicyIntent.fromJson(
+            json['updatePolicyIntent'] as Map<String, dynamic>,
+          );
     final _setPaymentMethodIntentV2 = json['setPaymentMethodIntentV2'] == null
         ? null
-        : billingSetPaymentMethodIntentV2
-            .fromJson(json['setPaymentMethodIntentV2'] as Map<String, dynamic>);
+        : billingSetPaymentMethodIntentV2.fromJson(
+            json['setPaymentMethodIntentV2'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV3 =
         json['createSubOrganizationIntentV3'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV3.fromJson(
-                json['createSubOrganizationIntentV3'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV3.fromJson(
+            json['createSubOrganizationIntentV3'] as Map<String, dynamic>,
+          );
     final _createWalletIntent = json['createWalletIntent'] == null
         ? null
-        : v1CreateWalletIntent
-            .fromJson(json['createWalletIntent'] as Map<String, dynamic>);
+        : v1CreateWalletIntent.fromJson(
+            json['createWalletIntent'] as Map<String, dynamic>,
+          );
     final _createWalletAccountsIntent =
         json['createWalletAccountsIntent'] == null
-            ? null
-            : v1CreateWalletAccountsIntent.fromJson(
-                json['createWalletAccountsIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateWalletAccountsIntent.fromJson(
+            json['createWalletAccountsIntent'] as Map<String, dynamic>,
+          );
     final _initUserEmailRecoveryIntent =
         json['initUserEmailRecoveryIntent'] == null
-            ? null
-            : v1InitUserEmailRecoveryIntent.fromJson(
-                json['initUserEmailRecoveryIntent'] as Map<String, dynamic>);
+        ? null
+        : v1InitUserEmailRecoveryIntent.fromJson(
+            json['initUserEmailRecoveryIntent'] as Map<String, dynamic>,
+          );
     final _recoverUserIntent = json['recoverUserIntent'] == null
         ? null
-        : v1RecoverUserIntent
-            .fromJson(json['recoverUserIntent'] as Map<String, dynamic>);
+        : v1RecoverUserIntent.fromJson(
+            json['recoverUserIntent'] as Map<String, dynamic>,
+          );
     final _setOrganizationFeatureIntent =
         json['setOrganizationFeatureIntent'] == null
-            ? null
-            : v1SetOrganizationFeatureIntent.fromJson(
-                json['setOrganizationFeatureIntent'] as Map<String, dynamic>);
+        ? null
+        : v1SetOrganizationFeatureIntent.fromJson(
+            json['setOrganizationFeatureIntent'] as Map<String, dynamic>,
+          );
     final _removeOrganizationFeatureIntent =
         json['removeOrganizationFeatureIntent'] == null
-            ? null
-            : v1RemoveOrganizationFeatureIntent.fromJson(
-                json['removeOrganizationFeatureIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1RemoveOrganizationFeatureIntent.fromJson(
+            json['removeOrganizationFeatureIntent'] as Map<String, dynamic>,
+          );
     final _signRawPayloadIntentV2 = json['signRawPayloadIntentV2'] == null
         ? null
-        : v1SignRawPayloadIntentV2
-            .fromJson(json['signRawPayloadIntentV2'] as Map<String, dynamic>);
+        : v1SignRawPayloadIntentV2.fromJson(
+            json['signRawPayloadIntentV2'] as Map<String, dynamic>,
+          );
     final _signTransactionIntentV2 = json['signTransactionIntentV2'] == null
         ? null
-        : v1SignTransactionIntentV2
-            .fromJson(json['signTransactionIntentV2'] as Map<String, dynamic>);
+        : v1SignTransactionIntentV2.fromJson(
+            json['signTransactionIntentV2'] as Map<String, dynamic>,
+          );
     final _exportPrivateKeyIntent = json['exportPrivateKeyIntent'] == null
         ? null
-        : v1ExportPrivateKeyIntent
-            .fromJson(json['exportPrivateKeyIntent'] as Map<String, dynamic>);
+        : v1ExportPrivateKeyIntent.fromJson(
+            json['exportPrivateKeyIntent'] as Map<String, dynamic>,
+          );
     final _exportWalletIntent = json['exportWalletIntent'] == null
         ? null
-        : v1ExportWalletIntent
-            .fromJson(json['exportWalletIntent'] as Map<String, dynamic>);
+        : v1ExportWalletIntent.fromJson(
+            json['exportWalletIntent'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV4 =
         json['createSubOrganizationIntentV4'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV4.fromJson(
-                json['createSubOrganizationIntentV4'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV4.fromJson(
+            json['createSubOrganizationIntentV4'] as Map<String, dynamic>,
+          );
     final _emailAuthIntent = json['emailAuthIntent'] == null
         ? null
-        : v1EmailAuthIntent
-            .fromJson(json['emailAuthIntent'] as Map<String, dynamic>);
+        : v1EmailAuthIntent.fromJson(
+            json['emailAuthIntent'] as Map<String, dynamic>,
+          );
     final _exportWalletAccountIntent = json['exportWalletAccountIntent'] == null
         ? null
         : v1ExportWalletAccountIntent.fromJson(
-            json['exportWalletAccountIntent'] as Map<String, dynamic>);
+            json['exportWalletAccountIntent'] as Map<String, dynamic>,
+          );
     final _initImportWalletIntent = json['initImportWalletIntent'] == null
         ? null
-        : v1InitImportWalletIntent
-            .fromJson(json['initImportWalletIntent'] as Map<String, dynamic>);
+        : v1InitImportWalletIntent.fromJson(
+            json['initImportWalletIntent'] as Map<String, dynamic>,
+          );
     final _importWalletIntent = json['importWalletIntent'] == null
         ? null
-        : v1ImportWalletIntent
-            .fromJson(json['importWalletIntent'] as Map<String, dynamic>);
+        : v1ImportWalletIntent.fromJson(
+            json['importWalletIntent'] as Map<String, dynamic>,
+          );
     final _initImportPrivateKeyIntent =
         json['initImportPrivateKeyIntent'] == null
-            ? null
-            : v1InitImportPrivateKeyIntent.fromJson(
-                json['initImportPrivateKeyIntent'] as Map<String, dynamic>);
+        ? null
+        : v1InitImportPrivateKeyIntent.fromJson(
+            json['initImportPrivateKeyIntent'] as Map<String, dynamic>,
+          );
     final _importPrivateKeyIntent = json['importPrivateKeyIntent'] == null
         ? null
-        : v1ImportPrivateKeyIntent
-            .fromJson(json['importPrivateKeyIntent'] as Map<String, dynamic>);
+        : v1ImportPrivateKeyIntent.fromJson(
+            json['importPrivateKeyIntent'] as Map<String, dynamic>,
+          );
     final _createPoliciesIntent = json['createPoliciesIntent'] == null
         ? null
-        : v1CreatePoliciesIntent
-            .fromJson(json['createPoliciesIntent'] as Map<String, dynamic>);
+        : v1CreatePoliciesIntent.fromJson(
+            json['createPoliciesIntent'] as Map<String, dynamic>,
+          );
     final _signRawPayloadsIntent = json['signRawPayloadsIntent'] == null
         ? null
-        : v1SignRawPayloadsIntent
-            .fromJson(json['signRawPayloadsIntent'] as Map<String, dynamic>);
+        : v1SignRawPayloadsIntent.fromJson(
+            json['signRawPayloadsIntent'] as Map<String, dynamic>,
+          );
     final _createReadOnlySessionIntent =
         json['createReadOnlySessionIntent'] == null
-            ? null
-            : v1CreateReadOnlySessionIntent.fromJson(
-                json['createReadOnlySessionIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateReadOnlySessionIntent.fromJson(
+            json['createReadOnlySessionIntent'] as Map<String, dynamic>,
+          );
     final _createOauthProvidersIntent =
         json['createOauthProvidersIntent'] == null
-            ? null
-            : v1CreateOauthProvidersIntent.fromJson(
-                json['createOauthProvidersIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOauthProvidersIntent.fromJson(
+            json['createOauthProvidersIntent'] as Map<String, dynamic>,
+          );
     final _deleteOauthProvidersIntent =
         json['deleteOauthProvidersIntent'] == null
-            ? null
-            : v1DeleteOauthProvidersIntent.fromJson(
-                json['deleteOauthProvidersIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteOauthProvidersIntent.fromJson(
+            json['deleteOauthProvidersIntent'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV5 =
         json['createSubOrganizationIntentV5'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV5.fromJson(
-                json['createSubOrganizationIntentV5'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV5.fromJson(
+            json['createSubOrganizationIntentV5'] as Map<String, dynamic>,
+          );
     final _oauthIntent = json['oauthIntent'] == null
         ? null
         : v1OauthIntent.fromJson(json['oauthIntent'] as Map<String, dynamic>);
     final _createApiKeysIntentV2 = json['createApiKeysIntentV2'] == null
         ? null
-        : v1CreateApiKeysIntentV2
-            .fromJson(json['createApiKeysIntentV2'] as Map<String, dynamic>);
+        : v1CreateApiKeysIntentV2.fromJson(
+            json['createApiKeysIntentV2'] as Map<String, dynamic>,
+          );
     final _createReadWriteSessionIntent =
         json['createReadWriteSessionIntent'] == null
-            ? null
-            : v1CreateReadWriteSessionIntent.fromJson(
-                json['createReadWriteSessionIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateReadWriteSessionIntent.fromJson(
+            json['createReadWriteSessionIntent'] as Map<String, dynamic>,
+          );
     final _emailAuthIntentV2 = json['emailAuthIntentV2'] == null
         ? null
-        : v1EmailAuthIntentV2
-            .fromJson(json['emailAuthIntentV2'] as Map<String, dynamic>);
+        : v1EmailAuthIntentV2.fromJson(
+            json['emailAuthIntentV2'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV6 =
         json['createSubOrganizationIntentV6'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV6.fromJson(
-                json['createSubOrganizationIntentV6'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV6.fromJson(
+            json['createSubOrganizationIntentV6'] as Map<String, dynamic>,
+          );
     final _deletePrivateKeysIntent = json['deletePrivateKeysIntent'] == null
         ? null
-        : v1DeletePrivateKeysIntent
-            .fromJson(json['deletePrivateKeysIntent'] as Map<String, dynamic>);
+        : v1DeletePrivateKeysIntent.fromJson(
+            json['deletePrivateKeysIntent'] as Map<String, dynamic>,
+          );
     final _deleteWalletsIntent = json['deleteWalletsIntent'] == null
         ? null
-        : v1DeleteWalletsIntent
-            .fromJson(json['deleteWalletsIntent'] as Map<String, dynamic>);
+        : v1DeleteWalletsIntent.fromJson(
+            json['deleteWalletsIntent'] as Map<String, dynamic>,
+          );
     final _createReadWriteSessionIntentV2 =
         json['createReadWriteSessionIntentV2'] == null
-            ? null
-            : v1CreateReadWriteSessionIntentV2.fromJson(
-                json['createReadWriteSessionIntentV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateReadWriteSessionIntentV2.fromJson(
+            json['createReadWriteSessionIntentV2'] as Map<String, dynamic>,
+          );
     final _deleteSubOrganizationIntent =
         json['deleteSubOrganizationIntent'] == null
-            ? null
-            : v1DeleteSubOrganizationIntent.fromJson(
-                json['deleteSubOrganizationIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteSubOrganizationIntent.fromJson(
+            json['deleteSubOrganizationIntent'] as Map<String, dynamic>,
+          );
     final _initOtpAuthIntent = json['initOtpAuthIntent'] == null
         ? null
-        : v1InitOtpAuthIntent
-            .fromJson(json['initOtpAuthIntent'] as Map<String, dynamic>);
+        : v1InitOtpAuthIntent.fromJson(
+            json['initOtpAuthIntent'] as Map<String, dynamic>,
+          );
     final _otpAuthIntent = json['otpAuthIntent'] == null
         ? null
-        : v1OtpAuthIntent
-            .fromJson(json['otpAuthIntent'] as Map<String, dynamic>);
+        : v1OtpAuthIntent.fromJson(
+            json['otpAuthIntent'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV7 =
         json['createSubOrganizationIntentV7'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV7.fromJson(
-                json['createSubOrganizationIntentV7'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV7.fromJson(
+            json['createSubOrganizationIntentV7'] as Map<String, dynamic>,
+          );
     final _updateWalletIntent = json['updateWalletIntent'] == null
         ? null
-        : v1UpdateWalletIntent
-            .fromJson(json['updateWalletIntent'] as Map<String, dynamic>);
+        : v1UpdateWalletIntent.fromJson(
+            json['updateWalletIntent'] as Map<String, dynamic>,
+          );
     final _updatePolicyIntentV2 = json['updatePolicyIntentV2'] == null
         ? null
-        : v1UpdatePolicyIntentV2
-            .fromJson(json['updatePolicyIntentV2'] as Map<String, dynamic>);
+        : v1UpdatePolicyIntentV2.fromJson(
+            json['updatePolicyIntentV2'] as Map<String, dynamic>,
+          );
     final _createUsersIntentV3 = json['createUsersIntentV3'] == null
         ? null
-        : v1CreateUsersIntentV3
-            .fromJson(json['createUsersIntentV3'] as Map<String, dynamic>);
+        : v1CreateUsersIntentV3.fromJson(
+            json['createUsersIntentV3'] as Map<String, dynamic>,
+          );
     final _initOtpAuthIntentV2 = json['initOtpAuthIntentV2'] == null
         ? null
-        : v1InitOtpAuthIntentV2
-            .fromJson(json['initOtpAuthIntentV2'] as Map<String, dynamic>);
+        : v1InitOtpAuthIntentV2.fromJson(
+            json['initOtpAuthIntentV2'] as Map<String, dynamic>,
+          );
     final _initOtpIntent = json['initOtpIntent'] == null
         ? null
-        : v1InitOtpIntent
-            .fromJson(json['initOtpIntent'] as Map<String, dynamic>);
+        : v1InitOtpIntent.fromJson(
+            json['initOtpIntent'] as Map<String, dynamic>,
+          );
     final _verifyOtpIntent = json['verifyOtpIntent'] == null
         ? null
-        : v1VerifyOtpIntent
-            .fromJson(json['verifyOtpIntent'] as Map<String, dynamic>);
+        : v1VerifyOtpIntent.fromJson(
+            json['verifyOtpIntent'] as Map<String, dynamic>,
+          );
     final _otpLoginIntent = json['otpLoginIntent'] == null
         ? null
-        : v1OtpLoginIntent
-            .fromJson(json['otpLoginIntent'] as Map<String, dynamic>);
+        : v1OtpLoginIntent.fromJson(
+            json['otpLoginIntent'] as Map<String, dynamic>,
+          );
     final _stampLoginIntent = json['stampLoginIntent'] == null
         ? null
-        : v1StampLoginIntent
-            .fromJson(json['stampLoginIntent'] as Map<String, dynamic>);
+        : v1StampLoginIntent.fromJson(
+            json['stampLoginIntent'] as Map<String, dynamic>,
+          );
     final _oauthLoginIntent = json['oauthLoginIntent'] == null
         ? null
-        : v1OauthLoginIntent
-            .fromJson(json['oauthLoginIntent'] as Map<String, dynamic>);
+        : v1OauthLoginIntent.fromJson(
+            json['oauthLoginIntent'] as Map<String, dynamic>,
+          );
     final _updateUserNameIntent = json['updateUserNameIntent'] == null
         ? null
-        : v1UpdateUserNameIntent
-            .fromJson(json['updateUserNameIntent'] as Map<String, dynamic>);
+        : v1UpdateUserNameIntent.fromJson(
+            json['updateUserNameIntent'] as Map<String, dynamic>,
+          );
     final _updateUserEmailIntent = json['updateUserEmailIntent'] == null
         ? null
-        : v1UpdateUserEmailIntent
-            .fromJson(json['updateUserEmailIntent'] as Map<String, dynamic>);
+        : v1UpdateUserEmailIntent.fromJson(
+            json['updateUserEmailIntent'] as Map<String, dynamic>,
+          );
     final _updateUserPhoneNumberIntent =
         json['updateUserPhoneNumberIntent'] == null
-            ? null
-            : v1UpdateUserPhoneNumberIntent.fromJson(
-                json['updateUserPhoneNumberIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateUserPhoneNumberIntent.fromJson(
+            json['updateUserPhoneNumberIntent'] as Map<String, dynamic>,
+          );
     final _initFiatOnRampIntent = json['initFiatOnRampIntent'] == null
         ? null
-        : v1InitFiatOnRampIntent
-            .fromJson(json['initFiatOnRampIntent'] as Map<String, dynamic>);
+        : v1InitFiatOnRampIntent.fromJson(
+            json['initFiatOnRampIntent'] as Map<String, dynamic>,
+          );
     final _createSmartContractInterfaceIntent =
         json['createSmartContractInterfaceIntent'] == null
-            ? null
-            : v1CreateSmartContractInterfaceIntent.fromJson(
-                json['createSmartContractInterfaceIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1CreateSmartContractInterfaceIntent.fromJson(
+            json['createSmartContractInterfaceIntent'] as Map<String, dynamic>,
+          );
     final _deleteSmartContractInterfaceIntent =
         json['deleteSmartContractInterfaceIntent'] == null
-            ? null
-            : v1DeleteSmartContractInterfaceIntent.fromJson(
-                json['deleteSmartContractInterfaceIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1DeleteSmartContractInterfaceIntent.fromJson(
+            json['deleteSmartContractInterfaceIntent'] as Map<String, dynamic>,
+          );
     final _enableAuthProxyIntent = json['enableAuthProxyIntent'] == null
         ? null
-        : v1EnableAuthProxyIntent
-            .fromJson(json['enableAuthProxyIntent'] as Map<String, dynamic>);
+        : v1EnableAuthProxyIntent.fromJson(
+            json['enableAuthProxyIntent'] as Map<String, dynamic>,
+          );
     final _disableAuthProxyIntent = json['disableAuthProxyIntent'] == null
         ? null
-        : v1DisableAuthProxyIntent
-            .fromJson(json['disableAuthProxyIntent'] as Map<String, dynamic>);
+        : v1DisableAuthProxyIntent.fromJson(
+            json['disableAuthProxyIntent'] as Map<String, dynamic>,
+          );
     final _updateAuthProxyConfigIntent =
         json['updateAuthProxyConfigIntent'] == null
-            ? null
-            : v1UpdateAuthProxyConfigIntent.fromJson(
-                json['updateAuthProxyConfigIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateAuthProxyConfigIntent.fromJson(
+            json['updateAuthProxyConfigIntent'] as Map<String, dynamic>,
+          );
     final _createOauth2CredentialIntent =
         json['createOauth2CredentialIntent'] == null
-            ? null
-            : v1CreateOauth2CredentialIntent.fromJson(
-                json['createOauth2CredentialIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOauth2CredentialIntent.fromJson(
+            json['createOauth2CredentialIntent'] as Map<String, dynamic>,
+          );
     final _updateOauth2CredentialIntent =
         json['updateOauth2CredentialIntent'] == null
-            ? null
-            : v1UpdateOauth2CredentialIntent.fromJson(
-                json['updateOauth2CredentialIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateOauth2CredentialIntent.fromJson(
+            json['updateOauth2CredentialIntent'] as Map<String, dynamic>,
+          );
     final _deleteOauth2CredentialIntent =
         json['deleteOauth2CredentialIntent'] == null
-            ? null
-            : v1DeleteOauth2CredentialIntent.fromJson(
-                json['deleteOauth2CredentialIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteOauth2CredentialIntent.fromJson(
+            json['deleteOauth2CredentialIntent'] as Map<String, dynamic>,
+          );
     final _oauth2AuthenticateIntent = json['oauth2AuthenticateIntent'] == null
         ? null
-        : v1Oauth2AuthenticateIntent
-            .fromJson(json['oauth2AuthenticateIntent'] as Map<String, dynamic>);
+        : v1Oauth2AuthenticateIntent.fromJson(
+            json['oauth2AuthenticateIntent'] as Map<String, dynamic>,
+          );
     final _deleteWalletAccountsIntent =
         json['deleteWalletAccountsIntent'] == null
-            ? null
-            : v1DeleteWalletAccountsIntent.fromJson(
-                json['deleteWalletAccountsIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteWalletAccountsIntent.fromJson(
+            json['deleteWalletAccountsIntent'] as Map<String, dynamic>,
+          );
     final _deletePoliciesIntent = json['deletePoliciesIntent'] == null
         ? null
-        : v1DeletePoliciesIntent
-            .fromJson(json['deletePoliciesIntent'] as Map<String, dynamic>);
+        : v1DeletePoliciesIntent.fromJson(
+            json['deletePoliciesIntent'] as Map<String, dynamic>,
+          );
     final _ethSendRawTransactionIntent =
         json['ethSendRawTransactionIntent'] == null
-            ? null
-            : v1EthSendRawTransactionIntent.fromJson(
-                json['ethSendRawTransactionIntent'] as Map<String, dynamic>);
+        ? null
+        : v1EthSendRawTransactionIntent.fromJson(
+            json['ethSendRawTransactionIntent'] as Map<String, dynamic>,
+          );
     final _ethSendTransactionIntent = json['ethSendTransactionIntent'] == null
         ? null
-        : v1EthSendTransactionIntent
-            .fromJson(json['ethSendTransactionIntent'] as Map<String, dynamic>);
+        : v1EthSendTransactionIntent.fromJson(
+            json['ethSendTransactionIntent'] as Map<String, dynamic>,
+          );
     final _createFiatOnRampCredentialIntent =
         json['createFiatOnRampCredentialIntent'] == null
-            ? null
-            : v1CreateFiatOnRampCredentialIntent.fromJson(
-                json['createFiatOnRampCredentialIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1CreateFiatOnRampCredentialIntent.fromJson(
+            json['createFiatOnRampCredentialIntent'] as Map<String, dynamic>,
+          );
     final _updateFiatOnRampCredentialIntent =
         json['updateFiatOnRampCredentialIntent'] == null
-            ? null
-            : v1UpdateFiatOnRampCredentialIntent.fromJson(
-                json['updateFiatOnRampCredentialIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1UpdateFiatOnRampCredentialIntent.fromJson(
+            json['updateFiatOnRampCredentialIntent'] as Map<String, dynamic>,
+          );
     final _deleteFiatOnRampCredentialIntent =
         json['deleteFiatOnRampCredentialIntent'] == null
-            ? null
-            : v1DeleteFiatOnRampCredentialIntent.fromJson(
-                json['deleteFiatOnRampCredentialIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1DeleteFiatOnRampCredentialIntent.fromJson(
+            json['deleteFiatOnRampCredentialIntent'] as Map<String, dynamic>,
+          );
     final _emailAuthIntentV3 = json['emailAuthIntentV3'] == null
         ? null
-        : v1EmailAuthIntentV3
-            .fromJson(json['emailAuthIntentV3'] as Map<String, dynamic>);
+        : v1EmailAuthIntentV3.fromJson(
+            json['emailAuthIntentV3'] as Map<String, dynamic>,
+          );
     final _initUserEmailRecoveryIntentV2 =
         json['initUserEmailRecoveryIntentV2'] == null
-            ? null
-            : v1InitUserEmailRecoveryIntentV2.fromJson(
-                json['initUserEmailRecoveryIntentV2'] as Map<String, dynamic>);
+        ? null
+        : v1InitUserEmailRecoveryIntentV2.fromJson(
+            json['initUserEmailRecoveryIntentV2'] as Map<String, dynamic>,
+          );
     final _initOtpIntentV2 = json['initOtpIntentV2'] == null
         ? null
-        : v1InitOtpIntentV2
-            .fromJson(json['initOtpIntentV2'] as Map<String, dynamic>);
+        : v1InitOtpIntentV2.fromJson(
+            json['initOtpIntentV2'] as Map<String, dynamic>,
+          );
     final _initOtpAuthIntentV3 = json['initOtpAuthIntentV3'] == null
         ? null
-        : v1InitOtpAuthIntentV3
-            .fromJson(json['initOtpAuthIntentV3'] as Map<String, dynamic>);
+        : v1InitOtpAuthIntentV3.fromJson(
+            json['initOtpAuthIntentV3'] as Map<String, dynamic>,
+          );
     final _upsertGasUsageConfigIntent =
         json['upsertGasUsageConfigIntent'] == null
-            ? null
-            : v1UpsertGasUsageConfigIntent.fromJson(
-                json['upsertGasUsageConfigIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpsertGasUsageConfigIntent.fromJson(
+            json['upsertGasUsageConfigIntent'] as Map<String, dynamic>,
+          );
     final _createTvcAppIntent = json['createTvcAppIntent'] == null
         ? null
-        : v1CreateTvcAppIntent
-            .fromJson(json['createTvcAppIntent'] as Map<String, dynamic>);
+        : v1CreateTvcAppIntent.fromJson(
+            json['createTvcAppIntent'] as Map<String, dynamic>,
+          );
     final _createTvcDeploymentIntent = json['createTvcDeploymentIntent'] == null
         ? null
         : v1CreateTvcDeploymentIntent.fromJson(
-            json['createTvcDeploymentIntent'] as Map<String, dynamic>);
+            json['createTvcDeploymentIntent'] as Map<String, dynamic>,
+          );
     final _createTvcManifestApprovalsIntent =
         json['createTvcManifestApprovalsIntent'] == null
-            ? null
-            : v1CreateTvcManifestApprovalsIntent.fromJson(
-                json['createTvcManifestApprovalsIntent']
-                    as Map<String, dynamic>);
+        ? null
+        : v1CreateTvcManifestApprovalsIntent.fromJson(
+            json['createTvcManifestApprovalsIntent'] as Map<String, dynamic>,
+          );
     final _solSendTransactionIntent = json['solSendTransactionIntent'] == null
         ? null
-        : v1SolSendTransactionIntent
-            .fromJson(json['solSendTransactionIntent'] as Map<String, dynamic>);
+        : v1SolSendTransactionIntent.fromJson(
+            json['solSendTransactionIntent'] as Map<String, dynamic>,
+          );
     final _initOtpIntentV3 = json['initOtpIntentV3'] == null
         ? null
-        : v1InitOtpIntentV3
-            .fromJson(json['initOtpIntentV3'] as Map<String, dynamic>);
+        : v1InitOtpIntentV3.fromJson(
+            json['initOtpIntentV3'] as Map<String, dynamic>,
+          );
     final _verifyOtpIntentV2 = json['verifyOtpIntentV2'] == null
         ? null
-        : v1VerifyOtpIntentV2
-            .fromJson(json['verifyOtpIntentV2'] as Map<String, dynamic>);
+        : v1VerifyOtpIntentV2.fromJson(
+            json['verifyOtpIntentV2'] as Map<String, dynamic>,
+          );
     final _otpLoginIntentV2 = json['otpLoginIntentV2'] == null
         ? null
-        : v1OtpLoginIntentV2
-            .fromJson(json['otpLoginIntentV2'] as Map<String, dynamic>);
+        : v1OtpLoginIntentV2.fromJson(
+            json['otpLoginIntentV2'] as Map<String, dynamic>,
+          );
     final _updateOrganizationNameIntent =
         json['updateOrganizationNameIntent'] == null
-            ? null
-            : v1UpdateOrganizationNameIntent.fromJson(
-                json['updateOrganizationNameIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateOrganizationNameIntent.fromJson(
+            json['updateOrganizationNameIntent'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationIntentV8 =
         json['createSubOrganizationIntentV8'] == null
-            ? null
-            : v1CreateSubOrganizationIntentV8.fromJson(
-                json['createSubOrganizationIntentV8'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationIntentV8.fromJson(
+            json['createSubOrganizationIntentV8'] as Map<String, dynamic>,
+          );
     final _createOauthProvidersIntentV2 =
         json['createOauthProvidersIntentV2'] == null
-            ? null
-            : v1CreateOauthProvidersIntentV2.fromJson(
-                json['createOauthProvidersIntentV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOauthProvidersIntentV2.fromJson(
+            json['createOauthProvidersIntentV2'] as Map<String, dynamic>,
+          );
     final _createUsersIntentV4 = json['createUsersIntentV4'] == null
         ? null
-        : v1CreateUsersIntentV4
-            .fromJson(json['createUsersIntentV4'] as Map<String, dynamic>);
+        : v1CreateUsersIntentV4.fromJson(
+            json['createUsersIntentV4'] as Map<String, dynamic>,
+          );
     final _createWebhookEndpointIntent =
         json['createWebhookEndpointIntent'] == null
-            ? null
-            : v1CreateWebhookEndpointIntent.fromJson(
-                json['createWebhookEndpointIntent'] as Map<String, dynamic>);
+        ? null
+        : v1CreateWebhookEndpointIntent.fromJson(
+            json['createWebhookEndpointIntent'] as Map<String, dynamic>,
+          );
     final _updateWebhookEndpointIntent =
         json['updateWebhookEndpointIntent'] == null
-            ? null
-            : v1UpdateWebhookEndpointIntent.fromJson(
-                json['updateWebhookEndpointIntent'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateWebhookEndpointIntent.fromJson(
+            json['updateWebhookEndpointIntent'] as Map<String, dynamic>,
+          );
     final _deleteWebhookEndpointIntent =
         json['deleteWebhookEndpointIntent'] == null
-            ? null
-            : v1DeleteWebhookEndpointIntent.fromJson(
-                json['deleteWebhookEndpointIntent'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteWebhookEndpointIntent.fromJson(
+            json['deleteWebhookEndpointIntent'] as Map<String, dynamic>,
+          );
     return v1Intent(
       createOrganizationIntent: _createOrganizationIntent,
       createAuthenticatorsIntent: _createAuthenticatorsIntent,
@@ -15350,8 +15130,8 @@ class v1Intent {
       _json['createOrganizationIntent'] = createOrganizationIntent?.toJson();
     }
     if (createAuthenticatorsIntent != null) {
-      _json['createAuthenticatorsIntent'] =
-          createAuthenticatorsIntent?.toJson();
+      _json['createAuthenticatorsIntent'] = createAuthenticatorsIntent
+          ?.toJson();
     }
     if (createUsersIntent != null) {
       _json['createUsersIntent'] = createUsersIntent?.toJson();
@@ -15378,8 +15158,8 @@ class v1Intent {
       _json['deleteUsersIntent'] = deleteUsersIntent?.toJson();
     }
     if (deleteAuthenticatorsIntent != null) {
-      _json['deleteAuthenticatorsIntent'] =
-          deleteAuthenticatorsIntent?.toJson();
+      _json['deleteAuthenticatorsIntent'] = deleteAuthenticatorsIntent
+          ?.toJson();
     }
     if (deleteInvitationIntent != null) {
       _json['deleteInvitationIntent'] = deleteInvitationIntent?.toJson();
@@ -15415,8 +15195,8 @@ class v1Intent {
       _json['createPrivateKeyTagIntent'] = createPrivateKeyTagIntent?.toJson();
     }
     if (deletePrivateKeyTagsIntent != null) {
-      _json['deletePrivateKeyTagsIntent'] =
-          deletePrivateKeyTagsIntent?.toJson();
+      _json['deletePrivateKeyTagsIntent'] = deletePrivateKeyTagsIntent
+          ?.toJson();
     }
     if (createPolicyIntentV2 != null) {
       _json['createPolicyIntentV2'] = createPolicyIntentV2?.toJson();
@@ -15446,30 +15226,30 @@ class v1Intent {
       _json['updatePrivateKeyTagIntent'] = updatePrivateKeyTagIntent?.toJson();
     }
     if (createAuthenticatorsIntentV2 != null) {
-      _json['createAuthenticatorsIntentV2'] =
-          createAuthenticatorsIntentV2?.toJson();
+      _json['createAuthenticatorsIntentV2'] = createAuthenticatorsIntentV2
+          ?.toJson();
     }
     if (acceptInvitationIntentV2 != null) {
       _json['acceptInvitationIntentV2'] = acceptInvitationIntentV2?.toJson();
     }
     if (createOrganizationIntentV2 != null) {
-      _json['createOrganizationIntentV2'] =
-          createOrganizationIntentV2?.toJson();
+      _json['createOrganizationIntentV2'] = createOrganizationIntentV2
+          ?.toJson();
     }
     if (createUsersIntentV2 != null) {
       _json['createUsersIntentV2'] = createUsersIntentV2?.toJson();
     }
     if (createSubOrganizationIntent != null) {
-      _json['createSubOrganizationIntent'] =
-          createSubOrganizationIntent?.toJson();
+      _json['createSubOrganizationIntent'] = createSubOrganizationIntent
+          ?.toJson();
     }
     if (createSubOrganizationIntentV2 != null) {
-      _json['createSubOrganizationIntentV2'] =
-          createSubOrganizationIntentV2?.toJson();
+      _json['createSubOrganizationIntentV2'] = createSubOrganizationIntentV2
+          ?.toJson();
     }
     if (updateAllowedOriginsIntent != null) {
-      _json['updateAllowedOriginsIntent'] =
-          updateAllowedOriginsIntent?.toJson();
+      _json['updateAllowedOriginsIntent'] = updateAllowedOriginsIntent
+          ?.toJson();
     }
     if (createPrivateKeysIntentV2 != null) {
       _json['createPrivateKeysIntentV2'] = createPrivateKeysIntentV2?.toJson();
@@ -15484,30 +15264,30 @@ class v1Intent {
       _json['setPaymentMethodIntentV2'] = setPaymentMethodIntentV2?.toJson();
     }
     if (createSubOrganizationIntentV3 != null) {
-      _json['createSubOrganizationIntentV3'] =
-          createSubOrganizationIntentV3?.toJson();
+      _json['createSubOrganizationIntentV3'] = createSubOrganizationIntentV3
+          ?.toJson();
     }
     if (createWalletIntent != null) {
       _json['createWalletIntent'] = createWalletIntent?.toJson();
     }
     if (createWalletAccountsIntent != null) {
-      _json['createWalletAccountsIntent'] =
-          createWalletAccountsIntent?.toJson();
+      _json['createWalletAccountsIntent'] = createWalletAccountsIntent
+          ?.toJson();
     }
     if (initUserEmailRecoveryIntent != null) {
-      _json['initUserEmailRecoveryIntent'] =
-          initUserEmailRecoveryIntent?.toJson();
+      _json['initUserEmailRecoveryIntent'] = initUserEmailRecoveryIntent
+          ?.toJson();
     }
     if (recoverUserIntent != null) {
       _json['recoverUserIntent'] = recoverUserIntent?.toJson();
     }
     if (setOrganizationFeatureIntent != null) {
-      _json['setOrganizationFeatureIntent'] =
-          setOrganizationFeatureIntent?.toJson();
+      _json['setOrganizationFeatureIntent'] = setOrganizationFeatureIntent
+          ?.toJson();
     }
     if (removeOrganizationFeatureIntent != null) {
-      _json['removeOrganizationFeatureIntent'] =
-          removeOrganizationFeatureIntent?.toJson();
+      _json['removeOrganizationFeatureIntent'] = removeOrganizationFeatureIntent
+          ?.toJson();
     }
     if (signRawPayloadIntentV2 != null) {
       _json['signRawPayloadIntentV2'] = signRawPayloadIntentV2?.toJson();
@@ -15522,8 +15302,8 @@ class v1Intent {
       _json['exportWalletIntent'] = exportWalletIntent?.toJson();
     }
     if (createSubOrganizationIntentV4 != null) {
-      _json['createSubOrganizationIntentV4'] =
-          createSubOrganizationIntentV4?.toJson();
+      _json['createSubOrganizationIntentV4'] = createSubOrganizationIntentV4
+          ?.toJson();
     }
     if (emailAuthIntent != null) {
       _json['emailAuthIntent'] = emailAuthIntent?.toJson();
@@ -15538,8 +15318,8 @@ class v1Intent {
       _json['importWalletIntent'] = importWalletIntent?.toJson();
     }
     if (initImportPrivateKeyIntent != null) {
-      _json['initImportPrivateKeyIntent'] =
-          initImportPrivateKeyIntent?.toJson();
+      _json['initImportPrivateKeyIntent'] = initImportPrivateKeyIntent
+          ?.toJson();
     }
     if (importPrivateKeyIntent != null) {
       _json['importPrivateKeyIntent'] = importPrivateKeyIntent?.toJson();
@@ -15551,20 +15331,20 @@ class v1Intent {
       _json['signRawPayloadsIntent'] = signRawPayloadsIntent?.toJson();
     }
     if (createReadOnlySessionIntent != null) {
-      _json['createReadOnlySessionIntent'] =
-          createReadOnlySessionIntent?.toJson();
+      _json['createReadOnlySessionIntent'] = createReadOnlySessionIntent
+          ?.toJson();
     }
     if (createOauthProvidersIntent != null) {
-      _json['createOauthProvidersIntent'] =
-          createOauthProvidersIntent?.toJson();
+      _json['createOauthProvidersIntent'] = createOauthProvidersIntent
+          ?.toJson();
     }
     if (deleteOauthProvidersIntent != null) {
-      _json['deleteOauthProvidersIntent'] =
-          deleteOauthProvidersIntent?.toJson();
+      _json['deleteOauthProvidersIntent'] = deleteOauthProvidersIntent
+          ?.toJson();
     }
     if (createSubOrganizationIntentV5 != null) {
-      _json['createSubOrganizationIntentV5'] =
-          createSubOrganizationIntentV5?.toJson();
+      _json['createSubOrganizationIntentV5'] = createSubOrganizationIntentV5
+          ?.toJson();
     }
     if (oauthIntent != null) {
       _json['oauthIntent'] = oauthIntent?.toJson();
@@ -15573,15 +15353,15 @@ class v1Intent {
       _json['createApiKeysIntentV2'] = createApiKeysIntentV2?.toJson();
     }
     if (createReadWriteSessionIntent != null) {
-      _json['createReadWriteSessionIntent'] =
-          createReadWriteSessionIntent?.toJson();
+      _json['createReadWriteSessionIntent'] = createReadWriteSessionIntent
+          ?.toJson();
     }
     if (emailAuthIntentV2 != null) {
       _json['emailAuthIntentV2'] = emailAuthIntentV2?.toJson();
     }
     if (createSubOrganizationIntentV6 != null) {
-      _json['createSubOrganizationIntentV6'] =
-          createSubOrganizationIntentV6?.toJson();
+      _json['createSubOrganizationIntentV6'] = createSubOrganizationIntentV6
+          ?.toJson();
     }
     if (deletePrivateKeysIntent != null) {
       _json['deletePrivateKeysIntent'] = deletePrivateKeysIntent?.toJson();
@@ -15590,12 +15370,12 @@ class v1Intent {
       _json['deleteWalletsIntent'] = deleteWalletsIntent?.toJson();
     }
     if (createReadWriteSessionIntentV2 != null) {
-      _json['createReadWriteSessionIntentV2'] =
-          createReadWriteSessionIntentV2?.toJson();
+      _json['createReadWriteSessionIntentV2'] = createReadWriteSessionIntentV2
+          ?.toJson();
     }
     if (deleteSubOrganizationIntent != null) {
-      _json['deleteSubOrganizationIntent'] =
-          deleteSubOrganizationIntent?.toJson();
+      _json['deleteSubOrganizationIntent'] = deleteSubOrganizationIntent
+          ?.toJson();
     }
     if (initOtpAuthIntent != null) {
       _json['initOtpAuthIntent'] = initOtpAuthIntent?.toJson();
@@ -15604,8 +15384,8 @@ class v1Intent {
       _json['otpAuthIntent'] = otpAuthIntent?.toJson();
     }
     if (createSubOrganizationIntentV7 != null) {
-      _json['createSubOrganizationIntentV7'] =
-          createSubOrganizationIntentV7?.toJson();
+      _json['createSubOrganizationIntentV7'] = createSubOrganizationIntentV7
+          ?.toJson();
     }
     if (updateWalletIntent != null) {
       _json['updateWalletIntent'] = updateWalletIntent?.toJson();
@@ -15641,8 +15421,8 @@ class v1Intent {
       _json['updateUserEmailIntent'] = updateUserEmailIntent?.toJson();
     }
     if (updateUserPhoneNumberIntent != null) {
-      _json['updateUserPhoneNumberIntent'] =
-          updateUserPhoneNumberIntent?.toJson();
+      _json['updateUserPhoneNumberIntent'] = updateUserPhoneNumberIntent
+          ?.toJson();
     }
     if (initFiatOnRampIntent != null) {
       _json['initFiatOnRampIntent'] = initFiatOnRampIntent?.toJson();
@@ -15662,34 +15442,34 @@ class v1Intent {
       _json['disableAuthProxyIntent'] = disableAuthProxyIntent?.toJson();
     }
     if (updateAuthProxyConfigIntent != null) {
-      _json['updateAuthProxyConfigIntent'] =
-          updateAuthProxyConfigIntent?.toJson();
+      _json['updateAuthProxyConfigIntent'] = updateAuthProxyConfigIntent
+          ?.toJson();
     }
     if (createOauth2CredentialIntent != null) {
-      _json['createOauth2CredentialIntent'] =
-          createOauth2CredentialIntent?.toJson();
+      _json['createOauth2CredentialIntent'] = createOauth2CredentialIntent
+          ?.toJson();
     }
     if (updateOauth2CredentialIntent != null) {
-      _json['updateOauth2CredentialIntent'] =
-          updateOauth2CredentialIntent?.toJson();
+      _json['updateOauth2CredentialIntent'] = updateOauth2CredentialIntent
+          ?.toJson();
     }
     if (deleteOauth2CredentialIntent != null) {
-      _json['deleteOauth2CredentialIntent'] =
-          deleteOauth2CredentialIntent?.toJson();
+      _json['deleteOauth2CredentialIntent'] = deleteOauth2CredentialIntent
+          ?.toJson();
     }
     if (oauth2AuthenticateIntent != null) {
       _json['oauth2AuthenticateIntent'] = oauth2AuthenticateIntent?.toJson();
     }
     if (deleteWalletAccountsIntent != null) {
-      _json['deleteWalletAccountsIntent'] =
-          deleteWalletAccountsIntent?.toJson();
+      _json['deleteWalletAccountsIntent'] = deleteWalletAccountsIntent
+          ?.toJson();
     }
     if (deletePoliciesIntent != null) {
       _json['deletePoliciesIntent'] = deletePoliciesIntent?.toJson();
     }
     if (ethSendRawTransactionIntent != null) {
-      _json['ethSendRawTransactionIntent'] =
-          ethSendRawTransactionIntent?.toJson();
+      _json['ethSendRawTransactionIntent'] = ethSendRawTransactionIntent
+          ?.toJson();
     }
     if (ethSendTransactionIntent != null) {
       _json['ethSendTransactionIntent'] = ethSendTransactionIntent?.toJson();
@@ -15710,8 +15490,8 @@ class v1Intent {
       _json['emailAuthIntentV3'] = emailAuthIntentV3?.toJson();
     }
     if (initUserEmailRecoveryIntentV2 != null) {
-      _json['initUserEmailRecoveryIntentV2'] =
-          initUserEmailRecoveryIntentV2?.toJson();
+      _json['initUserEmailRecoveryIntentV2'] = initUserEmailRecoveryIntentV2
+          ?.toJson();
     }
     if (initOtpIntentV2 != null) {
       _json['initOtpIntentV2'] = initOtpIntentV2?.toJson();
@@ -15720,8 +15500,8 @@ class v1Intent {
       _json['initOtpAuthIntentV3'] = initOtpAuthIntentV3?.toJson();
     }
     if (upsertGasUsageConfigIntent != null) {
-      _json['upsertGasUsageConfigIntent'] =
-          upsertGasUsageConfigIntent?.toJson();
+      _json['upsertGasUsageConfigIntent'] = upsertGasUsageConfigIntent
+          ?.toJson();
     }
     if (createTvcAppIntent != null) {
       _json['createTvcAppIntent'] = createTvcAppIntent?.toJson();
@@ -15746,31 +15526,31 @@ class v1Intent {
       _json['otpLoginIntentV2'] = otpLoginIntentV2?.toJson();
     }
     if (updateOrganizationNameIntent != null) {
-      _json['updateOrganizationNameIntent'] =
-          updateOrganizationNameIntent?.toJson();
+      _json['updateOrganizationNameIntent'] = updateOrganizationNameIntent
+          ?.toJson();
     }
     if (createSubOrganizationIntentV8 != null) {
-      _json['createSubOrganizationIntentV8'] =
-          createSubOrganizationIntentV8?.toJson();
+      _json['createSubOrganizationIntentV8'] = createSubOrganizationIntentV8
+          ?.toJson();
     }
     if (createOauthProvidersIntentV2 != null) {
-      _json['createOauthProvidersIntentV2'] =
-          createOauthProvidersIntentV2?.toJson();
+      _json['createOauthProvidersIntentV2'] = createOauthProvidersIntentV2
+          ?.toJson();
     }
     if (createUsersIntentV4 != null) {
       _json['createUsersIntentV4'] = createUsersIntentV4?.toJson();
     }
     if (createWebhookEndpointIntent != null) {
-      _json['createWebhookEndpointIntent'] =
-          createWebhookEndpointIntent?.toJson();
+      _json['createWebhookEndpointIntent'] = createWebhookEndpointIntent
+          ?.toJson();
     }
     if (updateWebhookEndpointIntent != null) {
-      _json['updateWebhookEndpointIntent'] =
-          updateWebhookEndpointIntent?.toJson();
+      _json['updateWebhookEndpointIntent'] = updateWebhookEndpointIntent
+          ?.toJson();
     }
     if (deleteWebhookEndpointIntent != null) {
-      _json['deleteWebhookEndpointIntent'] =
-          deleteWebhookEndpointIntent?.toJson();
+      _json['deleteWebhookEndpointIntent'] = deleteWebhookEndpointIntent
+          ?.toJson();
     }
     return _json;
   }
@@ -15803,8 +15583,9 @@ class v1InvitationParams {
   factory v1InvitationParams.fromJson(Map<String, dynamic> json) {
     final _receiverUserName = json['receiverUserName'] as String;
     final _receiverUserEmail = json['receiverUserEmail'] as String;
-    final _receiverUserTags =
-        (json['receiverUserTags'] as List).map((e) => e as String).toList();
+    final _receiverUserTags = (json['receiverUserTags'] as List)
+        .map((e) => e as String)
+        .toList();
     final _accessType = v1AccessTypeFromJson(json['accessType']);
     final _senderUserId = json['senderUserId'] as String;
     return v1InvitationParams(
@@ -15831,16 +15612,13 @@ class v1ListFiatOnRampCredentialsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1ListFiatOnRampCredentialsRequest({
-    required this.organizationId,
-  });
+  const v1ListFiatOnRampCredentialsRequest({required this.organizationId});
 
   factory v1ListFiatOnRampCredentialsRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _organizationId = json['organizationId'] as String;
-    return v1ListFiatOnRampCredentialsRequest(
-      organizationId: _organizationId,
-    );
+    return v1ListFiatOnRampCredentialsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -15858,7 +15636,8 @@ class v1ListFiatOnRampCredentialsResponse {
   });
 
   factory v1ListFiatOnRampCredentialsResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnRampCredentials = (json['fiatOnRampCredentials'] as List)
         .map((e) => v1FiatOnRampCredential.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -15869,8 +15648,9 @@ class v1ListFiatOnRampCredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['fiatOnRampCredentials'] =
-        fiatOnRampCredentials.map((e) => e.toJson()).toList();
+    _json['fiatOnRampCredentials'] = fiatOnRampCredentials
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -15879,15 +15659,11 @@ class v1ListOauth2CredentialsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1ListOauth2CredentialsRequest({
-    required this.organizationId,
-  });
+  const v1ListOauth2CredentialsRequest({required this.organizationId});
 
   factory v1ListOauth2CredentialsRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1ListOauth2CredentialsRequest(
-      organizationId: _organizationId,
-    );
+    return v1ListOauth2CredentialsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -15900,9 +15676,7 @@ class v1ListOauth2CredentialsRequest {
 class v1ListOauth2CredentialsResponse {
   final List<v1Oauth2Credential> oauth2Credentials;
 
-  const v1ListOauth2CredentialsResponse({
-    required this.oauth2Credentials,
-  });
+  const v1ListOauth2CredentialsResponse({required this.oauth2Credentials});
 
   factory v1ListOauth2CredentialsResponse.fromJson(Map<String, dynamic> json) {
     final _oauth2Credentials = (json['oauth2Credentials'] as List)
@@ -15915,8 +15689,9 @@ class v1ListOauth2CredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['oauth2Credentials'] =
-        oauth2Credentials.map((e) => e.toJson()).toList();
+    _json['oauth2Credentials'] = oauth2Credentials
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -15925,15 +15700,11 @@ class v1ListPrivateKeyTagsRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1ListPrivateKeyTagsRequest({
-    required this.organizationId,
-  });
+  const v1ListPrivateKeyTagsRequest({required this.organizationId});
 
   factory v1ListPrivateKeyTagsRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1ListPrivateKeyTagsRequest(
-      organizationId: _organizationId,
-    );
+    return v1ListPrivateKeyTagsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -15947,17 +15718,13 @@ class v1ListPrivateKeyTagsResponse {
   /// A list of private key tags.
   final List<datav1Tag> privateKeyTags;
 
-  const v1ListPrivateKeyTagsResponse({
-    required this.privateKeyTags,
-  });
+  const v1ListPrivateKeyTagsResponse({required this.privateKeyTags});
 
   factory v1ListPrivateKeyTagsResponse.fromJson(Map<String, dynamic> json) {
     final _privateKeyTags = (json['privateKeyTags'] as List)
         .map((e) => datav1Tag.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1ListPrivateKeyTagsResponse(
-      privateKeyTags: _privateKeyTags,
-    );
+    return v1ListPrivateKeyTagsResponse(privateKeyTags: _privateKeyTags);
   }
 
   Map<String, dynamic> toJson() {
@@ -16000,17 +15767,13 @@ class v1ListSupportedAssetsResponse {
   /// List of asset metadata
   final List<v1AssetMetadata>? assets;
 
-  const v1ListSupportedAssetsResponse({
-    this.assets,
-  });
+  const v1ListSupportedAssetsResponse({this.assets});
 
   factory v1ListSupportedAssetsResponse.fromJson(Map<String, dynamic> json) {
     final _assets = (json['assets'] as List?)
         ?.map((e) => v1AssetMetadata.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1ListSupportedAssetsResponse(
-      assets: _assets,
-    );
+    return v1ListSupportedAssetsResponse(assets: _assets);
   }
 
   Map<String, dynamic> toJson() {
@@ -16026,15 +15789,11 @@ class v1ListUserTagsRequest {
   /// Unique identifier for a given organization.
   final String organizationId;
 
-  const v1ListUserTagsRequest({
-    required this.organizationId,
-  });
+  const v1ListUserTagsRequest({required this.organizationId});
 
   factory v1ListUserTagsRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1ListUserTagsRequest(
-      organizationId: _organizationId,
-    );
+    return v1ListUserTagsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -16048,17 +15807,13 @@ class v1ListUserTagsResponse {
   /// A list of user tags.
   final List<datav1Tag> userTags;
 
-  const v1ListUserTagsResponse({
-    required this.userTags,
-  });
+  const v1ListUserTagsResponse({required this.userTags});
 
   factory v1ListUserTagsResponse.fromJson(Map<String, dynamic> json) {
     final _userTags = (json['userTags'] as List)
         .map((e) => datav1Tag.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1ListUserTagsResponse(
-      userTags: _userTags,
-    );
+    return v1ListUserTagsResponse(userTags: _userTags);
   }
 
   Map<String, dynamic> toJson() {
@@ -16072,15 +15827,11 @@ class v1ListWebhookEndpointsRequest {
   /// Unique identifier for a given Organization.
   final String organizationId;
 
-  const v1ListWebhookEndpointsRequest({
-    required this.organizationId,
-  });
+  const v1ListWebhookEndpointsRequest({required this.organizationId});
 
   factory v1ListWebhookEndpointsRequest.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String;
-    return v1ListWebhookEndpointsRequest(
-      organizationId: _organizationId,
-    );
+    return v1ListWebhookEndpointsRequest(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -16093,23 +15844,20 @@ class v1ListWebhookEndpointsRequest {
 class v1ListWebhookEndpointsResponse {
   final List<v1WebhookEndpointData> webhookEndpoints;
 
-  const v1ListWebhookEndpointsResponse({
-    required this.webhookEndpoints,
-  });
+  const v1ListWebhookEndpointsResponse({required this.webhookEndpoints});
 
   factory v1ListWebhookEndpointsResponse.fromJson(Map<String, dynamic> json) {
     final _webhookEndpoints = (json['webhookEndpoints'] as List)
         .map((e) => v1WebhookEndpointData.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1ListWebhookEndpointsResponse(
-      webhookEndpoints: _webhookEndpoints,
-    );
+    return v1ListWebhookEndpointsResponse(webhookEndpoints: _webhookEndpoints);
   }
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['webhookEndpoints'] =
-        webhookEndpoints.map((e) => e.toJson()).toList();
+    _json['webhookEndpoints'] = webhookEndpoints
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -16118,15 +15866,11 @@ class v1LoginUsage {
   /// Public key for authentication
   final String publicKey;
 
-  const v1LoginUsage({
-    required this.publicKey,
-  });
+  const v1LoginUsage({required this.publicKey});
 
   factory v1LoginUsage.fromJson(Map<String, dynamic> json) {
     final _publicKey = json['publicKey'] as String;
-    return v1LoginUsage(
-      publicKey: _publicKey,
-    );
+    return v1LoginUsage(publicKey: _publicKey);
   }
 
   Map<String, dynamic> toJson() {
@@ -16140,21 +15884,16 @@ class v1NOOPCodegenAnchorResponse {
   final v1WebAuthnStamp stamp;
   final v1TokenUsage? tokenUsage;
 
-  const v1NOOPCodegenAnchorResponse({
-    required this.stamp,
-    this.tokenUsage,
-  });
+  const v1NOOPCodegenAnchorResponse({required this.stamp, this.tokenUsage});
 
   factory v1NOOPCodegenAnchorResponse.fromJson(Map<String, dynamic> json) {
-    final _stamp =
-        v1WebAuthnStamp.fromJson(json['stamp'] as Map<String, dynamic>);
+    final _stamp = v1WebAuthnStamp.fromJson(
+      json['stamp'] as Map<String, dynamic>,
+    );
     final _tokenUsage = json['tokenUsage'] == null
         ? null
         : v1TokenUsage.fromJson(json['tokenUsage'] as Map<String, dynamic>);
-    return v1NOOPCodegenAnchorResponse(
-      stamp: _stamp,
-      tokenUsage: _tokenUsage,
-    );
+    return v1NOOPCodegenAnchorResponse(stamp: _stamp, tokenUsage: _tokenUsage);
   }
 
   Map<String, dynamic> toJson() {
@@ -16177,11 +15916,7 @@ class v1NativeRevertError {
   /// The panic code for Panic(uint256) reverts.
   final String? panicCode;
 
-  const v1NativeRevertError({
-    this.nativeType,
-    this.message,
-    this.panicCode,
-  });
+  const v1NativeRevertError({this.nativeType, this.message, this.panicCode});
 
   factory v1NativeRevertError.fromJson(Map<String, dynamic> json) {
     final _nativeType = json['nativeType'] as String?;
@@ -16294,8 +16029,9 @@ class v1Oauth2AuthenticateRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1Oauth2AuthenticateIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1Oauth2AuthenticateIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1Oauth2AuthenticateRequest(
       type: _type,
@@ -16323,15 +16059,11 @@ class v1Oauth2AuthenticateResult {
   /// Base64 encoded OIDC token issued by Turnkey to be used with the LoginWithOAuth activity
   final String oidcToken;
 
-  const v1Oauth2AuthenticateResult({
-    required this.oidcToken,
-  });
+  const v1Oauth2AuthenticateResult({required this.oidcToken});
 
   factory v1Oauth2AuthenticateResult.fromJson(Map<String, dynamic> json) {
     final _oidcToken = json['oidcToken'] as String;
-    return v1Oauth2AuthenticateResult(
-      oidcToken: _oidcToken,
-    );
+    return v1Oauth2AuthenticateResult(oidcToken: _oidcToken);
   }
 
   Map<String, dynamic> toJson() {
@@ -16375,10 +16107,12 @@ class v1Oauth2Credential {
     final _provider = v1Oauth2ProviderFromJson(json['provider']);
     final _clientId = json['clientId'] as String;
     final _encryptedClientSecret = json['encryptedClientSecret'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return v1Oauth2Credential(
       oauth2CredentialId: _oauth2CredentialId,
       organizationId: _organizationId,
@@ -16529,8 +16263,9 @@ class v1OauthLoginRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1OauthLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1OauthLoginIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OauthLoginRequest(
       type: _type,
@@ -16558,15 +16293,11 @@ class v1OauthLoginResult {
   /// Signed JWT containing an expiry, public key, session type, user id, and organization id
   final String session;
 
-  const v1OauthLoginResult({
-    required this.session,
-  });
+  const v1OauthLoginResult({required this.session});
 
   factory v1OauthLoginResult.fromJson(Map<String, dynamic> json) {
     final _session = json['session'] as String;
-    return v1OauthLoginResult(
-      session: _session,
-    );
+    return v1OauthLoginResult(session: _session);
   }
 
   Map<String, dynamic> toJson() {
@@ -16610,10 +16341,12 @@ class v1OauthProvider {
     final _issuer = json['issuer'] as String;
     final _audience = json['audience'] as String;
     final _subject = json['subject'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return v1OauthProvider(
       providerId: _providerId,
       providerName: _providerName,
@@ -16697,12 +16430,14 @@ class v1OauthProviderParamsV2 {
     if (json['oidcClaims'] != null) {
       return v1OauthProviderParamsV2.oidcClaims(
         providerName: json['providerName'] as String,
-        oidcClaims:
-            v1OidcClaims.fromJson(json['oidcClaims'] as Map<String, dynamic>),
+        oidcClaims: v1OidcClaims.fromJson(
+          json['oidcClaims'] as Map<String, dynamic>,
+        ),
       );
     }
     throw ArgumentError(
-        'v1OauthProviderParamsV2: none of the oneOf fields (oidcToken, oidcClaims) are present in json');
+      'v1OauthProviderParamsV2: none of the oneOf fields (oidcToken, oidcClaims) are present in json',
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -16741,8 +16476,9 @@ class v1OauthRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1OauthIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1OauthIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OauthRequest(
       type: _type,
@@ -16812,21 +16548,13 @@ class v1OidcClaims {
   /// The audience from the OIDC token (aud claim)
   final String aud;
 
-  const v1OidcClaims({
-    required this.iss,
-    required this.sub,
-    required this.aud,
-  });
+  const v1OidcClaims({required this.iss, required this.sub, required this.aud});
 
   factory v1OidcClaims.fromJson(Map<String, dynamic> json) {
     final _iss = json['iss'] as String;
     final _sub = json['sub'] as String;
     final _aud = json['aud'] as String;
-    return v1OidcClaims(
-      iss: _iss,
-      sub: _sub,
-      aud: _aud,
-    );
+    return v1OidcClaims(iss: _iss, sub: _sub, aud: _aud);
   }
 
   Map<String, dynamic> toJson() {
@@ -16924,8 +16652,9 @@ class v1OtpAuthRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1OtpAuthIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1OtpAuthIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OtpAuthRequest(
       type: _type,
@@ -17020,8 +16749,9 @@ class v1OtpLoginIntent {
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return v1OtpLoginIntent(
       verificationToken: _verificationToken,
       publicKey: _publicKey,
@@ -17075,8 +16805,9 @@ class v1OtpLoginIntentV2 {
   factory v1OtpLoginIntentV2.fromJson(Map<String, dynamic> json) {
     final _verificationToken = json['verificationToken'] as String;
     final _publicKey = json['publicKey'] as String;
-    final _clientSignature = v1ClientSignature
-        .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    final _clientSignature = v1ClientSignature.fromJson(
+      json['clientSignature'] as Map<String, dynamic>,
+    );
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     return v1OtpLoginIntentV2(
@@ -17126,8 +16857,9 @@ class v1OtpLoginRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1OtpLoginIntentV2.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1OtpLoginIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1OtpLoginRequest(
       type: _type,
@@ -17155,15 +16887,11 @@ class v1OtpLoginResult {
   /// Signed JWT containing an expiry, public key, session type, user id, and organization id
   final String session;
 
-  const v1OtpLoginResult({
-    required this.session,
-  });
+  const v1OtpLoginResult({required this.session});
 
   factory v1OtpLoginResult.fromJson(Map<String, dynamic> json) {
     final _session = json['session'] as String;
-    return v1OtpLoginResult(
-      session: _session,
-    );
+    return v1OtpLoginResult(session: _session);
   }
 
   Map<String, dynamic> toJson() {
@@ -17183,21 +16911,13 @@ class v1Pagination {
   /// A pagination cursor. This is an object ID that enables you to fetch all objects after this ID.
   final String? after;
 
-  const v1Pagination({
-    this.limit,
-    this.before,
-    this.after,
-  });
+  const v1Pagination({this.limit, this.before, this.after});
 
   factory v1Pagination.fromJson(Map<String, dynamic> json) {
     final _limit = json['limit'] as String?;
     final _before = json['before'] as String?;
     final _after = json['after'] as String?;
-    return v1Pagination(
-      limit: _limit,
-      before: _before,
-      after: _after,
-    );
+    return v1Pagination(limit: _limit, before: _before, after: _after);
   }
 
   Map<String, dynamic> toJson() {
@@ -17251,10 +16971,12 @@ class v1Policy {
     final _policyId = json['policyId'] as String;
     final _policyName = json['policyName'] as String;
     final _effect = v1EffectFromJson(json['effect']);
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     final _notes = json['notes'] as String;
     final _consensus = json['consensus'] as String;
     final _condition = json['condition'] as String;
@@ -17332,12 +17054,15 @@ class v1PrivateKey {
     final _addresses = (json['addresses'] as List)
         .map((e) => externaldatav1Address.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _privateKeyTags =
-        (json['privateKeyTags'] as List).map((e) => e as String).toList();
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _privateKeyTags = (json['privateKeyTags'] as List)
+        .map((e) => e as String)
+        .toList();
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     final _exported = json['exported'] as bool;
     final _imported = json['imported'] as bool;
     return v1PrivateKey(
@@ -17393,8 +17118,9 @@ class v1PrivateKeyParams {
   factory v1PrivateKeyParams.fromJson(Map<String, dynamic> json) {
     final _privateKeyName = json['privateKeyName'] as String;
     final _curve = v1CurveFromJson(json['curve']);
-    final _privateKeyTags =
-        (json['privateKeyTags'] as List).map((e) => e as String).toList();
+    final _privateKeyTags = (json['privateKeyTags'] as List)
+        .map((e) => e as String)
+        .toList();
     final _addressFormats = (json['addressFormats'] as List)
         .map((e) => v1AddressFormatFromJson(e))
         .toList();
@@ -17411,8 +17137,9 @@ class v1PrivateKeyParams {
     _json['privateKeyName'] = privateKeyName;
     _json['curve'] = v1CurveToJson(curve);
     _json['privateKeyTags'] = privateKeyTags;
-    _json['addressFormats'] =
-        addressFormats.map((e) => v1AddressFormatToJson(e)).toList();
+    _json['addressFormats'] = addressFormats
+        .map((e) => v1AddressFormatToJson(e))
+        .toList();
     return _json;
   }
 }
@@ -17421,16 +17148,14 @@ class v1PrivateKeyResult {
   final String? privateKeyId;
   final List<immutableactivityv1Address>? addresses;
 
-  const v1PrivateKeyResult({
-    this.privateKeyId,
-    this.addresses,
-  });
+  const v1PrivateKeyResult({this.privateKeyId, this.addresses});
 
   factory v1PrivateKeyResult.fromJson(Map<String, dynamic> json) {
     final _privateKeyId = json['privateKeyId'] as String?;
     final _addresses = (json['addresses'] as List?)
-        ?.map((e) =>
-            immutableactivityv1Address.fromJson(e as Map<String, dynamic>))
+        ?.map(
+          (e) => immutableactivityv1Address.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     return v1PrivateKeyResult(
       privateKeyId: _privateKeyId,
@@ -17468,15 +17193,18 @@ class v1PublicKeyCredentialWithAttestation {
   });
 
   factory v1PublicKeyCredentialWithAttestation.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _id = json['id'] as String;
     final _type = json['type'] as String;
     final _rawId = json['rawId'] as String;
     final _authenticatorAttachment = json['authenticatorAttachment'] as String?;
-    final _response = v1AuthenticatorAttestationResponse
-        .fromJson(json['response'] as Map<String, dynamic>);
-    final _clientExtensionResults = v1SimpleClientExtensionResults
-        .fromJson(json['clientExtensionResults'] as Map<String, dynamic>);
+    final _response = v1AuthenticatorAttestationResponse.fromJson(
+      json['response'] as Map<String, dynamic>,
+    );
+    final _clientExtensionResults = v1SimpleClientExtensionResults.fromJson(
+      json['clientExtensionResults'] as Map<String, dynamic>,
+    );
     return v1PublicKeyCredentialWithAttestation(
       id: _id,
       type: _type,
@@ -17514,13 +17242,11 @@ class v1RecoverUserIntent {
   });
 
   factory v1RecoverUserIntent.fromJson(Map<String, dynamic> json) {
-    final _authenticator = v1AuthenticatorParamsV2
-        .fromJson(json['authenticator'] as Map<String, dynamic>);
-    final _userId = json['userId'] as String;
-    return v1RecoverUserIntent(
-      authenticator: _authenticator,
-      userId: _userId,
+    final _authenticator = v1AuthenticatorParamsV2.fromJson(
+      json['authenticator'] as Map<String, dynamic>,
     );
+    final _userId = json['userId'] as String;
+    return v1RecoverUserIntent(authenticator: _authenticator, userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -17554,8 +17280,9 @@ class v1RecoverUserRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1RecoverUserIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1RecoverUserIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1RecoverUserRequest(
       type: _type,
@@ -17583,16 +17310,13 @@ class v1RecoverUserResult {
   /// ID of the authenticator created.
   final List<String> authenticatorId;
 
-  const v1RecoverUserResult({
-    required this.authenticatorId,
-  });
+  const v1RecoverUserResult({required this.authenticatorId});
 
   factory v1RecoverUserResult.fromJson(Map<String, dynamic> json) {
-    final _authenticatorId =
-        (json['authenticatorId'] as List).map((e) => e as String).toList();
-    return v1RecoverUserResult(
-      authenticatorId: _authenticatorId,
-    );
+    final _authenticatorId = (json['authenticatorId'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1RecoverUserResult(authenticatorId: _authenticatorId);
   }
 
   Map<String, dynamic> toJson() {
@@ -17606,15 +17330,11 @@ class v1RejectActivityIntent {
   /// An artifact verifying a User's action.
   final String fingerprint;
 
-  const v1RejectActivityIntent({
-    required this.fingerprint,
-  });
+  const v1RejectActivityIntent({required this.fingerprint});
 
   factory v1RejectActivityIntent.fromJson(Map<String, dynamic> json) {
     final _fingerprint = json['fingerprint'] as String;
-    return v1RejectActivityIntent(
-      fingerprint: _fingerprint,
-    );
+    return v1RejectActivityIntent(fingerprint: _fingerprint);
   }
 
   Map<String, dynamic> toJson() {
@@ -17647,8 +17367,9 @@ class v1RejectActivityRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1RejectActivityIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1RejectActivityIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1RejectActivityRequest(
       type: _type,
@@ -17676,16 +17397,13 @@ class v1RemoveOrganizationFeatureIntent {
   /// Name of the feature to remove
   final v1FeatureName name;
 
-  const v1RemoveOrganizationFeatureIntent({
-    required this.name,
-  });
+  const v1RemoveOrganizationFeatureIntent({required this.name});
 
   factory v1RemoveOrganizationFeatureIntent.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _name = v1FeatureNameFromJson(json['name']);
-    return v1RemoveOrganizationFeatureIntent(
-      name: _name,
-    );
+    return v1RemoveOrganizationFeatureIntent(name: _name);
   }
 
   Map<String, dynamic> toJson() {
@@ -17715,12 +17433,14 @@ class v1RemoveOrganizationFeatureRequest {
   });
 
   factory v1RemoveOrganizationFeatureRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1RemoveOrganizationFeatureIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1RemoveOrganizationFeatureIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1RemoveOrganizationFeatureRequest(
       type: _type,
@@ -17748,18 +17468,15 @@ class v1RemoveOrganizationFeatureResult {
   /// Resulting list of organization features.
   final List<v1Feature> features;
 
-  const v1RemoveOrganizationFeatureResult({
-    required this.features,
-  });
+  const v1RemoveOrganizationFeatureResult({required this.features});
 
   factory v1RemoveOrganizationFeatureResult.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _features = (json['features'] as List)
         .map((e) => v1Feature.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1RemoveOrganizationFeatureResult(
-      features: _features,
-    );
+    return v1RemoveOrganizationFeatureResult(features: _features);
   }
 
   Map<String, dynamic> toJson() {
@@ -17848,9 +17565,9 @@ class v1Result {
   final v1UpdateUserPhoneNumberResult? updateUserPhoneNumberResult;
   final v1InitFiatOnRampResult? initFiatOnRampResult;
   final v1CreateSmartContractInterfaceResult?
-      createSmartContractInterfaceResult;
+  createSmartContractInterfaceResult;
   final v1DeleteSmartContractInterfaceResult?
-      deleteSmartContractInterfaceResult;
+  deleteSmartContractInterfaceResult;
   final v1EnableAuthProxyResult? enableAuthProxyResult;
   final v1DisableAuthProxyResult? disableAuthProxyResult;
   final v1UpdateAuthProxyConfigResult? updateAuthProxyConfigResult;
@@ -17989,471 +17706,568 @@ class v1Result {
   factory v1Result.fromJson(Map<String, dynamic> json) {
     final _createOrganizationResult = json['createOrganizationResult'] == null
         ? null
-        : v1CreateOrganizationResult
-            .fromJson(json['createOrganizationResult'] as Map<String, dynamic>);
+        : v1CreateOrganizationResult.fromJson(
+            json['createOrganizationResult'] as Map<String, dynamic>,
+          );
     final _createAuthenticatorsResult =
         json['createAuthenticatorsResult'] == null
-            ? null
-            : v1CreateAuthenticatorsResult.fromJson(
-                json['createAuthenticatorsResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateAuthenticatorsResult.fromJson(
+            json['createAuthenticatorsResult'] as Map<String, dynamic>,
+          );
     final _createUsersResult = json['createUsersResult'] == null
         ? null
-        : v1CreateUsersResult
-            .fromJson(json['createUsersResult'] as Map<String, dynamic>);
+        : v1CreateUsersResult.fromJson(
+            json['createUsersResult'] as Map<String, dynamic>,
+          );
     final _createPrivateKeysResult = json['createPrivateKeysResult'] == null
         ? null
-        : v1CreatePrivateKeysResult
-            .fromJson(json['createPrivateKeysResult'] as Map<String, dynamic>);
+        : v1CreatePrivateKeysResult.fromJson(
+            json['createPrivateKeysResult'] as Map<String, dynamic>,
+          );
     final _createInvitationsResult = json['createInvitationsResult'] == null
         ? null
-        : v1CreateInvitationsResult
-            .fromJson(json['createInvitationsResult'] as Map<String, dynamic>);
+        : v1CreateInvitationsResult.fromJson(
+            json['createInvitationsResult'] as Map<String, dynamic>,
+          );
     final _acceptInvitationResult = json['acceptInvitationResult'] == null
         ? null
-        : v1AcceptInvitationResult
-            .fromJson(json['acceptInvitationResult'] as Map<String, dynamic>);
+        : v1AcceptInvitationResult.fromJson(
+            json['acceptInvitationResult'] as Map<String, dynamic>,
+          );
     final _signRawPayloadResult = json['signRawPayloadResult'] == null
         ? null
-        : v1SignRawPayloadResult
-            .fromJson(json['signRawPayloadResult'] as Map<String, dynamic>);
+        : v1SignRawPayloadResult.fromJson(
+            json['signRawPayloadResult'] as Map<String, dynamic>,
+          );
     final _createPolicyResult = json['createPolicyResult'] == null
         ? null
-        : v1CreatePolicyResult
-            .fromJson(json['createPolicyResult'] as Map<String, dynamic>);
+        : v1CreatePolicyResult.fromJson(
+            json['createPolicyResult'] as Map<String, dynamic>,
+          );
     final _disablePrivateKeyResult = json['disablePrivateKeyResult'] == null
         ? null
-        : v1DisablePrivateKeyResult
-            .fromJson(json['disablePrivateKeyResult'] as Map<String, dynamic>);
+        : v1DisablePrivateKeyResult.fromJson(
+            json['disablePrivateKeyResult'] as Map<String, dynamic>,
+          );
     final _deleteUsersResult = json['deleteUsersResult'] == null
         ? null
-        : v1DeleteUsersResult
-            .fromJson(json['deleteUsersResult'] as Map<String, dynamic>);
+        : v1DeleteUsersResult.fromJson(
+            json['deleteUsersResult'] as Map<String, dynamic>,
+          );
     final _deleteAuthenticatorsResult =
         json['deleteAuthenticatorsResult'] == null
-            ? null
-            : v1DeleteAuthenticatorsResult.fromJson(
-                json['deleteAuthenticatorsResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteAuthenticatorsResult.fromJson(
+            json['deleteAuthenticatorsResult'] as Map<String, dynamic>,
+          );
     final _deleteInvitationResult = json['deleteInvitationResult'] == null
         ? null
-        : v1DeleteInvitationResult
-            .fromJson(json['deleteInvitationResult'] as Map<String, dynamic>);
+        : v1DeleteInvitationResult.fromJson(
+            json['deleteInvitationResult'] as Map<String, dynamic>,
+          );
     final _deleteOrganizationResult = json['deleteOrganizationResult'] == null
         ? null
-        : v1DeleteOrganizationResult
-            .fromJson(json['deleteOrganizationResult'] as Map<String, dynamic>);
+        : v1DeleteOrganizationResult.fromJson(
+            json['deleteOrganizationResult'] as Map<String, dynamic>,
+          );
     final _deletePolicyResult = json['deletePolicyResult'] == null
         ? null
-        : v1DeletePolicyResult
-            .fromJson(json['deletePolicyResult'] as Map<String, dynamic>);
+        : v1DeletePolicyResult.fromJson(
+            json['deletePolicyResult'] as Map<String, dynamic>,
+          );
     final _createUserTagResult = json['createUserTagResult'] == null
         ? null
-        : v1CreateUserTagResult
-            .fromJson(json['createUserTagResult'] as Map<String, dynamic>);
+        : v1CreateUserTagResult.fromJson(
+            json['createUserTagResult'] as Map<String, dynamic>,
+          );
     final _deleteUserTagsResult = json['deleteUserTagsResult'] == null
         ? null
-        : v1DeleteUserTagsResult
-            .fromJson(json['deleteUserTagsResult'] as Map<String, dynamic>);
+        : v1DeleteUserTagsResult.fromJson(
+            json['deleteUserTagsResult'] as Map<String, dynamic>,
+          );
     final _signTransactionResult = json['signTransactionResult'] == null
         ? null
-        : v1SignTransactionResult
-            .fromJson(json['signTransactionResult'] as Map<String, dynamic>);
+        : v1SignTransactionResult.fromJson(
+            json['signTransactionResult'] as Map<String, dynamic>,
+          );
     final _deleteApiKeysResult = json['deleteApiKeysResult'] == null
         ? null
-        : v1DeleteApiKeysResult
-            .fromJson(json['deleteApiKeysResult'] as Map<String, dynamic>);
+        : v1DeleteApiKeysResult.fromJson(
+            json['deleteApiKeysResult'] as Map<String, dynamic>,
+          );
     final _createApiKeysResult = json['createApiKeysResult'] == null
         ? null
-        : v1CreateApiKeysResult
-            .fromJson(json['createApiKeysResult'] as Map<String, dynamic>);
+        : v1CreateApiKeysResult.fromJson(
+            json['createApiKeysResult'] as Map<String, dynamic>,
+          );
     final _createPrivateKeyTagResult = json['createPrivateKeyTagResult'] == null
         ? null
         : v1CreatePrivateKeyTagResult.fromJson(
-            json['createPrivateKeyTagResult'] as Map<String, dynamic>);
+            json['createPrivateKeyTagResult'] as Map<String, dynamic>,
+          );
     final _deletePrivateKeyTagsResult =
         json['deletePrivateKeyTagsResult'] == null
-            ? null
-            : v1DeletePrivateKeyTagsResult.fromJson(
-                json['deletePrivateKeyTagsResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeletePrivateKeyTagsResult.fromJson(
+            json['deletePrivateKeyTagsResult'] as Map<String, dynamic>,
+          );
     final _setPaymentMethodResult = json['setPaymentMethodResult'] == null
         ? null
-        : billingSetPaymentMethodResult
-            .fromJson(json['setPaymentMethodResult'] as Map<String, dynamic>);
+        : billingSetPaymentMethodResult.fromJson(
+            json['setPaymentMethodResult'] as Map<String, dynamic>,
+          );
     final _activateBillingTierResult = json['activateBillingTierResult'] == null
         ? null
         : billingActivateBillingTierResult.fromJson(
-            json['activateBillingTierResult'] as Map<String, dynamic>);
+            json['activateBillingTierResult'] as Map<String, dynamic>,
+          );
     final _deletePaymentMethodResult = json['deletePaymentMethodResult'] == null
         ? null
         : billingDeletePaymentMethodResult.fromJson(
-            json['deletePaymentMethodResult'] as Map<String, dynamic>);
+            json['deletePaymentMethodResult'] as Map<String, dynamic>,
+          );
     final _createApiOnlyUsersResult = json['createApiOnlyUsersResult'] == null
         ? null
-        : v1CreateApiOnlyUsersResult
-            .fromJson(json['createApiOnlyUsersResult'] as Map<String, dynamic>);
+        : v1CreateApiOnlyUsersResult.fromJson(
+            json['createApiOnlyUsersResult'] as Map<String, dynamic>,
+          );
     final _updateRootQuorumResult = json['updateRootQuorumResult'] == null
         ? null
-        : v1UpdateRootQuorumResult
-            .fromJson(json['updateRootQuorumResult'] as Map<String, dynamic>);
+        : v1UpdateRootQuorumResult.fromJson(
+            json['updateRootQuorumResult'] as Map<String, dynamic>,
+          );
     final _updateUserTagResult = json['updateUserTagResult'] == null
         ? null
-        : v1UpdateUserTagResult
-            .fromJson(json['updateUserTagResult'] as Map<String, dynamic>);
+        : v1UpdateUserTagResult.fromJson(
+            json['updateUserTagResult'] as Map<String, dynamic>,
+          );
     final _updatePrivateKeyTagResult = json['updatePrivateKeyTagResult'] == null
         ? null
         : v1UpdatePrivateKeyTagResult.fromJson(
-            json['updatePrivateKeyTagResult'] as Map<String, dynamic>);
+            json['updatePrivateKeyTagResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResult =
         json['createSubOrganizationResult'] == null
-            ? null
-            : v1CreateSubOrganizationResult.fromJson(
-                json['createSubOrganizationResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResult.fromJson(
+            json['createSubOrganizationResult'] as Map<String, dynamic>,
+          );
     final _updateAllowedOriginsResult =
         json['updateAllowedOriginsResult'] == null
-            ? null
-            : v1UpdateAllowedOriginsResult.fromJson(
-                json['updateAllowedOriginsResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateAllowedOriginsResult.fromJson(
+            json['updateAllowedOriginsResult'] as Map<String, dynamic>,
+          );
     final _createPrivateKeysResultV2 = json['createPrivateKeysResultV2'] == null
         ? null
         : v1CreatePrivateKeysResultV2.fromJson(
-            json['createPrivateKeysResultV2'] as Map<String, dynamic>);
+            json['createPrivateKeysResultV2'] as Map<String, dynamic>,
+          );
     final _updateUserResult = json['updateUserResult'] == null
         ? null
-        : v1UpdateUserResult
-            .fromJson(json['updateUserResult'] as Map<String, dynamic>);
+        : v1UpdateUserResult.fromJson(
+            json['updateUserResult'] as Map<String, dynamic>,
+          );
     final _updatePolicyResult = json['updatePolicyResult'] == null
         ? null
-        : v1UpdatePolicyResult
-            .fromJson(json['updatePolicyResult'] as Map<String, dynamic>);
+        : v1UpdatePolicyResult.fromJson(
+            json['updatePolicyResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResultV3 =
         json['createSubOrganizationResultV3'] == null
-            ? null
-            : v1CreateSubOrganizationResultV3.fromJson(
-                json['createSubOrganizationResultV3'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResultV3.fromJson(
+            json['createSubOrganizationResultV3'] as Map<String, dynamic>,
+          );
     final _createWalletResult = json['createWalletResult'] == null
         ? null
-        : v1CreateWalletResult
-            .fromJson(json['createWalletResult'] as Map<String, dynamic>);
+        : v1CreateWalletResult.fromJson(
+            json['createWalletResult'] as Map<String, dynamic>,
+          );
     final _createWalletAccountsResult =
         json['createWalletAccountsResult'] == null
-            ? null
-            : v1CreateWalletAccountsResult.fromJson(
-                json['createWalletAccountsResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateWalletAccountsResult.fromJson(
+            json['createWalletAccountsResult'] as Map<String, dynamic>,
+          );
     final _initUserEmailRecoveryResult =
         json['initUserEmailRecoveryResult'] == null
-            ? null
-            : v1InitUserEmailRecoveryResult.fromJson(
-                json['initUserEmailRecoveryResult'] as Map<String, dynamic>);
+        ? null
+        : v1InitUserEmailRecoveryResult.fromJson(
+            json['initUserEmailRecoveryResult'] as Map<String, dynamic>,
+          );
     final _recoverUserResult = json['recoverUserResult'] == null
         ? null
-        : v1RecoverUserResult
-            .fromJson(json['recoverUserResult'] as Map<String, dynamic>);
+        : v1RecoverUserResult.fromJson(
+            json['recoverUserResult'] as Map<String, dynamic>,
+          );
     final _setOrganizationFeatureResult =
         json['setOrganizationFeatureResult'] == null
-            ? null
-            : v1SetOrganizationFeatureResult.fromJson(
-                json['setOrganizationFeatureResult'] as Map<String, dynamic>);
+        ? null
+        : v1SetOrganizationFeatureResult.fromJson(
+            json['setOrganizationFeatureResult'] as Map<String, dynamic>,
+          );
     final _removeOrganizationFeatureResult =
         json['removeOrganizationFeatureResult'] == null
-            ? null
-            : v1RemoveOrganizationFeatureResult.fromJson(
-                json['removeOrganizationFeatureResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1RemoveOrganizationFeatureResult.fromJson(
+            json['removeOrganizationFeatureResult'] as Map<String, dynamic>,
+          );
     final _exportPrivateKeyResult = json['exportPrivateKeyResult'] == null
         ? null
-        : v1ExportPrivateKeyResult
-            .fromJson(json['exportPrivateKeyResult'] as Map<String, dynamic>);
+        : v1ExportPrivateKeyResult.fromJson(
+            json['exportPrivateKeyResult'] as Map<String, dynamic>,
+          );
     final _exportWalletResult = json['exportWalletResult'] == null
         ? null
-        : v1ExportWalletResult
-            .fromJson(json['exportWalletResult'] as Map<String, dynamic>);
+        : v1ExportWalletResult.fromJson(
+            json['exportWalletResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResultV4 =
         json['createSubOrganizationResultV4'] == null
-            ? null
-            : v1CreateSubOrganizationResultV4.fromJson(
-                json['createSubOrganizationResultV4'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResultV4.fromJson(
+            json['createSubOrganizationResultV4'] as Map<String, dynamic>,
+          );
     final _emailAuthResult = json['emailAuthResult'] == null
         ? null
-        : v1EmailAuthResult
-            .fromJson(json['emailAuthResult'] as Map<String, dynamic>);
+        : v1EmailAuthResult.fromJson(
+            json['emailAuthResult'] as Map<String, dynamic>,
+          );
     final _exportWalletAccountResult = json['exportWalletAccountResult'] == null
         ? null
         : v1ExportWalletAccountResult.fromJson(
-            json['exportWalletAccountResult'] as Map<String, dynamic>);
+            json['exportWalletAccountResult'] as Map<String, dynamic>,
+          );
     final _initImportWalletResult = json['initImportWalletResult'] == null
         ? null
-        : v1InitImportWalletResult
-            .fromJson(json['initImportWalletResult'] as Map<String, dynamic>);
+        : v1InitImportWalletResult.fromJson(
+            json['initImportWalletResult'] as Map<String, dynamic>,
+          );
     final _importWalletResult = json['importWalletResult'] == null
         ? null
-        : v1ImportWalletResult
-            .fromJson(json['importWalletResult'] as Map<String, dynamic>);
+        : v1ImportWalletResult.fromJson(
+            json['importWalletResult'] as Map<String, dynamic>,
+          );
     final _initImportPrivateKeyResult =
         json['initImportPrivateKeyResult'] == null
-            ? null
-            : v1InitImportPrivateKeyResult.fromJson(
-                json['initImportPrivateKeyResult'] as Map<String, dynamic>);
+        ? null
+        : v1InitImportPrivateKeyResult.fromJson(
+            json['initImportPrivateKeyResult'] as Map<String, dynamic>,
+          );
     final _importPrivateKeyResult = json['importPrivateKeyResult'] == null
         ? null
-        : v1ImportPrivateKeyResult
-            .fromJson(json['importPrivateKeyResult'] as Map<String, dynamic>);
+        : v1ImportPrivateKeyResult.fromJson(
+            json['importPrivateKeyResult'] as Map<String, dynamic>,
+          );
     final _createPoliciesResult = json['createPoliciesResult'] == null
         ? null
-        : v1CreatePoliciesResult
-            .fromJson(json['createPoliciesResult'] as Map<String, dynamic>);
+        : v1CreatePoliciesResult.fromJson(
+            json['createPoliciesResult'] as Map<String, dynamic>,
+          );
     final _signRawPayloadsResult = json['signRawPayloadsResult'] == null
         ? null
-        : v1SignRawPayloadsResult
-            .fromJson(json['signRawPayloadsResult'] as Map<String, dynamic>);
+        : v1SignRawPayloadsResult.fromJson(
+            json['signRawPayloadsResult'] as Map<String, dynamic>,
+          );
     final _createReadOnlySessionResult =
         json['createReadOnlySessionResult'] == null
-            ? null
-            : v1CreateReadOnlySessionResult.fromJson(
-                json['createReadOnlySessionResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateReadOnlySessionResult.fromJson(
+            json['createReadOnlySessionResult'] as Map<String, dynamic>,
+          );
     final _createOauthProvidersResult =
         json['createOauthProvidersResult'] == null
-            ? null
-            : v1CreateOauthProvidersResult.fromJson(
-                json['createOauthProvidersResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOauthProvidersResult.fromJson(
+            json['createOauthProvidersResult'] as Map<String, dynamic>,
+          );
     final _deleteOauthProvidersResult =
         json['deleteOauthProvidersResult'] == null
-            ? null
-            : v1DeleteOauthProvidersResult.fromJson(
-                json['deleteOauthProvidersResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteOauthProvidersResult.fromJson(
+            json['deleteOauthProvidersResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResultV5 =
         json['createSubOrganizationResultV5'] == null
-            ? null
-            : v1CreateSubOrganizationResultV5.fromJson(
-                json['createSubOrganizationResultV5'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResultV5.fromJson(
+            json['createSubOrganizationResultV5'] as Map<String, dynamic>,
+          );
     final _oauthResult = json['oauthResult'] == null
         ? null
         : v1OauthResult.fromJson(json['oauthResult'] as Map<String, dynamic>);
     final _createReadWriteSessionResult =
         json['createReadWriteSessionResult'] == null
-            ? null
-            : v1CreateReadWriteSessionResult.fromJson(
-                json['createReadWriteSessionResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateReadWriteSessionResult.fromJson(
+            json['createReadWriteSessionResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResultV6 =
         json['createSubOrganizationResultV6'] == null
-            ? null
-            : v1CreateSubOrganizationResultV6.fromJson(
-                json['createSubOrganizationResultV6'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResultV6.fromJson(
+            json['createSubOrganizationResultV6'] as Map<String, dynamic>,
+          );
     final _deletePrivateKeysResult = json['deletePrivateKeysResult'] == null
         ? null
-        : v1DeletePrivateKeysResult
-            .fromJson(json['deletePrivateKeysResult'] as Map<String, dynamic>);
+        : v1DeletePrivateKeysResult.fromJson(
+            json['deletePrivateKeysResult'] as Map<String, dynamic>,
+          );
     final _deleteWalletsResult = json['deleteWalletsResult'] == null
         ? null
-        : v1DeleteWalletsResult
-            .fromJson(json['deleteWalletsResult'] as Map<String, dynamic>);
+        : v1DeleteWalletsResult.fromJson(
+            json['deleteWalletsResult'] as Map<String, dynamic>,
+          );
     final _createReadWriteSessionResultV2 =
         json['createReadWriteSessionResultV2'] == null
-            ? null
-            : v1CreateReadWriteSessionResultV2.fromJson(
-                json['createReadWriteSessionResultV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateReadWriteSessionResultV2.fromJson(
+            json['createReadWriteSessionResultV2'] as Map<String, dynamic>,
+          );
     final _deleteSubOrganizationResult =
         json['deleteSubOrganizationResult'] == null
-            ? null
-            : v1DeleteSubOrganizationResult.fromJson(
-                json['deleteSubOrganizationResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteSubOrganizationResult.fromJson(
+            json['deleteSubOrganizationResult'] as Map<String, dynamic>,
+          );
     final _initOtpAuthResult = json['initOtpAuthResult'] == null
         ? null
-        : v1InitOtpAuthResult
-            .fromJson(json['initOtpAuthResult'] as Map<String, dynamic>);
+        : v1InitOtpAuthResult.fromJson(
+            json['initOtpAuthResult'] as Map<String, dynamic>,
+          );
     final _otpAuthResult = json['otpAuthResult'] == null
         ? null
-        : v1OtpAuthResult
-            .fromJson(json['otpAuthResult'] as Map<String, dynamic>);
+        : v1OtpAuthResult.fromJson(
+            json['otpAuthResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResultV7 =
         json['createSubOrganizationResultV7'] == null
-            ? null
-            : v1CreateSubOrganizationResultV7.fromJson(
-                json['createSubOrganizationResultV7'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResultV7.fromJson(
+            json['createSubOrganizationResultV7'] as Map<String, dynamic>,
+          );
     final _updateWalletResult = json['updateWalletResult'] == null
         ? null
-        : v1UpdateWalletResult
-            .fromJson(json['updateWalletResult'] as Map<String, dynamic>);
+        : v1UpdateWalletResult.fromJson(
+            json['updateWalletResult'] as Map<String, dynamic>,
+          );
     final _updatePolicyResultV2 = json['updatePolicyResultV2'] == null
         ? null
-        : v1UpdatePolicyResultV2
-            .fromJson(json['updatePolicyResultV2'] as Map<String, dynamic>);
+        : v1UpdatePolicyResultV2.fromJson(
+            json['updatePolicyResultV2'] as Map<String, dynamic>,
+          );
     final _initOtpAuthResultV2 = json['initOtpAuthResultV2'] == null
         ? null
-        : v1InitOtpAuthResultV2
-            .fromJson(json['initOtpAuthResultV2'] as Map<String, dynamic>);
+        : v1InitOtpAuthResultV2.fromJson(
+            json['initOtpAuthResultV2'] as Map<String, dynamic>,
+          );
     final _initOtpResult = json['initOtpResult'] == null
         ? null
-        : v1InitOtpResult
-            .fromJson(json['initOtpResult'] as Map<String, dynamic>);
+        : v1InitOtpResult.fromJson(
+            json['initOtpResult'] as Map<String, dynamic>,
+          );
     final _verifyOtpResult = json['verifyOtpResult'] == null
         ? null
-        : v1VerifyOtpResult
-            .fromJson(json['verifyOtpResult'] as Map<String, dynamic>);
+        : v1VerifyOtpResult.fromJson(
+            json['verifyOtpResult'] as Map<String, dynamic>,
+          );
     final _otpLoginResult = json['otpLoginResult'] == null
         ? null
-        : v1OtpLoginResult
-            .fromJson(json['otpLoginResult'] as Map<String, dynamic>);
+        : v1OtpLoginResult.fromJson(
+            json['otpLoginResult'] as Map<String, dynamic>,
+          );
     final _stampLoginResult = json['stampLoginResult'] == null
         ? null
-        : v1StampLoginResult
-            .fromJson(json['stampLoginResult'] as Map<String, dynamic>);
+        : v1StampLoginResult.fromJson(
+            json['stampLoginResult'] as Map<String, dynamic>,
+          );
     final _oauthLoginResult = json['oauthLoginResult'] == null
         ? null
-        : v1OauthLoginResult
-            .fromJson(json['oauthLoginResult'] as Map<String, dynamic>);
+        : v1OauthLoginResult.fromJson(
+            json['oauthLoginResult'] as Map<String, dynamic>,
+          );
     final _updateUserNameResult = json['updateUserNameResult'] == null
         ? null
-        : v1UpdateUserNameResult
-            .fromJson(json['updateUserNameResult'] as Map<String, dynamic>);
+        : v1UpdateUserNameResult.fromJson(
+            json['updateUserNameResult'] as Map<String, dynamic>,
+          );
     final _updateUserEmailResult = json['updateUserEmailResult'] == null
         ? null
-        : v1UpdateUserEmailResult
-            .fromJson(json['updateUserEmailResult'] as Map<String, dynamic>);
+        : v1UpdateUserEmailResult.fromJson(
+            json['updateUserEmailResult'] as Map<String, dynamic>,
+          );
     final _updateUserPhoneNumberResult =
         json['updateUserPhoneNumberResult'] == null
-            ? null
-            : v1UpdateUserPhoneNumberResult.fromJson(
-                json['updateUserPhoneNumberResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateUserPhoneNumberResult.fromJson(
+            json['updateUserPhoneNumberResult'] as Map<String, dynamic>,
+          );
     final _initFiatOnRampResult = json['initFiatOnRampResult'] == null
         ? null
-        : v1InitFiatOnRampResult
-            .fromJson(json['initFiatOnRampResult'] as Map<String, dynamic>);
+        : v1InitFiatOnRampResult.fromJson(
+            json['initFiatOnRampResult'] as Map<String, dynamic>,
+          );
     final _createSmartContractInterfaceResult =
         json['createSmartContractInterfaceResult'] == null
-            ? null
-            : v1CreateSmartContractInterfaceResult.fromJson(
-                json['createSmartContractInterfaceResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1CreateSmartContractInterfaceResult.fromJson(
+            json['createSmartContractInterfaceResult'] as Map<String, dynamic>,
+          );
     final _deleteSmartContractInterfaceResult =
         json['deleteSmartContractInterfaceResult'] == null
-            ? null
-            : v1DeleteSmartContractInterfaceResult.fromJson(
-                json['deleteSmartContractInterfaceResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1DeleteSmartContractInterfaceResult.fromJson(
+            json['deleteSmartContractInterfaceResult'] as Map<String, dynamic>,
+          );
     final _enableAuthProxyResult = json['enableAuthProxyResult'] == null
         ? null
-        : v1EnableAuthProxyResult
-            .fromJson(json['enableAuthProxyResult'] as Map<String, dynamic>);
+        : v1EnableAuthProxyResult.fromJson(
+            json['enableAuthProxyResult'] as Map<String, dynamic>,
+          );
     final _disableAuthProxyResult = json['disableAuthProxyResult'] == null
         ? null
-        : v1DisableAuthProxyResult
-            .fromJson(json['disableAuthProxyResult'] as Map<String, dynamic>);
+        : v1DisableAuthProxyResult.fromJson(
+            json['disableAuthProxyResult'] as Map<String, dynamic>,
+          );
     final _updateAuthProxyConfigResult =
         json['updateAuthProxyConfigResult'] == null
-            ? null
-            : v1UpdateAuthProxyConfigResult.fromJson(
-                json['updateAuthProxyConfigResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateAuthProxyConfigResult.fromJson(
+            json['updateAuthProxyConfigResult'] as Map<String, dynamic>,
+          );
     final _createOauth2CredentialResult =
         json['createOauth2CredentialResult'] == null
-            ? null
-            : v1CreateOauth2CredentialResult.fromJson(
-                json['createOauth2CredentialResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOauth2CredentialResult.fromJson(
+            json['createOauth2CredentialResult'] as Map<String, dynamic>,
+          );
     final _updateOauth2CredentialResult =
         json['updateOauth2CredentialResult'] == null
-            ? null
-            : v1UpdateOauth2CredentialResult.fromJson(
-                json['updateOauth2CredentialResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateOauth2CredentialResult.fromJson(
+            json['updateOauth2CredentialResult'] as Map<String, dynamic>,
+          );
     final _deleteOauth2CredentialResult =
         json['deleteOauth2CredentialResult'] == null
-            ? null
-            : v1DeleteOauth2CredentialResult.fromJson(
-                json['deleteOauth2CredentialResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteOauth2CredentialResult.fromJson(
+            json['deleteOauth2CredentialResult'] as Map<String, dynamic>,
+          );
     final _oauth2AuthenticateResult = json['oauth2AuthenticateResult'] == null
         ? null
-        : v1Oauth2AuthenticateResult
-            .fromJson(json['oauth2AuthenticateResult'] as Map<String, dynamic>);
+        : v1Oauth2AuthenticateResult.fromJson(
+            json['oauth2AuthenticateResult'] as Map<String, dynamic>,
+          );
     final _deleteWalletAccountsResult =
         json['deleteWalletAccountsResult'] == null
-            ? null
-            : v1DeleteWalletAccountsResult.fromJson(
-                json['deleteWalletAccountsResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteWalletAccountsResult.fromJson(
+            json['deleteWalletAccountsResult'] as Map<String, dynamic>,
+          );
     final _deletePoliciesResult = json['deletePoliciesResult'] == null
         ? null
-        : v1DeletePoliciesResult
-            .fromJson(json['deletePoliciesResult'] as Map<String, dynamic>);
+        : v1DeletePoliciesResult.fromJson(
+            json['deletePoliciesResult'] as Map<String, dynamic>,
+          );
     final _ethSendRawTransactionResult =
         json['ethSendRawTransactionResult'] == null
-            ? null
-            : v1EthSendRawTransactionResult.fromJson(
-                json['ethSendRawTransactionResult'] as Map<String, dynamic>);
+        ? null
+        : v1EthSendRawTransactionResult.fromJson(
+            json['ethSendRawTransactionResult'] as Map<String, dynamic>,
+          );
     final _createFiatOnRampCredentialResult =
         json['createFiatOnRampCredentialResult'] == null
-            ? null
-            : v1CreateFiatOnRampCredentialResult.fromJson(
-                json['createFiatOnRampCredentialResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1CreateFiatOnRampCredentialResult.fromJson(
+            json['createFiatOnRampCredentialResult'] as Map<String, dynamic>,
+          );
     final _updateFiatOnRampCredentialResult =
         json['updateFiatOnRampCredentialResult'] == null
-            ? null
-            : v1UpdateFiatOnRampCredentialResult.fromJson(
-                json['updateFiatOnRampCredentialResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1UpdateFiatOnRampCredentialResult.fromJson(
+            json['updateFiatOnRampCredentialResult'] as Map<String, dynamic>,
+          );
     final _deleteFiatOnRampCredentialResult =
         json['deleteFiatOnRampCredentialResult'] == null
-            ? null
-            : v1DeleteFiatOnRampCredentialResult.fromJson(
-                json['deleteFiatOnRampCredentialResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1DeleteFiatOnRampCredentialResult.fromJson(
+            json['deleteFiatOnRampCredentialResult'] as Map<String, dynamic>,
+          );
     final _ethSendTransactionResult = json['ethSendTransactionResult'] == null
         ? null
-        : v1EthSendTransactionResult
-            .fromJson(json['ethSendTransactionResult'] as Map<String, dynamic>);
+        : v1EthSendTransactionResult.fromJson(
+            json['ethSendTransactionResult'] as Map<String, dynamic>,
+          );
     final _upsertGasUsageConfigResult =
         json['upsertGasUsageConfigResult'] == null
-            ? null
-            : v1UpsertGasUsageConfigResult.fromJson(
-                json['upsertGasUsageConfigResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpsertGasUsageConfigResult.fromJson(
+            json['upsertGasUsageConfigResult'] as Map<String, dynamic>,
+          );
     final _createTvcAppResult = json['createTvcAppResult'] == null
         ? null
-        : v1CreateTvcAppResult
-            .fromJson(json['createTvcAppResult'] as Map<String, dynamic>);
+        : v1CreateTvcAppResult.fromJson(
+            json['createTvcAppResult'] as Map<String, dynamic>,
+          );
     final _createTvcDeploymentResult = json['createTvcDeploymentResult'] == null
         ? null
         : v1CreateTvcDeploymentResult.fromJson(
-            json['createTvcDeploymentResult'] as Map<String, dynamic>);
+            json['createTvcDeploymentResult'] as Map<String, dynamic>,
+          );
     final _createTvcManifestApprovalsResult =
         json['createTvcManifestApprovalsResult'] == null
-            ? null
-            : v1CreateTvcManifestApprovalsResult.fromJson(
-                json['createTvcManifestApprovalsResult']
-                    as Map<String, dynamic>);
+        ? null
+        : v1CreateTvcManifestApprovalsResult.fromJson(
+            json['createTvcManifestApprovalsResult'] as Map<String, dynamic>,
+          );
     final _solSendTransactionResult = json['solSendTransactionResult'] == null
         ? null
-        : v1SolSendTransactionResult
-            .fromJson(json['solSendTransactionResult'] as Map<String, dynamic>);
+        : v1SolSendTransactionResult.fromJson(
+            json['solSendTransactionResult'] as Map<String, dynamic>,
+          );
     final _initOtpResultV2 = json['initOtpResultV2'] == null
         ? null
-        : v1InitOtpResultV2
-            .fromJson(json['initOtpResultV2'] as Map<String, dynamic>);
+        : v1InitOtpResultV2.fromJson(
+            json['initOtpResultV2'] as Map<String, dynamic>,
+          );
     final _updateOrganizationNameResult =
         json['updateOrganizationNameResult'] == null
-            ? null
-            : v1UpdateOrganizationNameResult.fromJson(
-                json['updateOrganizationNameResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateOrganizationNameResult.fromJson(
+            json['updateOrganizationNameResult'] as Map<String, dynamic>,
+          );
     final _createSubOrganizationResultV8 =
         json['createSubOrganizationResultV8'] == null
-            ? null
-            : v1CreateSubOrganizationResultV8.fromJson(
-                json['createSubOrganizationResultV8'] as Map<String, dynamic>);
+        ? null
+        : v1CreateSubOrganizationResultV8.fromJson(
+            json['createSubOrganizationResultV8'] as Map<String, dynamic>,
+          );
     final _createOauthProvidersResultV2 =
         json['createOauthProvidersResultV2'] == null
-            ? null
-            : v1CreateOauthProvidersResultV2.fromJson(
-                json['createOauthProvidersResultV2'] as Map<String, dynamic>);
+        ? null
+        : v1CreateOauthProvidersResultV2.fromJson(
+            json['createOauthProvidersResultV2'] as Map<String, dynamic>,
+          );
     final _createWebhookEndpointResult =
         json['createWebhookEndpointResult'] == null
-            ? null
-            : v1CreateWebhookEndpointResult.fromJson(
-                json['createWebhookEndpointResult'] as Map<String, dynamic>);
+        ? null
+        : v1CreateWebhookEndpointResult.fromJson(
+            json['createWebhookEndpointResult'] as Map<String, dynamic>,
+          );
     final _updateWebhookEndpointResult =
         json['updateWebhookEndpointResult'] == null
-            ? null
-            : v1UpdateWebhookEndpointResult.fromJson(
-                json['updateWebhookEndpointResult'] as Map<String, dynamic>);
+        ? null
+        : v1UpdateWebhookEndpointResult.fromJson(
+            json['updateWebhookEndpointResult'] as Map<String, dynamic>,
+          );
     final _deleteWebhookEndpointResult =
         json['deleteWebhookEndpointResult'] == null
-            ? null
-            : v1DeleteWebhookEndpointResult.fromJson(
-                json['deleteWebhookEndpointResult'] as Map<String, dynamic>);
+        ? null
+        : v1DeleteWebhookEndpointResult.fromJson(
+            json['deleteWebhookEndpointResult'] as Map<String, dynamic>,
+          );
     return v1Result(
       createOrganizationResult: _createOrganizationResult,
       createAuthenticatorsResult: _createAuthenticatorsResult,
@@ -18569,8 +18383,8 @@ class v1Result {
       _json['createOrganizationResult'] = createOrganizationResult?.toJson();
     }
     if (createAuthenticatorsResult != null) {
-      _json['createAuthenticatorsResult'] =
-          createAuthenticatorsResult?.toJson();
+      _json['createAuthenticatorsResult'] = createAuthenticatorsResult
+          ?.toJson();
     }
     if (createUsersResult != null) {
       _json['createUsersResult'] = createUsersResult?.toJson();
@@ -18597,8 +18411,8 @@ class v1Result {
       _json['deleteUsersResult'] = deleteUsersResult?.toJson();
     }
     if (deleteAuthenticatorsResult != null) {
-      _json['deleteAuthenticatorsResult'] =
-          deleteAuthenticatorsResult?.toJson();
+      _json['deleteAuthenticatorsResult'] = deleteAuthenticatorsResult
+          ?.toJson();
     }
     if (deleteInvitationResult != null) {
       _json['deleteInvitationResult'] = deleteInvitationResult?.toJson();
@@ -18628,8 +18442,8 @@ class v1Result {
       _json['createPrivateKeyTagResult'] = createPrivateKeyTagResult?.toJson();
     }
     if (deletePrivateKeyTagsResult != null) {
-      _json['deletePrivateKeyTagsResult'] =
-          deletePrivateKeyTagsResult?.toJson();
+      _json['deletePrivateKeyTagsResult'] = deletePrivateKeyTagsResult
+          ?.toJson();
     }
     if (setPaymentMethodResult != null) {
       _json['setPaymentMethodResult'] = setPaymentMethodResult?.toJson();
@@ -18653,12 +18467,12 @@ class v1Result {
       _json['updatePrivateKeyTagResult'] = updatePrivateKeyTagResult?.toJson();
     }
     if (createSubOrganizationResult != null) {
-      _json['createSubOrganizationResult'] =
-          createSubOrganizationResult?.toJson();
+      _json['createSubOrganizationResult'] = createSubOrganizationResult
+          ?.toJson();
     }
     if (updateAllowedOriginsResult != null) {
-      _json['updateAllowedOriginsResult'] =
-          updateAllowedOriginsResult?.toJson();
+      _json['updateAllowedOriginsResult'] = updateAllowedOriginsResult
+          ?.toJson();
     }
     if (createPrivateKeysResultV2 != null) {
       _json['createPrivateKeysResultV2'] = createPrivateKeysResultV2?.toJson();
@@ -18670,30 +18484,30 @@ class v1Result {
       _json['updatePolicyResult'] = updatePolicyResult?.toJson();
     }
     if (createSubOrganizationResultV3 != null) {
-      _json['createSubOrganizationResultV3'] =
-          createSubOrganizationResultV3?.toJson();
+      _json['createSubOrganizationResultV3'] = createSubOrganizationResultV3
+          ?.toJson();
     }
     if (createWalletResult != null) {
       _json['createWalletResult'] = createWalletResult?.toJson();
     }
     if (createWalletAccountsResult != null) {
-      _json['createWalletAccountsResult'] =
-          createWalletAccountsResult?.toJson();
+      _json['createWalletAccountsResult'] = createWalletAccountsResult
+          ?.toJson();
     }
     if (initUserEmailRecoveryResult != null) {
-      _json['initUserEmailRecoveryResult'] =
-          initUserEmailRecoveryResult?.toJson();
+      _json['initUserEmailRecoveryResult'] = initUserEmailRecoveryResult
+          ?.toJson();
     }
     if (recoverUserResult != null) {
       _json['recoverUserResult'] = recoverUserResult?.toJson();
     }
     if (setOrganizationFeatureResult != null) {
-      _json['setOrganizationFeatureResult'] =
-          setOrganizationFeatureResult?.toJson();
+      _json['setOrganizationFeatureResult'] = setOrganizationFeatureResult
+          ?.toJson();
     }
     if (removeOrganizationFeatureResult != null) {
-      _json['removeOrganizationFeatureResult'] =
-          removeOrganizationFeatureResult?.toJson();
+      _json['removeOrganizationFeatureResult'] = removeOrganizationFeatureResult
+          ?.toJson();
     }
     if (exportPrivateKeyResult != null) {
       _json['exportPrivateKeyResult'] = exportPrivateKeyResult?.toJson();
@@ -18702,8 +18516,8 @@ class v1Result {
       _json['exportWalletResult'] = exportWalletResult?.toJson();
     }
     if (createSubOrganizationResultV4 != null) {
-      _json['createSubOrganizationResultV4'] =
-          createSubOrganizationResultV4?.toJson();
+      _json['createSubOrganizationResultV4'] = createSubOrganizationResultV4
+          ?.toJson();
     }
     if (emailAuthResult != null) {
       _json['emailAuthResult'] = emailAuthResult?.toJson();
@@ -18718,8 +18532,8 @@ class v1Result {
       _json['importWalletResult'] = importWalletResult?.toJson();
     }
     if (initImportPrivateKeyResult != null) {
-      _json['initImportPrivateKeyResult'] =
-          initImportPrivateKeyResult?.toJson();
+      _json['initImportPrivateKeyResult'] = initImportPrivateKeyResult
+          ?.toJson();
     }
     if (importPrivateKeyResult != null) {
       _json['importPrivateKeyResult'] = importPrivateKeyResult?.toJson();
@@ -18731,31 +18545,31 @@ class v1Result {
       _json['signRawPayloadsResult'] = signRawPayloadsResult?.toJson();
     }
     if (createReadOnlySessionResult != null) {
-      _json['createReadOnlySessionResult'] =
-          createReadOnlySessionResult?.toJson();
+      _json['createReadOnlySessionResult'] = createReadOnlySessionResult
+          ?.toJson();
     }
     if (createOauthProvidersResult != null) {
-      _json['createOauthProvidersResult'] =
-          createOauthProvidersResult?.toJson();
+      _json['createOauthProvidersResult'] = createOauthProvidersResult
+          ?.toJson();
     }
     if (deleteOauthProvidersResult != null) {
-      _json['deleteOauthProvidersResult'] =
-          deleteOauthProvidersResult?.toJson();
+      _json['deleteOauthProvidersResult'] = deleteOauthProvidersResult
+          ?.toJson();
     }
     if (createSubOrganizationResultV5 != null) {
-      _json['createSubOrganizationResultV5'] =
-          createSubOrganizationResultV5?.toJson();
+      _json['createSubOrganizationResultV5'] = createSubOrganizationResultV5
+          ?.toJson();
     }
     if (oauthResult != null) {
       _json['oauthResult'] = oauthResult?.toJson();
     }
     if (createReadWriteSessionResult != null) {
-      _json['createReadWriteSessionResult'] =
-          createReadWriteSessionResult?.toJson();
+      _json['createReadWriteSessionResult'] = createReadWriteSessionResult
+          ?.toJson();
     }
     if (createSubOrganizationResultV6 != null) {
-      _json['createSubOrganizationResultV6'] =
-          createSubOrganizationResultV6?.toJson();
+      _json['createSubOrganizationResultV6'] = createSubOrganizationResultV6
+          ?.toJson();
     }
     if (deletePrivateKeysResult != null) {
       _json['deletePrivateKeysResult'] = deletePrivateKeysResult?.toJson();
@@ -18764,12 +18578,12 @@ class v1Result {
       _json['deleteWalletsResult'] = deleteWalletsResult?.toJson();
     }
     if (createReadWriteSessionResultV2 != null) {
-      _json['createReadWriteSessionResultV2'] =
-          createReadWriteSessionResultV2?.toJson();
+      _json['createReadWriteSessionResultV2'] = createReadWriteSessionResultV2
+          ?.toJson();
     }
     if (deleteSubOrganizationResult != null) {
-      _json['deleteSubOrganizationResult'] =
-          deleteSubOrganizationResult?.toJson();
+      _json['deleteSubOrganizationResult'] = deleteSubOrganizationResult
+          ?.toJson();
     }
     if (initOtpAuthResult != null) {
       _json['initOtpAuthResult'] = initOtpAuthResult?.toJson();
@@ -18778,8 +18592,8 @@ class v1Result {
       _json['otpAuthResult'] = otpAuthResult?.toJson();
     }
     if (createSubOrganizationResultV7 != null) {
-      _json['createSubOrganizationResultV7'] =
-          createSubOrganizationResultV7?.toJson();
+      _json['createSubOrganizationResultV7'] = createSubOrganizationResultV7
+          ?.toJson();
     }
     if (updateWalletResult != null) {
       _json['updateWalletResult'] = updateWalletResult?.toJson();
@@ -18812,8 +18626,8 @@ class v1Result {
       _json['updateUserEmailResult'] = updateUserEmailResult?.toJson();
     }
     if (updateUserPhoneNumberResult != null) {
-      _json['updateUserPhoneNumberResult'] =
-          updateUserPhoneNumberResult?.toJson();
+      _json['updateUserPhoneNumberResult'] = updateUserPhoneNumberResult
+          ?.toJson();
     }
     if (initFiatOnRampResult != null) {
       _json['initFiatOnRampResult'] = initFiatOnRampResult?.toJson();
@@ -18833,34 +18647,34 @@ class v1Result {
       _json['disableAuthProxyResult'] = disableAuthProxyResult?.toJson();
     }
     if (updateAuthProxyConfigResult != null) {
-      _json['updateAuthProxyConfigResult'] =
-          updateAuthProxyConfigResult?.toJson();
+      _json['updateAuthProxyConfigResult'] = updateAuthProxyConfigResult
+          ?.toJson();
     }
     if (createOauth2CredentialResult != null) {
-      _json['createOauth2CredentialResult'] =
-          createOauth2CredentialResult?.toJson();
+      _json['createOauth2CredentialResult'] = createOauth2CredentialResult
+          ?.toJson();
     }
     if (updateOauth2CredentialResult != null) {
-      _json['updateOauth2CredentialResult'] =
-          updateOauth2CredentialResult?.toJson();
+      _json['updateOauth2CredentialResult'] = updateOauth2CredentialResult
+          ?.toJson();
     }
     if (deleteOauth2CredentialResult != null) {
-      _json['deleteOauth2CredentialResult'] =
-          deleteOauth2CredentialResult?.toJson();
+      _json['deleteOauth2CredentialResult'] = deleteOauth2CredentialResult
+          ?.toJson();
     }
     if (oauth2AuthenticateResult != null) {
       _json['oauth2AuthenticateResult'] = oauth2AuthenticateResult?.toJson();
     }
     if (deleteWalletAccountsResult != null) {
-      _json['deleteWalletAccountsResult'] =
-          deleteWalletAccountsResult?.toJson();
+      _json['deleteWalletAccountsResult'] = deleteWalletAccountsResult
+          ?.toJson();
     }
     if (deletePoliciesResult != null) {
       _json['deletePoliciesResult'] = deletePoliciesResult?.toJson();
     }
     if (ethSendRawTransactionResult != null) {
-      _json['ethSendRawTransactionResult'] =
-          ethSendRawTransactionResult?.toJson();
+      _json['ethSendRawTransactionResult'] = ethSendRawTransactionResult
+          ?.toJson();
     }
     if (createFiatOnRampCredentialResult != null) {
       _json['createFiatOnRampCredentialResult'] =
@@ -18878,8 +18692,8 @@ class v1Result {
       _json['ethSendTransactionResult'] = ethSendTransactionResult?.toJson();
     }
     if (upsertGasUsageConfigResult != null) {
-      _json['upsertGasUsageConfigResult'] =
-          upsertGasUsageConfigResult?.toJson();
+      _json['upsertGasUsageConfigResult'] = upsertGasUsageConfigResult
+          ?.toJson();
     }
     if (createTvcAppResult != null) {
       _json['createTvcAppResult'] = createTvcAppResult?.toJson();
@@ -18898,28 +18712,28 @@ class v1Result {
       _json['initOtpResultV2'] = initOtpResultV2?.toJson();
     }
     if (updateOrganizationNameResult != null) {
-      _json['updateOrganizationNameResult'] =
-          updateOrganizationNameResult?.toJson();
+      _json['updateOrganizationNameResult'] = updateOrganizationNameResult
+          ?.toJson();
     }
     if (createSubOrganizationResultV8 != null) {
-      _json['createSubOrganizationResultV8'] =
-          createSubOrganizationResultV8?.toJson();
+      _json['createSubOrganizationResultV8'] = createSubOrganizationResultV8
+          ?.toJson();
     }
     if (createOauthProvidersResultV2 != null) {
-      _json['createOauthProvidersResultV2'] =
-          createOauthProvidersResultV2?.toJson();
+      _json['createOauthProvidersResultV2'] = createOauthProvidersResultV2
+          ?.toJson();
     }
     if (createWebhookEndpointResult != null) {
-      _json['createWebhookEndpointResult'] =
-          createWebhookEndpointResult?.toJson();
+      _json['createWebhookEndpointResult'] = createWebhookEndpointResult
+          ?.toJson();
     }
     if (updateWebhookEndpointResult != null) {
-      _json['updateWebhookEndpointResult'] =
-          updateWebhookEndpointResult?.toJson();
+      _json['updateWebhookEndpointResult'] = updateWebhookEndpointResult
+          ?.toJson();
     }
     if (deleteWebhookEndpointResult != null) {
-      _json['deleteWebhookEndpointResult'] =
-          deleteWebhookEndpointResult?.toJson();
+      _json['deleteWebhookEndpointResult'] = deleteWebhookEndpointResult
+          ?.toJson();
     }
     return _json;
   }
@@ -18959,8 +18773,9 @@ class v1RevertChainEntry {
     final _displayMessage = json['displayMessage'] as String?;
     final _unknown = json['unknown'] == null
         ? null
-        : v1UnknownRevertError
-            .fromJson(json['unknown'] as Map<String, dynamic>);
+        : v1UnknownRevertError.fromJson(
+            json['unknown'] as Map<String, dynamic>,
+          );
     final _native = json['native'] == null
         ? null
         : v1NativeRevertError.fromJson(json['native'] as Map<String, dynamic>);
@@ -19305,22 +19120,15 @@ class v1Selector {
   final v1Operator? operator;
   final String? target;
 
-  const v1Selector({
-    this.subject,
-    this.operator,
-    this.target,
-  });
+  const v1Selector({this.subject, this.operator, this.target});
 
   factory v1Selector.fromJson(Map<String, dynamic> json) {
     final _subject = json['subject'] as String?;
-    final _operator =
-        json['operator'] == null ? null : v1OperatorFromJson(json['operator']);
+    final _operator = json['operator'] == null
+        ? null
+        : v1OperatorFromJson(json['operator']);
     final _target = json['target'] as String?;
-    return v1Selector(
-      subject: _subject,
-      operator: _operator,
-      target: _target,
-    );
+    return v1Selector(subject: _subject, operator: _operator, target: _target);
   }
 
   Map<String, dynamic> toJson() {
@@ -19343,18 +19151,16 @@ class v1SelectorV2 {
   final v1Operator? operator;
   final List<String>? targets;
 
-  const v1SelectorV2({
-    this.subject,
-    this.operator,
-    this.targets,
-  });
+  const v1SelectorV2({this.subject, this.operator, this.targets});
 
   factory v1SelectorV2.fromJson(Map<String, dynamic> json) {
     final _subject = json['subject'] as String?;
-    final _operator =
-        json['operator'] == null ? null : v1OperatorFromJson(json['operator']);
-    final _targets =
-        (json['targets'] as List?)?.map((e) => e as String).toList();
+    final _operator = json['operator'] == null
+        ? null
+        : v1OperatorFromJson(json['operator']);
+    final _targets = (json['targets'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     return v1SelectorV2(
       subject: _subject,
       operator: _operator,
@@ -19392,10 +19198,7 @@ class v1SetOrganizationFeatureIntent {
   factory v1SetOrganizationFeatureIntent.fromJson(Map<String, dynamic> json) {
     final _name = v1FeatureNameFromJson(json['name']);
     final _value = json['value'] as String;
-    return v1SetOrganizationFeatureIntent(
-      name: _name,
-      value: _value,
-    );
+    return v1SetOrganizationFeatureIntent(name: _name, value: _value);
   }
 
   Map<String, dynamic> toJson() {
@@ -19429,8 +19232,9 @@ class v1SetOrganizationFeatureRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1SetOrganizationFeatureIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1SetOrganizationFeatureIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SetOrganizationFeatureRequest(
       type: _type,
@@ -19458,17 +19262,13 @@ class v1SetOrganizationFeatureResult {
   /// Resulting list of organization features.
   final List<v1Feature> features;
 
-  const v1SetOrganizationFeatureResult({
-    required this.features,
-  });
+  const v1SetOrganizationFeatureResult({required this.features});
 
   factory v1SetOrganizationFeatureResult.fromJson(Map<String, dynamic> json) {
     final _features = (json['features'] as List)
         .map((e) => v1Feature.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1SetOrganizationFeatureResult(
-      features: _features,
-    );
+    return v1SetOrganizationFeatureResult(features: _features);
   }
 
   Map<String, dynamic> toJson() {
@@ -19587,8 +19387,9 @@ class v1SignRawPayloadRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1SignRawPayloadIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1SignRawPayloadIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SignRawPayloadRequest(
       type: _type,
@@ -19632,11 +19433,7 @@ class v1SignRawPayloadResult {
     final _r = json['r'] as String;
     final _s = json['s'] as String;
     final _v = json['v'] as String;
-    return v1SignRawPayloadResult(
-      r: _r,
-      s: _s,
-      v: _v,
-    );
+    return v1SignRawPayloadResult(r: _r, s: _s, v: _v);
   }
 
   Map<String, dynamic> toJson() {
@@ -19670,8 +19467,9 @@ class v1SignRawPayloadsIntent {
 
   factory v1SignRawPayloadsIntent.fromJson(Map<String, dynamic> json) {
     final _signWith = json['signWith'] as String;
-    final _payloads =
-        (json['payloads'] as List).map((e) => e as String).toList();
+    final _payloads = (json['payloads'] as List)
+        .map((e) => e as String)
+        .toList();
     final _encoding = v1PayloadEncodingFromJson(json['encoding']);
     final _hashFunction = v1HashFunctionFromJson(json['hashFunction']);
     return v1SignRawPayloadsIntent(
@@ -19715,8 +19513,9 @@ class v1SignRawPayloadsRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1SignRawPayloadsIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1SignRawPayloadsIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SignRawPayloadsRequest(
       type: _type,
@@ -19743,17 +19542,13 @@ class v1SignRawPayloadsRequest {
 class v1SignRawPayloadsResult {
   final List<v1SignRawPayloadResult>? signatures;
 
-  const v1SignRawPayloadsResult({
-    this.signatures,
-  });
+  const v1SignRawPayloadsResult({this.signatures});
 
   factory v1SignRawPayloadsResult.fromJson(Map<String, dynamic> json) {
     final _signatures = (json['signatures'] as List?)
         ?.map((e) => v1SignRawPayloadResult.fromJson(e as Map<String, dynamic>))
         .toList();
-    return v1SignRawPayloadsResult(
-      signatures: _signatures,
-    );
+    return v1SignRawPayloadsResult(signatures: _signatures);
   }
 
   Map<String, dynamic> toJson() {
@@ -19856,8 +19651,9 @@ class v1SignTransactionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1SignTransactionIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1SignTransactionIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SignTransactionRequest(
       type: _type,
@@ -19884,15 +19680,11 @@ class v1SignTransactionRequest {
 class v1SignTransactionResult {
   final String signedTransaction;
 
-  const v1SignTransactionResult({
-    required this.signedTransaction,
-  });
+  const v1SignTransactionResult({required this.signedTransaction});
 
   factory v1SignTransactionResult.fromJson(Map<String, dynamic> json) {
     final _signedTransaction = json['signedTransaction'] as String;
-    return v1SignTransactionResult(
-      signedTransaction: _signedTransaction,
-    );
+    return v1SignTransactionResult(signedTransaction: _signedTransaction);
   }
 
   Map<String, dynamic> toJson() {
@@ -19925,7 +19717,8 @@ class v1SignupUsage {
         .toList();
     final _authenticators = (json['authenticators'] as List?)
         ?.map(
-            (e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+          (e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     final _oauthProviders = (json['oauthProviders'] as List?)
         ?.map((e) => v1OauthProviderParams.fromJson(e as Map<String, dynamic>))
@@ -19983,11 +19776,13 @@ class v1SignupUsageV2 {
         .toList();
     final _authenticators = (json['authenticators'] as List?)
         ?.map(
-            (e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
+          (e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     final _oauthProviders = (json['oauthProviders'] as List?)
         ?.map(
-            (e) => v1OauthProviderParamsV2.fromJson(e as Map<String, dynamic>))
+          (e) => v1OauthProviderParamsV2.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     return v1SignupUsageV2(
       email: _email,
@@ -20035,8 +19830,9 @@ class v1SimpleClientExtensionResults {
     final _appidExclude = json['appidExclude'] as bool?;
     final _credProps = json['credProps'] == null
         ? null
-        : v1CredPropsAuthenticationExtensionsClientOutputs
-            .fromJson(json['credProps'] as Map<String, dynamic>);
+        : v1CredPropsAuthenticationExtensionsClientOutputs.fromJson(
+            json['credProps'] as Map<String, dynamic>,
+          );
     return v1SimpleClientExtensionResults(
       appid: _appid,
       appidExclude: _appidExclude,
@@ -20063,15 +19859,11 @@ class v1SmsCustomizationParams {
   /// Template containing references to .OtpCode i.e Your OTP is {{.OtpCode}}
   final String? template;
 
-  const v1SmsCustomizationParams({
-    this.template,
-  });
+  const v1SmsCustomizationParams({this.template});
 
   factory v1SmsCustomizationParams.fromJson(Map<String, dynamic> json) {
     final _template = json['template'] as String?;
-    return v1SmsCustomizationParams(
-      template: _template,
-    );
+    return v1SmsCustomizationParams(template: _template);
   }
 
   Map<String, dynamic> toJson() {
@@ -20160,8 +19952,9 @@ class v1SolSendTransactionRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1SolSendTransactionIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1SolSendTransactionIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1SolSendTransactionRequest(
       type: _type,
@@ -20189,9 +19982,7 @@ class v1SolSendTransactionResult {
   /// The send_transaction_status ID associated with the transaction submission
   final String sendTransactionStatusId;
 
-  const v1SolSendTransactionResult({
-    required this.sendTransactionStatusId,
-  });
+  const v1SolSendTransactionResult({required this.sendTransactionStatusId});
 
   factory v1SolSendTransactionResult.fromJson(Map<String, dynamic> json) {
     final _sendTransactionStatusId = json['sendTransactionStatusId'] as String;
@@ -20211,15 +20002,11 @@ class v1SolanaConfig {
   /// Whether Solana rent prefunding is enabled for the organization. When omitted, the existing rent-prefund state is left unchanged.
   final bool? rentPrefundEnabled;
 
-  const v1SolanaConfig({
-    this.rentPrefundEnabled,
-  });
+  const v1SolanaConfig({this.rentPrefundEnabled});
 
   factory v1SolanaConfig.fromJson(Map<String, dynamic> json) {
     final _rentPrefundEnabled = json['rentPrefundEnabled'] as bool?;
-    return v1SolanaConfig(
-      rentPrefundEnabled: _rentPrefundEnabled,
-    );
+    return v1SolanaConfig(rentPrefundEnabled: _rentPrefundEnabled);
   }
 
   Map<String, dynamic> toJson() {
@@ -20313,15 +20100,11 @@ class v1SolanaSendTransactionStatus {
   /// The Solana transaction signature, if available.
   final String? signature;
 
-  const v1SolanaSendTransactionStatus({
-    this.signature,
-  });
+  const v1SolanaSendTransactionStatus({this.signature});
 
   factory v1SolanaSendTransactionStatus.fromJson(Map<String, dynamic> json) {
     final _signature = json['signature'] as String?;
-    return v1SolanaSendTransactionStatus(
-      signature: _signature,
-    );
+    return v1SolanaSendTransactionStatus(signature: _signature);
   }
 
   Map<String, dynamic> toJson() {
@@ -20396,8 +20179,9 @@ class v1StampLoginRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1StampLoginIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1StampLoginIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1StampLoginRequest(
       type: _type,
@@ -20425,15 +20209,11 @@ class v1StampLoginResult {
   /// Signed JWT containing an expiry, public key, session type, user id, and organization id
   final String session;
 
-  const v1StampLoginResult({
-    required this.session,
-  });
+  const v1StampLoginResult({required this.session});
 
   factory v1StampLoginResult.fromJson(Map<String, dynamic> json) {
     final _session = json['session'] as String;
-    return v1StampLoginResult(
-      session: _session,
-    );
+    return v1StampLoginResult(session: _session);
   }
 
   Map<String, dynamic> toJson() {
@@ -20535,18 +20315,12 @@ class v1TvcOperatorParams {
   /// Public key for this operator
   final String publicKey;
 
-  const v1TvcOperatorParams({
-    required this.name,
-    required this.publicKey,
-  });
+  const v1TvcOperatorParams({required this.name, required this.publicKey});
 
   factory v1TvcOperatorParams.fromJson(Map<String, dynamic> json) {
     final _name = json['name'] as String;
     final _publicKey = json['publicKey'] as String;
-    return v1TvcOperatorParams(
-      name: _name,
-      publicKey: _publicKey,
-    );
+    return v1TvcOperatorParams(name: _name, publicKey: _publicKey);
   }
 
   Map<String, dynamic> toJson() {
@@ -20621,12 +20395,7 @@ class v1TxError {
   /// Ethereum-specific failure details, if available.
   final v1EthFailureDetails? eth;
 
-  const v1TxError({
-    this.message,
-    this.revertChain,
-    this.solana,
-    this.eth,
-  });
+  const v1TxError({this.message, this.revertChain, this.solana, this.eth});
 
   factory v1TxError.fromJson(Map<String, dynamic> json) {
     final _message = json['message'] as String?;
@@ -20635,8 +20404,9 @@ class v1TxError {
         .toList();
     final _solana = json['solana'] == null
         ? null
-        : v1SolanaFailureDetails
-            .fromJson(json['solana'] as Map<String, dynamic>);
+        : v1SolanaFailureDetails.fromJson(
+            json['solana'] as Map<String, dynamic>,
+          );
     final _eth = json['eth'] == null
         ? null
         : v1EthFailureDetails.fromJson(json['eth'] as Map<String, dynamic>);
@@ -20673,18 +20443,12 @@ class v1UnknownRevertError {
   /// The raw error data, hex-encoded.
   final String? data;
 
-  const v1UnknownRevertError({
-    this.selector,
-    this.data,
-  });
+  const v1UnknownRevertError({this.selector, this.data});
 
   factory v1UnknownRevertError.fromJson(Map<String, dynamic> json) {
     final _selector = json['selector'] as String?;
     final _data = json['data'] as String?;
-    return v1UnknownRevertError(
-      selector: _selector,
-      data: _data,
-    );
+    return v1UnknownRevertError(selector: _selector, data: _data);
   }
 
   Map<String, dynamic> toJson() {
@@ -20703,16 +20467,13 @@ class v1UpdateAllowedOriginsIntent {
   /// Additional origins requests are allowed from besides Turnkey origins
   final List<String> allowedOrigins;
 
-  const v1UpdateAllowedOriginsIntent({
-    required this.allowedOrigins,
-  });
+  const v1UpdateAllowedOriginsIntent({required this.allowedOrigins});
 
   factory v1UpdateAllowedOriginsIntent.fromJson(Map<String, dynamic> json) {
-    final _allowedOrigins =
-        (json['allowedOrigins'] as List).map((e) => e as String).toList();
-    return v1UpdateAllowedOriginsIntent(
-      allowedOrigins: _allowedOrigins,
-    );
+    final _allowedOrigins = (json['allowedOrigins'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1UpdateAllowedOriginsIntent(allowedOrigins: _allowedOrigins);
   }
 
   Map<String, dynamic> toJson() {
@@ -20802,26 +20563,31 @@ class v1UpdateAuthProxyConfigIntent {
   });
 
   factory v1UpdateAuthProxyConfigIntent.fromJson(Map<String, dynamic> json) {
-    final _allowedOrigins =
-        (json['allowedOrigins'] as List?)?.map((e) => e as String).toList();
-    final _allowedAuthMethods =
-        (json['allowedAuthMethods'] as List?)?.map((e) => e as String).toList();
+    final _allowedOrigins = (json['allowedOrigins'] as List?)
+        ?.map((e) => e as String)
+        .toList();
+    final _allowedAuthMethods = (json['allowedAuthMethods'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
     final _emailAuthTemplateId = json['emailAuthTemplateId'] as String?;
     final _otpTemplateId = json['otpTemplateId'] as String?;
     final _emailCustomizationParams = json['emailCustomizationParams'] == null
         ? null
-        : v1EmailCustomizationParams
-            .fromJson(json['emailCustomizationParams'] as Map<String, dynamic>);
+        : v1EmailCustomizationParams.fromJson(
+            json['emailCustomizationParams'] as Map<String, dynamic>,
+          );
     final _smsCustomizationParams = json['smsCustomizationParams'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomizationParams'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomizationParams'] as Map<String, dynamic>,
+          );
     final _walletKitSettings = json['walletKitSettings'] == null
         ? null
-        : v1WalletKitSettingsParams
-            .fromJson(json['walletKitSettings'] as Map<String, dynamic>);
+        : v1WalletKitSettingsParams.fromJson(
+            json['walletKitSettings'] as Map<String, dynamic>,
+          );
     final _otpExpirationSeconds = json['otpExpirationSeconds'] as num?;
     final _verificationTokenExpirationSeconds =
         json['verificationTokenExpirationSeconds'] as num?;
@@ -20919,15 +20685,11 @@ class v1UpdateAuthProxyConfigResult {
   /// Unique identifier for a given User. (representing the turnkey signer user id)
   final String? configId;
 
-  const v1UpdateAuthProxyConfigResult({
-    this.configId,
-  });
+  const v1UpdateAuthProxyConfigResult({this.configId});
 
   factory v1UpdateAuthProxyConfigResult.fromJson(Map<String, dynamic> json) {
     final _configId = json['configId'] as String?;
-    return v1UpdateAuthProxyConfigResult(
-      configId: _configId,
-    );
+    return v1UpdateAuthProxyConfigResult(configId: _configId);
   }
 
   Map<String, dynamic> toJson() {
@@ -20968,10 +20730,12 @@ class v1UpdateFiatOnRampCredentialIntent {
   });
 
   factory v1UpdateFiatOnRampCredentialIntent.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _projectId = json['projectId'] as String?;
     final _publishableApiKey = json['publishableApiKey'] as String;
     final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
@@ -21022,12 +20786,14 @@ class v1UpdateFiatOnRampCredentialRequest {
   });
 
   factory v1UpdateFiatOnRampCredentialRequest.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateFiatOnRampCredentialIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateFiatOnRampCredentialIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateFiatOnRampCredentialRequest(
       type: _type,
@@ -21060,7 +20826,8 @@ class v1UpdateFiatOnRampCredentialResult {
   });
 
   factory v1UpdateFiatOnRampCredentialResult.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnRampCredentialId = json['fiatOnRampCredentialId'] as String;
     return v1UpdateFiatOnRampCredentialResult(
       fiatOnRampCredentialId: _fiatOnRampCredentialId,
@@ -21140,8 +20907,9 @@ class v1UpdateOauth2CredentialRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateOauth2CredentialIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateOauth2CredentialIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateOauth2CredentialRequest(
       type: _type,
@@ -21169,9 +20937,7 @@ class v1UpdateOauth2CredentialResult {
   /// Unique identifier of the OAuth 2.0 credential that was updated
   final String oauth2CredentialId;
 
-  const v1UpdateOauth2CredentialResult({
-    required this.oauth2CredentialId,
-  });
+  const v1UpdateOauth2CredentialResult({required this.oauth2CredentialId});
 
   factory v1UpdateOauth2CredentialResult.fromJson(Map<String, dynamic> json) {
     final _oauth2CredentialId = json['oauth2CredentialId'] as String;
@@ -21191,15 +20957,11 @@ class v1UpdateOrganizationNameIntent {
   /// New name for the Organization.
   final String organizationName;
 
-  const v1UpdateOrganizationNameIntent({
-    required this.organizationName,
-  });
+  const v1UpdateOrganizationNameIntent({required this.organizationName});
 
   factory v1UpdateOrganizationNameIntent.fromJson(Map<String, dynamic> json) {
     final _organizationName = json['organizationName'] as String;
-    return v1UpdateOrganizationNameIntent(
-      organizationName: _organizationName,
-    );
+    return v1UpdateOrganizationNameIntent(organizationName: _organizationName);
   }
 
   Map<String, dynamic> toJson() {
@@ -21230,8 +20992,9 @@ class v1UpdateOrganizationNameRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateOrganizationNameIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateOrganizationNameIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     return v1UpdateOrganizationNameRequest(
       type: _type,
       timestampMs: _timestampMs,
@@ -21440,8 +21203,9 @@ class v1UpdatePolicyRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdatePolicyIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdatePolicyIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdatePolicyRequest(
       type: _type,
@@ -21469,15 +21233,11 @@ class v1UpdatePolicyResult {
   /// Unique identifier for a given Policy.
   final String policyId;
 
-  const v1UpdatePolicyResult({
-    required this.policyId,
-  });
+  const v1UpdatePolicyResult({required this.policyId});
 
   factory v1UpdatePolicyResult.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
-    return v1UpdatePolicyResult(
-      policyId: _policyId,
-    );
+    return v1UpdatePolicyResult(policyId: _policyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -21491,15 +21251,11 @@ class v1UpdatePolicyResultV2 {
   /// Unique identifier for a given Policy.
   final String policyId;
 
-  const v1UpdatePolicyResultV2({
-    required this.policyId,
-  });
+  const v1UpdatePolicyResultV2({required this.policyId});
 
   factory v1UpdatePolicyResultV2.fromJson(Map<String, dynamic> json) {
     final _policyId = json['policyId'] as String;
-    return v1UpdatePolicyResultV2(
-      policyId: _policyId,
-    );
+    return v1UpdatePolicyResultV2(policyId: _policyId);
   }
 
   Map<String, dynamic> toJson() {
@@ -21532,10 +21288,12 @@ class v1UpdatePrivateKeyTagIntent {
   factory v1UpdatePrivateKeyTagIntent.fromJson(Map<String, dynamic> json) {
     final _privateKeyTagId = json['privateKeyTagId'] as String;
     final _newPrivateKeyTagName = json['newPrivateKeyTagName'] as String?;
-    final _addPrivateKeyIds =
-        (json['addPrivateKeyIds'] as List).map((e) => e as String).toList();
-    final _removePrivateKeyIds =
-        (json['removePrivateKeyIds'] as List).map((e) => e as String).toList();
+    final _addPrivateKeyIds = (json['addPrivateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    final _removePrivateKeyIds = (json['removePrivateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1UpdatePrivateKeyTagIntent(
       privateKeyTagId: _privateKeyTagId,
       newPrivateKeyTagName: _newPrivateKeyTagName,
@@ -21579,8 +21337,9 @@ class v1UpdatePrivateKeyTagRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdatePrivateKeyTagIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdatePrivateKeyTagIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdatePrivateKeyTagRequest(
       type: _type,
@@ -21608,15 +21367,11 @@ class v1UpdatePrivateKeyTagResult {
   /// Unique identifier for a given Private Key Tag.
   final String privateKeyTagId;
 
-  const v1UpdatePrivateKeyTagResult({
-    required this.privateKeyTagId,
-  });
+  const v1UpdatePrivateKeyTagResult({required this.privateKeyTagId});
 
   factory v1UpdatePrivateKeyTagResult.fromJson(Map<String, dynamic> json) {
     final _privateKeyTagId = json['privateKeyTagId'] as String;
-    return v1UpdatePrivateKeyTagResult(
-      privateKeyTagId: _privateKeyTagId,
-    );
+    return v1UpdatePrivateKeyTagResult(privateKeyTagId: _privateKeyTagId);
   }
 
   Map<String, dynamic> toJson() {
@@ -21641,10 +21396,7 @@ class v1UpdateRootQuorumIntent {
   factory v1UpdateRootQuorumIntent.fromJson(Map<String, dynamic> json) {
     final _threshold = json['threshold'] as num;
     final _userIds = (json['userIds'] as List).map((e) => e as String).toList();
-    return v1UpdateRootQuorumIntent(
-      threshold: _threshold,
-      userIds: _userIds,
-    );
+    return v1UpdateRootQuorumIntent(threshold: _threshold, userIds: _userIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -21678,8 +21430,9 @@ class v1UpdateRootQuorumRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateRootQuorumIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateRootQuorumIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateRootQuorumRequest(
       type: _type,
@@ -21771,8 +21524,9 @@ class v1UpdateUserEmailRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateUserEmailIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateUserEmailIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserEmailRequest(
       type: _type,
@@ -21800,15 +21554,11 @@ class v1UpdateUserEmailResult {
   /// Unique identifier of the User whose email was updated.
   final String userId;
 
-  const v1UpdateUserEmailResult({
-    required this.userId,
-  });
+  const v1UpdateUserEmailResult({required this.userId});
 
   factory v1UpdateUserEmailResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1UpdateUserEmailResult(
-      userId: _userId,
-    );
+    return v1UpdateUserEmailResult(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -21846,8 +21596,9 @@ class v1UpdateUserIntent {
     final _userId = json['userId'] as String;
     final _userName = json['userName'] as String?;
     final _userEmail = json['userEmail'] as String?;
-    final _userTagIds =
-        (json['userTagIds'] as List?)?.map((e) => e as String).toList();
+    final _userTagIds = (json['userTagIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     final _userPhoneNumber = json['userPhoneNumber'] as String?;
     return v1UpdateUserIntent(
       userId: _userId,
@@ -21884,18 +21635,12 @@ class v1UpdateUserNameIntent {
   /// Human-readable name for a User.
   final String userName;
 
-  const v1UpdateUserNameIntent({
-    required this.userId,
-    required this.userName,
-  });
+  const v1UpdateUserNameIntent({required this.userId, required this.userName});
 
   factory v1UpdateUserNameIntent.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
     final _userName = json['userName'] as String;
-    return v1UpdateUserNameIntent(
-      userId: _userId,
-      userName: _userName,
-    );
+    return v1UpdateUserNameIntent(userId: _userId, userName: _userName);
   }
 
   Map<String, dynamic> toJson() {
@@ -21929,8 +21674,9 @@ class v1UpdateUserNameRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateUserNameIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateUserNameIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserNameRequest(
       type: _type,
@@ -21958,15 +21704,11 @@ class v1UpdateUserNameResult {
   /// Unique identifier of the User whose name was updated.
   final String userId;
 
-  const v1UpdateUserNameResult({
-    required this.userId,
-  });
+  const v1UpdateUserNameResult({required this.userId});
 
   factory v1UpdateUserNameResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1UpdateUserNameResult(
-      userId: _userId,
-    );
+    return v1UpdateUserNameResult(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -22037,8 +21779,9 @@ class v1UpdateUserPhoneNumberRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateUserPhoneNumberIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateUserPhoneNumberIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserPhoneNumberRequest(
       type: _type,
@@ -22066,15 +21809,11 @@ class v1UpdateUserPhoneNumberResult {
   /// Unique identifier of the User whose phone number was updated.
   final String userId;
 
-  const v1UpdateUserPhoneNumberResult({
-    required this.userId,
-  });
+  const v1UpdateUserPhoneNumberResult({required this.userId});
 
   factory v1UpdateUserPhoneNumberResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1UpdateUserPhoneNumberResult(
-      userId: _userId,
-    );
+    return v1UpdateUserPhoneNumberResult(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -22107,8 +21846,9 @@ class v1UpdateUserRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters =
-        v1UpdateUserIntent.fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateUserIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserRequest(
       type: _type,
@@ -22136,15 +21876,11 @@ class v1UpdateUserResult {
   /// A User ID.
   final String userId;
 
-  const v1UpdateUserResult({
-    required this.userId,
-  });
+  const v1UpdateUserResult({required this.userId});
 
   factory v1UpdateUserResult.fromJson(Map<String, dynamic> json) {
     final _userId = json['userId'] as String;
-    return v1UpdateUserResult(
-      userId: _userId,
-    );
+    return v1UpdateUserResult(userId: _userId);
   }
 
   Map<String, dynamic> toJson() {
@@ -22177,10 +21913,12 @@ class v1UpdateUserTagIntent {
   factory v1UpdateUserTagIntent.fromJson(Map<String, dynamic> json) {
     final _userTagId = json['userTagId'] as String;
     final _newUserTagName = json['newUserTagName'] as String?;
-    final _addUserIds =
-        (json['addUserIds'] as List).map((e) => e as String).toList();
-    final _removeUserIds =
-        (json['removeUserIds'] as List).map((e) => e as String).toList();
+    final _addUserIds = (json['addUserIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    final _removeUserIds = (json['removeUserIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1UpdateUserTagIntent(
       userTagId: _userTagId,
       newUserTagName: _newUserTagName,
@@ -22224,8 +21962,9 @@ class v1UpdateUserTagRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateUserTagIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateUserTagIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateUserTagRequest(
       type: _type,
@@ -22253,15 +21992,11 @@ class v1UpdateUserTagResult {
   /// Unique identifier for a given User Tag.
   final String userTagId;
 
-  const v1UpdateUserTagResult({
-    required this.userTagId,
-  });
+  const v1UpdateUserTagResult({required this.userTagId});
 
   factory v1UpdateUserTagResult.fromJson(Map<String, dynamic> json) {
     final _userTagId = json['userTagId'] as String;
-    return v1UpdateUserTagResult(
-      userTagId: _userTagId,
-    );
+    return v1UpdateUserTagResult(userTagId: _userTagId);
   }
 
   Map<String, dynamic> toJson() {
@@ -22278,18 +22013,12 @@ class v1UpdateWalletIntent {
   /// Human-readable name for a Wallet.
   final String? walletName;
 
-  const v1UpdateWalletIntent({
-    required this.walletId,
-    this.walletName,
-  });
+  const v1UpdateWalletIntent({required this.walletId, this.walletName});
 
   factory v1UpdateWalletIntent.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
     final _walletName = json['walletName'] as String?;
-    return v1UpdateWalletIntent(
-      walletId: _walletId,
-      walletName: _walletName,
-    );
+    return v1UpdateWalletIntent(walletId: _walletId, walletName: _walletName);
   }
 
   Map<String, dynamic> toJson() {
@@ -22325,8 +22054,9 @@ class v1UpdateWalletRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateWalletIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateWalletIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateWalletRequest(
       type: _type,
@@ -22354,15 +22084,11 @@ class v1UpdateWalletResult {
   /// A Wallet ID.
   final String walletId;
 
-  const v1UpdateWalletResult({
-    required this.walletId,
-  });
+  const v1UpdateWalletResult({required this.walletId});
 
   factory v1UpdateWalletResult.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
-    return v1UpdateWalletResult(
-      walletId: _walletId,
-    );
+    return v1UpdateWalletResult(walletId: _walletId);
   }
 
   Map<String, dynamic> toJson() {
@@ -22444,8 +22170,9 @@ class v1UpdateWebhookEndpointRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1UpdateWebhookEndpointIntent
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1UpdateWebhookEndpointIntent.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1UpdateWebhookEndpointRequest(
       type: _type,
@@ -22483,8 +22210,9 @@ class v1UpdateWebhookEndpointResult {
 
   factory v1UpdateWebhookEndpointResult.fromJson(Map<String, dynamic> json) {
     final _endpointId = json['endpointId'] as String;
-    final _webhookEndpoint = v1WebhookEndpointData
-        .fromJson(json['webhookEndpoint'] as Map<String, dynamic>);
+    final _webhookEndpoint = v1WebhookEndpointData.fromJson(
+      json['webhookEndpoint'] as Map<String, dynamic>,
+    );
     return v1UpdateWebhookEndpointResult(
       endpointId: _endpointId,
       webhookEndpoint: _webhookEndpoint,
@@ -22559,15 +22287,11 @@ class v1UpsertGasUsageConfigResult {
   /// Unique identifier for the gas usage configuration that was created or updated.
   final String gasUsageConfigId;
 
-  const v1UpsertGasUsageConfigResult({
-    required this.gasUsageConfigId,
-  });
+  const v1UpsertGasUsageConfigResult({required this.gasUsageConfigId});
 
   factory v1UpsertGasUsageConfigResult.fromJson(Map<String, dynamic> json) {
     final _gasUsageConfigId = json['gasUsageConfigId'] as String;
-    return v1UpsertGasUsageConfigResult(
-      gasUsageConfigId: _gasUsageConfigId,
-    );
+    return v1UpsertGasUsageConfigResult(gasUsageConfigId: _gasUsageConfigId);
   }
 
   Map<String, dynamic> toJson() {
@@ -22628,15 +22352,18 @@ class v1User {
     final _apiKeys = (json['apiKeys'] as List)
         .map((e) => v1ApiKey.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _userTags =
-        (json['userTags'] as List).map((e) => e as String).toList();
+    final _userTags = (json['userTags'] as List)
+        .map((e) => e as String)
+        .toList();
     final _oauthProviders = (json['oauthProviders'] as List)
         .map((e) => v1OauthProvider.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     return v1User(
       userId: _userId,
       userName: _userName,
@@ -22709,8 +22436,9 @@ class v1UserParams {
     final _authenticators = (json['authenticators'] as List)
         .map((e) => v1AuthenticatorParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _userTags =
-        (json['userTags'] as List).map((e) => e as String).toList();
+    final _userTags = (json['userTags'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1UserParams(
       userName: _userName,
       userEmail: _userEmail,
@@ -22768,8 +22496,9 @@ class v1UserParamsV2 {
     final _authenticators = (json['authenticators'] as List)
         .map((e) => v1AuthenticatorParamsV2.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _userTags =
-        (json['userTags'] as List).map((e) => e as String).toList();
+    final _userTags = (json['userTags'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1UserParamsV2(
       userName: _userName,
       userEmail: _userEmail,
@@ -22837,8 +22566,9 @@ class v1UserParamsV3 {
     final _oauthProviders = (json['oauthProviders'] as List)
         .map((e) => v1OauthProviderParams.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _userTags =
-        (json['userTags'] as List).map((e) => e as String).toList();
+    final _userTags = (json['userTags'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1UserParamsV3(
       userName: _userName,
       userEmail: _userEmail,
@@ -22912,8 +22642,9 @@ class v1UserParamsV4 {
     final _oauthProviders = (json['oauthProviders'] as List)
         .map((e) => v1OauthProviderParamsV2.fromJson(e as Map<String, dynamic>))
         .toList();
-    final _userTags =
-        (json['userTags'] as List).map((e) => e as String).toList();
+    final _userTags = (json['userTags'] as List)
+        .map((e) => e as String)
+        .toList();
     return v1UserParamsV4(
       userName: _userName,
       userEmail: _userEmail,
@@ -23050,8 +22781,9 @@ class v1VerifyOtpRequest {
     final _type = json['type'] as String;
     final _timestampMs = json['timestampMs'] as String;
     final _organizationId = json['organizationId'] as String;
-    final _parameters = v1VerifyOtpIntentV2
-        .fromJson(json['parameters'] as Map<String, dynamic>);
+    final _parameters = v1VerifyOtpIntentV2.fromJson(
+      json['parameters'] as Map<String, dynamic>,
+    );
     final _generateAppProofs = json['generateAppProofs'] as bool?;
     return v1VerifyOtpRequest(
       type: _type,
@@ -23079,15 +22811,11 @@ class v1VerifyOtpResult {
   /// Signed JWT containing a unique id, expiry, verification type, contact. Verification status of a user is updated when the token is consumed (in OTP_LOGIN requests)
   final String verificationToken;
 
-  const v1VerifyOtpResult({
-    required this.verificationToken,
-  });
+  const v1VerifyOtpResult({required this.verificationToken});
 
   factory v1VerifyOtpResult.fromJson(Map<String, dynamic> json) {
     final _verificationToken = json['verificationToken'] as String;
-    return v1VerifyOtpResult(
-      verificationToken: _verificationToken,
-    );
+    return v1VerifyOtpResult(verificationToken: _verificationToken);
   }
 
   Map<String, dynamic> toJson() {
@@ -23147,8 +22875,9 @@ class v1Vote {
     final _publicKey = json['publicKey'] as String;
     final _signature = json['signature'] as String;
     final _scheme = json['scheme'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
     return v1Vote(
       id: _id,
       userId: _userId,
@@ -23206,10 +22935,12 @@ class v1Wallet {
   factory v1Wallet.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
     final _walletName = json['walletName'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     final _exported = json['exported'] as bool;
     final _imported = json['imported'] as bool;
     return v1Wallet(
@@ -23291,10 +23022,12 @@ class v1WalletAccount {
     final _path = json['path'] as String;
     final _addressFormat = v1AddressFormatFromJson(json['addressFormat']);
     final _address = json['address'] as String;
-    final _createdAt = externaldatav1Timestamp
-        .fromJson(json['createdAt'] as Map<String, dynamic>);
-    final _updatedAt = externaldatav1Timestamp
-        .fromJson(json['updatedAt'] as Map<String, dynamic>);
+    final _createdAt = externaldatav1Timestamp.fromJson(
+      json['createdAt'] as Map<String, dynamic>,
+    );
+    final _updatedAt = externaldatav1Timestamp.fromJson(
+      json['updatedAt'] as Map<String, dynamic>,
+    );
     final _publicKey = json['publicKey'] as String?;
     final _walletDetails = json['walletDetails'] == null
         ? null
@@ -23470,19 +23203,14 @@ class v1WalletResult {
   /// A list of account addresses.
   final List<String> addresses;
 
-  const v1WalletResult({
-    required this.walletId,
-    required this.addresses,
-  });
+  const v1WalletResult({required this.walletId, required this.addresses});
 
   factory v1WalletResult.fromJson(Map<String, dynamic> json) {
     final _walletId = json['walletId'] as String;
-    final _addresses =
-        (json['addresses'] as List).map((e) => e as String).toList();
-    return v1WalletResult(
-      walletId: _walletId,
-      addresses: _addresses,
-    );
+    final _addresses = (json['addresses'] as List)
+        .map((e) => e as String)
+        .toList();
+    return v1WalletResult(walletId: _walletId, addresses: _addresses);
   }
 
   Map<String, dynamic> toJson() {
@@ -23571,8 +23299,10 @@ class v1WebhookEndpointData {
     final _name = json['name'] as String;
     final _isActive = json['isActive'] as bool;
     final _subscriptions = (json['subscriptions'] as List?)
-        ?.map((e) =>
-            v1WebhookSubscriptionParams.fromJson(e as Map<String, dynamic>))
+        ?.map(
+          (e) =>
+              v1WebhookSubscriptionParams.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     return v1WebhookEndpointData(
       endpointId: _endpointId,
@@ -23644,16 +23374,13 @@ class TGetActivityResponse {
   /// An action that can be taken within the Turnkey infrastructure.
   final v1Activity activity;
 
-  const TGetActivityResponse({
-    required this.activity,
-  });
+  const TGetActivityResponse({required this.activity});
 
   factory TGetActivityResponse.fromJson(Map<String, dynamic> json) {
-    final _activity =
-        v1Activity.fromJson(json['activity'] as Map<String, dynamic>);
-    return TGetActivityResponse(
-      activity: _activity,
+    final _activity = v1Activity.fromJson(
+      json['activity'] as Map<String, dynamic>,
     );
+    return TGetActivityResponse(activity: _activity);
   }
 
   Map<String, dynamic> toJson() {
@@ -23669,10 +23396,7 @@ class TGetActivityBody {
   /// Unique identifier for a given activity object.
   final String activityId;
 
-  const TGetActivityBody({
-    this.organizationId,
-    required this.activityId,
-  });
+  const TGetActivityBody({this.organizationId, required this.activityId});
   factory TGetActivityBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _activityId = json['activityId'] as String;
@@ -23696,8 +23420,8 @@ class TGetActivityInput {
   const TGetActivityInput({required this.body});
   factory TGetActivityInput.fromJson(Map<String, dynamic> json) =>
       TGetActivityInput(
-          body:
-              TGetActivityBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetActivityBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23705,15 +23429,11 @@ class TGetApiKeyResponse {
   /// An API key.
   final v1ApiKey apiKey;
 
-  const TGetApiKeyResponse({
-    required this.apiKey,
-  });
+  const TGetApiKeyResponse({required this.apiKey});
 
   factory TGetApiKeyResponse.fromJson(Map<String, dynamic> json) {
     final _apiKey = v1ApiKey.fromJson(json['apiKey'] as Map<String, dynamic>);
-    return TGetApiKeyResponse(
-      apiKey: _apiKey,
-    );
+    return TGetApiKeyResponse(apiKey: _apiKey);
   }
 
   Map<String, dynamic> toJson() {
@@ -23729,17 +23449,11 @@ class TGetApiKeyBody {
   /// Unique identifier for a given API key.
   final String apiKeyId;
 
-  const TGetApiKeyBody({
-    this.organizationId,
-    required this.apiKeyId,
-  });
+  const TGetApiKeyBody({this.organizationId, required this.apiKeyId});
   factory TGetApiKeyBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _apiKeyId = json['apiKeyId'] as String;
-    return TGetApiKeyBody(
-      organizationId: _organizationId,
-      apiKeyId: _apiKeyId,
-    );
+    return TGetApiKeyBody(organizationId: _organizationId, apiKeyId: _apiKeyId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -23756,7 +23470,8 @@ class TGetApiKeyInput {
   const TGetApiKeyInput({required this.body});
   factory TGetApiKeyInput.fromJson(Map<String, dynamic> json) =>
       TGetApiKeyInput(
-          body: TGetApiKeyBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetApiKeyBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23764,17 +23479,13 @@ class TGetApiKeysResponse {
   /// A list of API keys.
   final List<v1ApiKey> apiKeys;
 
-  const TGetApiKeysResponse({
-    required this.apiKeys,
-  });
+  const TGetApiKeysResponse({required this.apiKeys});
 
   factory TGetApiKeysResponse.fromJson(Map<String, dynamic> json) {
     final _apiKeys = (json['apiKeys'] as List)
         .map((e) => v1ApiKey.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetApiKeysResponse(
-      apiKeys: _apiKeys,
-    );
+    return TGetApiKeysResponse(apiKeys: _apiKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -23790,17 +23501,11 @@ class TGetApiKeysBody {
   /// Unique identifier for a given user.
   final String? userId;
 
-  const TGetApiKeysBody({
-    this.organizationId,
-    this.userId,
-  });
+  const TGetApiKeysBody({this.organizationId, this.userId});
   factory TGetApiKeysBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String?;
-    return TGetApiKeysBody(
-      organizationId: _organizationId,
-      userId: _userId,
-    );
+    return TGetApiKeysBody(organizationId: _organizationId, userId: _userId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -23819,7 +23524,8 @@ class TGetApiKeysInput {
   const TGetApiKeysInput({required this.body});
   factory TGetApiKeysInput.fromJson(Map<String, dynamic> json) =>
       TGetApiKeysInput(
-          body: TGetApiKeysBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetApiKeysBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23827,16 +23533,13 @@ class TGetAppStatusResponse {
   /// Live runtime status for the TVC App
   final v1AppStatus appStatus;
 
-  const TGetAppStatusResponse({
-    required this.appStatus,
-  });
+  const TGetAppStatusResponse({required this.appStatus});
 
   factory TGetAppStatusResponse.fromJson(Map<String, dynamic> json) {
-    final _appStatus =
-        v1AppStatus.fromJson(json['appStatus'] as Map<String, dynamic>);
-    return TGetAppStatusResponse(
-      appStatus: _appStatus,
+    final _appStatus = v1AppStatus.fromJson(
+      json['appStatus'] as Map<String, dynamic>,
     );
+    return TGetAppStatusResponse(appStatus: _appStatus);
   }
 
   Map<String, dynamic> toJson() {
@@ -23852,17 +23555,11 @@ class TGetAppStatusBody {
   /// Unique identifier for a given TVC App.
   final String appId;
 
-  const TGetAppStatusBody({
-    this.organizationId,
-    required this.appId,
-  });
+  const TGetAppStatusBody({this.organizationId, required this.appId});
   factory TGetAppStatusBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _appId = json['appId'] as String;
-    return TGetAppStatusBody(
-      organizationId: _organizationId,
-      appId: _appId,
-    );
+    return TGetAppStatusBody(organizationId: _organizationId, appId: _appId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -23879,8 +23576,8 @@ class TGetAppStatusInput {
   const TGetAppStatusInput({required this.body});
   factory TGetAppStatusInput.fromJson(Map<String, dynamic> json) =>
       TGetAppStatusInput(
-          body:
-              TGetAppStatusBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetAppStatusBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23888,16 +23585,13 @@ class TGetAuthenticatorResponse {
   /// An authenticator.
   final v1Authenticator authenticator;
 
-  const TGetAuthenticatorResponse({
-    required this.authenticator,
-  });
+  const TGetAuthenticatorResponse({required this.authenticator});
 
   factory TGetAuthenticatorResponse.fromJson(Map<String, dynamic> json) {
-    final _authenticator =
-        v1Authenticator.fromJson(json['authenticator'] as Map<String, dynamic>);
-    return TGetAuthenticatorResponse(
-      authenticator: _authenticator,
+    final _authenticator = v1Authenticator.fromJson(
+      json['authenticator'] as Map<String, dynamic>,
     );
+    return TGetAuthenticatorResponse(authenticator: _authenticator);
   }
 
   Map<String, dynamic> toJson() {
@@ -23940,8 +23634,10 @@ class TGetAuthenticatorInput {
   const TGetAuthenticatorInput({required this.body});
   factory TGetAuthenticatorInput.fromJson(Map<String, dynamic> json) =>
       TGetAuthenticatorInput(
-          body: TGetAuthenticatorBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetAuthenticatorBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -23949,17 +23645,13 @@ class TGetAuthenticatorsResponse {
   /// A list of authenticators.
   final List<v1Authenticator> authenticators;
 
-  const TGetAuthenticatorsResponse({
-    required this.authenticators,
-  });
+  const TGetAuthenticatorsResponse({required this.authenticators});
 
   factory TGetAuthenticatorsResponse.fromJson(Map<String, dynamic> json) {
     final _authenticators = (json['authenticators'] as List)
         .map((e) => v1Authenticator.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetAuthenticatorsResponse(
-      authenticators: _authenticators,
-    );
+    return TGetAuthenticatorsResponse(authenticators: _authenticators);
   }
 
   Map<String, dynamic> toJson() {
@@ -23975,10 +23667,7 @@ class TGetAuthenticatorsBody {
   /// Unique identifier for a given user.
   final String userId;
 
-  const TGetAuthenticatorsBody({
-    this.organizationId,
-    required this.userId,
-  });
+  const TGetAuthenticatorsBody({this.organizationId, required this.userId});
   factory TGetAuthenticatorsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String;
@@ -24002,24 +23691,23 @@ class TGetAuthenticatorsInput {
   const TGetAuthenticatorsInput({required this.body});
   factory TGetAuthenticatorsInput.fromJson(Map<String, dynamic> json) =>
       TGetAuthenticatorsInput(
-          body: TGetAuthenticatorsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetAuthenticatorsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TGetBootProofResponse {
   final v1BootProof bootProof;
 
-  const TGetBootProofResponse({
-    required this.bootProof,
-  });
+  const TGetBootProofResponse({required this.bootProof});
 
   factory TGetBootProofResponse.fromJson(Map<String, dynamic> json) {
-    final _bootProof =
-        v1BootProof.fromJson(json['bootProof'] as Map<String, dynamic>);
-    return TGetBootProofResponse(
-      bootProof: _bootProof,
+    final _bootProof = v1BootProof.fromJson(
+      json['bootProof'] as Map<String, dynamic>,
     );
+    return TGetBootProofResponse(bootProof: _bootProof);
   }
 
   Map<String, dynamic> toJson() {
@@ -24035,10 +23723,7 @@ class TGetBootProofBody {
   /// Hex encoded ephemeral public key.
   final String ephemeralKey;
 
-  const TGetBootProofBody({
-    this.organizationId,
-    required this.ephemeralKey,
-  });
+  const TGetBootProofBody({this.organizationId, required this.ephemeralKey});
   factory TGetBootProofBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _ephemeralKey = json['ephemeralKey'] as String;
@@ -24062,8 +23747,8 @@ class TGetBootProofInput {
   const TGetBootProofInput({required this.body});
   factory TGetBootProofInput.fromJson(Map<String, dynamic> json) =>
       TGetBootProofInput(
-          body:
-              TGetBootProofBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetBootProofBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24106,14 +23791,10 @@ class TGetGasUsageResponse {
 class TGetGasUsageBody {
   final String? organizationId;
 
-  const TGetGasUsageBody({
-    this.organizationId,
-  });
+  const TGetGasUsageBody({this.organizationId});
   factory TGetGasUsageBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetGasUsageBody(
-      organizationId: _organizationId,
-    );
+    return TGetGasUsageBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -24129,24 +23810,21 @@ class TGetGasUsageInput {
   const TGetGasUsageInput({required this.body});
   factory TGetGasUsageInput.fromJson(Map<String, dynamic> json) =>
       TGetGasUsageInput(
-          body:
-              TGetGasUsageBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetGasUsageBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TGetLatestBootProofResponse {
   final v1BootProof bootProof;
 
-  const TGetLatestBootProofResponse({
-    required this.bootProof,
-  });
+  const TGetLatestBootProofResponse({required this.bootProof});
 
   factory TGetLatestBootProofResponse.fromJson(Map<String, dynamic> json) {
-    final _bootProof =
-        v1BootProof.fromJson(json['bootProof'] as Map<String, dynamic>);
-    return TGetLatestBootProofResponse(
-      bootProof: _bootProof,
+    final _bootProof = v1BootProof.fromJson(
+      json['bootProof'] as Map<String, dynamic>,
     );
+    return TGetLatestBootProofResponse(bootProof: _bootProof);
   }
 
   Map<String, dynamic> toJson() {
@@ -24162,10 +23840,7 @@ class TGetLatestBootProofBody {
   /// Name of enclave app.
   final String appName;
 
-  const TGetLatestBootProofBody({
-    this.organizationId,
-    required this.appName,
-  });
+  const TGetLatestBootProofBody({this.organizationId, required this.appName});
   factory TGetLatestBootProofBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _appName = json['appName'] as String;
@@ -24189,8 +23864,10 @@ class TGetLatestBootProofInput {
   const TGetLatestBootProofInput({required this.body});
   factory TGetLatestBootProofInput.fromJson(Map<String, dynamic> json) =>
       TGetLatestBootProofInput(
-          body: TGetLatestBootProofBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetLatestBootProofBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24201,18 +23878,12 @@ class TGetNoncesResponse {
   /// The gas station nonce for sponsored transactions, if requested.
   final String? gasStationNonce;
 
-  const TGetNoncesResponse({
-    this.nonce,
-    this.gasStationNonce,
-  });
+  const TGetNoncesResponse({this.nonce, this.gasStationNonce});
 
   factory TGetNoncesResponse.fromJson(Map<String, dynamic> json) {
     final _nonce = json['nonce'] as String?;
     final _gasStationNonce = json['gasStationNonce'] as String?;
-    return TGetNoncesResponse(
-      nonce: _nonce,
-      gasStationNonce: _gasStationNonce,
-    );
+    return TGetNoncesResponse(nonce: _nonce, gasStationNonce: _gasStationNonce);
   }
 
   Map<String, dynamic> toJson() {
@@ -24285,23 +23956,21 @@ class TGetNoncesInput {
   const TGetNoncesInput({required this.body});
   factory TGetNoncesInput.fromJson(Map<String, dynamic> json) =>
       TGetNoncesInput(
-          body: TGetNoncesBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetNoncesBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TGetOauth2CredentialResponse {
   final v1Oauth2Credential oauth2Credential;
 
-  const TGetOauth2CredentialResponse({
-    required this.oauth2Credential,
-  });
+  const TGetOauth2CredentialResponse({required this.oauth2Credential});
 
   factory TGetOauth2CredentialResponse.fromJson(Map<String, dynamic> json) {
-    final _oauth2Credential = v1Oauth2Credential
-        .fromJson(json['oauth2Credential'] as Map<String, dynamic>);
-    return TGetOauth2CredentialResponse(
-      oauth2Credential: _oauth2Credential,
+    final _oauth2Credential = v1Oauth2Credential.fromJson(
+      json['oauth2Credential'] as Map<String, dynamic>,
     );
+    return TGetOauth2CredentialResponse(oauth2Credential: _oauth2Credential);
   }
 
   Map<String, dynamic> toJson() {
@@ -24344,8 +24013,10 @@ class TGetOauth2CredentialInput {
   const TGetOauth2CredentialInput({required this.body});
   factory TGetOauth2CredentialInput.fromJson(Map<String, dynamic> json) =>
       TGetOauth2CredentialInput(
-          body: TGetOauth2CredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetOauth2CredentialBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24353,17 +24024,13 @@ class TGetOauthProvidersResponse {
   /// A list of Oauth providers.
   final List<v1OauthProvider> oauthProviders;
 
-  const TGetOauthProvidersResponse({
-    required this.oauthProviders,
-  });
+  const TGetOauthProvidersResponse({required this.oauthProviders});
 
   factory TGetOauthProvidersResponse.fromJson(Map<String, dynamic> json) {
     final _oauthProviders = (json['oauthProviders'] as List)
         .map((e) => v1OauthProvider.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetOauthProvidersResponse(
-      oauthProviders: _oauthProviders,
-    );
+    return TGetOauthProvidersResponse(oauthProviders: _oauthProviders);
   }
 
   Map<String, dynamic> toJson() {
@@ -24379,10 +24046,7 @@ class TGetOauthProvidersBody {
   /// Unique identifier for a given user.
   final String? userId;
 
-  const TGetOauthProvidersBody({
-    this.organizationId,
-    this.userId,
-  });
+  const TGetOauthProvidersBody({this.organizationId, this.userId});
   factory TGetOauthProvidersBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String?;
@@ -24408,8 +24072,10 @@ class TGetOauthProvidersInput {
   const TGetOauthProvidersInput({required this.body});
   factory TGetOauthProvidersInput.fromJson(Map<String, dynamic> json) =>
       TGetOauthProvidersInput(
-          body: TGetOauthProvidersBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetOauthProvidersBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24417,12 +24083,11 @@ class TGetOnRampTransactionStatusResponse {
   /// The status of the fiat on ramp transaction.
   final String transactionStatus;
 
-  const TGetOnRampTransactionStatusResponse({
-    required this.transactionStatus,
-  });
+  const TGetOnRampTransactionStatusResponse({required this.transactionStatus});
 
   factory TGetOnRampTransactionStatusResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _transactionStatus = json['transactionStatus'] as String;
     return TGetOnRampTransactionStatusResponse(
       transactionStatus: _transactionStatus,
@@ -24477,10 +24142,12 @@ class TGetOnRampTransactionStatusInput {
   final TGetOnRampTransactionStatusBody body;
   const TGetOnRampTransactionStatusInput({required this.body});
   factory TGetOnRampTransactionStatusInput.fromJson(
-          Map<String, dynamic> json) =>
-      TGetOnRampTransactionStatusInput(
-          body: TGetOnRampTransactionStatusBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TGetOnRampTransactionStatusInput(
+    body: TGetOnRampTransactionStatusBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24488,15 +24155,11 @@ class TGetOrganizationConfigsResponse {
   /// Organization configs including quorum settings and organization features.
   final v1Config configs;
 
-  const TGetOrganizationConfigsResponse({
-    required this.configs,
-  });
+  const TGetOrganizationConfigsResponse({required this.configs});
 
   factory TGetOrganizationConfigsResponse.fromJson(Map<String, dynamic> json) {
     final _configs = v1Config.fromJson(json['configs'] as Map<String, dynamic>);
-    return TGetOrganizationConfigsResponse(
-      configs: _configs,
-    );
+    return TGetOrganizationConfigsResponse(configs: _configs);
   }
 
   Map<String, dynamic> toJson() {
@@ -24509,14 +24172,10 @@ class TGetOrganizationConfigsResponse {
 class TGetOrganizationConfigsBody {
   final String? organizationId;
 
-  const TGetOrganizationConfigsBody({
-    this.organizationId,
-  });
+  const TGetOrganizationConfigsBody({this.organizationId});
   factory TGetOrganizationConfigsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetOrganizationConfigsBody(
-      organizationId: _organizationId,
-    );
+    return TGetOrganizationConfigsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -24532,8 +24191,10 @@ class TGetOrganizationConfigsInput {
   const TGetOrganizationConfigsInput({required this.body});
   factory TGetOrganizationConfigsInput.fromJson(Map<String, dynamic> json) =>
       TGetOrganizationConfigsInput(
-          body: TGetOrganizationConfigsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetOrganizationConfigsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24541,15 +24202,11 @@ class TGetPolicyResponse {
   /// Object that codifies rules defining the actions that are permissible within an organization.
   final v1Policy policy;
 
-  const TGetPolicyResponse({
-    required this.policy,
-  });
+  const TGetPolicyResponse({required this.policy});
 
   factory TGetPolicyResponse.fromJson(Map<String, dynamic> json) {
     final _policy = v1Policy.fromJson(json['policy'] as Map<String, dynamic>);
-    return TGetPolicyResponse(
-      policy: _policy,
-    );
+    return TGetPolicyResponse(policy: _policy);
   }
 
   Map<String, dynamic> toJson() {
@@ -24565,17 +24222,11 @@ class TGetPolicyBody {
   /// Unique identifier for a given policy.
   final String policyId;
 
-  const TGetPolicyBody({
-    this.organizationId,
-    required this.policyId,
-  });
+  const TGetPolicyBody({this.organizationId, required this.policyId});
   factory TGetPolicyBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _policyId = json['policyId'] as String;
-    return TGetPolicyBody(
-      organizationId: _organizationId,
-      policyId: _policyId,
-    );
+    return TGetPolicyBody(organizationId: _organizationId, policyId: _policyId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -24592,31 +24243,32 @@ class TGetPolicyInput {
   const TGetPolicyInput({required this.body});
   factory TGetPolicyInput.fromJson(Map<String, dynamic> json) =>
       TGetPolicyInput(
-          body: TGetPolicyBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetPolicyBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TGetPolicyEvaluationsResponse {
   final List<externalactivityv1PolicyEvaluation> policyEvaluations;
 
-  const TGetPolicyEvaluationsResponse({
-    required this.policyEvaluations,
-  });
+  const TGetPolicyEvaluationsResponse({required this.policyEvaluations});
 
   factory TGetPolicyEvaluationsResponse.fromJson(Map<String, dynamic> json) {
     final _policyEvaluations = (json['policyEvaluations'] as List)
-        .map((e) => externalactivityv1PolicyEvaluation
-            .fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => externalactivityv1PolicyEvaluation.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
-    return TGetPolicyEvaluationsResponse(
-      policyEvaluations: _policyEvaluations,
-    );
+    return TGetPolicyEvaluationsResponse(policyEvaluations: _policyEvaluations);
   }
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['policyEvaluations'] =
-        policyEvaluations.map((e) => e.toJson()).toList();
+    _json['policyEvaluations'] = policyEvaluations
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -24654,8 +24306,10 @@ class TGetPolicyEvaluationsInput {
   const TGetPolicyEvaluationsInput({required this.body});
   factory TGetPolicyEvaluationsInput.fromJson(Map<String, dynamic> json) =>
       TGetPolicyEvaluationsInput(
-          body: TGetPolicyEvaluationsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetPolicyEvaluationsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24663,16 +24317,13 @@ class TGetPrivateKeyResponse {
   /// Cryptographic public/private key pair that can be used for cryptocurrency needs or more generalized encryption.
   final v1PrivateKey privateKey;
 
-  const TGetPrivateKeyResponse({
-    required this.privateKey,
-  });
+  const TGetPrivateKeyResponse({required this.privateKey});
 
   factory TGetPrivateKeyResponse.fromJson(Map<String, dynamic> json) {
-    final _privateKey =
-        v1PrivateKey.fromJson(json['privateKey'] as Map<String, dynamic>);
-    return TGetPrivateKeyResponse(
-      privateKey: _privateKey,
+    final _privateKey = v1PrivateKey.fromJson(
+      json['privateKey'] as Map<String, dynamic>,
     );
+    return TGetPrivateKeyResponse(privateKey: _privateKey);
   }
 
   Map<String, dynamic> toJson() {
@@ -24688,10 +24339,7 @@ class TGetPrivateKeyBody {
   /// Unique identifier for a given private key.
   final String privateKeyId;
 
-  const TGetPrivateKeyBody({
-    this.organizationId,
-    required this.privateKeyId,
-  });
+  const TGetPrivateKeyBody({this.organizationId, required this.privateKeyId});
   factory TGetPrivateKeyBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _privateKeyId = json['privateKeyId'] as String;
@@ -24715,8 +24363,8 @@ class TGetPrivateKeyInput {
   const TGetPrivateKeyInput({required this.body});
   factory TGetPrivateKeyInput.fromJson(Map<String, dynamic> json) =>
       TGetPrivateKeyInput(
-          body: TGetPrivateKeyBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetPrivateKeyBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24745,16 +24393,19 @@ class TGetSendTransactionStatusResponse {
   });
 
   factory TGetSendTransactionStatusResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _txStatus = json['txStatus'] as String;
     final _eth = json['eth'] == null
         ? null
-        : v1EthSendTransactionStatus
-            .fromJson(json['eth'] as Map<String, dynamic>);
+        : v1EthSendTransactionStatus.fromJson(
+            json['eth'] as Map<String, dynamic>,
+          );
     final _solana = json['solana'] == null
         ? null
-        : v1SolanaSendTransactionStatus
-            .fromJson(json['solana'] as Map<String, dynamic>);
+        : v1SolanaSendTransactionStatus.fromJson(
+            json['solana'] as Map<String, dynamic>,
+          );
     final _txError = json['txError'] as String?;
     final _error = json['error'] == null
         ? null
@@ -24820,8 +24471,10 @@ class TGetSendTransactionStatusInput {
   const TGetSendTransactionStatusInput({required this.body});
   factory TGetSendTransactionStatusInput.fromJson(Map<String, dynamic> json) =>
       TGetSendTransactionStatusInput(
-          body: TGetSendTransactionStatusBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetSendTransactionStatusBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24834,7 +24487,8 @@ class TGetSmartContractInterfaceResponse {
   });
 
   factory TGetSmartContractInterfaceResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterface = externaldatav1SmartContractInterface
         .fromJson(json['smartContractInterface'] as Map<String, dynamic>);
     return TGetSmartContractInterfaceResponse(
@@ -24883,8 +24537,10 @@ class TGetSmartContractInterfaceInput {
   const TGetSmartContractInterfaceInput({required this.body});
   factory TGetSmartContractInterfaceInput.fromJson(Map<String, dynamic> json) =>
       TGetSmartContractInterfaceInput(
-          body: TGetSmartContractInterfaceBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetSmartContractInterfaceBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24892,15 +24548,11 @@ class TGetUserResponse {
   /// Web and/or API user within your organization.
   final v1User user;
 
-  const TGetUserResponse({
-    required this.user,
-  });
+  const TGetUserResponse({required this.user});
 
   factory TGetUserResponse.fromJson(Map<String, dynamic> json) {
     final _user = v1User.fromJson(json['user'] as Map<String, dynamic>);
-    return TGetUserResponse(
-      user: _user,
-    );
+    return TGetUserResponse(user: _user);
   }
 
   Map<String, dynamic> toJson() {
@@ -24916,17 +24568,11 @@ class TGetUserBody {
   /// Unique identifier for a given user.
   final String userId;
 
-  const TGetUserBody({
-    this.organizationId,
-    required this.userId,
-  });
+  const TGetUserBody({this.organizationId, required this.userId});
   factory TGetUserBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String;
-    return TGetUserBody(
-      organizationId: _organizationId,
-      userId: _userId,
-    );
+    return TGetUserBody(organizationId: _organizationId, userId: _userId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -24942,7 +24588,8 @@ class TGetUserInput {
   final TGetUserBody body;
   const TGetUserInput({required this.body});
   factory TGetUserInput.fromJson(Map<String, dynamic> json) => TGetUserInput(
-      body: TGetUserBody.fromJson(json['body'] as Map<String, dynamic>));
+    body: TGetUserBody.fromJson(json['body'] as Map<String, dynamic>),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -24950,15 +24597,11 @@ class TGetWalletResponse {
   /// A collection of deterministically generated cryptographic public / private key pairs that share a common seed.
   final v1Wallet wallet;
 
-  const TGetWalletResponse({
-    required this.wallet,
-  });
+  const TGetWalletResponse({required this.wallet});
 
   factory TGetWalletResponse.fromJson(Map<String, dynamic> json) {
     final _wallet = v1Wallet.fromJson(json['wallet'] as Map<String, dynamic>);
-    return TGetWalletResponse(
-      wallet: _wallet,
-    );
+    return TGetWalletResponse(wallet: _wallet);
   }
 
   Map<String, dynamic> toJson() {
@@ -24974,17 +24617,11 @@ class TGetWalletBody {
   /// Unique identifier for a given wallet.
   final String walletId;
 
-  const TGetWalletBody({
-    this.organizationId,
-    required this.walletId,
-  });
+  const TGetWalletBody({this.organizationId, required this.walletId});
   factory TGetWalletBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _walletId = json['walletId'] as String;
-    return TGetWalletBody(
-      organizationId: _organizationId,
-      walletId: _walletId,
-    );
+    return TGetWalletBody(organizationId: _organizationId, walletId: _walletId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25001,7 +24638,8 @@ class TGetWalletInput {
   const TGetWalletInput({required this.body});
   factory TGetWalletInput.fromJson(Map<String, dynamic> json) =>
       TGetWalletInput(
-          body: TGetWalletBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetWalletBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25009,16 +24647,13 @@ class TGetWalletAccountResponse {
   /// The resulting wallet account.
   final v1WalletAccount account;
 
-  const TGetWalletAccountResponse({
-    required this.account,
-  });
+  const TGetWalletAccountResponse({required this.account});
 
   factory TGetWalletAccountResponse.fromJson(Map<String, dynamic> json) {
-    final _account =
-        v1WalletAccount.fromJson(json['account'] as Map<String, dynamic>);
-    return TGetWalletAccountResponse(
-      account: _account,
+    final _account = v1WalletAccount.fromJson(
+      json['account'] as Map<String, dynamic>,
     );
+    return TGetWalletAccountResponse(account: _account);
   }
 
   Map<String, dynamic> toJson() {
@@ -25079,8 +24714,10 @@ class TGetWalletAccountInput {
   const TGetWalletAccountInput({required this.body});
   factory TGetWalletAccountInput.fromJson(Map<String, dynamic> json) =>
       TGetWalletAccountInput(
-          body: TGetWalletAccountBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetWalletAccountBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25088,18 +24725,15 @@ class TGetWalletAddressBalancesResponse {
   /// List of asset balances
   final List<v1AssetBalance>? balances;
 
-  const TGetWalletAddressBalancesResponse({
-    this.balances,
-  });
+  const TGetWalletAddressBalancesResponse({this.balances});
 
   factory TGetWalletAddressBalancesResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _balances = (json['balances'] as List?)
         ?.map((e) => v1AssetBalance.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetWalletAddressBalancesResponse(
-      balances: _balances,
-    );
+    return TGetWalletAddressBalancesResponse(balances: _balances);
   }
 
   Map<String, dynamic> toJson() {
@@ -25151,8 +24785,10 @@ class TGetWalletAddressBalancesInput {
   const TGetWalletAddressBalancesInput({required this.body});
   factory TGetWalletAddressBalancesInput.fromJson(Map<String, dynamic> json) =>
       TGetWalletAddressBalancesInput(
-          body: TGetWalletAddressBalancesBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetWalletAddressBalancesBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25160,17 +24796,13 @@ class TGetActivitiesResponse {
   /// A list of activities.
   final List<v1Activity> activities;
 
-  const TGetActivitiesResponse({
-    required this.activities,
-  });
+  const TGetActivitiesResponse({required this.activities});
 
   factory TGetActivitiesResponse.fromJson(Map<String, dynamic> json) {
     final _activities = (json['activities'] as List)
         .map((e) => v1Activity.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetActivitiesResponse(
-      activities: _activities,
-    );
+    return TGetActivitiesResponse(activities: _activities);
   }
 
   Map<String, dynamic> toJson() {
@@ -25205,8 +24837,9 @@ class TGetActivitiesBody {
         .toList();
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     final _filterByType = (json['filterByType'] as List?)
         ?.map((e) => v1ActivityTypeFromJson(e))
         .toList();
@@ -25223,15 +24856,17 @@ class TGetActivitiesBody {
       _json['organizationId'] = organizationId;
     }
     if (filterByStatus != null) {
-      _json['filterByStatus'] =
-          filterByStatus?.map((e) => v1ActivityStatusToJson(e)).toList();
+      _json['filterByStatus'] = filterByStatus
+          ?.map((e) => v1ActivityStatusToJson(e))
+          .toList();
     }
     if (paginationOptions != null) {
       _json['paginationOptions'] = paginationOptions?.toJson();
     }
     if (filterByType != null) {
-      _json['filterByType'] =
-          filterByType?.map((e) => v1ActivityTypeToJson(e)).toList();
+      _json['filterByType'] = filterByType
+          ?.map((e) => v1ActivityTypeToJson(e))
+          .toList();
     }
     return _json;
   }
@@ -25242,25 +24877,21 @@ class TGetActivitiesInput {
   const TGetActivitiesInput({required this.body});
   factory TGetActivitiesInput.fromJson(Map<String, dynamic> json) =>
       TGetActivitiesInput(
-          body: TGetActivitiesBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetActivitiesBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TGetAppProofsResponse {
   final List<v1AppProof> appProofs;
 
-  const TGetAppProofsResponse({
-    required this.appProofs,
-  });
+  const TGetAppProofsResponse({required this.appProofs});
 
   factory TGetAppProofsResponse.fromJson(Map<String, dynamic> json) {
     final _appProofs = (json['appProofs'] as List)
         .map((e) => v1AppProof.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetAppProofsResponse(
-      appProofs: _appProofs,
-    );
+    return TGetAppProofsResponse(appProofs: _appProofs);
   }
 
   Map<String, dynamic> toJson() {
@@ -25276,10 +24907,7 @@ class TGetAppProofsBody {
   /// Unique identifier for a given activity.
   final String activityId;
 
-  const TGetAppProofsBody({
-    this.organizationId,
-    required this.activityId,
-  });
+  const TGetAppProofsBody({this.organizationId, required this.activityId});
   factory TGetAppProofsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _activityId = json['activityId'] as String;
@@ -25303,8 +24931,8 @@ class TGetAppProofsInput {
   const TGetAppProofsInput({required this.body});
   factory TGetAppProofsInput.fromJson(Map<String, dynamic> json) =>
       TGetAppProofsInput(
-          body:
-              TGetAppProofsBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetAppProofsBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25316,7 +24944,8 @@ class TListFiatOnRampCredentialsResponse {
   });
 
   factory TListFiatOnRampCredentialsResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _fiatOnRampCredentials = (json['fiatOnRampCredentials'] as List)
         .map((e) => v1FiatOnRampCredential.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -25327,8 +24956,9 @@ class TListFiatOnRampCredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['fiatOnRampCredentials'] =
-        fiatOnRampCredentials.map((e) => e.toJson()).toList();
+    _json['fiatOnRampCredentials'] = fiatOnRampCredentials
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -25336,14 +24966,10 @@ class TListFiatOnRampCredentialsResponse {
 class TListFiatOnRampCredentialsBody {
   final String? organizationId;
 
-  const TListFiatOnRampCredentialsBody({
-    this.organizationId,
-  });
+  const TListFiatOnRampCredentialsBody({this.organizationId});
   factory TListFiatOnRampCredentialsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TListFiatOnRampCredentialsBody(
-      organizationId: _organizationId,
-    );
+    return TListFiatOnRampCredentialsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25359,17 +24985,17 @@ class TListFiatOnRampCredentialsInput {
   const TListFiatOnRampCredentialsInput({required this.body});
   factory TListFiatOnRampCredentialsInput.fromJson(Map<String, dynamic> json) =>
       TListFiatOnRampCredentialsInput(
-          body: TListFiatOnRampCredentialsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TListFiatOnRampCredentialsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TListOauth2CredentialsResponse {
   final List<v1Oauth2Credential> oauth2Credentials;
 
-  const TListOauth2CredentialsResponse({
-    required this.oauth2Credentials,
-  });
+  const TListOauth2CredentialsResponse({required this.oauth2Credentials});
 
   factory TListOauth2CredentialsResponse.fromJson(Map<String, dynamic> json) {
     final _oauth2Credentials = (json['oauth2Credentials'] as List)
@@ -25382,8 +25008,9 @@ class TListOauth2CredentialsResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['oauth2Credentials'] =
-        oauth2Credentials.map((e) => e.toJson()).toList();
+    _json['oauth2Credentials'] = oauth2Credentials
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -25391,14 +25018,10 @@ class TListOauth2CredentialsResponse {
 class TListOauth2CredentialsBody {
   final String? organizationId;
 
-  const TListOauth2CredentialsBody({
-    this.organizationId,
-  });
+  const TListOauth2CredentialsBody({this.organizationId});
   factory TListOauth2CredentialsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TListOauth2CredentialsBody(
-      organizationId: _organizationId,
-    );
+    return TListOauth2CredentialsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25414,8 +25037,10 @@ class TListOauth2CredentialsInput {
   const TListOauth2CredentialsInput({required this.body});
   factory TListOauth2CredentialsInput.fromJson(Map<String, dynamic> json) =>
       TListOauth2CredentialsInput(
-          body: TListOauth2CredentialsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TListOauth2CredentialsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25423,17 +25048,13 @@ class TGetPoliciesResponse {
   /// A list of policies.
   final List<v1Policy> policies;
 
-  const TGetPoliciesResponse({
-    required this.policies,
-  });
+  const TGetPoliciesResponse({required this.policies});
 
   factory TGetPoliciesResponse.fromJson(Map<String, dynamic> json) {
     final _policies = (json['policies'] as List)
         .map((e) => v1Policy.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetPoliciesResponse(
-      policies: _policies,
-    );
+    return TGetPoliciesResponse(policies: _policies);
   }
 
   Map<String, dynamic> toJson() {
@@ -25446,14 +25067,10 @@ class TGetPoliciesResponse {
 class TGetPoliciesBody {
   final String? organizationId;
 
-  const TGetPoliciesBody({
-    this.organizationId,
-  });
+  const TGetPoliciesBody({this.organizationId});
   factory TGetPoliciesBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetPoliciesBody(
-      organizationId: _organizationId,
-    );
+    return TGetPoliciesBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25469,8 +25086,8 @@ class TGetPoliciesInput {
   const TGetPoliciesInput({required this.body});
   factory TGetPoliciesInput.fromJson(Map<String, dynamic> json) =>
       TGetPoliciesInput(
-          body:
-              TGetPoliciesBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetPoliciesBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25478,17 +25095,13 @@ class TListPrivateKeyTagsResponse {
   /// A list of private key tags.
   final List<datav1Tag> privateKeyTags;
 
-  const TListPrivateKeyTagsResponse({
-    required this.privateKeyTags,
-  });
+  const TListPrivateKeyTagsResponse({required this.privateKeyTags});
 
   factory TListPrivateKeyTagsResponse.fromJson(Map<String, dynamic> json) {
     final _privateKeyTags = (json['privateKeyTags'] as List)
         .map((e) => datav1Tag.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TListPrivateKeyTagsResponse(
-      privateKeyTags: _privateKeyTags,
-    );
+    return TListPrivateKeyTagsResponse(privateKeyTags: _privateKeyTags);
   }
 
   Map<String, dynamic> toJson() {
@@ -25501,14 +25114,10 @@ class TListPrivateKeyTagsResponse {
 class TListPrivateKeyTagsBody {
   final String? organizationId;
 
-  const TListPrivateKeyTagsBody({
-    this.organizationId,
-  });
+  const TListPrivateKeyTagsBody({this.organizationId});
   factory TListPrivateKeyTagsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TListPrivateKeyTagsBody(
-      organizationId: _organizationId,
-    );
+    return TListPrivateKeyTagsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25524,8 +25133,10 @@ class TListPrivateKeyTagsInput {
   const TListPrivateKeyTagsInput({required this.body});
   factory TListPrivateKeyTagsInput.fromJson(Map<String, dynamic> json) =>
       TListPrivateKeyTagsInput(
-          body: TListPrivateKeyTagsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TListPrivateKeyTagsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25533,17 +25144,13 @@ class TGetPrivateKeysResponse {
   /// A list of private keys.
   final List<v1PrivateKey> privateKeys;
 
-  const TGetPrivateKeysResponse({
-    required this.privateKeys,
-  });
+  const TGetPrivateKeysResponse({required this.privateKeys});
 
   factory TGetPrivateKeysResponse.fromJson(Map<String, dynamic> json) {
     final _privateKeys = (json['privateKeys'] as List)
         .map((e) => v1PrivateKey.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetPrivateKeysResponse(
-      privateKeys: _privateKeys,
-    );
+    return TGetPrivateKeysResponse(privateKeys: _privateKeys);
   }
 
   Map<String, dynamic> toJson() {
@@ -25556,14 +25163,10 @@ class TGetPrivateKeysResponse {
 class TGetPrivateKeysBody {
   final String? organizationId;
 
-  const TGetPrivateKeysBody({
-    this.organizationId,
-  });
+  const TGetPrivateKeysBody({this.organizationId});
   factory TGetPrivateKeysBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetPrivateKeysBody(
-      organizationId: _organizationId,
-    );
+    return TGetPrivateKeysBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25579,8 +25182,10 @@ class TGetPrivateKeysInput {
   const TGetPrivateKeysInput({required this.body});
   factory TGetPrivateKeysInput.fromJson(Map<String, dynamic> json) =>
       TGetPrivateKeysInput(
-          body: TGetPrivateKeysBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetPrivateKeysBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25593,10 +25198,14 @@ class TGetSmartContractInterfacesResponse {
   });
 
   factory TGetSmartContractInterfacesResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _smartContractInterfaces = (json['smartContractInterfaces'] as List)
-        .map((e) => externaldatav1SmartContractInterface
-            .fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => externaldatav1SmartContractInterface.fromJson(
+            e as Map<String, dynamic>,
+          ),
+        )
         .toList();
     return TGetSmartContractInterfacesResponse(
       smartContractInterfaces: _smartContractInterfaces,
@@ -25605,8 +25214,9 @@ class TGetSmartContractInterfacesResponse {
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['smartContractInterfaces'] =
-        smartContractInterfaces.map((e) => e.toJson()).toList();
+    _json['smartContractInterfaces'] = smartContractInterfaces
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -25614,14 +25224,10 @@ class TGetSmartContractInterfacesResponse {
 class TGetSmartContractInterfacesBody {
   final String? organizationId;
 
-  const TGetSmartContractInterfacesBody({
-    this.organizationId,
-  });
+  const TGetSmartContractInterfacesBody({this.organizationId});
   factory TGetSmartContractInterfacesBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetSmartContractInterfacesBody(
-      organizationId: _organizationId,
-    );
+    return TGetSmartContractInterfacesBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25636,10 +25242,12 @@ class TGetSmartContractInterfacesInput {
   final TGetSmartContractInterfacesBody body;
   const TGetSmartContractInterfacesInput({required this.body});
   factory TGetSmartContractInterfacesInput.fromJson(
-          Map<String, dynamic> json) =>
-      TGetSmartContractInterfacesInput(
-          body: TGetSmartContractInterfacesBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TGetSmartContractInterfacesInput(
+    body: TGetSmartContractInterfacesBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25647,16 +25255,13 @@ class TGetSubOrgIdsResponse {
   /// List of unique identifiers for the matching sub-organizations.
   final List<String> organizationIds;
 
-  const TGetSubOrgIdsResponse({
-    required this.organizationIds,
-  });
+  const TGetSubOrgIdsResponse({required this.organizationIds});
 
   factory TGetSubOrgIdsResponse.fromJson(Map<String, dynamic> json) {
-    final _organizationIds =
-        (json['organizationIds'] as List).map((e) => e as String).toList();
-    return TGetSubOrgIdsResponse(
-      organizationIds: _organizationIds,
-    );
+    final _organizationIds = (json['organizationIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return TGetSubOrgIdsResponse(organizationIds: _organizationIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -25690,8 +25295,9 @@ class TGetSubOrgIdsBody {
     final _filterValue = json['filterValue'] as String?;
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     return TGetSubOrgIdsBody(
       organizationId: _organizationId,
       filterType: _filterType,
@@ -25722,8 +25328,8 @@ class TGetSubOrgIdsInput {
   const TGetSubOrgIdsInput({required this.body});
   factory TGetSubOrgIdsInput.fromJson(Map<String, dynamic> json) =>
       TGetSubOrgIdsInput(
-          body:
-              TGetSubOrgIdsBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetSubOrgIdsBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25731,17 +25337,13 @@ class TListSupportedAssetsResponse {
   /// List of asset metadata
   final List<v1AssetMetadata>? assets;
 
-  const TListSupportedAssetsResponse({
-    this.assets,
-  });
+  const TListSupportedAssetsResponse({this.assets});
 
   factory TListSupportedAssetsResponse.fromJson(Map<String, dynamic> json) {
     final _assets = (json['assets'] as List?)
         ?.map((e) => v1AssetMetadata.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TListSupportedAssetsResponse(
-      assets: _assets,
-    );
+    return TListSupportedAssetsResponse(assets: _assets);
   }
 
   Map<String, dynamic> toJson() {
@@ -25759,10 +25361,7 @@ class TListSupportedAssetsBody {
   /// CAIP-2 chain ID (e.g., 'eip155:1' for Ethereum mainnet or 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp' for Solana mainnet). Human-readable Solana aliases ('solana:mainnet', 'solana:devnet') are also accepted and normalized to canonical CAIP-2 values.
   final String caip2;
 
-  const TListSupportedAssetsBody({
-    this.organizationId,
-    required this.caip2,
-  });
+  const TListSupportedAssetsBody({this.organizationId, required this.caip2});
   factory TListSupportedAssetsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
     final _caip2 = json['caip2'] as String;
@@ -25786,8 +25385,10 @@ class TListSupportedAssetsInput {
   const TListSupportedAssetsInput({required this.body});
   factory TListSupportedAssetsInput.fromJson(Map<String, dynamic> json) =>
       TListSupportedAssetsInput(
-          body: TListSupportedAssetsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TListSupportedAssetsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25795,17 +25396,13 @@ class TListUserTagsResponse {
   /// A list of user tags.
   final List<datav1Tag> userTags;
 
-  const TListUserTagsResponse({
-    required this.userTags,
-  });
+  const TListUserTagsResponse({required this.userTags});
 
   factory TListUserTagsResponse.fromJson(Map<String, dynamic> json) {
     final _userTags = (json['userTags'] as List)
         .map((e) => datav1Tag.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TListUserTagsResponse(
-      userTags: _userTags,
-    );
+    return TListUserTagsResponse(userTags: _userTags);
   }
 
   Map<String, dynamic> toJson() {
@@ -25818,14 +25415,10 @@ class TListUserTagsResponse {
 class TListUserTagsBody {
   final String? organizationId;
 
-  const TListUserTagsBody({
-    this.organizationId,
-  });
+  const TListUserTagsBody({this.organizationId});
   factory TListUserTagsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TListUserTagsBody(
-      organizationId: _organizationId,
-    );
+    return TListUserTagsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25841,8 +25434,8 @@ class TListUserTagsInput {
   const TListUserTagsInput({required this.body});
   factory TListUserTagsInput.fromJson(Map<String, dynamic> json) =>
       TListUserTagsInput(
-          body:
-              TListUserTagsBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TListUserTagsBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25850,17 +25443,13 @@ class TGetUsersResponse {
   /// A list of users.
   final List<v1User> users;
 
-  const TGetUsersResponse({
-    required this.users,
-  });
+  const TGetUsersResponse({required this.users});
 
   factory TGetUsersResponse.fromJson(Map<String, dynamic> json) {
     final _users = (json['users'] as List)
         .map((e) => v1User.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetUsersResponse(
-      users: _users,
-    );
+    return TGetUsersResponse(users: _users);
   }
 
   Map<String, dynamic> toJson() {
@@ -25873,14 +25462,10 @@ class TGetUsersResponse {
 class TGetUsersBody {
   final String? organizationId;
 
-  const TGetUsersBody({
-    this.organizationId,
-  });
+  const TGetUsersBody({this.organizationId});
   factory TGetUsersBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetUsersBody(
-      organizationId: _organizationId,
-    );
+    return TGetUsersBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -25895,7 +25480,8 @@ class TGetUsersInput {
   final TGetUsersBody body;
   const TGetUsersInput({required this.body});
   factory TGetUsersInput.fromJson(Map<String, dynamic> json) => TGetUsersInput(
-      body: TGetUsersBody.fromJson(json['body'] as Map<String, dynamic>));
+    body: TGetUsersBody.fromJson(json['body'] as Map<String, dynamic>),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25903,16 +25489,13 @@ class TGetVerifiedSubOrgIdsResponse {
   /// List of unique identifiers for the matching sub-organizations.
   final List<String> organizationIds;
 
-  const TGetVerifiedSubOrgIdsResponse({
-    required this.organizationIds,
-  });
+  const TGetVerifiedSubOrgIdsResponse({required this.organizationIds});
 
   factory TGetVerifiedSubOrgIdsResponse.fromJson(Map<String, dynamic> json) {
-    final _organizationIds =
-        (json['organizationIds'] as List).map((e) => e as String).toList();
-    return TGetVerifiedSubOrgIdsResponse(
-      organizationIds: _organizationIds,
-    );
+    final _organizationIds = (json['organizationIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    return TGetVerifiedSubOrgIdsResponse(organizationIds: _organizationIds);
   }
 
   Map<String, dynamic> toJson() {
@@ -25946,8 +25529,9 @@ class TGetVerifiedSubOrgIdsBody {
     final _filterValue = json['filterValue'] as String?;
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     return TGetVerifiedSubOrgIdsBody(
       organizationId: _organizationId,
       filterType: _filterType,
@@ -25978,8 +25562,10 @@ class TGetVerifiedSubOrgIdsInput {
   const TGetVerifiedSubOrgIdsInput({required this.body});
   factory TGetVerifiedSubOrgIdsInput.fromJson(Map<String, dynamic> json) =>
       TGetVerifiedSubOrgIdsInput(
-          body: TGetVerifiedSubOrgIdsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetVerifiedSubOrgIdsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -25987,17 +25573,13 @@ class TGetWalletAccountsResponse {
   /// A list of accounts generated from a wallet that share a common seed.
   final List<v1WalletAccount> accounts;
 
-  const TGetWalletAccountsResponse({
-    required this.accounts,
-  });
+  const TGetWalletAccountsResponse({required this.accounts});
 
   factory TGetWalletAccountsResponse.fromJson(Map<String, dynamic> json) {
     final _accounts = (json['accounts'] as List)
         .map((e) => v1WalletAccount.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetWalletAccountsResponse(
-      accounts: _accounts,
-    );
+    return TGetWalletAccountsResponse(accounts: _accounts);
   }
 
   Map<String, dynamic> toJson() {
@@ -26031,8 +25613,9 @@ class TGetWalletAccountsBody {
     final _includeWalletDetails = json['includeWalletDetails'] as bool?;
     final _paginationOptions = json['paginationOptions'] == null
         ? null
-        : v1Pagination
-            .fromJson(json['paginationOptions'] as Map<String, dynamic>);
+        : v1Pagination.fromJson(
+            json['paginationOptions'] as Map<String, dynamic>,
+          );
     return TGetWalletAccountsBody(
       organizationId: _organizationId,
       walletId: _walletId,
@@ -26063,8 +25646,10 @@ class TGetWalletAccountsInput {
   const TGetWalletAccountsInput({required this.body});
   factory TGetWalletAccountsInput.fromJson(Map<String, dynamic> json) =>
       TGetWalletAccountsInput(
-          body: TGetWalletAccountsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TGetWalletAccountsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -26072,17 +25657,13 @@ class TGetWalletsResponse {
   /// A list of wallets.
   final List<v1Wallet> wallets;
 
-  const TGetWalletsResponse({
-    required this.wallets,
-  });
+  const TGetWalletsResponse({required this.wallets});
 
   factory TGetWalletsResponse.fromJson(Map<String, dynamic> json) {
     final _wallets = (json['wallets'] as List)
         .map((e) => v1Wallet.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TGetWalletsResponse(
-      wallets: _wallets,
-    );
+    return TGetWalletsResponse(wallets: _wallets);
   }
 
   Map<String, dynamic> toJson() {
@@ -26095,14 +25676,10 @@ class TGetWalletsResponse {
 class TGetWalletsBody {
   final String? organizationId;
 
-  const TGetWalletsBody({
-    this.organizationId,
-  });
+  const TGetWalletsBody({this.organizationId});
   factory TGetWalletsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetWalletsBody(
-      organizationId: _organizationId,
-    );
+    return TGetWalletsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -26118,30 +25695,28 @@ class TGetWalletsInput {
   const TGetWalletsInput({required this.body});
   factory TGetWalletsInput.fromJson(Map<String, dynamic> json) =>
       TGetWalletsInput(
-          body: TGetWalletsBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetWalletsBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TListWebhookEndpointsResponse {
   final List<v1WebhookEndpointData> webhookEndpoints;
 
-  const TListWebhookEndpointsResponse({
-    required this.webhookEndpoints,
-  });
+  const TListWebhookEndpointsResponse({required this.webhookEndpoints});
 
   factory TListWebhookEndpointsResponse.fromJson(Map<String, dynamic> json) {
     final _webhookEndpoints = (json['webhookEndpoints'] as List)
         .map((e) => v1WebhookEndpointData.fromJson(e as Map<String, dynamic>))
         .toList();
-    return TListWebhookEndpointsResponse(
-      webhookEndpoints: _webhookEndpoints,
-    );
+    return TListWebhookEndpointsResponse(webhookEndpoints: _webhookEndpoints);
   }
 
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
-    _json['webhookEndpoints'] =
-        webhookEndpoints.map((e) => e.toJson()).toList();
+    _json['webhookEndpoints'] = webhookEndpoints
+        .map((e) => e.toJson())
+        .toList();
     return _json;
   }
 }
@@ -26149,14 +25724,10 @@ class TListWebhookEndpointsResponse {
 class TListWebhookEndpointsBody {
   final String? organizationId;
 
-  const TListWebhookEndpointsBody({
-    this.organizationId,
-  });
+  const TListWebhookEndpointsBody({this.organizationId});
   factory TListWebhookEndpointsBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TListWebhookEndpointsBody(
-      organizationId: _organizationId,
-    );
+    return TListWebhookEndpointsBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -26172,8 +25743,10 @@ class TListWebhookEndpointsInput {
   const TListWebhookEndpointsInput({required this.body});
   factory TListWebhookEndpointsInput.fromJson(Map<String, dynamic> json) =>
       TListWebhookEndpointsInput(
-          body: TListWebhookEndpointsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TListWebhookEndpointsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -26223,14 +25796,10 @@ class TGetWhoamiResponse {
 class TGetWhoamiBody {
   final String? organizationId;
 
-  const TGetWhoamiBody({
-    this.organizationId,
-  });
+  const TGetWhoamiBody({this.organizationId});
   factory TGetWhoamiBody.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return TGetWhoamiBody(
-      organizationId: _organizationId,
-    );
+    return TGetWhoamiBody(organizationId: _organizationId);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -26246,23 +25815,20 @@ class TGetWhoamiInput {
   const TGetWhoamiInput({required this.body});
   factory TGetWhoamiInput.fromJson(Map<String, dynamic> json) =>
       TGetWhoamiInput(
-          body: TGetWhoamiBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TGetWhoamiBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TApproveActivityResponse {
   final v1Activity activity;
-  const TApproveActivityResponse({
-    required this.activity,
-  });
+  const TApproveActivityResponse({required this.activity});
   factory TApproveActivityResponse.fromJson(Map<String, dynamic> json) {
     return TApproveActivityResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
     );
   }
-  Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'activity': activity.toJson()};
 }
 
 class TApproveActivityBody {
@@ -26305,31 +25871,31 @@ class TApproveActivityInput {
   const TApproveActivityInput({required this.body});
   factory TApproveActivityInput.fromJson(Map<String, dynamic> json) =>
       TApproveActivityInput(
-          body: TApproveActivityBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TApproveActivityBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateApiKeysResponse {
   final v1Activity activity;
   final v1CreateApiKeysResult? result;
-  const TCreateApiKeysResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateApiKeysResponse({required this.activity, this.result});
   factory TCreateApiKeysResponse.fromJson(Map<String, dynamic> json) {
     return TCreateApiKeysResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateApiKeysResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateApiKeysResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateApiKeysBody {
@@ -26381,31 +25947,29 @@ class TCreateApiKeysInput {
   const TCreateApiKeysInput({required this.body});
   factory TCreateApiKeysInput.fromJson(Map<String, dynamic> json) =>
       TCreateApiKeysInput(
-          body: TCreateApiKeysBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateApiKeysBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateAuthenticatorsResponse {
   final v1Activity activity;
   final v1CreateAuthenticatorsResult? result;
-  const TCreateAuthenticatorsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateAuthenticatorsResponse({required this.activity, this.result});
   factory TCreateAuthenticatorsResponse.fromJson(Map<String, dynamic> json) {
     return TCreateAuthenticatorsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateAuthenticatorsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateAuthenticatorsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateAuthenticatorsBody {
@@ -26457,8 +26021,10 @@ class TCreateAuthenticatorsInput {
   const TCreateAuthenticatorsInput({required this.body});
   factory TCreateAuthenticatorsInput.fromJson(Map<String, dynamic> json) =>
       TCreateAuthenticatorsInput(
-          body: TCreateAuthenticatorsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateAuthenticatorsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -26470,19 +26036,21 @@ class TCreateFiatOnRampCredentialResponse {
     this.result,
   });
   factory TCreateFiatOnRampCredentialResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TCreateFiatOnRampCredentialResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateFiatOnRampCredentialResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateFiatOnRampCredentialResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateFiatOnRampCredentialBody {
@@ -26520,8 +26088,9 @@ class TCreateFiatOnRampCredentialBody {
   factory TCreateFiatOnRampCredentialBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _projectId = json['projectId'] as String?;
     final _publishableApiKey = json['publishableApiKey'] as String;
     final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
@@ -26566,33 +26135,33 @@ class TCreateFiatOnRampCredentialInput {
   final TCreateFiatOnRampCredentialBody body;
   const TCreateFiatOnRampCredentialInput({required this.body});
   factory TCreateFiatOnRampCredentialInput.fromJson(
-          Map<String, dynamic> json) =>
-      TCreateFiatOnRampCredentialInput(
-          body: TCreateFiatOnRampCredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TCreateFiatOnRampCredentialInput(
+    body: TCreateFiatOnRampCredentialBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateInvitationsResponse {
   final v1Activity activity;
   final v1CreateInvitationsResult? result;
-  const TCreateInvitationsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateInvitationsResponse({required this.activity, this.result});
   factory TCreateInvitationsResponse.fromJson(Map<String, dynamic> json) {
     return TCreateInvitationsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateInvitationsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateInvitationsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateInvitationsBody {
@@ -26637,31 +26206,31 @@ class TCreateInvitationsInput {
   const TCreateInvitationsInput({required this.body});
   factory TCreateInvitationsInput.fromJson(Map<String, dynamic> json) =>
       TCreateInvitationsInput(
-          body: TCreateInvitationsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateInvitationsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateOauth2CredentialResponse {
   final v1Activity activity;
   final v1CreateOauth2CredentialResult? result;
-  const TCreateOauth2CredentialResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateOauth2CredentialResponse({required this.activity, this.result});
   factory TCreateOauth2CredentialResponse.fromJson(Map<String, dynamic> json) {
     return TCreateOauth2CredentialResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateOauth2CredentialResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateOauth2CredentialResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateOauth2CredentialBody {
@@ -26718,31 +26287,31 @@ class TCreateOauth2CredentialInput {
   const TCreateOauth2CredentialInput({required this.body});
   factory TCreateOauth2CredentialInput.fromJson(Map<String, dynamic> json) =>
       TCreateOauth2CredentialInput(
-          body: TCreateOauth2CredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateOauth2CredentialBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateOauthProvidersResponse {
   final v1Activity activity;
   final v1CreateOauthProvidersResultV2? result;
-  const TCreateOauthProvidersResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateOauthProvidersResponse({required this.activity, this.result});
   factory TCreateOauthProvidersResponse.fromJson(Map<String, dynamic> json) {
     return TCreateOauthProvidersResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateOauthProvidersResultV2
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateOauthProvidersResultV2.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateOauthProvidersBody {
@@ -26794,31 +26363,31 @@ class TCreateOauthProvidersInput {
   const TCreateOauthProvidersInput({required this.body});
   factory TCreateOauthProvidersInput.fromJson(Map<String, dynamic> json) =>
       TCreateOauthProvidersInput(
-          body: TCreateOauthProvidersBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateOauthProvidersBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreatePoliciesResponse {
   final v1Activity activity;
   final v1CreatePoliciesResult? result;
-  const TCreatePoliciesResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreatePoliciesResponse({required this.activity, this.result});
   factory TCreatePoliciesResponse.fromJson(Map<String, dynamic> json) {
     return TCreatePoliciesResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreatePoliciesResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreatePoliciesResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreatePoliciesBody {
@@ -26863,31 +26432,31 @@ class TCreatePoliciesInput {
   const TCreatePoliciesInput({required this.body});
   factory TCreatePoliciesInput.fromJson(Map<String, dynamic> json) =>
       TCreatePoliciesInput(
-          body: TCreatePoliciesBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreatePoliciesBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreatePolicyResponse {
   final v1Activity activity;
   final v1CreatePolicyResult? result;
-  const TCreatePolicyResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreatePolicyResponse({required this.activity, this.result});
   factory TCreatePolicyResponse.fromJson(Map<String, dynamic> json) {
     return TCreatePolicyResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreatePolicyResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreatePolicyResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreatePolicyBody {
@@ -26962,31 +26531,29 @@ class TCreatePolicyInput {
   const TCreatePolicyInput({required this.body});
   factory TCreatePolicyInput.fromJson(Map<String, dynamic> json) =>
       TCreatePolicyInput(
-          body:
-              TCreatePolicyBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TCreatePolicyBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreatePrivateKeyTagResponse {
   final v1Activity activity;
   final v1CreatePrivateKeyTagResult? result;
-  const TCreatePrivateKeyTagResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreatePrivateKeyTagResponse({required this.activity, this.result});
   factory TCreatePrivateKeyTagResponse.fromJson(Map<String, dynamic> json) {
     return TCreatePrivateKeyTagResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreatePrivateKeyTagResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreatePrivateKeyTagResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreatePrivateKeyTagBody {
@@ -27009,8 +26576,9 @@ class TCreatePrivateKeyTagBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _privateKeyTagName = json['privateKeyTagName'] as String;
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TCreatePrivateKeyTagBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -27037,31 +26605,31 @@ class TCreatePrivateKeyTagInput {
   const TCreatePrivateKeyTagInput({required this.body});
   factory TCreatePrivateKeyTagInput.fromJson(Map<String, dynamic> json) =>
       TCreatePrivateKeyTagInput(
-          body: TCreatePrivateKeyTagBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreatePrivateKeyTagBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreatePrivateKeysResponse {
   final v1Activity activity;
   final v1CreatePrivateKeysResultV2? result;
-  const TCreatePrivateKeysResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreatePrivateKeysResponse({required this.activity, this.result});
   factory TCreatePrivateKeysResponse.fromJson(Map<String, dynamic> json) {
     return TCreatePrivateKeysResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreatePrivateKeysResultV2
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreatePrivateKeysResultV2.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreatePrivateKeysBody {
@@ -27106,41 +26674,38 @@ class TCreatePrivateKeysInput {
   const TCreatePrivateKeysInput({required this.body});
   factory TCreatePrivateKeysInput.fromJson(Map<String, dynamic> json) =>
       TCreatePrivateKeysInput(
-          body: TCreatePrivateKeysBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreatePrivateKeysBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateReadOnlySessionResponse {
   final v1Activity activity;
   final v1CreateReadOnlySessionResult? result;
-  const TCreateReadOnlySessionResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateReadOnlySessionResponse({required this.activity, this.result});
   factory TCreateReadOnlySessionResponse.fromJson(Map<String, dynamic> json) {
     return TCreateReadOnlySessionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateReadOnlySessionResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateReadOnlySessionResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateReadOnlySessionBody {
   final String? timestampMs;
   final String? organizationId;
 
-  const TCreateReadOnlySessionBody({
-    this.timestampMs,
-    this.organizationId,
-  });
+  const TCreateReadOnlySessionBody({this.timestampMs, this.organizationId});
   factory TCreateReadOnlySessionBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
@@ -27166,31 +26731,31 @@ class TCreateReadOnlySessionInput {
   const TCreateReadOnlySessionInput({required this.body});
   factory TCreateReadOnlySessionInput.fromJson(Map<String, dynamic> json) =>
       TCreateReadOnlySessionInput(
-          body: TCreateReadOnlySessionBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateReadOnlySessionBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateReadWriteSessionResponse {
   final v1Activity activity;
   final v1CreateReadWriteSessionResult? result;
-  const TCreateReadWriteSessionResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateReadWriteSessionResponse({required this.activity, this.result});
   factory TCreateReadWriteSessionResponse.fromJson(Map<String, dynamic> json) {
     return TCreateReadWriteSessionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateReadWriteSessionResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateReadWriteSessionResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateReadWriteSessionBody {
@@ -27269,8 +26834,10 @@ class TCreateReadWriteSessionInput {
   const TCreateReadWriteSessionInput({required this.body});
   factory TCreateReadWriteSessionInput.fromJson(Map<String, dynamic> json) =>
       TCreateReadWriteSessionInput(
-          body: TCreateReadWriteSessionBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateReadWriteSessionBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -27282,19 +26849,21 @@ class TCreateSmartContractInterfaceResponse {
     this.result,
   });
   factory TCreateSmartContractInterfaceResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TCreateSmartContractInterfaceResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateSmartContractInterfaceResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateSmartContractInterfaceResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateSmartContractInterfaceBody {
@@ -27324,7 +26893,8 @@ class TCreateSmartContractInterfaceBody {
     this.notes,
   });
   factory TCreateSmartContractInterfaceBody.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _smartContractAddress = json['smartContractAddress'] as String;
@@ -27365,33 +26935,33 @@ class TCreateSmartContractInterfaceInput {
   final TCreateSmartContractInterfaceBody body;
   const TCreateSmartContractInterfaceInput({required this.body});
   factory TCreateSmartContractInterfaceInput.fromJson(
-          Map<String, dynamic> json) =>
-      TCreateSmartContractInterfaceInput(
-          body: TCreateSmartContractInterfaceBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TCreateSmartContractInterfaceInput(
+    body: TCreateSmartContractInterfaceBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateSubOrganizationResponse {
   final v1Activity activity;
   final v1CreateSubOrganizationResultV8? result;
-  const TCreateSubOrganizationResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateSubOrganizationResponse({required this.activity, this.result});
   factory TCreateSubOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return TCreateSubOrganizationResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateSubOrganizationResultV8
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateSubOrganizationResultV8.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateSubOrganizationBody {
@@ -27460,8 +27030,9 @@ class TCreateSubOrganizationBody {
     final _verificationToken = json['verificationToken'] as String?;
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return TCreateSubOrganizationBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -27518,31 +27089,31 @@ class TCreateSubOrganizationInput {
   const TCreateSubOrganizationInput({required this.body});
   factory TCreateSubOrganizationInput.fromJson(Map<String, dynamic> json) =>
       TCreateSubOrganizationInput(
-          body: TCreateSubOrganizationBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateSubOrganizationBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateUserTagResponse {
   final v1Activity activity;
   final v1CreateUserTagResult? result;
-  const TCreateUserTagResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateUserTagResponse({required this.activity, this.result});
   factory TCreateUserTagResponse.fromJson(Map<String, dynamic> json) {
     return TCreateUserTagResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateUserTagResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateUserTagResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateUserTagBody {
@@ -27592,18 +27163,15 @@ class TCreateUserTagInput {
   const TCreateUserTagInput({required this.body});
   factory TCreateUserTagInput.fromJson(Map<String, dynamic> json) =>
       TCreateUserTagInput(
-          body: TCreateUserTagBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateUserTagBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateUsersResponse {
   final v1Activity activity;
   final v1CreateUsersResult? result;
-  const TCreateUsersResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateUsersResponse({required this.activity, this.result});
   factory TCreateUsersResponse.fromJson(Map<String, dynamic> json) {
     return TCreateUsersResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -27613,9 +27181,9 @@ class TCreateUsersResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateUsersBody {
@@ -27660,31 +27228,29 @@ class TCreateUsersInput {
   const TCreateUsersInput({required this.body});
   factory TCreateUsersInput.fromJson(Map<String, dynamic> json) =>
       TCreateUsersInput(
-          body:
-              TCreateUsersBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TCreateUsersBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateWalletResponse {
   final v1Activity activity;
   final v1CreateWalletResult? result;
-  const TCreateWalletResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateWalletResponse({required this.activity, this.result});
   factory TCreateWalletResponse.fromJson(Map<String, dynamic> json) {
     return TCreateWalletResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateWalletResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateWalletResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateWalletBody {
@@ -27745,31 +27311,29 @@ class TCreateWalletInput {
   const TCreateWalletInput({required this.body});
   factory TCreateWalletInput.fromJson(Map<String, dynamic> json) =>
       TCreateWalletInput(
-          body:
-              TCreateWalletBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TCreateWalletBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateWalletAccountsResponse {
   final v1Activity activity;
   final v1CreateWalletAccountsResult? result;
-  const TCreateWalletAccountsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateWalletAccountsResponse({required this.activity, this.result});
   factory TCreateWalletAccountsResponse.fromJson(Map<String, dynamic> json) {
     return TCreateWalletAccountsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateWalletAccountsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateWalletAccountsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateWalletAccountsBody {
@@ -27830,31 +27394,31 @@ class TCreateWalletAccountsInput {
   const TCreateWalletAccountsInput({required this.body});
   factory TCreateWalletAccountsInput.fromJson(Map<String, dynamic> json) =>
       TCreateWalletAccountsInput(
-          body: TCreateWalletAccountsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateWalletAccountsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TCreateWebhookEndpointResponse {
   final v1Activity activity;
   final v1CreateWebhookEndpointResult? result;
-  const TCreateWebhookEndpointResponse({
-    required this.activity,
-    this.result,
-  });
+  const TCreateWebhookEndpointResponse({required this.activity, this.result});
   factory TCreateWebhookEndpointResponse.fromJson(Map<String, dynamic> json) {
     return TCreateWebhookEndpointResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1CreateWebhookEndpointResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1CreateWebhookEndpointResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TCreateWebhookEndpointBody {
@@ -27883,8 +27447,10 @@ class TCreateWebhookEndpointBody {
     final _url = json['url'] as String;
     final _name = json['name'] as String;
     final _subscriptions = (json['subscriptions'] as List?)
-        ?.map((e) =>
-            v1WebhookSubscriptionParams.fromJson(e as Map<String, dynamic>))
+        ?.map(
+          (e) =>
+              v1WebhookSubscriptionParams.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
     return TCreateWebhookEndpointBody(
       timestampMs: _timestampMs,
@@ -27916,31 +27482,31 @@ class TCreateWebhookEndpointInput {
   const TCreateWebhookEndpointInput({required this.body});
   factory TCreateWebhookEndpointInput.fromJson(Map<String, dynamic> json) =>
       TCreateWebhookEndpointInput(
-          body: TCreateWebhookEndpointBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TCreateWebhookEndpointBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteApiKeysResponse {
   final v1Activity activity;
   final v1DeleteApiKeysResult? result;
-  const TDeleteApiKeysResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteApiKeysResponse({required this.activity, this.result});
   factory TDeleteApiKeysResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteApiKeysResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteApiKeysResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteApiKeysResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteApiKeysBody {
@@ -27963,8 +27529,9 @@ class TDeleteApiKeysBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String;
-    final _apiKeyIds =
-        (json['apiKeyIds'] as List).map((e) => e as String).toList();
+    final _apiKeyIds = (json['apiKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TDeleteApiKeysBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -27991,31 +27558,29 @@ class TDeleteApiKeysInput {
   const TDeleteApiKeysInput({required this.body});
   factory TDeleteApiKeysInput.fromJson(Map<String, dynamic> json) =>
       TDeleteApiKeysInput(
-          body: TDeleteApiKeysBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteApiKeysBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteAuthenticatorsResponse {
   final v1Activity activity;
   final v1DeleteAuthenticatorsResult? result;
-  const TDeleteAuthenticatorsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteAuthenticatorsResponse({required this.activity, this.result});
   factory TDeleteAuthenticatorsResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteAuthenticatorsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteAuthenticatorsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteAuthenticatorsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteAuthenticatorsBody {
@@ -28038,8 +27603,9 @@ class TDeleteAuthenticatorsBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String;
-    final _authenticatorIds =
-        (json['authenticatorIds'] as List).map((e) => e as String).toList();
+    final _authenticatorIds = (json['authenticatorIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TDeleteAuthenticatorsBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -28066,8 +27632,10 @@ class TDeleteAuthenticatorsInput {
   const TDeleteAuthenticatorsInput({required this.body});
   factory TDeleteAuthenticatorsInput.fromJson(Map<String, dynamic> json) =>
       TDeleteAuthenticatorsInput(
-          body: TDeleteAuthenticatorsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteAuthenticatorsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -28079,19 +27647,21 @@ class TDeleteFiatOnRampCredentialResponse {
     this.result,
   });
   factory TDeleteFiatOnRampCredentialResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TDeleteFiatOnRampCredentialResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteFiatOnRampCredentialResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteFiatOnRampCredentialResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteFiatOnRampCredentialBody {
@@ -28133,33 +27703,33 @@ class TDeleteFiatOnRampCredentialInput {
   final TDeleteFiatOnRampCredentialBody body;
   const TDeleteFiatOnRampCredentialInput({required this.body});
   factory TDeleteFiatOnRampCredentialInput.fromJson(
-          Map<String, dynamic> json) =>
-      TDeleteFiatOnRampCredentialInput(
-          body: TDeleteFiatOnRampCredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TDeleteFiatOnRampCredentialInput(
+    body: TDeleteFiatOnRampCredentialBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteInvitationResponse {
   final v1Activity activity;
   final v1DeleteInvitationResult? result;
-  const TDeleteInvitationResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteInvitationResponse({required this.activity, this.result});
   factory TDeleteInvitationResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteInvitationResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteInvitationResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteInvitationResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteInvitationBody {
@@ -28202,31 +27772,31 @@ class TDeleteInvitationInput {
   const TDeleteInvitationInput({required this.body});
   factory TDeleteInvitationInput.fromJson(Map<String, dynamic> json) =>
       TDeleteInvitationInput(
-          body: TDeleteInvitationBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteInvitationBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteOauth2CredentialResponse {
   final v1Activity activity;
   final v1DeleteOauth2CredentialResult? result;
-  const TDeleteOauth2CredentialResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteOauth2CredentialResponse({required this.activity, this.result});
   factory TDeleteOauth2CredentialResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteOauth2CredentialResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteOauth2CredentialResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteOauth2CredentialResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteOauth2CredentialBody {
@@ -28269,31 +27839,31 @@ class TDeleteOauth2CredentialInput {
   const TDeleteOauth2CredentialInput({required this.body});
   factory TDeleteOauth2CredentialInput.fromJson(Map<String, dynamic> json) =>
       TDeleteOauth2CredentialInput(
-          body: TDeleteOauth2CredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteOauth2CredentialBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteOauthProvidersResponse {
   final v1Activity activity;
   final v1DeleteOauthProvidersResult? result;
-  const TDeleteOauthProvidersResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteOauthProvidersResponse({required this.activity, this.result});
   factory TDeleteOauthProvidersResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteOauthProvidersResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteOauthProvidersResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteOauthProvidersResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteOauthProvidersBody {
@@ -28316,8 +27886,9 @@ class TDeleteOauthProvidersBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _userId = json['userId'] as String;
-    final _providerIds =
-        (json['providerIds'] as List).map((e) => e as String).toList();
+    final _providerIds = (json['providerIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TDeleteOauthProvidersBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -28344,31 +27915,31 @@ class TDeleteOauthProvidersInput {
   const TDeleteOauthProvidersInput({required this.body});
   factory TDeleteOauthProvidersInput.fromJson(Map<String, dynamic> json) =>
       TDeleteOauthProvidersInput(
-          body: TDeleteOauthProvidersBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteOauthProvidersBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeletePoliciesResponse {
   final v1Activity activity;
   final v1DeletePoliciesResult? result;
-  const TDeletePoliciesResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeletePoliciesResponse({required this.activity, this.result});
   factory TDeletePoliciesResponse.fromJson(Map<String, dynamic> json) {
     return TDeletePoliciesResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeletePoliciesResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeletePoliciesResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeletePoliciesBody {
@@ -28386,8 +27957,9 @@ class TDeletePoliciesBody {
   factory TDeletePoliciesBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _policyIds =
-        (json['policyIds'] as List).map((e) => e as String).toList();
+    final _policyIds = (json['policyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TDeletePoliciesBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -28412,31 +27984,31 @@ class TDeletePoliciesInput {
   const TDeletePoliciesInput({required this.body});
   factory TDeletePoliciesInput.fromJson(Map<String, dynamic> json) =>
       TDeletePoliciesInput(
-          body: TDeletePoliciesBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeletePoliciesBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeletePolicyResponse {
   final v1Activity activity;
   final v1DeletePolicyResult? result;
-  const TDeletePolicyResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeletePolicyResponse({required this.activity, this.result});
   factory TDeletePolicyResponse.fromJson(Map<String, dynamic> json) {
     return TDeletePolicyResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeletePolicyResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeletePolicyResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeletePolicyBody {
@@ -28479,31 +28051,29 @@ class TDeletePolicyInput {
   const TDeletePolicyInput({required this.body});
   factory TDeletePolicyInput.fromJson(Map<String, dynamic> json) =>
       TDeletePolicyInput(
-          body:
-              TDeletePolicyBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TDeletePolicyBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeletePrivateKeyTagsResponse {
   final v1Activity activity;
   final v1DeletePrivateKeyTagsResult? result;
-  const TDeletePrivateKeyTagsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeletePrivateKeyTagsResponse({required this.activity, this.result});
   factory TDeletePrivateKeyTagsResponse.fromJson(Map<String, dynamic> json) {
     return TDeletePrivateKeyTagsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeletePrivateKeyTagsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeletePrivateKeyTagsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeletePrivateKeyTagsBody {
@@ -28521,8 +28091,9 @@ class TDeletePrivateKeyTagsBody {
   factory TDeletePrivateKeyTagsBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _privateKeyTagIds =
-        (json['privateKeyTagIds'] as List).map((e) => e as String).toList();
+    final _privateKeyTagIds = (json['privateKeyTagIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TDeletePrivateKeyTagsBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -28547,31 +28118,31 @@ class TDeletePrivateKeyTagsInput {
   const TDeletePrivateKeyTagsInput({required this.body});
   factory TDeletePrivateKeyTagsInput.fromJson(Map<String, dynamic> json) =>
       TDeletePrivateKeyTagsInput(
-          body: TDeletePrivateKeyTagsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeletePrivateKeyTagsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeletePrivateKeysResponse {
   final v1Activity activity;
   final v1DeletePrivateKeysResult? result;
-  const TDeletePrivateKeysResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeletePrivateKeysResponse({required this.activity, this.result});
   factory TDeletePrivateKeysResponse.fromJson(Map<String, dynamic> json) {
     return TDeletePrivateKeysResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeletePrivateKeysResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeletePrivateKeysResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeletePrivateKeysBody {
@@ -28593,8 +28164,9 @@ class TDeletePrivateKeysBody {
   factory TDeletePrivateKeysBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _privateKeyIds =
-        (json['privateKeyIds'] as List).map((e) => e as String).toList();
+    final _privateKeyIds = (json['privateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
     return TDeletePrivateKeysBody(
       timestampMs: _timestampMs,
@@ -28624,8 +28196,10 @@ class TDeletePrivateKeysInput {
   const TDeletePrivateKeysInput({required this.body});
   factory TDeletePrivateKeysInput.fromJson(Map<String, dynamic> json) =>
       TDeletePrivateKeysInput(
-          body: TDeletePrivateKeysBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeletePrivateKeysBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -28637,19 +28211,21 @@ class TDeleteSmartContractInterfaceResponse {
     this.result,
   });
   factory TDeleteSmartContractInterfaceResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TDeleteSmartContractInterfaceResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteSmartContractInterfaceResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteSmartContractInterfaceResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteSmartContractInterfaceBody {
@@ -28665,7 +28241,8 @@ class TDeleteSmartContractInterfaceBody {
     required this.smartContractInterfaceId,
   });
   factory TDeleteSmartContractInterfaceBody.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _smartContractInterfaceId =
@@ -28693,33 +28270,33 @@ class TDeleteSmartContractInterfaceInput {
   final TDeleteSmartContractInterfaceBody body;
   const TDeleteSmartContractInterfaceInput({required this.body});
   factory TDeleteSmartContractInterfaceInput.fromJson(
-          Map<String, dynamic> json) =>
-      TDeleteSmartContractInterfaceInput(
-          body: TDeleteSmartContractInterfaceBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TDeleteSmartContractInterfaceInput(
+    body: TDeleteSmartContractInterfaceBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteSubOrganizationResponse {
   final v1Activity activity;
   final v1DeleteSubOrganizationResult? result;
-  const TDeleteSubOrganizationResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteSubOrganizationResponse({required this.activity, this.result});
   factory TDeleteSubOrganizationResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteSubOrganizationResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteSubOrganizationResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteSubOrganizationResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteSubOrganizationBody {
@@ -28764,31 +28341,31 @@ class TDeleteSubOrganizationInput {
   const TDeleteSubOrganizationInput({required this.body});
   factory TDeleteSubOrganizationInput.fromJson(Map<String, dynamic> json) =>
       TDeleteSubOrganizationInput(
-          body: TDeleteSubOrganizationBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteSubOrganizationBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteUserTagsResponse {
   final v1Activity activity;
   final v1DeleteUserTagsResult? result;
-  const TDeleteUserTagsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteUserTagsResponse({required this.activity, this.result});
   factory TDeleteUserTagsResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteUserTagsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteUserTagsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteUserTagsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteUserTagsBody {
@@ -28806,8 +28383,9 @@ class TDeleteUserTagsBody {
   factory TDeleteUserTagsBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _userTagIds =
-        (json['userTagIds'] as List).map((e) => e as String).toList();
+    final _userTagIds = (json['userTagIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TDeleteUserTagsBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -28832,18 +28410,17 @@ class TDeleteUserTagsInput {
   const TDeleteUserTagsInput({required this.body});
   factory TDeleteUserTagsInput.fromJson(Map<String, dynamic> json) =>
       TDeleteUserTagsInput(
-          body: TDeleteUserTagsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteUserTagsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteUsersResponse {
   final v1Activity activity;
   final v1DeleteUsersResult? result;
-  const TDeleteUsersResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteUsersResponse({required this.activity, this.result});
   factory TDeleteUsersResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteUsersResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -28853,9 +28430,9 @@ class TDeleteUsersResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteUsersBody {
@@ -28898,31 +28475,29 @@ class TDeleteUsersInput {
   const TDeleteUsersInput({required this.body});
   factory TDeleteUsersInput.fromJson(Map<String, dynamic> json) =>
       TDeleteUsersInput(
-          body:
-              TDeleteUsersBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TDeleteUsersBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteWalletAccountsResponse {
   final v1Activity activity;
   final v1DeleteWalletAccountsResult? result;
-  const TDeleteWalletAccountsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteWalletAccountsResponse({required this.activity, this.result});
   factory TDeleteWalletAccountsResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteWalletAccountsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteWalletAccountsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteWalletAccountsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteWalletAccountsBody {
@@ -28944,8 +28519,9 @@ class TDeleteWalletAccountsBody {
   factory TDeleteWalletAccountsBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _walletAccountIds =
-        (json['walletAccountIds'] as List).map((e) => e as String).toList();
+    final _walletAccountIds = (json['walletAccountIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
     return TDeleteWalletAccountsBody(
       timestampMs: _timestampMs,
@@ -28975,31 +28551,31 @@ class TDeleteWalletAccountsInput {
   const TDeleteWalletAccountsInput({required this.body});
   factory TDeleteWalletAccountsInput.fromJson(Map<String, dynamic> json) =>
       TDeleteWalletAccountsInput(
-          body: TDeleteWalletAccountsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteWalletAccountsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteWalletsResponse {
   final v1Activity activity;
   final v1DeleteWalletsResult? result;
-  const TDeleteWalletsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteWalletsResponse({required this.activity, this.result});
   factory TDeleteWalletsResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteWalletsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteWalletsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteWalletsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteWalletsBody {
@@ -29021,8 +28597,9 @@ class TDeleteWalletsBody {
   factory TDeleteWalletsBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _walletIds =
-        (json['walletIds'] as List).map((e) => e as String).toList();
+    final _walletIds = (json['walletIds'] as List)
+        .map((e) => e as String)
+        .toList();
     final _deleteWithoutExport = json['deleteWithoutExport'] as bool?;
     return TDeleteWalletsBody(
       timestampMs: _timestampMs,
@@ -29052,31 +28629,29 @@ class TDeleteWalletsInput {
   const TDeleteWalletsInput({required this.body});
   factory TDeleteWalletsInput.fromJson(Map<String, dynamic> json) =>
       TDeleteWalletsInput(
-          body: TDeleteWalletsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteWalletsBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TDeleteWebhookEndpointResponse {
   final v1Activity activity;
   final v1DeleteWebhookEndpointResult? result;
-  const TDeleteWebhookEndpointResponse({
-    required this.activity,
-    this.result,
-  });
+  const TDeleteWebhookEndpointResponse({required this.activity, this.result});
   factory TDeleteWebhookEndpointResponse.fromJson(Map<String, dynamic> json) {
     return TDeleteWebhookEndpointResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1DeleteWebhookEndpointResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1DeleteWebhookEndpointResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TDeleteWebhookEndpointBody {
@@ -29119,18 +28694,17 @@ class TDeleteWebhookEndpointInput {
   const TDeleteWebhookEndpointInput({required this.body});
   factory TDeleteWebhookEndpointInput.fromJson(Map<String, dynamic> json) =>
       TDeleteWebhookEndpointInput(
-          body: TDeleteWebhookEndpointBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TDeleteWebhookEndpointBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TEmailAuthResponse {
   final v1Activity activity;
   final v1EmailAuthResult? result;
-  const TEmailAuthResponse({
-    required this.activity,
-    this.result,
-  });
+  const TEmailAuthResponse({required this.activity, this.result});
   factory TEmailAuthResponse.fromJson(Map<String, dynamic> json) {
     return TEmailAuthResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -29140,9 +28714,9 @@ class TEmailAuthResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TEmailAuthBody {
@@ -29196,8 +28770,9 @@ class TEmailAuthBody {
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _apiKeyName = json['apiKeyName'] as String?;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = v1EmailAuthCustomizationParams
-        .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams.fromJson(
+      json['emailCustomization'] as Map<String, dynamic>,
+    );
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
@@ -29254,30 +28829,29 @@ class TEmailAuthInput {
   const TEmailAuthInput({required this.body});
   factory TEmailAuthInput.fromJson(Map<String, dynamic> json) =>
       TEmailAuthInput(
-          body: TEmailAuthBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TEmailAuthBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TEthSendTransactionResponse {
   final v1Activity activity;
   final v1EthSendTransactionResult? result;
-  const TEthSendTransactionResponse({
-    required this.activity,
-    this.result,
-  });
+  const TEthSendTransactionResponse({required this.activity, this.result});
   factory TEthSendTransactionResponse.fromJson(Map<String, dynamic> json) {
     return TEthSendTransactionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1EthSendTransactionResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1EthSendTransactionResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TEthSendTransactionBody {
@@ -29406,31 +28980,31 @@ class TEthSendTransactionInput {
   const TEthSendTransactionInput({required this.body});
   factory TEthSendTransactionInput.fromJson(Map<String, dynamic> json) =>
       TEthSendTransactionInput(
-          body: TEthSendTransactionBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TEthSendTransactionBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TExportPrivateKeyResponse {
   final v1Activity activity;
   final v1ExportPrivateKeyResult? result;
-  const TExportPrivateKeyResponse({
-    required this.activity,
-    this.result,
-  });
+  const TExportPrivateKeyResponse({required this.activity, this.result});
   factory TExportPrivateKeyResponse.fromJson(Map<String, dynamic> json) {
     return TExportPrivateKeyResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1ExportPrivateKeyResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1ExportPrivateKeyResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TExportPrivateKeyBody {
@@ -29480,31 +29054,31 @@ class TExportPrivateKeyInput {
   const TExportPrivateKeyInput({required this.body});
   factory TExportPrivateKeyInput.fromJson(Map<String, dynamic> json) =>
       TExportPrivateKeyInput(
-          body: TExportPrivateKeyBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TExportPrivateKeyBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TExportWalletResponse {
   final v1Activity activity;
   final v1ExportWalletResult? result;
-  const TExportWalletResponse({
-    required this.activity,
-    this.result,
-  });
+  const TExportWalletResponse({required this.activity, this.result});
   factory TExportWalletResponse.fromJson(Map<String, dynamic> json) {
     return TExportWalletResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1ExportWalletResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1ExportWalletResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TExportWalletBody {
@@ -29565,31 +29139,29 @@ class TExportWalletInput {
   const TExportWalletInput({required this.body});
   factory TExportWalletInput.fromJson(Map<String, dynamic> json) =>
       TExportWalletInput(
-          body:
-              TExportWalletBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TExportWalletBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TExportWalletAccountResponse {
   final v1Activity activity;
   final v1ExportWalletAccountResult? result;
-  const TExportWalletAccountResponse({
-    required this.activity,
-    this.result,
-  });
+  const TExportWalletAccountResponse({required this.activity, this.result});
   factory TExportWalletAccountResponse.fromJson(Map<String, dynamic> json) {
     return TExportWalletAccountResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1ExportWalletAccountResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1ExportWalletAccountResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TExportWalletAccountBody {
@@ -29639,31 +29211,31 @@ class TExportWalletAccountInput {
   const TExportWalletAccountInput({required this.body});
   factory TExportWalletAccountInput.fromJson(Map<String, dynamic> json) =>
       TExportWalletAccountInput(
-          body: TExportWalletAccountBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TExportWalletAccountBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TImportPrivateKeyResponse {
   final v1Activity activity;
   final v1ImportPrivateKeyResult? result;
-  const TImportPrivateKeyResponse({
-    required this.activity,
-    this.result,
-  });
+  const TImportPrivateKeyResponse({required this.activity, this.result});
   factory TImportPrivateKeyResponse.fromJson(Map<String, dynamic> json) {
     return TImportPrivateKeyResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1ImportPrivateKeyResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1ImportPrivateKeyResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TImportPrivateKeyBody {
@@ -29726,8 +29298,9 @@ class TImportPrivateKeyBody {
     _json['privateKeyName'] = privateKeyName;
     _json['encryptedBundle'] = encryptedBundle;
     _json['curve'] = v1CurveToJson(curve);
-    _json['addressFormats'] =
-        addressFormats.map((e) => v1AddressFormatToJson(e)).toList();
+    _json['addressFormats'] = addressFormats
+        .map((e) => v1AddressFormatToJson(e))
+        .toList();
     return _json;
   }
 }
@@ -29737,31 +29310,31 @@ class TImportPrivateKeyInput {
   const TImportPrivateKeyInput({required this.body});
   factory TImportPrivateKeyInput.fromJson(Map<String, dynamic> json) =>
       TImportPrivateKeyInput(
-          body: TImportPrivateKeyBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TImportPrivateKeyBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TImportWalletResponse {
   final v1Activity activity;
   final v1ImportWalletResult? result;
-  const TImportWalletResponse({
-    required this.activity,
-    this.result,
-  });
+  const TImportWalletResponse({required this.activity, this.result});
   factory TImportWalletResponse.fromJson(Map<String, dynamic> json) {
     return TImportWalletResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1ImportWalletResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1ImportWalletResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TImportWalletBody {
@@ -29827,31 +29400,29 @@ class TImportWalletInput {
   const TImportWalletInput({required this.body});
   factory TImportWalletInput.fromJson(Map<String, dynamic> json) =>
       TImportWalletInput(
-          body:
-              TImportWalletBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TImportWalletBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TInitFiatOnRampResponse {
   final v1Activity activity;
   final v1InitFiatOnRampResult? result;
-  const TInitFiatOnRampResponse({
-    required this.activity,
-    this.result,
-  });
+  const TInitFiatOnRampResponse({required this.activity, this.result});
   factory TInitFiatOnRampResponse.fromJson(Map<String, dynamic> json) {
     return TInitFiatOnRampResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1InitFiatOnRampResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1InitFiatOnRampResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TInitFiatOnRampBody {
@@ -29909,12 +29480,14 @@ class TInitFiatOnRampBody {
   factory TInitFiatOnRampBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _walletAddress = json['walletAddress'] as String;
     final _network = v1FiatOnRampBlockchainNetworkFromJson(json['network']);
-    final _cryptoCurrencyCode =
-        v1FiatOnRampCryptoCurrencyFromJson(json['cryptoCurrencyCode']);
+    final _cryptoCurrencyCode = v1FiatOnRampCryptoCurrencyFromJson(
+      json['cryptoCurrencyCode'],
+    );
     final _fiatCurrencyCode = json['fiatCurrencyCode'] == null
         ? null
         : v1FiatOnRampCurrencyFromJson(json['fiatCurrencyCode']);
@@ -29953,8 +29526,9 @@ class TInitFiatOnRampBody {
     _json['onrampProvider'] = v1FiatOnRampProviderToJson(onrampProvider);
     _json['walletAddress'] = walletAddress;
     _json['network'] = v1FiatOnRampBlockchainNetworkToJson(network);
-    _json['cryptoCurrencyCode'] =
-        v1FiatOnRampCryptoCurrencyToJson(cryptoCurrencyCode);
+    _json['cryptoCurrencyCode'] = v1FiatOnRampCryptoCurrencyToJson(
+      cryptoCurrencyCode,
+    );
     if (fiatCurrencyCode != null) {
       _json['fiatCurrencyCode'] = v1FiatOnRampCurrencyToJson(fiatCurrencyCode!);
     }
@@ -29985,31 +29559,31 @@ class TInitFiatOnRampInput {
   const TInitFiatOnRampInput({required this.body});
   factory TInitFiatOnRampInput.fromJson(Map<String, dynamic> json) =>
       TInitFiatOnRampInput(
-          body: TInitFiatOnRampBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TInitFiatOnRampBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TInitImportPrivateKeyResponse {
   final v1Activity activity;
   final v1InitImportPrivateKeyResult? result;
-  const TInitImportPrivateKeyResponse({
-    required this.activity,
-    this.result,
-  });
+  const TInitImportPrivateKeyResponse({required this.activity, this.result});
   factory TInitImportPrivateKeyResponse.fromJson(Map<String, dynamic> json) {
     return TInitImportPrivateKeyResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1InitImportPrivateKeyResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1InitImportPrivateKeyResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TInitImportPrivateKeyBody {
@@ -30052,31 +29626,31 @@ class TInitImportPrivateKeyInput {
   const TInitImportPrivateKeyInput({required this.body});
   factory TInitImportPrivateKeyInput.fromJson(Map<String, dynamic> json) =>
       TInitImportPrivateKeyInput(
-          body: TInitImportPrivateKeyBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TInitImportPrivateKeyBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TInitImportWalletResponse {
   final v1Activity activity;
   final v1InitImportWalletResult? result;
-  const TInitImportWalletResponse({
-    required this.activity,
-    this.result,
-  });
+  const TInitImportWalletResponse({required this.activity, this.result});
   factory TInitImportWalletResponse.fromJson(Map<String, dynamic> json) {
     return TInitImportWalletResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1InitImportWalletResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1InitImportWalletResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TInitImportWalletBody {
@@ -30119,18 +29693,17 @@ class TInitImportWalletInput {
   const TInitImportWalletInput({required this.body});
   factory TInitImportWalletInput.fromJson(Map<String, dynamic> json) =>
       TInitImportWalletInput(
-          body: TInitImportWalletBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TInitImportWalletBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TInitOtpResponse {
   final v1Activity activity;
   final v1InitOtpResultV2? result;
-  const TInitOtpResponse({
-    required this.activity,
-    this.result,
-  });
+  const TInitOtpResponse({required this.activity, this.result});
   factory TInitOtpResponse.fromJson(Map<String, dynamic> json) {
     return TInitOtpResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -30140,9 +29713,9 @@ class TInitOtpResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TInitOtpBody {
@@ -30210,12 +29783,14 @@ class TInitOtpBody {
     final _otpLength = json['otpLength'] as num?;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParamsV2
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParamsV2.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -30285,30 +29860,29 @@ class TInitOtpInput {
   final TInitOtpBody body;
   const TInitOtpInput({required this.body});
   factory TInitOtpInput.fromJson(Map<String, dynamic> json) => TInitOtpInput(
-      body: TInitOtpBody.fromJson(json['body'] as Map<String, dynamic>));
+    body: TInitOtpBody.fromJson(json['body'] as Map<String, dynamic>),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TInitOtpAuthResponse {
   final v1Activity activity;
   final v1InitOtpAuthResultV2? result;
-  const TInitOtpAuthResponse({
-    required this.activity,
-    this.result,
-  });
+  const TInitOtpAuthResponse({required this.activity, this.result});
   factory TInitOtpAuthResponse.fromJson(Map<String, dynamic> json) {
     return TInitOtpAuthResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1InitOtpAuthResultV2
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1InitOtpAuthResultV2.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TInitOtpAuthBody {
@@ -30376,12 +29950,14 @@ class TInitOtpAuthBody {
     final _appName = json['appName'] as String;
     final _emailCustomization = json['emailCustomization'] == null
         ? null
-        : v1EmailCustomizationParamsV2
-            .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+        : v1EmailCustomizationParamsV2.fromJson(
+            json['emailCustomization'] as Map<String, dynamic>,
+          );
     final _smsCustomization = json['smsCustomization'] == null
         ? null
-        : v1SmsCustomizationParams
-            .fromJson(json['smsCustomization'] as Map<String, dynamic>);
+        : v1SmsCustomizationParams.fromJson(
+            json['smsCustomization'] as Map<String, dynamic>,
+          );
     final _userIdentifier = json['userIdentifier'] as String?;
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _alphanumeric = json['alphanumeric'] as bool?;
@@ -30452,31 +30028,29 @@ class TInitOtpAuthInput {
   const TInitOtpAuthInput({required this.body});
   factory TInitOtpAuthInput.fromJson(Map<String, dynamic> json) =>
       TInitOtpAuthInput(
-          body:
-              TInitOtpAuthBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TInitOtpAuthBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TInitUserEmailRecoveryResponse {
   final v1Activity activity;
   final v1InitUserEmailRecoveryResult? result;
-  const TInitUserEmailRecoveryResponse({
-    required this.activity,
-    this.result,
-  });
+  const TInitUserEmailRecoveryResponse({required this.activity, this.result});
   factory TInitUserEmailRecoveryResponse.fromJson(Map<String, dynamic> json) {
     return TInitUserEmailRecoveryResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1InitUserEmailRecoveryResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1InitUserEmailRecoveryResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TInitUserEmailRecoveryBody {
@@ -30521,8 +30095,9 @@ class TInitUserEmailRecoveryBody {
     final _email = json['email'] as String;
     final _targetPublicKey = json['targetPublicKey'] as String;
     final _expirationSeconds = json['expirationSeconds'] as String?;
-    final _emailCustomization = v1EmailAuthCustomizationParams
-        .fromJson(json['emailCustomization'] as Map<String, dynamic>);
+    final _emailCustomization = v1EmailAuthCustomizationParams.fromJson(
+      json['emailCustomization'] as Map<String, dynamic>,
+    );
     final _sendFromEmailAddress = json['sendFromEmailAddress'] as String?;
     final _sendFromEmailSenderName = json['sendFromEmailSenderName'] as String?;
     final _replyToEmailAddress = json['replyToEmailAddress'] as String?;
@@ -30570,18 +30145,17 @@ class TInitUserEmailRecoveryInput {
   const TInitUserEmailRecoveryInput({required this.body});
   factory TInitUserEmailRecoveryInput.fromJson(Map<String, dynamic> json) =>
       TInitUserEmailRecoveryInput(
-          body: TInitUserEmailRecoveryBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TInitUserEmailRecoveryBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TOauthResponse {
   final v1Activity activity;
   final v1OauthResult? result;
-  const TOauthResponse({
-    required this.activity,
-    this.result,
-  });
+  const TOauthResponse({required this.activity, this.result});
   factory TOauthResponse.fromJson(Map<String, dynamic> json) {
     return TOauthResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -30591,9 +30165,9 @@ class TOauthResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TOauthBody {
@@ -30669,30 +30243,29 @@ class TOauthInput {
   final TOauthBody body;
   const TOauthInput({required this.body});
   factory TOauthInput.fromJson(Map<String, dynamic> json) => TOauthInput(
-      body: TOauthBody.fromJson(json['body'] as Map<String, dynamic>));
+    body: TOauthBody.fromJson(json['body'] as Map<String, dynamic>),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TOauth2AuthenticateResponse {
   final v1Activity activity;
   final v1Oauth2AuthenticateResult? result;
-  const TOauth2AuthenticateResponse({
-    required this.activity,
-    this.result,
-  });
+  const TOauth2AuthenticateResponse({required this.activity, this.result});
   factory TOauth2AuthenticateResponse.fromJson(Map<String, dynamic> json) {
     return TOauth2AuthenticateResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1Oauth2AuthenticateResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1Oauth2AuthenticateResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TOauth2AuthenticateBody {
@@ -30775,18 +30348,17 @@ class TOauth2AuthenticateInput {
   const TOauth2AuthenticateInput({required this.body});
   factory TOauth2AuthenticateInput.fromJson(Map<String, dynamic> json) =>
       TOauth2AuthenticateInput(
-          body: TOauth2AuthenticateBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TOauth2AuthenticateBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TOauthLoginResponse {
   final v1Activity activity;
   final v1OauthLoginResult? result;
-  const TOauthLoginResponse({
-    required this.activity,
-    this.result,
-  });
+  const TOauthLoginResponse({required this.activity, this.result});
   factory TOauthLoginResponse.fromJson(Map<String, dynamic> json) {
     return TOauthLoginResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -30796,9 +30368,9 @@ class TOauthLoginResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TOauthLoginBody {
@@ -30866,17 +30438,15 @@ class TOauthLoginInput {
   const TOauthLoginInput({required this.body});
   factory TOauthLoginInput.fromJson(Map<String, dynamic> json) =>
       TOauthLoginInput(
-          body: TOauthLoginBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TOauthLoginBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TOtpAuthResponse {
   final v1Activity activity;
   final v1OtpAuthResult? result;
-  const TOtpAuthResponse({
-    required this.activity,
-    this.result,
-  });
+  const TOtpAuthResponse({required this.activity, this.result});
   factory TOtpAuthResponse.fromJson(Map<String, dynamic> json) {
     return TOtpAuthResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -30886,9 +30456,9 @@ class TOtpAuthResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TOtpAuthBody {
@@ -30971,17 +30541,15 @@ class TOtpAuthInput {
   final TOtpAuthBody body;
   const TOtpAuthInput({required this.body});
   factory TOtpAuthInput.fromJson(Map<String, dynamic> json) => TOtpAuthInput(
-      body: TOtpAuthBody.fromJson(json['body'] as Map<String, dynamic>));
+    body: TOtpAuthBody.fromJson(json['body'] as Map<String, dynamic>),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TOtpLoginResponse {
   final v1Activity activity;
   final v1OtpLoginResult? result;
-  const TOtpLoginResponse({
-    required this.activity,
-    this.result,
-  });
+  const TOtpLoginResponse({required this.activity, this.result});
   factory TOtpLoginResponse.fromJson(Map<String, dynamic> json) {
     return TOtpLoginResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -30991,9 +30559,9 @@ class TOtpLoginResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TOtpLoginBody {
@@ -31029,8 +30597,9 @@ class TOtpLoginBody {
     final _organizationId = json['organizationId'] as String?;
     final _verificationToken = json['verificationToken'] as String;
     final _publicKey = json['publicKey'] as String;
-    final _clientSignature = v1ClientSignature
-        .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    final _clientSignature = v1ClientSignature.fromJson(
+      json['clientSignature'] as Map<String, dynamic>,
+    );
     final _expirationSeconds = json['expirationSeconds'] as String?;
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     return TOtpLoginBody(
@@ -31068,17 +30637,15 @@ class TOtpLoginInput {
   final TOtpLoginBody body;
   const TOtpLoginInput({required this.body});
   factory TOtpLoginInput.fromJson(Map<String, dynamic> json) => TOtpLoginInput(
-      body: TOtpLoginBody.fromJson(json['body'] as Map<String, dynamic>));
+    body: TOtpLoginBody.fromJson(json['body'] as Map<String, dynamic>),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TRecoverUserResponse {
   final v1Activity activity;
   final v1RecoverUserResult? result;
-  const TRecoverUserResponse({
-    required this.activity,
-    this.result,
-  });
+  const TRecoverUserResponse({required this.activity, this.result});
   factory TRecoverUserResponse.fromJson(Map<String, dynamic> json) {
     return TRecoverUserResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -31088,9 +30655,9 @@ class TRecoverUserResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TRecoverUserBody {
@@ -31112,8 +30679,9 @@ class TRecoverUserBody {
   factory TRecoverUserBody.fromJson(Map<String, dynamic> json) {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
-    final _authenticator = v1AuthenticatorParamsV2
-        .fromJson(json['authenticator'] as Map<String, dynamic>);
+    final _authenticator = v1AuthenticatorParamsV2.fromJson(
+      json['authenticator'] as Map<String, dynamic>,
+    );
     final _userId = json['userId'] as String;
     return TRecoverUserBody(
       timestampMs: _timestampMs,
@@ -31141,24 +30709,20 @@ class TRecoverUserInput {
   const TRecoverUserInput({required this.body});
   factory TRecoverUserInput.fromJson(Map<String, dynamic> json) =>
       TRecoverUserInput(
-          body:
-              TRecoverUserBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TRecoverUserBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TRejectActivityResponse {
   final v1Activity activity;
-  const TRejectActivityResponse({
-    required this.activity,
-  });
+  const TRejectActivityResponse({required this.activity});
   factory TRejectActivityResponse.fromJson(Map<String, dynamic> json) {
     return TRejectActivityResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
     );
   }
-  Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'activity': activity.toJson()};
 }
 
 class TRejectActivityBody {
@@ -31201,8 +30765,10 @@ class TRejectActivityInput {
   const TRejectActivityInput({required this.body});
   factory TRejectActivityInput.fromJson(Map<String, dynamic> json) =>
       TRejectActivityInput(
-          body: TRejectActivityBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TRejectActivityBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -31214,19 +30780,21 @@ class TRemoveOrganizationFeatureResponse {
     this.result,
   });
   factory TRemoveOrganizationFeatureResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TRemoveOrganizationFeatureResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1RemoveOrganizationFeatureResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1RemoveOrganizationFeatureResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TRemoveOrganizationFeatureBody {
@@ -31269,31 +30837,31 @@ class TRemoveOrganizationFeatureInput {
   const TRemoveOrganizationFeatureInput({required this.body});
   factory TRemoveOrganizationFeatureInput.fromJson(Map<String, dynamic> json) =>
       TRemoveOrganizationFeatureInput(
-          body: TRemoveOrganizationFeatureBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TRemoveOrganizationFeatureBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TSetOrganizationFeatureResponse {
   final v1Activity activity;
   final v1SetOrganizationFeatureResult? result;
-  const TSetOrganizationFeatureResponse({
-    required this.activity,
-    this.result,
-  });
+  const TSetOrganizationFeatureResponse({required this.activity, this.result});
   factory TSetOrganizationFeatureResponse.fromJson(Map<String, dynamic> json) {
     return TSetOrganizationFeatureResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1SetOrganizationFeatureResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1SetOrganizationFeatureResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TSetOrganizationFeatureBody {
@@ -31343,31 +30911,31 @@ class TSetOrganizationFeatureInput {
   const TSetOrganizationFeatureInput({required this.body});
   factory TSetOrganizationFeatureInput.fromJson(Map<String, dynamic> json) =>
       TSetOrganizationFeatureInput(
-          body: TSetOrganizationFeatureBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TSetOrganizationFeatureBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TSignRawPayloadResponse {
   final v1Activity activity;
   final v1SignRawPayloadResult? result;
-  const TSignRawPayloadResponse({
-    required this.activity,
-    this.result,
-  });
+  const TSignRawPayloadResponse({required this.activity, this.result});
   factory TSignRawPayloadResponse.fromJson(Map<String, dynamic> json) {
     return TSignRawPayloadResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1SignRawPayloadResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1SignRawPayloadResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TSignRawPayloadBody {
@@ -31431,31 +30999,31 @@ class TSignRawPayloadInput {
   const TSignRawPayloadInput({required this.body});
   factory TSignRawPayloadInput.fromJson(Map<String, dynamic> json) =>
       TSignRawPayloadInput(
-          body: TSignRawPayloadBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TSignRawPayloadBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TSignRawPayloadsResponse {
   final v1Activity activity;
   final v1SignRawPayloadsResult? result;
-  const TSignRawPayloadsResponse({
-    required this.activity,
-    this.result,
-  });
+  const TSignRawPayloadsResponse({required this.activity, this.result});
   factory TSignRawPayloadsResponse.fromJson(Map<String, dynamic> json) {
     return TSignRawPayloadsResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1SignRawPayloadsResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1SignRawPayloadsResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TSignRawPayloadsBody {
@@ -31486,8 +31054,9 @@ class TSignRawPayloadsBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _signWith = json['signWith'] as String;
-    final _payloads =
-        (json['payloads'] as List).map((e) => e as String).toList();
+    final _payloads = (json['payloads'] as List)
+        .map((e) => e as String)
+        .toList();
     final _encoding = v1PayloadEncodingFromJson(json['encoding']);
     final _hashFunction = v1HashFunctionFromJson(json['hashFunction']);
     return TSignRawPayloadsBody(
@@ -31520,31 +31089,31 @@ class TSignRawPayloadsInput {
   const TSignRawPayloadsInput({required this.body});
   factory TSignRawPayloadsInput.fromJson(Map<String, dynamic> json) =>
       TSignRawPayloadsInput(
-          body: TSignRawPayloadsBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TSignRawPayloadsBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TSignTransactionResponse {
   final v1Activity activity;
   final v1SignTransactionResult? result;
-  const TSignTransactionResponse({
-    required this.activity,
-    this.result,
-  });
+  const TSignTransactionResponse({required this.activity, this.result});
   factory TSignTransactionResponse.fromJson(Map<String, dynamic> json) {
     return TSignTransactionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1SignTransactionResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1SignTransactionResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TSignTransactionBody {
@@ -31599,31 +31168,31 @@ class TSignTransactionInput {
   const TSignTransactionInput({required this.body});
   factory TSignTransactionInput.fromJson(Map<String, dynamic> json) =>
       TSignTransactionInput(
-          body: TSignTransactionBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TSignTransactionBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TSolSendTransactionResponse {
   final v1Activity activity;
   final v1SolSendTransactionResult? result;
-  const TSolSendTransactionResponse({
-    required this.activity,
-    this.result,
-  });
+  const TSolSendTransactionResponse({required this.activity, this.result});
   factory TSolSendTransactionResponse.fromJson(Map<String, dynamic> json) {
     return TSolSendTransactionResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1SolSendTransactionResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1SolSendTransactionResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TSolSendTransactionBody {
@@ -31698,18 +31267,17 @@ class TSolSendTransactionInput {
   const TSolSendTransactionInput({required this.body});
   factory TSolSendTransactionInput.fromJson(Map<String, dynamic> json) =>
       TSolSendTransactionInput(
-          body: TSolSendTransactionBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TSolSendTransactionBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TStampLoginResponse {
   final v1Activity activity;
   final v1StampLoginResult? result;
-  const TStampLoginResponse({
-    required this.activity,
-    this.result,
-  });
+  const TStampLoginResponse({required this.activity, this.result});
   factory TStampLoginResponse.fromJson(Map<String, dynamic> json) {
     return TStampLoginResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -31719,9 +31287,9 @@ class TStampLoginResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TStampLoginBody {
@@ -31782,7 +31350,8 @@ class TStampLoginInput {
   const TStampLoginInput({required this.body});
   factory TStampLoginInput.fromJson(Map<String, dynamic> json) =>
       TStampLoginInput(
-          body: TStampLoginBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TStampLoginBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -31794,19 +31363,21 @@ class TUpdateFiatOnRampCredentialResponse {
     this.result,
   });
   factory TUpdateFiatOnRampCredentialResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TUpdateFiatOnRampCredentialResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateFiatOnRampCredentialResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateFiatOnRampCredentialResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateFiatOnRampCredentialBody {
@@ -31845,8 +31416,9 @@ class TUpdateFiatOnRampCredentialBody {
     final _timestampMs = json['timestampMs'] as String?;
     final _organizationId = json['organizationId'] as String?;
     final _fiatOnrampCredentialId = json['fiatOnrampCredentialId'] as String;
-    final _onrampProvider =
-        v1FiatOnRampProviderFromJson(json['onrampProvider']);
+    final _onrampProvider = v1FiatOnRampProviderFromJson(
+      json['onrampProvider'],
+    );
     final _projectId = json['projectId'] as String?;
     final _publishableApiKey = json['publishableApiKey'] as String;
     final _encryptedSecretApiKey = json['encryptedSecretApiKey'] as String;
@@ -31888,33 +31460,33 @@ class TUpdateFiatOnRampCredentialInput {
   final TUpdateFiatOnRampCredentialBody body;
   const TUpdateFiatOnRampCredentialInput({required this.body});
   factory TUpdateFiatOnRampCredentialInput.fromJson(
-          Map<String, dynamic> json) =>
-      TUpdateFiatOnRampCredentialInput(
-          body: TUpdateFiatOnRampCredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+    Map<String, dynamic> json,
+  ) => TUpdateFiatOnRampCredentialInput(
+    body: TUpdateFiatOnRampCredentialBody.fromJson(
+      json['body'] as Map<String, dynamic>,
+    ),
+  );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateOauth2CredentialResponse {
   final v1Activity activity;
   final v1UpdateOauth2CredentialResult? result;
-  const TUpdateOauth2CredentialResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateOauth2CredentialResponse({required this.activity, this.result});
   factory TUpdateOauth2CredentialResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateOauth2CredentialResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateOauth2CredentialResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateOauth2CredentialResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateOauth2CredentialBody {
@@ -31978,31 +31550,31 @@ class TUpdateOauth2CredentialInput {
   const TUpdateOauth2CredentialInput({required this.body});
   factory TUpdateOauth2CredentialInput.fromJson(Map<String, dynamic> json) =>
       TUpdateOauth2CredentialInput(
-          body: TUpdateOauth2CredentialBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateOauth2CredentialBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateOrganizationNameResponse {
   final v1Activity activity;
   final v1UpdateOrganizationNameResult? result;
-  const TUpdateOrganizationNameResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateOrganizationNameResponse({required this.activity, this.result});
   factory TUpdateOrganizationNameResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateOrganizationNameResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateOrganizationNameResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateOrganizationNameResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateOrganizationNameBody {
@@ -32045,31 +31617,31 @@ class TUpdateOrganizationNameInput {
   const TUpdateOrganizationNameInput({required this.body});
   factory TUpdateOrganizationNameInput.fromJson(Map<String, dynamic> json) =>
       TUpdateOrganizationNameInput(
-          body: TUpdateOrganizationNameBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateOrganizationNameBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdatePolicyResponse {
   final v1Activity activity;
   final v1UpdatePolicyResultV2? result;
-  const TUpdatePolicyResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdatePolicyResponse({required this.activity, this.result});
   factory TUpdatePolicyResponse.fromJson(Map<String, dynamic> json) {
     return TUpdatePolicyResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdatePolicyResultV2
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdatePolicyResultV2.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdatePolicyBody {
@@ -32159,31 +31731,29 @@ class TUpdatePolicyInput {
   const TUpdatePolicyInput({required this.body});
   factory TUpdatePolicyInput.fromJson(Map<String, dynamic> json) =>
       TUpdatePolicyInput(
-          body:
-              TUpdatePolicyBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TUpdatePolicyBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdatePrivateKeyTagResponse {
   final v1Activity activity;
   final v1UpdatePrivateKeyTagResult? result;
-  const TUpdatePrivateKeyTagResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdatePrivateKeyTagResponse({required this.activity, this.result});
   factory TUpdatePrivateKeyTagResponse.fromJson(Map<String, dynamic> json) {
     return TUpdatePrivateKeyTagResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdatePrivateKeyTagResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdatePrivateKeyTagResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdatePrivateKeyTagBody {
@@ -32215,10 +31785,12 @@ class TUpdatePrivateKeyTagBody {
     final _organizationId = json['organizationId'] as String?;
     final _privateKeyTagId = json['privateKeyTagId'] as String;
     final _newPrivateKeyTagName = json['newPrivateKeyTagName'] as String?;
-    final _addPrivateKeyIds =
-        (json['addPrivateKeyIds'] as List).map((e) => e as String).toList();
-    final _removePrivateKeyIds =
-        (json['removePrivateKeyIds'] as List).map((e) => e as String).toList();
+    final _addPrivateKeyIds = (json['addPrivateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    final _removePrivateKeyIds = (json['removePrivateKeyIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TUpdatePrivateKeyTagBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -32251,31 +31823,31 @@ class TUpdatePrivateKeyTagInput {
   const TUpdatePrivateKeyTagInput({required this.body});
   factory TUpdatePrivateKeyTagInput.fromJson(Map<String, dynamic> json) =>
       TUpdatePrivateKeyTagInput(
-          body: TUpdatePrivateKeyTagBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdatePrivateKeyTagBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateRootQuorumResponse {
   final v1Activity activity;
   final v1UpdateRootQuorumResult? result;
-  const TUpdateRootQuorumResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateRootQuorumResponse({required this.activity, this.result});
   factory TUpdateRootQuorumResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateRootQuorumResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateRootQuorumResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateRootQuorumResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateRootQuorumBody {
@@ -32325,18 +31897,17 @@ class TUpdateRootQuorumInput {
   const TUpdateRootQuorumInput({required this.body});
   factory TUpdateRootQuorumInput.fromJson(Map<String, dynamic> json) =>
       TUpdateRootQuorumInput(
-          body: TUpdateRootQuorumBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateRootQuorumBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateUserResponse {
   final v1Activity activity;
   final v1UpdateUserResult? result;
-  const TUpdateUserResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateUserResponse({required this.activity, this.result});
   factory TUpdateUserResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateUserResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -32346,9 +31917,9 @@ class TUpdateUserResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateUserBody {
@@ -32385,8 +31956,9 @@ class TUpdateUserBody {
     final _userId = json['userId'] as String;
     final _userName = json['userName'] as String?;
     final _userEmail = json['userEmail'] as String?;
-    final _userTagIds =
-        (json['userTagIds'] as List?)?.map((e) => e as String).toList();
+    final _userTagIds = (json['userTagIds'] as List?)
+        ?.map((e) => e as String)
+        .toList();
     final _userPhoneNumber = json['userPhoneNumber'] as String?;
     return TUpdateUserBody(
       timestampMs: _timestampMs,
@@ -32428,30 +32000,29 @@ class TUpdateUserInput {
   const TUpdateUserInput({required this.body});
   factory TUpdateUserInput.fromJson(Map<String, dynamic> json) =>
       TUpdateUserInput(
-          body: TUpdateUserBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TUpdateUserBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateUserEmailResponse {
   final v1Activity activity;
   final v1UpdateUserEmailResult? result;
-  const TUpdateUserEmailResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateUserEmailResponse({required this.activity, this.result});
   factory TUpdateUserEmailResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateUserEmailResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateUserEmailResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateUserEmailResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateUserEmailBody {
@@ -32510,31 +32081,31 @@ class TUpdateUserEmailInput {
   const TUpdateUserEmailInput({required this.body});
   factory TUpdateUserEmailInput.fromJson(Map<String, dynamic> json) =>
       TUpdateUserEmailInput(
-          body: TUpdateUserEmailBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateUserEmailBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateUserNameResponse {
   final v1Activity activity;
   final v1UpdateUserNameResult? result;
-  const TUpdateUserNameResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateUserNameResponse({required this.activity, this.result});
   factory TUpdateUserNameResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateUserNameResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateUserNameResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateUserNameResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateUserNameBody {
@@ -32584,31 +32155,31 @@ class TUpdateUserNameInput {
   const TUpdateUserNameInput({required this.body});
   factory TUpdateUserNameInput.fromJson(Map<String, dynamic> json) =>
       TUpdateUserNameInput(
-          body: TUpdateUserNameBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateUserNameBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateUserPhoneNumberResponse {
   final v1Activity activity;
   final v1UpdateUserPhoneNumberResult? result;
-  const TUpdateUserPhoneNumberResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateUserPhoneNumberResponse({required this.activity, this.result});
   factory TUpdateUserPhoneNumberResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateUserPhoneNumberResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateUserPhoneNumberResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateUserPhoneNumberResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateUserPhoneNumberBody {
@@ -32667,31 +32238,31 @@ class TUpdateUserPhoneNumberInput {
   const TUpdateUserPhoneNumberInput({required this.body});
   factory TUpdateUserPhoneNumberInput.fromJson(Map<String, dynamic> json) =>
       TUpdateUserPhoneNumberInput(
-          body: TUpdateUserPhoneNumberBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateUserPhoneNumberBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateUserTagResponse {
   final v1Activity activity;
   final v1UpdateUserTagResult? result;
-  const TUpdateUserTagResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateUserTagResponse({required this.activity, this.result});
   factory TUpdateUserTagResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateUserTagResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateUserTagResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateUserTagResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateUserTagBody {
@@ -32723,10 +32294,12 @@ class TUpdateUserTagBody {
     final _organizationId = json['organizationId'] as String?;
     final _userTagId = json['userTagId'] as String;
     final _newUserTagName = json['newUserTagName'] as String?;
-    final _addUserIds =
-        (json['addUserIds'] as List).map((e) => e as String).toList();
-    final _removeUserIds =
-        (json['removeUserIds'] as List).map((e) => e as String).toList();
+    final _addUserIds = (json['addUserIds'] as List)
+        .map((e) => e as String)
+        .toList();
+    final _removeUserIds = (json['removeUserIds'] as List)
+        .map((e) => e as String)
+        .toList();
     return TUpdateUserTagBody(
       timestampMs: _timestampMs,
       organizationId: _organizationId,
@@ -32759,31 +32332,29 @@ class TUpdateUserTagInput {
   const TUpdateUserTagInput({required this.body});
   factory TUpdateUserTagInput.fromJson(Map<String, dynamic> json) =>
       TUpdateUserTagInput(
-          body: TUpdateUserTagBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateUserTagBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateWalletResponse {
   final v1Activity activity;
   final v1UpdateWalletResult? result;
-  const TUpdateWalletResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateWalletResponse({required this.activity, this.result});
   factory TUpdateWalletResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateWalletResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateWalletResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateWalletResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateWalletBody {
@@ -32835,31 +32406,29 @@ class TUpdateWalletInput {
   const TUpdateWalletInput({required this.body});
   factory TUpdateWalletInput.fromJson(Map<String, dynamic> json) =>
       TUpdateWalletInput(
-          body:
-              TUpdateWalletBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TUpdateWalletBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TUpdateWebhookEndpointResponse {
   final v1Activity activity;
   final v1UpdateWebhookEndpointResult? result;
-  const TUpdateWebhookEndpointResponse({
-    required this.activity,
-    this.result,
-  });
+  const TUpdateWebhookEndpointResponse({required this.activity, this.result});
   factory TUpdateWebhookEndpointResponse.fromJson(Map<String, dynamic> json) {
     return TUpdateWebhookEndpointResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
       result: json.containsKey('result') && json['result'] != null
-          ? v1UpdateWebhookEndpointResult
-              .fromJson(json['result'] as Map<String, dynamic>)
+          ? v1UpdateWebhookEndpointResult.fromJson(
+              json['result'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TUpdateWebhookEndpointBody {
@@ -32929,18 +32498,17 @@ class TUpdateWebhookEndpointInput {
   const TUpdateWebhookEndpointInput({required this.body});
   factory TUpdateWebhookEndpointInput.fromJson(Map<String, dynamic> json) =>
       TUpdateWebhookEndpointInput(
-          body: TUpdateWebhookEndpointBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: TUpdateWebhookEndpointBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class TVerifyOtpResponse {
   final v1Activity activity;
   final v1VerifyOtpResult? result;
-  const TVerifyOtpResponse({
-    required this.activity,
-    this.result,
-  });
+  const TVerifyOtpResponse({required this.activity, this.result});
   factory TVerifyOtpResponse.fromJson(Map<String, dynamic> json) {
     return TVerifyOtpResponse(
       activity: v1Activity.fromJson(json['activity'] as Map<String, dynamic>),
@@ -32950,9 +32518,9 @@ class TVerifyOtpResponse {
     );
   }
   Map<String, dynamic> toJson() => {
-        'activity': activity.toJson(),
-        if (result != null) 'result': result!.toJson(),
-      };
+    'activity': activity.toJson(),
+    if (result != null) 'result': result!.toJson(),
+  };
 }
 
 class TVerifyOtpBody {
@@ -33011,7 +32579,8 @@ class TVerifyOtpInput {
   const TVerifyOtpInput({required this.body});
   factory TVerifyOtpInput.fromJson(Map<String, dynamic> json) =>
       TVerifyOtpInput(
-          body: TVerifyOtpBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: TVerifyOtpBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33019,21 +32588,16 @@ class TNOOPCodegenAnchorResponse {
   final v1WebAuthnStamp stamp;
   final v1TokenUsage? tokenUsage;
 
-  const TNOOPCodegenAnchorResponse({
-    required this.stamp,
-    this.tokenUsage,
-  });
+  const TNOOPCodegenAnchorResponse({required this.stamp, this.tokenUsage});
 
   factory TNOOPCodegenAnchorResponse.fromJson(Map<String, dynamic> json) {
-    final _stamp =
-        v1WebAuthnStamp.fromJson(json['stamp'] as Map<String, dynamic>);
+    final _stamp = v1WebAuthnStamp.fromJson(
+      json['stamp'] as Map<String, dynamic>,
+    );
     final _tokenUsage = json['tokenUsage'] == null
         ? null
         : v1TokenUsage.fromJson(json['tokenUsage'] as Map<String, dynamic>);
-    return TNOOPCodegenAnchorResponse(
-      stamp: _stamp,
-      tokenUsage: _tokenUsage,
-    );
+    return TNOOPCodegenAnchorResponse(stamp: _stamp, tokenUsage: _tokenUsage);
   }
 
   Map<String, dynamic> toJson() {
@@ -33058,25 +32622,23 @@ class TNOOPCodegenAnchorInput {
   const TNOOPCodegenAnchorInput({required this.body});
   factory TNOOPCodegenAnchorInput.fromJson(Map<String, dynamic> json) =>
       TNOOPCodegenAnchorInput(
-          body: json['body'] is Map<String, dynamic>
-              ? TNOOPCodegenAnchorBody.fromJson(
-                  json['body'] as Map<String, dynamic>)
-              : const TNOOPCodegenAnchorBody());
+        body: json['body'] is Map<String, dynamic>
+            ? TNOOPCodegenAnchorBody.fromJson(
+                json['body'] as Map<String, dynamic>,
+              )
+            : const TNOOPCodegenAnchorBody(),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
 class ProxyTGetAccountResponse {
   final String? organizationId;
 
-  const ProxyTGetAccountResponse({
-    this.organizationId,
-  });
+  const ProxyTGetAccountResponse({this.organizationId});
 
   factory ProxyTGetAccountResponse.fromJson(Map<String, dynamic> json) {
     final _organizationId = json['organizationId'] as String?;
-    return ProxyTGetAccountResponse(
-      organizationId: _organizationId,
-    );
+    return ProxyTGetAccountResponse(organizationId: _organizationId);
   }
 
   Map<String, dynamic> toJson() {
@@ -33138,8 +32700,10 @@ class ProxyTGetAccountInput {
   const ProxyTGetAccountInput({required this.body});
   factory ProxyTGetAccountInput.fromJson(Map<String, dynamic> json) =>
       ProxyTGetAccountInput(
-          body: ProxyTGetAccountBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTGetAccountBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33147,15 +32711,11 @@ class ProxyTOAuth2AuthenticateResponse {
   /// A Turnkey issued OIDC token to be used with the LoginWithOAuth activity
   final String oidcToken;
 
-  const ProxyTOAuth2AuthenticateResponse({
-    required this.oidcToken,
-  });
+  const ProxyTOAuth2AuthenticateResponse({required this.oidcToken});
 
   factory ProxyTOAuth2AuthenticateResponse.fromJson(Map<String, dynamic> json) {
     final _oidcToken = json['oidcToken'] as String;
-    return ProxyTOAuth2AuthenticateResponse(
-      oidcToken: _oidcToken,
-    );
+    return ProxyTOAuth2AuthenticateResponse(oidcToken: _oidcToken);
   }
 
   Map<String, dynamic> toJson() {
@@ -33227,8 +32787,10 @@ class ProxyTOAuth2AuthenticateInput {
   const ProxyTOAuth2AuthenticateInput({required this.body});
   factory ProxyTOAuth2AuthenticateInput.fromJson(Map<String, dynamic> json) =>
       ProxyTOAuth2AuthenticateInput(
-          body: ProxyTOAuth2AuthenticateBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTOAuth2AuthenticateBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33236,15 +32798,11 @@ class ProxyTOAuthLoginResponse {
   /// Signed JWT containing an expiry, public key, session type, user id, and organization id
   final String session;
 
-  const ProxyTOAuthLoginResponse({
-    required this.session,
-  });
+  const ProxyTOAuthLoginResponse({required this.session});
 
   factory ProxyTOAuthLoginResponse.fromJson(Map<String, dynamic> json) {
     final _session = json['session'] as String;
-    return ProxyTOAuthLoginResponse(
-      session: _session,
-    );
+    return ProxyTOAuthLoginResponse(session: _session);
   }
 
   Map<String, dynamic> toJson() {
@@ -33304,8 +32862,10 @@ class ProxyTOAuthLoginInput {
   const ProxyTOAuthLoginInput({required this.body});
   factory ProxyTOAuthLoginInput.fromJson(Map<String, dynamic> json) =>
       ProxyTOAuthLoginInput(
-          body: ProxyTOAuthLoginBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTOAuthLoginBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33313,15 +32873,11 @@ class ProxyTInitOtpResponse {
   /// Unique identifier for an OTP authentication
   final String otpId;
 
-  const ProxyTInitOtpResponse({
-    required this.otpId,
-  });
+  const ProxyTInitOtpResponse({required this.otpId});
 
   factory ProxyTInitOtpResponse.fromJson(Map<String, dynamic> json) {
     final _otpId = json['otpId'] as String;
-    return ProxyTInitOtpResponse(
-      otpId: _otpId,
-    );
+    return ProxyTInitOtpResponse(otpId: _otpId);
   }
 
   Map<String, dynamic> toJson() {
@@ -33338,17 +32894,11 @@ class ProxyTInitOtpBody {
   /// Email or phone number to send the OTP code to
   final String contact;
 
-  const ProxyTInitOtpBody({
-    required this.otpType,
-    required this.contact,
-  });
+  const ProxyTInitOtpBody({required this.otpType, required this.contact});
   factory ProxyTInitOtpBody.fromJson(Map<String, dynamic> json) {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
-    return ProxyTInitOtpBody(
-      otpType: _otpType,
-      contact: _contact,
-    );
+    return ProxyTInitOtpBody(otpType: _otpType, contact: _contact);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -33363,8 +32913,8 @@ class ProxyTInitOtpInput {
   const ProxyTInitOtpInput({required this.body});
   factory ProxyTInitOtpInput.fromJson(Map<String, dynamic> json) =>
       ProxyTInitOtpInput(
-          body:
-              ProxyTInitOtpBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: ProxyTInitOtpBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33405,17 +32955,11 @@ class ProxyTInitOtpV2Body {
   /// Email or phone number to send the OTP code to
   final String contact;
 
-  const ProxyTInitOtpV2Body({
-    required this.otpType,
-    required this.contact,
-  });
+  const ProxyTInitOtpV2Body({required this.otpType, required this.contact});
   factory ProxyTInitOtpV2Body.fromJson(Map<String, dynamic> json) {
     final _otpType = json['otpType'] as String;
     final _contact = json['contact'] as String;
-    return ProxyTInitOtpV2Body(
-      otpType: _otpType,
-      contact: _contact,
-    );
+    return ProxyTInitOtpV2Body(otpType: _otpType, contact: _contact);
   }
   Map<String, dynamic> toJson() {
     final _json = <String, dynamic>{};
@@ -33430,8 +32974,10 @@ class ProxyTInitOtpV2Input {
   const ProxyTInitOtpV2Input({required this.body});
   factory ProxyTInitOtpV2Input.fromJson(Map<String, dynamic> json) =>
       ProxyTInitOtpV2Input(
-          body: ProxyTInitOtpV2Body.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTInitOtpV2Body.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33439,15 +32985,11 @@ class ProxyTOtpLoginResponse {
   /// Signed JWT containing an expiry, public key, session type, user id, and organization id
   final String session;
 
-  const ProxyTOtpLoginResponse({
-    required this.session,
-  });
+  const ProxyTOtpLoginResponse({required this.session});
 
   factory ProxyTOtpLoginResponse.fromJson(Map<String, dynamic> json) {
     final _session = json['session'] as String;
-    return ProxyTOtpLoginResponse(
-      session: _session,
-    );
+    return ProxyTOtpLoginResponse(session: _session);
   }
 
   Map<String, dynamic> toJson() {
@@ -33487,8 +33029,9 @@ class ProxyTOtpLoginBody {
     final _organizationId = json['organizationId'] as String?;
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return ProxyTOtpLoginBody(
       verificationToken: _verificationToken,
       publicKey: _publicKey,
@@ -33519,8 +33062,8 @@ class ProxyTOtpLoginInput {
   const ProxyTOtpLoginInput({required this.body});
   factory ProxyTOtpLoginInput.fromJson(Map<String, dynamic> json) =>
       ProxyTOtpLoginInput(
-          body: ProxyTOtpLoginBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTOtpLoginBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33528,15 +33071,11 @@ class ProxyTOtpLoginV2Response {
   /// Session containing an expiry, public key, session type, user id, and organization id
   final String session;
 
-  const ProxyTOtpLoginV2Response({
-    required this.session,
-  });
+  const ProxyTOtpLoginV2Response({required this.session});
 
   factory ProxyTOtpLoginV2Response.fromJson(Map<String, dynamic> json) {
     final _session = json['session'] as String;
-    return ProxyTOtpLoginV2Response(
-      session: _session,
-    );
+    return ProxyTOtpLoginV2Response(session: _session);
   }
 
   Map<String, dynamic> toJson() {
@@ -33572,8 +33111,9 @@ class ProxyTOtpLoginV2Body {
   factory ProxyTOtpLoginV2Body.fromJson(Map<String, dynamic> json) {
     final _verificationToken = json['verificationToken'] as String;
     final _publicKey = json['publicKey'] as String;
-    final _clientSignature = v1ClientSignature
-        .fromJson(json['clientSignature'] as Map<String, dynamic>);
+    final _clientSignature = v1ClientSignature.fromJson(
+      json['clientSignature'] as Map<String, dynamic>,
+    );
     final _invalidateExisting = json['invalidateExisting'] as bool?;
     final _organizationId = json['organizationId'] as String?;
     return ProxyTOtpLoginV2Body(
@@ -33604,8 +33144,10 @@ class ProxyTOtpLoginV2Input {
   const ProxyTOtpLoginV2Input({required this.body});
   factory ProxyTOtpLoginV2Input.fromJson(Map<String, dynamic> json) =>
       ProxyTOtpLoginV2Input(
-          body: ProxyTOtpLoginV2Body.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTOtpLoginV2Body.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33613,15 +33155,11 @@ class ProxyTVerifyOtpResponse {
   /// Signed JWT containing a unique id, expiry, verification type, contact. Verification status of a user is updated when the token is consumed (in OTP_LOGIN requests)
   final String verificationToken;
 
-  const ProxyTVerifyOtpResponse({
-    required this.verificationToken,
-  });
+  const ProxyTVerifyOtpResponse({required this.verificationToken});
 
   factory ProxyTVerifyOtpResponse.fromJson(Map<String, dynamic> json) {
     final _verificationToken = json['verificationToken'] as String;
-    return ProxyTVerifyOtpResponse(
-      verificationToken: _verificationToken,
-    );
+    return ProxyTVerifyOtpResponse(verificationToken: _verificationToken);
   }
 
   Map<String, dynamic> toJson() {
@@ -33672,8 +33210,10 @@ class ProxyTVerifyOtpInput {
   const ProxyTVerifyOtpInput({required this.body});
   factory ProxyTVerifyOtpInput.fromJson(Map<String, dynamic> json) =>
       ProxyTVerifyOtpInput(
-          body: ProxyTVerifyOtpBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTVerifyOtpBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33681,15 +33221,11 @@ class ProxyTVerifyOtpV2Response {
   /// Verification Token containing a unique id, expiry, verification type, contact signed by Turnkey's enclaves. Verification status of a user is updated when the token is consumed (in OTP_LOGIN requests)
   final String verificationToken;
 
-  const ProxyTVerifyOtpV2Response({
-    required this.verificationToken,
-  });
+  const ProxyTVerifyOtpV2Response({required this.verificationToken});
 
   factory ProxyTVerifyOtpV2Response.fromJson(Map<String, dynamic> json) {
     final _verificationToken = json['verificationToken'] as String;
-    return ProxyTVerifyOtpV2Response(
-      verificationToken: _verificationToken,
-    );
+    return ProxyTVerifyOtpV2Response(verificationToken: _verificationToken);
   }
 
   Map<String, dynamic> toJson() {
@@ -33731,8 +33267,10 @@ class ProxyTVerifyOtpV2Input {
   const ProxyTVerifyOtpV2Input({required this.body});
   factory ProxyTVerifyOtpV2Input.fromJson(Map<String, dynamic> json) =>
       ProxyTVerifyOtpV2Input(
-          body: ProxyTVerifyOtpV2Body.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTVerifyOtpV2Body.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -33843,8 +33381,9 @@ class ProxyTSignupBody {
         : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return ProxyTSignupBody(
       userEmail: _userEmail,
       userPhoneNumber: _userPhoneNumber,
@@ -33897,8 +33436,8 @@ class ProxyTSignupInput {
   const ProxyTSignupInput({required this.body});
   factory ProxyTSignupInput.fromJson(Map<String, dynamic> json) =>
       ProxyTSignupInput(
-          body:
-              ProxyTSignupBody.fromJson(json['body'] as Map<String, dynamic>));
+        body: ProxyTSignupBody.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -34009,8 +33548,9 @@ class ProxyTSignupV2Body {
         : v1WalletParams.fromJson(json['wallet'] as Map<String, dynamic>);
     final _clientSignature = json['clientSignature'] == null
         ? null
-        : v1ClientSignature
-            .fromJson(json['clientSignature'] as Map<String, dynamic>);
+        : v1ClientSignature.fromJson(
+            json['clientSignature'] as Map<String, dynamic>,
+          );
     return ProxyTSignupV2Body(
       userEmail: _userEmail,
       userPhoneNumber: _userPhoneNumber,
@@ -34063,8 +33603,8 @@ class ProxyTSignupV2Input {
   const ProxyTSignupV2Input({required this.body});
   factory ProxyTSignupV2Input.fromJson(Map<String, dynamic> json) =>
       ProxyTSignupV2Input(
-          body: ProxyTSignupV2Body.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTSignupV2Body.fromJson(json['body'] as Map<String, dynamic>),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }
 
@@ -34097,8 +33637,9 @@ class ProxyTGetWalletKitConfigResponse {
   });
 
   factory ProxyTGetWalletKitConfigResponse.fromJson(Map<String, dynamic> json) {
-    final _enabledProviders =
-        (json['enabledProviders'] as List).map((e) => e as String).toList();
+    final _enabledProviders = (json['enabledProviders'] as List)
+        .map((e) => e as String)
+        .toList();
     final _sessionExpirationSeconds =
         json['sessionExpirationSeconds'] as String;
     final _organizationId = json['organizationId'] as String;
@@ -34154,7 +33695,9 @@ class ProxyTGetWalletKitConfigInput {
   const ProxyTGetWalletKitConfigInput({required this.body});
   factory ProxyTGetWalletKitConfigInput.fromJson(Map<String, dynamic> json) =>
       ProxyTGetWalletKitConfigInput(
-          body: ProxyTGetWalletKitConfigBody.fromJson(
-              json['body'] as Map<String, dynamic>));
+        body: ProxyTGetWalletKitConfigBody.fromJson(
+          json['body'] as Map<String, dynamic>,
+        ),
+      );
   Map<String, dynamic> toJson() => {'body': body.toJson()};
 }

@@ -25,20 +25,22 @@ extension WalletExtension on TurnkeyProvider {
   /// [walletName] The name of the wallet.
   /// [accounts] The accounts to create in the wallet.
   /// [mnemonicLength] The length of the mnemonic.
-  Future<v1Activity> createWallet(
-      {required String walletName,
-      required List<v1WalletAccountParams> accounts,
-      int? mnemonicLength}) async {
+  Future<v1Activity> createWallet({
+    required String walletName,
+    required List<v1WalletAccountParams> accounts,
+    int? mnemonicLength,
+  }) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
 
     final response = await requireClient.createWallet(
-        input: TCreateWalletBody(
-      accounts: accounts,
-      walletName: walletName,
-      mnemonicLength: mnemonicLength,
-    ));
+      input: TCreateWalletBody(
+        accounts: accounts,
+        walletName: walletName,
+        mnemonicLength: mnemonicLength,
+      ),
+    );
     final activity = response.activity;
     if (activity.result?.createWalletResult?.walletId != null) {
       await refreshWallets();
@@ -55,11 +57,12 @@ extension WalletExtension on TurnkeyProvider {
   /// [walletName] The name of the wallet.
   /// [accounts] The accounts to create in the wallet.
   /// [dangerouslyOverrideSignerPublicKey] An optional public key to override the signer.
-  Future<void> importWallet(
-      {required String mnemonic,
-      required String walletName,
-      required List<v1WalletAccountParams> accounts,
-      String? dangerouslyOverrideSignerPublicKey}) async {
+  Future<void> importWallet({
+    required String mnemonic,
+    required String walletName,
+    required List<v1WalletAccountParams> accounts,
+    String? dangerouslyOverrideSignerPublicKey,
+  }) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
@@ -70,7 +73,8 @@ extension WalletExtension on TurnkeyProvider {
     }
 
     final initResponse = await requireClient.initImportWallet(
-        input: TInitImportWalletBody(userId: user!.userId));
+      input: TInitImportWalletBody(userId: user!.userId),
+    );
 
     final importBundle =
         initResponse.activity.result?.initImportWalletResult?.importBundle;
@@ -88,11 +92,13 @@ extension WalletExtension on TurnkeyProvider {
     );
 
     final response = await requireClient.importWallet(
-        input: TImportWalletBody(
-            userId: user!.userId,
-            walletName: walletName,
-            encryptedBundle: encryptedBundle,
-            accounts: accounts));
+      input: TImportWalletBody(
+        userId: user!.userId,
+        walletName: walletName,
+        encryptedBundle: encryptedBundle,
+        accounts: accounts,
+      ),
+    );
     final activity = response.activity;
     if (activity.result?.importWalletResult?.walletId != null) {
       await refreshWallets();
@@ -105,10 +111,11 @@ extension WalletExtension on TurnkeyProvider {
   ///
   /// [walletId] The ID of the wallet to export.
   /// [dangerouslyOverrideSignerPublicKey] An optional public key to override the signer.
-  Future<String> exportWallet(
-      {required String walletId,
-      String? dangerouslyOverrideSignerPublicKey,
-      bool? returnMnemonic}) async {
+  Future<String> exportWallet({
+    required String walletId,
+    String? dangerouslyOverrideSignerPublicKey,
+    bool? returnMnemonic,
+  }) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
@@ -116,9 +123,11 @@ extension WalletExtension on TurnkeyProvider {
     final keyPair = await generateP256KeyPair();
 
     final response = await requireClient.exportWallet(
-        input: TExportWalletBody(
-            walletId: walletId,
-            targetPublicKey: keyPair.publicKeyUncompressed));
+      input: TExportWalletBody(
+        walletId: walletId,
+        targetPublicKey: keyPair.publicKeyUncompressed,
+      ),
+    );
     final exportBundle =
         response.activity.result?.exportWalletResult?.exportBundle;
 
@@ -129,10 +138,11 @@ extension WalletExtension on TurnkeyProvider {
     await refreshWallets();
 
     return await decryptExportBundle(
-        exportBundle: exportBundle,
-        embeddedKey: keyPair.privateKey,
-        organizationId: session!.organizationId,
-        dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
-        returnMnemonic: returnMnemonic ?? true);
+      exportBundle: exportBundle,
+      embeddedKey: keyPair.privateKey,
+      organizationId: session!.organizationId,
+      dangerouslyOverrideSignerPublicKey: dangerouslyOverrideSignerPublicKey,
+      returnMnemonic: returnMnemonic ?? true,
+    );
   }
 }

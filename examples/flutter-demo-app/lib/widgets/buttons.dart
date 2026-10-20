@@ -20,7 +20,8 @@ class LoadingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: isLoading ? null : onPressed,
-      style: style ??
+      style:
+          style ??
           ElevatedButton.styleFrom(
             backgroundColor: Colors.white,
             padding: EdgeInsets.symmetric(vertical: 10),
@@ -33,8 +34,8 @@ class LoadingButton extends StatelessWidget {
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             )
           : text != null
-              ? Text(text!)
-              : child ?? child,
+          ? Text(text!)
+          : child ?? child,
     );
   }
 }

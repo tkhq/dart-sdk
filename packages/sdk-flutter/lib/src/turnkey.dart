@@ -133,50 +133,66 @@ class TurnkeyProvider with ChangeNotifier {
     String schemeFallback() =>
         (scheme != null && scheme.isNotEmpty) ? '$scheme://' : '';
     String resolvePerProviderRedirect(
-            String? perProvider, String Function() fallback) =>
-        (perProvider != null && perProvider.isNotEmpty)
-            ? perProvider
-            : fallback();
+      String? perProvider,
+      String Function() fallback,
+    ) => (perProvider != null && perProvider.isNotEmpty)
+        ? perProvider
+        : fallback();
 
     final resolvedGoogle = GoogleOAuthProviderParams(
       primaryClientId: GoogleOAuthPrimaryClientId(
         webClientId: resolveClientId(
-            userProviders?.google?.primaryClientId?.webClientId, 'google'),
+          userProviders?.google?.primaryClientId?.webClientId,
+          'google',
+        ),
       ),
       secondaryClientIds: userProviders?.google?.secondaryClientIds,
       redirectUri: resolvePerProviderRedirect(
-          userProviders?.google?.redirectUri, baseUrlFallback),
+        userProviders?.google?.redirectUri,
+        baseUrlFallback,
+      ),
     );
 
     final resolvedApple = AppleOAuthProviderParams(
       primaryClientId: AppleOAuthPrimaryClientId(
         serviceId: resolveClientId(
-            userProviders?.apple?.primaryClientId?.serviceId, 'apple'),
+          userProviders?.apple?.primaryClientId?.serviceId,
+          'apple',
+        ),
         iosBundleId: userProviders?.apple?.primaryClientId?.iosBundleId,
       ),
       secondaryClientIds: userProviders?.apple?.secondaryClientIds,
       redirectUri: resolvePerProviderRedirect(
-          userProviders?.apple?.redirectUri, baseUrlFallback),
+        userProviders?.apple?.redirectUri,
+        baseUrlFallback,
+      ),
     );
 
     final resolvedX = XOAuthProviderParams(
       primaryClientId: resolveClientId(userProviders?.x?.primaryClientId, 'x'),
       secondaryClientIds: userProviders?.x?.secondaryClientIds,
       redirectUri: resolvePerProviderRedirect(
-          userProviders?.x?.redirectUri, schemeFallback),
+        userProviders?.x?.redirectUri,
+        schemeFallback,
+      ),
     );
 
     final resolvedDiscord = DiscordOAuthProviderParams(
-      primaryClientId:
-          resolveClientId(userProviders?.discord?.primaryClientId, 'discord'),
+      primaryClientId: resolveClientId(
+        userProviders?.discord?.primaryClientId,
+        'discord',
+      ),
       secondaryClientIds: userProviders?.discord?.secondaryClientIds,
       redirectUri: resolvePerProviderRedirect(
-          userProviders?.discord?.redirectUri, schemeFallback),
+        userProviders?.discord?.redirectUri,
+        schemeFallback,
+      ),
     );
 
     final resolvedOAuth = OAuthConfig(
-      oauthRedirectUri:
-          _resolveRedirect(config.authConfig?.oAuthConfig?.oauthRedirectUri),
+      oauthRedirectUri: _resolveRedirect(
+        config.authConfig?.oAuthConfig?.oauthRedirectUri,
+      ),
       providers: OAuthProviders(
         google: resolvedGoogle,
         apple: resolvedApple,
@@ -188,7 +204,7 @@ class TurnkeyProvider with ChangeNotifier {
     // --- proxy-only settings (read from proxy when available) ------------------
     final sessionExpirationSeconds =
         proxyAuthConfig?.sessionExpirationSeconds ??
-            AUTH_DEFAULT_EXPIRATION_SECONDS;
+        AUTH_DEFAULT_EXPIRATION_SECONDS;
 
     final otpAlphanumeric = proxyAuthConfig?.otpAlphanumeric;
 
@@ -250,12 +266,11 @@ class TurnkeyProvider with ChangeNotifier {
   }
 
   Future<ProxyTGetWalletKitConfigResponse?> _getAuthProxyConfig(
-      String configId, String? baseUrl) async {
+    String configId,
+    String? baseUrl,
+  ) async {
     if (client == null) {
-      createClient(
-        authProxyConfigId: configId,
-        authProxyBaseUrl: baseUrl,
-      );
+      createClient(authProxyConfigId: configId, authProxyBaseUrl: baseUrl);
     }
 
     return await requireClient.proxyGetWalletKitConfig(
@@ -272,13 +287,14 @@ class TurnkeyProvider with ChangeNotifier {
   /// [authProxyBaseUrl] The base URL for the auth proxy. If null, the value from the config or the default URL will be used.
   /// [overrideExisting] Whether to override the existing client instance with the newly created one. Defaults to true.
   /// Returns the newly created TurnkeyClient instance.
-  TurnkeyClient createClient(
-      {String? organizationId,
-      String? publicKey,
-      String? apiBaseUrl,
-      String? authProxyConfigId,
-      String? authProxyBaseUrl,
-      bool? overrideExisting = true}) {
+  TurnkeyClient createClient({
+    String? organizationId,
+    String? publicKey,
+    String? apiBaseUrl,
+    String? authProxyConfigId,
+    String? authProxyBaseUrl,
+    bool? overrideExisting = true,
+  }) {
     if (publicKey != null) secureStorageStamper.setPublicKey(publicKey);
     apiBaseUrl ??= runtimeConfig?.apiBaseUrl ?? "https://api.turnkey.com";
     authProxyBaseUrl ??=
@@ -309,13 +325,14 @@ class TurnkeyProvider with ChangeNotifier {
   /// [rpId] The Relying Party ID to use for Passkey authentication. If null, the value from the config's PasskeyStamperConfig will be used.
   /// [overrideExisting] Whether to override the existing client instance with the newly created one. If true, all helper functions within the TurnkeyProvider will be using this client and thus, will be stamping using a passkey. Defaults to false.
   /// Returns the newly created TurnkeyClient instance configured for Passkey stamping.
-  TurnkeyClient createPasskeyClient(
-      {String? organizationId,
-      String? apiBaseUrl,
-      String? authProxyConfigId,
-      String? authProxyBaseUrl,
-      PasskeyStamperConfig? passkeyStamperConfig,
-      bool? overrideExisting = false}) {
+  TurnkeyClient createPasskeyClient({
+    String? organizationId,
+    String? apiBaseUrl,
+    String? authProxyConfigId,
+    String? authProxyBaseUrl,
+    PasskeyStamperConfig? passkeyStamperConfig,
+    bool? overrideExisting = false,
+  }) {
     final rpId =
         passkeyStamperConfig?.rpId ?? runtimeConfig?.passkeyConfig?.rpId;
     if (rpId == null || rpId.isEmpty) {
@@ -345,13 +362,14 @@ class TurnkeyProvider with ChangeNotifier {
     );
 
     final passkeyClient = TurnkeyClient(
-        config: THttpConfig(
-          organizationId: organizationId,
-          baseUrl: apiBaseUrl,
-          authProxyConfigId: authProxyConfigId,
-          authProxyBaseUrl: authProxyBaseUrl,
-        ),
-        stamper: passkeyStamper);
+      config: THttpConfig(
+        organizationId: organizationId,
+        baseUrl: apiBaseUrl,
+        authProxyConfigId: authProxyConfigId,
+        authProxyBaseUrl: authProxyBaseUrl,
+      ),
+      stamper: passkeyStamper,
+    );
 
     if (overrideExisting == true) client = passkeyClient;
 
@@ -456,9 +474,7 @@ class TurnkeyProvider with ChangeNotifier {
 
     // if `storeOverride` is true, we set the new key as the active key for this client instance
     if (storeOverride) {
-      createClient(
-        publicKey: publicKey,
-      );
+      createClient(publicKey: publicKey);
     }
 
     return publicKey;

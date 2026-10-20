@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:swagger_dart_code_generator/src/swagger_models/responses/swagger_response.dart';
 import 'package:swagger_dart_code_generator/src/swagger_models/requests/swagger_request_parameter.dart';
 import 'package:path/path.dart' as path;
 import 'package:glob/glob.dart';
 import 'package:glob/list_local_fs.dart';
+
 import 'types.dart';
 
 /// Formats a Dart document using the `dart format` command.
@@ -16,11 +18,10 @@ import 'types.dart';
 /// - Prints an error message if the formatting process fails or encounters an exception.
 Future<void> formatDocument(String targetPath) async {
   try {
-    final result = await Process.run(
-      'dart',
-      ['format', targetPath],
-      runInShell: true,
-    );
+    final result = await Process.run('dart', [
+      'format',
+      targetPath,
+    ], runInShell: true);
 
     if (result.exitCode != 0) {
       print('Failed to format $targetPath: ${result.stderr}');
@@ -59,8 +60,9 @@ Future<void> safeWriteFileAsync(String targetPath, String content) async {
 ///   - The key is either "response" (for response `$ref`s) or "parameter" (for parameter `$ref`s).
 ///   - The value is the capitalized string extracted from the `$ref` path.
 Map<String, String> extractRefsFromOperation(
-    Map<String, SwaggerResponse> responses,
-    List<SwaggerRequestParameter> parameters) {
+  Map<String, SwaggerResponse> responses,
+  List<SwaggerRequestParameter> parameters,
+) {
   final Map<String, String> extractedRefs = {};
 
   String capitalize(String input) {
@@ -71,8 +73,9 @@ Map<String, String> extractRefsFromOperation(
   if (responses.containsKey('200')) {
     final SwaggerResponse response200 = responses['200']!;
     if (response200.schema?.ref.isNotEmpty == true) {
-      extractedRefs['response'] =
-          capitalize(response200.schema!.ref.split('/').last);
+      extractedRefs['response'] = capitalize(
+        response200.schema!.ref.split('/').last,
+      );
     }
   }
 
@@ -83,8 +86,9 @@ Map<String, String> extractRefsFromOperation(
   );
 
   if (bodyParameter.schema?.ref.isNotEmpty == true) {
-    extractedRefs['parameter'] =
-        capitalize(bodyParameter.schema!.ref.split('/').last);
+    extractedRefs['parameter'] = capitalize(
+      bodyParameter.schema!.ref.split('/').last,
+    );
   }
 
   return extractedRefs;
@@ -120,9 +124,7 @@ void verifyParameterList(List<SwaggerRequestParameter> parameterList) {
         );
 
       default:
-        throw Exception(
-          'Unknown parameter type: "${parameter.inParameter}"',
-        );
+        throw Exception('Unknown parameter type: "${parameter.inParameter}"');
     }
   }
 }
@@ -190,13 +192,13 @@ Future<List<TFileInfo>> resolveFileList(String rootPath) async {
         final content = await file.readAsString();
         final parsedData = jsonDecode(content) as Map<String, dynamic>;
 
-        fileList.add(TFileInfo(
-          absolutePath: file.absolute.path,
-          parsedData: parsedData,
-        ));
+        fileList.add(
+          TFileInfo(absolutePath: file.absolute.path, parsedData: parsedData),
+        );
       } catch (e) {
         print(
-            'Error reading or parsing file: ${entity.absolute.path}. Error: $e');
+          'Error reading or parsing file: ${entity.absolute.path}. Error: $e',
+        );
       }
     }
   }

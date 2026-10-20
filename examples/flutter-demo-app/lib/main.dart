@@ -35,9 +35,7 @@ void main() async {
     final ctx = navigatorKey.currentContext;
     if (ctx != null) {
       ScaffoldMessenger.of(ctx).showSnackBar(
-        const SnackBar(
-          content: Text('Logged out. Please login again.'),
-        ),
+        const SnackBar(content: Text('Logged out. Please login again.')),
       );
     }
   }
@@ -94,7 +92,8 @@ void main() async {
             ),
             x: XOAuthProviderParams(primaryClientId: EnvConfig.xClientId),
             discord: DiscordOAuthProviderParams(
-                primaryClientId: EnvConfig.discordClientId),
+              primaryClientId: EnvConfig.discordClientId,
+            ),
           ),
         ),
       ),
@@ -112,7 +111,8 @@ void main() async {
       if (state != null && state.mounted) {
         ScaffoldMessenger.of(state.context).showSnackBar(
           SnackBar(
-              content: Text('Error during Turnkey initialization: $error')),
+            content: Text('Error during Turnkey initialization: $error'),
+          ),
         );
       }
     });
@@ -152,24 +152,18 @@ class MyApp extends StatelessWidget {
     switch (turnkey.authState) {
       case AuthState.loading:
         // Provider is booting: show splash / spinner.
-        return const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        );
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
 
       case AuthState.unauthenticated:
         // Turnkey is ready. Show the login screen.
         return Scaffold(
-          appBar: AppBar(
-            title: Text('Turnkey Flutter Demo App'),
-          ),
+          appBar: AppBar(title: Text('Turnkey Flutter Demo App')),
           body: LoginScreen(),
         );
       // We'll have the `onSessionSelected` callback navigate to the dashboard screen. You can also add another case here for AuthState.authenticated if you want to handle it directly.
       case AuthState.authenticated:
         // Provider is booting: show splash / spinner.
-        return const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        );
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:pointycastle/pointycastle.dart';
 import 'package:test/test.dart';
 import 'package:turnkey_crypto/src/constant.dart';
@@ -35,35 +36,44 @@ void main() {
   });
 
   group('compressRawPublicKey tests', () {
-    test('Valid uncompressed key => compressed key with prefix=03 (y is odd)',
-        () {
-      final uncompressed = uint8ArrayFromHexString(
-          '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef');
+    test(
+      'Valid uncompressed key => compressed key with prefix=03 (y is odd)',
+      () {
+        final uncompressed = uint8ArrayFromHexString(
+          '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef',
+        );
 
-      final expectedCompressed = uint8ArrayFromHexString(
-          '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210');
+        final expectedCompressed = uint8ArrayFromHexString(
+          '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210',
+        );
 
-      final compressed = compressRawPublicKey(uncompressed);
+        final compressed = compressRawPublicKey(uncompressed);
 
-      expect(compressed, equals(expectedCompressed));
-    });
+        expect(compressed, equals(expectedCompressed));
+      },
+    );
 
-    test('Valid uncompressed key => compressed key with prefix=02 (y is even)',
-        () {
-      final uncompressed = uint8ArrayFromHexString(
-          '048c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc7e2e07a9b3a51e709da1d727b1ef20c0115fc2fdc6c9e05bb6cba0d9b1e9c7af');
+    test(
+      'Valid uncompressed key => compressed key with prefix=02 (y is even)',
+      () {
+        final uncompressed = uint8ArrayFromHexString(
+          '048c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc7e2e07a9b3a51e709da1d727b1ef20c0115fc2fdc6c9e05bb6cba0d9b1e9c7af',
+        );
 
-      final expectedCompressed = uint8ArrayFromHexString(
-          '038c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc');
+        final expectedCompressed = uint8ArrayFromHexString(
+          '038c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc',
+        );
 
-      final compressed = compressRawPublicKey(uncompressed);
+        final compressed = compressRawPublicKey(uncompressed);
 
-      expect(compressed, equals(expectedCompressed));
-    });
+        expect(compressed, equals(expectedCompressed));
+      },
+    );
 
     test('Invalid uncompressed public key format => throws ArgumentError', () {
       final invalidKey = uint8ArrayFromHexString(
-          '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210');
+        '03d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee540516210',
+      );
 
       expect(() => compressRawPublicKey(invalidKey), throwsArgumentError);
     });
@@ -76,7 +86,8 @@ void main() {
 
     test('Compress and decompress round trip', () {
       final uncompressed = uint8ArrayFromHexString(
-          '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef');
+        '04d73cd9e1b629651fc1d94efc9f51df1f1d20e86ea1081744e5d66ee54051621044114ddc57ee52866a83d8156cd509fa68a2916466d812431781262de37855ef',
+      );
 
       final compressed = compressRawPublicKey(uncompressed);
       final decompressed = uncompressRawPublicKey(compressed);
@@ -98,15 +109,17 @@ void main() {
       expect(uncompressed[0], 4);
     });
 
-    test('Valid prefix=02 (y is even) for same X => uncompressed is 65 bytes',
-        () {
-      final compressed = uint8ArrayFromHexString('02$gX');
+    test(
+      'Valid prefix=02 (y is even) for same X => uncompressed is 65 bytes',
+      () {
+        final compressed = uint8ArrayFromHexString('02$gX');
 
-      final uncompressed = uncompressRawPublicKey(compressed);
+        final uncompressed = uncompressRawPublicKey(compressed);
 
-      expect(uncompressed.length, 65);
-      expect(uncompressed[0], 4);
-    });
+        expect(uncompressed.length, 65);
+        expect(uncompressed[0], 4);
+      },
+    );
 
     test('x >= p => throws ArgumentError', () {
       final invalidX =
@@ -164,8 +177,10 @@ void main() {
       final key = Uint8List(17);
       final iv = Uint8List(12);
 
-      expect(() => aesGcmEncrypt(plainText, key, iv),
-          throwsA(isA<ArgumentError>()));
+      expect(
+        () => aesGcmEncrypt(plainText, key, iv),
+        throwsA(isA<ArgumentError>()),
+      );
     });
   });
 
@@ -283,8 +298,10 @@ void main() {
       final labelIndex = suiteIdIndex + suiteId.length;
       final ikmIndex = labelIndex + label.length;
 
-      expect(output.sublist(0, HPKE_VERSION.length),
-          equals(Uint8List.fromList(HPKE_VERSION)));
+      expect(
+        output.sublist(0, HPKE_VERSION.length),
+        equals(Uint8List.fromList(HPKE_VERSION)),
+      );
       expect(output.sublist(suiteIdIndex, labelIndex), equals(suiteId));
       expect(output.sublist(labelIndex, ikmIndex), equals(label));
       expect(output.sublist(ikmIndex), equals(ikm));
@@ -297,8 +314,10 @@ void main() {
       final receiverPubBuf = Uint8List.fromList([5, 6, 7, 8]);
       final expected = Uint8List.fromList([1, 2, 3, 4, 5, 6, 7, 8]);
 
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+      final result = buildAdditionalAssociatedData(
+        senderPubBuf,
+        receiverPubBuf,
+      );
 
       expect(result, equals(expected));
     });
@@ -308,8 +327,10 @@ void main() {
       final receiverPubBuf = Uint8List.fromList([9, 10, 11, 12]);
       final expected = Uint8List.fromList([9, 10, 11, 12]);
 
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+      final result = buildAdditionalAssociatedData(
+        senderPubBuf,
+        receiverPubBuf,
+      );
 
       expect(result, equals(expected));
     });
@@ -319,8 +340,10 @@ void main() {
       final receiverPubBuf = Uint8List.fromList([]);
       final expected = Uint8List.fromList([13, 14, 15, 16]);
 
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+      final result = buildAdditionalAssociatedData(
+        senderPubBuf,
+        receiverPubBuf,
+      );
 
       expect(result, equals(expected));
     });
@@ -330,8 +353,10 @@ void main() {
       final receiverPubBuf = Uint8List.fromList([]);
       final expected = Uint8List.fromList([]);
 
-      final result =
-          buildAdditionalAssociatedData(senderPubBuf, receiverPubBuf);
+      final result = buildAdditionalAssociatedData(
+        senderPubBuf,
+        receiverPubBuf,
+      );
 
       expect(result, equals(expected));
     });
@@ -363,14 +388,17 @@ void main() {
       final pubKeyHex = '';
 
       expect(
-          () => getKemContext(encappedKeyBuf, pubKeyHex), throwsArgumentError);
+        () => getKemContext(encappedKeyBuf, pubKeyHex),
+        throwsArgumentError,
+      );
     });
 
     test('Large inputs, verify final length only', () {
       final encappedKeyBuf = Uint8List.fromList(List.generate(64, (i) => i));
-      final pubKeyHex =
-          List.generate(64, (i) => i.toRadixString(16).padLeft(2, '0'))
-              .join('');
+      final pubKeyHex = List.generate(
+        64,
+        (i) => i.toRadixString(16).padLeft(2, '0'),
+      ).join('');
 
       final context = getKemContext(encappedKeyBuf, pubKeyHex);
 
@@ -405,7 +433,8 @@ void main() {
 
     test('Valid 32-byte Uint8List => compressed public key', () {
       final privBytes = uint8ArrayFromHexString(
-          'b9517a3082352ac11004c2ad2f0e725b04075cfe8c94fa8764f1455808b1de5e');
+        'b9517a3082352ac11004c2ad2f0e725b04075cfe8c94fa8764f1455808b1de5e',
+      );
       final expectedCompressedHex =
           '028c36835fb4a73bbf433e4a92c16d35d2625d0f9e5490ec0d4238094ece23dbfc';
 
@@ -507,7 +536,7 @@ void main() {
         227,
         120,
         85,
-        239
+        239,
       ]);
 
       final publicKey = loadPublicKey(validPublicKeyBytes);
@@ -562,18 +591,21 @@ void main() {
         229,
         64,
         81,
-        98
+        98,
       ]);
 
       expect(
-          () => loadPublicKey(compressedPublicKeyBytes), throwsArgumentError);
+        () => loadPublicKey(compressedPublicKeyBytes),
+        throwsArgumentError,
+      );
     });
   });
 
   group('deriveSS tests', () {
     test('Valid ephemeral + recipient private => known shared secret', () {
       final ephemeralPubCompressed = uint8ArrayFromHexString(
-          '042429bc20c6ef6d8bed8eff26f62b10457e6dbb0fe743c95aea929cfb20955e20a8b69ba9d98dc8eac7ef99b0ee94ff4a1bbe2f730e5940db1fc9daa48490f2a6');
+        '042429bc20c6ef6d8bed8eff26f62b10457e6dbb0fe743c95aea929cfb20955e20a8b69ba9d98dc8eac7ef99b0ee94ff4a1bbe2f730e5940db1fc9daa48490f2a6',
+      );
       final recipientPrivHex =
           '62ee85b30bd2605ca3b6dc4ec541fdb0ff89ce50745eaf888ee14d5ec2cd372e';
       final expectedSharedHex =
@@ -585,20 +617,23 @@ void main() {
       expect(got, equals(expectedShared));
     });
 
-    test('Another valid ephemeral + recipient private => known shared secret',
-        () {
-      final ephemeralPubCompressed = uint8ArrayFromHexString(
-          '045434d861d587351c84b531cb7006d9aa80e62b6789f628159504cf966cdb13ca9669eabdf99faede322359779a4e72d235c6f9d728dff19f2b98631a4d475c3f');
-      final recipientPrivHex =
-          '4fd172c0ae1a32f3f4b2a2a1f531178cfb7cfd96f85a98051b08ab4fe09b749a';
-      final expectedSharedHex =
-          'a82c0eec81f8f59f96adfc56d558ff652199dae905585861ccc6160a5c0d8d33';
-      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
+    test(
+      'Another valid ephemeral + recipient private => known shared secret',
+      () {
+        final ephemeralPubCompressed = uint8ArrayFromHexString(
+          '045434d861d587351c84b531cb7006d9aa80e62b6789f628159504cf966cdb13ca9669eabdf99faede322359779a4e72d235c6f9d728dff19f2b98631a4d475c3f',
+        );
+        final recipientPrivHex =
+            '4fd172c0ae1a32f3f4b2a2a1f531178cfb7cfd96f85a98051b08ab4fe09b749a';
+        final expectedSharedHex =
+            'a82c0eec81f8f59f96adfc56d558ff652199dae905585861ccc6160a5c0d8d33';
+        final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
 
-      final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
+        final got = deriveSS(ephemeralPubCompressed, recipientPrivHex);
 
-      expect(got, equals(expectedShared));
-    });
+        expect(got, equals(expectedShared));
+      },
+    );
 
     test('Invalid ephemeral public key => throws ArgumentError', () {
       final invalidPub = uint8ArrayFromHexString('03');
@@ -607,38 +642,45 @@ void main() {
       expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
     });
 
-    test('Corrupted ephemeral public key => bad prefix => throws ArgumentError',
-        () {
-      final invalidPub = Uint8List(33);
-      invalidPub[0] = 7;
-      final priv = '01';
+    test(
+      'Corrupted ephemeral public key => bad prefix => throws ArgumentError',
+      () {
+        final invalidPub = Uint8List(33);
+        invalidPub[0] = 7;
+        final priv = '01';
 
-      expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
-    });
+        expect(() => deriveSS(invalidPub, priv), throwsArgumentError);
+      },
+    );
 
     test(
-        'Uncompressed ephemeral => known 65-byte input => correct derived length',
-        () {
-      final ephemeralPubUncomp = uint8ArrayFromHexString(
-          '044bf0ee44fed86067171d327958bfa5da6260533b81f4a5a431a112164f1b396a9bf22ce0190bf90382fa2f88db4f1fa304cc1651dc7ed3d2fbb17ec44a76ada4');
-      final recipientPrivHex =
-          'abcb1042ef9dff49908d90d721ae3d5325dbfb26bcf0878e88f87cb608bc9048';
-      final expectedSharedHex =
-          '281d3a091d25b0990f2d9cb13af2a48afc0f95ae78f540eb1035a9bd5c3ef48c';
-      final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
+      'Uncompressed ephemeral => known 65-byte input => correct derived length',
+      () {
+        final ephemeralPubUncomp = uint8ArrayFromHexString(
+          '044bf0ee44fed86067171d327958bfa5da6260533b81f4a5a431a112164f1b396a9bf22ce0190bf90382fa2f88db4f1fa304cc1651dc7ed3d2fbb17ec44a76ada4',
+        );
+        final recipientPrivHex =
+            'abcb1042ef9dff49908d90d721ae3d5325dbfb26bcf0878e88f87cb608bc9048';
+        final expectedSharedHex =
+            '281d3a091d25b0990f2d9cb13af2a48afc0f95ae78f540eb1035a9bd5c3ef48c';
+        final expectedShared = uint8ArrayFromHexString(expectedSharedHex);
 
-      final got = deriveSS(ephemeralPubUncomp, recipientPrivHex);
+        final got = deriveSS(ephemeralPubUncomp, recipientPrivHex);
 
-      expect(got, equals(expectedShared));
-    });
+        expect(got, equals(expectedShared));
+      },
+    );
 
     test('Very small private key => throws ArgumentError', () {
       final ephemeralPubCompressed = uint8ArrayFromHexString(
-          '0472f15632f7a654032950ca563a70cda11c3a92b43a2a7a35e372c3d68df54b04a7ec89abf4a8fe3bee092c05a66521eb3dabfd18e66b2b83dbfffb2ab4ab8abf');
+        '0472f15632f7a654032950ca563a70cda11c3a92b43a2a7a35e372c3d68df54b04a7ec89abf4a8fe3bee092c05a66521eb3dabfd18e66b2b83dbfffb2ab4ab8abf',
+      );
       final smallPrivHex = '01';
 
-      expect(() => deriveSS(ephemeralPubCompressed, smallPrivHex),
-          throwsArgumentError);
+      expect(
+        () => deriveSS(ephemeralPubCompressed, smallPrivHex),
+        throwsArgumentError,
+      );
     });
   });
 
@@ -710,7 +752,7 @@ void main() {
         29,
         150,
         245,
-        197
+        197,
       ]);
 
       final result = fromDerSignature(derSignature);
@@ -718,9 +760,7 @@ void main() {
       expect(result, equals(expectedResult));
     });
 
-    test(
-        'Invalid DER signature - invalid r tag => normalized r and s components',
-        () {
+    test('Invalid DER signature - invalid r tag => normalized r and s components', () {
       final invalidDerSignature =
           '304402201a8bc9bf9ae2745b6db1f3b073b8cf36c9c3f792e5d2ec182d96f86e26eaf0020220609d4b5145d4e9b1d745eb57c1532a98f541f5c72b6b7ad8c0a2e8471d96f5c5';
       final expectedResult = Uint8List.fromList([
@@ -787,7 +827,7 @@ void main() {
         29,
         150,
         245,
-        197
+        197,
       ]);
 
       final result = fromDerSignature(invalidDerSignature);
@@ -874,7 +914,7 @@ void main() {
         0,
         0,
         0,
-        0
+        0,
       ]);
       final result = fromDerSignature(derSignature);
 
@@ -906,18 +946,20 @@ void main() {
       expect(result, isTrue);
     });
 
-    test('Invalid signature with mismatched public key => throws ArgumentError',
-        () {
-      expect(
-        () => verifyEnclaveSignature(
-          enclaveQuorumPublic: invalidEnclaveQuorumPublic,
-          publicSignature: validPublicSignature,
-          signedData: validSignedData,
-          dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
-        ),
-        throwsA(isA<ArgumentError>()),
-      );
-    });
+    test(
+      'Invalid signature with mismatched public key => throws ArgumentError',
+      () {
+        expect(
+          () => verifyEnclaveSignature(
+            enclaveQuorumPublic: invalidEnclaveQuorumPublic,
+            publicSignature: validPublicSignature,
+            signedData: validSignedData,
+            dangerouslyOverrideSignerPublicKey: validEnclaveQuorumPublic,
+          ),
+          throwsA(isA<ArgumentError>()),
+        );
+      },
+    );
 
     test('Valid signature but incorrect signed data => returns false', () {
       const incorrectSignedData =

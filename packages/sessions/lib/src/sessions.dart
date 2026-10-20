@@ -6,10 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:turnkey_crypto/turnkey_crypto.dart';
 import 'package:turnkey_encoding/turnkey_encoding.dart';
 
-enum StorageKey {
-  embeddedKey,
-  session,
-}
+enum StorageKey { embeddedKey, session }
 
 /// A class representing a session with public and private keys and an expiry time.
 class Session {
@@ -25,10 +22,10 @@ class Session {
 
   /// Converts the session to a JSON map.
   Map<String, dynamic> toJson() => {
-        'publicKey': publicKey,
-        'privateKey': privateKey,
-        'expiry': expiry,
-      };
+    'publicKey': publicKey,
+    'privateKey': privateKey,
+    'expiry': expiry,
+  };
 
   /// Creates a session from a JSON map.
   factory Session.fromJson(Map<String, dynamic> json) {
@@ -75,15 +72,18 @@ class SessionProvider with ChangeNotifier {
   /// Saves the embedded private key securely.
   Future<void> _saveEmbeddedKey(String key) async {
     await _secureStorage.write(
-        key: StorageKey.embeddedKey.toString(), value: key);
+      key: StorageKey.embeddedKey.toString(),
+      value: key,
+    );
   }
 
   /// Retrieves the embedded private key from secure storage.
   ///
   /// If [deleteKey] is true (default), the key will be deleted after retrieval.
   Future<String?> getEmbeddedKey({bool deleteKey = true}) async {
-    final key =
-        await _secureStorage.read(key: StorageKey.embeddedKey.toString());
+    final key = await _secureStorage.read(
+      key: StorageKey.embeddedKey.toString(),
+    );
     if (deleteKey) {
       await _secureStorage.delete(key: StorageKey.embeddedKey.toString());
     }
@@ -96,21 +96,29 @@ class SessionProvider with ChangeNotifier {
   /// If [notifyListeners] is true (default), listeners will be notified of changes.
   ///
   /// Returns the created session.
-  Future<Session> createSession(String bundle,
-      {int expirySeconds = 900, bool notifyListeners = true}) async {
+  Future<Session> createSession(
+    String bundle, {
+    int expirySeconds = 900,
+    bool notifyListeners = true,
+  }) async {
     final embeddedKey = await getEmbeddedKey();
     if (embeddedKey == null) {
       throw Exception('Embedded key not found.');
     }
 
     final privateKey = decryptCredentialBundle(
-        credentialBundle: bundle, embeddedKey: embeddedKey);
+      credentialBundle: bundle,
+      embeddedKey: embeddedKey,
+    );
     final expiry = DateTime.now().millisecondsSinceEpoch + expirySeconds * 1000;
 
     var publicKey = uint8ArrayToHexString(getPublicKey(privateKey));
 
-    final session =
-        Session(publicKey: publicKey, privateKey: privateKey, expiry: expiry);
+    final session = Session(
+      publicKey: publicKey,
+      privateKey: privateKey,
+      expiry: expiry,
+    );
     await _saveSession(session, notifyListeners: notifyListeners);
 
     return session;
@@ -120,8 +128,9 @@ class SessionProvider with ChangeNotifier {
   ///
   /// Returns the session if it exists, otherwise null.
   Future<Session?> getSession() async {
-    final sessionJson =
-        await _secureStorage.read(key: StorageKey.session.toString());
+    final sessionJson = await _secureStorage.read(
+      key: StorageKey.session.toString(),
+    );
     if (sessionJson != null) {
       return Session.fromJson(jsonDecode(sessionJson));
     }
@@ -131,15 +140,18 @@ class SessionProvider with ChangeNotifier {
   /// Saves the session to secure storage.
   ///
   /// If [notifyListeners] is true (default), listeners will be notified of changes.
-  Future<void> _saveSession(Session session,
-      {bool notifyListeners = true}) async {
+  Future<void> _saveSession(
+    Session session, {
+    bool notifyListeners = true,
+  }) async {
     _session = session;
     if (notifyListeners) {
       this.notifyListeners();
     }
     await _secureStorage.write(
-        key: StorageKey.session.toString(),
-        value: jsonEncode(session.toJson()));
+      key: StorageKey.session.toString(),
+      value: jsonEncode(session.toJson()),
+    );
     _startExpiryTimer(session.expiry);
   }
 
@@ -174,8 +186,9 @@ class SessionProvider with ChangeNotifier {
 
   /// Starts a timer to notify listeners when the session expires.
   void _startExpiryTimer(int expiry) {
-    final duration =
-        Duration(milliseconds: expiry - DateTime.now().millisecondsSinceEpoch);
+    final duration = Duration(
+      milliseconds: expiry - DateTime.now().millisecondsSinceEpoch,
+    );
     _expiryTimer?.cancel();
     _expiryTimer = Timer(duration, () {
       _session = null;

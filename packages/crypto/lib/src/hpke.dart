@@ -1,9 +1,12 @@
 import 'dart:typed_data';
+
 import 'package:turnkey_encoding/turnkey_encoding.dart';
 
 import 'constant.dart';
 import 'crypto.dart';
+
 import 'package:pointycastle/export.dart';
+
 import 'dart:convert';
 
 Uint8List hmacSha256(Uint8List key, Uint8List data) {
@@ -111,13 +114,19 @@ Uint8List hpkeAuthEncrypt({
     final ss = deriveSS(targetKeyBuf, senderPriv);
 
     // Step 2: Generate the KEM context
-    final kemContext =
-        getKemContext(senderPubBuf, uint8ArrayToHexString(targetKeyBuf));
+    final kemContext = getKemContext(
+      senderPubBuf,
+      uint8ArrayToHexString(targetKeyBuf),
+    );
 
     // Step 3: Build the HKDF inputs for key derivation
     var ikm = buildLabeledIkm(LABEL_EAE_PRK, ss, SUITE_ID_1);
-    var info =
-        buildLabeledInfo(LABEL_SHARED_SECRET, kemContext, SUITE_ID_1, 32);
+    var info = buildLabeledInfo(
+      LABEL_SHARED_SECRET,
+      kemContext,
+      SUITE_ID_1,
+      32,
+    );
     final sharedSecret = extractAndExpand(Uint8List(0), ikm, info, 32);
 
     // Step 4: Derive the AES key
@@ -163,8 +172,9 @@ Uint8List hpkeEncrypt({
     // Standard HPKE Mode (Ephemeral Key Pair)
     final ephemeralKeyPair = generateP256KeyPair();
     final senderPrivBuf = uint8ArrayFromHexString(ephemeralKeyPair.privateKey);
-    final senderPubBuf =
-        uint8ArrayFromHexString(ephemeralKeyPair.publicKeyUncompressed);
+    final senderPubBuf = uint8ArrayFromHexString(
+      ephemeralKeyPair.publicKeyUncompressed,
+    );
 
     final aad = buildAdditionalAssociatedData(senderPubBuf, targetKeyBuf);
 
@@ -172,13 +182,19 @@ Uint8List hpkeEncrypt({
     final ss = deriveSS(targetKeyBuf, uint8ArrayToHexString(senderPrivBuf));
 
     // Step 2: Generate the KEM context
-    final kemContext =
-        getKemContext(senderPubBuf, uint8ArrayToHexString(targetKeyBuf));
+    final kemContext = getKemContext(
+      senderPubBuf,
+      uint8ArrayToHexString(targetKeyBuf),
+    );
 
     // Step 3: Build the HKDF inputs for key derivation
     var ikm = buildLabeledIkm(LABEL_EAE_PRK, ss, SUITE_ID_1);
-    var info =
-        buildLabeledInfo(LABEL_SHARED_SECRET, kemContext, SUITE_ID_1, 32);
+    var info = buildLabeledInfo(
+      LABEL_SHARED_SECRET,
+      kemContext,
+      SUITE_ID_1,
+      32,
+    );
     final sharedSecret = extractAndExpand(Uint8List(0), ikm, info, 32);
 
     // Step 4: Derive the AES key
@@ -225,8 +241,10 @@ Uint8List hpkeDecrypt({
       isCompressed: false,
     );
 
-    final aad = buildAdditionalAssociatedData(encappedKeyBuf,
-        receiverPubBuf); // Eventually we want users to be able to pass in aad as optional
+    final aad = buildAdditionalAssociatedData(
+      encappedKeyBuf,
+      receiverPubBuf,
+    ); // Eventually we want users to be able to pass in aad as optional
 
     // Step 1: Generate the Shared Secret
     final ss = deriveSS(encappedKeyBuf, receiverPriv);
@@ -241,10 +259,18 @@ Uint8List hpkeDecrypt({
 
     // Step 3: Build the HKDF inputs for key derivation
     final ikmEaePrk = buildLabeledIkm(LABEL_EAE_PRK, ss, SUITE_ID_1);
-    final infoSharedSecret =
-        buildLabeledInfo(LABEL_SHARED_SECRET, kemContext, SUITE_ID_1, 32);
-    final sharedSecret =
-        extractAndExpand(Uint8List(0), ikmEaePrk, infoSharedSecret, 32);
+    final infoSharedSecret = buildLabeledInfo(
+      LABEL_SHARED_SECRET,
+      kemContext,
+      SUITE_ID_1,
+      32,
+    );
+    final sharedSecret = extractAndExpand(
+      Uint8List(0),
+      ikmEaePrk,
+      infoSharedSecret,
+      32,
+    );
 
     // Step 4: Derive the AES key
     final ikmSecret = buildLabeledIkm(LABEL_SECRET, Uint8List(0), SUITE_ID_2);
