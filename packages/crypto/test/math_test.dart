@@ -41,10 +41,14 @@ void main() {
 
   group('Edge cases & invalid inputs', () {
     test('p <= 0 => throws ArgumentError', () {
-      expect(() => modSqrt(BigInt.one, BigInt.zero),
-          throwsA(isA<ArgumentError>()));
-      expect(() => modSqrt(BigInt.one, BigInt.from(-11)),
-          throwsA(isA<ArgumentError>()));
+      expect(
+        () => modSqrt(BigInt.one, BigInt.zero),
+        throwsA(isA<ArgumentError>()),
+      );
+      expect(
+        () => modSqrt(BigInt.one, BigInt.from(-11)),
+        throwsA(isA<ArgumentError>()),
+      );
     });
 
     test('x < 0 => still interpreted mod p but might be non-residue', () {

@@ -14,17 +14,18 @@ extension AuthProxyExtension on TurnkeyProvider {
   /// [contact] The contact information (email address or phone number) to send the OTP to.
   /// Returns an [InitOtpResult] containing the OTP ID and encryption target bundle.
   /// Throws an [Exception] if the OTP initialization fails or if required fields are missing.
-  Future<InitOtpResult> initOtp(
-      {required OtpType otpType, required String contact}) async {
+  Future<InitOtpResult> initOtp({
+    required OtpType otpType,
+    required String contact,
+  }) async {
     final res = await requireClient.proxyInitOtpV2(
-        input: ProxyTInitOtpV2Body(
-      contact: contact,
-      otpType: otpType.value,
-    ));
+      input: ProxyTInitOtpV2Body(contact: contact, otpType: otpType.value),
+    );
 
     if (res.otpId.isEmpty || res.otpEncryptionTargetBundle.isEmpty) {
       throw Exception(
-          'Failed to initialize OTP: otpId or otpEncryptionTargetBundle is missing');
+        'Failed to initialize OTP: otpId or otpEncryptionTargetBundle is missing',
+      );
     }
 
     return InitOtpResult(
@@ -183,11 +184,15 @@ extension AuthProxyExtension on TurnkeyProvider {
       verificationToken: verificationToken,
     );
 
-    final updatedCreateSubOrgParams =
-        getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+    final updatedCreateSubOrgParams = getCreateSubOrgParams(
+      createSubOrgParams,
+      config,
+      overrideParams,
+    );
 
-    final signUpBody =
-        buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+    final signUpBody = buildSignUpBody(
+      createSubOrgParams: updatedCreateSubOrgParams,
+    );
 
     // Derive verificationPublicKey from the token — this is the key bound during verifyOtp()
     // and is what Turnkey expects to sign the client signature for signup.
@@ -233,8 +238,9 @@ extension AuthProxyExtension on TurnkeyProvider {
         clientSignature: clientSignature,
       );
 
-      final signupRes =
-          await requireClient.proxySignupV2(input: signUpBodyWithSignature);
+      final signupRes = await requireClient.proxySignupV2(
+        input: signUpBodyWithSignature,
+      );
 
       if (signupRes.organizationId.isEmpty) {
         throw Exception('Auth proxy OTP sign up failed');
@@ -367,10 +373,12 @@ extension AuthProxyExtension on TurnkeyProvider {
   }) async {
     try {
       final loginRes = await requireClient.proxyOAuthLogin(
-          input: ProxyTOAuthLoginBody(
-              oidcToken: oidcToken,
-              publicKey: publicKey,
-              invalidateExisting: invalidateExisting));
+        input: ProxyTOAuthLoginBody(
+          oidcToken: oidcToken,
+          publicKey: publicKey,
+          invalidateExisting: invalidateExisting,
+        ),
+      );
       await storeSession(sessionJwt: loginRes.session, sessionKey: sessionKey);
       return LoginWithOAuthResult(sessionToken: loginRes.session);
     } catch (e) {
@@ -403,11 +411,15 @@ extension AuthProxyExtension on TurnkeyProvider {
       oidcToken: oidcToken,
       providerName: providerName,
     );
-    final updatedCreateSubOrgParams =
-        getCreateSubOrgParams(createSubOrgParams, config, overrideParams);
+    final updatedCreateSubOrgParams = getCreateSubOrgParams(
+      createSubOrgParams,
+      config,
+      overrideParams,
+    );
 
-    final signUpBody =
-        buildSignUpBody(createSubOrgParams: updatedCreateSubOrgParams);
+    final signUpBody = buildSignUpBody(
+      createSubOrgParams: updatedCreateSubOrgParams,
+    );
 
     try {
       final res = await requireClient.proxySignupV2(input: signUpBody);
@@ -454,8 +466,11 @@ extension AuthProxyExtension on TurnkeyProvider {
   }) async {
     try {
       final accountRes = await requireClient.proxyGetAccount(
-          input: ProxyTGetAccountBody(
-              filterType: "OIDC_TOKEN", filterValue: oidcToken));
+        input: ProxyTGetAccountBody(
+          filterType: "OIDC_TOKEN",
+          filterValue: oidcToken,
+        ),
+      );
 
       if (accountRes.organizationId?.isNotEmpty == true) {
         final loginRes = await loginWithOAuth(
@@ -465,20 +480,25 @@ extension AuthProxyExtension on TurnkeyProvider {
           invalidateExisting: invalidateExisting,
         );
         return LoginOrSignUpWithOAuthResult(
-            sessionToken: loginRes.sessionToken, action: AuthAction.login);
+          sessionToken: loginRes.sessionToken,
+          action: AuthAction.login,
+        );
       } else {
         if (providerName == null || providerName.isEmpty) {
           throw Exception("Provider name is required for sign up");
         }
         final signUpRes = await signUpWithOAuth(
-            oidcToken: oidcToken,
-            publicKey: publicKey,
-            providerName: providerName,
-            sessionKey: sessionKey,
-            createSubOrgParams: createSubOrgParams);
+          oidcToken: oidcToken,
+          publicKey: publicKey,
+          providerName: providerName,
+          sessionKey: sessionKey,
+          createSubOrgParams: createSubOrgParams,
+        );
 
         return LoginOrSignUpWithOAuthResult(
-            sessionToken: signUpRes.sessionToken, action: AuthAction.signup);
+          sessionToken: signUpRes.sessionToken,
+          action: AuthAction.signup,
+        );
       }
     } catch (e) {
       throw Exception("OAuth authentication failed: $e");

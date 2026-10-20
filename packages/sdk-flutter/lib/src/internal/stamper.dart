@@ -89,10 +89,7 @@ class SecureStorageStamper implements TStamper {
     }
 
     final stamper = ApiKeyStamper(
-      ApiKeyStamperConfig(
-        apiPublicKey: keyToUse,
-        apiPrivateKey: privateKey,
-      ),
+      ApiKeyStamperConfig(apiPublicKey: keyToUse, apiPrivateKey: privateKey),
     );
 
     final result = await stamper.stamp(payload);
@@ -102,8 +99,10 @@ class SecureStorageStamper implements TStamper {
     );
   }
 
-  Future<String> sign(String content,
-      {SignatureFormat format = SignatureFormat.der}) async {
+  Future<String> sign(
+    String content, {
+    SignatureFormat format = SignatureFormat.der,
+  }) async {
     final keyToUse = publicKey;
     if (keyToUse == null) {
       throw Exception(
@@ -117,10 +116,7 @@ class SecureStorageStamper implements TStamper {
     }
 
     final stamper = ApiKeyStamper(
-      ApiKeyStamperConfig(
-        apiPublicKey: keyToUse,
-        apiPrivateKey: privateKey,
-      ),
+      ApiKeyStamperConfig(apiPublicKey: keyToUse, apiPrivateKey: privateKey),
     );
 
     return stamper.sign(content, format);

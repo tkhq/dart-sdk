@@ -1,5 +1,6 @@
 import 'type-gen/helpers.dart';
 import 'constant.dart';
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -47,8 +48,9 @@ String _resolve(String rel) {
 }
 
 final String swaggerPath = _resolve('../swagger/public_api.swagger.json');
-final String authProxySwaggerPath =
-    _resolve('../swagger/auth_proxy.swagger.json');
+final String authProxySwaggerPath = _resolve(
+  '../swagger/auth_proxy.swagger.json',
+);
 final String outPath = _resolve('../__generated__/models.dart');
 
 String _ucFirst(String s) =>
@@ -80,7 +82,8 @@ String generateEnumHelpers(String enumName, List<dynamic> values) {
   b.writeln('  switch (value) {');
   for (int i = 0; i < values.length; i++) {
     b.writeln(
-        '    case $enumName.${tokens[i]}: return ${jsonEncode(values[i])};');
+      '    case $enumName.${tokens[i]}: return ${jsonEncode(values[i])};',
+    );
   }
   b.writeln('  }');
   b.writeln('}');
@@ -125,16 +128,19 @@ String generateClass(
       dartType = typeToDart(schema['type'] as String, schema);
     }
 
-    final isRequired = requiredList.contains(jsonKey) &&
+    final isRequired =
+        requiredList.contains(jsonKey) &&
         !(NULLABLE_OVERRIDES[className]?.contains(jsonKey) ?? false);
     final fieldName = sanitizeFieldName(jsonKey);
-    fields.add(FieldSpec(
-      fieldName: fieldName,
-      jsonKey: jsonKey,
-      type: isRequired ? dartType : '$dartType?',
-      nullable: !isRequired,
-      description: schema['description'] as String?,
-    ));
+    fields.add(
+      FieldSpec(
+        fieldName: fieldName,
+        jsonKey: jsonKey,
+        type: isRequired ? dartType : '$dartType?',
+        nullable: !isRequired,
+        description: schema['description'] as String?,
+      ),
+    );
   }
 
   final b = StringBuffer();
@@ -281,13 +287,15 @@ String generateOneOfClass(
         description: schema['description'] as String?,
       );
     } else {
-      baseFields.add(FieldSpec(
-        fieldName: fieldName,
-        jsonKey: jsonKey,
-        type: isRequired ? dartType : '$dartType?',
-        nullable: !isRequired,
-        description: schema['description'] as String?,
-      ));
+      baseFields.add(
+        FieldSpec(
+          fieldName: fieldName,
+          jsonKey: jsonKey,
+          type: isRequired ? dartType : '$dartType?',
+          nullable: !isRequired,
+          description: schema['description'] as String?,
+        ),
+      );
     }
   }
 
@@ -322,7 +330,8 @@ String generateOneOfClass(
     if (others.isNotEmpty) {
       b.write(' : ');
       b.write(
-          others.map((k) => '${variantSpecs[k]!.fieldName} = null').join(', '));
+        others.map((k) => '${variantSpecs[k]!.fieldName} = null').join(', '),
+      );
     }
     b.writeln(';');
     b.writeln();
@@ -338,12 +347,20 @@ String generateOneOfClass(
       final read = "json['${f.jsonKey}']";
       final parse = f.type.endsWith('?')
           ? _jsonReadExpr(
-              f.type.substring(0, f.type.length - 1), read, allDefs, false)
+              f.type.substring(0, f.type.length - 1),
+              read,
+              allDefs,
+              false,
+            )
           : _jsonReadExpr(f.type, read, allDefs, true);
       b.writeln('        ${f.fieldName}: $parse,');
     }
-    final variantParse =
-        _jsonReadExpr(spec.type, "json['$jsonKey']", allDefs, true);
+    final variantParse = _jsonReadExpr(
+      spec.type,
+      "json['$jsonKey']",
+      allDefs,
+      true,
+    );
     b.writeln('        ${spec.fieldName}: $variantParse,');
     b.writeln('      );');
     b.writeln('    }');
@@ -415,8 +432,10 @@ String _jsonReadExpr(
   // Enum?
   if (_isEnum(allDefs, typeStr)) {
     return isRequired
-        ? "$typeStr" "FromJson($read)"
-        : "$read == null ? null : $typeStr" "FromJson($read)";
+        ? "$typeStr"
+              "FromJson($read)"
+        : "$read == null ? null : $typeStr"
+              "FromJson($read)";
   }
 
   // Otherwise assume it is a class we generate.
@@ -506,8 +525,9 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
         responseRef = schema[r'$ref'] as String?;
       }
     }
-    final responseTypeName =
-        responseRef != null ? refToName(responseRef) : null;
+    final responseTypeName = responseRef != null
+        ? refToName(responseRef)
+        : null;
 
     final apiTypeName = '$prefix${_ucFirst(opNameNoNs)}Response';
     final apiBodyTypeName = '$prefix${_ucFirst(opNameNoNs)}Body';
@@ -525,10 +545,11 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
             param['schema'] is Map &&
             (param['schema'][r'$ref'] is String) &&
             defs.containsKey(refToName(param['schema'][r'$ref'] as String))) {
-          final reqDef = defs[refToName(param['schema'][r'$ref'] as String)]
-              as Map<String, dynamic>;
-          final reqProps =
-              (reqDef['properties'] as Map?)?.cast<String, dynamic>();
+          final reqDef =
+              defs[refToName(param['schema'][r'$ref'] as String)]
+                  as Map<String, dynamic>;
+          final reqProps = (reqDef['properties'] as Map?)
+              ?.cast<String, dynamic>();
           if (reqProps != null &&
               reqProps['type'] is Map &&
               (reqProps['type']['enum'] is List) &&
@@ -540,8 +561,9 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
 
             final activityType =
                 ((reqProps['type']['enum'] as List).first as String?);
-            final activityTypeKey =
-                activityType != null ? stripVersionSuffix(activityType) : null;
+            final activityTypeKey = activityType != null
+                ? stripVersionSuffix(activityType)
+                : null;
 
             final mapped = activityTypeKey != null
                 ? VERSIONED_ACTIVITY_TYPES[activityTypeKey]
@@ -570,15 +592,18 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
         b.writeln('  final $resultTypeName? result;');
       }
       b.writeln(
-          '  const $apiTypeName({required this.activity, ${resultTypeName != null ? 'this.result,' : ''}});');
+        '  const $apiTypeName({required this.activity, ${resultTypeName != null ? 'this.result,' : ''}});',
+      );
       b.writeln('  factory $apiTypeName.fromJson(Map<String, dynamic> json) {');
       b.writeln('    return $apiTypeName(');
       b.writeln(
-          '      activity: v1Activity.fromJson(json[\'activity\'] as Map<String, dynamic>),');
+        '      activity: v1Activity.fromJson(json[\'activity\'] as Map<String, dynamic>),',
+      );
       if (resultTypeName != null) {
         b.writeln(
-            '      result: json.containsKey(\'result\') && json[\'result\'] != null'
-            ' ? ${resultTypeName}.fromJson(json[\'result\'] as Map<String, dynamic>) : null,');
+          '      result: json.containsKey(\'result\') && json[\'result\'] != null'
+          ' ? ${resultTypeName}.fromJson(json[\'result\'] as Map<String, dynamic>) : null,',
+        );
       }
       b.writeln('    );');
       b.writeln('  }');
@@ -610,13 +635,15 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
         b.writeln('class $apiTypeName {');
         b.writeln('  const $apiTypeName();');
         b.writeln(
-            '  factory $apiTypeName.fromJson(Map<String, dynamic> json) => const $apiTypeName();');
+          '  factory $apiTypeName.fromJson(Map<String, dynamic> json) => const $apiTypeName();',
+        );
         b.writeln('  Map<String, dynamic> toJson() => {};');
         b.writeln('}\n');
       }
     } else if (mType == 'activityDecision') {
-      final activityType =
-          responseTypeName != null ? defs[responseTypeName] : null;
+      final activityType = responseTypeName != null
+          ? defs[responseTypeName]
+          : null;
       if (activityType is Map && activityType['properties'] is Map) {
         final fakeDef = <String, dynamic>{
           'type': 'object',
@@ -649,7 +676,8 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
         b.writeln('class $apiBodyTypeName {');
         b.writeln('  const $apiBodyTypeName();');
         b.writeln(
-            '  factory $apiBodyTypeName.fromJson(Map<String, dynamic> json) => const $apiBodyTypeName();');
+          '  factory $apiBodyTypeName.fromJson(Map<String, dynamic> json) => const $apiBodyTypeName();',
+        );
         b.writeln('  Map<String, dynamic> toJson() => {};');
         b.writeln('}\n');
 
@@ -658,12 +686,14 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
         b.writeln('  final $apiBodyTypeName body;');
         b.writeln('  const $apiInputTypeName({required this.body});');
         b.writeln(
-            '  factory $apiInputTypeName.fromJson(Map<String, dynamic> json) => '
-            '$apiInputTypeName(body: json[\'body\'] is Map<String, dynamic> '
-            '? $apiBodyTypeName.fromJson(json[\'body\'] as Map<String, dynamic>) '
-            ': const $apiBodyTypeName());');
+          '  factory $apiInputTypeName.fromJson(Map<String, dynamic> json) => '
+          '$apiInputTypeName(body: json[\'body\'] is Map<String, dynamic> '
+          '? $apiBodyTypeName.fromJson(json[\'body\'] as Map<String, dynamic>) '
+          ': const $apiBodyTypeName());',
+        );
         b.writeln(
-            '  Map<String, dynamic> toJson() => {\'body\': body.toJson()};');
+          '  Map<String, dynamic> toJson() => {\'body\': body.toJson()};',
+        );
         b.writeln('}\n');
         continue;
       }
@@ -678,20 +708,22 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
     if (mType == 'command' || mType == 'activityDecision') {
       fields.addAll([
         FieldSpec(
-            fieldName: 'timestampMs',
-            jsonKey: 'timestampMs',
-            type: 'String?',
-            nullable: true,
-            description: null),
+          fieldName: 'timestampMs',
+          jsonKey: 'timestampMs',
+          type: 'String?',
+          nullable: true,
+          description: null,
+        ),
         FieldSpec(
-            fieldName: 'organizationId',
-            jsonKey: 'organizationId',
-            type: 'String?',
-            nullable: true,
-            description: null),
+          fieldName: 'organizationId',
+          jsonKey: 'organizationId',
+          type: 'String?',
+          nullable: true,
+          description: null,
+        ),
       ]);
-      final props =
-          (requestTypeDef['properties'] as Map?)?.cast<String, dynamic>();
+      final props = (requestTypeDef['properties'] as Map?)
+          ?.cast<String, dynamic>();
       final ref = props?['parameters'] is Map
           ? (props?['parameters'][r'$ref'] as String?)
           : null;
@@ -700,8 +732,9 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
 
         final activityType =
             ((props?['type']['enum'] as List).first as String?);
-        final activityTypeKey =
-            activityType != null ? stripVersionSuffix(activityType) : null;
+        final activityTypeKey = activityType != null
+            ? stripVersionSuffix(activityType)
+            : null;
 
         final mapped = activityTypeKey != null
             ? VERSIONED_ACTIVITY_TYPES[activityTypeKey]
@@ -716,13 +749,14 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
         }
         final intentTypeNameResolved =
             (candidate != null && candidate.isNotEmpty)
-                ? candidate
-                : intentTypeName;
+            ? candidate
+            : intentTypeName;
 
-        final intentDef =
-            (defs[intentTypeNameResolved] as Map).cast<String, dynamic>();
-        final isAllOptional =
-            METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(methodName);
+        final intentDef = (defs[intentTypeNameResolved] as Map)
+            .cast<String, dynamic>();
+        final isAllOptional = METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(
+          methodName,
+        );
         final reqd = (intentDef['required'] is List)
             ? (intentDef['required'] as List).cast<String>()
             : <String>[];
@@ -734,46 +768,56 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
           String t = 'dynamic';
           if (s[r'$ref'] is String)
             t = refToName(s[r'$ref'] as String);
-          else if (s['type'] is String) t = typeToDart(s['type'] as String, s);
+          else if (s['type'] is String)
+            t = typeToDart(s['type'] as String, s);
           final isReq = isAllOptional ? false : reqd.contains(key);
-          fields.add(FieldSpec(
-            fieldName: sanitizeFieldName(key),
-            jsonKey: key,
-            type: isReq ? t : '$t?',
-            nullable: !isReq,
-            description: s['description'] as String?,
-          ));
+          fields.add(
+            FieldSpec(
+              fieldName: sanitizeFieldName(key),
+              jsonKey: key,
+              type: isReq ? t : '$t?',
+              nullable: !isReq,
+              description: s['description'] as String?,
+            ),
+          );
         }
       }
     } else if (mType == 'query' || mType == 'noop') {
-      fields.add(FieldSpec(
+      fields.add(
+        FieldSpec(
           fieldName: 'organizationId',
           jsonKey: 'organizationId',
           type: 'String?',
           nullable: true,
-          description: null));
+          description: null,
+        ),
+      );
       final reqProps =
           (requestTypeDef['properties'] as Map?)?.cast<String, dynamic>() ?? {};
       final reqd = (requestTypeDef['required'] is List)
           ? (requestTypeDef['required'] as List).cast<String>()
           : <String>[];
-      final isAllOptional =
-          METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(methodName);
+      final isAllOptional = METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(
+        methodName,
+      );
       for (final e in reqProps.entries) {
         if (e.key == 'organizationId') continue;
         final s = (e.value as Map).cast<String, dynamic>();
         String t = 'dynamic';
         if (s[r'$ref'] is String)
           t = refToName(s[r'$ref'] as String);
-        else if (s['type'] is String) t = typeToDart(s['type'] as String, s);
+        else if (s['type'] is String)
+          t = typeToDart(s['type'] as String, s);
         final isReq = isAllOptional ? false : reqd.contains(e.key);
-        fields.add(FieldSpec(
-          fieldName: sanitizeFieldName(e.key),
-          jsonKey: e.key,
-          type: isReq ? t : '$t?',
-          nullable: !isReq,
-          description: s['description'] as String?,
-        ));
+        fields.add(
+          FieldSpec(
+            fieldName: sanitizeFieldName(e.key),
+            jsonKey: e.key,
+            type: isReq ? t : '$t?',
+            nullable: !isReq,
+            description: s['description'] as String?,
+          ),
+        );
       }
     } else if (mType == 'proxy') {
       final reqProps =
@@ -781,22 +825,26 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
       final reqd = (requestTypeDef['required'] is List)
           ? (requestTypeDef['required'] as List).cast<String>()
           : <String>[];
-      final isAllOptional =
-          METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(methodName);
+      final isAllOptional = METHODS_WITH_ONLY_OPTIONAL_PARAMETERS.contains(
+        methodName,
+      );
       for (final e in reqProps.entries) {
         final s = (e.value as Map).cast<String, dynamic>();
         String t = 'dynamic';
         if (s[r'$ref'] is String)
           t = refToName(s[r'$ref'] as String);
-        else if (s['type'] is String) t = typeToDart(s['type'] as String, s);
+        else if (s['type'] is String)
+          t = typeToDart(s['type'] as String, s);
         final isReq = isAllOptional ? false : reqd.contains(e.key);
-        fields.add(FieldSpec(
-          fieldName: sanitizeFieldName(e.key),
-          jsonKey: e.key,
-          type: isReq ? t : '$t?',
-          nullable: !isReq,
-          description: s['description'] as String?,
-        ));
+        fields.add(
+          FieldSpec(
+            fieldName: sanitizeFieldName(e.key),
+            jsonKey: e.key,
+            type: isReq ? t : '$t?',
+            nullable: !isReq,
+            description: s['description'] as String?,
+          ),
+        );
       }
     }
 
@@ -817,7 +865,8 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
     bodyBuf.writeln('  ${fields.isEmpty ? '' : '}'});');
     // fromJson
     bodyBuf.writeln(
-        '  factory $apiBodyTypeName.fromJson(Map<String, dynamic> json) {');
+      '  factory $apiBodyTypeName.fromJson(Map<String, dynamic> json) {',
+    );
     for (final f in fields) {
       final readExpr = _jsonReadExpr(
         f.type.endsWith('?') ? f.type.substring(0, f.type.length - 1) : f.type,
@@ -857,8 +906,9 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
     b.writeln('  final $apiBodyTypeName body;');
     b.writeln('  const $apiInputTypeName({required this.body});');
     b.writeln(
-        '  factory $apiInputTypeName.fromJson(Map<String, dynamic> json) => '
-        '$apiInputTypeName(body: $apiBodyTypeName.fromJson(json[\'body\'] as Map<String, dynamic>));');
+      '  factory $apiInputTypeName.fromJson(Map<String, dynamic> json) => '
+      '$apiInputTypeName(body: $apiBodyTypeName.fromJson(json[\'body\'] as Map<String, dynamic>));',
+    );
     b.writeln('  Map<String, dynamic> toJson() => {\'body\': body.toJson()};');
     b.writeln('}\n');
   }
@@ -869,8 +919,9 @@ String generateApiTypes(Map<String, dynamic> swagger, String prefix) {
 void generateTypesFromSwagger() {
   final swaggerMain =
       jsonDecode(File(swaggerPath).readAsStringSync()) as Map<String, dynamic>;
-  final swaggerAuth = jsonDecode(File(authProxySwaggerPath).readAsStringSync())
-      as Map<String, dynamic>;
+  final swaggerAuth = jsonDecode(
+    File(authProxySwaggerPath).readAsStringSync(),
+  ) as Map<String, dynamic>;
 
   final out = StringBuffer()..write(header);
 
@@ -905,7 +956,8 @@ void generateTypesFromSwagger() {
       out.writeln('class $name {');
       out.writeln('  const $name();');
       out.writeln(
-          '  factory $name.fromJson(Map<String, dynamic> json) => const $name();');
+        '  factory $name.fromJson(Map<String, dynamic> json) => const $name();',
+      );
       out.writeln('  Map<String, dynamic> toJson() => {};');
       out.writeln('}\n');
     }

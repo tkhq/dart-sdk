@@ -77,21 +77,19 @@ class DashboardScreenState extends State<DashboardScreen> {
         _signature = 'r: ${response.r}, s: ${response.s}, v: ${response.v}';
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Success! Message signed.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Success! Message signed.')));
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error signing message: $error')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error signing message: $error')));
     }
   }
 
   Future<void> handleExportWallet(BuildContext context, Wallet wallet) async {
     try {
-      final export = await _turnkeyProvider.exportWallet(
-        walletId: wallet.id,
-      );
+      final export = await _turnkeyProvider.exportWallet(walletId: wallet.id);
 
       if (!context.mounted) return;
 
@@ -162,9 +160,8 @@ class DashboardScreenState extends State<DashboardScreen> {
       );
     } catch (e) {
       if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Export failed: $e')),
-      );
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Export failed: $e')));
       debugPrint(e.toString());
     }
   }
@@ -367,7 +364,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -385,8 +382,9 @@ class DashboardScreenState extends State<DashboardScreen> {
                                   return AlertDialog(
                                     title: const Text('Sign message'),
                                     content: Container(
-                                      constraints:
-                                          const BoxConstraints(minHeight: 100),
+                                      constraints: const BoxConstraints(
+                                        minHeight: 100,
+                                      ),
                                       padding: const EdgeInsets.all(10),
                                       transformAlignment: Alignment.center,
                                       decoration: BoxDecoration(
@@ -462,24 +460,20 @@ class AddWalletDialogState extends State<AddWalletDialog> {
   bool _generateSeedPhrase = true;
 
   Future<void> handleAddWallet(BuildContext context) async {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider = Provider.of<TurnkeyProvider>(
+      context,
+      listen: false,
+    );
     if (_generateSeedPhrase) {
       await turnkeyProvider.createWallet(
         walletName: _walletNameController.text,
-        accounts: [
-          DEFAULT_ETHEREUM_ACCOUNT,
-          DEFAULT_SOLANA_ACCOUNT,
-        ],
+        accounts: [DEFAULT_ETHEREUM_ACCOUNT, DEFAULT_SOLANA_ACCOUNT],
       );
     } else {
       await turnkeyProvider.importWallet(
         mnemonic: _seedPhraseController.text,
         walletName: _walletNameController.text,
-        accounts: [
-          DEFAULT_ETHEREUM_ACCOUNT,
-          DEFAULT_SOLANA_ACCOUNT,
-        ],
+        accounts: [DEFAULT_ETHEREUM_ACCOUNT, DEFAULT_SOLANA_ACCOUNT],
       );
     }
     if (!context.mounted) return;
@@ -545,7 +539,7 @@ class AddWalletDialogState extends State<AddWalletDialog> {
                   maxLines: 3,
                 ),
               ],
-            )
+            ),
         ],
       ),
       actions: [

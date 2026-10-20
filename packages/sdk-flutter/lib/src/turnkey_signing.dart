@@ -9,22 +9,24 @@ extension SigningExtension on TurnkeyProvider {
   /// [payload] The payload to sign.
   /// [encoding] The encoding of the payload.
   /// [hashFunction] The hash function to use.
-  Future<v1SignRawPayloadResult> signRawPayload(
-      {required String signWith,
-      required String payload,
-      required v1PayloadEncoding encoding,
-      required v1HashFunction hashFunction}) async {
+  Future<v1SignRawPayloadResult> signRawPayload({
+    required String signWith,
+    required String payload,
+    required v1PayloadEncoding encoding,
+    required v1HashFunction hashFunction,
+  }) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
 
     final response = await requireClient.signRawPayload(
-        input: TSignRawPayloadBody(
-      signWith: signWith,
-      payload: payload,
-      encoding: encoding,
-      hashFunction: hashFunction,
-    ));
+      input: TSignRawPayloadBody(
+        signWith: signWith,
+        payload: payload,
+        encoding: encoding,
+        hashFunction: hashFunction,
+      ),
+    );
 
     final signRawPayloadResult = response.activity.result?.signRawPayloadResult;
     if (signRawPayloadResult == null) {
@@ -138,19 +140,22 @@ extension SigningExtension on TurnkeyProvider {
   /// [signWith] The key to sign with.
   /// [unsignedTransaction] The unsigned transaction to sign.
   /// [type] The type of the transaction from the [TransactionType] enum.
-  Future<v1SignTransactionResult> signTransaction(
-      {required String signWith,
-      required String unsignedTransaction,
-      required v1TransactionType type}) async {
+  Future<v1SignTransactionResult> signTransaction({
+    required String signWith,
+    required String unsignedTransaction,
+    required v1TransactionType type,
+  }) async {
     if (session == null) {
       throw Exception("No active session found. Please log in first.");
     }
 
     final response = await requireClient.signTransaction(
-        input: TSignTransactionBody(
-            signWith: signWith,
-            unsignedTransaction: unsignedTransaction,
-            type: type));
+      input: TSignTransactionBody(
+        signWith: signWith,
+        unsignedTransaction: unsignedTransaction,
+        type: type,
+      ),
+    );
 
     final signTransactionResult =
         response.activity.result?.signTransactionResult;

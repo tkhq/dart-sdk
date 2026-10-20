@@ -1,9 +1,11 @@
 import 'dart:io';
+
 import 'package:path/path.dart' as path;
 
 final String INPUT_SWAGGER_DIRECTORY = Directory('lib/swagger').absolute.path;
-final String OUTPUT_GENERATED_DIRECTORY =
-    Directory('lib/__generated__').absolute.path;
+final String OUTPUT_GENERATED_DIRECTORY = Directory('lib/__generated__')
+    .absolute
+    .path;
 
 final GENERATED_DIR = path.join(Directory.current.path, '../__generated__/');
 
@@ -22,87 +24,87 @@ const Map<String, (String, String, String)> VERSIONED_ACTIVITY_TYPES = {
   'ACTIVITY_TYPE_CREATE_AUTHENTICATORS': (
     'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
     'v1CreateAuthenticatorsIntentV2',
-    'v1CreateAuthenticatorsResult'
+    'v1CreateAuthenticatorsResult',
   ),
   'ACTIVITY_TYPE_CREATE_API_KEYS': (
     'ACTIVITY_TYPE_CREATE_API_KEYS_V2',
     'v1CreateApiKeysIntentV2',
-    'v1CreateApiKeysResult'
+    'v1CreateApiKeysResult',
   ),
   'ACTIVITY_TYPE_CREATE_POLICY': (
     'ACTIVITY_TYPE_CREATE_POLICY_V3',
     'v1CreatePolicyIntentV3',
-    'v1CreatePolicyResult'
+    'v1CreatePolicyResult',
   ),
   'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS': (
     'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS_V2',
     'v1CreatePrivateKeysIntentV2',
-    'v1CreatePrivateKeysResultV2'
+    'v1CreatePrivateKeysResultV2',
   ),
   'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION': (
     'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V8',
     'v1CreateSubOrganizationIntentV8',
-    'v1CreateSubOrganizationResultV8'
+    'v1CreateSubOrganizationResultV8',
   ),
   'ACTIVITY_TYPE_CREATE_USERS': (
     'ACTIVITY_TYPE_CREATE_USERS_V4',
     'v1CreateUsersIntentV4',
-    'v1CreateUsersResult'
+    'v1CreateUsersResult',
   ),
   'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD': (
     'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2',
     'v1SignRawPayloadIntentV2',
-    'v1SignRawPayloadResult'
+    'v1SignRawPayloadResult',
   ),
   'ACTIVITY_TYPE_SIGN_TRANSACTION': (
     'ACTIVITY_TYPE_SIGN_TRANSACTION_V2',
     'v1SignTransactionIntentV2',
-    'v1SignTransactionResult'
+    'v1SignTransactionResult',
   ),
   'ACTIVITY_TYPE_EMAIL_AUTH': (
     'ACTIVITY_TYPE_EMAIL_AUTH_V3',
     'v1EmailAuthIntentV3',
-    'v1EmailAuthResult'
+    'v1EmailAuthResult',
   ),
   'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION': (
     'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION_V2',
     'v1CreateReadWriteSessionIntentV2',
-    'v1CreateReadWriteSessionResult'
+    'v1CreateReadWriteSessionResult',
   ),
   'ACTIVITY_TYPE_UPDATE_POLICY': (
     'ACTIVITY_TYPE_UPDATE_POLICY_V2',
     'v1UpdatePolicyIntentV2',
-    'v1UpdatePolicyResultV2'
+    'v1UpdatePolicyResultV2',
   ),
   'ACTIVITY_TYPE_INIT_OTP_AUTH': (
     'ACTIVITY_TYPE_INIT_OTP_AUTH_V3',
     'v1InitOtpAuthIntentV3',
-    'v1InitOtpAuthResultV2'
+    'v1InitOtpAuthResultV2',
   ),
   'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY': (
     'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
     'v1InitUserEmailRecoveryIntentV2',
-    'v1InitUserEmailRecoveryResult'
+    'v1InitUserEmailRecoveryResult',
   ),
   'ACTIVITY_TYPE_INIT_OTP': (
     'ACTIVITY_TYPE_INIT_OTP_V3',
     'v1InitOtpIntentV3',
-    'v1InitOtpResultV2'
+    'v1InitOtpResultV2',
   ),
   'ACTIVITY_TYPE_VERIFY_OTP': (
     'ACTIVITY_TYPE_VERIFY_OTP_V2',
     'v1VerifyOtpIntentV2',
-    'v1VerifyOtpResult'
+    'v1VerifyOtpResult',
   ),
   'ACTIVITY_TYPE_OTP_LOGIN': (
     'ACTIVITY_TYPE_OTP_LOGIN_V2',
     'v1OtpLoginIntentV2',
-    'v1OtpLoginResult'
+    'v1OtpLoginResult',
   ),
   'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS': (
     'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS_V2',
     'v1CreateOauthProvidersIntentV2',
-    'v1CreateOauthProvidersResultV2'
+    'v1CreateOauthProvidersResultV2',
   ),
   'ACTIVITY_TYPE_ETH_SEND_TRANSACTION': (
     "ACTIVITY_TYPE_ETH_SEND_TRANSACTION",

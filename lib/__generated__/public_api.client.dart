@@ -3,6 +3,7 @@
 import "models.dart";
 import "../base.dart";
 import "../version.dart";
+
 import "dart:convert";
 import "dart:async";
 import "dart:io";
@@ -39,9 +40,7 @@ class TurnkeyClient {
 
       if (response.statusCode != 200) {
         final errorBody = await response.transform(utf8.decoder).join();
-        throw TurnkeyRequestError(
-          GrpcStatus.fromJson(jsonDecode(errorBody)),
-        );
+        throw TurnkeyRequestError(GrpcStatus.fromJson(jsonDecode(errorBody)));
       }
 
       final responseBody = await response.transform(utf8.decoder).join();
@@ -60,7 +59,8 @@ class TurnkeyClient {
   ) async {
     if (config.authProxyConfigId == null || config.authProxyConfigId!.isEmpty) {
       throw Exception(
-          'Missing Auth Proxy config ID. Please verify environment variables.');
+        'Missing Auth Proxy config ID. Please verify environment variables.',
+      );
     }
     final fullUrl = '${config.authProxyBaseUrl}$url';
     final stringifiedBody = jsonEncode(body);
@@ -77,9 +77,7 @@ class TurnkeyClient {
 
       if (response.statusCode != 200) {
         final errorBody = await response.transform(utf8.decoder).join();
-        throw TurnkeyRequestError(
-          GrpcStatus.fromJson(jsonDecode(errorBody)),
-        );
+        throw TurnkeyRequestError(GrpcStatus.fromJson(jsonDecode(errorBody)));
       }
 
       final responseBody = await response.transform(utf8.decoder).join();
@@ -132,7 +130,8 @@ class TurnkeyClient {
   }) {
     final orgId =
         (bodyJson['organizationId'] as String?) ?? fallbackOrganizationId;
-    final ts = bodyJson['timestampMs'] as String? ??
+    final ts =
+        bodyJson['timestampMs'] as String? ??
         DateTime.now().millisecondsSinceEpoch.toString();
 
     // Exclude envelope keys (and guard against accidental nesting)
@@ -151,14 +150,14 @@ class TurnkeyClient {
 
   /// Transforms activity response to flatten specific result from activity.result.{specificResult} to top-level result
   Map<String, dynamic> transformActivityResponse(
-      Map<String, dynamic> json, String operationId) {
+    Map<String, dynamic> json,
+    String operationId,
+  ) {
     // Convert operationId to the expected result field name (e.g., "StampLogin" -> "stampLoginResult")
     final resultFieldName =
         '${operationId[0].toLowerCase()}${operationId.substring(1)}Result';
 
-    final result = <String, dynamic>{
-      'activity': json['activity'],
-    };
+    final result = <String, dynamic>{'activity': json['activity']};
 
     // Extract specific result from activity.result.{specificResult} and flatten to top level
     if (json['activity'] != null &&

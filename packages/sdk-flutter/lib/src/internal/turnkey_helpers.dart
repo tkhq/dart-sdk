@@ -23,13 +23,13 @@ import 'package:turnkey_sdk_flutter/src/utils/types.dart';
 /// Returns the `User` object containing user details and associated wallets, or `null` if the user is not found.
 /// Throws if any API request fails.
 Future<v1User?> fetchUser(
-    TurnkeyClient client, String organizationId, String userId) async {
+  TurnkeyClient client,
+  String organizationId,
+  String userId,
+) async {
   try {
     final userResponse = await client.getUser(
-      input: TGetUserBody(
-        organizationId: organizationId,
-        userId: userId,
-      ),
+      input: TGetUserBody(organizationId: organizationId, userId: userId),
     );
 
     final user = userResponse.user;
@@ -42,14 +42,18 @@ Future<v1User?> fetchUser(
 }
 
 Future<List<Wallet>> fetchWallets(
-    TurnkeyClient client, String organizationId) async {
+  TurnkeyClient client,
+  String organizationId,
+) async {
   try {
     final walletsResponse = await client.getWallets(
       input: TGetWalletsBody(organizationId: organizationId),
     );
 
-    final walletAccountsResponse =
-        await fetchWalletAccountsWithCursor(client, organizationId);
+    final walletAccountsResponse = await fetchWalletAccountsWithCursor(
+      client,
+      organizationId,
+    );
 
     final wallets = walletsResponse.wallets.map((wallet) {
       final accounts = walletAccountsResponse
@@ -70,7 +74,9 @@ Future<List<Wallet>> fetchWallets(
 }
 
 Future<List<v1WalletAccount>> fetchWalletAccountsWithCursor(
-    TurnkeyClient client, String organizationId) async {
+  TurnkeyClient client,
+  String organizationId,
+) async {
   List<v1WalletAccount> allAccounts = [];
   String? nextCursor;
   int limit = 100;
@@ -79,11 +85,12 @@ Future<List<v1WalletAccount>> fetchWalletAccountsWithCursor(
   do {
     final walletAccountsResponse = await client.getWalletAccounts(
       input: TGetWalletAccountsBody(
-          organizationId: organizationId,
-          paginationOptions: v1Pagination(
-            limit: limit.toString(),
-            after: nextCursor,
-          )),
+        organizationId: organizationId,
+        paginationOptions: v1Pagination(
+          limit: limit.toString(),
+          after: nextCursor,
+        ),
+      ),
     );
 
     allAccounts.addAll(walletAccountsResponse.accounts);
@@ -118,45 +125,50 @@ ProxyTSignupV2Body buildSignUpBody({
   String? webHostname,
 }) {
   final now = DateTime.now().millisecondsSinceEpoch;
-  final defaultAuthenticatorName =
-      isWeb ? '${(webHostname ?? 'web')}-$now' : 'passkey-$now';
+  final defaultAuthenticatorName = isWeb
+      ? '${(webHostname ?? 'web')}-$now'
+      : 'passkey-$now';
 
   // --- authenticators ---
   final List<v1AuthenticatorParamsV2> authenticators =
       (createSubOrgParams?.authenticators ?? const [])
-          .map((a) => v1AuthenticatorParamsV2(
-                authenticatorName: (a.authenticatorName == null ||
-                        a.authenticatorName!.isEmpty)
-                    ? defaultAuthenticatorName
-                    : a.authenticatorName!,
-                challenge: a.challenge,
-                attestation: a.attestation,
-              ))
+          .map(
+            (a) => v1AuthenticatorParamsV2(
+              authenticatorName:
+                  (a.authenticatorName == null || a.authenticatorName!.isEmpty)
+                  ? defaultAuthenticatorName
+                  : a.authenticatorName!,
+              challenge: a.challenge,
+              attestation: a.attestation,
+            ),
+          )
           .toList();
 
   final List<v1AuthenticatorParamsV2> authenticatorsOrEmpty =
       (createSubOrgParams?.authenticators?.isNotEmpty ?? false)
-          ? authenticators
-          : <v1AuthenticatorParamsV2>[];
+      ? authenticators
+      : <v1AuthenticatorParamsV2>[];
 
   // --- apiKeys ---
   final List<v1ApiKeyParamsV2> apiKeys =
       (createSubOrgParams?.apiKeys ?? const [])
           .where((k) => k.curveType != null)
-          .map((k) => v1ApiKeyParamsV2(
-                apiKeyName: (k.apiKeyName == null || k.apiKeyName!.isEmpty)
-                    ? 'api-key-$now'
-                    : k.apiKeyName!,
-                publicKey: k.publicKey,
-                curveType: k.curveType!,
-                expirationSeconds: k.expirationSeconds,
-              ))
+          .map(
+            (k) => v1ApiKeyParamsV2(
+              apiKeyName: (k.apiKeyName == null || k.apiKeyName!.isEmpty)
+                  ? 'api-key-$now'
+                  : k.apiKeyName!,
+              publicKey: k.publicKey,
+              curveType: k.curveType!,
+              expirationSeconds: k.expirationSeconds,
+            ),
+          )
           .toList();
 
   final List<v1ApiKeyParamsV2> apiKeysOrEmpty =
       (createSubOrgParams?.apiKeys?.isNotEmpty ?? false)
-          ? apiKeys
-          : <v1ApiKeyParamsV2>[];
+      ? apiKeys
+      : <v1ApiKeyParamsV2>[];
 
   // --- oauth providers ---
   final List<v1OauthProviderParamsV2> oauthProvidersOrEmpty =
@@ -173,8 +185,8 @@ ProxyTSignupV2Body buildSignUpBody({
   final userName = createSubOrgParams?.userName?.isNotEmpty == true
       ? createSubOrgParams!.userName!
       : (createSubOrgParams?.userEmail?.isNotEmpty == true
-          ? createSubOrgParams!.userEmail!
-          : 'user-$now');
+            ? createSubOrgParams!.userEmail!
+            : 'user-$now');
 
   final orgName = createSubOrgParams?.subOrgName?.isNotEmpty == true
       ? createSubOrgParams!.subOrgName!
@@ -254,8 +266,11 @@ final class PasskeyOverridedParams extends OverrideParams {
   });
 }
 
-CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
-    TurnkeyConfig config, OverrideParams overrideParams) {
+CreateSubOrgParams getCreateSubOrgParams(
+  CreateSubOrgParams? createSubOrgParams,
+  TurnkeyConfig config,
+  OverrideParams overrideParams,
+) {
   final configCreateSubOrgParams = config.authConfig?.createSubOrgParams;
 
   switch (overrideParams) {
@@ -267,14 +282,14 @@ CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
                 verificationToken: overrideParams.verificationToken,
               )
             : configCreateSubOrgParams?.emailOtpAuth != null
-                ? configCreateSubOrgParams!.emailOtpAuth!.copyWith(
-                    userEmail: overrideParams.contact,
-                    verificationToken: overrideParams.verificationToken,
-                  )
-                : CreateSubOrgParams(
-                    userEmail: overrideParams.contact,
-                    verificationToken: overrideParams.verificationToken,
-                  );
+            ? configCreateSubOrgParams!.emailOtpAuth!.copyWith(
+                userEmail: overrideParams.contact,
+                verificationToken: overrideParams.verificationToken,
+              )
+            : CreateSubOrgParams(
+                userEmail: overrideParams.contact,
+                verificationToken: overrideParams.verificationToken,
+              );
       } else {
         return (createSubOrgParams != null)
             ? createSubOrgParams.copyWith(
@@ -282,14 +297,14 @@ CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
                 verificationToken: overrideParams.verificationToken,
               )
             : configCreateSubOrgParams?.smsOtpAuth != null
-                ? configCreateSubOrgParams!.smsOtpAuth!.copyWith(
-                    userPhoneNumber: overrideParams.contact,
-                    verificationToken: overrideParams.verificationToken,
-                  )
-                : CreateSubOrgParams(
-                    userPhoneNumber: overrideParams.contact,
-                    verificationToken: overrideParams.verificationToken,
-                  );
+            ? configCreateSubOrgParams!.smsOtpAuth!.copyWith(
+                userPhoneNumber: overrideParams.contact,
+                verificationToken: overrideParams.verificationToken,
+              )
+            : CreateSubOrgParams(
+                userPhoneNumber: overrideParams.contact,
+                verificationToken: overrideParams.verificationToken,
+              );
       }
     case OAuthOverridedParams():
       final primary = v1OauthProviderParamsV2.oidcToken(
@@ -299,16 +314,16 @@ CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
       // Prepend the primary onto any caller-supplied secondaries so that
       // both the primary OIDC token entry and the synthesized secondary
       // oidcClaims entries end up on the sub-org.
-      final existing = createSubOrgParams?.oauthProviders ??
+      final existing =
+          createSubOrgParams?.oauthProviders ??
           configCreateSubOrgParams?.oAuth?.oauthProviders ??
           const <v1OauthProviderParamsV2>[];
       final merged = [primary, ...existing];
       return (createSubOrgParams != null)
           ? createSubOrgParams.copyWith(oauthProviders: merged)
           : configCreateSubOrgParams?.oAuth != null
-              ? configCreateSubOrgParams!.oAuth!
-                  .copyWith(oauthProviders: merged)
-              : CreateSubOrgParams(oauthProviders: merged);
+          ? configCreateSubOrgParams!.oAuth!.copyWith(oauthProviders: merged)
+          : CreateSubOrgParams(oauthProviders: merged);
     case PasskeyOverridedParams():
       return (createSubOrgParams != null)
           ? createSubOrgParams.copyWith(
@@ -332,46 +347,46 @@ CreateSubOrgParams getCreateSubOrgParams(CreateSubOrgParams? createSubOrgParams,
               ],
             )
           : (config.authConfig?.createSubOrgParams?.passkeyAuth != null)
-              ? config.authConfig!.createSubOrgParams!.passkeyAuth!.copyWith(
-                  authenticators: [
-                    CreateSubOrgAuthenticator(
-                      authenticatorName: overrideParams.passkeyName,
-                      challenge: overrideParams.encodedChallenge,
-                      attestation: overrideParams.attestation,
-                    ),
-                  ],
-                  apiKeys: [
-                    CreateSubOrgApiKey(
-                      apiKeyName:
-                          'passkey-auth-${overrideParams.temporaryPublicKey}',
-                      publicKey: overrideParams.temporaryPublicKey!,
-                      curveType: v1ApiKeyCurve.api_key_curve_p256,
+          ? config.authConfig!.createSubOrgParams!.passkeyAuth!.copyWith(
+              authenticators: [
+                CreateSubOrgAuthenticator(
+                  authenticatorName: overrideParams.passkeyName,
+                  challenge: overrideParams.encodedChallenge,
+                  attestation: overrideParams.attestation,
+                ),
+              ],
+              apiKeys: [
+                CreateSubOrgApiKey(
+                  apiKeyName:
+                      'passkey-auth-${overrideParams.temporaryPublicKey}',
+                  publicKey: overrideParams.temporaryPublicKey!,
+                  curveType: v1ApiKeyCurve.api_key_curve_p256,
 
-                      // we set a short expiration since this is a temporary key
-                      expirationSeconds: "15",
-                    ),
-                  ],
-                )
-              : CreateSubOrgParams(
-                  authenticators: [
-                    CreateSubOrgAuthenticator(
-                      authenticatorName: overrideParams.passkeyName,
-                      challenge: overrideParams.encodedChallenge,
-                      attestation: overrideParams.attestation,
-                    ),
-                  ],
-                  apiKeys: [
-                    CreateSubOrgApiKey(
-                      apiKeyName:
-                          'passkey-auth-${overrideParams.temporaryPublicKey}',
-                      publicKey: overrideParams.temporaryPublicKey!,
-                      curveType: v1ApiKeyCurve.api_key_curve_p256,
+                  // we set a short expiration since this is a temporary key
+                  expirationSeconds: "15",
+                ),
+              ],
+            )
+          : CreateSubOrgParams(
+              authenticators: [
+                CreateSubOrgAuthenticator(
+                  authenticatorName: overrideParams.passkeyName,
+                  challenge: overrideParams.encodedChallenge,
+                  attestation: overrideParams.attestation,
+                ),
+              ],
+              apiKeys: [
+                CreateSubOrgApiKey(
+                  apiKeyName:
+                      'passkey-auth-${overrideParams.temporaryPublicKey}',
+                  publicKey: overrideParams.temporaryPublicKey!,
+                  curveType: v1ApiKeyCurve.api_key_curve_p256,
 
-                      // we set a short expiration since this is a temporary key
-                      expirationSeconds: "15",
-                    ),
-                  ],
-                );
+                  // we set a short expiration since this is a temporary key
+                  expirationSeconds: "15",
+                ),
+              ],
+            );
   }
 }
 
@@ -653,9 +668,11 @@ List<v1OauthProviderParamsV2> buildSecondaryOAuthProviders({
   if (iss == null || sub == null) return const [];
 
   return secondaryClientIds
-      .map((aud) => v1OauthProviderParamsV2.oidcClaims(
-            providerName: providerName,
-            oidcClaims: v1OidcClaims(aud: aud, iss: iss, sub: sub),
-          ))
+      .map(
+        (aud) => v1OauthProviderParamsV2.oidcClaims(
+          providerName: providerName,
+          oidcClaims: v1OidcClaims(aud: aud, iss: iss, sub: sub),
+        ),
+      )
       .toList();
 }

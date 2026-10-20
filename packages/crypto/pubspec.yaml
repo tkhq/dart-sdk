@@ -6,7 +6,7 @@ version: 0.2.0
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
-  sdk: ^3.6.1
+  sdk: ^3.13.5
 
 resolution: workspace
 

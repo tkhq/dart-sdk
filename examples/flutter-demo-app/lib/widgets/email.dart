@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:turnkey_flutter_demo_app/screens/otp.dart';
 import 'package:turnkey_sdk_flutter/turnkey_sdk_flutter.dart';
+
 import 'buttons.dart';
 
 class EmailInput extends StatefulWidget {
@@ -17,8 +18,10 @@ class EmailInputState extends State<EmailInput> {
 
   @override
   Widget build(BuildContext context) {
-    final turnkeyProvider =
-        Provider.of<TurnkeyProvider>(context, listen: false);
+    final turnkeyProvider = Provider.of<TurnkeyProvider>(
+      context,
+      listen: false,
+    );
 
     return Column(
       children: <Widget>[
@@ -47,7 +50,8 @@ class EmailInputState extends State<EmailInput> {
               if (email.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                      content: Text('Please enter an email address')),
+                    content: Text('Please enter an email address'),
+                  ),
                 );
                 return;
               }

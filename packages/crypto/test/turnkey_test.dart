@@ -31,24 +31,25 @@ void main() {
       );
     });
 
-    test('decryptCredentialBundle throws an error for incorrect private key',
-        () {
-      const incorrectPrivateKey =
-          "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+    test(
+      'decryptCredentialBundle throws an error for incorrect private key',
+      () {
+        const incorrectPrivateKey =
+            "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
-      expect(
-        () => decryptCredentialBundle(
-          credentialBundle: mockCredentialBundle,
-          embeddedKey: incorrectPrivateKey,
-        ),
-        throwsException,
-      );
-    });
+        expect(
+          () => decryptCredentialBundle(
+            credentialBundle: mockCredentialBundle,
+            embeddedKey: incorrectPrivateKey,
+          ),
+          throwsException,
+        );
+      },
+    );
   });
 
   group('decryptExportBundle Tests', () {
-    test('decryptExportBundle successfully decrypts a valid bundle - mnemonic ',
-        () async {
+    test('decryptExportBundle successfully decrypts a valid bundle - mnemonic ', () async {
       const exportBundle = '''
       {
         "version": "v1.0.0",
@@ -75,9 +76,7 @@ void main() {
     });
   });
 
-  test(
-      'decryptExportBundle successfully decrypts a valid bundle - non-mnemonic',
-      () async {
+  test('decryptExportBundle successfully decrypts a valid bundle - non-mnemonic', () async {
     const exportBundle = '''
       {
         "version": "v1.0.0",
@@ -104,8 +103,7 @@ void main() {
   });
 
   group('encryptWalletToBundle Tests', () {
-    test('encryptWalletToBundle successfully encrypts a mnemonic wallet bundle',
-        () async {
+    test('encryptWalletToBundle successfully encrypts a mnemonic wallet bundle', () async {
       const mnemonic =
           'leaf lady until indicate praise final route toast cake minimum insect unknown';
       const importBundle = '''
@@ -132,26 +130,28 @@ void main() {
   });
 
   group('encryptPrivateKeyToBundle Tests', () {
-    test('encryptPrivateKeyToBundle successfully encrypts a private key bundle',
-        () async {
-      const privateKey =
-          '6fd4d81de4820d2f8f7b2df8aa63ebb4b042af5854313e1f3abae6b55eb1cf83';
-      const importBundle = '''
+    test(
+      'encryptPrivateKeyToBundle successfully encrypts a private key bundle',
+      () async {
+        const privateKey =
+            '6fd4d81de4820d2f8f7b2df8aa63ebb4b042af5854313e1f3abae6b55eb1cf83';
+        const importBundle = '''
       {"version":"v1.0.0","data":"7b227461726765745075626c6963223a2230343133613663626239646434643763653561303562363031313631643437643565353861303732386237353162613063363838333364356335383164623931616339303061633431626433616530383830636636306233353636306261353839373066356663393162353263373135636438313734386364633431333363656263222c226f7267616e697a6174696f6e4964223a2266396133316336342d643630342d343265342d396265662d613737333039366166616437222c22757365724964223a2237643461383835642d343636382d343063342d386633352d333333303165313165376435227d","dataSignature":"30440220424e74b9b75ee7e0ea83ff71c5c33dfa113c6321447fb65322bfe154b06f97f6022030d98ab126ece21eb60bd19d4dd6670a802d5cc84e626949746a797b4ee23163","enclaveQuorumPublic":"04cf288fe433cc4e1aa0ce1632feac4ea26bf2f5a09dcfe5a42c398e06898710330f0572882f4dbdf0f5304b8fc8703acd69adca9a4bbf7f5d00d20a5e364b2569"}
     ''';
-      const userId = '7d4a885d-4668-40c4-8f35-33301e11e7d5';
-      const organizationId = 'f9a31c64-d604-42e4-9bef-a773096afad7';
+        const userId = '7d4a885d-4668-40c4-8f35-33301e11e7d5';
+        const organizationId = 'f9a31c64-d604-42e4-9bef-a773096afad7';
 
-      await encryptPrivateKeyToBundle(
-        privateKey: privateKey,
-        keyFormat: 'HEXADECIMAL',
-        importBundle: importBundle,
-        userId: userId,
-        organizationId: organizationId,
-      );
+        await encryptPrivateKeyToBundle(
+          privateKey: privateKey,
+          keyFormat: 'HEXADECIMAL',
+          importBundle: importBundle,
+          userId: userId,
+          organizationId: organizationId,
+        );
 
-      // Since the encryption is non-deterministic, we can't compare the result directly
-      // To verify we would need to use the apiClient to import the wallet
-    });
+        // Since the encryption is non-deterministic, we can't compare the result directly
+        // To verify we would need to use the apiClient to import the wallet
+      },
+    );
   });
 }

@@ -3,6 +3,7 @@
 import "models.dart";
 import "../base.dart";
 import "../version.dart";
+
 import "dart:convert";
 import "dart:async";
 import "dart:io";
@@ -39,9 +40,7 @@ class TurnkeyClient {
 
       if (response.statusCode != 200) {
         final errorBody = await response.transform(utf8.decoder).join();
-        throw TurnkeyRequestError(
-          GrpcStatus.fromJson(jsonDecode(errorBody)),
-        );
+        throw TurnkeyRequestError(GrpcStatus.fromJson(jsonDecode(errorBody)));
       }
 
       final responseBody = await response.transform(utf8.decoder).join();
@@ -60,7 +59,8 @@ class TurnkeyClient {
   ) async {
     if (config.authProxyConfigId == null || config.authProxyConfigId!.isEmpty) {
       throw Exception(
-          'Missing Auth Proxy config ID. Please verify environment variables.');
+        'Missing Auth Proxy config ID. Please verify environment variables.',
+      );
     }
     final fullUrl = '${config.authProxyBaseUrl}$url';
     final stringifiedBody = jsonEncode(body);
@@ -77,9 +77,7 @@ class TurnkeyClient {
 
       if (response.statusCode != 200) {
         final errorBody = await response.transform(utf8.decoder).join();
-        throw TurnkeyRequestError(
-          GrpcStatus.fromJson(jsonDecode(errorBody)),
-        );
+        throw TurnkeyRequestError(GrpcStatus.fromJson(jsonDecode(errorBody)));
       }
 
       final responseBody = await response.transform(utf8.decoder).join();
@@ -132,7 +130,8 @@ class TurnkeyClient {
   }) {
     final orgId =
         (bodyJson['organizationId'] as String?) ?? fallbackOrganizationId;
-    final ts = bodyJson['timestampMs'] as String? ??
+    final ts =
+        bodyJson['timestampMs'] as String? ??
         DateTime.now().millisecondsSinceEpoch.toString();
 
     // Exclude envelope keys (and guard against accidental nesting)
@@ -151,14 +150,14 @@ class TurnkeyClient {
 
   /// Transforms activity response to flatten specific result from activity.result.{specificResult} to top-level result
   Map<String, dynamic> transformActivityResponse(
-      Map<String, dynamic> json, String operationId) {
+    Map<String, dynamic> json,
+    String operationId,
+  ) {
     // Convert operationId to the expected result field name (e.g., "StampLogin" -> "stampLoginResult")
     final resultFieldName =
         '${operationId[0].toLowerCase()}${operationId.substring(1)}Result';
 
-    final result = <String, dynamic>{
-      'activity': json['activity'],
-    };
+    final result = <String, dynamic>{'activity': json['activity']};
 
     // Extract specific result from activity.result.{specificResult} and flatten to top level
     if (json['activity'] != null &&
@@ -180,9 +179,10 @@ class TurnkeyClient {
     required TGetActivityBody input,
   }) async {
     return await request<TGetActivityBody, TGetActivityResponse>(
-        "/public/v1/query/get_activity",
-        input,
-        (json) => TGetActivityResponse.fromJson(json));
+      "/public/v1/query/get_activity",
+      input,
+      (json) => TGetActivityResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetActivityBody` by using the client's `stamp` function.
@@ -196,11 +196,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about an API key.
@@ -209,31 +205,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetApiKey`.
 
-  Future<TGetApiKeyResponse> getApiKey({
-    required TGetApiKeyBody input,
-  }) async {
+  Future<TGetApiKeyResponse> getApiKey({required TGetApiKeyBody input}) async {
     return await request<TGetApiKeyBody, TGetApiKeyResponse>(
-        "/public/v1/query/get_api_key",
-        input,
-        (json) => TGetApiKeyResponse.fromJson(json));
+      "/public/v1/query/get_api_key",
+      input,
+      (json) => TGetApiKeyResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetApiKeyBody` by using the client's `stamp` function.
   ///
   /// See also: `GetApiKey`.
 
-  Future<TSignedRequest> stampGetApiKey({
-    required TGetApiKeyBody input,
-  }) async {
+  Future<TSignedRequest> stampGetApiKey({required TGetApiKeyBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_api_key';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about API keys for a user.
@@ -246,9 +235,10 @@ class TurnkeyClient {
     required TGetApiKeysBody input,
   }) async {
     return await request<TGetApiKeysBody, TGetApiKeysResponse>(
-        "/public/v1/query/get_api_keys",
-        input,
-        (json) => TGetApiKeysResponse.fromJson(json));
+      "/public/v1/query/get_api_keys",
+      input,
+      (json) => TGetApiKeysResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetApiKeysBody` by using the client's `stamp` function.
@@ -262,11 +252,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get live runtime status for a TVC App from the cluster.
@@ -279,9 +265,10 @@ class TurnkeyClient {
     required TGetAppStatusBody input,
   }) async {
     return await request<TGetAppStatusBody, TGetAppStatusResponse>(
-        "/public/v1/query/get_app_status",
-        input,
-        (json) => TGetAppStatusResponse.fromJson(json));
+      "/public/v1/query/get_app_status",
+      input,
+      (json) => TGetAppStatusResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetAppStatusBody` by using the client's `stamp` function.
@@ -295,11 +282,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about an authenticator.
@@ -312,9 +295,10 @@ class TurnkeyClient {
     required TGetAuthenticatorBody input,
   }) async {
     return await request<TGetAuthenticatorBody, TGetAuthenticatorResponse>(
-        "/public/v1/query/get_authenticator",
-        input,
-        (json) => TGetAuthenticatorResponse.fromJson(json));
+      "/public/v1/query/get_authenticator",
+      input,
+      (json) => TGetAuthenticatorResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetAuthenticatorBody` by using the client's `stamp` function.
@@ -328,11 +312,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about authenticators for a user.
@@ -345,9 +325,10 @@ class TurnkeyClient {
     required TGetAuthenticatorsBody input,
   }) async {
     return await request<TGetAuthenticatorsBody, TGetAuthenticatorsResponse>(
-        "/public/v1/query/get_authenticators",
-        input,
-        (json) => TGetAuthenticatorsResponse.fromJson(json));
+      "/public/v1/query/get_authenticators",
+      input,
+      (json) => TGetAuthenticatorsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetAuthenticatorsBody` by using the client's `stamp` function.
@@ -361,11 +342,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get the boot proof for a given ephemeral key.
@@ -378,9 +355,10 @@ class TurnkeyClient {
     required TGetBootProofBody input,
   }) async {
     return await request<TGetBootProofBody, TGetBootProofResponse>(
-        "/public/v1/query/get_boot_proof",
-        input,
-        (json) => TGetBootProofResponse.fromJson(json));
+      "/public/v1/query/get_boot_proof",
+      input,
+      (json) => TGetBootProofResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetBootProofBody` by using the client's `stamp` function.
@@ -394,11 +372,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get gas usage and gas limits for either the parent organization or a sub-organization.
@@ -411,9 +385,10 @@ class TurnkeyClient {
     required TGetGasUsageBody input,
   }) async {
     return await request<TGetGasUsageBody, TGetGasUsageResponse>(
-        "/public/v1/query/get_gas_usage",
-        input,
-        (json) => TGetGasUsageResponse.fromJson(json));
+      "/public/v1/query/get_gas_usage",
+      input,
+      (json) => TGetGasUsageResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetGasUsageBody` by using the client's `stamp` function.
@@ -427,11 +402,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get the latest boot proof for a given enclave app name.
@@ -444,9 +415,10 @@ class TurnkeyClient {
     required TGetLatestBootProofBody input,
   }) async {
     return await request<TGetLatestBootProofBody, TGetLatestBootProofResponse>(
-        "/public/v1/query/get_latest_boot_proof",
-        input,
-        (json) => TGetLatestBootProofResponse.fromJson(json));
+      "/public/v1/query/get_latest_boot_proof",
+      input,
+      (json) => TGetLatestBootProofResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetLatestBootProofBody` by using the client's `stamp` function.
@@ -460,11 +432,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get nonce values for an address on a given network. Can fetch the standard on-chain nonce and/or the gas station nonce used for sponsored transactions.
@@ -473,31 +441,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetNonces`.
 
-  Future<TGetNoncesResponse> getNonces({
-    required TGetNoncesBody input,
-  }) async {
+  Future<TGetNoncesResponse> getNonces({required TGetNoncesBody input}) async {
     return await request<TGetNoncesBody, TGetNoncesResponse>(
-        "/public/v1/query/get_nonces",
-        input,
-        (json) => TGetNoncesResponse.fromJson(json));
+      "/public/v1/query/get_nonces",
+      input,
+      (json) => TGetNoncesResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetNoncesBody` by using the client's `stamp` function.
   ///
   /// See also: `GetNonces`.
 
-  Future<TSignedRequest> stampGetNonces({
-    required TGetNoncesBody input,
-  }) async {
+  Future<TSignedRequest> stampGetNonces({required TGetNoncesBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_nonces';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about an OAuth 2.0 credential.
@@ -509,11 +470,14 @@ class TurnkeyClient {
   Future<TGetOauth2CredentialResponse> getOauth2Credential({
     required TGetOauth2CredentialBody input,
   }) async {
-    return await request<TGetOauth2CredentialBody,
-            TGetOauth2CredentialResponse>(
-        "/public/v1/query/get_oauth2_credential",
-        input,
-        (json) => TGetOauth2CredentialResponse.fromJson(json));
+    return await request<
+      TGetOauth2CredentialBody,
+      TGetOauth2CredentialResponse
+    >(
+      "/public/v1/query/get_oauth2_credential",
+      input,
+      (json) => TGetOauth2CredentialResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetOauth2CredentialBody` by using the client's `stamp` function.
@@ -527,11 +491,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about Oauth providers for a user.
@@ -544,9 +504,10 @@ class TurnkeyClient {
     required TGetOauthProvidersBody input,
   }) async {
     return await request<TGetOauthProvidersBody, TGetOauthProvidersResponse>(
-        "/public/v1/query/get_oauth_providers",
-        input,
-        (json) => TGetOauthProvidersResponse.fromJson(json));
+      "/public/v1/query/get_oauth_providers",
+      input,
+      (json) => TGetOauthProvidersResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetOauthProvidersBody` by using the client's `stamp` function.
@@ -560,11 +521,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get the status of an on ramp transaction.
@@ -576,11 +533,14 @@ class TurnkeyClient {
   Future<TGetOnRampTransactionStatusResponse> getOnRampTransactionStatus({
     required TGetOnRampTransactionStatusBody input,
   }) async {
-    return await request<TGetOnRampTransactionStatusBody,
-            TGetOnRampTransactionStatusResponse>(
-        "/public/v1/query/get_onramp_transaction_status",
-        input,
-        (json) => TGetOnRampTransactionStatusResponse.fromJson(json));
+    return await request<
+      TGetOnRampTransactionStatusBody,
+      TGetOnRampTransactionStatusResponse
+    >(
+      "/public/v1/query/get_onramp_transaction_status",
+      input,
+      (json) => TGetOnRampTransactionStatusResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetOnRampTransactionStatusBody` by using the client's `stamp` function.
@@ -595,11 +555,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get quorum settings and features for an organization.
@@ -611,11 +567,14 @@ class TurnkeyClient {
   Future<TGetOrganizationConfigsResponse> getOrganizationConfigs({
     required TGetOrganizationConfigsBody input,
   }) async {
-    return await request<TGetOrganizationConfigsBody,
-            TGetOrganizationConfigsResponse>(
-        "/public/v1/query/get_organization_configs",
-        input,
-        (json) => TGetOrganizationConfigsResponse.fromJson(json));
+    return await request<
+      TGetOrganizationConfigsBody,
+      TGetOrganizationConfigsResponse
+    >(
+      "/public/v1/query/get_organization_configs",
+      input,
+      (json) => TGetOrganizationConfigsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetOrganizationConfigsBody` by using the client's `stamp` function.
@@ -630,11 +589,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about a policy.
@@ -643,31 +598,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetPolicy`.
 
-  Future<TGetPolicyResponse> getPolicy({
-    required TGetPolicyBody input,
-  }) async {
+  Future<TGetPolicyResponse> getPolicy({required TGetPolicyBody input}) async {
     return await request<TGetPolicyBody, TGetPolicyResponse>(
-        "/public/v1/query/get_policy",
-        input,
-        (json) => TGetPolicyResponse.fromJson(json));
+      "/public/v1/query/get_policy",
+      input,
+      (json) => TGetPolicyResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetPolicyBody` by using the client's `stamp` function.
   ///
   /// See also: `GetPolicy`.
 
-  Future<TSignedRequest> stampGetPolicy({
-    required TGetPolicyBody input,
-  }) async {
+  Future<TSignedRequest> stampGetPolicy({required TGetPolicyBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_policy';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get the policy evaluations for an activity.
@@ -679,11 +627,14 @@ class TurnkeyClient {
   Future<TGetPolicyEvaluationsResponse> getPolicyEvaluations({
     required TGetPolicyEvaluationsBody input,
   }) async {
-    return await request<TGetPolicyEvaluationsBody,
-            TGetPolicyEvaluationsResponse>(
-        "/public/v1/query/get_policy_evaluations",
-        input,
-        (json) => TGetPolicyEvaluationsResponse.fromJson(json));
+    return await request<
+      TGetPolicyEvaluationsBody,
+      TGetPolicyEvaluationsResponse
+    >(
+      "/public/v1/query/get_policy_evaluations",
+      input,
+      (json) => TGetPolicyEvaluationsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetPolicyEvaluationsBody` by using the client's `stamp` function.
@@ -697,11 +648,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about a private key.
@@ -714,9 +661,10 @@ class TurnkeyClient {
     required TGetPrivateKeyBody input,
   }) async {
     return await request<TGetPrivateKeyBody, TGetPrivateKeyResponse>(
-        "/public/v1/query/get_private_key",
-        input,
-        (json) => TGetPrivateKeyResponse.fromJson(json));
+      "/public/v1/query/get_private_key",
+      input,
+      (json) => TGetPrivateKeyResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetPrivateKeyBody` by using the client's `stamp` function.
@@ -730,11 +678,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get the status of a send transaction request.
@@ -746,11 +690,14 @@ class TurnkeyClient {
   Future<TGetSendTransactionStatusResponse> getSendTransactionStatus({
     required TGetSendTransactionStatusBody input,
   }) async {
-    return await request<TGetSendTransactionStatusBody,
-            TGetSendTransactionStatusResponse>(
-        "/public/v1/query/get_send_transaction_status",
-        input,
-        (json) => TGetSendTransactionStatusResponse.fromJson(json));
+    return await request<
+      TGetSendTransactionStatusBody,
+      TGetSendTransactionStatusResponse
+    >(
+      "/public/v1/query/get_send_transaction_status",
+      input,
+      (json) => TGetSendTransactionStatusResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetSendTransactionStatusBody` by using the client's `stamp` function.
@@ -765,11 +712,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about a smart contract interface.
@@ -781,11 +724,14 @@ class TurnkeyClient {
   Future<TGetSmartContractInterfaceResponse> getSmartContractInterface({
     required TGetSmartContractInterfaceBody input,
   }) async {
-    return await request<TGetSmartContractInterfaceBody,
-            TGetSmartContractInterfaceResponse>(
-        "/public/v1/query/get_smart_contract_interface",
-        input,
-        (json) => TGetSmartContractInterfaceResponse.fromJson(json));
+    return await request<
+      TGetSmartContractInterfaceBody,
+      TGetSmartContractInterfaceResponse
+    >(
+      "/public/v1/query/get_smart_contract_interface",
+      input,
+      (json) => TGetSmartContractInterfaceResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetSmartContractInterfaceBody` by using the client's `stamp` function.
@@ -800,11 +746,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about a user.
@@ -813,31 +755,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetUser`.
 
-  Future<TGetUserResponse> getUser({
-    required TGetUserBody input,
-  }) async {
+  Future<TGetUserResponse> getUser({required TGetUserBody input}) async {
     return await request<TGetUserBody, TGetUserResponse>(
-        "/public/v1/query/get_user",
-        input,
-        (json) => TGetUserResponse.fromJson(json));
+      "/public/v1/query/get_user",
+      input,
+      (json) => TGetUserResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetUserBody` by using the client's `stamp` function.
   ///
   /// See also: `GetUser`.
 
-  Future<TSignedRequest> stampGetUser({
-    required TGetUserBody input,
-  }) async {
+  Future<TSignedRequest> stampGetUser({required TGetUserBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_user';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get details about a wallet.
@@ -846,31 +781,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetWallet`.
 
-  Future<TGetWalletResponse> getWallet({
-    required TGetWalletBody input,
-  }) async {
+  Future<TGetWalletResponse> getWallet({required TGetWalletBody input}) async {
     return await request<TGetWalletBody, TGetWalletResponse>(
-        "/public/v1/query/get_wallet",
-        input,
-        (json) => TGetWalletResponse.fromJson(json));
+      "/public/v1/query/get_wallet",
+      input,
+      (json) => TGetWalletResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetWalletBody` by using the client's `stamp` function.
   ///
   /// See also: `GetWallet`.
 
-  Future<TSignedRequest> stampGetWallet({
-    required TGetWalletBody input,
-  }) async {
+  Future<TSignedRequest> stampGetWallet({required TGetWalletBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/get_wallet';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get a single wallet account.
@@ -883,9 +811,10 @@ class TurnkeyClient {
     required TGetWalletAccountBody input,
   }) async {
     return await request<TGetWalletAccountBody, TGetWalletAccountResponse>(
-        "/public/v1/query/get_wallet_account",
-        input,
-        (json) => TGetWalletAccountResponse.fromJson(json));
+      "/public/v1/query/get_wallet_account",
+      input,
+      (json) => TGetWalletAccountResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetWalletAccountBody` by using the client's `stamp` function.
@@ -899,11 +828,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get balances of supported assets for an address on the specified network. Only non-zero balances are returned. This feature is in beta - please contact support for access.
@@ -915,11 +840,14 @@ class TurnkeyClient {
   Future<TGetWalletAddressBalancesResponse> getWalletAddressBalances({
     required TGetWalletAddressBalancesBody input,
   }) async {
-    return await request<TGetWalletAddressBalancesBody,
-            TGetWalletAddressBalancesResponse>(
-        "/public/v1/query/get_wallet_address_balances",
-        input,
-        (json) => TGetWalletAddressBalancesResponse.fromJson(json));
+    return await request<
+      TGetWalletAddressBalancesBody,
+      TGetWalletAddressBalancesResponse
+    >(
+      "/public/v1/query/get_wallet_address_balances",
+      input,
+      (json) => TGetWalletAddressBalancesResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetWalletAddressBalancesBody` by using the client's `stamp` function.
@@ -934,11 +862,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all activities within an organization.
@@ -951,9 +875,10 @@ class TurnkeyClient {
     required TGetActivitiesBody input,
   }) async {
     return await request<TGetActivitiesBody, TGetActivitiesResponse>(
-        "/public/v1/query/list_activities",
-        input,
-        (json) => TGetActivitiesResponse.fromJson(json));
+      "/public/v1/query/list_activities",
+      input,
+      (json) => TGetActivitiesResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetActivitiesBody` by using the client's `stamp` function.
@@ -967,11 +892,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List the App Proofs for the given activity.
@@ -984,9 +905,10 @@ class TurnkeyClient {
     required TGetAppProofsBody input,
   }) async {
     return await request<TGetAppProofsBody, TGetAppProofsResponse>(
-        "/public/v1/query/list_app_proofs",
-        input,
-        (json) => TGetAppProofsResponse.fromJson(json));
+      "/public/v1/query/list_app_proofs",
+      input,
+      (json) => TGetAppProofsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetAppProofsBody` by using the client's `stamp` function.
@@ -1000,11 +922,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all fiat on ramp provider credentials within an organization.
@@ -1016,11 +934,14 @@ class TurnkeyClient {
   Future<TListFiatOnRampCredentialsResponse> listFiatOnRampCredentials({
     required TListFiatOnRampCredentialsBody input,
   }) async {
-    return await request<TListFiatOnRampCredentialsBody,
-            TListFiatOnRampCredentialsResponse>(
-        "/public/v1/query/list_fiat_on_ramp_credentials",
-        input,
-        (json) => TListFiatOnRampCredentialsResponse.fromJson(json));
+    return await request<
+      TListFiatOnRampCredentialsBody,
+      TListFiatOnRampCredentialsResponse
+    >(
+      "/public/v1/query/list_fiat_on_ramp_credentials",
+      input,
+      (json) => TListFiatOnRampCredentialsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TListFiatOnRampCredentialsBody` by using the client's `stamp` function.
@@ -1035,11 +956,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all OAuth 2.0 credentials within an organization.
@@ -1051,11 +968,14 @@ class TurnkeyClient {
   Future<TListOauth2CredentialsResponse> listOauth2Credentials({
     required TListOauth2CredentialsBody input,
   }) async {
-    return await request<TListOauth2CredentialsBody,
-            TListOauth2CredentialsResponse>(
-        "/public/v1/query/list_oauth2_credentials",
-        input,
-        (json) => TListOauth2CredentialsResponse.fromJson(json));
+    return await request<
+      TListOauth2CredentialsBody,
+      TListOauth2CredentialsResponse
+    >(
+      "/public/v1/query/list_oauth2_credentials",
+      input,
+      (json) => TListOauth2CredentialsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TListOauth2CredentialsBody` by using the client's `stamp` function.
@@ -1069,11 +989,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all policies within an organization.
@@ -1086,9 +1002,10 @@ class TurnkeyClient {
     required TGetPoliciesBody input,
   }) async {
     return await request<TGetPoliciesBody, TGetPoliciesResponse>(
-        "/public/v1/query/list_policies",
-        input,
-        (json) => TGetPoliciesResponse.fromJson(json));
+      "/public/v1/query/list_policies",
+      input,
+      (json) => TGetPoliciesResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetPoliciesBody` by using the client's `stamp` function.
@@ -1102,11 +1019,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all private key tags within an organization.
@@ -1119,9 +1032,10 @@ class TurnkeyClient {
     required TListPrivateKeyTagsBody input,
   }) async {
     return await request<TListPrivateKeyTagsBody, TListPrivateKeyTagsResponse>(
-        "/public/v1/query/list_private_key_tags",
-        input,
-        (json) => TListPrivateKeyTagsResponse.fromJson(json));
+      "/public/v1/query/list_private_key_tags",
+      input,
+      (json) => TListPrivateKeyTagsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TListPrivateKeyTagsBody` by using the client's `stamp` function.
@@ -1135,11 +1049,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all private keys within an organization.
@@ -1152,9 +1062,10 @@ class TurnkeyClient {
     required TGetPrivateKeysBody input,
   }) async {
     return await request<TGetPrivateKeysBody, TGetPrivateKeysResponse>(
-        "/public/v1/query/list_private_keys",
-        input,
-        (json) => TGetPrivateKeysResponse.fromJson(json));
+      "/public/v1/query/list_private_keys",
+      input,
+      (json) => TGetPrivateKeysResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetPrivateKeysBody` by using the client's `stamp` function.
@@ -1168,11 +1079,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all smart contract interfaces within an organization.
@@ -1184,11 +1091,14 @@ class TurnkeyClient {
   Future<TGetSmartContractInterfacesResponse> getSmartContractInterfaces({
     required TGetSmartContractInterfacesBody input,
   }) async {
-    return await request<TGetSmartContractInterfacesBody,
-            TGetSmartContractInterfacesResponse>(
-        "/public/v1/query/list_smart_contract_interfaces",
-        input,
-        (json) => TGetSmartContractInterfacesResponse.fromJson(json));
+    return await request<
+      TGetSmartContractInterfacesBody,
+      TGetSmartContractInterfacesResponse
+    >(
+      "/public/v1/query/list_smart_contract_interfaces",
+      input,
+      (json) => TGetSmartContractInterfacesResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetSmartContractInterfacesBody` by using the client's `stamp` function.
@@ -1203,11 +1113,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get all suborg IDs associated given a parent org ID and an optional filter.
@@ -1220,9 +1126,10 @@ class TurnkeyClient {
     required TGetSubOrgIdsBody input,
   }) async {
     return await request<TGetSubOrgIdsBody, TGetSubOrgIdsResponse>(
-        "/public/v1/query/list_suborgs",
-        input,
-        (json) => TGetSubOrgIdsResponse.fromJson(json));
+      "/public/v1/query/list_suborgs",
+      input,
+      (json) => TGetSubOrgIdsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetSubOrgIdsBody` by using the client's `stamp` function.
@@ -1236,11 +1143,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List supported assets for the specified network. This feature is in beta - please contact support for access.
@@ -1252,11 +1155,14 @@ class TurnkeyClient {
   Future<TListSupportedAssetsResponse> listSupportedAssets({
     required TListSupportedAssetsBody input,
   }) async {
-    return await request<TListSupportedAssetsBody,
-            TListSupportedAssetsResponse>(
-        "/public/v1/query/list_supported_assets",
-        input,
-        (json) => TListSupportedAssetsResponse.fromJson(json));
+    return await request<
+      TListSupportedAssetsBody,
+      TListSupportedAssetsResponse
+    >(
+      "/public/v1/query/list_supported_assets",
+      input,
+      (json) => TListSupportedAssetsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TListSupportedAssetsBody` by using the client's `stamp` function.
@@ -1270,11 +1176,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all user tags within an organization.
@@ -1287,9 +1189,10 @@ class TurnkeyClient {
     required TListUserTagsBody input,
   }) async {
     return await request<TListUserTagsBody, TListUserTagsResponse>(
-        "/public/v1/query/list_user_tags",
-        input,
-        (json) => TListUserTagsResponse.fromJson(json));
+      "/public/v1/query/list_user_tags",
+      input,
+      (json) => TListUserTagsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TListUserTagsBody` by using the client's `stamp` function.
@@ -1303,11 +1206,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all users within an organization.
@@ -1316,31 +1215,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetUsers`.
 
-  Future<TGetUsersResponse> getUsers({
-    required TGetUsersBody input,
-  }) async {
+  Future<TGetUsersResponse> getUsers({required TGetUsersBody input}) async {
     return await request<TGetUsersBody, TGetUsersResponse>(
-        "/public/v1/query/list_users",
-        input,
-        (json) => TGetUsersResponse.fromJson(json));
+      "/public/v1/query/list_users",
+      input,
+      (json) => TGetUsersResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetUsersBody` by using the client's `stamp` function.
   ///
   /// See also: `GetUsers`.
 
-  Future<TSignedRequest> stampGetUsers({
-    required TGetUsersBody input,
-  }) async {
+  Future<TSignedRequest> stampGetUsers({required TGetUsersBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/list_users';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get all email or phone verified suborg IDs associated given a parent org ID.
@@ -1352,11 +1244,14 @@ class TurnkeyClient {
   Future<TGetVerifiedSubOrgIdsResponse> getVerifiedSubOrgIds({
     required TGetVerifiedSubOrgIdsBody input,
   }) async {
-    return await request<TGetVerifiedSubOrgIdsBody,
-            TGetVerifiedSubOrgIdsResponse>(
-        "/public/v1/query/list_verified_suborgs",
-        input,
-        (json) => TGetVerifiedSubOrgIdsResponse.fromJson(json));
+    return await request<
+      TGetVerifiedSubOrgIdsBody,
+      TGetVerifiedSubOrgIdsResponse
+    >(
+      "/public/v1/query/list_verified_suborgs",
+      input,
+      (json) => TGetVerifiedSubOrgIdsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetVerifiedSubOrgIdsBody` by using the client's `stamp` function.
@@ -1370,11 +1265,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all accounts within a wallet.
@@ -1387,9 +1278,10 @@ class TurnkeyClient {
     required TGetWalletAccountsBody input,
   }) async {
     return await request<TGetWalletAccountsBody, TGetWalletAccountsResponse>(
-        "/public/v1/query/list_wallet_accounts",
-        input,
-        (json) => TGetWalletAccountsResponse.fromJson(json));
+      "/public/v1/query/list_wallet_accounts",
+      input,
+      (json) => TGetWalletAccountsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetWalletAccountsBody` by using the client's `stamp` function.
@@ -1403,11 +1295,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List all wallets within an organization.
@@ -1420,9 +1308,10 @@ class TurnkeyClient {
     required TGetWalletsBody input,
   }) async {
     return await request<TGetWalletsBody, TGetWalletsResponse>(
-        "/public/v1/query/list_wallets",
-        input,
-        (json) => TGetWalletsResponse.fromJson(json));
+      "/public/v1/query/list_wallets",
+      input,
+      (json) => TGetWalletsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetWalletsBody` by using the client's `stamp` function.
@@ -1436,11 +1325,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// List webhook endpoints within an organization.
@@ -1452,11 +1337,14 @@ class TurnkeyClient {
   Future<TListWebhookEndpointsResponse> listWebhookEndpoints({
     required TListWebhookEndpointsBody input,
   }) async {
-    return await request<TListWebhookEndpointsBody,
-            TListWebhookEndpointsResponse>(
-        "/public/v1/query/list_webhook_endpoints",
-        input,
-        (json) => TListWebhookEndpointsResponse.fromJson(json));
+    return await request<
+      TListWebhookEndpointsBody,
+      TListWebhookEndpointsResponse
+    >(
+      "/public/v1/query/list_webhook_endpoints",
+      input,
+      (json) => TListWebhookEndpointsResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TListWebhookEndpointsBody` by using the client's `stamp` function.
@@ -1470,11 +1358,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Get basic information about your current API or WebAuthN user and their organization. Affords sub-organization look ups via parent organization for WebAuthN or API key users.
@@ -1483,31 +1367,24 @@ class TurnkeyClient {
   ///
   /// See also: `stampGetWhoami`.
 
-  Future<TGetWhoamiResponse> getWhoami({
-    required TGetWhoamiBody input,
-  }) async {
+  Future<TGetWhoamiResponse> getWhoami({required TGetWhoamiBody input}) async {
     return await request<TGetWhoamiBody, TGetWhoamiResponse>(
-        "/public/v1/query/whoami",
-        input,
-        (json) => TGetWhoamiResponse.fromJson(json));
+      "/public/v1/query/whoami",
+      input,
+      (json) => TGetWhoamiResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TGetWhoamiBody` by using the client's `stamp` function.
   ///
   /// See also: `GetWhoami`.
 
-  Future<TSignedRequest> stampGetWhoami({
-    required TGetWhoamiBody input,
-  }) async {
+  Future<TSignedRequest> stampGetWhoami({required TGetWhoamiBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/query/whoami';
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Approve an activity.
@@ -1521,17 +1398,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_APPROVE_ACTIVITY',
     );
     return await request<Map<String, dynamic>, TApproveActivityResponse>(
-        "/public/v1/submit/approve_activity",
-        body,
-        (json) => TApproveActivityResponse.fromJson(
-            transformActivityResponse(json, 'ApproveActivity')));
+      "/public/v1/submit/approve_activity",
+      body,
+      (json) => TApproveActivityResponse.fromJson(
+        transformActivityResponse(json, 'ApproveActivity'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TApproveActivityBody` by using the client's `stamp` function.
@@ -1544,20 +1425,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/approve_activity';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_APPROVE_ACTIVITY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Add API keys to an existing user.
@@ -1571,17 +1450,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_API_KEYS_V2',
     );
     return await request<Map<String, dynamic>, TCreateApiKeysResponse>(
-        "/public/v1/submit/create_api_keys",
-        body,
-        (json) => TCreateApiKeysResponse.fromJson(
-            transformActivityResponse(json, 'CreateApiKeys')));
+      "/public/v1/submit/create_api_keys",
+      body,
+      (json) => TCreateApiKeysResponse.fromJson(
+        transformActivityResponse(json, 'CreateApiKeys'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateApiKeysBody` by using the client's `stamp` function.
@@ -1594,20 +1477,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_api_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_API_KEYS_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create authenticators to authenticate requests to Turnkey.
@@ -1621,17 +1502,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
     );
     return await request<Map<String, dynamic>, TCreateAuthenticatorsResponse>(
-        "/public/v1/submit/create_authenticators",
-        body,
-        (json) => TCreateAuthenticatorsResponse.fromJson(
-            transformActivityResponse(json, 'CreateAuthenticators')));
+      "/public/v1/submit/create_authenticators",
+      body,
+      (json) => TCreateAuthenticatorsResponse.fromJson(
+        transformActivityResponse(json, 'CreateAuthenticators'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateAuthenticatorsBody` by using the client's `stamp` function.
@@ -1644,20 +1529,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_authenticators';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_AUTHENTICATORS_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a fiat on ramp provider credential
@@ -1671,18 +1554,24 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_FIAT_ON_RAMP_CREDENTIAL',
     );
-    return await request<Map<String, dynamic>,
-            TCreateFiatOnRampCredentialResponse>(
-        "/public/v1/submit/create_fiat_on_ramp_credential",
-        body,
-        (json) => TCreateFiatOnRampCredentialResponse.fromJson(
-            transformActivityResponse(json, 'CreateFiatOnRampCredential')));
+    return await request<
+      Map<String, dynamic>,
+      TCreateFiatOnRampCredentialResponse
+    >(
+      "/public/v1/submit/create_fiat_on_ramp_credential",
+      body,
+      (json) => TCreateFiatOnRampCredentialResponse.fromJson(
+        transformActivityResponse(json, 'CreateFiatOnRampCredential'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateFiatOnRampCredentialBody` by using the client's `stamp` function.
@@ -1696,20 +1585,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_fiat_on_ramp_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_FIAT_ON_RAMP_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create invitations to join an existing organization.
@@ -1723,17 +1610,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_INVITATIONS',
     );
     return await request<Map<String, dynamic>, TCreateInvitationsResponse>(
-        "/public/v1/submit/create_invitations",
-        body,
-        (json) => TCreateInvitationsResponse.fromJson(
-            transformActivityResponse(json, 'CreateInvitations')));
+      "/public/v1/submit/create_invitations",
+      body,
+      (json) => TCreateInvitationsResponse.fromJson(
+        transformActivityResponse(json, 'CreateInvitations'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateInvitationsBody` by using the client's `stamp` function.
@@ -1746,20 +1637,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_invitations';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_INVITATIONS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Enable authentication for end users with an OAuth 2.0 provider
@@ -1773,17 +1662,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH2_CREDENTIAL',
     );
     return await request<Map<String, dynamic>, TCreateOauth2CredentialResponse>(
-        "/public/v1/submit/create_oauth2_credential",
-        body,
-        (json) => TCreateOauth2CredentialResponse.fromJson(
-            transformActivityResponse(json, 'CreateOauth2Credential')));
+      "/public/v1/submit/create_oauth2_credential",
+      body,
+      (json) => TCreateOauth2CredentialResponse.fromJson(
+        transformActivityResponse(json, 'CreateOauth2Credential'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateOauth2CredentialBody` by using the client's `stamp` function.
@@ -1797,20 +1690,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_oauth2_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH2_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create Oauth providers for a specified user.
@@ -1824,17 +1715,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS_V2',
     );
     return await request<Map<String, dynamic>, TCreateOauthProvidersResponse>(
-        "/public/v1/submit/create_oauth_providers",
-        body,
-        (json) => TCreateOauthProvidersResponse.fromJson(
-            transformActivityResponse(json, 'CreateOauthProviders')));
+      "/public/v1/submit/create_oauth_providers",
+      body,
+      (json) => TCreateOauthProvidersResponse.fromJson(
+        transformActivityResponse(json, 'CreateOauthProviders'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateOauthProvidersBody` by using the client's `stamp` function.
@@ -1847,20 +1742,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_oauth_providers';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_OAUTH_PROVIDERS_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create new policies.
@@ -1874,17 +1767,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICIES',
     );
     return await request<Map<String, dynamic>, TCreatePoliciesResponse>(
-        "/public/v1/submit/create_policies",
-        body,
-        (json) => TCreatePoliciesResponse.fromJson(
-            transformActivityResponse(json, 'CreatePolicies')));
+      "/public/v1/submit/create_policies",
+      body,
+      (json) => TCreatePoliciesResponse.fromJson(
+        transformActivityResponse(json, 'CreatePolicies'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreatePoliciesBody` by using the client's `stamp` function.
@@ -1897,20 +1794,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_policies';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICIES',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a new policy.
@@ -1924,17 +1819,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICY_V3',
     );
     return await request<Map<String, dynamic>, TCreatePolicyResponse>(
-        "/public/v1/submit/create_policy",
-        body,
-        (json) => TCreatePolicyResponse.fromJson(
-            transformActivityResponse(json, 'CreatePolicy')));
+      "/public/v1/submit/create_policy",
+      body,
+      (json) => TCreatePolicyResponse.fromJson(
+        transformActivityResponse(json, 'CreatePolicy'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreatePolicyBody` by using the client's `stamp` function.
@@ -1947,20 +1846,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_policy';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_POLICY_V3',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a private key tag and add it to private keys.
@@ -1974,17 +1871,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEY_TAG',
     );
     return await request<Map<String, dynamic>, TCreatePrivateKeyTagResponse>(
-        "/public/v1/submit/create_private_key_tag",
-        body,
-        (json) => TCreatePrivateKeyTagResponse.fromJson(
-            transformActivityResponse(json, 'CreatePrivateKeyTag')));
+      "/public/v1/submit/create_private_key_tag",
+      body,
+      (json) => TCreatePrivateKeyTagResponse.fromJson(
+        transformActivityResponse(json, 'CreatePrivateKeyTag'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreatePrivateKeyTagBody` by using the client's `stamp` function.
@@ -1997,20 +1898,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_private_key_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEY_TAG',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create new private keys.
@@ -2024,17 +1923,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS_V2',
     );
     return await request<Map<String, dynamic>, TCreatePrivateKeysResponse>(
-        "/public/v1/submit/create_private_keys",
-        body,
-        (json) => TCreatePrivateKeysResponse.fromJson(
-            transformActivityResponse(json, 'CreatePrivateKeys')));
+      "/public/v1/submit/create_private_keys",
+      body,
+      (json) => TCreatePrivateKeysResponse.fromJson(
+        transformActivityResponse(json, 'CreatePrivateKeys'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreatePrivateKeysBody` by using the client's `stamp` function.
@@ -2047,20 +1950,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_private_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_PRIVATE_KEYS_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a read only session for a user (valid for 1 hour).
@@ -2074,17 +1975,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_ONLY_SESSION',
     );
     return await request<Map<String, dynamic>, TCreateReadOnlySessionResponse>(
-        "/public/v1/submit/create_read_only_session",
-        body,
-        (json) => TCreateReadOnlySessionResponse.fromJson(
-            transformActivityResponse(json, 'CreateReadOnlySession')));
+      "/public/v1/submit/create_read_only_session",
+      body,
+      (json) => TCreateReadOnlySessionResponse.fromJson(
+        transformActivityResponse(json, 'CreateReadOnlySession'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateReadOnlySessionBody` by using the client's `stamp` function.
@@ -2098,20 +2003,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_read_only_session';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_ONLY_SESSION',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a read write session for a user.
@@ -2125,17 +2028,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION_V2',
     );
     return await request<Map<String, dynamic>, TCreateReadWriteSessionResponse>(
-        "/public/v1/submit/create_read_write_session",
-        body,
-        (json) => TCreateReadWriteSessionResponse.fromJson(
-            transformActivityResponse(json, 'CreateReadWriteSession')));
+      "/public/v1/submit/create_read_write_session",
+      body,
+      (json) => TCreateReadWriteSessionResponse.fromJson(
+        transformActivityResponse(json, 'CreateReadWriteSession'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateReadWriteSessionBody` by using the client's `stamp` function.
@@ -2149,20 +2056,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_read_write_session';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_READ_WRITE_SESSION_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create an ABI/IDL in JSON.
@@ -2176,18 +2081,24 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE',
     );
-    return await request<Map<String, dynamic>,
-            TCreateSmartContractInterfaceResponse>(
-        "/public/v1/submit/create_smart_contract_interface",
-        body,
-        (json) => TCreateSmartContractInterfaceResponse.fromJson(
-            transformActivityResponse(json, 'CreateSmartContractInterface')));
+    return await request<
+      Map<String, dynamic>,
+      TCreateSmartContractInterfaceResponse
+    >(
+      "/public/v1/submit/create_smart_contract_interface",
+      body,
+      (json) => TCreateSmartContractInterfaceResponse.fromJson(
+        transformActivityResponse(json, 'CreateSmartContractInterface'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateSmartContractInterfaceBody` by using the client's `stamp` function.
@@ -2201,20 +2112,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_smart_contract_interface';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_SMART_CONTRACT_INTERFACE',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a new sub-organization.
@@ -2228,17 +2137,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V8',
     );
     return await request<Map<String, dynamic>, TCreateSubOrganizationResponse>(
-        "/public/v1/submit/create_sub_organization",
-        body,
-        (json) => TCreateSubOrganizationResponse.fromJson(
-            transformActivityResponse(json, 'CreateSubOrganization')));
+      "/public/v1/submit/create_sub_organization",
+      body,
+      (json) => TCreateSubOrganizationResponse.fromJson(
+        transformActivityResponse(json, 'CreateSubOrganization'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateSubOrganizationBody` by using the client's `stamp` function.
@@ -2252,20 +2165,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_sub_organization';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_SUB_ORGANIZATION_V8',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a user tag and add it to users.
@@ -2279,17 +2190,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_USER_TAG',
     );
     return await request<Map<String, dynamic>, TCreateUserTagResponse>(
-        "/public/v1/submit/create_user_tag",
-        body,
-        (json) => TCreateUserTagResponse.fromJson(
-            transformActivityResponse(json, 'CreateUserTag')));
+      "/public/v1/submit/create_user_tag",
+      body,
+      (json) => TCreateUserTagResponse.fromJson(
+        transformActivityResponse(json, 'CreateUserTag'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateUserTagBody` by using the client's `stamp` function.
@@ -2302,20 +2217,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_user_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_USER_TAG',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create users in an existing organization.
@@ -2329,17 +2242,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_USERS_V4',
     );
     return await request<Map<String, dynamic>, TCreateUsersResponse>(
-        "/public/v1/submit/create_users",
-        body,
-        (json) => TCreateUsersResponse.fromJson(
-            transformActivityResponse(json, 'CreateUsers')));
+      "/public/v1/submit/create_users",
+      body,
+      (json) => TCreateUsersResponse.fromJson(
+        transformActivityResponse(json, 'CreateUsers'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateUsersBody` by using the client's `stamp` function.
@@ -2352,20 +2269,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_users';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_USERS_V4',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a wallet and derive addresses.
@@ -2379,17 +2294,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET',
     );
     return await request<Map<String, dynamic>, TCreateWalletResponse>(
-        "/public/v1/submit/create_wallet",
-        body,
-        (json) => TCreateWalletResponse.fromJson(
-            transformActivityResponse(json, 'CreateWallet')));
+      "/public/v1/submit/create_wallet",
+      body,
+      (json) => TCreateWalletResponse.fromJson(
+        transformActivityResponse(json, 'CreateWallet'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateWalletBody` by using the client's `stamp` function.
@@ -2402,20 +2321,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Derive additional addresses using an existing wallet.
@@ -2429,17 +2346,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET_ACCOUNTS',
     );
     return await request<Map<String, dynamic>, TCreateWalletAccountsResponse>(
-        "/public/v1/submit/create_wallet_accounts",
-        body,
-        (json) => TCreateWalletAccountsResponse.fromJson(
-            transformActivityResponse(json, 'CreateWalletAccounts')));
+      "/public/v1/submit/create_wallet_accounts",
+      body,
+      (json) => TCreateWalletAccountsResponse.fromJson(
+        transformActivityResponse(json, 'CreateWalletAccounts'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateWalletAccountsBody` by using the client's `stamp` function.
@@ -2452,20 +2373,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/create_wallet_accounts';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_WALLET_ACCOUNTS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a webhook endpoint for an organization.
@@ -2479,17 +2398,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_WEBHOOK_ENDPOINT',
     );
     return await request<Map<String, dynamic>, TCreateWebhookEndpointResponse>(
-        "/public/v1/submit/create_webhook_endpoint",
-        body,
-        (json) => TCreateWebhookEndpointResponse.fromJson(
-            transformActivityResponse(json, 'CreateWebhookEndpoint')));
+      "/public/v1/submit/create_webhook_endpoint",
+      body,
+      (json) => TCreateWebhookEndpointResponse.fromJson(
+        transformActivityResponse(json, 'CreateWebhookEndpoint'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TCreateWebhookEndpointBody` by using the client's `stamp` function.
@@ -2503,20 +2426,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/create_webhook_endpoint';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_CREATE_WEBHOOK_ENDPOINT',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Remove api keys from a user.
@@ -2530,17 +2451,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_API_KEYS',
     );
     return await request<Map<String, dynamic>, TDeleteApiKeysResponse>(
-        "/public/v1/submit/delete_api_keys",
-        body,
-        (json) => TDeleteApiKeysResponse.fromJson(
-            transformActivityResponse(json, 'DeleteApiKeys')));
+      "/public/v1/submit/delete_api_keys",
+      body,
+      (json) => TDeleteApiKeysResponse.fromJson(
+        transformActivityResponse(json, 'DeleteApiKeys'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteApiKeysBody` by using the client's `stamp` function.
@@ -2553,20 +2478,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_api_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_API_KEYS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Remove authenticators from a user.
@@ -2580,17 +2503,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_AUTHENTICATORS',
     );
     return await request<Map<String, dynamic>, TDeleteAuthenticatorsResponse>(
-        "/public/v1/submit/delete_authenticators",
-        body,
-        (json) => TDeleteAuthenticatorsResponse.fromJson(
-            transformActivityResponse(json, 'DeleteAuthenticators')));
+      "/public/v1/submit/delete_authenticators",
+      body,
+      (json) => TDeleteAuthenticatorsResponse.fromJson(
+        transformActivityResponse(json, 'DeleteAuthenticators'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteAuthenticatorsBody` by using the client's `stamp` function.
@@ -2603,20 +2530,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_authenticators';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_AUTHENTICATORS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete a fiat on ramp provider credential
@@ -2630,18 +2555,24 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_FIAT_ON_RAMP_CREDENTIAL',
     );
-    return await request<Map<String, dynamic>,
-            TDeleteFiatOnRampCredentialResponse>(
-        "/public/v1/submit/delete_fiat_on_ramp_credential",
-        body,
-        (json) => TDeleteFiatOnRampCredentialResponse.fromJson(
-            transformActivityResponse(json, 'DeleteFiatOnRampCredential')));
+    return await request<
+      Map<String, dynamic>,
+      TDeleteFiatOnRampCredentialResponse
+    >(
+      "/public/v1/submit/delete_fiat_on_ramp_credential",
+      body,
+      (json) => TDeleteFiatOnRampCredentialResponse.fromJson(
+        transformActivityResponse(json, 'DeleteFiatOnRampCredential'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteFiatOnRampCredentialBody` by using the client's `stamp` function.
@@ -2655,20 +2586,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_fiat_on_ramp_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_FIAT_ON_RAMP_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete an existing invitation.
@@ -2682,17 +2611,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_INVITATION',
     );
     return await request<Map<String, dynamic>, TDeleteInvitationResponse>(
-        "/public/v1/submit/delete_invitation",
-        body,
-        (json) => TDeleteInvitationResponse.fromJson(
-            transformActivityResponse(json, 'DeleteInvitation')));
+      "/public/v1/submit/delete_invitation",
+      body,
+      (json) => TDeleteInvitationResponse.fromJson(
+        transformActivityResponse(json, 'DeleteInvitation'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteInvitationBody` by using the client's `stamp` function.
@@ -2705,20 +2638,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_invitation';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_INVITATION',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Disable authentication for end users with an OAuth 2.0 provider
@@ -2732,17 +2663,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH2_CREDENTIAL',
     );
     return await request<Map<String, dynamic>, TDeleteOauth2CredentialResponse>(
-        "/public/v1/submit/delete_oauth2_credential",
-        body,
-        (json) => TDeleteOauth2CredentialResponse.fromJson(
-            transformActivityResponse(json, 'DeleteOauth2Credential')));
+      "/public/v1/submit/delete_oauth2_credential",
+      body,
+      (json) => TDeleteOauth2CredentialResponse.fromJson(
+        transformActivityResponse(json, 'DeleteOauth2Credential'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteOauth2CredentialBody` by using the client's `stamp` function.
@@ -2756,20 +2691,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_oauth2_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH2_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Remove Oauth providers for a specified user.
@@ -2783,17 +2716,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH_PROVIDERS',
     );
     return await request<Map<String, dynamic>, TDeleteOauthProvidersResponse>(
-        "/public/v1/submit/delete_oauth_providers",
-        body,
-        (json) => TDeleteOauthProvidersResponse.fromJson(
-            transformActivityResponse(json, 'DeleteOauthProviders')));
+      "/public/v1/submit/delete_oauth_providers",
+      body,
+      (json) => TDeleteOauthProvidersResponse.fromJson(
+        transformActivityResponse(json, 'DeleteOauthProviders'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteOauthProvidersBody` by using the client's `stamp` function.
@@ -2806,20 +2743,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_oauth_providers';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_OAUTH_PROVIDERS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete existing policies.
@@ -2833,17 +2768,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICIES',
     );
     return await request<Map<String, dynamic>, TDeletePoliciesResponse>(
-        "/public/v1/submit/delete_policies",
-        body,
-        (json) => TDeletePoliciesResponse.fromJson(
-            transformActivityResponse(json, 'DeletePolicies')));
+      "/public/v1/submit/delete_policies",
+      body,
+      (json) => TDeletePoliciesResponse.fromJson(
+        transformActivityResponse(json, 'DeletePolicies'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeletePoliciesBody` by using the client's `stamp` function.
@@ -2856,20 +2795,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_policies';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICIES',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete an existing policy.
@@ -2883,17 +2820,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICY',
     );
     return await request<Map<String, dynamic>, TDeletePolicyResponse>(
-        "/public/v1/submit/delete_policy",
-        body,
-        (json) => TDeletePolicyResponse.fromJson(
-            transformActivityResponse(json, 'DeletePolicy')));
+      "/public/v1/submit/delete_policy",
+      body,
+      (json) => TDeletePolicyResponse.fromJson(
+        transformActivityResponse(json, 'DeletePolicy'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeletePolicyBody` by using the client's `stamp` function.
@@ -2906,20 +2847,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_policy';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_POLICY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete private key tags within an organization.
@@ -2933,17 +2872,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEY_TAGS',
     );
     return await request<Map<String, dynamic>, TDeletePrivateKeyTagsResponse>(
-        "/public/v1/submit/delete_private_key_tags",
-        body,
-        (json) => TDeletePrivateKeyTagsResponse.fromJson(
-            transformActivityResponse(json, 'DeletePrivateKeyTags')));
+      "/public/v1/submit/delete_private_key_tags",
+      body,
+      (json) => TDeletePrivateKeyTagsResponse.fromJson(
+        transformActivityResponse(json, 'DeletePrivateKeyTags'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeletePrivateKeyTagsBody` by using the client's `stamp` function.
@@ -2957,20 +2900,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_private_key_tags';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEY_TAGS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete private keys for an organization.
@@ -2984,17 +2925,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEYS',
     );
     return await request<Map<String, dynamic>, TDeletePrivateKeysResponse>(
-        "/public/v1/submit/delete_private_keys",
-        body,
-        (json) => TDeletePrivateKeysResponse.fromJson(
-            transformActivityResponse(json, 'DeletePrivateKeys')));
+      "/public/v1/submit/delete_private_keys",
+      body,
+      (json) => TDeletePrivateKeysResponse.fromJson(
+        transformActivityResponse(json, 'DeletePrivateKeys'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeletePrivateKeysBody` by using the client's `stamp` function.
@@ -3007,20 +2952,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_private_keys';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_PRIVATE_KEYS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete a smart contract interface.
@@ -3034,18 +2977,24 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE',
     );
-    return await request<Map<String, dynamic>,
-            TDeleteSmartContractInterfaceResponse>(
-        "/public/v1/submit/delete_smart_contract_interface",
-        body,
-        (json) => TDeleteSmartContractInterfaceResponse.fromJson(
-            transformActivityResponse(json, 'DeleteSmartContractInterface')));
+    return await request<
+      Map<String, dynamic>,
+      TDeleteSmartContractInterfaceResponse
+    >(
+      "/public/v1/submit/delete_smart_contract_interface",
+      body,
+      (json) => TDeleteSmartContractInterfaceResponse.fromJson(
+        transformActivityResponse(json, 'DeleteSmartContractInterface'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteSmartContractInterfaceBody` by using the client's `stamp` function.
@@ -3059,20 +3008,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_smart_contract_interface';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_SMART_CONTRACT_INTERFACE',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete a sub-organization.
@@ -3086,17 +3033,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_SUB_ORGANIZATION',
     );
     return await request<Map<String, dynamic>, TDeleteSubOrganizationResponse>(
-        "/public/v1/submit/delete_sub_organization",
-        body,
-        (json) => TDeleteSubOrganizationResponse.fromJson(
-            transformActivityResponse(json, 'DeleteSubOrganization')));
+      "/public/v1/submit/delete_sub_organization",
+      body,
+      (json) => TDeleteSubOrganizationResponse.fromJson(
+        transformActivityResponse(json, 'DeleteSubOrganization'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteSubOrganizationBody` by using the client's `stamp` function.
@@ -3110,20 +3061,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_sub_organization';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_SUB_ORGANIZATION',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete user tags within an organization.
@@ -3137,17 +3086,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_USER_TAGS',
     );
     return await request<Map<String, dynamic>, TDeleteUserTagsResponse>(
-        "/public/v1/submit/delete_user_tags",
-        body,
-        (json) => TDeleteUserTagsResponse.fromJson(
-            transformActivityResponse(json, 'DeleteUserTags')));
+      "/public/v1/submit/delete_user_tags",
+      body,
+      (json) => TDeleteUserTagsResponse.fromJson(
+        transformActivityResponse(json, 'DeleteUserTags'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteUserTagsBody` by using the client's `stamp` function.
@@ -3160,20 +3113,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_user_tags';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_USER_TAGS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete users within an organization.
@@ -3187,17 +3138,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_USERS',
     );
     return await request<Map<String, dynamic>, TDeleteUsersResponse>(
-        "/public/v1/submit/delete_users",
-        body,
-        (json) => TDeleteUsersResponse.fromJson(
-            transformActivityResponse(json, 'DeleteUsers')));
+      "/public/v1/submit/delete_users",
+      body,
+      (json) => TDeleteUsersResponse.fromJson(
+        transformActivityResponse(json, 'DeleteUsers'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteUsersBody` by using the client's `stamp` function.
@@ -3210,20 +3165,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_users';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_USERS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete wallet accounts for an organization.
@@ -3237,17 +3190,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS',
     );
     return await request<Map<String, dynamic>, TDeleteWalletAccountsResponse>(
-        "/public/v1/submit/delete_wallet_accounts",
-        body,
-        (json) => TDeleteWalletAccountsResponse.fromJson(
-            transformActivityResponse(json, 'DeleteWalletAccounts')));
+      "/public/v1/submit/delete_wallet_accounts",
+      body,
+      (json) => TDeleteWalletAccountsResponse.fromJson(
+        transformActivityResponse(json, 'DeleteWalletAccounts'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteWalletAccountsBody` by using the client's `stamp` function.
@@ -3260,20 +3217,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_wallet_accounts';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLET_ACCOUNTS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete wallets for an organization.
@@ -3287,17 +3242,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLETS',
     );
     return await request<Map<String, dynamic>, TDeleteWalletsResponse>(
-        "/public/v1/submit/delete_wallets",
-        body,
-        (json) => TDeleteWalletsResponse.fromJson(
-            transformActivityResponse(json, 'DeleteWallets')));
+      "/public/v1/submit/delete_wallets",
+      body,
+      (json) => TDeleteWalletsResponse.fromJson(
+        transformActivityResponse(json, 'DeleteWallets'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteWalletsBody` by using the client's `stamp` function.
@@ -3310,20 +3269,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/delete_wallets';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_WALLETS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Delete a webhook endpoint for an organization.
@@ -3337,17 +3294,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_WEBHOOK_ENDPOINT',
     );
     return await request<Map<String, dynamic>, TDeleteWebhookEndpointResponse>(
-        "/public/v1/submit/delete_webhook_endpoint",
-        body,
-        (json) => TDeleteWebhookEndpointResponse.fromJson(
-            transformActivityResponse(json, 'DeleteWebhookEndpoint')));
+      "/public/v1/submit/delete_webhook_endpoint",
+      body,
+      (json) => TDeleteWebhookEndpointResponse.fromJson(
+        transformActivityResponse(json, 'DeleteWebhookEndpoint'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TDeleteWebhookEndpointBody` by using the client's `stamp` function.
@@ -3361,20 +3322,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/delete_webhook_endpoint';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_DELETE_WEBHOOK_ENDPOINT',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Authenticate a user via email.
@@ -3383,48 +3342,46 @@ class TurnkeyClient {
   ///
   /// See also: `stampEmailAuth`.
 
-  Future<TEmailAuthResponse> emailAuth({
-    required TEmailAuthBody input,
-  }) async {
+  Future<TEmailAuthResponse> emailAuth({required TEmailAuthBody input}) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EMAIL_AUTH_V3',
     );
     return await request<Map<String, dynamic>, TEmailAuthResponse>(
-        "/public/v1/submit/email_auth",
-        body,
-        (json) => TEmailAuthResponse.fromJson(
-            transformActivityResponse(json, 'EmailAuth')));
+      "/public/v1/submit/email_auth",
+      body,
+      (json) => TEmailAuthResponse.fromJson(
+        transformActivityResponse(json, 'EmailAuth'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TEmailAuthBody` by using the client's `stamp` function.
   ///
   /// See also: `EmailAuth`.
 
-  Future<TSignedRequest> stampEmailAuth({
-    required TEmailAuthBody input,
-  }) async {
+  Future<TSignedRequest> stampEmailAuth({required TEmailAuthBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/email_auth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EMAIL_AUTH_V3',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Submit a transaction intent describing an EVM transaction you would like to broadcast.
@@ -3438,17 +3395,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_ETH_SEND_TRANSACTION',
     );
     return await request<Map<String, dynamic>, TEthSendTransactionResponse>(
-        "/public/v1/submit/eth_send_transaction",
-        body,
-        (json) => TEthSendTransactionResponse.fromJson(
-            transformActivityResponse(json, 'EthSendTransaction')));
+      "/public/v1/submit/eth_send_transaction",
+      body,
+      (json) => TEthSendTransactionResponse.fromJson(
+        transformActivityResponse(json, 'EthSendTransaction'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TEthSendTransactionBody` by using the client's `stamp` function.
@@ -3461,20 +3422,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/eth_send_transaction';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_ETH_SEND_TRANSACTION',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Export a private key.
@@ -3488,17 +3447,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EXPORT_PRIVATE_KEY',
     );
     return await request<Map<String, dynamic>, TExportPrivateKeyResponse>(
-        "/public/v1/submit/export_private_key",
-        body,
-        (json) => TExportPrivateKeyResponse.fromJson(
-            transformActivityResponse(json, 'ExportPrivateKey')));
+      "/public/v1/submit/export_private_key",
+      body,
+      (json) => TExportPrivateKeyResponse.fromJson(
+        transformActivityResponse(json, 'ExportPrivateKey'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TExportPrivateKeyBody` by using the client's `stamp` function.
@@ -3511,20 +3474,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/export_private_key';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EXPORT_PRIVATE_KEY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Export a wallet.
@@ -3538,17 +3499,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET',
     );
     return await request<Map<String, dynamic>, TExportWalletResponse>(
-        "/public/v1/submit/export_wallet",
-        body,
-        (json) => TExportWalletResponse.fromJson(
-            transformActivityResponse(json, 'ExportWallet')));
+      "/public/v1/submit/export_wallet",
+      body,
+      (json) => TExportWalletResponse.fromJson(
+        transformActivityResponse(json, 'ExportWallet'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TExportWalletBody` by using the client's `stamp` function.
@@ -3561,20 +3526,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/export_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Export a wallet account.
@@ -3588,17 +3551,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET_ACCOUNT',
     );
     return await request<Map<String, dynamic>, TExportWalletAccountResponse>(
-        "/public/v1/submit/export_wallet_account",
-        body,
-        (json) => TExportWalletAccountResponse.fromJson(
-            transformActivityResponse(json, 'ExportWalletAccount')));
+      "/public/v1/submit/export_wallet_account",
+      body,
+      (json) => TExportWalletAccountResponse.fromJson(
+        transformActivityResponse(json, 'ExportWalletAccount'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TExportWalletAccountBody` by using the client's `stamp` function.
@@ -3611,20 +3578,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/export_wallet_account';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_EXPORT_WALLET_ACCOUNT',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Import a private key.
@@ -3638,17 +3603,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_IMPORT_PRIVATE_KEY',
     );
     return await request<Map<String, dynamic>, TImportPrivateKeyResponse>(
-        "/public/v1/submit/import_private_key",
-        body,
-        (json) => TImportPrivateKeyResponse.fromJson(
-            transformActivityResponse(json, 'ImportPrivateKey')));
+      "/public/v1/submit/import_private_key",
+      body,
+      (json) => TImportPrivateKeyResponse.fromJson(
+        transformActivityResponse(json, 'ImportPrivateKey'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TImportPrivateKeyBody` by using the client's `stamp` function.
@@ -3661,20 +3630,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/import_private_key';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_IMPORT_PRIVATE_KEY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Import a wallet.
@@ -3688,17 +3655,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_IMPORT_WALLET',
     );
     return await request<Map<String, dynamic>, TImportWalletResponse>(
-        "/public/v1/submit/import_wallet",
-        body,
-        (json) => TImportWalletResponse.fromJson(
-            transformActivityResponse(json, 'ImportWallet')));
+      "/public/v1/submit/import_wallet",
+      body,
+      (json) => TImportWalletResponse.fromJson(
+        transformActivityResponse(json, 'ImportWallet'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TImportWalletBody` by using the client's `stamp` function.
@@ -3711,20 +3682,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/import_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_IMPORT_WALLET',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Initiate a fiat on ramp flow.
@@ -3738,17 +3707,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_FIAT_ON_RAMP',
     );
     return await request<Map<String, dynamic>, TInitFiatOnRampResponse>(
-        "/public/v1/submit/init_fiat_on_ramp",
-        body,
-        (json) => TInitFiatOnRampResponse.fromJson(
-            transformActivityResponse(json, 'InitFiatOnRamp')));
+      "/public/v1/submit/init_fiat_on_ramp",
+      body,
+      (json) => TInitFiatOnRampResponse.fromJson(
+        transformActivityResponse(json, 'InitFiatOnRamp'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TInitFiatOnRampBody` by using the client's `stamp` function.
@@ -3761,20 +3734,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_fiat_on_ramp';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_FIAT_ON_RAMP',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Initialize a new private key import.
@@ -3788,17 +3759,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_PRIVATE_KEY',
     );
     return await request<Map<String, dynamic>, TInitImportPrivateKeyResponse>(
-        "/public/v1/submit/init_import_private_key",
-        body,
-        (json) => TInitImportPrivateKeyResponse.fromJson(
-            transformActivityResponse(json, 'InitImportPrivateKey')));
+      "/public/v1/submit/init_import_private_key",
+      body,
+      (json) => TInitImportPrivateKeyResponse.fromJson(
+        transformActivityResponse(json, 'InitImportPrivateKey'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TInitImportPrivateKeyBody` by using the client's `stamp` function.
@@ -3812,20 +3787,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/init_import_private_key';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_PRIVATE_KEY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Initialize a new wallet import.
@@ -3839,17 +3812,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_WALLET',
     );
     return await request<Map<String, dynamic>, TInitImportWalletResponse>(
-        "/public/v1/submit/init_import_wallet",
-        body,
-        (json) => TInitImportWalletResponse.fromJson(
-            transformActivityResponse(json, 'InitImportWallet')));
+      "/public/v1/submit/init_import_wallet",
+      body,
+      (json) => TInitImportWalletResponse.fromJson(
+        transformActivityResponse(json, 'InitImportWallet'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TInitImportWalletBody` by using the client's `stamp` function.
@@ -3862,20 +3839,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_import_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_IMPORT_WALLET',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Initiate a generic OTP activity.
@@ -3884,48 +3859,45 @@ class TurnkeyClient {
   ///
   /// See also: `stampInitOtp`.
 
-  Future<TInitOtpResponse> initOtp({
-    required TInitOtpBody input,
-  }) async {
+  Future<TInitOtpResponse> initOtp({required TInitOtpBody input}) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_OTP_V3',
     );
     return await request<Map<String, dynamic>, TInitOtpResponse>(
-        "/public/v1/submit/init_otp",
-        body,
-        (json) => TInitOtpResponse.fromJson(
-            transformActivityResponse(json, 'InitOtp')));
+      "/public/v1/submit/init_otp",
+      body,
+      (json) =>
+          TInitOtpResponse.fromJson(transformActivityResponse(json, 'InitOtp')),
+    );
   }
 
   /// Produce a `SignedRequest` from `TInitOtpBody` by using the client's `stamp` function.
   ///
   /// See also: `InitOtp`.
 
-  Future<TSignedRequest> stampInitOtp({
-    required TInitOtpBody input,
-  }) async {
+  Future<TSignedRequest> stampInitOtp({required TInitOtpBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_otp';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_OTP_V3',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Initiate an OTP auth activity.
@@ -3939,17 +3911,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_OTP_AUTH_V3',
     );
     return await request<Map<String, dynamic>, TInitOtpAuthResponse>(
-        "/public/v1/submit/init_otp_auth",
-        body,
-        (json) => TInitOtpAuthResponse.fromJson(
-            transformActivityResponse(json, 'InitOtpAuth')));
+      "/public/v1/submit/init_otp_auth",
+      body,
+      (json) => TInitOtpAuthResponse.fromJson(
+        transformActivityResponse(json, 'InitOtpAuth'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TInitOtpAuthBody` by using the client's `stamp` function.
@@ -3962,20 +3938,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/init_otp_auth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_OTP_AUTH_V3',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Initialize a new email recovery.
@@ -3989,17 +3963,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
     );
     return await request<Map<String, dynamic>, TInitUserEmailRecoveryResponse>(
-        "/public/v1/submit/init_user_email_recovery",
-        body,
-        (json) => TInitUserEmailRecoveryResponse.fromJson(
-            transformActivityResponse(json, 'InitUserEmailRecovery')));
+      "/public/v1/submit/init_user_email_recovery",
+      body,
+      (json) => TInitUserEmailRecoveryResponse.fromJson(
+        transformActivityResponse(json, 'InitUserEmailRecovery'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TInitUserEmailRecoveryBody` by using the client's `stamp` function.
@@ -4013,20 +3991,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/init_user_email_recovery';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_INIT_USER_EMAIL_RECOVERY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Authenticate a user with an OIDC token (Oauth).
@@ -4035,48 +4011,45 @@ class TurnkeyClient {
   ///
   /// See also: `stampOauth`.
 
-  Future<TOauthResponse> oauth({
-    required TOauthBody input,
-  }) async {
+  Future<TOauthResponse> oauth({required TOauthBody input}) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OAUTH',
     );
     return await request<Map<String, dynamic>, TOauthResponse>(
-        "/public/v1/submit/oauth",
-        body,
-        (json) =>
-            TOauthResponse.fromJson(transformActivityResponse(json, 'Oauth')));
+      "/public/v1/submit/oauth",
+      body,
+      (json) =>
+          TOauthResponse.fromJson(transformActivityResponse(json, 'Oauth')),
+    );
   }
 
   /// Produce a `SignedRequest` from `TOauthBody` by using the client's `stamp` function.
   ///
   /// See also: `Oauth`.
 
-  Future<TSignedRequest> stampOauth({
-    required TOauthBody input,
-  }) async {
+  Future<TSignedRequest> stampOauth({required TOauthBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/oauth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OAUTH',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Authenticate a user with an OAuth 2.0 provider and receive an OIDC token to use with the LoginWithOAuth or CreateSubOrganization activities
@@ -4090,17 +4063,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OAUTH2_AUTHENTICATE',
     );
     return await request<Map<String, dynamic>, TOauth2AuthenticateResponse>(
-        "/public/v1/submit/oauth2_authenticate",
-        body,
-        (json) => TOauth2AuthenticateResponse.fromJson(
-            transformActivityResponse(json, 'Oauth2Authenticate')));
+      "/public/v1/submit/oauth2_authenticate",
+      body,
+      (json) => TOauth2AuthenticateResponse.fromJson(
+        transformActivityResponse(json, 'Oauth2Authenticate'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TOauth2AuthenticateBody` by using the client's `stamp` function.
@@ -4113,20 +4090,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/oauth2_authenticate';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OAUTH2_AUTHENTICATE',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create an Oauth session for a user.
@@ -4140,17 +4115,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OAUTH_LOGIN',
     );
     return await request<Map<String, dynamic>, TOauthLoginResponse>(
-        "/public/v1/submit/oauth_login",
-        body,
-        (json) => TOauthLoginResponse.fromJson(
-            transformActivityResponse(json, 'OauthLogin')));
+      "/public/v1/submit/oauth_login",
+      body,
+      (json) => TOauthLoginResponse.fromJson(
+        transformActivityResponse(json, 'OauthLogin'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TOauthLoginBody` by using the client's `stamp` function.
@@ -4163,20 +4142,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/oauth_login';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OAUTH_LOGIN',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Authenticate a user with an OTP code sent via email or SMS.
@@ -4185,48 +4162,45 @@ class TurnkeyClient {
   ///
   /// See also: `stampOtpAuth`.
 
-  Future<TOtpAuthResponse> otpAuth({
-    required TOtpAuthBody input,
-  }) async {
+  Future<TOtpAuthResponse> otpAuth({required TOtpAuthBody input}) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OTP_AUTH',
     );
     return await request<Map<String, dynamic>, TOtpAuthResponse>(
-        "/public/v1/submit/otp_auth",
-        body,
-        (json) => TOtpAuthResponse.fromJson(
-            transformActivityResponse(json, 'OtpAuth')));
+      "/public/v1/submit/otp_auth",
+      body,
+      (json) =>
+          TOtpAuthResponse.fromJson(transformActivityResponse(json, 'OtpAuth')),
+    );
   }
 
   /// Produce a `SignedRequest` from `TOtpAuthBody` by using the client's `stamp` function.
   ///
   /// See also: `OtpAuth`.
 
-  Future<TSignedRequest> stampOtpAuth({
-    required TOtpAuthBody input,
-  }) async {
+  Future<TSignedRequest> stampOtpAuth({required TOtpAuthBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/otp_auth';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OTP_AUTH',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create an OTP session for a user.
@@ -4235,48 +4209,46 @@ class TurnkeyClient {
   ///
   /// See also: `stampOtpLogin`.
 
-  Future<TOtpLoginResponse> otpLogin({
-    required TOtpLoginBody input,
-  }) async {
+  Future<TOtpLoginResponse> otpLogin({required TOtpLoginBody input}) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OTP_LOGIN_V2',
     );
     return await request<Map<String, dynamic>, TOtpLoginResponse>(
-        "/public/v1/submit/otp_login",
-        body,
-        (json) => TOtpLoginResponse.fromJson(
-            transformActivityResponse(json, 'OtpLogin')));
+      "/public/v1/submit/otp_login",
+      body,
+      (json) => TOtpLoginResponse.fromJson(
+        transformActivityResponse(json, 'OtpLogin'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TOtpLoginBody` by using the client's `stamp` function.
   ///
   /// See also: `OtpLogin`.
 
-  Future<TSignedRequest> stampOtpLogin({
-    required TOtpLoginBody input,
-  }) async {
+  Future<TSignedRequest> stampOtpLogin({required TOtpLoginBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/otp_login';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_OTP_LOGIN_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Complete the process of recovering a user by adding an authenticator.
@@ -4290,17 +4262,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_RECOVER_USER',
     );
     return await request<Map<String, dynamic>, TRecoverUserResponse>(
-        "/public/v1/submit/recover_user",
-        body,
-        (json) => TRecoverUserResponse.fromJson(
-            transformActivityResponse(json, 'RecoverUser')));
+      "/public/v1/submit/recover_user",
+      body,
+      (json) => TRecoverUserResponse.fromJson(
+        transformActivityResponse(json, 'RecoverUser'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TRecoverUserBody` by using the client's `stamp` function.
@@ -4313,20 +4289,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/recover_user';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_RECOVER_USER',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Reject an activity.
@@ -4340,17 +4314,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_REJECT_ACTIVITY',
     );
     return await request<Map<String, dynamic>, TRejectActivityResponse>(
-        "/public/v1/submit/reject_activity",
-        body,
-        (json) => TRejectActivityResponse.fromJson(
-            transformActivityResponse(json, 'RejectActivity')));
+      "/public/v1/submit/reject_activity",
+      body,
+      (json) => TRejectActivityResponse.fromJson(
+        transformActivityResponse(json, 'RejectActivity'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TRejectActivityBody` by using the client's `stamp` function.
@@ -4363,20 +4341,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/reject_activity';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_REJECT_ACTIVITY',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Remove an organization feature. This activity must be approved by the current root quorum.
@@ -4390,18 +4366,24 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_REMOVE_ORGANIZATION_FEATURE',
     );
-    return await request<Map<String, dynamic>,
-            TRemoveOrganizationFeatureResponse>(
-        "/public/v1/submit/remove_organization_feature",
-        body,
-        (json) => TRemoveOrganizationFeatureResponse.fromJson(
-            transformActivityResponse(json, 'RemoveOrganizationFeature')));
+    return await request<
+      Map<String, dynamic>,
+      TRemoveOrganizationFeatureResponse
+    >(
+      "/public/v1/submit/remove_organization_feature",
+      body,
+      (json) => TRemoveOrganizationFeatureResponse.fromJson(
+        transformActivityResponse(json, 'RemoveOrganizationFeature'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TRemoveOrganizationFeatureBody` by using the client's `stamp` function.
@@ -4415,20 +4397,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/remove_organization_feature';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_REMOVE_ORGANIZATION_FEATURE',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Set an organization feature. This activity must be approved by the current root quorum.
@@ -4442,17 +4422,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SET_ORGANIZATION_FEATURE',
     );
     return await request<Map<String, dynamic>, TSetOrganizationFeatureResponse>(
-        "/public/v1/submit/set_organization_feature",
-        body,
-        (json) => TSetOrganizationFeatureResponse.fromJson(
-            transformActivityResponse(json, 'SetOrganizationFeature')));
+      "/public/v1/submit/set_organization_feature",
+      body,
+      (json) => TSetOrganizationFeatureResponse.fromJson(
+        transformActivityResponse(json, 'SetOrganizationFeature'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TSetOrganizationFeatureBody` by using the client's `stamp` function.
@@ -4466,20 +4450,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/set_organization_feature';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SET_ORGANIZATION_FEATURE',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Sign a raw payload.
@@ -4493,17 +4475,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2',
     );
     return await request<Map<String, dynamic>, TSignRawPayloadResponse>(
-        "/public/v1/submit/sign_raw_payload",
-        body,
-        (json) => TSignRawPayloadResponse.fromJson(
-            transformActivityResponse(json, 'SignRawPayload')));
+      "/public/v1/submit/sign_raw_payload",
+      body,
+      (json) => TSignRawPayloadResponse.fromJson(
+        transformActivityResponse(json, 'SignRawPayload'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TSignRawPayloadBody` by using the client's `stamp` function.
@@ -4516,20 +4502,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sign_raw_payload';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOAD_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Sign multiple raw payloads with the same signing parameters.
@@ -4543,17 +4527,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOADS',
     );
     return await request<Map<String, dynamic>, TSignRawPayloadsResponse>(
-        "/public/v1/submit/sign_raw_payloads",
-        body,
-        (json) => TSignRawPayloadsResponse.fromJson(
-            transformActivityResponse(json, 'SignRawPayloads')));
+      "/public/v1/submit/sign_raw_payloads",
+      body,
+      (json) => TSignRawPayloadsResponse.fromJson(
+        transformActivityResponse(json, 'SignRawPayloads'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TSignRawPayloadsBody` by using the client's `stamp` function.
@@ -4566,20 +4554,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sign_raw_payloads';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SIGN_RAW_PAYLOADS',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Sign a transaction.
@@ -4593,17 +4579,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SIGN_TRANSACTION_V2',
     );
     return await request<Map<String, dynamic>, TSignTransactionResponse>(
-        "/public/v1/submit/sign_transaction",
-        body,
-        (json) => TSignTransactionResponse.fromJson(
-            transformActivityResponse(json, 'SignTransaction')));
+      "/public/v1/submit/sign_transaction",
+      body,
+      (json) => TSignTransactionResponse.fromJson(
+        transformActivityResponse(json, 'SignTransaction'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TSignTransactionBody` by using the client's `stamp` function.
@@ -4616,20 +4606,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sign_transaction';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SIGN_TRANSACTION_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Submit a transaction intent describing an SVM transaction you would like to broadcast.
@@ -4643,17 +4631,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SOL_SEND_TRANSACTION',
     );
     return await request<Map<String, dynamic>, TSolSendTransactionResponse>(
-        "/public/v1/submit/sol_send_transaction",
-        body,
-        (json) => TSolSendTransactionResponse.fromJson(
-            transformActivityResponse(json, 'SolSendTransaction')));
+      "/public/v1/submit/sol_send_transaction",
+      body,
+      (json) => TSolSendTransactionResponse.fromJson(
+        transformActivityResponse(json, 'SolSendTransaction'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TSolSendTransactionBody` by using the client's `stamp` function.
@@ -4666,20 +4658,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/sol_send_transaction';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_SOL_SEND_TRANSACTION',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Create a session for a user through stamping client side (API key, wallet client, or passkey client).
@@ -4693,17 +4683,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_STAMP_LOGIN',
     );
     return await request<Map<String, dynamic>, TStampLoginResponse>(
-        "/public/v1/submit/stamp_login",
-        body,
-        (json) => TStampLoginResponse.fromJson(
-            transformActivityResponse(json, 'StampLogin')));
+      "/public/v1/submit/stamp_login",
+      body,
+      (json) => TStampLoginResponse.fromJson(
+        transformActivityResponse(json, 'StampLogin'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TStampLoginBody` by using the client's `stamp` function.
@@ -4716,20 +4710,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/stamp_login';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_STAMP_LOGIN',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a fiat on ramp provider credential
@@ -4743,18 +4735,24 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_FIAT_ON_RAMP_CREDENTIAL',
     );
-    return await request<Map<String, dynamic>,
-            TUpdateFiatOnRampCredentialResponse>(
-        "/public/v1/submit/update_fiat_on_ramp_credential",
-        body,
-        (json) => TUpdateFiatOnRampCredentialResponse.fromJson(
-            transformActivityResponse(json, 'UpdateFiatOnRampCredential')));
+    return await request<
+      Map<String, dynamic>,
+      TUpdateFiatOnRampCredentialResponse
+    >(
+      "/public/v1/submit/update_fiat_on_ramp_credential",
+      body,
+      (json) => TUpdateFiatOnRampCredentialResponse.fromJson(
+        transformActivityResponse(json, 'UpdateFiatOnRampCredential'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateFiatOnRampCredentialBody` by using the client's `stamp` function.
@@ -4768,20 +4766,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_fiat_on_ramp_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_FIAT_ON_RAMP_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update an OAuth 2.0 provider credential
@@ -4795,17 +4791,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_OAUTH2_CREDENTIAL',
     );
     return await request<Map<String, dynamic>, TUpdateOauth2CredentialResponse>(
-        "/public/v1/submit/update_oauth2_credential",
-        body,
-        (json) => TUpdateOauth2CredentialResponse.fromJson(
-            transformActivityResponse(json, 'UpdateOauth2Credential')));
+      "/public/v1/submit/update_oauth2_credential",
+      body,
+      (json) => TUpdateOauth2CredentialResponse.fromJson(
+        transformActivityResponse(json, 'UpdateOauth2Credential'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateOauth2CredentialBody` by using the client's `stamp` function.
@@ -4819,20 +4819,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_oauth2_credential';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_OAUTH2_CREDENTIAL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update the name of an organization.
@@ -4846,17 +4844,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_ORGANIZATION_NAME',
     );
     return await request<Map<String, dynamic>, TUpdateOrganizationNameResponse>(
-        "/public/v1/submit/update_organization_name",
-        body,
-        (json) => TUpdateOrganizationNameResponse.fromJson(
-            transformActivityResponse(json, 'UpdateOrganizationName')));
+      "/public/v1/submit/update_organization_name",
+      body,
+      (json) => TUpdateOrganizationNameResponse.fromJson(
+        transformActivityResponse(json, 'UpdateOrganizationName'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateOrganizationNameBody` by using the client's `stamp` function.
@@ -4870,20 +4872,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_organization_name';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_ORGANIZATION_NAME',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update an existing policy.
@@ -4897,17 +4897,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_POLICY_V2',
     );
     return await request<Map<String, dynamic>, TUpdatePolicyResponse>(
-        "/public/v1/submit/update_policy",
-        body,
-        (json) => TUpdatePolicyResponse.fromJson(
-            transformActivityResponse(json, 'UpdatePolicy')));
+      "/public/v1/submit/update_policy",
+      body,
+      (json) => TUpdatePolicyResponse.fromJson(
+        transformActivityResponse(json, 'UpdatePolicy'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdatePolicyBody` by using the client's `stamp` function.
@@ -4920,20 +4924,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_policy';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_POLICY_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update human-readable name or associated private keys. Note that this activity is atomic: all of the updates will succeed at once, or all of them will fail.
@@ -4947,17 +4949,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_PRIVATE_KEY_TAG',
     );
     return await request<Map<String, dynamic>, TUpdatePrivateKeyTagResponse>(
-        "/public/v1/submit/update_private_key_tag",
-        body,
-        (json) => TUpdatePrivateKeyTagResponse.fromJson(
-            transformActivityResponse(json, 'UpdatePrivateKeyTag')));
+      "/public/v1/submit/update_private_key_tag",
+      body,
+      (json) => TUpdatePrivateKeyTagResponse.fromJson(
+        transformActivityResponse(json, 'UpdatePrivateKeyTag'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdatePrivateKeyTagBody` by using the client's `stamp` function.
@@ -4970,20 +4976,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_private_key_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_PRIVATE_KEY_TAG',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Set the threshold and members of the root quorum. This activity must be approved by the current root quorum.
@@ -4997,17 +5001,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_ROOT_QUORUM',
     );
     return await request<Map<String, dynamic>, TUpdateRootQuorumResponse>(
-        "/public/v1/submit/update_root_quorum",
-        body,
-        (json) => TUpdateRootQuorumResponse.fromJson(
-            transformActivityResponse(json, 'UpdateRootQuorum')));
+      "/public/v1/submit/update_root_quorum",
+      body,
+      (json) => TUpdateRootQuorumResponse.fromJson(
+        transformActivityResponse(json, 'UpdateRootQuorum'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateRootQuorumBody` by using the client's `stamp` function.
@@ -5020,20 +5028,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_root_quorum';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_ROOT_QUORUM',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a user in an existing organization.
@@ -5047,17 +5053,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER',
     );
     return await request<Map<String, dynamic>, TUpdateUserResponse>(
-        "/public/v1/submit/update_user",
-        body,
-        (json) => TUpdateUserResponse.fromJson(
-            transformActivityResponse(json, 'UpdateUser')));
+      "/public/v1/submit/update_user",
+      body,
+      (json) => TUpdateUserResponse.fromJson(
+        transformActivityResponse(json, 'UpdateUser'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserBody` by using the client's `stamp` function.
@@ -5070,20 +5080,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a user's email in an existing organization.
@@ -5097,17 +5105,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_EMAIL',
     );
     return await request<Map<String, dynamic>, TUpdateUserEmailResponse>(
-        "/public/v1/submit/update_user_email",
-        body,
-        (json) => TUpdateUserEmailResponse.fromJson(
-            transformActivityResponse(json, 'UpdateUserEmail')));
+      "/public/v1/submit/update_user_email",
+      body,
+      (json) => TUpdateUserEmailResponse.fromJson(
+        transformActivityResponse(json, 'UpdateUserEmail'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserEmailBody` by using the client's `stamp` function.
@@ -5120,20 +5132,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_email';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_EMAIL',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a user's name in an existing organization.
@@ -5147,17 +5157,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_NAME',
     );
     return await request<Map<String, dynamic>, TUpdateUserNameResponse>(
-        "/public/v1/submit/update_user_name",
-        body,
-        (json) => TUpdateUserNameResponse.fromJson(
-            transformActivityResponse(json, 'UpdateUserName')));
+      "/public/v1/submit/update_user_name",
+      body,
+      (json) => TUpdateUserNameResponse.fromJson(
+        transformActivityResponse(json, 'UpdateUserName'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserNameBody` by using the client's `stamp` function.
@@ -5170,20 +5184,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_name';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_NAME',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a user's phone number in an existing organization.
@@ -5197,17 +5209,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER',
     );
     return await request<Map<String, dynamic>, TUpdateUserPhoneNumberResponse>(
-        "/public/v1/submit/update_user_phone_number",
-        body,
-        (json) => TUpdateUserPhoneNumberResponse.fromJson(
-            transformActivityResponse(json, 'UpdateUserPhoneNumber')));
+      "/public/v1/submit/update_user_phone_number",
+      body,
+      (json) => TUpdateUserPhoneNumberResponse.fromJson(
+        transformActivityResponse(json, 'UpdateUserPhoneNumber'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserPhoneNumberBody` by using the client's `stamp` function.
@@ -5221,20 +5237,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_user_phone_number';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_PHONE_NUMBER',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update human-readable name or associated users. Note that this activity is atomic: all of the updates will succeed at once, or all of them will fail.
@@ -5248,17 +5262,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_TAG',
     );
     return await request<Map<String, dynamic>, TUpdateUserTagResponse>(
-        "/public/v1/submit/update_user_tag",
-        body,
-        (json) => TUpdateUserTagResponse.fromJson(
-            transformActivityResponse(json, 'UpdateUserTag')));
+      "/public/v1/submit/update_user_tag",
+      body,
+      (json) => TUpdateUserTagResponse.fromJson(
+        transformActivityResponse(json, 'UpdateUserTag'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateUserTagBody` by using the client's `stamp` function.
@@ -5271,20 +5289,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_user_tag';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_USER_TAG',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a wallet for an organization.
@@ -5298,17 +5314,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_WALLET',
     );
     return await request<Map<String, dynamic>, TUpdateWalletResponse>(
-        "/public/v1/submit/update_wallet",
-        body,
-        (json) => TUpdateWalletResponse.fromJson(
-            transformActivityResponse(json, 'UpdateWallet')));
+      "/public/v1/submit/update_wallet",
+      body,
+      (json) => TUpdateWalletResponse.fromJson(
+        transformActivityResponse(json, 'UpdateWallet'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateWalletBody` by using the client's `stamp` function.
@@ -5321,20 +5341,18 @@ class TurnkeyClient {
     final fullUrl = '${config.baseUrl}/public/v1/submit/update_wallet';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_WALLET',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Update a webhook endpoint for an organization.
@@ -5348,17 +5366,21 @@ class TurnkeyClient {
   }) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_WEBHOOK_ENDPOINT',
     );
     return await request<Map<String, dynamic>, TUpdateWebhookEndpointResponse>(
-        "/public/v1/submit/update_webhook_endpoint",
-        body,
-        (json) => TUpdateWebhookEndpointResponse.fromJson(
-            transformActivityResponse(json, 'UpdateWebhookEndpoint')));
+      "/public/v1/submit/update_webhook_endpoint",
+      body,
+      (json) => TUpdateWebhookEndpointResponse.fromJson(
+        transformActivityResponse(json, 'UpdateWebhookEndpoint'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TUpdateWebhookEndpointBody` by using the client's `stamp` function.
@@ -5372,20 +5394,18 @@ class TurnkeyClient {
         '${config.baseUrl}/public/v1/submit/update_webhook_endpoint';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_UPDATE_WEBHOOK_ENDPOINT',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Verify a generic OTP.
@@ -5394,48 +5414,46 @@ class TurnkeyClient {
   ///
   /// See also: `stampVerifyOtp`.
 
-  Future<TVerifyOtpResponse> verifyOtp({
-    required TVerifyOtpBody input,
-  }) async {
+  Future<TVerifyOtpResponse> verifyOtp({required TVerifyOtpBody input}) async {
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_VERIFY_OTP_V2',
     );
     return await request<Map<String, dynamic>, TVerifyOtpResponse>(
-        "/public/v1/submit/verify_otp",
-        body,
-        (json) => TVerifyOtpResponse.fromJson(
-            transformActivityResponse(json, 'VerifyOtp')));
+      "/public/v1/submit/verify_otp",
+      body,
+      (json) => TVerifyOtpResponse.fromJson(
+        transformActivityResponse(json, 'VerifyOtp'),
+      ),
+    );
   }
 
   /// Produce a `SignedRequest` from `TVerifyOtpBody` by using the client's `stamp` function.
   ///
   /// See also: `VerifyOtp`.
 
-  Future<TSignedRequest> stampVerifyOtp({
-    required TVerifyOtpBody input,
-  }) async {
+  Future<TSignedRequest> stampVerifyOtp({required TVerifyOtpBody input}) async {
     final fullUrl = '${config.baseUrl}/public/v1/submit/verify_otp';
     final body = packActivityBody(
       bodyJson: input.toJson(),
-      fallbackOrganizationId: input.organizationId ??
+      fallbackOrganizationId:
+          input.organizationId ??
           config.organizationId ??
           (throw Exception(
-              "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.")),
+            "Missing organization ID, please pass in a sub-organizationId or instantiate the client with one.",
+          )),
       activityType: 'ACTIVITY_TYPE_VERIFY_OTP_V2',
     );
     final bodyJson = jsonEncode(body);
     final stamp = await stamper.stamp(bodyJson);
 
-    return TSignedRequest(
-      body: bodyJson,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: bodyJson, stamp: stamp, url: fullUrl);
   }
 
   /// Sign the provided `TNOOPCodegenAnchorBody` with the client's `stamp` function and submit the request (POST /tkhq/api/v1/noop-codegen-anchor).
@@ -5446,9 +5464,10 @@ class TurnkeyClient {
     required TNOOPCodegenAnchorBody input,
   }) async {
     return await request<TNOOPCodegenAnchorBody, TNOOPCodegenAnchorResponse>(
-        "/tkhq/api/v1/noop-codegen-anchor",
-        input,
-        (json) => TNOOPCodegenAnchorResponse.fromJson(json));
+      "/tkhq/api/v1/noop-codegen-anchor",
+      input,
+      (json) => TNOOPCodegenAnchorResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `TNOOPCodegenAnchorBody` by using the client's `stamp` function.
@@ -5462,11 +5481,7 @@ class TurnkeyClient {
     final body = jsonEncode(input);
     final stamp = await stamper.stamp(body);
 
-    return TSignedRequest(
-      body: body,
-      stamp: stamp,
-      url: fullUrl,
-    );
+    return TSignedRequest(body: body, stamp: stamp, url: fullUrl);
   }
 
   /// Return organization id associated with a given phone number, email, public key, credential ID or OIDC token.
@@ -5478,9 +5493,10 @@ class TurnkeyClient {
   Future<ProxyTGetAccountResponse> proxyGetAccount({
     required ProxyTGetAccountBody input,
   }) async {
-    return await authProxyRequest<ProxyTGetAccountBody,
-            ProxyTGetAccountResponse>("/v1/account", input,
-        (json) => ProxyTGetAccountResponse.fromJson(json));
+    return await authProxyRequest<
+      ProxyTGetAccountBody,
+      ProxyTGetAccountResponse
+    >("/v1/account", input, (json) => ProxyTGetAccountResponse.fromJson(json));
   }
 
   /// Produce a `SignedRequest` from `ProxyTGetAccountBody` by using the client's `stamp` function.
@@ -5496,9 +5512,14 @@ class TurnkeyClient {
   Future<ProxyTOAuth2AuthenticateResponse> proxyOAuth2Authenticate({
     required ProxyTOAuth2AuthenticateBody input,
   }) async {
-    return await authProxyRequest<ProxyTOAuth2AuthenticateBody,
-            ProxyTOAuth2AuthenticateResponse>("/v1/oauth2_authenticate", input,
-        (json) => ProxyTOAuth2AuthenticateResponse.fromJson(json));
+    return await authProxyRequest<
+      ProxyTOAuth2AuthenticateBody,
+      ProxyTOAuth2AuthenticateResponse
+    >(
+      "/v1/oauth2_authenticate",
+      input,
+      (json) => ProxyTOAuth2AuthenticateResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTOAuth2AuthenticateBody` by using the client's `stamp` function.
@@ -5514,9 +5535,14 @@ class TurnkeyClient {
   Future<ProxyTOAuthLoginResponse> proxyOAuthLogin({
     required ProxyTOAuthLoginBody input,
   }) async {
-    return await authProxyRequest<ProxyTOAuthLoginBody,
-            ProxyTOAuthLoginResponse>("/v1/oauth_login", input,
-        (json) => ProxyTOAuthLoginResponse.fromJson(json));
+    return await authProxyRequest<
+      ProxyTOAuthLoginBody,
+      ProxyTOAuthLoginResponse
+    >(
+      "/v1/oauth_login",
+      input,
+      (json) => ProxyTOAuthLoginResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTOAuthLoginBody` by using the client's `stamp` function.
@@ -5533,7 +5559,10 @@ class TurnkeyClient {
     required ProxyTInitOtpBody input,
   }) async {
     return await authProxyRequest<ProxyTInitOtpBody, ProxyTInitOtpResponse>(
-        "/v1/otp_init", input, (json) => ProxyTInitOtpResponse.fromJson(json));
+      "/v1/otp_init",
+      input,
+      (json) => ProxyTInitOtpResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTInitOtpBody` by using the client's `stamp` function.
@@ -5550,9 +5579,10 @@ class TurnkeyClient {
     required ProxyTInitOtpV2Body input,
   }) async {
     return await authProxyRequest<ProxyTInitOtpV2Body, ProxyTInitOtpV2Response>(
-        "/v1/otp_init_v2",
-        input,
-        (json) => ProxyTInitOtpV2Response.fromJson(json));
+      "/v1/otp_init_v2",
+      input,
+      (json) => ProxyTInitOtpV2Response.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTInitOtpV2Body` by using the client's `stamp` function.
@@ -5569,9 +5599,10 @@ class TurnkeyClient {
     required ProxyTOtpLoginBody input,
   }) async {
     return await authProxyRequest<ProxyTOtpLoginBody, ProxyTOtpLoginResponse>(
-        "/v1/otp_login",
-        input,
-        (json) => ProxyTOtpLoginResponse.fromJson(json));
+      "/v1/otp_login",
+      input,
+      (json) => ProxyTOtpLoginResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTOtpLoginBody` by using the client's `stamp` function.
@@ -5587,9 +5618,14 @@ class TurnkeyClient {
   Future<ProxyTOtpLoginV2Response> proxyOtpLoginV2({
     required ProxyTOtpLoginV2Body input,
   }) async {
-    return await authProxyRequest<ProxyTOtpLoginV2Body,
-            ProxyTOtpLoginV2Response>("/v1/otp_login_v2", input,
-        (json) => ProxyTOtpLoginV2Response.fromJson(json));
+    return await authProxyRequest<
+      ProxyTOtpLoginV2Body,
+      ProxyTOtpLoginV2Response
+    >(
+      "/v1/otp_login_v2",
+      input,
+      (json) => ProxyTOtpLoginV2Response.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTOtpLoginV2Body` by using the client's `stamp` function.
@@ -5606,9 +5642,10 @@ class TurnkeyClient {
     required ProxyTVerifyOtpBody input,
   }) async {
     return await authProxyRequest<ProxyTVerifyOtpBody, ProxyTVerifyOtpResponse>(
-        "/v1/otp_verify",
-        input,
-        (json) => ProxyTVerifyOtpResponse.fromJson(json));
+      "/v1/otp_verify",
+      input,
+      (json) => ProxyTVerifyOtpResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTVerifyOtpBody` by using the client's `stamp` function.
@@ -5624,9 +5661,14 @@ class TurnkeyClient {
   Future<ProxyTVerifyOtpV2Response> proxyVerifyOtpV2({
     required ProxyTVerifyOtpV2Body input,
   }) async {
-    return await authProxyRequest<ProxyTVerifyOtpV2Body,
-            ProxyTVerifyOtpV2Response>("/v1/otp_verify_v2", input,
-        (json) => ProxyTVerifyOtpV2Response.fromJson(json));
+    return await authProxyRequest<
+      ProxyTVerifyOtpV2Body,
+      ProxyTVerifyOtpV2Response
+    >(
+      "/v1/otp_verify_v2",
+      input,
+      (json) => ProxyTVerifyOtpV2Response.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTVerifyOtpV2Body` by using the client's `stamp` function.
@@ -5643,7 +5685,10 @@ class TurnkeyClient {
     required ProxyTSignupBody input,
   }) async {
     return await authProxyRequest<ProxyTSignupBody, ProxyTSignupResponse>(
-        "/v1/signup", input, (json) => ProxyTSignupResponse.fromJson(json));
+      "/v1/signup",
+      input,
+      (json) => ProxyTSignupResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTSignupBody` by using the client's `stamp` function.
@@ -5660,9 +5705,10 @@ class TurnkeyClient {
     required ProxyTSignupV2Body input,
   }) async {
     return await authProxyRequest<ProxyTSignupV2Body, ProxyTSignupV2Response>(
-        "/v1/signup_v2",
-        input,
-        (json) => ProxyTSignupV2Response.fromJson(json));
+      "/v1/signup_v2",
+      input,
+      (json) => ProxyTSignupV2Response.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTSignupV2Body` by using the client's `stamp` function.
@@ -5678,9 +5724,14 @@ class TurnkeyClient {
   Future<ProxyTGetWalletKitConfigResponse> proxyGetWalletKitConfig({
     required ProxyTGetWalletKitConfigBody input,
   }) async {
-    return await authProxyRequest<ProxyTGetWalletKitConfigBody,
-            ProxyTGetWalletKitConfigResponse>("/v1/wallet_kit_config", input,
-        (json) => ProxyTGetWalletKitConfigResponse.fromJson(json));
+    return await authProxyRequest<
+      ProxyTGetWalletKitConfigBody,
+      ProxyTGetWalletKitConfigResponse
+    >(
+      "/v1/wallet_kit_config",
+      input,
+      (json) => ProxyTGetWalletKitConfigResponse.fromJson(json),
+    );
   }
 
   /// Produce a `SignedRequest` from `ProxyTGetWalletKitConfigBody` by using the client's `stamp` function.

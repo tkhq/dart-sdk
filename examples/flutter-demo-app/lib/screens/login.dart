@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginScreen(),
-    );
+    return MaterialApp(home: LoginScreen());
   }
 }
 
@@ -31,10 +29,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey,
-                width: 0.5,
-              ),
+              border: Border.all(color: Colors.grey, width: 0.5),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Padding(
@@ -44,10 +39,7 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     'Log in or sign up',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 20),
                   OAuthButtons(),

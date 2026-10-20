@@ -42,22 +42,26 @@ void _run() {
       final pkg = pkgByName[pkgName];
       if (pkg == null) {
         stderr.writeln(
-            'warning: changeset ${cs.path} references unknown package "$pkgName" – skipping that entry.');
+          'warning: changeset ${cs.path} references unknown package "$pkgName" – skipping that entry.',
+        );
         return;
       }
       final list = pkgChanges.putIfAbsent(pkgName, () => []);
-      list.add(PackageChange(
-        title: cs.title,
-        bump: bump,
-        note: cs.note,
-        changesetPath: cs.path,
-      ));
+      list.add(
+        PackageChange(
+          title: cs.title,
+          bump: bump,
+          note: cs.note,
+          changesetPath: cs.path,
+        ),
+      );
     });
   }
 
   if (pkgChanges.isEmpty) {
     stdout.writeln(
-        'No valid package entries in changesets – nothing to version.');
+      'No valid package entries in changesets – nothing to version.',
+    );
     return;
   }
 
@@ -86,16 +90,19 @@ void _run() {
     }
 
     stdout.writeln(
-        '  - $pkgName: $currentVersion -> $newVersion ($bump) [${pkg.path}]');
+      '  - $pkgName: $currentVersion -> $newVersion ($bump) [${pkg.path}]',
+    );
 
-    meta.packages.add(PackageRelease(
-      name: pkgName,
-      path: pkg.path,
-      fromVersion: currentVersion,
-      toVersion: newVersion,
-      bump: bump,
-      changes: changes,
-    ));
+    meta.packages.add(
+      PackageRelease(
+        name: pkgName,
+        path: pkg.path,
+        fromVersion: currentVersion,
+        toVersion: newVersion,
+        bump: bump,
+        changes: changes,
+      ),
+    );
   });
 
   // Cascade: update internal dependency constraints, then patch-bump any
@@ -113,8 +120,9 @@ void _run() {
     final modified = updateInternalDependencies(packages, internalVersions);
 
     // Find packages that had deps updated but haven't been bumped yet.
-    final needsBump =
-        modified.keys.where((name) => !bumped.contains(name)).toList();
+    final needsBump = modified.keys
+        .where((name) => !bumped.contains(name))
+        .toList();
     if (needsBump.isEmpty) break;
 
     stdout.writeln('\nPatch-bumping packages with updated dependencies:');
@@ -134,27 +142,31 @@ void _run() {
       final depList = updatedDeps.join(', ');
 
       stdout.writeln(
-          '  - $pkgName: $currentVersion -> $newVersion (patch) [${pkg.path}]');
+        '  - $pkgName: $currentVersion -> $newVersion (patch) [${pkg.path}]',
+      );
 
-      meta.packages.add(PackageRelease(
-        name: pkgName,
-        path: pkg.path,
-        fromVersion: currentVersion,
-        toVersion: newVersion,
-        bump: 'patch',
-        changes: [
-          PackageChange(
-            title: 'Updated internal dependencies',
-            bump: 'patch',
-            note: 'Updated dependencies: $depList.',
-            changesetPath: '',
-          ),
-        ],
-      ));
+      meta.packages.add(
+        PackageRelease(
+          name: pkgName,
+          path: pkg.path,
+          fromVersion: currentVersion,
+          toVersion: newVersion,
+          bump: 'patch',
+          changes: [
+            PackageChange(
+              title: 'Updated internal dependencies',
+              bump: 'patch',
+              note: 'Updated dependencies: $depList.',
+              changesetPath: '',
+            ),
+          ],
+        ),
+      );
     }
   }
 
   writeReleaseMeta(meta);
   stdout.writeln(
-      '\nWrote release meta to $changesetDirName/$releaseMetaFileName');
+    '\nWrote release meta to $changesetDirName/$releaseMetaFileName',
+  );
 }

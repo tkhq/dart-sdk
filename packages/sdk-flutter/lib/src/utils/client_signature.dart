@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:turnkey_http/__generated__/models.dart';
 import 'package:turnkey_sdk_flutter/src/utils/types.dart';
 

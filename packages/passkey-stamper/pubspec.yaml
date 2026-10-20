@@ -4,7 +4,7 @@ version: 1.0.4
 repository: https://github.com/tkhq/dart-sdk
 
 environment:
-  sdk: ^3.6.1
+  sdk: ^3.13.5
 
 resolution: workspace
 

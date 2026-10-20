@@ -10,9 +10,5 @@ class TBinding {
   final bool isBound;
   final String value;
 
-  TBinding({
-    required this.name,
-    required this.isBound,
-    required this.value,
-  });
+  TBinding({required this.name, required this.isBound, required this.value});
 }

@@ -32,9 +32,8 @@ void main() async {
   final fileList = await resolveFileList(INPUT_SWAGGER_DIRECTORY);
   fileList.sort((a, b) {
     // Keep generated client output stable across filesystems and CI runners.
-    final namespaceCompare = _namespaceSortKey(a.parsedData).compareTo(
-      _namespaceSortKey(b.parsedData),
-    );
+    final namespaceCompare = _namespaceSortKey(a.parsedData)
+        .compareTo(_namespaceSortKey(b.parsedData));
     if (namespaceCompare != 0) {
       return namespaceCompare;
     }
@@ -44,6 +43,8 @@ void main() async {
 
   // await generateMappedSwaggerTypes(fileList: fileList, targetPath: OUTPUT_GENERATED_DIRECTORY);
   await generateClientFromSwagger(
-      fileList: fileList, targetPath: OUTPUT_GENERATED_DIRECTORY);
+    fileList: fileList,
+    targetPath: OUTPUT_GENERATED_DIRECTORY,
+  );
   generateTypesFromSwagger();
 }

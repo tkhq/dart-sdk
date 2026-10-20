@@ -9,6 +9,7 @@
 // - Writes a .changesets/*.md file with YAML frontmatter + markdown body
 
 import 'dart:io';
+
 import 'changeset_lib.dart';
 
 const changesetDirName = '.changesets';
@@ -57,13 +58,14 @@ Future<void> _run() async {
     throw Exception('title cannot be empty');
   }
 
-  stdout.writeln('\nEnter a longer description (markdown allowed). '
-      'End input with a single "." on its own line:');
+  stdout.writeln(
+    '\nEnter a longer description (markdown allowed). '
+    'End input with a single "." on its own line:',
+  );
   final note = _promptMultiline();
 
   final now = DateTime.now();
-  final fileName =
-      '${_formatTimestamp(now)}-${_slugify(title)}.md'; // e.g. 20251204-141530-add-passkey-support.md
+  final fileName = '${_formatTimestamp(now)}-${_slugify(title)}.md'; // e.g. 20251204-141530-add-passkey-support.md
   final changesetDir = Directory(changesetDirName);
   if (!changesetDir.existsSync()) {
     changesetDir.createSync(recursive: true);
@@ -83,8 +85,9 @@ Future<void> _run() async {
 
 List<int> _promptPackageSelection(int packageCount) {
   stdout.writeln(
-      '\nSelect affected packages by number (space or comma-separated). '
-      'Example: 1 3 4');
+    '\nSelect affected packages by number (space or comma-separated). '
+    'Example: 1 3 4',
+  );
   stdout.write('Selection: ');
   final line = stdin.readLineSync() ?? '';
   final tokens = line.split(RegExp(r'[,\s]+')).where((t) => t.isNotEmpty);

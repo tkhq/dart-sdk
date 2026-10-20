@@ -17,7 +17,8 @@ extension OAuthExtension on TurnkeyProvider {
     );
     if (secondaries.isEmpty) return null;
 
-    final base = runtimeConfig?.authConfig.createSubOrgParams?.oAuth ??
+    final base =
+        runtimeConfig?.authConfig.createSubOrgParams?.oAuth ??
         const CreateSubOrgParams();
     final existing = base.oauthProviders ?? const <v1OauthProviderParamsV2>[];
     return base.copyWith(oauthProviders: [...existing, ...secondaries]);
@@ -48,17 +49,19 @@ extension OAuthExtension on TurnkeyProvider {
     String? sessionKey,
     bool? invalidateExisting,
     String? publicKey,
-    void Function(
-            {required String oidcToken,
-            required String publicKey,
-            required String providerName})?
-        onSuccess,
+    void Function({
+      required String oidcToken,
+      required String publicKey,
+      required String providerName,
+    })?
+    onSuccess,
   }) async {
     final scheme = runtimeConfig?.appScheme;
     final providerName = 'google';
     if (scheme == null) {
       throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+        "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.",
+      );
     }
 
     final AppLinks appLinks = AppLinks();
@@ -68,17 +71,21 @@ extension OAuthExtension on TurnkeyProvider {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final googleProvider =
           runtimeConfig?.authConfig.oAuthConfig?.providers?.google;
-      final googleClientId = clientId ??
+      final googleClientId =
+          clientId ??
           googleProvider?.primaryClientId?.webClientId ??
           (throw Exception("Missing webClientId for Google OAuth"));
-      final resolvedRedirectUri = redirectUri ??
+      final resolvedRedirectUri =
+          redirectUri ??
           googleProvider?.redirectUri ??
           (throw Exception("Missing redirectUri for Google OAuth"));
-      final resolvedSecondaryClientIds = secondaryClientIds ??
+      final resolvedSecondaryClientIds =
+          secondaryClientIds ??
           googleProvider?.secondaryClientIds ??
           const <String>[];
 
-      final oauthUrl = originUri! +
+      final oauthUrl =
+          originUri! +
           '?provider=${Uri.encodeComponent(providerName)}' +
           '&clientId=${Uri.encodeComponent(googleClientId)}' +
           '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
@@ -97,9 +104,10 @@ extension OAuthExtension on TurnkeyProvider {
           if (idToken != null) {
             if (onSuccess != null) {
               onSuccess(
-                  oidcToken: idToken,
-                  publicKey: targetPublicKey,
-                  providerName: providerName);
+                oidcToken: idToken,
+                publicKey: targetPublicKey,
+                providerName: providerName,
+              );
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: idToken,
@@ -192,18 +200,20 @@ extension OAuthExtension on TurnkeyProvider {
     String? sessionKey,
     bool? invalidateExisting,
     String? publicKey,
-    void Function(
-            {required String oidcToken,
-            required String publicKey,
-            required String providerName})?
-        onSuccess,
+    void Function({
+      required String oidcToken,
+      required String publicKey,
+      required String providerName,
+    })?
+    onSuccess,
   }) async {
     final providerName = 'apple';
     final appleProvider =
         runtimeConfig?.authConfig.oAuthConfig?.providers?.apple;
     final serviceId = appleProvider?.primaryClientId?.serviceId;
     final iosBundleId = appleProvider?.primaryClientId?.iosBundleId;
-    final resolvedSecondaryClientIds = secondaryClientIds ??
+    final resolvedSecondaryClientIds =
+        secondaryClientIds ??
         appleProvider?.secondaryClientIds ??
         const <String>[];
 
@@ -211,9 +221,11 @@ extension OAuthExtension on TurnkeyProvider {
     // requires a Services ID to function. Fail early with a clear message
     // rather than letting the underlying package raise an opaque error.
     if (Platform.isAndroid && (serviceId == null || serviceId.isEmpty)) {
-      throw Exception("Missing serviceId for Apple OAuth on Android. Configure "
-          "AppleOAuthProviderParams.primaryClientId.serviceId to use "
-          "handleAppleOAuth on Android.");
+      throw Exception(
+        "Missing serviceId for Apple OAuth on Android. Configure "
+        "AppleOAuthProviderParams.primaryClientId.serviceId to use "
+        "handleAppleOAuth on Android.",
+      );
     }
 
     final targetPublicKey = publicKey ?? await createApiKeyPair();
@@ -230,11 +242,11 @@ extension OAuthExtension on TurnkeyProvider {
         // get a working web fallback.
         webAuthenticationOptions:
             (Platform.isAndroid && serviceId != null && serviceId.isNotEmpty)
-                ? WebAuthenticationOptions(
-                    clientId: serviceId,
-                    redirectUri: Uri.parse(appleProvider?.redirectUri ?? ''),
-                  )
-                : null,
+            ? WebAuthenticationOptions(
+                clientId: serviceId,
+                redirectUri: Uri.parse(appleProvider?.redirectUri ?? ''),
+              )
+            : null,
       );
 
       final oidcToken = credential.identityToken;
@@ -244,9 +256,10 @@ extension OAuthExtension on TurnkeyProvider {
 
       if (onSuccess != null) {
         onSuccess(
-            oidcToken: oidcToken,
-            publicKey: targetPublicKey,
-            providerName: providerName);
+          oidcToken: oidcToken,
+          publicKey: targetPublicKey,
+          providerName: providerName,
+        );
         return;
       }
 
@@ -312,17 +325,19 @@ extension OAuthExtension on TurnkeyProvider {
     String? sessionKey,
     bool? invalidateExisting,
     String? publicKey,
-    void Function(
-            {required String oidcToken,
-            required String publicKey,
-            required String providerName})?
-        onSuccess,
+    void Function({
+      required String oidcToken,
+      required String publicKey,
+      required String providerName,
+    })?
+    onSuccess,
   }) async {
     final scheme = runtimeConfig?.appScheme;
     final providerName = 'apple';
     if (scheme == null) {
       throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+        "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.",
+      );
     }
 
     final AppLinks appLinks = AppLinks();
@@ -332,13 +347,16 @@ extension OAuthExtension on TurnkeyProvider {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final appleProvider =
           runtimeConfig?.authConfig.oAuthConfig?.providers?.apple;
-      final appleClientId = clientId ??
+      final appleClientId =
+          clientId ??
           appleProvider?.primaryClientId?.serviceId ??
           (throw Exception("Missing serviceId for Apple OAuth"));
-      final resolvedRedirectUri = redirectUri ??
+      final resolvedRedirectUri =
+          redirectUri ??
           appleProvider?.redirectUri ??
           (throw Exception("Missing redirectUri for Apple OAuth"));
-      final resolvedSecondaryClientIds = secondaryClientIds ??
+      final resolvedSecondaryClientIds =
+          secondaryClientIds ??
           appleProvider?.secondaryClientIds ??
           const <String>[];
 
@@ -351,7 +369,8 @@ extension OAuthExtension on TurnkeyProvider {
         ...resolvedSecondaryClientIds,
       ];
 
-      final oauthUrl = originUri! +
+      final oauthUrl =
+          originUri! +
           '?provider=${Uri.encodeComponent(providerName)}' +
           '&clientId=${Uri.encodeComponent(appleClientId)}' +
           '&redirectUri=${Uri.encodeComponent(resolvedRedirectUri)}' +
@@ -369,9 +388,10 @@ extension OAuthExtension on TurnkeyProvider {
           if (idToken != null) {
             if (onSuccess != null) {
               onSuccess(
-                  oidcToken: idToken,
-                  publicKey: targetPublicKey,
-                  providerName: providerName);
+                oidcToken: idToken,
+                publicKey: targetPublicKey,
+                providerName: providerName,
+              );
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: idToken,
@@ -464,17 +484,19 @@ extension OAuthExtension on TurnkeyProvider {
     String? sessionKey,
     bool? invalidateExisting,
     String? publicKey,
-    void Function(
-            {required String oidcToken,
-            required String publicKey,
-            required String providerName})?
-        onSuccess,
+    void Function({
+      required String oidcToken,
+      required String publicKey,
+      required String providerName,
+    })?
+    onSuccess,
   }) async {
     final scheme = runtimeConfig?.appScheme;
     final providerName = 'x';
     if (scheme == null) {
       throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+        "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.",
+      );
     }
 
     final AppLinks appLinks = AppLinks();
@@ -484,13 +506,16 @@ extension OAuthExtension on TurnkeyProvider {
     try {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final xProvider = runtimeConfig?.authConfig.oAuthConfig?.providers?.x;
-      final xClientId = clientId ??
+      final xClientId =
+          clientId ??
           xProvider?.primaryClientId ??
           (throw Exception("Missing primaryClientId for X OAuth"));
-      final resolvedRedirectUri = redirectUri ??
+      final resolvedRedirectUri =
+          redirectUri ??
           xProvider?.redirectUri ??
           (throw Exception("Missing redirectUri for X OAuth"));
-      final resolvedSecondaryClientIds = secondaryClientIds ??
+      final resolvedSecondaryClientIds =
+          secondaryClientIds ??
           xProvider?.secondaryClientIds ??
           const <String>[];
 
@@ -501,7 +526,8 @@ extension OAuthExtension on TurnkeyProvider {
       // random state
       final state = Uuid().v4();
 
-      final xAuthUrl = originUri! +
+      final xAuthUrl =
+          originUri! +
           '?client_id=${Uri.encodeComponent(xClientId)}' +
           '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
           '&response_type=code' +
@@ -527,21 +553,24 @@ extension OAuthExtension on TurnkeyProvider {
 
           if (authCode != null) {
             final res = await requireClient.proxyOAuth2Authenticate(
-                input: ProxyTOAuth2AuthenticateBody(
-                    provider: v1Oauth2Provider.oauth2_provider_x,
-                    authCode: authCode,
-                    redirectUri: resolvedRedirectUri,
-                    codeVerifier: verifier,
-                    clientId: xClientId,
-                    nonce: nonce));
+              input: ProxyTOAuth2AuthenticateBody(
+                provider: v1Oauth2Provider.oauth2_provider_x,
+                authCode: authCode,
+                redirectUri: resolvedRedirectUri,
+                codeVerifier: verifier,
+                clientId: xClientId,
+                nonce: nonce,
+              ),
+            );
 
             final oidcToken = res.oidcToken;
 
             if (onSuccess != null) {
               onSuccess(
-                  oidcToken: oidcToken,
-                  publicKey: targetPublicKey,
-                  providerName: providerName);
+                oidcToken: oidcToken,
+                publicKey: targetPublicKey,
+                providerName: providerName,
+              );
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: oidcToken,
@@ -634,17 +663,19 @@ extension OAuthExtension on TurnkeyProvider {
     String? sessionKey,
     bool? invalidateExisting,
     String? publicKey,
-    void Function(
-            {required String oidcToken,
-            required String publicKey,
-            required String providerName})?
-        onSuccess,
+    void Function({
+      required String oidcToken,
+      required String publicKey,
+      required String providerName,
+    })?
+    onSuccess,
   }) async {
     final scheme = runtimeConfig?.appScheme;
     final providerName = 'discord';
     if (scheme == null) {
       throw Exception(
-          "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.");
+        "App scheme is not configured. Please set `appScheme` in TurnkeyConfig.",
+      );
     }
 
     final AppLinks appLinks = AppLinks();
@@ -654,13 +685,16 @@ extension OAuthExtension on TurnkeyProvider {
       final nonce = sha256.convert(utf8.encode(targetPublicKey)).toString();
       final discordProvider =
           runtimeConfig?.authConfig.oAuthConfig?.providers?.discord;
-      final discordClientId = clientId ??
+      final discordClientId =
+          clientId ??
           discordProvider?.primaryClientId ??
           (throw Exception("Missing primaryClientId for Discord OAuth"));
-      final resolvedRedirectUri = redirectUri ??
+      final resolvedRedirectUri =
+          redirectUri ??
           discordProvider?.redirectUri ??
           (throw Exception("Missing redirectUri for Discord OAuth"));
-      final resolvedSecondaryClientIds = secondaryClientIds ??
+      final resolvedSecondaryClientIds =
+          secondaryClientIds ??
           discordProvider?.secondaryClientIds ??
           const <String>[];
 
@@ -671,7 +705,8 @@ extension OAuthExtension on TurnkeyProvider {
       // random state
       final state = Uuid().v4();
 
-      final discordAuthUrl = originUri! +
+      final discordAuthUrl =
+          originUri! +
           '?client_id=${Uri.encodeComponent(discordClientId)}' +
           '&redirect_uri=${Uri.encodeComponent(resolvedRedirectUri)}' +
           '&response_type=code' +
@@ -697,21 +732,24 @@ extension OAuthExtension on TurnkeyProvider {
 
           if (authCode != null) {
             final res = await requireClient.proxyOAuth2Authenticate(
-                input: ProxyTOAuth2AuthenticateBody(
-                    provider: v1Oauth2Provider.oauth2_provider_discord,
-                    authCode: authCode,
-                    redirectUri: resolvedRedirectUri,
-                    codeVerifier: verifier,
-                    clientId: discordClientId,
-                    nonce: nonce));
+              input: ProxyTOAuth2AuthenticateBody(
+                provider: v1Oauth2Provider.oauth2_provider_discord,
+                authCode: authCode,
+                redirectUri: resolvedRedirectUri,
+                codeVerifier: verifier,
+                clientId: discordClientId,
+                nonce: nonce,
+              ),
+            );
 
             final oidcToken = res.oidcToken;
 
             if (onSuccess != null) {
               onSuccess(
-                  oidcToken: oidcToken,
-                  publicKey: targetPublicKey,
-                  providerName: providerName);
+                oidcToken: oidcToken,
+                publicKey: targetPublicKey,
+                providerName: providerName,
+              );
             } else {
               await loginOrSignUpWithOAuth(
                 oidcToken: oidcToken,

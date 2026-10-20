@@ -1,14 +1,38 @@
 import 'dart:typed_data';
 
-final HPKE_VERSION =
-    Uint8List.fromList([72, 80, 75, 69, 45, 118, 49]); //HPKE-v1
+final HPKE_VERSION = Uint8List.fromList([
+  72,
+  80,
+  75,
+  69,
+  45,
+  118,
+  49,
+]); //HPKE-v1
 
 final SUITE_ID_1 = Uint8List.fromList([75, 69, 77, 0, 16]); //KEM suite ID
-final SUITE_ID_2 =
-    Uint8List.fromList([72, 80, 75, 69, 0, 16, 0, 1, 0, 2]); //HPKE suite ID
+final SUITE_ID_2 = Uint8List.fromList([
+  72,
+  80,
+  75,
+  69,
+  0,
+  16,
+  0,
+  1,
+  0,
+  2,
+]); //HPKE suite ID
 
-final LABEL_EAE_PRK =
-    Uint8List.fromList([101, 97, 101, 95, 112, 114, 107]); //eae_prk
+final LABEL_EAE_PRK = Uint8List.fromList([
+  101,
+  97,
+  101,
+  95,
+  112,
+  114,
+  107,
+]); //eae_prk
 final LABEL_SECRET = Uint8List.fromList([115, 101, 99, 114, 101, 116]); //secret
 final LABEL_SHARED_SECRET = Uint8List.fromList([
   115,

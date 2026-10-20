@@ -71,8 +71,10 @@ extension SessionExtension on TurnkeyProvider {
     }
 
     // we store and parse the session JWT
-    await SessionStorageManager.storeSession(sessionJwt,
-        sessionKey: sessionKey);
+    await SessionStorageManager.storeSession(
+      sessionJwt,
+      sessionKey: sessionKey,
+    );
     final session = await SessionStorageManager.getSession(sessionKey);
     if (session == null) {
       throw Exception("Failed to store or parse session");
@@ -82,8 +84,7 @@ extension SessionExtension on TurnkeyProvider {
     final isFirstSession = existingSessionKeys.isEmpty;
     if (isFirstSession) {
       await setActiveSession(sessionKey: sessionKey);
-      authState = AuthState
-          .authenticated; // We can set authstate here since we have a valid session and it is active
+      authState = AuthState.authenticated; // We can set authstate here since we have a valid session and it is active
     }
 
     // we fetch the user information
@@ -114,10 +115,7 @@ extension SessionExtension on TurnkeyProvider {
     }
 
     session = s;
-    createClient(
-      publicKey: s.publicKey,
-      organizationId: s.organizationId,
-    );
+    createClient(publicKey: s.publicKey, organizationId: s.organizationId);
 
     authState = AuthState.authenticated;
     runtimeConfig?.onSessionSelected?.call(s);

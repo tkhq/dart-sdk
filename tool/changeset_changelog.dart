@@ -40,7 +40,8 @@ void _run() {
 
   deleteProcessedChangesets(meta);
   stdout.writeln(
-      '\nUpdated changelogs and deleted processed changesets + release meta.');
+    '\nUpdated changelogs and deleted processed changesets + release meta.',
+  );
 }
 
 void _updatePackageChangelog({
@@ -50,8 +51,9 @@ void _updatePackageChangelog({
   required List<PackageChange> changes,
 }) {
   final existingFile = File(changelogPath);
-  final existing =
-      existingFile.existsSync() ? existingFile.readAsStringSync() : '';
+  final existing = existingFile.existsSync()
+      ? existingFile.readAsStringSync()
+      : '';
 
   final newSection = _buildReleaseSection(version, date, changes);
   final merged = _mergeChangelog(existing, newSection);
@@ -61,7 +63,10 @@ void _updatePackageChangelog({
 }
 
 String _buildReleaseSection(
-    String version, String date, List<PackageChange> changes) {
+  String version,
+  String date,
+  List<PackageChange> changes,
+) {
   final sb = StringBuffer();
 
   sb.writeln('## $version — $date');

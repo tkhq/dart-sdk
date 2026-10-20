@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:test/test.dart';
 import 'package:turnkey_encoding/src/encoding.dart';
 
@@ -37,7 +38,7 @@ void main() {
         102,
         252,
         84,
-        193
+        193,
       ]);
       const expectedHexString =
           "5234d08ffa2c815f3097b8ba848a28172e85bec78886e8e201afccb166fc54c1";
@@ -81,7 +82,7 @@ void main() {
         102,
         252,
         84,
-        193
+        193,
       ]);
       expect(uint8ArrayFromHexString(hexString), equals(expectedUint8Array));
     });
@@ -100,7 +101,9 @@ void main() {
 
     test("Padded buffer", () {
       expect(
-          uint8ArrayFromHexString("01", 2), equals(Uint8List.fromList([0, 1])));
+        uint8ArrayFromHexString("01", 2),
+        equals(Uint8List.fromList([0, 1])),
+      );
     });
 
     test("Overflowing length throws", () {
